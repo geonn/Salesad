@@ -10,7 +10,7 @@
 			<ScrollView layout="vertical">
 				<View id="bannerListing" height="80%" backgroundColor="black"></View>			
 				<View id="main" layout="vertical"  height="Ti.UI.SIZE">
-					<ScrollView id="scrollview" layout="vertical">
+					<ScrollView id="scrollview" layout="vertical" height="Ti.UI.SIZE">
 					</ScrollView>
 				</View>
 			</ScrollView>
