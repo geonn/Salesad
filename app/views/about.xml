@@ -1,0 +1,18 @@
+<Alloy>
+	<Window class="container" id="description" backButtonTitle="" navTintColor="#CE1D1C">
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View bottom='0' class="hr"></View>
+		<ScrollView id="main" layout="vertical">
+			<Label class="title_header" bottom=5>Description</Label>
+			<Label class="description_content" bottom=10>SalesAd features the best sales advertisement promotions, daily deals and rewards.</Label>	
+			
+			<Label class="description_content"bottom=20>With SalesAd mobile app, you will never miss the great sales and promotions again!</Label>	
+				
+			
+		</ScrollView>
+	</Window>
+</Alloy>

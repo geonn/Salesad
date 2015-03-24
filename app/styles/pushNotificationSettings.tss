@@ -1,0 +1,19 @@
+".container": {
+	backgroundColor:"#FFFFF6",
+	layout: 'vertical',
+	width: Ti.UI.FILL,
+	fullscreen: true,
+},
+".contentInfo" : {
+	 font:{
+		fontSize: '14dp'
+	},
+	color: '#6E6E6E',
+	
+	top:15
+},
+".label" :{
+	color:"#CE1D1C",
+	textAlign: "left",
+	font:{fontSize:'14dp'}
+}

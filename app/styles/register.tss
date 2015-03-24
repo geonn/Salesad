@@ -1,0 +1,65 @@
+"#register" :{
+	opacity: 0
+},
+".popupView" : {
+	backgroundColor:"#CC2228",
+	top: 30,
+	width   : "90%",
+    height  : "90%",
+    borderRadius : 5,
+    borderColor : '#A4A4A4',
+    borderWidth : 1
+},
+".container": {
+	backgroundColor:"#000000",
+	layout: 'vertical',
+	width: Ti.UI.FILL,
+	navBarHidden:true,
+	fullscreen: true,
+},
+".closeBtn" : {
+ 	backgroundImage: '/images/btn-close.png',
+	backgroundSelectedImage:'/images/btn-close.png',
+	
+	    top: 2,
+	    right:1,
+	    width: 40,
+	    height: 40	
+},
+".textfield" : {
+	 font:{
+		fontSize: '14dp'
+	},
+	 color: '#000000', 
+	 width:'90%',
+	 height: '35dp',
+	 bottom:5,
+	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
+     returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
+	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+},
+".password" : {
+	 passwordMask:true,
+	 font:{
+		fontSize: '14dp'
+	},
+	color: '#000000', 
+	 width:'90%',
+	 height: '35dp',
+	 bottom:5,
+	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
+     returnKeyType: Titanium.UI.RETURNKEY_DONE  ,
+	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+},
+".ftText" : {
+	color: '#ffffff',
+	bottom: 0,
+	font:{
+		fontSize: '10dp'
+	},
+},
+"#footer" : {
+ 	height:"20",
+ 	width:"100%",
+ 	bottom:0
+}

@@ -1,0 +1,10 @@
+"#item_Details" : {
+	opacity :0
+},
+".container": {
+	backgroundColor: '#000000',
+	layout: 'vertical',
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	fullscreen: true,
+}

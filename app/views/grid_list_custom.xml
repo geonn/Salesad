@@ -1,0 +1,16 @@
+<Alloy>
+	<Window id="custom" title="" backButtonTitle="" class="container" navTintColor="#CE1D1C">
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+		<View bottom='0' class="hr"></View>
+		<View id="main" layout="vertical">
+			
+			<ScrollView id="scrollview" layout="vertical" top='2'>
+				
+			</ScrollView>
+		</View>
+	</Window>
+</Alloy>

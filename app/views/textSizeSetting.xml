@@ -1,0 +1,27 @@
+<Alloy>
+	<Window class="container" backButtonTitle="" title="Text Size" id="textSizeSetting" navTintColor="#CE1D1C">
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View bottom='0' class="hr"></View>
+        <View id="titleText" layout="vertical" height="50" top="40">
+			
+		</View>
+		<View id="main" layout="vertical" height="95%">
+			 
+			<View class="line" top="10" />
+			<View id="notificationSlider" height="40" backgroundColor="#ffffff">
+				<Slider id="slider"  min="0" max="2" width="80%" value="1" onChange="updateLabel"/>
+			</View>
+			<View class="line" />
+	       <Label class="contentInfo">SalesAd support Dynamic Type will adjust to your preferred reading size above</Label>
+	       <Label class="label" top="5">Recommendation : NORMAL</Label>
+	    	
+		</View>
+		
+		
+        
+	</Window>
+</Alloy>

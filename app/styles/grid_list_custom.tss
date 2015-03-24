@@ -1,0 +1,23 @@
+".container": {
+	backgroundColor:"#FFFFF6",
+	layout: 'vertical',
+	width: Ti.UI.FILL,
+	fullscreen: true,
+},
+"#header": {
+	width: Ti.UI.FILL,
+	height: "50",
+	top: '0',
+},
+"#main":{
+	width: Ti.UI.FILL,
+},
+".row" :{
+	layout: 'horizontal',
+	height: '104',
+},
+".cell" :{
+	left: '2',
+	top: '2',
+	width: '104',
+}

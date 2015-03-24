@@ -1,0 +1,27 @@
+".container": {
+	backgroundColor:"#FFFFF6",
+	layout: 'vertical',
+	width: Ti.UI.FILL,
+	fullscreen: true,
+},
+"#branchLabel" : {
+	left: 10,
+	color: '#CE1D1C',
+	font: { fontSize: 18 }
+},
+"#merchantName" :{
+	font: {
+        fontSize: '18'
+    },
+    color: '#8F8E8E',
+    bottom: 3,
+    left: '95'
+},
+".merchantInfo" :{
+	font: {
+        fontSize: '16'
+    },
+    color: '#A8A8A8',
+    bottom:3,
+    left: '95'
+}

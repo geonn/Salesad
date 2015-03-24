@@ -1,0 +1,35 @@
+<Alloy>
+	<Window title="LOGIN" class="container" backButtonTitle="" id="login" barColor="#CE1D1C" navTintColor="#FFFFFF">
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View height="95%">
+			<View id="main" layout="vertical" height="95%">
+				<ScrollView layout="vertical" showVerticalScrollIndicator="true" id="loginScrollView" showHorizontalScrollIndicator="true" height="260" width="100%">
+					<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width=150 />
+					<TextField id="username" hintText="Enter Username" />
+					<TextField id="password" hintText="Enter Password" />
+				</ScrollView>
+				<Label class="ftText" onTouchend="doForgotPassword" left="15">Forgot your password?</Label>
+				<Button id="loginAccountButton" borderRadius="3" backgroundColor="#ffffff" onTouchend="doLogin" title="Sign In"  width="90%" top="20" height="40" color="#807C7C" />
+	           
+	            <Button id="createAccountButton" onTouchend="goCreateAccount" title="Create an account" width="90%" height="50" color="#ffffff" />
+	           
+			</View>
+			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
+		        <ActivityIndicator  id="activityIndicator" />
+		    	<Label top="5" text="Loading" color="#ffffff" />
+		    </View>
+		</View>
+		<View id="footer" >
+				 <Label class="ftText" left="5">SalesAd</Label>
+				 <Label class="ftText" left="45">|</Label>
+				 <Label class="ftText" left="50" id="showTnC">Privacy & Terms</Label>
+				 <Label class="ftText" left="130">|</Label>
+				 <Label class="ftText" left="135" id="help">Help</Label>
+				 <Label class="ftText" right="5" textAlign="right" >&#169; freejini</Label>
+			</View>
+	</Window>
+</Alloy>

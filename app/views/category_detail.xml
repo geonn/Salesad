@@ -1,0 +1,17 @@
+<Alloy>
+	<Window title="" class="container" id="category_details" backButtonTitle="" navTintColor="#CE1D1C">
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View bottom='0' class="hr"></View>
+		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15" top="100" backgroundColor="#2E2E2E" >
+        	<ActivityIndicator  id="activityIndicator" />
+        	<Label top="5" text="Loading" color="#ffffff" />
+        </View>
+		<View id="main" layout="vertical">
+			<ScrollView layout="vertical" id="scrollview" top=''></ScrollView>
+		</View>
+	</Window>
+</Alloy>
