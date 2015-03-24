@@ -164,22 +164,21 @@ var createGridListing = function(res){
    		var ads = a_library.getAdsById(m_id,"");
    		if(ads.a_id != "0"){
    			imagepath = info.img;
-   			imageContainer = Ti.UI.createView({
-				backgroundImage: '/images/home.png',
-			});
+   			 
 	   		adImage = Ti.UI.createImageView({
+	   			defaultImage: '/images/home.png',
 				image: "sa"+imagepath+"as", 
 				height: Ti.UI.FILL
 			});
-			imageContainer.add(adImage);
+			 
 	   		if(counter%3 == 0){
 	   			row = $.UI.create('View', {classes: ["row"],textAlign:'center', bottom: 2});
 	   		}
 	   		cell = $.UI.create('View', {classes: ["cell"], top: 2});
 	   		
-	   		createAdImageEvent(imageContainer, m_id);
+	   		createAdImageEvent(adImage, m_id);
 	   		
-	   		cell.add(imageContainer);
+	   		cell.add(adImage);
 			row.add(cell);
 			
 			if(counter%3 == 2 || last == counter){
