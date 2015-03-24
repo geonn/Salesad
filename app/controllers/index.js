@@ -156,30 +156,42 @@ var createGridListing = function(res){
    	var imagepath, adImage, row, cell = '';
  	var last = details.length-1;
     $.scrollview.removeAllChildren();
+    var a_library = Alloy.createCollection('ads');
     for(var i=0; i< details.length; i++) {
    		var m_id = details[i].m_id; 
    		var branch = branchLibrary.getBranchesByMerchant(m_id); 
    		var info = merchantsLibrary.getMerchantsById(m_id);
-   		imagepath = info.img;
-   		adImage = Utils.RemoteImage({
-			image: imagepath
-		});
-		
-   		if(counter%3 == 0){
-   			row = $.UI.create('View', {classes: ["row"],textAlign:'center', bottom: 2});
+   		var ads = a_library.getAdsById(m_id,"");
+   		if(ads.a_id != "0"){
+   			imagepath = info.img;
+   			imageContainer = Ti.UI.createView({
+				backgroundImage: '/images/home.png',
+			});
+	   		adImage = Ti.UI.createImageView({
+				image: "sa"+imagepath+"as", 
+				height: Ti.UI.FILL
+			});
+			imageContainer.add(adImage);
+	   		if(counter%3 == 0){
+	   			row = $.UI.create('View', {classes: ["row"],textAlign:'center', bottom: 2});
+	   		}
+	   		cell = $.UI.create('View', {classes: ["cell"], top: 2});
+	   		
+	   		createAdImageEvent(imageContainer, m_id);
+	   		
+	   		cell.add(imageContainer);
+			row.add(cell);
+			
+			if(counter%3 == 2 || last == counter){
+	   			$.scrollview.add(row);
+	   		}
+	   		// console.log("accepted : "+m_id);
+   			// console.log(ads);
+	   		counter++;
+   		}else{
+   			// console.log("rejected : "+m_id);
+   			// console.log(ads);
    		}
-   		cell = $.UI.create('View', {classes: ["cell"], top: 2});
-   		
-   		createAdImageEvent(adImage, m_id);
-   		
-   		cell.add(adImage);
-		row.add(cell);
-		
-		if(counter%3 == 2 || last == counter){
-   			$.scrollview.add(row);
-   		}
-   		
-   		counter++;
 	 }
 };
 

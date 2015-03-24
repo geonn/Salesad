@@ -45,7 +45,8 @@ var getFavorites = model_favorites.getFavoritesByUid(u_id);
 var getAdDetails = function(){
 	var ads = a_library.getAdsById(m_id,a_id);
     var items = i_library.getItemByAds(ads.a_id);
- 
+    console.log("ads details>>>");
+	 console.log(ads); 
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
 	  

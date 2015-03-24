@@ -375,7 +375,7 @@ exports.loadAdsDetails = function(m_id, a_id){
 };
 
 //load category to db
-exports.loadCategory = function (ex){
+exports.loadCategory = function (ex){ 
 	 var url = getCategoryList;
 	 var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
