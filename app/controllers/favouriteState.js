@@ -114,7 +114,7 @@ for (var j=0; j< stateArr.length; j++) {
 	stateRow.addEventListener('click', function(e){
 		var row = e.row;
 		var selected = e.source;
-		console.log(selected.key + "=="+ selected.name +"=="+selected.titles+"=="+row.haveCheck);
+		//console.log(selected.key + "=="+ selected.name +"=="+selected.titles+"=="+row.haveCheck);
 		//return;
 	 	if((row.haveCheck == "0") || (row.haveCheck == "false")) {
 	 		row.haveCheck = true;

@@ -182,6 +182,65 @@ var bannerListing = function(res){
 		}, 5000); 
 };
 
+
+/*** Get ads ***/
+var createGridListing = function(res){
+	var typeLibrary = Alloy.createCollection(res.type); 
+	var merchantsLibrary = Alloy.createCollection('merchants'); 
+	var branchLibrary = Alloy.createCollection('branches');
+
+	if(res.type == "recent"){
+		var details = typeLibrary.getRecentList();
+	}else if(res.type == "popular"){
+		var details = typeLibrary.getPopularList();
+	}else if(res.type == "favorites"){
+		var details = typeLibrary.getFavoritesByUid(u_id);
+	}else{
+		var details = typeLibrary.getFeaturedList();
+	}
+	
+  	var counter = 0;
+   	var imagepath, adImage, row, cell = '';
+ 	var last = details.length-1;
+    $.scrollview.removeAllChildren();
+    var a_library = Alloy.createCollection('ads');
+    for(var i=0; i< details.length; i++) {
+   		var m_id = details[i].m_id; 
+   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
+   		var info = merchantsLibrary.getMerchantsById(m_id);
+   		var ads = a_library.getAdsById(m_id,"");
+   		if(ads.a_id != "0"){
+   			imagepath = info.img;
+   			 
+	   		adImage = Ti.UI.createImageView({
+	   			defaultImage: '/images/home.png',
+				image: imagepath, 
+				height: Ti.UI.FILL
+			});
+			 
+	   		if(counter%3 == 0){
+	   			row = $.UI.create('View', {classes: ["row"],textAlign:'center', bottom: 2});
+	   		}
+	   		cell = $.UI.create('View', {classes: ["cell"], top: 2});
+	   		
+	   		createAdImageEvent(adImage, m_id);
+	   		
+	   		cell.add(adImage);
+			row.add(cell);
+			
+			if(counter%3 == 2 || last == counter){
+	   			$.scrollview.add(row);
+	   		}
+	   		// console.log("accepted : "+m_id);
+   			// console.log(ads);
+	   		counter++;
+   		}else{
+   			// console.log("rejected : "+m_id);
+   			// console.log(ads);
+   		}
+	 }
+};
+
 //dynamic addEventListener for adImage
 function createAdImageEvent(adImage, m_id, inicator) {
     adImage.addEventListener('click', function(e) {
