@@ -94,6 +94,10 @@ exports.updateUserFavourite = function(e){
 	
 };
 
+exports.loadAdsListByCategory = function (ex){
+	
+};
+
 exports.loadMerchantListByCategory = function (ex){
 	var url = getMerchantListByCategory+"&category_id="+ex;
 	
@@ -132,7 +136,6 @@ exports.loadMerchantListByCategory = function (ex){
 			    	});
 			    }
 			});
-			
 			Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	       }
 	     },
@@ -322,6 +325,10 @@ exports.searchAdsItems = function(str){
 	
 };
 
+exports.loadAdsByCategory = function(cate_id){
+	
+};
+
 //load Ads details and items
 exports.loadAdsDetails = function(m_id, a_id){
  
@@ -387,7 +394,7 @@ exports.loadCategory = function (ex){
 	       	/**reset current category**/
 	       	var library = Alloy.createCollection('category'); 
 			library.resetCategory();
-			
+			console.log("category sync");
 			/**load new set of category from API**/
 	       	var arr = res.data;
 	       	//console.log(res);

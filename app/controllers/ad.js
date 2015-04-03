@@ -8,7 +8,7 @@ var clickTime = null;
 var isAdsAvailable  = false;
 
 /** google analytics**/
-var lib_feeds = Alloy.createCollection('feeds');  
+var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
 	lib_feeds.updateUserFeeds(m_id,a_id);		
 }
@@ -230,8 +230,6 @@ $.favorites.addEventListener("click", function(){
 	 });
 
 	dialog.show();
-   	
- 
 });
 
 $.btnBack.addEventListener('click', function(){ 

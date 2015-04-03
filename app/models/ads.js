@@ -123,7 +123,7 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			saveAds : function(a_id,m_id,b_id,ads_name,template,  desc,ads_background, img_path){
+			saveAds : function(a_id,m_id,b_id,ads_name,template,desc,ads_background, img_path){
 				var needRefresh = false;
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id="+ m_id+" AND b_id='"+b_id+ "'" ;
@@ -143,6 +143,9 @@ exports.definition = {
                 	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (a_id,m_id,b_id,ads_name,template,  desc, ads_background, img_path) VALUES ('"+a_id+"','"+m_id+"','"+b_id+"','"+ads_name+"', '"+template+"', '"+desc+"', '"+ads_background+"', '"+img_path+"')" ;
 				}
          // console.log(sql_query);
+	            db.execute(sql_query);
+	            sql_query = "UPDATE merchants set updated = CURRENT_TIMESTAMP where m_id = "+m_id;
+	            console.log(sql_query);
 	            db.execute(sql_query);
 	            db.close();
 	            collection.trigger('sync');
