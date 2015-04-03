@@ -167,7 +167,7 @@ var createGridListing = function(res){
    			 
 	   		adImage = Ti.UI.createImageView({
 	   			defaultImage: '/images/home.png',
-				image: "sa"+imagepath+"as", 
+				image: imagepath, 
 				height: Ti.UI.FILL
 			});
 			 
