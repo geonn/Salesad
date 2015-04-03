@@ -251,10 +251,6 @@ function createAdImageEvent(adImage, m_id, inicator) {
 function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		activityIndicator.hide();
-		if(!category_sync_counter){
-			$.scrollview.setDisableBounce(false);
-      		$.scrollview.animate({top:0, duration: 500});
-		}
 	});
 }
 
@@ -309,6 +305,10 @@ Ti.App.addEventListener('app:adsUpdated', function(e){
 			loadLatestImageByCategoryId(cell, activityIndicator, e.cate_id);
 		}	
     }
+    if(!category_sync_counter){
+		$.scrollview.setDisableBounce(false);
+  		$.scrollview.animate({top:0, duration: 500});
+	}
 });
 
 $.scrollview.addEventListener('scroll', function (e) {
