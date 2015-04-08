@@ -1,0 +1,15 @@
+
+".container" : {
+	layout: 'vertical',
+	width: Ti.UI.FILL,
+	fullscreen: true,
+},
+".row" :{
+	layout: 'horizontal',
+	height: '40%',
+},
+".cell" :{
+	left: 2,
+	top: 2,
+	width: '157',
+}

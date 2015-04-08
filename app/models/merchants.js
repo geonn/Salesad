@@ -11,7 +11,7 @@ exports.definition = {
 		    "latitude" : "TEXT",
 		    "state": "TEXT",
 		    "updated": "datetime", 
-		    "img": "TEXT"
+		    "img_path": "TEXT"
 		},
 		adapter: {
 			type: "sql",
@@ -46,7 +46,7 @@ exports.definition = {
 					    area: res.fieldByName('area'),
 					    state_key: res.fieldByName('state_key'),
 					    state: res.fieldByName('state'),
-					    img: res.fieldByName('img'),
+					    img_path: res.fieldByName('img_path'),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName('latitude'),
 					};
@@ -57,7 +57,7 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-            saveMerchants : function(m_id,name,mobile,area,state_key,  state, img, longitude, latitude) {
+            saveMerchants : function(m_id,name,mobile,area,state_key, state, img_path, longitude, latitude) {
                 var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id="+ m_id ;
                 var sql_query =  "";
@@ -66,9 +66,9 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET name='"+name+"', mobile='"+mobile+"', area='"+area+"', state_key='"+state_key+"', state='"+state+"', img='"+ img+"', longitude='"+longitude+"', latitude='"+latitude+"' WHERE m_id='" +m_id+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET name='"+name+"', mobile='"+mobile+"', area='"+area+"', state_key='"+state_key+"', state='"+state+"', img_path='"+ img_path+"', longitude='"+longitude+"', latitude='"+latitude+"' WHERE m_id='" +m_id+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (m_id, name, mobile,area,state_key, state, img,longitude,latitude) VALUES ('"+m_id+"','"+name+"','"+mobile+"','"+area+"', '"+state_key+"', '"+state+"', '"+img+"', '"+longitude+"', '"+latitude+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (m_id, name, mobile,area,state_key, state, img_path,longitude,latitude) VALUES ('"+m_id+"','"+name+"','"+mobile+"','"+area+"', '"+state_key+"', '"+state+"', '"+img_path+"', '"+longitude+"', '"+latitude+"')" ;
 				}
            
 	            db.execute(sql_query);

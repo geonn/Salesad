@@ -67,15 +67,16 @@ function buildCateogryList(){
 
 function loadLatestImageByCategoryId(cell, activityIndicator, cate_id){
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
-	var latestc = c_ads_library.getLatestAdsByCategory(cate_id);
+	var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 1);
 	if(typeof latestc[0] == 'object' && latestc[0].a_id != 0 && typeof latestc[0].a_id != 'object'){
+		
 		var adImage = Ti.UI.createImageView({
    			defaultImage: "/images/warm-grey-bg.png",
 			image: latestc[0].img_path,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE
 		});
-   		createAdImageEvent(adImage, latestc[0].m_id);
+   		createAdImageEvent(adImage, latestc[0].m_id, latestc[0].a_id, cate_id);
    		adIamgeLoadEvent(adImage, activityIndicator);
    		cell.add(adImage);
    	}
@@ -99,7 +100,20 @@ var goAd = function(m_id,b_id,isFeed){
 	$.navMenu.openWindow(win,{animated:true}); 
 };
 
+var goAds = function(m_id, a_id,cate_id){
+	// double click prevention
+	var currentTime = new Date();
+	if (currentTime - clickTime < 1000) {
+	    return;
+	};
+	clickTime = currentTime;
+	
+	var win = Alloy.createController("ads", {m_id:m_id, a_id: a_id, cate_id: cate_id}).getView(); 
+	$.navMenu.openWindow(win,{animated:true}); 
+};
+
 var bannerListing = function(res){
+
 	var banner_model = Alloy.createCollection('banners'); 
  	var banners = banner_model.getBannerList();
  	 
@@ -151,7 +165,7 @@ var bannerListing = function(res){
 			the_view.push(scrollView); 
 			counter++;			
 	}
-	
+
 	var scrollableView = Ti.UI.createScrollableView({
 			id: "scrollableView",
 			views:the_view,
@@ -179,78 +193,23 @@ var bannerListing = function(res){
 		    }
 		    
 		    scrollableView.scrollToView(page);
-		}, 5000); 
-};
-
-
-/*** Get ads ***/
-var createGridListing = function(res){
-	var typeLibrary = Alloy.createCollection(res.type); 
-	var merchantsLibrary = Alloy.createCollection('merchants'); 
-	var branchLibrary = Alloy.createCollection('branches');
-
-	if(res.type == "recent"){
-		var details = typeLibrary.getRecentList();
-	}else if(res.type == "popular"){
-		var details = typeLibrary.getPopularList();
-	}else if(res.type == "favorites"){
-		var details = typeLibrary.getFavoritesByUid(u_id);
-	}else{
-		var details = typeLibrary.getFeaturedList();
-	}
-	
-  	var counter = 0;
-   	var imagepath, adImage, row, cell = '';
- 	var last = details.length-1;
-    $.scrollview.removeAllChildren();
-    var a_library = Alloy.createCollection('ads');
-    for(var i=0; i< details.length; i++) {
-   		var m_id = details[i].m_id; 
-   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
-   		var info = merchantsLibrary.getMerchantsById(m_id);
-   		var ads = a_library.getAdsById(m_id,"");
-   		if(ads.a_id != "0"){
-   			imagepath = info.img;
-   			 
-	   		adImage = Ti.UI.createImageView({
-	   			defaultImage: '/images/home.png',
-				image: imagepath, 
-				height: Ti.UI.FILL
-			});
-			 
-	   		if(counter%3 == 0){
-	   			row = $.UI.create('View', {classes: ["row"],textAlign:'center', bottom: 2});
-	   		}
-	   		cell = $.UI.create('View', {classes: ["cell"], top: 2});
-	   		
-	   		createAdImageEvent(adImage, m_id);
-	   		
-	   		cell.add(adImage);
-			row.add(cell);
-			
-			if(counter%3 == 2 || last == counter){
-	   			$.scrollview.add(row);
-	   		}
-	   		// console.log("accepted : "+m_id);
-   			// console.log(ads);
-	   		counter++;
-   		}else{
-   			// console.log("rejected : "+m_id);
-   			// console.log(ads);
-   		}
-	 }
+		}, 5000);
 };
 
 //dynamic addEventListener for adImage
-function createAdImageEvent(adImage, m_id, inicator) {
+function createAdImageEvent(adImage,m_id, a_id, cate_id) {
     adImage.addEventListener('click', function(e) {
-        goAd(m_id);
+        goAds(m_id, a_id, cate_id);
     });
 }
 
 function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		activityIndicator.hide();
+		if(!category_sync_counter){
+			$.scrollview.setDisableBounce(false);
+      		$.scrollview.animate({top:0, duration: 500});
+		}
 	});
 }
 
@@ -261,10 +220,6 @@ $.navMenu.open({fullscreen:true});
 var API = require('api');
 API.bannerListing();
 API.loadCategory();
-
-/**Load local function**/
-bannerListing();
-buildCateogryList();
 
 /**Call API to update app's data**/
 
@@ -293,22 +248,27 @@ Ti.App.addEventListener('app:goToAds', function(e){
 });
 
 Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
+	
 	API.loadAdsByCategory(e.cate_id);
-	Ti.App.fireEvent('app:adsUpdated', {cate_id: e.cate_id});
 });
 
 Ti.App.addEventListener('app:adsUpdated', function(e){
+	
 	for (var c = $.adListing.children.length - 1; c >= 0; c--) {
 		if($.adListing.children[c].id == e.cate_id){
 			var activityIndicator = $.adListing.children[c].children[0].children[2];
 			var cell = $.adListing.children[c].children[0];
 			loadLatestImageByCategoryId(cell, activityIndicator, e.cate_id);
-		}	
+		}
     }
-    if(!category_sync_counter){
-		$.scrollview.setDisableBounce(false);
-  		$.scrollview.animate({top:0, duration: 500});
-	}
+});
+
+Ti.App.addEventListener('app:bannerListing', function(e){
+	bannerListing();
+});
+
+Ti.App.addEventListener('app:loadCategory', function(e){
+	buildCateogryList();
 });
 
 $.scrollview.addEventListener('scroll', function (e) {

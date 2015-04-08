@@ -12,6 +12,8 @@ var getCategoryList            = "http://"+API_DOMAIN+"/api/getCategoryList?user
 var getFeaturedBanner   	   = "http://"+API_DOMAIN+"/api/getFeaturedBannerList?user="+USER+"&key="+KEY;
 var getMerchantListByType      = "http://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY;
 var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
+var getAdsByCategoryList  = "http://"+API_DOMAIN+"/api/getAdsByCategoryList?user="+USER+"&key="+KEY;
+
 var searchNearbyMerchant       = "http://"+API_DOMAIN+"/api/searchNearbyMerchant?user="+USER+"&key="+KEY;
 var getAdsDetailsById = "http://"+API_DOMAIN+"/api/getAdsDetailsById?user="+USER+"&key="+KEY;
 var searchResult               = "http://"+API_DOMAIN+"/api/searchResult?user="+USER+"&key="+KEY;
@@ -94,13 +96,16 @@ exports.updateUserFavourite = function(e){
 	
 };
 
-exports.loadAdsListByCategory = function (ex){
-	
-};
-
 exports.loadMerchantListByCategory = function (ex){
-	var url = getMerchantListByCategory+"&category_id="+ex;
 	
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById(100+ex);
+	var last_updated ="";
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	} 
+	var url = getMerchantListByCategory+"&category_id="+ex+"&last_updated="+last_updated;
+	console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -110,12 +115,12 @@ exports.loadMerchantListByCategory = function (ex){
 	       if(res.status == "success"){
 	       	/**reset current category**/
 	       	var library = Alloy.createCollection('categoryAds'); 
-			library.resetCategoryAds(ex);
+			//library.resetCategoryAds(ex);
 			
 			/**load new set of category ads from API**/
 	       	var arr = res.data;
-	       
 	       	arr.forEach(function(entry) {
+	       		console.log(entry);
 				var categoryAds = Alloy.createModel('categoryAds', {
 			        m_id    : entry.m_id,
 			        cate_id   : ex
@@ -123,24 +128,26 @@ exports.loadMerchantListByCategory = function (ex){
 			    categoryAds.save();
 			    
 			    //Save merchant info
-	       		var merchant = Alloy.createCollection('merchants'); 
+	       		var merchant = Alloy.createCollection('merchants');
 				merchant.saveMerchants(entry.m_id, entry.merchant_name, entry.mobile, entry.area, entry.state_key, entry.state_name, entry.img_path, entry.longitude, entry.latitude);
 	         	
 				//Save branches info
-			    var branches = entry.branch; 
+			    var branches = entry.branch;
 			    if(branches.length > 0){
 			    	branches.forEach(function(branch) {
-			    		
-			    		var br = Alloy.createCollection('branches'); 
+			    		var br = Alloy.createCollection('branches');
 						br.saveBranches( branch.b_id, branch.m_id, branch.name,branch.mobile, branch.area, branch.state_key,branch.state, branch.longitude, branch.latitude);
 			    	});
 			    }
 			});
+			checker.updateModule(100+ex,"loadMerchantListByCategory",currentDateTime());
 			Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
+	     	console.log("API loadMerchantListByCategory fail, skip sync with server");
+	     	Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	     },
 	     timeout : 50000  // in milliseconds
 	 });
@@ -152,8 +159,15 @@ exports.loadMerchantListByCategory = function (ex){
 
 // load featured banner
 exports.bannerListing = function (type){
-	var url = getFeaturedBanner;
-
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("2");
+	var last_updated ="";
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	} 
+	var url = getFeaturedBanner+"&last_updated="+last_updated;
+	console.log(url);
+	
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -165,7 +179,7 @@ exports.bannerListing = function (type){
 	       if(res.status == "success"){
 	       	/**reset current category**/
 	       	var library = Alloy.createCollection('banners'); 
-			library.resetBanner();
+			//library.resetBanner();
 			
 			/**load new set of category from API**/
 	       	var arr = res.data;
@@ -179,11 +193,14 @@ exports.bannerListing = function (type){
 				banners.save();
 			});
 			
+			checker.updateModule("2","getFeaturedBanner",currentDateTime());
 			Ti.App.fireEvent('app:bannerListing', res);
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
+	     	console.log("API getFeaturedBanner fail, skip sycn with server");
+	     	Ti.App.fireEvent('app:bannerListing', res);
 	     },
 	     timeout : 50000  // in milliseconds
 	 });
@@ -195,7 +212,13 @@ exports.bannerListing = function (type){
 
 
 exports.loadMerchantListByType = function (type){
-	var url = getMerchantListByType+"&type="+type;
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("3");
+	var last_updated ="";
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	} 
+	var url = getMerchantListByType+"&type="+type+"&last_updated="+last_updated;
 	
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -253,7 +276,7 @@ exports.loadMerchantListByType = function (type){
 			    	});
 			    }
 			});
-			
+			checker.updateModule("3","getMerchantListByType",currentDateTime());
 			Ti.App.fireEvent('app:triggerAdsType', {types : type,pullFromServer : false});
 	       }
 	     },
@@ -326,18 +349,73 @@ exports.searchAdsItems = function(str){
 };
 
 exports.loadAdsByCategory = function(cate_id){
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById(200+cate_id);
+	var last_updated ="";
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	}
+	var url = getAdsByCategoryList+"&category_id="+cate_id+"&last_updated="+last_updated;
+	console.log(url);
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	    
+	       var res = JSON.parse(this.responseText);
+			
+	       var arr = res.data;
+	       
+	       if(res.status == "success"){
+	       	/**reset current category**/
+	       
+	       	var arr = res.data;
+	       	arr.forEach(function(entry) {
+			     var ads = Alloy.createCollection('ads'); 
+				 var needRefresh = ads.saveAds(entry.a_id, entry.m_id, entry.b_id, entry.name, entry.template_id, entry.description,entry.app_background, entry.img_path);
+			         	
+			     //Save item info
+				 var items = entry.item; 
+				 var it = Alloy.createCollection('items'); 
+				 it.resetItem(entry.a_id);	    
+				 if(items.length > 0){
+					items.forEach(function(item) {
+						it.saveItem( item.i_id, item.a_id, item.price,item.caption, item.img_path);
+					});
+				 }		
+			});
+			checker.updateModule(200+cate_id,"getAdsByCategoryList",currentDateTime());
+			Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
+	       }
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     	console.log("API getAdsByCategoryList fail, skip sync with server");
+	     	Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
+	     },
+	     timeout : 50000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send(); 
 	
 };
 
 //load Ads details and items
 exports.loadAdsDetails = function(m_id, a_id){
- 
+    var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("4");
+	var last_updated ="";
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	} 
+	
 	var deviceToken = Ti.App.Properties.getString('deviceToken');
 	
 	if(a_id != ""){
-		var url =  getAdsDetailsById +"&m_id="+m_id+"&a_id="+a_id+"&token="+deviceToken;
+		var url =  getAdsDetailsById +"&m_id="+m_id+"&a_id="+a_id+"&token="+deviceToken+"&last_updated="+last_updated;
 	}else{
-		var url =  getAdsDetailsById +"&m_id="+m_id+"&token="+deviceToken;
+		var url =  getAdsDetailsById +"&m_id="+m_id+"&token="+deviceToken+"&last_updated="+last_updated;
 	}
  	// alert(url);
 	var client = Ti.Network.createHTTPClient({
@@ -365,13 +443,14 @@ exports.loadAdsDetails = function(m_id, a_id){
 						it.saveItem( item.i_id, item.a_id, item.price,item.caption, item.img_path);
 					});
 				 }		
-		        
+		      checker.updateModule("4","getAdsDetailsById",currentDateTime());
 		      Ti.App.fireEvent('app:loadAdsDetails',{needRefresh: needRefresh});
 	       }
 	       
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
+	     	
 	      },
 	     timeout : 10000  // in milliseconds
 	 });
@@ -383,7 +462,14 @@ exports.loadAdsDetails = function(m_id, a_id){
 
 //load category to db
 exports.loadCategory = function (ex){ 
-	 var url = getCategoryList;
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("5");
+	var last_updated ="";
+	if(isUpdate != "" ){
+		last_updated = isUpdate.updated;
+	} 
+	 var url = getCategoryList+"&last_updated="+last_updated;
+	 console.log(url);
 	 var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -393,8 +479,7 @@ exports.loadCategory = function (ex){
 	       if(res.status == "Success"){
 	       	/**reset current category**/
 	       	var library = Alloy.createCollection('category'); 
-			library.resetCategory();
-			console.log("category sync");
+			//library.resetCategory();
 			/**load new set of category from API**/
 	       	var arr = res.data;
 	       	//console.log(res);
@@ -405,10 +490,15 @@ exports.loadCategory = function (ex){
 			    });
 			    category.save();
 			});
+			
+			checker.updateModule("5","getCategoryList",currentDateTime());
+			Ti.App.fireEvent('app:loadCategory');
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
+	     	console.log("API getCategoryList fail, skip sync with server");
+	     	Ti.App.fireEvent('app:loadCategory');
 	     },
 	     timeout : 50000  // in milliseconds
 	 });

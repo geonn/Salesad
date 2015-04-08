@@ -60,7 +60,6 @@ var createGridListing = function(res){
 	var branchLibrary = Alloy.createCollection('branches');
  	
  	var details = cateAdsLibrary.getCategoryAds(res.cate_id);
- 	
  	var counter = 0;
    	var imagepath, adImage, row, cell = '';
  	var last = details.length-1;
@@ -84,11 +83,11 @@ var createGridListing = function(res){
 	   		var m_id = details[i].m_id; 
 	   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
 	   		var info = merchantsLibrary.getMerchantsById(m_id);
-	   		imagepath = info.img;
+	   		
+	   		imagepath = info.img_path;
 	   		adImage = Utils.RemoteImage({
 				image: imagepath
 			});
-			
 	   		if(counter%3 == 0){
 	   			row = $.UI.create('View', {classes: ["row"],});
 	   		}
@@ -99,8 +98,6 @@ var createGridListing = function(res){
 	   		}else{
 	   			createAdBranchEvent(adImage, m_id);
 	   		}
-	   		
-			
 			cell.add(adImage);
 			row.add(cell);
 			if(counter%3 == 2 || last == counter){
@@ -109,14 +106,13 @@ var createGridListing = function(res){
 	   		counter++;
 	     }
    	}
-   	
 };
 
  
 /************************
 *******APP RUNNING*******
 *************************/
- API.loadMerchantListByCategory(cate_id);
+API.loadMerchantListByCategory(cate_id);
 var refreshListFromServer = function(){
 	var currentTime = new Date().getTime();
 	var lastUpdate  =  Ti.App.Properties.getString('refreshTime'+cate_id);

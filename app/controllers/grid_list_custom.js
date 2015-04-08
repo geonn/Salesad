@@ -36,7 +36,7 @@ var createGridListing = function(res){
     	favoritesLibrary.updatePosition(details[i].id, i);
    		var m_id = details[i].m_id;
    		var info = merchantsLibrary.getMerchantsById(m_id);
-   		imagepath = info.img;
+   		imagepath = info.img_path;
    		adImage = Utils.RemoteImage({
 			image: imagepath
 		});

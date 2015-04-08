@@ -152,7 +152,7 @@ function generateCategoryTable(details){
 			left:20,
 		});
 		
-		var rightForwardBtn =  Titanium.UI.createImageView({
+		var rightForwardBtn = Titanium.UI.createImageView({
 			image:"/images/btn-forward.png",
 			width:15,
 			height:15,
