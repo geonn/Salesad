@@ -212,11 +212,11 @@ $.ads_details.addEventListener("scrollend", function(e){
 	
 	var model_favorites = Alloy.createCollection('favorites');
 	var exist = model_favorites.checkFavoriteExist(a_id, m_id);
-	
+	console.log(exist);
 	if(exist){
-		$.favorites.visible = true;
-	}else{
 		$.favorites.visible = false;
+	}else{
+		$.favorites.visible = true;
 	}
 
 	console.log(m_id_v+" "+a_id_v);

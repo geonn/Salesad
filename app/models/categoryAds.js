@@ -22,7 +22,6 @@ exports.definition = {
 			getLatestAdsByCategory : function(cate_id, limit){
 				var limit = limit || false;
 				var collection = this;
-                
                 if(limit){
                 	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id limit 0,1";
                 }else{

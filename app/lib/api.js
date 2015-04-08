@@ -57,7 +57,7 @@ exports.updateNotificationToken = function(e){
 		     // function called when an error occurs, including a timeout
 		     onerror : function(e) {
 		     },
-		     timeout : 50000  // in milliseconds
+		     timeout : 7000  // in milliseconds
 		 });
 		 // Prepare the connection.
 		 client.open("GET", url);
@@ -86,7 +86,7 @@ exports.updateUserFavourite = function(e){
 	    // function called when an error occurs, including a timeout
 	    onerror : function(e) {
 	    },
-	    timeout : 50000  // in milliseconds
+	    timeout : 7000  // in milliseconds
 	});
 	// Prepare the connection.
 	client.open("GET", url);
@@ -149,7 +149,7 @@ exports.loadMerchantListByCategory = function (ex){
 	     	console.log("API loadMerchantListByCategory fail, skip sync with server");
 	     	Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	     },
-	     timeout : 50000  // in milliseconds
+	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.open("GET", url);
@@ -200,9 +200,9 @@ exports.bannerListing = function (type){
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
 	     	console.log("API getFeaturedBanner fail, skip sycn with server");
-	     	Ti.App.fireEvent('app:bannerListing', res);
+	     	Ti.App.fireEvent('app:bannerListing');
 	     },
-	     timeout : 50000  // in milliseconds
+	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.open("GET", url);
@@ -283,7 +283,7 @@ exports.loadMerchantListByType = function (type){
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
 	     },
-	     timeout : 50000  // in milliseconds
+	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.open("GET", url);
@@ -308,7 +308,7 @@ exports.searchNearbyMerchant = function(lat,long){
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
 	     },
-	     timeout : 50000  // in milliseconds
+	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.open("GET", url);
@@ -339,7 +339,7 @@ exports.searchAdsItems = function(str){
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
 	     },
-	     timeout : 50000  // in milliseconds
+	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.open("GET", url);
@@ -384,7 +384,9 @@ exports.loadAdsByCategory = function(cate_id){
 				 }		
 			});
 			checker.updateModule(200+cate_id,"getAdsByCategoryList",currentDateTime());
-			Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
+			setTimeout(function () {
+				Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
+			}, 1000);
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
@@ -392,7 +394,7 @@ exports.loadAdsByCategory = function(cate_id){
 	     	console.log("API getAdsByCategoryList fail, skip sync with server");
 	     	Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
 	     },
-	     timeout : 50000  // in milliseconds
+	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.open("GET", url);
@@ -500,7 +502,7 @@ exports.loadCategory = function (ex){
 	     	console.log("API getCategoryList fail, skip sync with server");
 	     	Ti.App.fireEvent('app:loadCategory');
 	     },
-	     timeout : 50000  // in milliseconds
+	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.open("GET", url);
