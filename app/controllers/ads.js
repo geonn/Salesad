@@ -5,7 +5,7 @@ var cate_id = args.cate_id || "";
 var isFeed = args.isFeed || "";
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var nav = Alloy.Globals.navMenu;
-
+var clickTime = null;
 /** google analytics**/
 var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
