@@ -147,6 +147,55 @@ var Utils = {
       image.addEventListener('load',saveImage);
     }
     return image;
+  },
+  RemoteImage2: function(a){
+  	var style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+	var activityIndicator = Ti.UI.createActivityIndicator({
+	  color: 'green',
+	  style:style,
+	  top:10,
+	  left:10,
+	  height:Ti.UI.SIZE,
+	  width:Ti.UI.SIZE,
+	  zIndex: 11,
+	});
+	var view = Ti.UI.createView({
+		width: Ti.UI.FILL, 
+		height:Ti.UI.FILL,
+		backgroundColor: "#eae7e1"
+	});
+	view.add(activityIndicator);
+    a = a || {};
+    a.defaultImage = "";
+    var md5;
+    var needsToSave = false;
+    var savedFile;
+    if(a.image){
+      md5 = Ti.Utils.md5HexDigest(a.image)+this._getExtension(a.image);
+      savedFile = Titanium.Filesystem.getFile(Titanium.Filesystem.applicationDataDirectory,md5);
+      if(savedFile.exists()){
+        a.image = savedFile;
+        view.backgroundColor = "";
+        activityIndicator.hide();
+      } else {
+      	activityIndicator.show();
+        needsToSave = true;
+      }
+    }
+    var image = Ti.UI.createImageView(a);
+    view.add(image);
+    if(needsToSave === true){
+      function saveImage(e){
+        image.removeEventListener('load',saveImage);
+        image.getParent().children[0].hide();
+        image.getParent().backgroundColor = "";
+        savedFile.write(
+          Ti.UI.createImageView({image:image.image,width:'auto',height:'auto'}).toImage()
+        );
+      }
+      image.addEventListener('load',saveImage);
+    }
+    return view;
   }
 };
  registerPush();

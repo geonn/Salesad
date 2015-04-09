@@ -39,6 +39,7 @@ var getAdDetails = function(a_id){
  		height:	Ti.UI.FILL,
  		ads_name: ads.ads_name,
  		m_id: ads.m_id,
+ 		ads_background: ads.ads_background,
  		a_id: ads.a_id,
 		width:	Ti.UI.FILL,
 		contentHeight: Ti.UI.SIZE,
@@ -192,6 +193,12 @@ var model_favorites = Alloy.createCollection('favorites');
 		$.favorites.visible = true;
 	}
 	
+/*********					set first ads background color******/
+if( currentAds[0].ads_backgroun !== undefined){
+ 	$.ad.backgroundColor = "#"+currentAds[0].ads_background;
+ }else{
+ 	 $.ad.backgroundColor = "#fffff6";
+ }
 
 $.btnBack.addEventListener('click', function(){ 
 	nav.closeWindow($.ad); 
@@ -228,7 +235,9 @@ $.ads_details.addEventListener("scrollend", function(e){
 		    color: '#CE1D1C' 
 	});
 	$.ad.titleControl = custom;
-	
+	console.log(JSON.stringify(e.view.ads_background).replace(/"/g, ""));
+	$.ad.backgroundColor = "#"+JSON.stringify(e.view.ads_background).replace(/"/g, "");
+
 });
 
 $.location.addEventListener('click', function(e){

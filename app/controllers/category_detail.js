@@ -85,7 +85,7 @@ var createGridListing = function(res){
 	   		var info = merchantsLibrary.getMerchantsById(m_id);
 	   		
 	   		imagepath = info.img_path;
-	   		adImage = Utils.RemoteImage({
+	   		adImage = Utils.RemoteImage2({
 				image: imagepath
 			});
 	   		if(counter%3 == 0){
