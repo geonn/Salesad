@@ -56,7 +56,7 @@ function deviceTokenSuccess(e) {
 			}, function (e) {
 				console.log(e);
 			    if (e.success) {
-			    	alert('Success : ' + deviceToken);
+			    	//alert('Success : ' + deviceToken);
 			    	/** User device token**/
 	         		Ti.App.Properties.setString('deviceToken', deviceToken);
 			     	
