@@ -11,12 +11,10 @@
 	backgroundColor: '#ccc',
 	bottom: '0',
 },
-"#activityIndicator" : {
-	 style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
-	  top:30,
-	  left:30,
-	  width:60,
-	  
+"#activityIndicator" : { 
+	top:30,
+	left:30,
+	width:60, 
 },
 ".big_font":{
 	font: {fontSize: '20dp'},

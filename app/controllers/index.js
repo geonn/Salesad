@@ -44,16 +44,19 @@ function buildCateogryList(){
 			color: "#ffffff",
 			top: 4, right:4, left:4, bottom:4,
 		});
-		
-		var style = Ti.UI.iPhone.ActivityIndicatorStyle.PLAIN;
+		 
 		var activityIndicator = Ti.UI.createActivityIndicator({
-		  color: 'green',
-		  style:style,
+		  color: 'green', 
 		  bottom:10,
 		  right:10,
 		  height:Ti.UI.SIZE,
 		  width:Ti.UI.SIZE
 		});
+		if(Ti.Platform.osname == "android"){
+			activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK; 
+		}else if (Ti.Platform.name === 'iPhone OS'){
+			activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+		}
 		activityIndicator.show();
 		pad_categoryLabel.add(categoryLabel);
 		pad_cell.add(temp_image);
@@ -119,7 +122,7 @@ var goAds = function(m_id, a_id,cate_id){
 	var win = Alloy.createController("ads", {m_id:m_id, a_id: a_id, cate_id: cate_id}).getView(); 
 	
 	if(Ti.Platform.osname == "android"){ 
-	   win.open(); 
+	   win.open({fullscreen:true}); 
 	}else{ 
 	   $.navMenu.openWindow(win,{animated:true}); 
 	} 
@@ -146,16 +149,21 @@ var bannerListing = function(res){
 				height: bannerHeight,
 				defaultImage: "/images/warm-grey-bg.png",
 			});
-			var style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+			 
 			var activityIndicator = Ti.UI.createActivityIndicator({
-			  color: 'green',
-			  style:style,
+			  color: 'green', 
 			  top:10,
 			  left:10,
 			  height:Ti.UI.SIZE,
 			  width:Ti.UI.SIZE,
 			  zIndex: 11,
 			});
+			if(Ti.Platform.osname == "android"){
+				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
+				//mainView.activityIndicator.top = 0; 
+			}else if (Ti.Platform.name === 'iPhone OS'){
+				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+			}
 			activityIndicator.show();
 			adIamgeLoadEvent(adImage, activityIndicator);
 			var scrollView = Ti.UI.createScrollView({
@@ -166,7 +174,7 @@ var bannerListing = function(res){
 			  	width: '100%' 
 			});
 			
-			row = $.UI.create('View', {classes: ["row"],layout:"", height:bannerHeight});
+			row = $.indexView.UI.create('View', {classes: ["row"],layout:"", height:bannerHeight});
 			row.add(activityIndicator);
 			row.add(adImage);
 			//row.add(img_caption);
@@ -220,7 +228,7 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		activityIndicator.hide();
 		if(!category_sync_counter){
-			$.indexView.scrollview.setDisableBounce(false);
+			//$.indexView.scrollview.setDisableBounce(false);
       		$.indexView.scrollview.animate({top:0, duration: 500});
 		}
 	});

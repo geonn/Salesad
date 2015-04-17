@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="root" title="" navBarHidden="true" class="container">
+	<Window id="root" title="" navBarHidden="true" class="container" fullscreen="true">
 		<View id="header">
 			<ImageView left='0' width='157' height='45' image="/images/salesad_logo.png" />
 			<ImageView id="category_link" left='60%' bottom="0" height='40' image="/images/salesad_beg.png" />

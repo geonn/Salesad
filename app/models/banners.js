@@ -54,7 +54,7 @@ exports.definition = {
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
- }
+				 }
                 db.execute(sql);
                 db.close();
                 collection.trigger('sync');

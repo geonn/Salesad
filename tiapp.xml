@@ -8,8 +8,8 @@
     <description>salesAd</description>
     <copyright>2014 by Freejini</copyright>
     <icon>appicon.png</icon>
-    <fullscreen>false</fullscreen>
-    <navbar-hidden>false</navbar-hidden>
+    <fullscreen>true</fullscreen>
+    <navbar-hidden>true</navbar-hidden>
     <analytics>true</analytics>
     <guid>A4F1C653-19FD-4034-A70D-761F5EBD757A</guid>
     <property name="acs-oauth-secret-development" type="string">rNRXIEw0cnroL08MhZhBJfOjDVAy7MPg</property>
