@@ -23,9 +23,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "category popup",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Category Popup"
 });
-Alloy.Globals.tracker.trackScreen("Category Popup"); 
-
 function navByType(evt){
 	hideWin =0;
 	if(evt.source.source == "nearby"){

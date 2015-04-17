@@ -7,9 +7,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "settings",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Settings Main"
 });
-Alloy.Globals.tracker.trackScreen("Settings Main");
-
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: 'SETTINGS', 

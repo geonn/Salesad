@@ -133,7 +133,9 @@ var getAdDetails = function(){
 			label: "ads_details",
 			value: 1
 		});
-		Alloy.Globals.tracker.trackScreen("Ads Details - " +pageTitle);
+		Alloy.Globals.tracker.trackScreen({
+		    screenName: "Ads Details - " +pageTitle
+		});
 	
 	}
 	

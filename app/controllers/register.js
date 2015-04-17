@@ -6,9 +6,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "register",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Member Register"
 });
-Alloy.Globals.tracker.trackScreen("Member Register");
-
 /** include required file**/
 var api = require('api');
 

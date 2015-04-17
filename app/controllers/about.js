@@ -7,7 +7,9 @@ Alloy.Globals.tracker.trackEvent({
 	label: "about",
 	value: 1
 });
-Alloy.Globals.tracker.trackScreen("About");
+Alloy.Globals.tracker.trackScreen({
+    screenName: "About"
+});
 
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 

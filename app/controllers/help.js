@@ -7,9 +7,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "help",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Help"
 });
-Alloy.Globals.tracker.trackScreen("Help");
-
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: 'HELP', 

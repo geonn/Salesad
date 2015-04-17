@@ -6,9 +6,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "forgotpassword",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Member Forgot Password"
 });
-Alloy.Globals.tracker.trackScreen("Member Forgot Password");
-
 /** include required file**/
 var api = require('api');
 

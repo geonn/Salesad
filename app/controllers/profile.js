@@ -7,9 +7,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "profile",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Member Profile"
 });
-Alloy.Globals.tracker.trackScreen("Member Profile");
-
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: 'MY PROFILE', 

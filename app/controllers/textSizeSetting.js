@@ -6,9 +6,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "text size setting",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Text Size Settings"
 });
-Alloy.Globals.tracker.trackScreen("Text Size Settings");
-
 var textsize = Ti.App.Properties.getString("fontSizeClasses");
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 

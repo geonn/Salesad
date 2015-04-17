@@ -23,9 +23,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "merchant location",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Merchant Location"
 });
-Alloy.Globals.tracker.trackScreen("Merchant Location"); 
-	
 //load merchant & branches list
 for(var k=0; k < all_branches.length; k++){
 	var merchants = m_library.getMerchantsById(all_branches[k].m_id);

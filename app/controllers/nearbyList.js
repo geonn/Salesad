@@ -19,9 +19,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "nearby list",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Nearby List"
 });
-Alloy.Globals.tracker.trackScreen("Nearby List"); 
-
 var goAd = function(res){
 	 
 	var win = Alloy.createController("ad", {m_id: res.source.source}).getView(); 

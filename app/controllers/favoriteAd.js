@@ -7,9 +7,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "favourite ads",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Favourite Ads"
 });
-Alloy.Globals.tracker.trackScreen("Favourite Ads");
-
 $.btnBack.addEventListener('click', function(){ 
 	nav.closeWindow($.favoriteAd); 
 }); 

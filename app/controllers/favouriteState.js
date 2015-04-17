@@ -9,9 +9,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "favourite state",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Favourite State"
 });
-Alloy.Globals.tracker.trackScreen("Favourite State");
-
 var geo =[];
 details.forEach(function(entry) {
 	geo.push(entry.state);

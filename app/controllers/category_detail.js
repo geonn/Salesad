@@ -9,9 +9,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "category details",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Category Details"
 });
-Alloy.Globals.tracker.trackScreen("Category Details");
-
 /** include required file**/
 var API = require('api');
 

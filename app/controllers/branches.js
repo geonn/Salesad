@@ -32,8 +32,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "branches",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Brancehes - " +merchants.name
 });
-Alloy.Globals.tracker.trackScreen("Brancehes - "+merchants.name);  
 
 $.branchesWin.titleControl = custom; 
 $.merchantThumb.image = merchants.img;

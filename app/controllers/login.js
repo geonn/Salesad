@@ -6,9 +6,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "login",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Member Login"
 });
-Alloy.Globals.tracker.trackScreen("Member Login");
-
 var nav = Alloy.Globals.navMenu;
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 

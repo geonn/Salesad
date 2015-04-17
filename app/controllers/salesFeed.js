@@ -24,9 +24,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "feed list",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Feed List"
 });
-Alloy.Globals.tracker.trackScreen("Feed List"); 
-
 var goAd = function(res){
 	 
 	var win = Alloy.createController("ad", {m_id: res.source.source}).getView(); 

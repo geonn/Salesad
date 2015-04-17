@@ -6,9 +6,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "edit password",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Edit Password"
 });
-Alloy.Globals.tracker.trackScreen("Edit Password");
-
 var isSubmit        = 0;
 
 var doSave = function(){

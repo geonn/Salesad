@@ -8,9 +8,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "push notification settings",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Push Notification Settings"
 });
-Alloy.Globals.tracker.trackScreen("Push Notification Settings");
-
 
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 

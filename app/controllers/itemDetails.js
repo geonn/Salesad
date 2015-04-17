@@ -9,9 +9,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "ads items",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Item Details"
 });
-Alloy.Globals.tracker.trackScreen("Item Details");
-
 var common = require('common');
 
 //load model 

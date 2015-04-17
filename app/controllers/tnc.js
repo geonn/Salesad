@@ -6,9 +6,10 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "privacy and terms",
 	value: 1
+}); 
+Alloy.Globals.tracker.trackScreen({
+	screenName: "Privacy and Terms"
 });
-Alloy.Globals.tracker.trackScreen("Privacy and Terms");
-
 var nav = Alloy.Globals.navMenu;
 var clickTime = null;
 /**Set Custom title**/

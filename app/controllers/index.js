@@ -3,13 +3,16 @@ var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var category_sync_counter = 0;
 /** Global Variable **/ 
+
 Alloy.Globals.tracker.trackEvent({
 	category: "main",
 	action: "view",
 	label: "home",
 	value: 1
 });
-Alloy.Globals.tracker.trackScreen("Home");
+Alloy.Globals.tracker.trackScreen({
+    screenName: "Home"
+});
 Alloy.Globals.navMenu = $.navMenu;
 
 /*********************
