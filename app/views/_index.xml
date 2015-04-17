@@ -1,0 +1,17 @@
+<Alloy>
+	<Window id="root" title="" navBarHidden="true" class="container">
+		<View id="header">
+			<ImageView left='0' width='157' height='45' image="/images/salesad_logo.png" />
+			<ImageView id="category_link" left='60%' bottom="0" height='40' image="/images/salesad_beg.png" />
+			<ImageView id="arrow_link" left='85%' height='30' image="/images/icon-recent.png" />
+			<View bottom='0' class="hr"></View>
+		</View>
+		<View width="Ti.UI.FILL" height="Ti.UI.FILL">
+			<Label height="30" top="0">Pull to Refresh</Label>
+			<ScrollView layout="vertical" id="scrollview" height="auto" contentHeight="Ti.UI.SIZE">
+				<View id="bannerListing" height="80%" backgroundColor="black"></View>
+				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>
+			</ScrollView>
+		</View>
+	</Window>
+</Alloy>

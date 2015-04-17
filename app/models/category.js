@@ -25,7 +25,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
                 var res = db.execute(sql);
                 var categoryArr = []; 
                 var count = 0;
@@ -47,7 +49,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ cate_id+ "'" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
                 var res = db.execute(sql);
                 var arr = []; 
                
@@ -66,7 +70,9 @@ exports.definition = {
 				var collection = this;
                 var sql = "DELETE FROM " + collection.config.adapter.collection_name;
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
                 db.execute(sql);
                 db.close();
                 collection.trigger('sync');

@@ -74,45 +74,46 @@ function deviceTokenError(e) {
 function registerPush(){
 	if (Ti.Platform.name == "iPhone OS" && parseInt(Ti.Platform.version.split(".")[0]) >= 8) {
  
- // Wait for user settings to be registered before registering for push notifications
-    Ti.App.iOS.addEventListener('usernotificationsettings', function registerForPush() {
- 
- // Remove event listener once registered for push notifications
-        Ti.App.iOS.removeEventListener('usernotificationsettings', registerForPush); 
- 
-        Ti.Network.registerForPushNotifications({
-            success: deviceTokenSuccess,
-            error: deviceTokenError,
-            callback: receivePush
-        });
-    });
- 
- // Register notification types to use
-    Ti.App.iOS.registerUserNotificationSettings({
-	    types: [
-            Ti.App.iOS.USER_NOTIFICATION_TYPE_ALERT,
-            Ti.App.iOS.USER_NOTIFICATION_TYPE_SOUND,
-            Ti.App.iOS.USER_NOTIFICATION_TYPE_BADGE
-        ]
-    });
-}else{
-	Titanium.Network.registerForPushNotifications({
-	    types: [
-	        Titanium.Network.NOTIFICATION_TYPE_BADGE,
-	        Titanium.Network.NOTIFICATION_TYPE_ALERT,
-	        Titanium.Network.NOTIFICATION_TYPE_SOUND
-	    ],
-		success:deviceTokenSuccess,
-		error:deviceTokenError,
-		callback:receivePush
-	});
-	
-}
- 
-	
+	 // Wait for user settings to be registered before registering for push notifications
+	    Ti.App.iOS.addEventListener('usernotificationsettings', function registerForPush() {
+	 
+	 // Remove event listener once registered for push notifications
+	        Ti.App.iOS.removeEventListener('usernotificationsettings', registerForPush); 
+	 
+	        Ti.Network.registerForPushNotifications({
+	            success: deviceTokenSuccess,
+	            error: deviceTokenError,
+	            callback: receivePush
+	        });
+	    });
+	 
+	 // Register notification types to use
+	    Ti.App.iOS.registerUserNotificationSettings({
+		    types: [
+	            Ti.App.iOS.USER_NOTIFICATION_TYPE_ALERT,
+	            Ti.App.iOS.USER_NOTIFICATION_TYPE_SOUND,
+	            Ti.App.iOS.USER_NOTIFICATION_TYPE_BADGE
+	        ]
+	    });
+	}else{
+		Titanium.Network.registerForPushNotifications({
+		    types: [
+		        Titanium.Network.NOTIFICATION_TYPE_BADGE,
+		        Titanium.Network.NOTIFICATION_TYPE_ALERT,
+		        Titanium.Network.NOTIFICATION_TYPE_SOUND
+		    ],
+			success:deviceTokenSuccess,
+			error:deviceTokenError,
+			callback:receivePush
+		});
+		
+	}  
 }
 
-Titanium.UI.iPhone.setAppBadge("0");
+if(Ti.Platform.osname != "android"){
+	Titanium.UI.iPhone.setAppBadge("0");
+	registerPush();
+}
 
 var Utils = {
   /* modified version of https://gist.github.com/1243697 */
@@ -198,7 +199,7 @@ var Utils = {
     return view;
   }
 };
- registerPush();
+ 
  
 function currentDateTime(){
 	var today = new Date();

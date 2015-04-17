@@ -34,7 +34,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "'" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
                 //	return;
                 var res = db.execute(sql);
                 var arr = []; 
@@ -62,7 +64,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id="+ m_id ;
                 var sql_query =  "";
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){

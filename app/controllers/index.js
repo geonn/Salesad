@@ -2,8 +2,8 @@ var args = {};
 var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var category_sync_counter = 0;
-/** Global Variable **/ 
 
+/** Global Variable **/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "main",
 	action: "view",
@@ -14,27 +14,27 @@ Alloy.Globals.tracker.trackScreen({
     screenName: "Home"
 });
 Alloy.Globals.navMenu = $.navMenu;
-
+ 
 /*********************
 *******FUNCTION*******
 **********************/
 function buildCateogryList(){
-	while($.adListing.children.length>0){
-	    $.adListing.remove($.adListing.children[0]);
+	while($.indexView.adListing.children.length>0){
+	    $.indexView.adListing.remove($.indexView.adListing.children[0]);
 	};
 	var model_category = Alloy.createCollection('category'); 
 	var category_list = model_category.getCategoryList();
 	category_sync_counter = category_list.length;
 	for (var i=0; i< category_list.length; i++) {
-		var cell = $.UI.create('View', {classes: ["cell"], id: category_list[i].id});
-		var pad_cell = $.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
-		var temp_image = $.UI.create('ImageView',{
+		var cell = $.indexView.UI.create('View', {classes: ["cell"], id: category_list[i].id});
+		var pad_cell = $.indexView.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
+		var temp_image = $.indexView.UI.create('ImageView',{
 			image: "/images/warm-grey-bg.png",
 			height: "auto",
 			width: Ti.UI.FILL,                           
 		});
 		
-		var pad_categoryLabel = $.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10}); 
+		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10}); 
 		var categoryLabel = Ti.UI.createLabel({
 			text: category_list[i].categoryName,
 			width: Ti.UI.FILL,
@@ -60,7 +60,7 @@ function buildCateogryList(){
 		pad_cell.add(pad_categoryLabel);
 		pad_cell.add(activityIndicator);
 		cell.add(pad_cell);
-		$.adListing.add(cell);
+		$.indexView.adListing.add(cell);
 		
 		syncCategory(category_list[i].id);
 		
@@ -100,7 +100,12 @@ var goAd = function(m_id,b_id,isFeed){
 	clickTime = currentTime;
 	    
 	var win = Alloy.createController("ad", {m_id: m_id, from : "home", isFeed: isFeed}).getView(); 
-	$.navMenu.openWindow(win,{animated:true}); 
+	 
+	if(Ti.Platform.osname == "android"){ 
+	  win.open(); 
+	}else{ 
+	   $.navMenu.openWindow(win,{animated:true}); 
+	} 
 };
 
 var goAds = function(m_id, a_id,cate_id){
@@ -112,7 +117,12 @@ var goAds = function(m_id, a_id,cate_id){
 	clickTime = currentTime;
 	
 	var win = Alloy.createController("ads", {m_id:m_id, a_id: a_id, cate_id: cate_id}).getView(); 
-	$.navMenu.openWindow(win,{animated:true}); 
+	
+	if(Ti.Platform.osname == "android"){ 
+	   win.open(); 
+	}else{ 
+	   $.navMenu.openWindow(win,{animated:true}); 
+	} 
 };
 
 var bannerListing = function(res){
@@ -125,7 +135,7 @@ var bannerListing = function(res){
 	var imagepath, adImage, row = '';
 	var my_page = 0;
 	 
-	var bannerHeight = $.bannerListing.rect.height; 
+	var bannerHeight = $.indexView.bannerListing.rect.height; 
 	
 	for (var i=0; i< banners.length; i++) {
 		//console.log(banners[i].img);
@@ -175,8 +185,8 @@ var bannerListing = function(res){
 			showPagingControl:true
 		});
 		scrollableView.setPagingControlColor("transparent");
-		$.bannerListing.removeAllChildren();
-		$.bannerListing.add(scrollableView);
+		$.indexView.bannerListing.removeAllChildren();
+		$.indexView.bannerListing.add(scrollableView);
 		scrollableView.addEventListener( 'scrollend', function(e) {
 			if((scrollableView.currentPage+1) === banners.length){
 				if(scrollableView.currentPage === my_page){
@@ -210,8 +220,8 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		activityIndicator.hide();
 		if(!category_sync_counter){
-			$.scrollview.setDisableBounce(false);
-      		$.scrollview.animate({top:0, duration: 500});
+			$.indexView.scrollview.setDisableBounce(false);
+      		$.indexView.scrollview.animate({top:0, duration: 500});
 		}
 	});
 }
@@ -219,7 +229,12 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 /************************
 *******APP RUNNING*******
 *************************/
-$.navMenu.open({fullscreen:true});
+
+if(Ti.Platform.osname == "android"){ 
+	$.indexView.root.open(); 
+}else{ 
+	$.navMenu.open({fullscreen:true});
+} 
 var API = require('api');
 API.bannerListing();
 API.loadCategory();
@@ -229,13 +244,13 @@ API.loadCategory();
 /*********************
 *** Event Listener ***
 **********************/
-$.category_link.addEventListener('click', function(e){
+$.indexView.category_link.addEventListener('click', function(e){
 	var win = Alloy.createController("category").getView(); 
 	$.navMenu.openWindow(win,{animated:true}); 
 	Alloy.Globals.navMenu = $.navMenu;
 });
 
-$.arrow_link.addEventListener('click', function(e){
+$.indexView.arrow_link.addEventListener('click', function(e){
 	var page = Alloy.createController('popup').getView();
 	page.open();
 	page.animate({
@@ -257,10 +272,10 @@ Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
 
 Ti.App.addEventListener('app:adsUpdated', function(e){
 	
-	for (var c = $.adListing.children.length - 1; c >= 0; c--) {
-		if($.adListing.children[c].id == e.cate_id){
-			var activityIndicator = $.adListing.children[c].children[0].children[2];
-			var cell = $.adListing.children[c].children[0];
+	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
+		if($.indexView.adListing.children[c].id == e.cate_id){
+			var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
+			var cell = $.indexView.adListing.children[c].children[0];
 			loadLatestImageByCategoryId(cell, activityIndicator, e.cate_id);
 		}
     }
@@ -274,17 +289,18 @@ Ti.App.addEventListener('app:loadCategory', function(e){
 	buildCateogryList();
 });
 
-$.scrollview.addEventListener('scroll', function (e) {
+$.indexView.scrollview.addEventListener('scroll', function (e) {
     //Ti.API.info('scroll', JSON.stringify(e));
     if (e.y <= -50 && !category_sync_counter) {
-       category_sync_counter = $.adListing.children.length;
-       $.scrollview.setDisableBounce(true);
-       $.scrollview.setTop(30);
+       category_sync_counter = $.indexView.adListing.children.length;
+       $.indexView.scrollview.setDisableBounce(true);
+       $.indexView.scrollview.setTop(30);
        console.log('Pulled', JSON.stringify(e));
        buildCateogryList();
     }
 });
+
 /** close all login eventListener when close the page**/
-$.root.addEventListener("close", function(){
-    $.destroy();
+$.indexView.root.addEventListener("close", function(){
+    $.indexView.destroy();
 });

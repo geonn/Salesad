@@ -28,7 +28,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE session='"+ session+ "'" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
                 var res = db.execute(sql);
                 var memberArr = []; 
                
@@ -52,7 +54,9 @@ exports.definition = {
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE u_id="+ u_id ;
                 var sql_query =  "";
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
@@ -68,7 +72,9 @@ exports.definition = {
             updateUserProfile : function (session,fullname,email){
             	var collection = this;
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                db.file.setRemoteBackup(false);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
                 sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET fullname='"+fullname+"', email='"+email+"' WHERE session='" +session+"'";
            
 	            db.execute(sql_query);
