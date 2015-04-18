@@ -226,7 +226,9 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		activityIndicator.hide();
 		if(!category_sync_counter){
-			$.indexView.scrollview.setDisableBounce(false);
+			if(Ti.Platform.osname != "android"){
+				$.indexView.scrollview.setDisableBounce(false);
+			}
       		$.indexView.scrollview.animate({top:0, duration: 500});
 		}
 	});
@@ -297,7 +299,9 @@ $.indexView.scrollview.addEventListener('scroll', function (e) {
     //Ti.API.info('scroll', JSON.stringify(e));
     if (e.y <= -50 && !category_sync_counter) {
        category_sync_counter = $.indexView.adListing.children.length;
-       $.indexView.scrollview.setDisableBounce(true);
+       if(Ti.Platform.osname != "android"){
+       	$.indexView.scrollview.setDisableBounce(true);
+       }
        $.indexView.scrollview.setTop(30);
        console.log('Pulled', JSON.stringify(e));
        buildCateogryList();
