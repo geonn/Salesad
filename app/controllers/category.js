@@ -404,7 +404,6 @@ $.btnBack.addEventListener('click', function(){
 	COMMON.closeWindow($.category); 
 }); 
 $.category.addEventListener("load", function(){
-	alert("view loaded");
 	if(Ti.Platform.osname == "android"){  
 		Ti.UI.Android.hideSoftKeyboard();  
 		$.categoryView.searchItem.blur();

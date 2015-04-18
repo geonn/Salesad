@@ -17,9 +17,13 @@ var custom = Ti.UI.createLabel({
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
-$.profile.titleControl = custom;
-
+ 
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);   
+}else{
+	$.profile.titleControl = custom; 
+}
+var pageTitle = ads.ads_name;
 /** User session**/
 var session = Ti.App.Properties.getString('session');
 
@@ -127,7 +131,7 @@ function loadTable(){
 	
 	RegTable.setData(regData);
 	addRegClickEvent(RegTable);
-	$.table1Container.add(RegTable); 
+	$.profileView.table1Container.add(RegTable); 
 	
 	//PASSWORD TABLE
 	var passData=[];
@@ -184,7 +188,7 @@ function loadTable(){
 		passRow.add(rightRegBtn);
 		passData.push(passRow);
 		PassTable.setData(passData);
-		$.table2Container.add(PassTable); 
+		$.profileView.table2Container.add(PassTable); 
 	
 	
 	//PASSWORD TABLE
@@ -242,7 +246,7 @@ function loadTable(){
 	stateRow.add(rightRegBtn);
 	stateData.push(stateRow);
 	stateTable.setData(stateData);
-	$.table3Container.add(stateTable); 
+	$.profileView.table3Container.add(stateTable); 
 	
 }
 

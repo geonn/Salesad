@@ -9,7 +9,7 @@ exports.deconstruct = function(){
 
 exports.openWindow = function(win){
 	if(Ti.Platform.osname == "android"){ 
-	  	win.open(); 
+	  	win.open(); //{fullscreen:false, navBarHidden: false}
 	}else{ 
 		var nav = Alloy.Globals.navMenu;
 		nav.openWindow(win,{animated:true});  

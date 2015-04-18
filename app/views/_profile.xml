@@ -1,16 +1,5 @@
 <Alloy>
-	<Window  backButtonTitle="" class="container" id="profile"  navTintColor="#CE1D1C">
-		<LeftNavButton>
-	        <View left="0">
-	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
-	        </View>
-        </LeftNavButton>
-        <RightNavButton>
-	        <View>
-	         	<Button id="button" color="#CE1D1C" onTouchend="doLogout" title="Logout" right="0"  />
-	        </View>
-        </RightNavButton>
-        <View bottom='0' class="hr"></View>
+	 <View bottom='0' class="hr"></View>
 		<View id="main" layout="vertical" height="95%">
 			<View backgroundColor="#fcfbfb" height="40">
 		        <Label class="label">Account Info</Label>
@@ -30,8 +19,5 @@
 		        <View class="line" />
 		    </View>
 			<View id="table3Container" height="50"></View>
-	    	
 		</View>
-		
-	</Window>
 </Alloy>

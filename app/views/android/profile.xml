@@ -1,0 +1,14 @@
+<Alloy>
+	<Window backButtonTitle="" class="container" id="profile"  navTintColor="#CE1D1C">
+		<View layout="horizontal" height="50" width="100%"  >
+			<View left="0" width="10%">
+		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+		    </View>
+		    <View id="pageTitle" width="70%" />
+		    <View width="auto">
+	         	<Button id="button" color="#CE1D1C" onTouchend="doLogout" title="Logout" right="0"  />
+	        </View>
+		</View>
+		<Require type="view" src="_profile" id="profileView"/> 
+	</Window>
+</Alloy>

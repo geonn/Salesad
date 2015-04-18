@@ -30,7 +30,7 @@ if(Titanium.Platform.displayCaps.platformHeight > 480){
 
 var goCreateAccount = function(){
 	var page = Alloy.createController('register').getView();
-  	page.open();
+  	page.open({navBarHidden: true});
   	page.animate({
 		curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
 		opacity: 1,

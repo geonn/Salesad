@@ -1,5 +1,5 @@
 <Alloy>
-	<Window class="container" id="register">
+	<Window title="REGISTER" class="container" backButtonTitle="" id="register" barColor="#CE1D1C" navTintColor="#FFFFFF">
 		<View layout="vertical" class="popupView">
 			<View layout="horizontal" height="40" width="15%" right=0>
 		 		<Button id="button" class="closeBtn" onClick="closeWindow" />
@@ -8,11 +8,11 @@
 			 	<View id="main" layout="vertical" height="95%">
 					<ScrollView layout="vertical" showVerticalScrollIndicator="true" id="registerScrollView" showHorizontalScrollIndicator="true" height="320" width="100%">
 						<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width=80 />
-						<TextField class="textfield" id="username" hintText="Enter Username for login SalesAd" />
-						<TextField class="textfield" id="fullname" hintText="Enter Fullname" />
-						<TextField class="textfield" id="email" hintText="Enter Email" />
-						<TextField class="password" id="password" hintText="Enter Password" />
-						<TextField class="password" id="confirm_password" hintText="Enter Confirm Password" />
+						<TextField backgroundColor="white" class="textfield" id="username" hintText="Enter Username for login SalesAd" />
+						<TextField backgroundColor="white" class="textfield" id="fullname" hintText="Enter Fullname" />
+						<TextField backgroundColor="white" class="textfield" id="email" hintText="Enter Email" />
+						<TextField backgroundColor="white" class="password" id="password" hintText="Enter Password" />
+						<TextField backgroundColor="white" class="password" id="confirm_password" hintText="Enter Confirm Password" />
 					</ScrollView>
 					<Button id="registerButton" onTouchend="goSignUp" borderRadius="3" backgroundColor="#ffffff" title="Create Account"  width="90%" top="10" height="40" color="#807C7C" />
 		            
