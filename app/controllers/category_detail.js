@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 var cate_id = args.category_id;
 var nav = Alloy.Globals.navMenu; 
-$.activityIndicator.show();
+$.categoryDetailsView.activityIndicator.show();
 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
@@ -27,7 +27,13 @@ var custom = Ti.UI.createLabel({
     width: Ti.UI.SIZE 
  });
   
-$.category_details.titleControl = custom;
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);  
+	Ti.UI.Android.hideSoftKeyboard();   
+}else{
+	$.category_details.titleControl = custom;
+} 
+
 /*********************
 *******FUNCTION*******
 **********************/
@@ -47,12 +53,12 @@ function createAdBranchEvent(adImage, m_id){
 
 var goAd = function(m_id){
 	var win = Alloy.createController("ad", {m_id: m_id}).getView(); 
-	nav.openWindow(win,{animated:true}); 
+	COMMON.openWindow(win); 
 };
 
 var goBranch = function(m_id){
 	var win = Alloy.createController("branches", {m_id: m_id}).getView(); 
-	nav.openWindow(win,{animated:true}); 
+	COMMON.openWindow(win); 
 };
 
 var createGridListing = function(res){
@@ -66,9 +72,9 @@ var createGridListing = function(res){
  	var last = details.length-1;
    	
    	//hide loading bar
-	$.loadingBar.height = "0";
-	$.loadingBar.top = "0";
-   	$.scrollview.removeAllChildren();
+	$.categoryDetailsView.loadingBar.height = "0";
+	$.categoryDetailsView.loadingBar.top = "0";
+   	$.categoryDetailsView.scrollview.removeAllChildren();
    	if(details.length < 1){
    		var noRecord = Ti.UI.createLabel({ 
 		    text: "No record found", 
@@ -78,7 +84,7 @@ var createGridListing = function(res){
 		    top: 15,
 		    width: Ti.UI.SIZE 
 		 });
-		$.scrollview.add(noRecord);
+		$.categoryDetailsView.scrollview.add(noRecord);
    	}else{
    		for(var i=0; i< details.length; i++) {
 	   		var m_id = details[i].m_id; 
@@ -86,13 +92,13 @@ var createGridListing = function(res){
 	   		var info = merchantsLibrary.getMerchantsById(m_id);
 	   		
 	   		imagepath = info.img_path;
-	   		adImage = Utils.RemoteImage2({
+	   		adImage = Ti.UI.createImageView({
 				image: imagepath
 			});
 	   		if(counter%3 == 0){
-	   			row = $.UI.create('View', {classes: ["row"],});
+	   			row = $.categoryDetailsView.UI.create('View', {classes: ["row"],});
 	   		}
-	   		cell = $.UI.create('View', {classes: ["cell"], top: 2});
+	   		cell = $.categoryDetailsView.UI.create('View', {classes: ["cell"], top: 2});
 	   		
 	   		if(branch == ""){
 		   		createAdImageEvent(adImage, m_id);
@@ -102,7 +108,7 @@ var createGridListing = function(res){
 			cell.add(adImage);
 			row.add(cell);
 			if(counter%3 == 2 || last == counter){
-	   			$.scrollview.add(row);
+	   			$.categoryDetailsView.scrollview.add(row);
 	   		}
 	   		counter++;
 	     }
@@ -137,12 +143,12 @@ createGridListing({cate_id: cate_id});
 Ti.App.addEventListener('app:category_detailCreateGridListing', createGridListing);
 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.category_details); 
+	COMMON.closeWindow($.category_details); 
 }); 
 
 //release memory when close
 $.category_details.addEventListener("close", function(){
-    $.destroy();
+    $.categoryDetailsView.destroy();
     
     /* release function memory */
     createGridListing = null;

@@ -10,11 +10,16 @@ var custom = Ti.UI.createLabel({
     width: Ti.UI.SIZE 
  });
   
-$.custom.titleControl = custom;
 
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);  
+	Ti.UI.Android.hideSoftKeyboard();    
+}else{
+	$.custom.titleControl = custom;
+}
 /* Event Listener */
 $.custom.addEventListener("close", function(){
-    $.destroy();
+    $.gridView.destroy();
     Ti.App.fireEvent("app:refreshAdsListing");
     createGridListing = null;
     createAdImageEvent = null;
@@ -31,7 +36,7 @@ var createGridListing = function(res){
    	var imagepath, adImage, row, cell = '';
  	var last = details.length-1;
  	
-    $.scrollview.removeAllChildren();
+    $.gridView.scrollview.removeAllChildren();
     for(var i=0; i< details.length; i++) {
     	favoritesLibrary.updatePosition(details[i].id, i);
    		var m_id = details[i].m_id;
@@ -42,9 +47,9 @@ var createGridListing = function(res){
 		});
 		
    		if(counter%3 == 0){
-   			row = $.UI.create('View', {classes: ["row"],});
+   			row = $.gridView.UI.create('View', {classes: ["row"],});
    		}
-   		cell = $.UI.create('View', {
+   		cell = $.gridView.UI.create('View', {
    			classes: ["cell"], 
    			top: 2, 
    			position: counter,
@@ -64,7 +69,7 @@ var createGridListing = function(res){
 		cell.add(close);
 		row.add(cell);
 		if(counter%3 == 2 || last == counter){
-   			$.scrollview.add(row);
+   			$.gridView.scrollview.add(row);
    		}
    		counter++;
 	 }
@@ -103,7 +108,7 @@ var switch_position = function(cell, e){
 	var favoritesLibrary = Alloy.createCollection('favorites');
 	
 	if(!f_select){
-		var a = $.UI.create('view', {
+		var a = $.gridView.UI.create('view', {
 		    backgroundColor : '#03FFF2',
 		    width : Titanium.UI.FILL,
 		    height : Titanium.UI.FILL,
@@ -143,7 +148,7 @@ var switch_position = function(cell, e){
 };
 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.custom); 
+	COMMON.closeWindow($.custom); 
 }); 
 
 /* App Running */

@@ -7,6 +7,24 @@ exports.deconstruct = function(){
 	mainView = null;
 };
 
+exports.openWindow = function(win){
+	if(Ti.Platform.osname == "android"){ 
+	  	win.open(); 
+	}else{ 
+		var nav = Alloy.Globals.navMenu;
+		nav.openWindow(win,{animated:true});  
+	} 
+};
+
+exports.closeWindow = function(win){
+	if(Ti.Platform.osname == "android"){ 
+	  	win.close(); 
+	}else{ 
+		var nav = Alloy.Globals.navMenu;
+		nav.closeWindow(win,{animated:true});  
+	} 
+};
+
 exports.createAlert = function(tt,msg){
 	var box = Titanium.UI.createAlertDialog({
 		title: tt,

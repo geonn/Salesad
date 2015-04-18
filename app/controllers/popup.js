@@ -78,16 +78,16 @@ $.typeWindowPopUp.addEventListener("close", function(){
 
 var TheTable = Titanium.UI.createTableView({
 	width:'100%',
-	separatorColor: '#ffffff',
+	separatorColor: '#CE1D1C',
 	scrollable: false
 });
 
 var CustomData = [
-{ image:'images/icon-favorites.png', title:"Favourite", source:'favorites' },
-{ image:'images/icon-recent.png', title:"Recent", source:'recent' },
-{ image:'images/icon-popular.png', title:"Popular",  source:'popular'},
-{ image:'images/icon-nearby.png', title:"Nearby",  source:'nearby'},
-{ image:'images/icon-favorites.png', title:"Sales Feed",  source:'feed'}
+{ image:'/images/icon-favorites.png', title:"Favourite", source:'favorites' },
+{ image:'/images/icon-recent.png', title:"Recent", source:'recent' },
+{ image:'/images/icon-popular.png', title:"Popular",  source:'popular'},
+{ image:'/images/icon-nearby.png', title:"Nearby",  source:'nearby'},
+{ image:'/images/icon-favorites.png', title:"Sales Feed",  source:'feed'}
 ];
  
 var data=[];
@@ -98,12 +98,7 @@ for (var i = 0; i < CustomData.length; i++) {
 	    height: 45,
 	    selectedBackgroundColor: "#FFE1E1",
 	    source: CustomData[i].source,
-		backgroundGradient: {
-	      type: 'linear',
-	      colors: ['#FEFEFB','#F7F7F6'],
-	      startPoint: {x:0,y:0},
-	      endPoint:{x:0,y:45},
-	      backFillStart:false},
+		backgroundColor: "#ffffff"
 	  });
 	
 	var leftImage =  Titanium.UI.createImageView({

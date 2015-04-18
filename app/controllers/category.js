@@ -39,7 +39,7 @@ var createCustomView = function(title) {
     view.add(line);
     view.add(text);
     view.add(line);
-    $.headerView.add(view);
+    $.categoryView.headerView.add(view);
 };
 
 function addClickEvent(table){
@@ -54,7 +54,7 @@ function addClickEvent(table){
 	        category_id: e.rowData.id
 	    };
 		var win = Alloy.createController("category_detail", arg).getView(); 
-		nav.openWindow(win,{animated:true}); 
+		COMMON.openWindow(win); 
 	});
 }
 
@@ -71,7 +71,7 @@ function generateMyProfileTable(RegArr){
 	   
 	   var regRow = Titanium.UI.createTableViewRow({
 		    touchEnabled: true,
-		    selectedBackgroundColor: "#FFE1E1",
+		    backgroundSelectedColor: "#FFE1E1",
 		    height: 50, 
 		    id: "profile",
 			backgroundGradient: {
@@ -90,7 +90,7 @@ function generateMyProfileTable(RegArr){
 			top:0
 		});	
 		
-		var title = $.UI.create('Label', {
+		var title = $.categoryView.UI.create('Label', {
 			text: RegArr[j].title,
 			classes: [fontSizeClasses],
 			color: "#848484",
@@ -115,7 +115,7 @@ function generateMyProfileTable(RegArr){
 	
 	RegTable.setData(regData);
 	addRegClickEvent(RegTable);
-	$.table1Container.add(RegTable); 
+	$.categoryView.table1Container.add(RegTable); 
 }
 
 function generateCategoryTable(details){
@@ -134,7 +134,7 @@ function generateCategoryTable(details){
 		    touchEnabled: true,
 		    height: 50,
 		    id: details[i].id,
-		    selectedBackgroundColor: "#FFE1E1",
+		    backgroundSelectedColor: "#FFE1E1",
 			backgroundGradient: {
 		      type: 'linear',
 		      colors: ['#FEFEFB','#F7F7F6'],
@@ -143,7 +143,7 @@ function generateCategoryTable(details){
 		      backFillStart:false},
 		  });
 		
-		var category_name = $.UI.create('Label', {
+		var category_name = $.categoryView.UI.create('Label', {
 			text: details[i].categoryName , 
 			id: details[i].id,
 			classes: [fontSizeClasses],
@@ -168,7 +168,7 @@ function generateCategoryTable(details){
 	TheTable.setData(data);
 	addClickEvent(TheTable);
 	
-	$.table2Container.add(TheTable); 
+	$.categoryView.table2Container.add(TheTable); 
 }
 
 /************************
@@ -181,8 +181,15 @@ var custom = Ti.UI.createLabel({
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
-$.category.titleControl = custom;
+
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);  
+	Ti.UI.Android.hideSoftKeyboard();  
+	$.categoryView.searchItem.blur();
+	//$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
+}else{
+	$.category.titleControl = custom;
+} 
 
 /**Set mysalesad and my account table**/
 var RegArr = [
@@ -211,16 +218,16 @@ function addRegClickEvent(table){
 		
 		if(e.index == 0){
 			var win = Alloy.createController("grid_list_custom").getView(); 
-			nav.openWindow(win,{animated:true}); 
+			COMMON.openWindow(win); 
 		}
 		if(e.index == 1){
 			
 			if(user === null){
 				var win = Alloy.createController("login").getView(); 
-				nav.openWindow(win,{animated:true});	
+				COMMON.openWindow(win);  
 			}else{
 				var win = Alloy.createController("profile").getView(); 
-				nav.openWindow(win,{animated:true}); 
+				COMMON.openWindow(win); 
 			}
 			
 		} 
@@ -228,40 +235,44 @@ function addRegClickEvent(table){
 }
 $.setting.addEventListener('click', function(e){
 	var win = Alloy.createController("setting").getView(); 
-	nav.openWindow(win,{animated:true}); 
+	COMMON.openWindow(win);  
 });
 
-$.searchItem.addEventListener('focus', function(e){
-	$.searchItem.showCancel =  true; 
-	$.searchContainer.opacity = 1;
-	$.searchContainer.height = "auto";
+ 
+
+$.categoryView.searchItem.addEventListener('focus', function f(e){
+	$.categoryView.searchItem.showCancel =  true; 
+	$.categoryView.searchContainer.opacity = 1;
+	$.categoryView.searchContainer.height = "auto";
+	$.categoryView.searchItem.blur();
+	$.categoryView.searchItem.removeEventListener('focus', f);
 });
 
-$.searchItem.addEventListener('blur', function(e){
-	$.searchItem.showCancel =  false;
+$.categoryView.searchItem.addEventListener('blur', function(e){
+	$.categoryView.searchItem.showCancel =  false;
 });
 
-$.searchItem.addEventListener('cancel', function(e){
-	$.searchItem.blur();
-	$.searchContainer.removeAllChildren();
-	$.searchContainer.opacity = 0;
-	$.searchContainer.height = 0;
+$.categoryView.searchItem.addEventListener('cancel', function(e){
+	$.categoryView.searchItem.blur();
+	$.categoryView.searchContainer.removeAllChildren();
+	$.categoryView.searchContainer.opacity = 0;
+	$.categoryView.searchContainer.height = 0;
 });
 
 var searchResult = function(){
 	
-	$.activityIndicator.show();
-	$.loadingBar.opacity = "1";
-	$.loadingBar.height = "120";
-	$.loadingBar.top = "100";
-	$.searchItem.blur();
-	var str = $.searchItem.getValue();
+	$.categoryView.activityIndicator.show();
+	$.categoryView.loadingBar.opacity = "1";
+	$.categoryView.loadingBar.height = "120";
+	$.categoryView.loadingBar.top = "100";
+	$.categoryView.searchItem.blur();
+	var str = $.categoryView.searchItem.getValue();
 	API.searchAdsItems(str);		
 };
 
 var goAd = function(m_id){
 	var win = Alloy.createController("ad", {m_id: m_id}).getView(); 
-	nav.openWindow(win,{animated:true}); 
+	COMMON.openWindow(win);  
 };
 
 var fontReset = function(){
@@ -284,11 +295,11 @@ var searchRes = function(res){
 	
 	if(arr.length < 1){
 		//hide loading bar
-		$.loadingBar.height = "0";
-		$.loadingBar.top = "0";
-		$.loadingBar.opacity = "0";
+		$.categoryView.loadingBar.height = "0";
+		$.categoryView.loadingBar.top = "0";
+		$.categoryView.loadingBar.opacity = "0";
 		
-		$.searchContainer.removeAllChildren();
+		$.categoryView.searchContainer.removeAllChildren();
 		var noRecord = Ti.UI.createLabel({ 
 		    text: "No record found", 
 		    color: '#CE1D1C', 
@@ -297,7 +308,7 @@ var searchRes = function(res){
 		    top: 15,
 		    width: Ti.UI.SIZE 
 		 });
-		$.searchContainer.add(noRecord);
+		$.categoryView.searchContainer.add(noRecord);
 	}else{
 
 		var TheTable = Titanium.UI.createTableView({
@@ -311,7 +322,7 @@ var searchRes = function(res){
 			    touchEnabled: true,
 			    height: 70,
 			    source: entry.m_id,
-			    selectedBackgroundColor: "#FFE1E1",
+			    backgroundSelectedColor: "#FFE1E1",
 				backgroundGradient: {
 			      type: 'linear',
 			      colors: ['#FEFEFB','#F7F7F6'],
@@ -377,27 +388,27 @@ var searchRes = function(res){
 		});
 		
 		TheTable.setData(data);
-		$.searchContainer.add(TheTable);
-		$.searchContainer.height = "auto";
+		$.categoryView.searchContainer.add(TheTable);
+		$.categoryView.searchContainer.height = "auto";
 	}
 };
 
-$.searchItem.addEventListener("return", searchResult);
+$.categoryView.searchItem.addEventListener("return", searchResult);
 
-$.searchContainer.addEventListener('click',function(e){
-	$.searchItem.blur();
-	$.searchContainer.removeAllChildren();
-	$.searchContainer.opacity = 0;
-	$.searchContainer.height = 0;
+$.categoryView.searchContainer.addEventListener('click',function(e){
+	$.categoryView.searchItem.blur();
+	$.categoryView.searchContainer.removeAllChildren();
+	$.categoryView.searchContainer.opacity = 0;
+	$.categoryView.searchContainer.height = 0;
 });
 
 $.btnBack.addEventListener('click', function(){  
-	nav.closeWindow($.category); 
+	COMMON.closeWindow($.category); 
 }); 
 
 $.category.addEventListener("close", function(){
 	
-    $.destroy();
+    $.categoryView.destroy();
     Ti.App.removeEventListener('app:searchRes', searchRes);
 	Ti.App.removeEventListener('app:fontReset', fontReset);
     /* release function memory */

@@ -103,12 +103,7 @@ var goAd = function(m_id,b_id,isFeed){
 	clickTime = currentTime;
 	    
 	var win = Alloy.createController("ad", {m_id: m_id, from : "home", isFeed: isFeed}).getView(); 
-	 
-	if(Ti.Platform.osname == "android"){ 
-	  win.open(); 
-	}else{ 
-	   $.navMenu.openWindow(win,{animated:true}); 
-	} 
+	COMMON.openWindow(win); 
 };
 
 var goAds = function(m_id, a_id,cate_id){
@@ -120,12 +115,7 @@ var goAds = function(m_id, a_id,cate_id){
 	clickTime = currentTime;
 	
 	var win = Alloy.createController("ads", {m_id:m_id, a_id: a_id, cate_id: cate_id}).getView(); 
-	
-	if(Ti.Platform.osname == "android"){ 
-	   win.open({fullscreen:true}); 
-	}else{ 
-	   $.navMenu.openWindow(win,{animated:true}); 
-	} 
+	COMMON.openWindow(win); 
 };
 
 var bannerListing = function(){
@@ -166,6 +156,7 @@ var bannerListing = function(){
 			adIamgeLoadEvent(adImage, activityIndicator);
 			var scrollView = Ti.UI.createScrollView({
 				top:"0",
+				scrollType: "horizontal",
 				contentWidth: 'auto',
 			  	contentHeight: 'auto',
 			   	height:bannerHeight,
@@ -253,9 +244,8 @@ API.loadCategory();
 *** Event Listener ***
 **********************/
 $.indexView.category_link.addEventListener('click', function(e){
-	var win = Alloy.createController("category").getView(); 
-	$.navMenu.openWindow(win,{animated:true}); 
-	Alloy.Globals.navMenu = $.navMenu;
+	var win = Alloy.createController("category").getView();  
+	COMMON.openWindow(win);  
 });
 
 $.indexView.arrow_link.addEventListener('click', function(e){

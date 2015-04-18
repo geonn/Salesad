@@ -1,0 +1,14 @@
+<Alloy>
+	<Window title="CONTENTS" class="container" id="custom"  navTintColor="#CE1D1C">
+		
+		<View layout="horizontal" height="50" width="100%"  >
+			<View left="0" width="10%">
+		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+		    </View>
+	     	<View id="pageTitle" width="70%" />
+		     
+	 	</View>
+		<Require type="view" src="_grid_list_custom" id="gridView"/> 
+	</Window>
+	 
+</Alloy>
