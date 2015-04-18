@@ -24,9 +24,12 @@ var custom = Ti.UI.createLabel({
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
-$.favouriteState.titleControl = custom;
- 
+   
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);   
+}else{
+	$.favouriteState.titleControl = custom; 
+}  
 							
 //Draw state table
 var stateArr = [
@@ -140,12 +143,11 @@ for (var j=0; j< stateArr.length; j++) {
 }
 	
 TheTable.setData(stateData);
-$.main.add(TheTable);
+$.favouriteStateView.main.add(TheTable);
 
 //Draw end
-$.btnBack.addEventListener('click', function(){ 
-	var nav = Alloy.Globals.navMenu; 
-	nav.closeWindow($.favouriteState); 
+$.btnBack.addEventListener('click', function(){  
+	COMMON.closeWindow($.favouriteState); 
 }); 
 
 $.favouriteState.addEventListener("close", function(){

@@ -1,5 +1,4 @@
-var args = arguments[0] || {};
-var nav = Alloy.Globals.navMenu;
+var args = arguments[0] || {}; 
 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
@@ -23,7 +22,7 @@ if(Ti.Platform.osname == "android"){
 }else{
 	$.profile.titleControl = custom; 
 }
-var pageTitle = ads.ads_name;
+
 /** User session**/
 var session = Ti.App.Properties.getString('session');
 
@@ -49,8 +48,7 @@ function addRegClickEvent(table){
 				'email'  :details.email
 			};
 			var win = Alloy.createController("editProfile",args).getView(); 
-			var nav = Alloy.Globals.navMenu;
-			nav.openWindow(win,{animated:true}); 
+			COMMON.openWindow(win); 
 		} 
 	});
 }
@@ -77,15 +75,9 @@ function loadTable(){
 	   		titles: RegArr[j].title ,  
 		    touchEnabled: true,
 		    mod: RegArr[j].mod, 
-		    height: 50, 
-		    id: "profile",
-		    selectedBackgroundColor: "#FFE1E1",
-			backgroundGradient: {
-		      type: 'linear',
-		      colors: ['#FEFEFB','#F7F7F6'],
-		      startPoint: {x:0,y:0},
-		      endPoint:{x:0,y:50},
-		      backFillStart:false},
+		    height: 50,  
+		    backgroundSelectedColor: "#FFE1E1",
+			backgroundColor: "#ffffff",
 		  });
 		
 		var title = Titanium.UI.createLabel({
@@ -109,9 +101,11 @@ function loadTable(){
 			textAlign:'left',
 			right:50
 		});
-	
+		
+		regRow.add(title);
+		regRow.add(label);
 		var rightRegBtn =[];
-		if(RegArr[j].hasChild == true){
+		if(RegArr[j].hasChild === true){
 			 rightRegBtn =  Titanium.UI.createImageView({
 				image:"/images/btn-forward.png",
 				titles: RegArr[j].title ,  
@@ -120,15 +114,12 @@ function loadTable(){
 				height:15,
 				right:20,
 				top:20
-			});		
-		}
-		
-		regRow.add(title);
-		regRow.add(label);
-		regRow.add(rightRegBtn);
+			});	
+			regRow.add(rightRegBtn);	
+		}  
 		regData.push(regRow);
 	}
-	
+ 
 	RegTable.setData(regData);
 	addRegClickEvent(RegTable);
 	$.profileView.table1Container.add(RegTable); 
@@ -145,13 +136,8 @@ function loadTable(){
 		    touchEnabled: true,
 		    height: 50, 
 		    id: "profile",
-		    selectedBackgroundColor: "#FFE1E1",
-			backgroundGradient: {
-		      type: 'linear',
-		      colors: ['#FEFEFB','#F7F7F6'],
-		      startPoint: {x:0,y:0},
-		      endPoint:{x:0,y:50},
-		      backFillStart:false},
+		    backgroundSelectedColor: "#FFE1E1",
+			backgroundColor: "#ffffff",
 		  });
 		var title = Titanium.UI.createLabel({
 			text: "Change Password", 
@@ -181,7 +167,7 @@ function loadTable(){
 		
 		passRow.addEventListener('click',  function(event){
 			var win = Alloy.createController("editPassword",{username: details.username}).getView(); 
-			nav.openWindow(win,{animated:true}); 
+			COMMON.openWindow(win); 
 		});
 		passRow.add(title);
 		passRow.add(label);
@@ -202,13 +188,8 @@ function loadTable(){
 	var stateRow = Titanium.UI.createTableViewRow({
 	    touchEnabled: true,
 	    height: 50, 
-	    selectedBackgroundColor: "#FFE1E1",
-		backgroundGradient: {
-	      type: 'linear',
-	      colors: ['#FEFEFB','#F7F7F6'],
-	      startPoint: {x:0,y:0},
-	      endPoint:{x:0,y:50},
-	      backFillStart:false},
+	    backgroundSelectedColor: "#FFE1E1",
+		backgroundColor: "#ffffff",
 	  });
 	var title = Titanium.UI.createLabel({
 		text: "State", 
@@ -238,7 +219,7 @@ function loadTable(){
 	
 	stateRow.addEventListener('click',  function(event){
 		var win = Alloy.createController("favouriteState").getView(); 
-		nav.openWindow(win,{animated:true}); 
+		COMMON.openWindow(win); 
 	});
 	
 	stateRow.add(title);
@@ -252,9 +233,7 @@ function loadTable(){
 
 
 /***FUNCTION***/
-var doLogout = function (e) {
-	var api = require('api');
-
+var doLogout = function (e) { 
 	var dialog = Ti.UI.createAlertDialog({
 	    cancel: 1,
 	    buttonNames: ['Cancel','Confirm'],
@@ -263,7 +242,7 @@ var doLogout = function (e) {
 	  });
 	  dialog.addEventListener('click', function(e){
 	    if (e.index === 1){
-			var url = api.logoutUser + Ti.App.Properties.getString('session');
+			var url = API.logoutUser + Ti.App.Properties.getString('session');
 			var client = Ti.Network.createHTTPClient({
 			     // function called when the response data is available
 			     onload : function(e) {
@@ -299,7 +278,7 @@ Ti.App.addEventListener('updateProfile', updateProfile);
 loadTable();
 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.profile); 
+	COMMON.closeWindow($.profile); 
 }); 
 
 /** close all profile eventListener when close the page**/

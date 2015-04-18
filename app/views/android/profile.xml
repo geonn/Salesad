@@ -6,7 +6,7 @@
 		    </View>
 		    <View id="pageTitle" width="70%" />
 		    <View width="auto">
-	         	<Button id="button" color="#CE1D1C" onTouchend="doLogout" title="Logout" right="0"  />
+	         	<View id="button" color="#CE1D1C" onTouchend="doLogout" title="Logout" right="0"  />
 	        </View>
 		</View>
 		<Require type="view" src="_profile" id="profileView"/> 

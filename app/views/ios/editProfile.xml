@@ -1,0 +1,15 @@
+<Alloy>
+	<Window title="" class="container" id="editProfile" backButtonTitle="" navTintColor="#CE1D1C">
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+		<RightNavButton>
+	        <View>
+	         	<Button id="saveButton" onTouchend="doSave" color="#CE1D1C" title="Save" right="0"  />
+	        </View>
+        </RightNavButton>
+        <Require type="view" src="_editProfile" id="editProfileView"/> 
+	</Window>
+</Alloy>
