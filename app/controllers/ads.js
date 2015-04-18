@@ -11,10 +11,7 @@ var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
 	lib_feeds.updateUserFeeds(m_id,a_id);		
 }
-
-/** include required file**/
-var API = require('api');
-var common = require('common');
+ 
 
 //Default ads background
 $.ad.backgroundColor = "#FFFFF6";
@@ -42,6 +39,7 @@ var getAdDetails = function(a_id){
  		ads_background: ads.ads_background,
  		a_id: ads.a_id,
 		width:	Ti.UI.FILL,
+		scrollType: "vertical",
 		contentHeight: Ti.UI.SIZE,
  		layout:"vertical"
  	});
@@ -55,11 +53,11 @@ var getAdDetails = function(a_id){
  	}
  	 
  	/***Add ads banner***/
- 	var bannerImage = Utils.RemoteImage({
- 	  defaultImage: "",
+ 	var bannerImage = Ti.UI.createImageView({
+ 	  defaultImage: "/images/warm-grey-bg.png",
 	  image :ads.img_path,
 	  width : "100%",
-	  height: ads_height,
+	  height: Ti.UI.SIZE,//ads_height,
 	});
 	
 	adspage.add(bannerImage);
@@ -78,7 +76,7 @@ var getAdDetails = function(a_id){
 	    };
 	    clickTime = currentTime; 
 		var win = Alloy.createController("branches", {m_id: m_id}).getView(); 
-		nav.openWindow(win,{animated:true}); 
+		COMMON.openWindow(win,{animated:true}); 
 	
 	});
 	/***Set ads items**/
@@ -87,12 +85,13 @@ var getAdDetails = function(a_id){
 		for (var i=0; i< items.length; i++) {
 	
 			if(counter%2 == 0){
-				row = $.UI.create('View', {classes: ["row"],});
+				row = $.adsView.UI.create('View', {classes: ["rowAds"],});
 			}
-			cell = $.UI.create('View', {classes: ["cell"],});
+			cell = $.adsView.UI.create('View', {classes: ["cellAds"],});
 			
 			imagepath = items[i].img_path;
-			adImage = Utils.RemoteImage({
+			adImage = Ti.UI.createImageView({
+				defaultImage: "/images/warm-grey-bg.png",
 				image: imagepath,
 				width: Ti.UI.FILL,
 				height: Ti.UI.FILL
@@ -137,13 +136,13 @@ var getAdDetails = function(a_id){
 	
 	//var ads_title = textCounter(pageTitle , 14);
 
-	$.ads_details.addView(adspage);
+	$.adsView.ads_details.addView(adspage);
 	
 	
-	$.activityIndicator.hide();
-	$.loadingBar.opacity = "0";
-	$.loadingBar.height = "0";
-	$.loadingBar.top = "0";	
+	$.adsView.activityIndicator.hide();
+	$.adsView.loadingBar.opacity = "0";
+	$.adsView.loadingBar.height = "0";
+	$.adsView.loadingBar.top = "0";	
 	
 	
 };
@@ -156,7 +155,7 @@ function createAdImageEvent(adImage,a_id,position, title) {
 	    if (currentTime - clickTime < 1000) {
 	        return;
 	    };
-	    clickTime = currentTime;
+	    clickTime = currentTime; 
 		var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title}).getView(); 
 	  	page.open();
 	  	page.animate({
@@ -182,7 +181,11 @@ var custom = Ti.UI.createLabel({
 		    text: currentAds[0].ads_name, 
 		    color: '#CE1D1C' 
 });
-$.ad.titleControl = custom;
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);   
+}else{
+	$.ad.titleControl = custom; 
+} 
 
 /********						set first ads favorites visibility				*******/
 var model_favorites = Alloy.createCollection('favorites');
@@ -202,15 +205,15 @@ if( currentAds[0].ads_backgroun !== undefined){
  }
 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.ad); 
+	COMMON.closeWindow($.ad); 
 }); 
 
 $.ad.addEventListener("close", function(){
 	Ti.App.fireEvent('removeNav');
-    $.destroy();
+    $.adsView.destroy();
 });
 
-$.ads_details.addEventListener("scrollend", function(e){
+$.adsView.ads_details.addEventListener("scrollend", function(e){
 	if (typeof e.view === "undefined") {
 		return;
 	}
@@ -220,30 +223,22 @@ $.ads_details.addEventListener("scrollend", function(e){
 	
 	var model_favorites = Alloy.createCollection('favorites');
 	var exist = model_favorites.checkFavoriteExist(a_id, m_id);
-	console.log(exist);
+	 
 	if(exist){
 		$.favorites.visible = false;
 	}else{
 		$.favorites.visible = true;
 	}
-
-	console.log(m_id_v+" "+a_id_v);
+ 
 	m_id = m_id_v.replace(/"/g, "");
-	a_id = a_id_v.replace(/"/g, "");
-	
-	var custom = Ti.UI.createLabel({
-		    text: label_text.replace(/"/g, ""),
-		    color: '#CE1D1C' 
-	});
-	$.ad.titleControl = custom;
-	console.log(JSON.stringify(e.view.ads_background).replace(/"/g, ""));
+	a_id = a_id_v.replace(/"/g, "");  
 	$.ad.backgroundColor = "#"+JSON.stringify(e.view.ads_background).replace(/"/g, "");
 
 });
 
 $.location.addEventListener('click', function(e){
 	var win = Alloy.createController("location",{m_id:m_id,a_id:a_id}).getView(); 
-	nav.openWindow(win,{animated:true}); 
+	C.openWindow(win,{animated:true}); 
 });
 
 //Add your favorite event

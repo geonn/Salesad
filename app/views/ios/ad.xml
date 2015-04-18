@@ -9,16 +9,9 @@
 	        <View>
 	         	<ImageView right='0' id="location" width='30' image="/images/location.png" />
 	         	<ImageView right='35' id="favorites" width='30' image="/images/icon-favorites.png" />
+ 
 	        </View>
         </RightNavButton>
-        <View bottom='0' class="hr"></View>
-        <View height="100%">
-			<ScrollableView id="ads_details"></ScrollableView>
-		
-			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
-		        <ActivityIndicator  id="activityIndicator" />
-		    	<Label top="5" text="Loading" color="#ffffff" />
-		    </View>
-		</View>
+        <Require type="view" src="_ad" id="adView"/> 
 	</Window>
 </Alloy>

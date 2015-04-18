@@ -4,11 +4,11 @@
 	width: Ti.UI.FILL,
 	fullscreen: true,
 },
-".row" :{
+".rowAds" :{
 	layout: 'horizontal',
-	height: '40%',
+	height: 200,
 },
-".cell" :{
+".cellAds" :{
 	left: 2,
 	top: 2,
 	width: '157',

@@ -183,9 +183,7 @@ var custom = Ti.UI.createLabel({
  });
 
 if(Ti.Platform.osname == "android"){ 
-	$.pageTitle.add(custom);  
-	Ti.UI.Android.hideSoftKeyboard();  
-	$.categoryView.searchItem.blur();
+	$.pageTitle.add(custom);   
 	//$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
 }else{
 	$.category.titleControl = custom;
@@ -405,7 +403,14 @@ $.categoryView.searchContainer.addEventListener('click',function(e){
 $.btnBack.addEventListener('click', function(){  
 	COMMON.closeWindow($.category); 
 }); 
-
+$.category.addEventListener("load", function(){
+	alert("view loaded");
+	if(Ti.Platform.osname == "android"){  
+		Ti.UI.Android.hideSoftKeyboard();  
+		$.categoryView.searchItem.blur();
+		//$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
+	}
+});
 $.category.addEventListener("close", function(){
 	
     $.categoryView.destroy();

@@ -250,7 +250,7 @@ $.indexView.category_link.addEventListener('click', function(e){
 
 $.indexView.arrow_link.addEventListener('click', function(e){
 	var page = Alloy.createController('popup').getView();
-	page.open();
+	page.open({fullscreen:true});
 	page.animate({
 		curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
 		opacity: 1,

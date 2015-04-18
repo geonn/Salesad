@@ -62,7 +62,7 @@ exports.definition = {
 				}
                 var res = db.execute(sql);
                 
-                if(res.fieldByName('id')){
+                if(res.isValidRow()){
                 	var id = res.fieldByName('id');
                 	res.close();
                 	db.close();

@@ -1,4 +1,7 @@
 <Alloy>
-	<Window class="container" id="item_Details" title="" navTintColor="#CE1D1C">
+	<Window  id="item_Details" title="" fullscreen="true" navBarHidden="true" navTintColor="#CE1D1C" backgroundColor="#000000" >
+		<View layout="vertical" class="container">
+		 <ScrollableView id="scrollableView" showPagingControl="true" />
+		</View>
 	</Window>
 </Alloy>

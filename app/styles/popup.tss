@@ -1,8 +1,6 @@
 "#typeWindowPopUp" : {
-	opacity :0,
 	backgroundColor : 'tranparent',
 	navBarHidden:true,
-  	fullscreen: true,
 },
  
 ".popupView" : {

@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 var a_id = args.a_id;
 var position = args.position;
-$.item_Details.title= args.title;
+//$.item_Details.title= args.title;
 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
@@ -12,8 +12,7 @@ Alloy.Globals.tracker.trackEvent({
 }); 
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Item Details"
-});
-var common = require('common');
+}); 
 
 //load model 
 var i_library = Alloy.createCollection('items'); 
@@ -30,10 +29,11 @@ var getAdsImages = function(){
 	var the_view = [];
 	
 	for (var i=0; i< items.length; i++) {
-		
-		adImage = Utils.RemoteImage({
+		console.log( items[i].img_path);
+		adImage = Ti.UI.createImageView({
 			image: items[i].img_path,
-			width:"100%"
+			width:"100%",
+			height: Ti.UI.SIZE
 		});
 		
 		var scrollView = Ti.UI.createScrollView({
@@ -42,40 +42,33 @@ var getAdsImages = function(){
 		   	maxZoomScale: 30,
 		    minZoomScale: 1,
 		    zoomScale: 1,
+		    scrollType: "horizontal",
 		  	height: Ti.UI.SIZE,
 		  	width: '100%'
 		});
 	
-		row = $.UI.create('View', {classes: ["row"], id:"view"+counter});
+		row = $.UI.create('View', {  id:"view"+counter});
 		
-		$.item_Details.title=items[i].caption;
 		row.add(adImage);
 		//row.add(img_caption);
 		scrollView.add(row);
 		the_view.push(scrollView); 
 		
 		counter++;
-	} 
-
-	var scrollableView = Ti.UI.createScrollableView({
-		  id: "scrollableView",
-		  views:the_view,
-		  showPagingControl:true
-	});
+	}  
 	
-	$.item_Details.add(scrollableView);
-	
-	scrollableView.scrollToView(position, true); 
+	$.scrollableView.setViews(the_view); 
+	$.scrollableView.scrollToView(position, true); 
 	
 		
-	scrollableView.addEventListener( 'scrollend', function(e) {
-		if((scrollableView.currentPage+1) === items.length){
-			if(scrollableView.currentPage === my_page){
-				scrollableView.currentPage=0;
+	$.scrollableView.addEventListener( 'scrollend', function(e) {
+		if(($.scrollableView.currentPage+1) === items.length){
+			if($.scrollableView.currentPage === my_page){
+				$.scrollableView.currentPage=0;
 			}
 		}
 		
-		my_page =  scrollableView.currentPage;
+		my_page =  $.scrollableView.currentPage;
 	});
 };
 
@@ -95,3 +88,4 @@ $.item_Details.addEventListener('click', function(e){
 *******APP RUNNING*******
 *************************/
 getAdsImages();
+$.item_Details.open();

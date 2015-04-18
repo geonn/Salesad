@@ -96,7 +96,7 @@ for (var i = 0; i < CustomData.length; i++) {
 	var row = Titanium.UI.createTableViewRow({
 	    touchEnabled: true,
 	    height: 45,
-	    selectedBackgroundColor: "#FFE1E1",
+	    backgroundSelectedColor: "#FFE1E1",
 	    source: CustomData[i].source,
 		backgroundColor: "#ffffff"
 	  });

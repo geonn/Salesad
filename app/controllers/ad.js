@@ -12,15 +12,11 @@ var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
 	lib_feeds.updateUserFeeds(m_id,a_id);		
 }
-		
-/** include required file**/
-var API = require('api');
-var common = require('common');
 	
-$.activityIndicator.show();
-$.loadingBar.opacity = "1";
-$.loadingBar.height = "120";
-$.loadingBar.top = "100";
+$.adView.activityIndicator.show();
+$.adView.loadingBar.opacity = "1";
+$.adView.loadingBar.height = "120";
+$.adView.loadingBar.top = "100";
 
 //Default ads background
 $.ad.backgroundColor = "#FFFFF6";
@@ -51,28 +47,24 @@ var getAdDetails = function(){
 	  
 	var last = items.length-1;
 
- 	$.ads_details.removeAllChildren();
- 
- 	/***Set ads title***/
- 	
- 	
+ 	$.adView.ads_details.removeAllChildren(); 
  	/***Set ads template***/
- 	var ads_height = "100%";
+ 	var ads_height = "960";
  	if(ads.template == "1"){
- 		ads_height = "33%";
+ 		ads_height = "320";
  	}
  	if(ads.template == "2"){
- 		ads_height = "66%";
+ 		ads_height = "640";
  	}
  	 
  	/***Add ads banner***/
- 	var bannerImage = Utils.RemoteImage({
+ 	var bannerImage = Ti.UI.createImageView({
 	  image :ads.img_path,
 	  width : "100%",
 	  height: ads_height,
 	});
 	
-	$.ads_details.add(bannerImage);
+	$.adView.ads_details.add(bannerImage);
  	
  	if( ads.ads_background !== undefined){
 	 	$.ad.backgroundColor = "#"+ads.ads_background;
@@ -80,7 +72,7 @@ var getAdDetails = function(){
 	 	 $.ad.backgroundColor = "#fffff6";
 	 }
 	 
-	$.ads_details.addEventListener('click', function(e) {
+	$.adView.ads_details.addEventListener('click', function(e) {
 		// double click prevention
 	    var currentTime = new Date();
 	    if (currentTime - clickTime < 1000) {
@@ -88,7 +80,7 @@ var getAdDetails = function(){
 	    };
 	    clickTime = currentTime; 
 		var win = Alloy.createController("branches", {m_id: m_id}).getView(); 
-		nav.openWindow(win,{animated:true}); 
+		COMMON.openWindow(win,{animated:true}); 
 	
 	});
 	/***Set ads items***/
@@ -97,12 +89,12 @@ var getAdDetails = function(){
 		for (var i=0; i< items.length; i++) {
 	
 			if(counter%2 == 0){
-				row = $.UI.create('View', {classes: ["row"],});
+				row = $.adView.UI.create('View', {classes: ["row"],});
 			}
-			cell = $.UI.create('View', {classes: ["cell"],});
+			cell = $.adView.UI.create('View', {classes: ["cell"],});
 			
 			imagepath = items[i].img_path;
-			adImage = Utils.RemoteImage({
+			adImage = Ti.UI.createImageView({
 				image: imagepath,
 				width: Ti.UI.FILL,
 				height: Ti.UI.FILL
@@ -150,14 +142,16 @@ var getAdDetails = function(){
 	});
 	
 	//var ads_title = textCounter(pageTitle , 14);
+	if(Ti.Platform.osname == "android"){ 
+		$.pageTitle.add(custom);   
+	}else{
+		$.ad.titleControl = custom;
+	} 
 	
-	  
-	$.ad.titleControl = custom;
-	
-	$.activityIndicator.hide();
-	$.loadingBar.opacity = "0";
-	$.loadingBar.height = "0";
-	$.loadingBar.top = "0";	
+	$.adView.activityIndicator.hide();
+	$.adView.loadingBar.opacity = "0";
+	$.adView.loadingBar.height = "0";
+	$.adView.loadingBar.top = "0";	
 };
 
 
@@ -184,7 +178,7 @@ function createAdImageEvent(adImage,a_id,position, title) {
 $.location.addEventListener('click', function(e){
 	 
 	var win = Alloy.createController("location",{m_id:m_id,a_id:a_id}).getView(); 
-	nav.openWindow(win,{animated:true}); 
+	COMMON.openWindow(win,{animated:true}); 
 });
 /************************
 *******APP RUNNING*******
@@ -234,12 +228,12 @@ $.favorites.addEventListener("click", function(){
 });
 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.ad); 
+	COMMON.closeWindow($.ad); 
 }); 
 
 $.ad.addEventListener("close", function(){
 	Ti.App.fireEvent('removeNav');
-    $.destroy();
+    $.adView.destroy();
 });
 
 /**Call API to update app's data**/
