@@ -49,25 +49,27 @@ var getAdDetails = function(){
 
  	$.adView.ads_details.removeAllChildren(); 
  	/***Set ads template***/
- 	var ads_height = "960";
+ 	var ads_height = "100%";
  	if(ads.template == "1"){
- 		ads_height = "320";
+ 		ads_height = "33%";
  	}
  	if(ads.template == "2"){
- 		ads_height = "640";
+ 		ads_height = "66%";
  	}
  	 
  	/***Add ads banner***/
  	var bannerImage = Ti.UI.createImageView({
-	  image :ads.img_path,
-	  width : "100%",
-	  height: ads_height,
+ 		defaultImage: "/images/warm-grey-bg.png",
+		image :ads.img_path,
+		width : "100%",
+		height: ads_height,
 	});
 	
 	$.adView.ads_details.add(bannerImage);
  	
  	if( ads.ads_background !== undefined){
 	 	$.ad.backgroundColor = "#"+ads.ads_background;
+	 	$.adHeader.backgroundColor = "#fffff6";
 	 }else{
 	 	 $.ad.backgroundColor = "#fffff6";
 	 }
@@ -80,7 +82,7 @@ var getAdDetails = function(){
 	    };
 	    clickTime = currentTime; 
 		var win = Alloy.createController("branches", {m_id: m_id}).getView(); 
-		COMMON.openWindow(win,{animated:true}); 
+		COMMON.openWindow(win); 
 	
 	});
 	/***Set ads items***/
@@ -89,12 +91,13 @@ var getAdDetails = function(){
 		for (var i=0; i< items.length; i++) {
 	
 			if(counter%2 == 0){
-				row = $.adView.UI.create('View', {classes: ["row"],});
+				row = $.adView.UI.create('View', {classes: ["rowAd"],});
 			}
-			cell = $.adView.UI.create('View', {classes: ["cell"],});
+			cell = $.adView.UI.create('View', {classes: ["cellAd"],});
 			
 			imagepath = items[i].img_path;
 			adImage = Ti.UI.createImageView({
+				defaultImage: "/images/warm-grey-bg.png",
 				image: imagepath,
 				width: Ti.UI.FILL,
 				height: Ti.UI.FILL
@@ -106,7 +109,7 @@ var getAdDetails = function(){
 			row.add(cell);
 			
 			if(counter%2 == 1 || last == counter){
-				$.ads_details.add(row);
+				$.adView.ads_details.add(row);
 			}
 			counter++;
 		} 
