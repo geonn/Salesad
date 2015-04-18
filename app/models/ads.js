@@ -133,7 +133,7 @@ exports.definition = {
 			console.log("start save ad");
 				var needRefresh = false;
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id="+ m_id+" AND b_id='"+b_id+ "'" ;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+"' AND b_id='"+b_id+ "'" ;
                 var sql_query =  "";
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -142,23 +142,25 @@ exports.definition = {
                 
                 var res = db.execute(sql);
                  
-                if (res.isValidRow()){
-                	
+                if (res.isValidRow()){ 
                 	if(res.fieldByName('ads_name') != ads_name || res.fieldByName('template') != template || res.fieldByName('desc') != desc || res.fieldByName('ads_background') != ads_background || res.fieldByName('img_path') != img_path){
                 		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id='"+a_id+"', ads_name='"+ads_name+"', template='"+template+"', desc='"+desc+"', img_path='"+img_path+"', ads_background='"+ads_background+"' WHERE m_id="+ m_id+" AND b_id='"+b_id+ "'" ;
                 		needRefresh = true;
+                		db.execute(sql_query); 
                 	}
-                }else{
+                }else{ 
                 	needRefresh = true;
                 	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (a_id,m_id,b_id,ads_name,template,  desc, ads_background, img_path) VALUES ('"+a_id+"','"+m_id+"','"+b_id+"','"+ads_name+"', '"+template+"', '"+desc+"', '"+ads_background+"', '"+img_path+"')";
-                	
-				}
-         		
-	            db.execute(sql_query);
-	            sql_query = "UPDATE merchants set updated = CURRENT_TIMESTAMP where m_id = "+m_id;
-	            
-	            db.execute(sql_query);
+                	db.execute(sql_query); 
+				} 
+	           
 	            db.close();
+	            
+	            // mdb = Ti.Database.open("merchants");
+	            // msql_query = "UPDATE merchants set updated = CURRENT_TIMESTAMP where m_id = "+m_id;
+// 	            
+	            // mdb.execute(msql_query);
+	            // mdb.close();
 	            collection.trigger('sync');
 	            return needRefresh;
 			}

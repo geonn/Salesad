@@ -47,7 +47,27 @@ exports.definition = {
                 collection.trigger('sync');
                 return bannerArr;
 			},
-			
+			 
+			saveBanner : function(entry) {
+                var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE b_id="+ entry.b_id + " AND m_id='"+entry.b_uid+"' "  ;
+                var sql_query =  "";
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                
+                if (res.isValidRow()){
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET expired='"+entry.b_enddate+"', img='"+entry.img_thumb+"' WHERE b_id="+ entry.b_id + " AND m_id='"+entry.b_uid+"' "  ;
+                }else{
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (b_id, m_id, expired,img) VALUES ('"+entry.b_id+"','"+entry.b_uid+"','"+entry.b_enddate+"','"+entry.img_thumb+"')" ;
+				}
+           
+	            db.execute(sql_query);
+	            db.close();
+	            collection.trigger('sync');
+            },
 			resetBanner : function(){
 				var collection = this;
                 var sql = "DELETE FROM " + collection.config.adapter.collection_name;

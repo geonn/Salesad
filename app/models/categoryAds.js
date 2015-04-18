@@ -40,9 +40,9 @@ exports.definition = {
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
                 	
-                	for(var a = 0; a < row_count; a++){
-                		console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	}
+                	// for(var a = 0; a < row_count; a++){
+                		// console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	// }
 					arr[count] = {
 					    m_id: res.fieldByName('a.m_id'),
 					    //updated: res.fieldByName('updated'),

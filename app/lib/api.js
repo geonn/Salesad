@@ -172,9 +172,7 @@ exports.bannerListing = function (type){
 	     // function called when the response data is available
 	     onload : function(e) {
 	    
-	       var res = JSON.parse(this.responseText);
-			
-	       var arr = res.data;
+	       var res = JSON.parse(this.responseText); 
 	       
 	       if(res.status == "success"){
 	       	/**reset current category**/
@@ -184,17 +182,11 @@ exports.bannerListing = function (type){
 			/**load new set of category from API**/
 	       	var arr = res.data;
 	       	arr.forEach(function(entry) {
-				var banners = Alloy.createModel('banners', {
-					b_id    : entry.b_id,
-					m_id    : entry.b_uid,
-				    expired   : entry.b_enddate,
-				    img     : entry.img_thumb
-				});
-				banners.save();
+	       		library.saveBanner(entry); 
 			});
 			
 			checker.updateModule("2","getFeaturedBanner",currentDateTime());
-			Ti.App.fireEvent('app:bannerListing', res);
+			Ti.App.fireEvent('app:bannerListing');
 	       }
 	     },
 	     // function called when an error occurs, including a timeout

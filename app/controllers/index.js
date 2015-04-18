@@ -34,7 +34,7 @@ function buildCateogryList(){
 			width: Ti.UI.FILL,                           
 		});
 		
-		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10}); 
+		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundColor: '#000000',opacity:0.5,  zIndex: 10}); 
 		var categoryLabel = Ti.UI.createLabel({
 			text: category_list[i].categoryName,
 			width: Ti.UI.FILL,
@@ -128,11 +128,10 @@ var goAds = function(m_id, a_id,cate_id){
 	} 
 };
 
-var bannerListing = function(res){
-
+var bannerListing = function(){
+	
 	var banner_model = Alloy.createCollection('banners'); 
- 	var banners = banner_model.getBannerList();
- 	 
+ 	var banners = banner_model.getBannerList(); 
 	var the_view = [];
    	var counter = 0;
 	var imagepath, adImage, row = '';
@@ -140,9 +139,8 @@ var bannerListing = function(res){
 	 
 	var bannerHeight = $.indexView.bannerListing.rect.height; 
 	
-	for (var i=0; i< banners.length; i++) {
-		//console.log(banners[i].img);
-		adImage = Utils.RemoteImage({
+	for (var i=0; i< banners.length; i++) { 
+		adImage = Ti.UI.createImageView({
 				image: banners[i].img,
 				source: banners[i].m_id,
 				width:"100%",
@@ -192,7 +190,7 @@ var bannerListing = function(res){
 			views:the_view,
 			showPagingControl:true
 		});
-		scrollableView.setPagingControlColor("transparent");
+		//scrollableView.setPagingControlColor("transparent");
 		$.indexView.bannerListing.removeAllChildren();
 		$.indexView.bannerListing.add(scrollableView);
 		scrollableView.addEventListener( 'scrollend', function(e) {
@@ -228,7 +226,7 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		activityIndicator.hide();
 		if(!category_sync_counter){
-			//$.indexView.scrollview.setDisableBounce(false);
+			$.indexView.scrollview.setDisableBounce(false);
       		$.indexView.scrollview.animate({top:0, duration: 500});
 		}
 	});
@@ -289,9 +287,7 @@ Ti.App.addEventListener('app:adsUpdated', function(e){
     }
 });
 
-Ti.App.addEventListener('app:bannerListing', function(e){
-	bannerListing();
-});
+Ti.App.addEventListener('app:bannerListing', bannerListing);
 
 Ti.App.addEventListener('app:loadCategory', function(e){
 	buildCateogryList();
