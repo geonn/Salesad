@@ -59,7 +59,7 @@ function generateMyProfileTable(RegArr){
 	var regData=[];
 	var RegTable = Titanium.UI.createTableView({
 		width:'100%',
-		separatorColor: '#ffffff' ,
+		separatorColor: '#CE1D1C' ,
 		scrollable: false
 	});
 	var fontSizeClasses = (Ti.App.Properties.getString("fontSizeClasses"))?Ti.App.Properties.getString("fontSizeClasses"):"normal_font";
@@ -71,12 +71,7 @@ function generateMyProfileTable(RegArr){
 		    backgroundSelectedColor: "#FFE1E1",
 		    height: 50, 
 		    id: "profile",
-			backgroundGradient: {
-		      type: 'linear',
-		      colors: ['#FEFEFB','#F7F7F6'],
-		      startPoint: {x:0,y:0},
-		      endPoint:{x:0,y:50},
-		      backFillStart:false},
+			backgroundColor: "#ffffff",
 		  });
 		
 		var leftImage =  Titanium.UI.createImageView({
@@ -119,7 +114,7 @@ function generateCategoryTable(details){
 	var data=[];
 	var TheTable = Titanium.UI.createTableView({
 		width:'100%',
-		separatorColor: '#ffffff',
+		separatorColor: '#CE1D1C',
 		backgroundColor: '#fffff6',
 		//headerView: createCustomView('Categories'),
 	});
@@ -132,12 +127,7 @@ function generateCategoryTable(details){
 		    height: 50,
 		    id: details[i].id,
 		    backgroundSelectedColor: "#FFE1E1",
-			backgroundGradient: {
-		      type: 'linear',
-		      colors: ['#FEFEFB','#F7F7F6'],
-		      startPoint: {x:0,y:0},
-		      endPoint:{x:0,y:50},
-		      backFillStart:false},
+			backgroundColor: "#ffffff",
 		  });
 		
 		var category_name = $.categoryView.UI.create('Label', {
@@ -262,8 +252,7 @@ var searchResult = function(){
 	$.categoryView.loadingBar.height = "120";
 	$.categoryView.loadingBar.top = "100";
 	$.categoryView.searchItem.blur();
-	var str = $.categoryView.searchItem.getValue();
-	alert(str);
+	var str = $.categoryView.searchItem.getValue(); 
 	$.categoryView.searchContainer.opacity = 1;
 	$.categoryView.searchContainer.height = "auto";
 	API.searchAdsItems(str);		
@@ -310,7 +299,7 @@ var searchRes = function(res){
 
 		var TheTable = Titanium.UI.createTableView({
 			width:'100%',
-			separatorColor: '#ffffff'
+			separatorColor: '#CE1D1C'
 		});
 		
 		var data=[];
@@ -320,12 +309,7 @@ var searchRes = function(res){
 			    height: 70,
 			    source: entry.m_id,
 			    backgroundSelectedColor: "#FFE1E1",
-				backgroundGradient: {
-			      type: 'linear',
-			      colors: ['#FEFEFB','#F7F7F6'],
-			      startPoint: {x:0,y:0},
-			      endPoint:{x:0,y:70},
-			      backFillStart:false},
+				backgroundColor: "#ffffff",
 			   });
 			
 				var leftImage =  Titanium.UI.createImageView({
@@ -359,7 +343,7 @@ var searchRes = function(res){
 					width:'65%',
 					bottom:15,
 					left:80,
-					height:12
+					height:18
 				});
 				
 				

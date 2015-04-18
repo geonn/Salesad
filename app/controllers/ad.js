@@ -181,7 +181,7 @@ function createAdImageEvent(adImage,a_id,position, title) {
 $.location.addEventListener('click', function(e){
 	 
 	var win = Alloy.createController("location",{m_id:m_id,a_id:a_id}).getView(); 
-	COMMON.openWindow(win,{animated:true}); 
+	COMMON.openWindow(win); 
 });
 /************************
 *******APP RUNNING*******
