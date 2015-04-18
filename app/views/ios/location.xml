@@ -5,7 +5,6 @@
 	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <View bottom='0' class="hr"></View>
-		<View id="mapview" ns="Alloy.Globals.Map" onClick="report" />
+       	<Require type="view" src="_location" id="locationView"/> 
 	</Window>
 </Alloy>

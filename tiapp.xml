@@ -53,7 +53,12 @@
      <android xmlns:android="http://schemas.android.com/apk/res/android">
         <tool-api-level>16</tool-api-level>
         <manifest>
-            <application android:theme="@style/Theme.NoActionBar"/>
+            
+            <application android:theme="@style/Theme.NoActionBar"> 
+                <meta-data android:name="com.google.android.maps.v2.API_KEY"
+                    android:value="AIzaSyBJ0EF9lpsbttU_OdKA3BBxscR0ygt9D2A"/>
+                    
+            </application>
             <uses-sdk android:minSdkVersion="14"/>
              
         </manifest>

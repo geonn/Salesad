@@ -238,7 +238,7 @@ $.adsView.ads_details.addEventListener("scrollend", function(e){
 
 $.location.addEventListener('click', function(e){
 	var win = Alloy.createController("location",{m_id:m_id,a_id:a_id}).getView(); 
-	C.openWindow(win,{animated:true}); 
+	COMMON.openWindow(win); 
 });
 
 //Add your favorite event

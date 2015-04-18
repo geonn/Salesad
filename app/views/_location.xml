@@ -1,0 +1,6 @@
+<Alloy>
+	 
+        <View bottom='0' class="hr"></View>
+		<View id="mapview" ns="Alloy.Globals.Map" />
+	 
+</Alloy>
