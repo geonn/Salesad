@@ -84,23 +84,28 @@ $.setting.addEventListener("close", function(){
 
 $.setting.addEventListener('click', function(e){
 	if(e.index == 0){
-		var win = Alloy.createController("about").getView();  
+		var win = Alloy.createController("about").getView();
+		COMMON.openWindow(win);  
 	}
 	if(e.index == 1){
-		var win = Alloy.createController("help").getView();   
+		var win = Alloy.createController("help").getView();  
+		COMMON.openWindow(win); 
 	}
 	if(e.index == 2){
-		var win = Alloy.createController("tnc").getView();  
+		var win = Alloy.createController("tnc").getView(); 
+		COMMON.openWindow(win); 
 	}
 
 	if(e.index == 3){
 		var win = Alloy.createController("textSizeSetting").getView();  
+		COMMON.openWindow(win);
 	}
 
 	if(e.index == 4){
-		var win = Alloy.createController("pushNotificationSettings").getView();   
+		var win = Alloy.createController("pushNotificationSettings").getView();  
+		COMMON.openWindow(win); 
 	}
-	COMMON.openWindow(win);
+	
 });
 
 
