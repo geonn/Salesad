@@ -1,12 +1,7 @@
 <Alloy>
-	<Window class="container" id="help" backButtonTitle="" navTintColor="#CE1D1C">
-		<LeftNavButton>
-	        <View left="0">
-	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
-	        </View>
-        </LeftNavButton>
+	 
         <View bottom='0' class="hr"></View>
-		<ScrollView id="main" layout="vertical">
+		<ScrollView id="main" layout="vertical" scrollType="vertical">
 			<Label class="title_header" bottom=5>Description</Label>
 			<Label class="description_content" bottom=10>SalesAd features the best sales advertisement promotions, daily deals and rewards.</Label>	
 			
@@ -18,6 +13,5 @@
 			<Label class="description_content" bottom=3>- Register as member and be the first to know the best sales in your city or great deals near you</Label>	
 			<Label class="description_content" bottom=3>- As member, you will also received with your ID barcode to earn rewards points every time you purchase</Label>	
 				
-		</ScrollView>
-	</Window>
+		</ScrollView> 
 </Alloy>

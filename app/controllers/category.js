@@ -1,6 +1,5 @@
 var args = arguments[0] || {};
-
-var nav = Alloy.Globals.navMenu;
+ 
 var clickTime = null;
 
 /** google analytics**/ 
@@ -12,9 +11,7 @@ Alloy.Globals.tracker.trackEvent({
 }); 
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Category Main"
-});
-/** include required file**/
-var API = require('api');
+}); 
 
 /*********************
 *******FUNCTION*******
@@ -240,9 +237,10 @@ $.setting.addEventListener('click', function(e){
 
 $.categoryView.searchItem.addEventListener('focus', function f(e){
 	$.categoryView.searchItem.showCancel =  true; 
-	$.categoryView.searchContainer.opacity = 1;
-	$.categoryView.searchContainer.height = "auto";
-	$.categoryView.searchItem.blur();
+	$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS;
+	//$.categoryView.searchContainer.opacity = 1;
+	//$.categoryView.searchContainer.height = "auto";
+	//$.categoryView.searchItem.blur();
 	$.categoryView.searchItem.removeEventListener('focus', f);
 });
 
@@ -265,6 +263,9 @@ var searchResult = function(){
 	$.categoryView.loadingBar.top = "100";
 	$.categoryView.searchItem.blur();
 	var str = $.categoryView.searchItem.getValue();
+	alert(str);
+	$.categoryView.searchContainer.opacity = 1;
+	$.categoryView.searchContainer.height = "auto";
 	API.searchAdsItems(str);		
 };
 
@@ -290,13 +291,11 @@ var fontReset = function(){
 var searchRes = function(res){
 	
 	var arr = res.result;
-	
+	//hide loading bar
+	$.categoryView.loadingBar.height = "0";
+	$.categoryView.loadingBar.top = "0";
+	$.categoryView.loadingBar.opacity = "0";
 	if(arr.length < 1){
-		//hide loading bar
-		$.categoryView.loadingBar.height = "0";
-		$.categoryView.loadingBar.top = "0";
-		$.categoryView.loadingBar.opacity = "0";
-		
 		$.categoryView.searchContainer.removeAllChildren();
 		var noRecord = Ti.UI.createLabel({ 
 		    text: "No record found", 
@@ -403,14 +402,16 @@ $.categoryView.searchContainer.addEventListener('click',function(e){
 $.btnBack.addEventListener('click', function(){  
 	COMMON.closeWindow($.category); 
 }); 
-$.category.addEventListener("load", function(){
-	alert("view loaded");
+setTimeout(function(){
 	if(Ti.Platform.osname == "android"){  
 		Ti.UI.Android.hideSoftKeyboard();  
 		$.categoryView.searchItem.blur();
-		//$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
+		$.categoryView.searchItem.hide();
+        $.categoryView.searchItem.show();
+		$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
 	}
-});
+},100);
+ 
 $.category.addEventListener("close", function(){
 	
     $.categoryView.destroy();

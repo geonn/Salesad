@@ -1,5 +1,4 @@
-var args = arguments[0] || {};
-var nav = Alloy.Globals.navMenu; 
+var args = arguments[0] || {}; 
 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
@@ -17,9 +16,13 @@ var custom = Ti.UI.createLabel({
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
-$.help.titleControl = custom;
+
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);    
+}else{
+	$.help.titleControl = custom;
+}    
 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.help); 
+	COMMON.closeWindow($.help); 
 }); 

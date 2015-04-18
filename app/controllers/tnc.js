@@ -9,8 +9,7 @@ Alloy.Globals.tracker.trackEvent({
 }); 
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Privacy and Terms"
-});
-var nav = Alloy.Globals.navMenu;
+}); 
 var clickTime = null;
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
@@ -18,9 +17,12 @@ var custom = Ti.UI.createLabel({
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
-$.tnc.titleControl = custom;
-
+   
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);    
+}else{
+	$.tnc.titleControl = custom;
+} 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.tnc); 
+	COMMON.closeWindow($.tnc); 
 }); 

@@ -1,6 +1,4 @@
-var args = arguments[0] || {};
-/** include required file**/
-var API = require('api');
+var args = arguments[0] || {}; 
 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
@@ -19,8 +17,12 @@ var custom = Ti.UI.createLabel({
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
-$.notification.titleControl = custom;
+ 
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);   
+}else{
+	$.notification.titleControl = custom; 
+}  
 
 //load user settings
 var isNotification = Ti.App.Properties.getString('notification');
@@ -28,9 +30,8 @@ if(isNotification != "1"){
 	$.notiSwitch.value = "false";
 }
 
-$.btnBack.addEventListener('click', function(){ 
-	var nav = Alloy.Globals.navMenu; 
-	nav.closeWindow($.notification); 
+$.btnBack.addEventListener('click', function(){  
+	COMMON.closeWindow($.notification); 
 }); 
 
 var changeStatus = function(e){
@@ -57,4 +58,5 @@ var changeStatus = function(e){
 	Ti.App.Properties.setString('notification',e.source.value);
 	API.updateNotificationToken();
 	
-};
+}; 
+$.pushNotificationSettingsView.notiSwitch.addEventListener('change',changeStatus);

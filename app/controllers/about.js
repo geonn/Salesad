@@ -18,9 +18,12 @@ var custom = Ti.UI.createLabel({
     width: Ti.UI.SIZE 
  });
   
-$.description.titleControl = custom;
-
-$.btnBack.addEventListener('click', function(){ 
-	var nav = Alloy.Globals.navMenu; 
-	nav.closeWindow($.description); 
+ 
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);   
+}else{
+	$.description.titleControl = custom; 
+} 
+$.btnBack.addEventListener('click', function(){  
+	COMMON.closeWindow($.description); 
 }); 

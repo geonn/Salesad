@@ -1,5 +1,4 @@
-var args = arguments[0] || {};
-var nav = Alloy.Globals.navMenu;
+var args = arguments[0] || {}; 
 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
@@ -17,9 +16,12 @@ var custom = Ti.UI.createLabel({
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
-$.setting.titleControl = custom;
-
+   
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);   
+}else{
+	$.setting.titleControl = custom; 
+} 
 function generateSettingTable(){
 	var tbl_data = [
 	    { title: 'About', hasChild:true},
@@ -33,7 +35,7 @@ function generateSettingTable(){
  
 	var RegTable = Titanium.UI.createTableView({
 		width:'100%',
-		separatorColor: '#ffffff' ,
+		separatorColor: '#777777' ,
 		scrollable: false
 	});
 
@@ -44,13 +46,8 @@ function generateSettingTable(){
 		    touchEnabled: true,
 		    height: 50, 
 		    id: "profile",
-		    selectedBackgroundColor: "#FFE1E1",
-			backgroundGradient: {
-		      type: 'linear',
-		      colors: ['#FEFEFB','#F7F7F6'],
-		      startPoint: {x:0,y:0},
-		      endPoint:{x:0,y:50},
-		      backFillStart:false},
+		    backgroundSelectedColor: "#FFE1E1",
+			backgroundColor: "#FFFFF6",
 		  });
 
 		var title = $.UI.create('label', {
@@ -87,27 +84,23 @@ $.setting.addEventListener("close", function(){
 
 $.setting.addEventListener('click', function(e){
 	if(e.index == 0){
-		var win = Alloy.createController("about").getView(); 
-		nav.openWindow(win,{animated:true});
+		var win = Alloy.createController("about").getView();  
 	}
 	if(e.index == 1){
-		var win = Alloy.createController("help").getView();  
-		nav.openWindow(win,{animated:true});
+		var win = Alloy.createController("help").getView();   
 	}
 	if(e.index == 2){
-		var win = Alloy.createController("tnc").getView(); 
-		nav.openWindow(win,{animated:true});
+		var win = Alloy.createController("tnc").getView();  
 	}
 
 	if(e.index == 3){
-		var win = Alloy.createController("textSizeSetting").getView(); 
-		nav.openWindow(win,{animated:true});
+		var win = Alloy.createController("textSizeSetting").getView();  
 	}
 
 	if(e.index == 4){
-		var win = Alloy.createController("pushNotificationSettings").getView();  
-		nav.openWindow(win,{animated:true});
+		var win = Alloy.createController("pushNotificationSettings").getView();   
 	}
+	COMMON.openWindow(win);
 });
 
 
@@ -118,7 +111,7 @@ var fontReset = function(){
 };
 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.setting); 
+	COMMON.closeWindow($.setting); 
 }); 
 
 Ti.App.addEventListener('app:fontReset', fontReset);
