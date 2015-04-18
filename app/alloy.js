@@ -125,6 +125,7 @@ var Utils = {
   },
   RemoteImage: function(a){
     a = a || {};
+     a.defaultImage = "";
     var md5;
     var needsToSave = false;
     var savedFile;
