@@ -1,12 +1,7 @@
 <Alloy>
-	<Window class="container" id="tnc" backButtonTitle="" navTintColor="#CE1D1C">
-		<LeftNavButton>
-	        <View left="0">
-	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
-	        </View>
-        </LeftNavButton>
+
         <View bottom='0' class="hr"></View>
-		<ScrollView id="main" layout="vertical">
+		<ScrollView id="main" layout="vertical" scrollType="vertical">
 			<Label class="description_content">This SalesAd privacy policy (the "Privacy Policy") is intended to inform you of our policies and practices regarding the collection, use and disclosure of any information you submit to us through SalesAd. This includes "Personal Information", which is information about you that is personally identifiable such as your name, e-mail address, user ID number, delivery and billing addresses and other non-public information that is associated with the foregoing, as well as "Anonymous Information", which is information that is not associated with or linked to your Personal Information and does not permit the identification of individual persons.</Label>
 			
 			<Label class="title_header" bottom=5>Personal Information That You Provide</Label>
@@ -18,6 +13,5 @@
 			<Label class="title_header" bottom=5>Security</Label>
 			<Label class="description_content" bottom=3>We are committed to protecting the security of your Personal Information. We use a variety of industry-standard security technologies and procedures to help protect your Personal Information from unauthorized access, use, or disclosure. Even though we have taken significant steps to protect your Personal Information, no company, including us, can fully eliminate security risks associated with Personal Information.</Label>	
 			 	
-		</ScrollView>
-	</Window>
+		</ScrollView> 
 </Alloy>

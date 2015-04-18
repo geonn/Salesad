@@ -1,10 +1,10 @@
 <Alloy>
 	<Window  class="container" id="ad" navTintColor="#CE1D1C">
-		<View layout="horizontal" height="50" width="100%"  >
+		<View layout="horizontal" id="adHeader" height="50" width="100%"  >
 			<View left="0" width="10%">
 		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="70%" />
+	     	<View id="pageTitle" width="65%" />
 		    <View width="auto">
 	         	<ImageView right='0' id="location" width='30' image="/images/location.png" />
 	         	<ImageView right='35' id="favorites" width='30' image="/images/icon-favorites.png" /> 
