@@ -241,7 +241,12 @@ var doLogout = function (e) {
 	    title: 'Logout SalesAd'
 	  });
 	  dialog.addEventListener('click', function(e){
+	  	if(e.button === false){
+	  		return e.button;
+	  	}
+	  	
 	    if (e.index === 1){
+	    	 
 			var url = API.logoutUser + Ti.App.Properties.getString('session');
 			var client = Ti.Network.createHTTPClient({
 			     // function called when the response data is available
@@ -274,6 +279,7 @@ var updateProfile = function(e) {
 	loadTable();
 };
 
+$.button.addEventListener('click', doLogout);
 Ti.App.addEventListener('updateProfile', updateProfile);
 loadTable();
 

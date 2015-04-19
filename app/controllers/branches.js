@@ -1,8 +1,7 @@
 var args = arguments[0] || {}; 
 
 var m_id = args.m_id;
-var from = args.from || "";
-var nav = Alloy.Globals.navMenu;
+var from = args.from || ""; 
 var clickTime = null;
 
 //load model
@@ -37,17 +36,22 @@ Alloy.Globals.tracker.trackScreen({
 	screenName: "Brancehes - " +merchants.name
 });
 
-$.branchesWin.titleControl = custom; 
-$.merchantThumb.image = merchants.img;
-$.merchantName.text = merchants.name;
-$.merchantLocation.text = mer_loc;
-$.merchantMobile.text = merchants.mobile;
-$.merchantView.m_id = m_id;
-$.merchantName.m_id = m_id;
-$.merchantLocation.m_id = m_id;
-$.merchantMobile.m_id = m_id;
-$.merchantThumb.m_id = m_id;
-$.merchantImageView.m_id = m_id;
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);   
+}else{
+	$.branchesWin.titleControl = custom; 
+}
+  
+$.branchesView.merchantThumb.image = merchants.img_path;
+$.branchesView.merchantName.text = merchants.name;
+$.branchesView.merchantLocation.text = mer_loc;
+$.branchesView.merchantMobile.text = "Tel: "+merchants.mobile || "Tel: -";
+$.branchesView.merchantView.m_id = m_id;
+$.branchesView.merchantName.m_id = m_id;
+$.branchesView.merchantLocation.m_id = m_id;
+$.branchesView.merchantMobile.m_id = m_id;
+$.branchesView.merchantThumb.m_id = m_id;
+$.branchesView.merchantImageView.m_id = m_id;
 
 /*** FUNCTIONS***/
 var goToAds = function(e){
@@ -58,7 +62,7 @@ var goToAds = function(e){
 	};
 	clickTime = currentTime;
 	var win = Alloy.createController("ad", {m_id: e.source.m_id, a_id: e.source.a_id}).getView(); 
-	nav.openWindow(win,{animated:true}); 
+	COMMON.openWindow(win,{animated:true}); 
 };
 
 /*** Display branches**/
@@ -152,15 +156,15 @@ for (var i = 0; i < branches.length; i++) {
 };
 
 TheTable.setData(data);
-$.branchesView.add(TheTable);
+$.branchesView.branchesView.add(TheTable);
 
 /*********************
 *** Event Listener ***
 **********************/
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.branchesWin); 
+	COMMON.closeWindow($.branchesWin); 
 }); 
-
+$.branchesView.merchantView.addEventListener('click',  goToAds); 
 $.branchesWin.addEventListener("close", function(){
 	
     $.destroy();

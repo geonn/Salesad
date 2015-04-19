@@ -1,3 +1,4 @@
 <Alloy>
 	<View bottom='0' class="hr"></View>
+	<View height="Ti.UI.FILL" id="settingTable"></View>
 </Alloy>

@@ -12,13 +12,16 @@ Alloy.Globals.tracker.trackScreen({
 });
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
-    text: args.title, 
+    text: "EDIT " +args.title, 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
-$.editProfile.titleControl = custom;
-
+   
+if(Ti.Platform.osname == "android"){ 
+	$.pageTitle.add(custom);   
+}else{
+	$.editProfile.titleControl = custom; 
+} 
 //$.editProfileView.editProfile.hintText = args.title;
 $.editProfileView.description.text  = "Edit your "+ args.module + " below:";
 

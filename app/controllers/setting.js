@@ -74,7 +74,7 @@ function generateSettingTable(){
 
 	RegTable.setData(regData); 
 	//$.setting.removeAllChildren();
-	$.setting.add(RegTable);
+	$.settingView.settingTable.add(RegTable);
 }
 
 /* Event Listener */
@@ -111,7 +111,7 @@ $.setting.addEventListener('click', function(e){
 
 /* Function */
 var fontReset = function(){
-	$.setting.removeAllChildren();
+	$.settingView.settingTable.removeAllChildren();
 	generateSettingTable();
 };
 

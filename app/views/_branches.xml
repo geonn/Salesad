@@ -1,16 +1,11 @@
 <Alloy>
-	<Window class="container" title="" id="branchesWin" backButtonTitle="" navTintColor="#CE1D1C">
-		<LeftNavButton>
-	        <View left="0">
-	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
-	        </View>
-        </LeftNavButton>
+
         <View bottom='0' class="hr"></View>
         <View  class="merchantView" height="100" width="100%">
         	<View id="merchantImageView" m_id="" a_id=""  top="5" left="5" >
         		<ImageView id="merchantThumb" m_id="" a_id="" width="80" height="80" left="5" image="" />
         	</View>
-		 	<View onTouchend="goToAds" m_id="" a_id="" id="merchantView" layout="vertical" top="15" height="100" width="100%" >
+		 	<View  m_id="" a_id="" id="merchantView" layout="vertical" top="15" height="100" width="100%" >
 		 		<Label id="merchantName" m_id="" a_id="" text=""></Label>
 		 		<Label class="merchantInfo" m_id="" a_id="" id="merchantLocation" text="" >area, state</Label>
 		 		<Label class="merchantInfo" m_id="" a_id=""  id="merchantMobile" text="">mobile</Label>
@@ -23,8 +18,7 @@
 		</View>
 		
 		<View layout="vertical" class="branchesView">
-		 	<ScrollView id="branchesView" layout="horizontal" height="100%" width="100%" >
-			</ScrollView>
+		 	<ScrollView id="branchesView" layout="horizontal" height="100%" width="100%" scrollType="vertical" /> 
 		</View>
-	</Window>
+	 
 </Alloy>
