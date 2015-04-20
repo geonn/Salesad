@@ -1,7 +1,4 @@
-var args = arguments[0] || {};
-
-/** include required file**/
-var API = require('api');
+var args = arguments[0] || {}; 
 
 /** Keep track popUp view**/
 var hideWin = 1;

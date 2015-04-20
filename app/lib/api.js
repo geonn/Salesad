@@ -43,7 +43,7 @@ exports.updateNotificationToken = function(e){
 	if(deviceToken != ""){
 		
 		var url = updateToken+"&token="+deviceToken+"&u_id="+u_id+"&status="+notification;
-		console.log(url);
+		//console.log(url);
 		var client = Ti.Network.createHTTPClient({
 		     // function called when the response data is available
 		     onload : function(e) {
@@ -105,7 +105,7 @@ exports.loadMerchantListByCategory = function (ex){
 		last_updated = isUpdate.updated;
 	} 
 	var url = getMerchantListByCategory+"&category_id="+ex+"&last_updated="+last_updated;
-	console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -120,7 +120,7 @@ exports.loadMerchantListByCategory = function (ex){
 			/**load new set of category ads from API**/
 	       	var arr = res.data;
 	       	arr.forEach(function(entry) {
-	       		console.log(entry);
+	       		//console.log(entry);
 				var categoryAds = Alloy.createModel('categoryAds', {
 			        m_id    : entry.m_id,
 			        cate_id   : ex
@@ -146,7 +146,7 @@ exports.loadMerchantListByCategory = function (ex){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	console.log("API loadMerchantListByCategory fail, skip sync with server");
+	     	//console.log("API loadMerchantListByCategory fail, skip sync with server");
 	     	Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	     },
 	     timeout : 7000  // in milliseconds
@@ -166,7 +166,7 @@ exports.bannerListing = function (type){
 		last_updated = isUpdate.updated;
 	} 
 	var url = getFeaturedBanner+"&last_updated="+last_updated;
-	console.log(url);
+	//console.log(url);
 	
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -191,7 +191,7 @@ exports.bannerListing = function (type){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	console.log("API getFeaturedBanner fail, skip sycn with server");
+	     	//console.log("API getFeaturedBanner fail, skip sycn with server");
 	     	Ti.App.fireEvent('app:bannerListing');
 	     },
 	     timeout : 7000  // in milliseconds
@@ -348,7 +348,7 @@ exports.loadAdsByCategory = function(cate_id){
 		last_updated = isUpdate.updated;
 	}
 	var url = getAdsByCategoryList+"&category_id="+cate_id+"&last_updated="+last_updated;
-	console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -383,7 +383,7 @@ exports.loadAdsByCategory = function(cate_id){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	console.log("API getAdsByCategoryList fail, skip sync with server");
+	     	//console.log("API getAdsByCategoryList fail, skip sync with server");
 	     	Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
 	     },
 	     timeout : 7000  // in milliseconds
@@ -463,7 +463,7 @@ exports.loadCategory = function (ex){
 		last_updated = isUpdate.updated;
 	} 
 	 var url = getCategoryList+"&last_updated="+last_updated;
-	 console.log(url);
+	 //console.log(url);
 	 var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -491,7 +491,7 @@ exports.loadCategory = function (ex){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	console.log("API getCategoryList fail, skip sync with server");
+	     	//console.log("API getCategoryList fail, skip sync with server");
 	     	Ti.App.fireEvent('app:loadCategory');
 	     },
 	     timeout : 7000  // in milliseconds

@@ -44,20 +44,23 @@ function buildCateogryList(){
 			color: "#ffffff",
 			top: 4, right:4, left:4, bottom:4,
 		});
-		 
-		var activityIndicator = Ti.UI.createActivityIndicator({
-		  color: 'green', 
-		  bottom:10,
-		  right:10,
-		  height:Ti.UI.SIZE,
-		  width:Ti.UI.SIZE
-		});
-		if(Ti.Platform.osname == "android"){
-			activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK; 
-		}else if (Ti.Platform.name === 'iPhone OS'){
-			activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+		
+		var curActivity = Titanium.Android.currentActivity;
+		if (curActivity != null) {  
+			var activityIndicator = Ti.UI.createActivityIndicator({
+			  color: 'green', 
+			  bottom:10,
+			  right:10,
+			  height:Ti.UI.SIZE,
+			  width:Ti.UI.SIZE
+			});
+			if(Ti.Platform.osname == "android"){
+				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK; 
+			}else if (Ti.Platform.name === 'iPhone OS'){
+				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+			}
+			activityIndicator.show();
 		}
-		activityIndicator.show();
 		pad_categoryLabel.add(categoryLabel);
 		pad_cell.add(temp_image);
 		pad_cell.add(pad_categoryLabel);
@@ -137,22 +140,25 @@ var bannerListing = function(){
 				height: bannerHeight,
 				defaultImage: "/images/warm-grey-bg.png",
 			});
-			 
-			var activityIndicator = Ti.UI.createActivityIndicator({
-			  color: 'green', 
-			  top:10,
-			  left:10,
-			  height:Ti.UI.SIZE,
-			  width:Ti.UI.SIZE,
-			  zIndex: 11,
-			});
-			if(Ti.Platform.osname == "android"){
-				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
-				//mainView.activityIndicator.top = 0; 
-			}else if (Ti.Platform.name === 'iPhone OS'){
-				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+			
+			var curActivity = Titanium.Android.currentActivity;
+			if (curActivity != null) { 
+				var activityIndicator = Ti.UI.createActivityIndicator({
+				  color: 'green', 
+				  top:10,
+				  left:10,
+				  height:Ti.UI.SIZE,
+				  width:Ti.UI.SIZE,
+				  zIndex: 11,
+				});
+				if(Ti.Platform.osname == "android"){
+					activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
+					//mainView.activityIndicator.top = 0; 
+				}else if (Ti.Platform.name === 'iPhone OS'){
+					activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+				}
+				activityIndicator.show();
 			}
-			activityIndicator.show();
 			adIamgeLoadEvent(adImage, activityIndicator);
 			var scrollView = Ti.UI.createScrollView({
 				top:"0",
@@ -179,6 +185,7 @@ var bannerListing = function(){
 	var scrollableView = Ti.UI.createScrollableView({
 			id: "scrollableView",
 			views:the_view,
+			backgroundImage: "/images/warm-grey-bg.png",
 			showPagingControl:true
 		});
 		//scrollableView.setPagingControlColor("transparent");
@@ -248,16 +255,16 @@ $.indexView.category_link.addEventListener('click', function(e){
 	COMMON.openWindow(win);  
 });
 
-$.indexView.arrow_link.addEventListener('click', function(e){
-	var page = Alloy.createController('popup').getView();
-	page.open({fullscreen:true});
-	page.animate({
-		curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
-		opacity: 1,
-		duration: 200
-	});
-
-});
+// $.indexView.arrow_link.addEventListener('click', function(e){
+	// var page = Alloy.createController('popup').getView();
+	// page.open({fullscreen:true});
+	// page.animate({
+		// curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
+		// opacity: 1,
+		// duration: 200
+	// });
+// 
+// });
 
 Ti.App.addEventListener('app:goToAds', function(e){
 	goAd(e.m_id,e.a_id,e.isFeed);
@@ -297,6 +304,30 @@ $.indexView.scrollview.addEventListener('scroll', function (e) {
        buildCateogryList();
     }
 });
+
+if(Ti.Platform.osname == "android"){
+	$.indexView.root.addEventListener('android:back', function (e) {
+		var dialog = Ti.UI.createAlertDialog({
+			    cancel: 1,
+			    buttonNames: ['Cancel','Confirm'],
+			    message: 'Would you like to exit SalesAd?',
+			    title: 'Exit app'
+		});
+		dialog.addEventListener('click', function(e){
+			 	if(e.button === false){
+			  		return e.button;
+			  	}
+		    	if (e.index === e.source.cancel){
+			      //Do nothing
+			    }
+			    if (e.index === 1){ 
+			    	var activity = Titanium.Android.currentActivity;
+					activity.finish();
+			    }
+		});
+		dialog.show(); 
+	});
+}
 
 /** close all login eventListener when close the page**/
 $.indexView.root.addEventListener("close", function(){

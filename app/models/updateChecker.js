@@ -70,7 +70,7 @@ exports.definition = {
                 }else{
                 	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, typeName, updated) VALUES ('"+id+"','"+typeName+"','"+updateDate+"')" ;
 				}
-       			console.log(sql_query);
+       			 
 	            db.execute(sql_query);
 	            db.close();
 	            collection.trigger('sync');

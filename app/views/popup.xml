@@ -1,8 +1,7 @@
 <Alloy>
-	<Window  id="typeWindowPopUp" fullscreen="true">
+	<Window  id="typeWindowPopUp" navBarHidden="true" fullscreen="true">
 		<View layout="vertical" class="popupView">
-		 	<View id="popup_view" layout="horizontal"  width="100%" >
-			</View>
+		 	<View id="popup_view" layout="horizontal"  width="100%" /> 
 		</View>
 	</Window>
 </Alloy>

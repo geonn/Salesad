@@ -62,7 +62,7 @@ var getAdDetails = function(){
  		defaultImage: "/images/warm-grey-bg.png",
 		image :ads.img_path,
 		width : "100%",
-		height: ads_height,
+		height: Ti.UI.SIZE,//ads_height,
 	});
 	
 	$.adView.ads_details.add(bannerImage);

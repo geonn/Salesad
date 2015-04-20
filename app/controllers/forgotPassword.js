@@ -9,9 +9,7 @@ Alloy.Globals.tracker.trackEvent({
 }); 
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Member Forgot Password"
-});
-/** include required file**/
-var api = require('api');
+}); 
 
 /** To check if keyboard onfocus or onblur**/
 var isKeyboardFocus = 0;
@@ -28,18 +26,17 @@ var sendForgotPassword = function(){
 	$.loadingBar.opacity = "1";
 	$.loadingBar.height = "120";
 	$.loadingBar.top = "100";
-	//$.registerButton.hide();
-	var common = require('common');
+	//$.registerButton.hide(); 
 	var email 		     = $.email.value;
 	
 	if(email == ""){
-		common.createAlert('Authentication warning','Please fill in email');
+		COMMON.createAlert('Submit failed','Please fill in email');
 		$.activityIndicator.hide();
 		isSubmit = 0;
 		$.loadingBar.opacity = "0";
 		return;
 	}
-	var url = api.forgotPassword + "&email="+email;
+	var url = API.forgotPassword + "&email="+email;
 	
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -51,12 +48,12 @@ var sendForgotPassword = function(){
 	         	 /** tag if user done forgot password action**/
 	         	Ti.App.Properties.setString('isForgotPassword', 1);
 	         	
-				common.createAlert('Submitted successfully ', "Please check your email for activation code.");
+				COMMON.createAlert('Submitted successfully ', "Please check your email for activation code.");
 				closeWindow(e);
 				isSubmit = 0;
 	         }else{
 	         	isSubmit = 0;
-	         	common.createAlert('Authentication warning',res.data.error_msg);
+	         	COMMON.createAlert('Submit failed',res.data.error_msg);
 	         }
 	     },
 	     // function called when an error occurs, including a timeout
@@ -64,7 +61,7 @@ var sendForgotPassword = function(){
 	     	$.activityIndicator.hide();
 	     	$.loadingBar.opacity = "0";
 	     	isSubmit = 0;
-	        common.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
+	        COMMON.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
 	     },
 	     timeout : 10000  // in milliseconds
 	 });

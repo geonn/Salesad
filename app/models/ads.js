@@ -130,7 +130,7 @@ exports.definition = {
                 return arr;
 			},
 			saveAds : function(a_id,m_id,b_id,ads_name,template,desc,ads_background, img_path){
-			console.log("start save ad");
+			//console.log("start save ad");
 				var needRefresh = false;
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+"' AND b_id='"+b_id+ "'" ;

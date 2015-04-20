@@ -9,8 +9,7 @@ Alloy.Globals.tracker.trackEvent({
 }); 
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Member Login"
-});
-var nav = Alloy.Globals.navMenu;
+}); 
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: 'LOGIN', 
@@ -92,7 +91,7 @@ function doLogin() {
 	         	var isForgotPassword = Ti.App.Properties.getString('isForgotPassword');
 	         	if(isForgotPassword == 1){
 	         		var win = Alloy.createController("editPassword", {username:username }).getView(); 
-					nav.openWindow(win,{animated:true}); 
+					COMMON.openWindow(win); 
 	         	}
 	         	API.updateNotificationToken();
 	         	$.login.close();
@@ -120,11 +119,11 @@ function doLogin() {
 
 $.showTnC.addEventListener('touchend', function(e){
 	var win = Alloy.createController("tnc").getView();  
-	nav.openWindow(win,{animated:true});
+	COMMON.openWindow(win,{animated:true});
 });
 $.help.addEventListener('touchend', function(e){
 	var win = Alloy.createController("help").getView();  
-	nav.openWindow(win,{animated:true});
+	COMMON.openWindow(win);
 });
 $.login.addEventListener('touchend', function(e){
 	if(isKeyboardFocus == 1){
@@ -154,7 +153,7 @@ $.password.addEventListener("return", function(){
 });
 
 $.btnBack.addEventListener('click', function(){ 
-	nav.closeWindow($.login); 
+	COMMON.closeWindow($.login); 
 }); 
 
 /** close all login eventListener when close the page**/
