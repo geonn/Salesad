@@ -70,11 +70,12 @@ var createGridListing = function(res){
  	var counter = 0;
    	var imagepath, adImage, row, cell = '';
  	var last = details.length-1;
+   	var tableData = [];
    	
    	//hide loading bar
 	$.categoryDetailsView.loadingBar.height = "0";
 	$.categoryDetailsView.loadingBar.top = "0";
-   	$.categoryDetailsView.scrollview.removeAllChildren();
+   	$.categoryDetailsView.category_tv.removeAllChildren();
    	if(details.length < 1){
    		var noRecord = Ti.UI.createLabel({ 
 		    text: "No record found", 
@@ -84,34 +85,60 @@ var createGridListing = function(res){
 		    top: 15,
 		    width: Ti.UI.SIZE 
 		 });
-		$.categoryDetailsView.scrollview.add(noRecord);
+		$.categoryDetailsView.category_tv.add(noRecord);
    	}else{
+   		console.log(details.length);
    		for(var i=0; i< details.length; i++) {
 	   		var m_id = details[i].m_id; 
 	   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
 	   		var info = merchantsLibrary.getMerchantsById(m_id);
+	   		var row = $.categoryDetailsView.UI.create("TableViewRow",{
+	   			height: Ti.UI.SIZE,
+	   			width: Ti.UI.FILL,
+	   		});
+	   		var view  = $.categoryDetailsView.UI.create("View",{
+	   			layout: "horizontal",
+	   			width: Ti.UI.FILL,
+	   			height: Ti.UI.SIZE,
+	   			top: 10,
+	   			bottom: 10,
+	   			left: 10,
+	   			right: 10,
+	   		});
 	   		
-	   		imagepath = info.img_path;
-	   		adImage = Ti.UI.createImageView({
-				image: imagepath
-			});
-	   		if(counter%3 == 0){
-	   			row = $.categoryDetailsView.UI.create('View', {classes: ["row"],});
+	   		var imagepath='';
+	   		if(!info.img_path){
+	   			imagepath = "icon_mySalesAd.png";
+	   		}else{
+	   			imagepath = info.img_path;
 	   		}
-	   		cell = $.categoryDetailsView.UI.create('View', {classes: ["cell"], top: 2});
+			
+			adImage = Ti.UI.createImageView({
+				image: imagepath,
+				height: 50,
+				width: 50,
+			});
+			
+	   		//cell = $.categoryDetailsView.UI.create('View', {classes: ["cell"], top: 2});
 	   		
 	   		if(branch == ""){
 		   		createAdImageEvent(adImage, m_id);
 	   		}else{
 	   			createAdBranchEvent(adImage, m_id);
 	   		}
-			cell.add(adImage);
-			row.add(cell);
-			if(counter%3 == 2 || last == counter){
-	   			$.categoryDetailsView.scrollview.add(row);
-	   		}
-	   		counter++;
+	   		
+	   		var category_label = $.categoryDetailsView.UI.create("Label",{
+	   			height: Ti.UI.SIZE,
+	   			text: info.name,
+	   			left: 10,
+	   		});
+	   		
+	   		view.add(adImage);
+	   		view.add(category_label);
+			row.add(view);
+			tableData.push(row);
 	     }
+	     $.categoryDetailsView.category_tv.setData(tableData);
    	}
 };
 

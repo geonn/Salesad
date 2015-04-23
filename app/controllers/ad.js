@@ -96,11 +96,13 @@ var getAdDetails = function(){
 			cell = $.adView.UI.create('View', {classes: ["cellAd"],});
 			
 			imagepath = items[i].img_path;
+			
 			adImage = Ti.UI.createImageView({
 				defaultImage: "/images/warm-grey-bg.png",
 				image: imagepath,
+				left: 4,
 				width: Ti.UI.FILL,
-				height: Ti.UI.FILL
+				height: "auto",
 			});
 			
 			createAdImageEvent(adImage,ads.a_id,counter,ads.name);

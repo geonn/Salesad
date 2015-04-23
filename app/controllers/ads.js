@@ -33,13 +33,16 @@ var getAdDetails = function(a_id){
 	var imagepath, adImage, row, cell = '';
 	var last = items.length-1;
  	var adspage = Ti.UI.createScrollView({
- 		height:	Ti.UI.FILL,
+ 		
  		ads_name: ads.ads_name,
  		m_id: ads.m_id,
  		ads_background: ads.ads_background,
  		a_id: ads.a_id,
-		width:	Ti.UI.FILL,
+		bottom: 4,
 		scrollType: "vertical",
+		height:	Ti.UI.FILL,
+		width:	Ti.UI.FILL,
+		contentHeight: Ti.UI.FILL,
 		contentHeight: Ti.UI.SIZE,
  		layout:"vertical"
  	});
@@ -93,8 +96,9 @@ var getAdDetails = function(a_id){
 			adImage = Ti.UI.createImageView({
 				defaultImage: "/images/warm-grey-bg.png",
 				image: imagepath,
+				left: 4,
 				width: Ti.UI.FILL,
-				height: Ti.UI.FILL
+				height: "auto",
 			});
 			
 			createAdImageEvent(adImage,ads.a_id,counter,ads.name);
@@ -137,8 +141,8 @@ var getAdDetails = function(a_id){
 	//var ads_title = textCounter(pageTitle , 14);
 
 	$.adsView.ads_details.addView(adspage);
-	
-	
+	$.adsView.ads_details.scrollToView(1);
+	$.adsView.ads_details.scrollToView(0);
 	$.adsView.activityIndicator.hide();
 	$.adsView.loadingBar.opacity = "0";
 	$.adsView.loadingBar.height = "0";

@@ -5,6 +5,6 @@
         	<Label top="5" text="Loading" color="#ffffff" />
         </View>
 		<View id="main" layout="vertical">
-			<ScrollView layout="vertical" id="scrollview" top=''></ScrollView>
+			<TableView id="category_tv"></TableView>
 		</View>
 </Alloy>

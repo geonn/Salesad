@@ -45,22 +45,21 @@ function buildCateogryList(){
 			top: 4, right:4, left:4, bottom:4,
 		});
 		
-		var curActivity = Titanium.Android.currentActivity;
-		if (curActivity != null) {  
-			var activityIndicator = Ti.UI.createActivityIndicator({
-			  color: 'green', 
-			  bottom:10,
-			  right:10,
-			  height:Ti.UI.SIZE,
-			  width:Ti.UI.SIZE
-			});
-			if(Ti.Platform.osname == "android"){
-				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK; 
-			}else if (Ti.Platform.name === 'iPhone OS'){
-				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
-			}
-			activityIndicator.show();
+		 
+		var activityIndicator = Ti.UI.createActivityIndicator({
+		  color: 'green', 
+		  bottom:10,
+		  right:10,
+		  height:Ti.UI.SIZE,
+		  width:Ti.UI.SIZE
+		});
+		if(Ti.Platform.osname == "android"){
+			activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK; 
+		}else if (Ti.Platform.name === 'iPhone OS'){
+			activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
 		}
+		activityIndicator.show();
+		
 		pad_categoryLabel.add(categoryLabel);
 		pad_cell.add(temp_image);
 		pad_cell.add(pad_categoryLabel);
@@ -133,16 +132,19 @@ var bannerListing = function(){
 	var bannerHeight = $.indexView.bannerListing.rect.height; 
 	
 	for (var i=0; i< banners.length; i++) { 
-		adImage = Ti.UI.createImageView({
+			adImage = Ti.UI.createImageView({
 				image: banners[i].img,
 				source: banners[i].m_id,
 				width:"100%",
 				height: bannerHeight,
 				defaultImage: "/images/warm-grey-bg.png",
 			});
-			
-			var curActivity = Titanium.Android.currentActivity;
-			if (curActivity != null) { 
+			var curActivity = '';
+			if(Ti.Platform.osname == "android"){
+				 console.log('a');
+				curActivity = Titanium.Android.currentActivity;
+			}
+			if (curActivity != null || Ti.Platform.name === 'iPhone OS') { 
 				var activityIndicator = Ti.UI.createActivityIndicator({
 				  color: 'green', 
 				  top:10,
@@ -151,13 +153,14 @@ var bannerListing = function(){
 				  width:Ti.UI.SIZE,
 				  zIndex: 11,
 				});
-				if(Ti.Platform.osname == "android"){
-					activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
-					//mainView.activityIndicator.top = 0; 
-				}else if (Ti.Platform.name === 'iPhone OS'){
-					activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
-				}
-				activityIndicator.show();
+			
+			if(Ti.Platform.osname == "android"){
+				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
+				//mainView.activityIndicator.top = 0; 
+			}else if (Ti.Platform.name === 'iPhone OS'){
+				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+			}
+			activityIndicator.show();
 			}
 			adIamgeLoadEvent(adImage, activityIndicator);
 			var scrollView = Ti.UI.createScrollView({
@@ -176,7 +179,7 @@ var bannerListing = function(){
 			row.addEventListener('touchend', function(e) {
 			 	goAd(e.source.source);
 			});
-			
+			console.log(counter+scrollView);
 			scrollView.add(row);
 			the_view.push(scrollView); 
 			counter++;			

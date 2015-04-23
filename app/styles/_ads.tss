@@ -1,15 +1,17 @@
 
 ".container" : {
 	layout: 'vertical',
-	width: Ti.UI.FILL,
+	width: Titanium.UI.FILL,
 	fullscreen: true,
 },
 ".rowAds" :{
 	layout: 'horizontal',
-	height: 200,
+	right: 4,
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.FILL
 },
 ".cellAds" :{
-	left: 2,
-	top: 2,
-	width: '157',
+	top: 4,
+	width: '50%',
+	height: Titanium.UI.SIZE,
 }
