@@ -121,11 +121,7 @@ var createGridListing = function(res){
 			
 	   		//cell = $.categoryDetailsView.UI.create('View', {classes: ["cell"], top: 2});
 	   		
-	   		if(branch == ""){
-		   		createAdImageEvent(adImage, m_id);
-	   		}else{
-	   			createAdBranchEvent(adImage, m_id);
-	   		}
+	   		
 	   		
 	   		var category_label = $.categoryDetailsView.UI.create("Label",{
 	   			height: Ti.UI.SIZE,
@@ -136,6 +132,11 @@ var createGridListing = function(res){
 	   		view.add(adImage);
 	   		view.add(category_label);
 			row.add(view);
+			if(branch == ""){
+		   		createAdImageEvent(row, m_id);
+	   		}else{
+	   			createAdBranchEvent(row, m_id);
+	   		}
 			tableData.push(row);
 	     }
 	     $.categoryDetailsView.category_tv.setData(tableData);
@@ -176,7 +177,7 @@ $.btnBack.addEventListener('click', function(){
 //release memory when close
 $.category_details.addEventListener("close", function(){
     $.categoryDetailsView.destroy();
-    
+    Ti.App.removeEventListener('app:category_detailCreateGridListing', createGridListing);
     /* release function memory */
     createGridListing = null;
     goAd =null;

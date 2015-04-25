@@ -44,6 +44,27 @@ exports.definition = {
                 collection.trigger('sync');
                 return categoryArr;
 			},
+			getExistingId : function(){
+				var collection = this;
+                var sql = "SELECT id FROM " + collection.config.adapter.collection_name ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var categoryArr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					categoryArr.push(res.fieldByName('id'));
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return categoryArr.join(",");
+			},
 			getCategoryById : function(cate_id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ cate_id+ "'" ;
@@ -65,6 +86,38 @@ exports.definition = {
                 db.close();
                 collection.trigger('sync');
                 return arr;
+			},
+			removeCategory : function(entry){
+				var collection = this;
+            	db = Ti.Database.open(collection.config.adapter.db_name);
+            	sql_query = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE id in ("+ entry+")";
+            	db.execute(sql_query);
+            	console.log(sql_query);
+	            db.close();
+	            collection.trigger('sync');
+			},
+			saveCategory : function(id, categoryName){
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ id+"'";
+                var sql_query =  "";
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql);
+                 
+                if (res.isValidRow()){ 
+                	if(res.fieldByName('categoryName') != categoryName){
+                		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET categoryName='"+categoryName+"' WHERE id="+ id;
+                		db.execute(sql_query); 
+                	}
+                }else{ 
+                	needRefresh = true;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, categoryName) VALUES ('"+id+"','"+categoryName+"')";
+                	db.execute(sql_query); 
+				} 
+	            db.close();
+	            collection.trigger('sync');
 			},
 			resetCategory : function(){
 				var collection = this;

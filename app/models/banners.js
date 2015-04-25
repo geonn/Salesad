@@ -47,7 +47,27 @@ exports.definition = {
                 collection.trigger('sync');
                 return bannerArr;
 			},
-			 
+			getExistingId : function(){
+				var collection = this;
+                var sql = "SELECT b_id FROM " + collection.config.adapter.collection_name ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var bannerArr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					bannerArr.push(res.fieldByName('b_id'));
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return bannerArr.join(",");
+			},
 			saveBanner : function(entry) {
                 var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE b_id="+ entry.b_id + " AND m_id='"+entry.b_uid+"' "  ;
@@ -65,6 +85,15 @@ exports.definition = {
 				}
            
 	            db.execute(sql_query);
+	            db.close();
+	            collection.trigger('sync');
+            },
+            removeBanner : function(entry){
+            	 var collection = this;
+            	 db = Ti.Database.open(collection.config.adapter.db_name);
+            	 sql_query = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE b_id in ("+ entry+")";
+            	db.execute(sql_query);
+            	console.log(sql_query);
 	            db.close();
 	            collection.trigger('sync');
             },

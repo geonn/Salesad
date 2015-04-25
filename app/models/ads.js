@@ -102,7 +102,7 @@ exports.definition = {
 				}else{
 					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "'" ;
                 }
-    
+    console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);

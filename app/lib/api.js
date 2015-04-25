@@ -101,6 +101,10 @@ exports.loadMerchantListByCategory = function (ex){
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById(100+ex);
 	var last_updated ="";
+	
+	var library = Alloy.createCollection('categoryAds'); 
+	var existing_id = library.getExistingId();
+	
 	if(isUpdate != "" ){
 		last_updated = isUpdate.updated;
 	} 
@@ -115,7 +119,7 @@ exports.loadMerchantListByCategory = function (ex){
 	       if(res.status == "success"){
 	       	/**reset current category**/
 	       	var library = Alloy.createCollection('categoryAds'); 
-			//library.resetCategoryAds(ex);
+			library.resetCategoryAds(ex);
 			
 			/**load new set of category ads from API**/
 	       	var arr = res.data;
@@ -140,6 +144,11 @@ exports.loadMerchantListByCategory = function (ex){
 			    	});
 			    }
 			});
+			
+			if(res.remove){
+				library.removeCategoryAds(res.remove); 
+			}
+			
 			checker.updateModule(100+ex,"loadMerchantListByCategory",currentDateTime());
 			Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	       }
@@ -151,21 +160,24 @@ exports.loadMerchantListByCategory = function (ex){
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	 console.log(url);
+	 client.open("POST", url);
 	 // Send the request.
-	 client.send(); 
+	client.send({list: existing_id});
 };
 
 // load featured banner
 exports.bannerListing = function (type){
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById("2");
+	var library = Alloy.createCollection('banners'); 
+	var existing_id = library.getExistingId();
 	var last_updated ="";
 	if(isUpdate != "" ){
 		last_updated = isUpdate.updated;
 	} 
-	var url = getFeaturedBanner+"&last_updated="+last_updated;
+	var url = getFeaturedBanner;//+"&last_updated="+last_updated;
 	//console.log(url);
 	
 	var client = Ti.Network.createHTTPClient({
@@ -173,10 +185,9 @@ exports.bannerListing = function (type){
 	     onload : function(e) {
 	    
 	       var res = JSON.parse(this.responseText); 
-	       
+	       console.log(res);
 	       if(res.status == "success"){
 	       	/**reset current category**/
-	       	var library = Alloy.createCollection('banners'); 
 			//library.resetBanner();
 			
 			/**load new set of category from API**/
@@ -185,6 +196,10 @@ exports.bannerListing = function (type){
 	       		library.saveBanner(entry); 
 			});
 			
+			if(res.remove){
+				library.removeBanner(res.remove); 
+			}
+			
 			checker.updateModule("2","getFeaturedBanner",currentDateTime());
 			Ti.App.fireEvent('app:bannerListing');
 	       }
@@ -192,17 +207,20 @@ exports.bannerListing = function (type){
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
 	     	//console.log("API getFeaturedBanner fail, skip sycn with server");
+	     	console.log(e);
 	     	Ti.App.fireEvent('app:bannerListing');
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
-	 client.open("GET", url);
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	 console.log(url);
+	 client.open("POST", url);
 	 // Send the request.
-	 client.send(); 
+	client.send({list: existing_id});  
 };
 
-
+//abandoned function
 exports.loadMerchantListByType = function (type){
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById("3");
@@ -459,6 +477,9 @@ exports.loadCategory = function (ex){
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById("5");
 	var last_updated ="";
+	var library = Alloy.createCollection('category'); 
+	var existing_id = library.getExistingId();
+	
 	if(isUpdate != "" ){
 		last_updated = isUpdate.updated;
 	} 
@@ -469,21 +490,19 @@ exports.loadCategory = function (ex){
 	     onload : function(e) {
 	     	  
 	       var res = JSON.parse(this.responseText);
-	       
 	       if(res.status == "Success"){
 	       	/**reset current category**/
-	       	var library = Alloy.createCollection('category'); 
 			//library.resetCategory();
 			/**load new set of category from API**/
 	       	var arr = res.data;
 	       	//console.log(res);
 	       	arr.forEach(function(entry) {
-				var category = Alloy.createModel('category', {
-			        id    : entry.id,
-			        categoryName   : entry.categoryName
-			    });
-			    category.save();
+	       		library.saveCategory(entry.id, entry.categoryName);
 			});
+			
+			if(res.remove){
+				library.removeCategory(res.remove); 
+			}
 			
 			checker.updateModule("5","getCategoryList",currentDateTime());
 			Ti.App.fireEvent('app:loadCategory');
@@ -496,10 +515,11 @@ exports.loadCategory = function (ex){
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	 console.log(url);
+	 client.open("POST", url);
 	 // Send the request.
-	 client.send(); 
+	client.send({list: existing_id});
 };
 
 //private function
