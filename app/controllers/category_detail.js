@@ -12,9 +12,7 @@ Alloy.Globals.tracker.trackEvent({
 }); 
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Category Details"
-});
-/** include required file**/
-var API = require('api');
+}); 
 
 /** load category from Model**/
 var library = Alloy.createCollection("category"); 
@@ -115,14 +113,11 @@ var createGridListing = function(res){
 			
 			adImage = Ti.UI.createImageView({
 				image: imagepath,
+				defaultImage: "/images/warm-grey-bg.png",
 				height: 50,
 				width: 50,
 			});
-			
-	   		//cell = $.categoryDetailsView.UI.create('View', {classes: ["cell"], top: 2});
-	   		
-	   		
-	   		
+			 
 	   		var category_label = $.categoryDetailsView.UI.create("Label",{
 	   			height: Ti.UI.SIZE,
 	   			text: info.name,
@@ -181,7 +176,5 @@ $.category_details.addEventListener("close", function(){
     /* release function memory */
     createGridListing = null;
     goAd =null;
-    goBranch = null; 
-    /* release variable memory */
-    API = null;
+    goBranch = null;  
 });

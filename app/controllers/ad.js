@@ -40,8 +40,7 @@ var getFavorites = model_favorites.getFavoritesByUid(u_id);
 
 var getAdDetails = function(){
 	var ads = a_library.getAdsById(m_id,a_id);
-    var items = i_library.getItemByAds(ads.a_id);
-	console.log(ads);
+    var items = i_library.getItemByAds(ads.a_id); 
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
 	  
@@ -69,7 +68,10 @@ var getAdDetails = function(){
  	
  	if( ads.ads_background !== undefined){
 	 	$.ad.backgroundColor = "#"+ads.ads_background;
-	 	$.adHeader.backgroundColor = "#fffff6";
+	 	if(Ti.Platform.osname == "android"){ 
+	 		$.adHeader.backgroundColor = "#fffff6";
+	 	}
+	 	
 	 }else{
 	 	 $.ad.backgroundColor = "#fffff6";
 	 }
@@ -117,12 +119,21 @@ var getAdDetails = function(){
 		} 
 		
 		isAdsAvailable = true;
+	}else{
+		var noAvailableLabel = Ti.UI.createLabel({
+			text : "No ads available",
+			height: Ti.UI.SIZE,
+			width: Ti.UI.FILL,
+			top:10,
+			textAlign: 'center'
+		});
+		$.adView.ads_details.add(noAvailableLabel);
 	}
 	
 	/**Set Custom title**/
 	var pageTitle = ads.ads_name;
-	if(typeof pageTitle == "undefined"){
-		pageTitle ="";
+	if(typeof pageTitle == "undefined"){ 
+		pageTitle =merchants.name;
 	}else{
 		Alloy.Globals.tracker.trackEvent({
 			category: "ads",

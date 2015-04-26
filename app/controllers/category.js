@@ -58,8 +58,7 @@ function addClickEvent(table){
 function generateMyProfileTable(RegArr){
 	var regData=[];
 	var RegTable = Titanium.UI.createTableView({
-		width:'100%',
-		separatorColor: '#CE1D1C' ,
+		width:'100%', 
 		scrollable: false
 	});
 	var fontSizeClasses = (Ti.App.Properties.getString("fontSizeClasses"))?Ti.App.Properties.getString("fontSizeClasses"):"normal_font";
@@ -113,8 +112,7 @@ function generateMyProfileTable(RegArr){
 function generateCategoryTable(details){
 	var data=[];
 	var TheTable = Titanium.UI.createTableView({
-		width:'100%',
-		separatorColor: '#CE1D1C',
+		width:'100%', 
 		backgroundColor: '#fffff6',
 		//headerView: createCustomView('Categories'),
 	});
@@ -298,8 +296,7 @@ var searchRes = function(res){
 	}else{
 
 		var TheTable = Titanium.UI.createTableView({
-			width:'100%',
-			separatorColor: '#CE1D1C'
+			width:'100%' 
 		});
 		
 		var data=[];

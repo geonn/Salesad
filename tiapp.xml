@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.freejini.salesad</id>
     <name>SalesAd</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <publisher>Freejini</publisher>
     <url>http://</url>
     <description>salesAd</description>
@@ -50,17 +50,14 @@
             </dict>
         </plist>
     </ios>
-     <android xmlns:android="http://schemas.android.com/apk/res/android">
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
         <tool-api-level>16</tool-api-level>
         <manifest>
-            
-            <application android:theme="@style/Theme.NoActionBar"> 
-                <meta-data android:name="com.google.android.maps.v2.API_KEY"
-                    android:value="AIzaSyBJ0EF9lpsbttU_OdKA3BBxscR0ygt9D2A"/>
-                    
+            <application android:theme="@style/Theme.NoActionBar">
+                <meta-data
+                    android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBJ0EF9lpsbttU_OdKA3BBxscR0ygt9D2A"/>
             </application>
             <uses-sdk android:minSdkVersion="14"/>
-             
         </manifest>
     </android>
     <mobileweb>
