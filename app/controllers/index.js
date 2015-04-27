@@ -18,6 +18,7 @@ Alloy.Globals.navMenu = $.navMenu;
 /*********************
 *******FUNCTION*******
 **********************/
+
 function buildCateogryList(){
 	while($.indexView.adListing.children.length>0){
 	    $.indexView.adListing.remove($.indexView.adListing.children[0]);
@@ -34,17 +35,19 @@ function buildCateogryList(){
 			width: Ti.UI.FILL,                           
 		});
 		
-		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundColor: '#000000',opacity:0.5,  zIndex: 10}); 
+		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundImage:  "images/transparent-bg.png", zIndex: 10});
 		var categoryLabel = Ti.UI.createLabel({
 			text: category_list[i].categoryName,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
 			top: 0,
 			zIndex: 10,
+			font:{
+				fontSize: 14
+			},
 			color: "#ffffff",
-			top: 4, right:4, left:4, bottom:4,
+			top: 4, right:4, left:4, bottom:20,
 		});
-		
 		 
 		var activityIndicator = Ti.UI.createActivityIndicator({
 		  color: 'green', 
