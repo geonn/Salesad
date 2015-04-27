@@ -231,9 +231,9 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 		activityIndicator.hide();
 		if(!category_sync_counter){
 			if(Ti.Platform.osname != "android"){
-				$.indexView.scrollview.setDisableBounce(false);
+				//$.indexView.scrollview.setDisableBounce(false);
 			}
-      		$.indexView.scrollview.animate({top:0, duration: 500});
+      		//$.indexView.scrollview.animate({top:0, duration: 500});
 		}
 	});
 }
@@ -309,6 +309,10 @@ $.indexView.scrollview.addEventListener('scroll', function (e) {
        console.log('Pulled', JSON.stringify(e));
        buildCateogryList();
     }
+});
+
+$.indexView.arrow_link.addEventListener('click', function(e){
+	buildCateogryList();
 });
 
 if(Ti.Platform.osname == "android"){

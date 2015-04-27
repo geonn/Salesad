@@ -3,7 +3,8 @@
 		<View id="header">
 			<ImageView left='0' width='157' height='45' image="/images/salesad_logo.png" />
 			<ImageView id="category_link" right='10' bottom="0" height='40' image="/images/salesad_beg.png" />
-			<!--<ImageView id="arrow_link" left='85%' height='30' image="/images/icon-recent.png" />-->
+			<ImageView id="arrow_link" left='65%' height='30' image="/images/icon-recent.png" platform="android" />
+			<!--<ImageView id="arrow_link" left='65%' height='30' image="/images/icon-recent.png" />-->
 			<View bottom='0' class="hr"></View>
 		</View>
 		<View width="Ti.UI.FILL" height="Ti.UI.FILL">
