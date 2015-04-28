@@ -160,8 +160,7 @@ exports.loadMerchantListByCategory = function (ex){
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
-	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	 console.log(url);
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
 	 client.open("POST", url);
 	 // Send the request.
 	client.send({list: existing_id});
@@ -205,16 +204,14 @@ exports.bannerListing = function (type){
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	//console.log("API getFeaturedBanner fail, skip sycn with server");
-	     	console.log(e);
+	     onerror : function(e) { 
 	     	Ti.App.fireEvent('app:bannerListing');
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	 console.log(url);
+ 
 	 client.open("POST", url);
 	 // Send the request.
 	client.send({list: existing_id});  
@@ -516,7 +513,7 @@ exports.loadCategory = function (ex){
 	     timeout : 7000  // in milliseconds
 	 });
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	 console.log(url);
+ 
 	 client.open("POST", url);
 	 // Send the request.
 	client.send({list: existing_id});

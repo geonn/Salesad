@@ -226,8 +226,7 @@ function createAdImageEvent(adImage,m_id, a_id, cate_id) {
 }
 
 function adIamgeLoadEvent(adImage, activityIndicator){
-	adImage.addEventListener('load', function(e) {
-		console.log(adImage);
+	adImage.addEventListener('load', function(e) { 
 		activityIndicator.hide();
 		if(!category_sync_counter){
 			if(Ti.Platform.osname != "android"){
@@ -305,8 +304,7 @@ $.indexView.scrollview.addEventListener('scroll', function (e) {
        if(Ti.Platform.osname != "android"){
        	$.indexView.scrollview.setDisableBounce(true);
        }
-       $.indexView.scrollview.setTop(30);
-       console.log('Pulled', JSON.stringify(e));
+       $.indexView.scrollview.setTop(30); 
        buildCateogryList();
     }
 });
