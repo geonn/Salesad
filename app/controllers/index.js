@@ -309,11 +309,13 @@ $.indexView.scrollview.addEventListener('scroll', function (e) {
     }
 });
 
-$.indexView.arrow_link.addEventListener('click', function(e){
-	buildCateogryList();
-});
+
 
 if(Ti.Platform.osname == "android"){
+	$.indexView.arrow_link.addEventListener('click', function(e){
+		buildCateogryList();
+	});
+
 	$.indexView.root.addEventListener('android:back', function (e) {
 		var dialog = Ti.UI.createAlertDialog({
 			    cancel: 1,

@@ -109,7 +109,7 @@ exports.loadMerchantListByCategory = function (ex){
 		last_updated = isUpdate.updated;
 	} 
 	var url = getMerchantListByCategory+"&category_id="+ex+"&last_updated="+last_updated;
-	//console.log(url);
+	console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -184,7 +184,7 @@ exports.bannerListing = function (type){
 	     onload : function(e) {
 	    
 	       var res = JSON.parse(this.responseText); 
-	       console.log(res);
+	       //console.log(res);
 	       if(res.status == "success"){
 	       	/**reset current category**/
 			//library.resetBanner();
@@ -481,7 +481,7 @@ exports.loadCategory = function (ex){
 		last_updated = isUpdate.updated;
 	} 
 	 var url = getCategoryList+"&last_updated="+last_updated;
-	 //console.log(url);
+	 console.log(url);
 	 var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -492,7 +492,7 @@ exports.loadCategory = function (ex){
 			//library.resetCategory();
 			/**load new set of category from API**/
 	       	var arr = res.data;
-	       	//console.log(res);
+	       	console.log(res);
 	       	arr.forEach(function(entry) {
 	       		library.saveCategory(entry.id, entry.categoryName);
 			});
