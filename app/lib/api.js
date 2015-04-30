@@ -109,7 +109,7 @@ exports.loadMerchantListByCategory = function (ex){
 		last_updated = isUpdate.updated;
 	} 
 	var url = getMerchantListByCategory+"&category_id="+ex+"&last_updated="+last_updated;
-	//console.log(url);
+	console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -160,8 +160,7 @@ exports.loadMerchantListByCategory = function (ex){
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
-	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	 console.log(url);
+	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
 	 client.open("POST", url);
 	 // Send the request.
 	client.send({list: existing_id});
@@ -185,7 +184,7 @@ exports.bannerListing = function (type){
 	     onload : function(e) {
 	    
 	       var res = JSON.parse(this.responseText); 
-	       console.log(res);
+	       //console.log(res);
 	       if(res.status == "success"){
 	       	/**reset current category**/
 			//library.resetBanner();
@@ -205,16 +204,14 @@ exports.bannerListing = function (type){
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	//console.log("API getFeaturedBanner fail, skip sycn with server");
-	     	console.log(e);
+	     onerror : function(e) { 
 	     	Ti.App.fireEvent('app:bannerListing');
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	 console.log(url);
+ 
 	 client.open("POST", url);
 	 // Send the request.
 	client.send({list: existing_id});  
@@ -495,7 +492,7 @@ exports.loadCategory = function (ex){
 			//library.resetCategory();
 			/**load new set of category from API**/
 	       	var arr = res.data;
-	       	//console.log(res);
+	       	console.log(res);
 	       	arr.forEach(function(entry) {
 	       		library.saveCategory(entry.id, entry.categoryName);
 			});
@@ -516,7 +513,7 @@ exports.loadCategory = function (ex){
 	     timeout : 7000  // in milliseconds
 	 });
 	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	 console.log(url);
+ 
 	 client.open("POST", url);
 	 // Send the request.
 	client.send({list: existing_id});

@@ -10,7 +10,7 @@ exports.definition = {
 		    "longitude": "TEXT",
 		    "latitude" : "TEXT",
 		    "state": "TEXT",
-		    "updated": "datetime", 
+		    "updated": "TEXT", 
 		    "img_path": "TEXT"
 		},
 		adapter: {
