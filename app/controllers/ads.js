@@ -233,11 +233,22 @@ $.adsView.ads_details.addEventListener("scrollend", function(e){
 	}else{
 		$.favorites.visible = true;
 	}
- 
+ 	
+ 	label_text = label_text.replace(/"/g, "");
 	m_id = m_id_v.replace(/"/g, "");
 	a_id = a_id_v.replace(/"/g, "");  
 	$.ad.backgroundColor = "#"+JSON.stringify(e.view.ads_background).replace(/"/g, "");
-
+	
+	var custom = Ti.UI.createLabel({ 
+	    text: label_text, 
+	    color: '#CE1D1C' 
+	});
+	if(Ti.Platform.osname == "android"){ 
+		$.pageTitle.add(custom);   
+	}else{
+		$.ad.titleControl = custom; 
+	} 
+	
 });
 
 $.location.addEventListener('click', function(e){

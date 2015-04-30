@@ -28,7 +28,7 @@ function generateSettingTable(){
 		{ title: 'Help', hasChild:true },
 		{ title: 'Privacy and Terms', hasChild:true },
 		{ title: 'Text Size', hasChild:true },
-		{ title: 'Push Notification', hasChild:true }
+		{ title: 'Push Notification', hasChild:true },
 	];
 
 	var fontSizeClasses = (Ti.App.Properties.getString("fontSizeClasses"))?Ti.App.Properties.getString("fontSizeClasses"):"normal_font";
@@ -72,7 +72,35 @@ function generateSettingTable(){
 		regData.push(regRow);
 	}
 
-	RegTable.setData(regData); 
+	RegTable.setData(regData);
+	var regRow = Titanium.UI.createTableViewRow({
+		    touchEnabled: true,
+		    height: 50, 
+		    id: "profile",
+		    backgroundSelectedColor: "#FFE1E1",
+			backgroundColor: "#FFFFF6",
+		  });
+
+	var title = $.UI.create('label', {
+		text: "Version" , 
+		classes: [fontSizeClasses],
+		color: "#848484",
+		width:'auto',
+		textAlign:'left',
+		left:20,
+	});
+	
+	var subtitle = $.UI.create('label', {
+		text: Ti.App.version, 
+		classes: [fontSizeClasses],
+		color: "#848484",
+		width:'auto',
+		textAlign:'left',
+		right:10,
+	});
+	regRow.add(title);
+	regRow.add(subtitle);
+	RegTable.appendRow(regRow);
 	//$.setting.removeAllChildren();
 	$.settingView.settingTable.add(RegTable);
 }

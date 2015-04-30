@@ -1,5 +1,5 @@
 /*********************
-*** SETTING / API ***
+*** VERSION CONTROL ***
 **********************/
 var API_DOMAIN = "salesad.freejini.com.my";
 var XHR = require("xhr");
@@ -8,63 +8,35 @@ var xhr = new XHR();
 // APP authenticate user and key
 var USER  = 'salesad';
 var KEY   = '06b53047cf294f7207789ff5293ad2dc';
-var getCategoryList            = "http://"+API_DOMAIN+"/api/getCategoryList?user="+USER+"&key="+KEY;
-var getFeaturedBanner   	   = "http://"+API_DOMAIN+"/api/getFeaturedBannerList?user="+USER+"&key="+KEY;
-var getMerchantListByType      = "http://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY;
-var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
-var getAdsByCategoryList  = "http://"+API_DOMAIN+"/api/getAdsByCategoryList?user="+USER+"&key="+KEY;
+var getAppVersion = "http://"+API_DOMAIN+"/api/getCategoryList?user="+USER+"&key="+KEY;
 
-var searchNearbyMerchant       = "http://"+API_DOMAIN+"/api/searchNearbyMerchant?user="+USER+"&key="+KEY;
-var getAdsDetailsById = "http://"+API_DOMAIN+"/api/getAdsDetailsById?user="+USER+"&key="+KEY;
-var searchResult               = "http://"+API_DOMAIN+"/api/searchResult?user="+USER+"&key="+KEY;
-var updateToken  	     	   = "http://"+API_DOMAIN+"/api/updateToken?user="+USER+"&key="+KEY;
-var updateUserFavourite  	   = "http://"+API_DOMAIN+"/api/updateUserFavourite?user="+USER+"&key="+KEY;
-
-exports.getUserList       = "http://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;
-exports.getCategoryList   = getCategoryList;
-//exports.getMerchantListByCategory      = "http://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY+"type=category";
-
-exports.forgotPassword    = "http://"+API_DOMAIN+"/api/doForgotPassword?user="+USER+"&key="+KEY;
-exports.registerUser      = "http://"+API_DOMAIN+"/api/registerUser?user="+USER+"&key="+KEY;
-exports.loginUser         = "http://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
-exports.logoutUser        = "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY;
-exports.updateUserProfile = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY;
-exports.updateUserPassword= "http://"+API_DOMAIN+"/api/updateUserPassword?user="+USER+"&key="+KEY;
-exports.getImagesByAds    = "http://"+API_DOMAIN+"/api/getImagesByAds?user="+USER+"&key="+KEY;
 /*********************
 **** API FUNCTION*****
 **********************/
 
 // update user device token
-exports.updateNotificationToken = function(e){
-	var deviceToken = Ti.App.Properties.getString('deviceToken');
-	var u_id = Ti.App.Properties.getString('u_id');
-	var notification = Ti.App.Properties.getString('notification'); 
-	if(deviceToken != ""){
-		
-		var url = updateToken+"&token="+deviceToken+"&u_id="+u_id+"&status="+notification;
-		//console.log(url);
-		var client = Ti.Network.createHTTPClient({
-		     // function called when the response data is available
-		     onload : function(e) {
-		    
-		       var res = JSON.parse(this.responseText);
-	
-		       if(res.status == "success"){
-		       	
-		       }
-		     },
-		     // function called when an error occurs, including a timeout
-		     onerror : function(e) {
-		     },
-		     timeout : 7000  // in milliseconds
-		 });
-		 // Prepare the connection.
-		 client.open("GET", url);
-		 // Send the request.
-		 client.send(); 
-	}
-	
+exports.checkVersionUptoDate = function(e){
+	var url = updateToken+"&token="+deviceToken+"&u_id="+u_id+"&status="+notification;
+	//console.log(url);
+	var client = Ti.Network.createHTTPClient({
+	     // function called when the response data is available
+	     onload : function(e) {
+	    
+	       var res = JSON.parse(this.responseText);
+
+	       if(res.status == "success"){
+	       	
+	       }
+	     },
+	     // function called when an error occurs, including a timeout
+	     onerror : function(e) {
+	     },
+	     timeout : 7000  // in milliseconds
+	 });
+	 // Prepare the connection.
+	 client.open("GET", url);
+	 // Send the request.
+	 client.send();
 };
 
 // update user favourite list
@@ -366,7 +338,7 @@ exports.loadAdsByCategory = function(cate_id){
 		last_updated = isUpdate.updated;
 	}
 	var url = getAdsByCategoryList+"&category_id="+cate_id+"&last_updated="+last_updated;
-	console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -381,10 +353,10 @@ exports.loadAdsByCategory = function(cate_id){
 	       	var arr = res.data;
 	       	arr.forEach(function(entry) {
 			     var ads = Alloy.createCollection('ads'); 
-				 var needRefresh = ads.saveAds(entry.a_id, entry.m_id, entry.branch, entry.name, entry.template_id, entry.description,entry.app_background, entry.img_path, entry.status, entry.activate_date, entry.expired_date, entry.created, entry.updated);
+				 var needRefresh = ads.saveAds(entry.a_id, entry.m_id, entry.b_id, entry.name, entry.template_id, entry.description,entry.app_background, entry.img_path);
 			         	
 			     //Save item info
-				 var items = entry.item;
+				 var items = entry.item; 
 				 var it = Alloy.createCollection('items'); 
 				 it.resetItem(entry.a_id);	    
 				 if(items.length > 0){
@@ -484,7 +456,7 @@ exports.loadCategory = function (ex){
 		last_updated = isUpdate.updated;
 	} 
 	 var url = getCategoryList+"&last_updated="+last_updated;
-	 console.log(url);
+	 //console.log(url);
 	 var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

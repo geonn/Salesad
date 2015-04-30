@@ -23,9 +23,11 @@ exports.definition = {
 				var limit = limit || false;
 				var collection = this;
                 if(limit){
-                	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id limit 0,1";
+                	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+") as a, ads as b WHERE a.m_id = b.m_id order by b.updated desc limit 0,1";
+                	//sql = "SELECT merchants.m_id FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";
+                	sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id order by b.updated desc limit 0,1";
                 }else{
-                	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id";
+                	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id order by b.updated desc";
                 }
                 
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
@@ -39,13 +41,13 @@ exports.definition = {
                 var count = 0;
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	// for(var a = 0; a < row_count; a++){
-                		// console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	// }
+                	/* for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }*/
 					arr[count] = {
-					    m_id: res.fieldByName('a.m_id'),
-					    //updated: res.fieldByName('updated'),
-					    updated: res.field(1),
+					    m_id: res.fieldByName('m_id'),
+					    updated: res.fieldByName('updated'),
+					    //updated: res.field(1),
 					    img_path: res.fieldByName('img_path'),
 					    a_id: res.fieldByName('a_id')
 					};
