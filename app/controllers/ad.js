@@ -131,7 +131,7 @@ var getAdDetails = function(){
 	}
 	
 	/**Set Custom title**/
-	var pageTitle = ads.ads_name;
+	
 	if(typeof pageTitle == "undefined"){ 
 		pageTitle =merchants.name;
 	}else{
@@ -151,6 +151,7 @@ var getAdDetails = function(){
     	pageTitle = pageTitle.substring(0, 14) + "...";
  
     }
+    pageTitle =pageTitle.replace(/&quot;/g, "'");
 	
 	var custom = Ti.UI.createLabel({ 
 		    text: pageTitle, 

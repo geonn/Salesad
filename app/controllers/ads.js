@@ -116,7 +116,7 @@ var getAdDetails = function(a_id){
 	}
 	
 	/**Set Custom title*/
-	var pageTitle = ads.ads_name;
+	var pageTitle = ads.ads_name; 
 	if(typeof pageTitle == "undefined"){
 		pageTitle ="";
 	}else{
@@ -180,9 +180,10 @@ for(var a = 0; ads.length > a; a++){
 /********						set first ads title								*******/
 var a_library = Alloy.createCollection('ads'); 
 var currentAds = a_library.getAdsInfo(ads[0].a_id);
-	
+var	adsTitle = currentAds[0].ads_name;
+adsTitle =adsTitle.replace(/&quot;/g, "'");
 var custom = Ti.UI.createLabel({ 
-		    text: currentAds[0].ads_name, 
+		    text: adsTitle, 
 		    color: '#CE1D1C' 
 });
 if(Ti.Platform.osname == "android"){ 
@@ -234,11 +235,12 @@ $.adsView.ads_details.addEventListener("scrollend", function(e){
 		$.favorites.visible = true;
 	}
  	
- 	label_text = label_text.replace(/"/g, "");
+ 	label_text = label_text.replace(/"/g, ""); 
+	label_text =label_text.replace(/&quot;/g, "'");
 	m_id = m_id_v.replace(/"/g, "");
 	a_id = a_id_v.replace(/"/g, "");  
 	$.ad.backgroundColor = "#"+JSON.stringify(e.view.ads_background).replace(/"/g, "");
-	
+ 
 	var custom = Ti.UI.createLabel({ 
 	    text: label_text, 
 	    color: '#CE1D1C' 

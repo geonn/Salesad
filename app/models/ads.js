@@ -126,7 +126,7 @@ exports.definition = {
 				}else{
 					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "'" ;
                 }
-    console.log(sql);
+                //console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -154,11 +154,13 @@ exports.definition = {
                 return arr;
 			},
 			saveAds : function(a_id,m_id,b_id,ads_name,template,desc,ads_background, img_path, status, active_date, expired_date, created, updated){
-			//console.log("start save ad");
+			//console.log("start save ad"); 
+				ads_name = ads_name.replace(/["']/g, "&quot;");
+					
 				var needRefresh = false;
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+"' AND b_id='"+b_id+ "'" ;
-                console.log(sql);
+                //console.log(sql);
                 var sql_query =  "";
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -168,12 +170,12 @@ exports.definition = {
                 var res = db.execute(sql);
                  
                 if (res.isValidRow()){ 
-                	console.log(res.fieldByName('updated')+" "+updated+" "+ads_name);
+                	//console.log(res.fieldByName('updated')+" "+updated+" "+ads_name);
                 	if(res.fieldByName('ads_name') != ads_name || res.fieldByName('template') != template || res.fieldByName('desc') != desc || res.fieldByName('ads_background') != ads_background || res.fieldByName('img_path') != img_path || res.fieldByName('status') != status || res.fieldByName('active_date') != active_date || res.fieldByName('expired_date') != expired_date || res.fieldByName('created') != created || res.fieldByName('updated') != updated){
                 		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id='"+a_id+"', ads_name='"+ads_name+"', template='"+template+"', desc='"+desc+"', img_path='"+img_path+"', ads_background='"+ads_background+"', status='"+status+"', active_date='"+active_date+"', expired_date='"+expired_date+"', created='"+created+"', updated='"+updated+"' WHERE m_id="+ m_id+" AND b_id='"+b_id+ "'" ;
                 		needRefresh = true;
                 		db.execute(sql_query); 
-                		console.log(sql_query);
+                		 
                 	}
                 }else{ 
                 	needRefresh = true;
