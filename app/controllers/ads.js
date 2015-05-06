@@ -246,6 +246,7 @@ $.adsView.ads_details.addEventListener("scrollend", function(e){
 	    color: '#CE1D1C' 
 	});
 	if(Ti.Platform.osname == "android"){ 
+		$.pageTitle.removeAllChildren();
 		$.pageTitle.add(custom);   
 	}else{
 		$.ad.titleControl = custom; 

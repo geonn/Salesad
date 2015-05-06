@@ -98,7 +98,6 @@ var bannerListing = function(){
 			id: "scrollableView",
 			views:the_view,
 			showPagingControl:true,
-			backgroundImage: "/images/warm-grey-bg.png",
 		});
 		//scrollableView.setPagingControlColor("transparent");
 		$.indexView.bannerListing.removeAllChildren();

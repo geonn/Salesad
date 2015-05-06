@@ -1,102 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ti:app 
-  xmlns:ti="http://ti.appcelerator.org">
-  <id>com.freejini.salesad</id>
-  <name>SalesAd</name>
-  <version>1.0.1</version>
-  <publisher>Freejini</publisher>
-  <url>http://</url>
-  <description>salesAd</description>
-  <copyright>2014 by Freejini</copyright>
-  <icon>appicon.png</icon>
-  <fullscreen>true</fullscreen>
-  <navbar-hidden>true</navbar-hidden>
-  <analytics>true</analytics>
-  <guid>254f579d-1452-4389-9ddd-9c270646c49f</guid>
-  <property name="acs-oauth-secret-development" type="string">Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF</property><!-- Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF-->
-  <property name="acs-oauth-key-development" type="string">PkZ7J8IJ29OvM3gZdYiMDm2csn2LbFAc</property><!-- PkZ7J8IJ29OvM3gZdYiMDm2csn2LbFAc -->
-  <property name="acs-api-key-development" type="string">7MWTMBcIFOXz5Qlr1R1WazsOL72owDVs</property><!-- 7MWTMBcIFOXz5Qlr1R1WazsOL72owDVs-->
-  <property name="acs-oauth-secret-production" type="string">AIV9JbEMCDjFzZrT9kEWDxhf0aiZ4CoN</property><!-- AIV9JbEMCDjFzZrT9kEWDxhf0aiZ4CoN -->
-  <property name="acs-oauth-key-production" type="string">IjGnFgdopbmXA6tFw6nOxfM7afOc3050</property><!-- IjGnFgdopbmXA6tFw6nOxfM7afOc3050 -->
-  <property name="acs-api-key-production" type="string">b86xvjABSob7NahzKYMtEtAVWXhOd06w</property><!--b86xvjABSob7NahzKYMtEtAVWXhOd06w -->
-  <property name="ti.ui.defaultunit" type="string">dip</property>
-  <ios>
-    <plist>
-      <dict>
-        <key>UISupportedInterfaceOrientations~iphone</key>
-        <array>
-          <string>UIInterfaceOrientationPortrait</string>
-        </array>
-        <key>UISupportedInterfaceOrientations~ipad</key>
-        <array>
-          <string>UIInterfaceOrientationPortrait</string>
-          <string>UIInterfaceOrientationPortraitUpsideDown</string>
-          <string>UIInterfaceOrientationLandscapeLeft</string>
-          <string>UIInterfaceOrientationLandscapeRight</string>
-        </array>
-        <key>UIRequiresPersistentWiFi</key>
-        <false/>
-        <key>UIPrerenderedIcon</key>
-        <false/>
-        <key>UIStatusBarHidden</key>
-        <false/>
-        <key>UIStatusBarStyle</key>
-        <string>UIStatusBarStyleDefault</string>
-        <key>NSLocationAlwaysUsageDescription</key>
-        <string>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
+    <id>com.freejini.salesad</id>
+    <name>SalesAd</name>
+    <version>1.0.1</version>
+    <publisher>Freejini</publisher>
+    <url>http://</url>
+    <description>salesAd</description>
+    <copyright>2014 by Freejini</copyright>
+    <icon>appicon.png</icon>
+    <fullscreen>true</fullscreen>
+    <navbar-hidden>true</navbar-hidden>
+    <analytics>true</analytics>
+    <guid>254f579d-1452-4389-9ddd-9c270646c49f</guid>
+    <property name="acs-oauth-secret-development" type="string">Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF</property>
+    <!-- Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF-->
+    <property name="acs-oauth-key-development" type="string">PkZ7J8IJ29OvM3gZdYiMDm2csn2LbFAc</property>
+    <!-- PkZ7J8IJ29OvM3gZdYiMDm2csn2LbFAc -->
+    <property name="acs-api-key-development" type="string">7MWTMBcIFOXz5Qlr1R1WazsOL72owDVs</property>
+    <!-- 7MWTMBcIFOXz5Qlr1R1WazsOL72owDVs-->
+    <property name="acs-oauth-secret-production" type="string">AIV9JbEMCDjFzZrT9kEWDxhf0aiZ4CoN</property>
+    <!-- AIV9JbEMCDjFzZrT9kEWDxhf0aiZ4CoN -->
+    <property name="acs-oauth-key-production" type="string">IjGnFgdopbmXA6tFw6nOxfM7afOc3050</property>
+    <!-- IjGnFgdopbmXA6tFw6nOxfM7afOc3050 -->
+    <property name="acs-api-key-production" type="string">b86xvjABSob7NahzKYMtEtAVWXhOd06w</property>
+    <!--b86xvjABSob7NahzKYMtEtAVWXhOd06w -->
+    <property name="ti.ui.defaultunit" type="string">dip</property>
+    <ios>
+        <plist>
+            <dict>
+                <key>UISupportedInterfaceOrientations~iphone</key>
+                <array>
+                    <string>UIInterfaceOrientationPortrait</string>
+                </array>
+                <key>UISupportedInterfaceOrientations~ipad</key>
+                <array>
+                    <string>UIInterfaceOrientationPortrait</string>
+                    <string>UIInterfaceOrientationPortraitUpsideDown</string>
+                    <string>UIInterfaceOrientationLandscapeLeft</string>
+                    <string>UIInterfaceOrientationLandscapeRight</string>
+                </array>
+                <key>UIRequiresPersistentWiFi</key>
+                <false/>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+                <key>UIStatusBarHidden</key>
+                <false/>
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleDefault</string>
+                <key>NSLocationAlwaysUsageDescription</key>
+                <string>
                     Specify the reason for accessing the user's location information.
                     This appears in the alert dialog when asking the user for permission to
                     access their location.
                 </string>
-      </dict>
-    </plist>
-  </ios>
-  <android 
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <tool-api-level>16</tool-api-level>
-    <manifest>
-      <application android:theme="@style/Theme.NoActionBar">
-        <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBJ0EF9lpsbttU_OdKA3BBxscR0ygt9D2A"/>
-      </application>
-      <uses-sdk android:minSdkVersion="14"/>
-    </manifest>
-  </android>
-  <mobileweb>
-    <precache/>
-    <splash>
-      <enabled>true</enabled>
-      <inline-css-images>true</inline-css-images>
-    </splash>
-    <theme>default</theme>
-  </mobileweb>
-  <modules>
-    <module platform="android">analytics.google</module>
-    <module platform="android">ti.cloudpush</module>
-    <module platform="commonjs">ti.cloud</module>
-    <module platform="iphone">ti.map</module>
-    <module platform="android">ti.map</module>
-    <module platform="iphone">analytics.google</module>
-  </modules>
-  <deployment-targets>
-    <target device="android">true</target>
-    <target device="ipad">true</target>
-    <target device="iphone">true</target>
-    <target device="mobileweb">true</target>
-    <target device="tizen">false</target>
-  </deployment-targets>
-  <sdk-version>3.5.1.GA</sdk-version>
-  <plugins>
-    <plugin version="1.0">ti.alloy</plugin>
-  </plugins>
-  <property name="appc-app-id" type="string">5549b4033c877cc7403faf25</property>
-  <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
-  <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
-  <property name="acs-username-development" type="string">appc_app_user_dev</property>
-  <property name="acs-password-development" type="string">dQVdImJOh7ayrMeN8L</property>
-  <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
-  <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
-  <property name="acs-username-production" type="string">appc_app_user</property>
-  <property name="acs-password-production" type="string">uAbeYqw9NzUxhtwtrk</property>
-  <property name="appc-org-id" type="number">100016072</property>
-  <property name="appc-creator-user-id" type="string">974ebc0c-0865-4ea6-b748-9098dc431587</property>
+            </dict>
+        </plist>
+    </ios>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <tool-api-level>16</tool-api-level>
+        <manifest>
+            <application android:theme="@style/Theme.NoActionBar">
+                <meta-data
+                    android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBJ0EF9lpsbttU_OdKA3BBxscR0ygt9D2A"/>
+            </application>
+            <uses-sdk android:minSdkVersion="14"/>
+        </manifest>
+    </android>
+    <mobileweb>
+        <precache/>
+        <splash>
+            <enabled>true</enabled>
+            <inline-css-images>true</inline-css-images>
+        </splash>
+        <theme>default</theme>
+    </mobileweb>
+    <modules>
+        <module platform="android">analytics.google</module>
+        <module platform="android">ti.cloudpush</module>
+        <module platform="commonjs">ti.cloud</module>
+        <module platform="iphone">ti.map</module>
+        <module platform="android">ti.map</module>
+        <module platform="iphone">analytics.google</module>
+    </modules>
+    <deployment-targets>
+        <target device="android">true</target>
+        <target device="ipad">true</target>
+        <target device="iphone">true</target>
+        <target device="mobileweb">true</target>
+        <target device="tizen">false</target>
+    </deployment-targets>
+    <sdk-version>3.5.0.GA</sdk-version>
+    <plugins>
+        <plugin version="1.0">ti.alloy</plugin>
+    </plugins>
+    <property name="appc-app-id" type="string">5549b4033c877cc7403faf25</property>
+    <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-username-development" type="string">appc_app_user_dev</property>
+    <property name="acs-password-development" type="string">dQVdImJOh7ayrMeN8L</property>
+    <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
+    <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
+    <property name="acs-username-production" type="string">appc_app_user</property>
+    <property name="acs-password-production" type="string">uAbeYqw9NzUxhtwtrk</property>
+    <property name="appc-org-id" type="number">100016072</property>
+    <property name="appc-creator-user-id" type="string">974ebc0c-0865-4ea6-b748-9098dc431587</property>
 </ti:app>
