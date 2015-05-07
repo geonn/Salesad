@@ -190,6 +190,7 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id){
 	var c_ads_library = Alloy.createCollection('categoryAds');
 	var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 1);
 	if(typeof latestc[0] == 'object' && latestc[0].a_id != 0 && typeof latestc[0].a_id != 'object'){
+
 		var adImage = Ti.UI.createImageView({
    			defaultImage: "/images/warm-grey-bg.png",
 			image: latestc[0].img_path,
@@ -254,6 +255,7 @@ function bannerAdIamgeLoadEvent(adImage, activityIndicator){
 function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		category_sync_counter--;
+		console.log(e.source);
 		activityIndicator.hide();
 		if(!category_sync_counter){
 			if(Ti.Platform.osname != "android"){
