@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.freejini.salesad</id>
     <name>SalesAd</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <publisher>Freejini</publisher>
     <url>http://</url>
     <description>salesAd</description>
