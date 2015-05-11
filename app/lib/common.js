@@ -25,6 +25,15 @@ exports.closeWindow = function(win){
 	} 
 };
 
+exports.removeAllChildren = function(viewObject){
+    //copy array of child object references because view's "children" property is live collection of child object references
+    var children = viewObject.children.slice(0);
+ 
+    for (var i = 0; i < children.length; ++i) {
+        viewObject.remove(children[i]);
+    }
+};
+
 exports.createAlert = function(tt,msg){
 	var box = Titanium.UI.createAlertDialog({
 		title: tt,

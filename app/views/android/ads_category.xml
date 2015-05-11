@@ -4,6 +4,7 @@
 			<View left="0" width="10%">
 	         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 		    </View>
+		    <View id="pageTitle" width="65%" />
 	 	</View>
         <Require type="view" src="_ads_category" id="adsCategory"/> 
 	</Window>

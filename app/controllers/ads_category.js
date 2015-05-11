@@ -55,7 +55,7 @@ var custom = Ti.UI.createLabel({
 });
 
 if(Ti.Platform.osname == "android"){ 
-	$.pageTitle.removeAllChildren();
+	COMMON.removeAllChildren($.pageTitle);
 	$.pageTitle.add(custom);   
 }else{
 	$.ad.titleControl = custom; 
