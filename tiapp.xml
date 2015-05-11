@@ -86,6 +86,7 @@
         <module platform="iphone">com.appcelerator.apm</module>
     </modules>
     <deployment-targets>
+        <target device="blackberry">false</target>
         <target device="android">true</target>
         <target device="ipad">true</target>
         <target device="iphone">true</target>

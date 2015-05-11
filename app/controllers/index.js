@@ -226,7 +226,7 @@ var goAds = function(m_id, a_id,cate_id){
 	};
 	clickTime = currentTime;
 	
-	var win = Alloy.createController("ads", {m_id:m_id, a_id: a_id, cate_id: cate_id}).getView(); 
+	var win = Alloy.createController("ads_category", {m_id:m_id, a_id: a_id, cate_id: cate_id}).getView(); 
 	COMMON.openWindow(win); 
 };
 
@@ -343,6 +343,7 @@ Ti.App.addEventListener('app:loadCategory', function(e){
 /** IOS Pull to refresh **/
 $.indexView.scrollview.addEventListener('scroll', function (e) {
     //Ti.API.info('scroll', JSON.stringify(e));
+    /*
     if (e.y <= -50 && !category_sync_counter) {
        category_sync_counter = $.indexView.adListing.children.length;
        if(Ti.Platform.osname != "android"){
@@ -350,7 +351,7 @@ $.indexView.scrollview.addEventListener('scroll', function (e) {
        }
        $.indexView.scrollview.setTop(30);
        buildCateogryList();
-    }
+    }*/
 });
 
 /** Android Click to refresh **/
@@ -391,6 +392,10 @@ if(Ti.Platform.osname == "android"){
 			    }
 		});
 		dialog.show(); 
+	});
+}else{
+	$.indexView.salesad_logo.addEventListener('click', function(e){
+		buildCateogryList();
 	});
 }
 

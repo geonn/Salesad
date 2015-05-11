@@ -25,9 +25,9 @@ exports.definition = {
                 if(limit){
                 	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+") as a, ads as b WHERE a.m_id = b.m_id order by b.updated desc limit 0,1";
                 	//sql = "SELECT merchants.m_id FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";
-                	sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id order by b.updated desc limit 0,1";
+                	sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit 0,1";
                 }else{
-                	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id order by b.updated desc";
+                	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc";
                 }
                 
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
