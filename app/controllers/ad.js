@@ -33,7 +33,7 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var model_favorites = Alloy.createCollection('favorites');
 var exist = model_favorites.checkFavoriteExist(a_id, m_id);
 var getFavorites = model_favorites.getFavoritesByUid(u_id);
- 
+var gBannerImg;
 /*********************
 *******FUNCTION*******
 **********************/
@@ -64,6 +64,8 @@ var getAdDetails = function(){
 		height: Ti.UI.SIZE,//ads_height,
 	});
 	
+	gBannerImg = ads.img_path;
+	//Ti.Platform.openURL('whatsapp://send?text='+ads.img_path);
 	$.adView.ads_details.add(bannerImage);
  	
  	if( ads.ads_background !== undefined){
@@ -263,4 +265,76 @@ Ti.App.addEventListener('app:loadAdsDetails', function(e){
 });	
 
 
+/*** GEO experiment***/  
+if (Titanium.Platform.name == 'iPhone OS'){
+	//iOS only module
+	
+	var Social = require('dk.napp.social'); 
+    
+    // find all Twitter accounts on this phone
+    if(Social.isRequestTwitterSupported()){ //min iOS6 required
+	    var accounts = []; 
+	    Social.addEventListener("accountList", function(e){
+	    	Ti.API.info("Accounts:");
+	    	accounts = e.accounts; //accounts
+	    	Ti.API.info(accounts);
+	    });
+	    
+	    Social.twitterAccountList();
+    } 
+     
+    $.share.addEventListener("click", function(e){
+    	 
+		if(Social.isActivityViewSupported()){ //min iOS6 required
+	    	Social.activityView({
+	        	text: pageTitle + ". Download SalesAd : http://apple.co/1RtrCZ4",
+	        	//url: "http://apple.co/1RtrCZ4",
+	        	image:gBannerImg
+	     	});
+	     } else {
+	     	//implement fallback sharing..
+	     	console.log("items called");
+	     }
+		 
+    });
+     
+	Social.addEventListener("twitterRequest", function(e){ //default callback
+		Ti.API.info("twitterRequest: "+e.success);	
+		Ti.API.info(e.response); //json
+		Ti.API.info(e.rawResponse); //raw data - this is a string
+	});
+	 
+	Social.addEventListener("complete", function(e){
+		Ti.API.info("complete: " + e.success);
+		console.log(e);
 
+		if (e.platform == "activityView" || e.platform == "activityPopover") {
+			switch (e.activity) {
+				case Social.ACTIVITY_TWITTER:
+					Ti.API.info("User is shared on Twitter");
+					break;
+				case Social.ACTIVITY_FACEBOOK:
+					Ti.API.info("User is shared on Facebook");
+					break;
+				case Social.ACTIVITY_CUSTOM:
+					Ti.API.info("This is a customActivity: " + e.activityName);
+					break;
+			}
+		}
+	});
+	
+	Social.addEventListener("error", function(e){
+		Ti.API.info("error:");	
+		Ti.API.info(e);	
+	});
+	
+	Social.addEventListener("cancelled", function(e){
+		Ti.API.info("cancelled:");
+		Ti.API.info(e);		
+	}); 
+	Social.addEventListener("customActivity", function(e){
+		Ti.API.info("customActivity");	
+		Ti.API.info(e);	
+		
+	});
+} 

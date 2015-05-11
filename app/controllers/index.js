@@ -10,7 +10,6 @@ ads.addColumn("active_date", "TEXT");
 ads.addColumn("expired_date", "TEXT");
 ads.addColumn("created", "TEXT");
 ads.addColumn("updated", "TEXT");
-
 /** Google Analytic**/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "main",
