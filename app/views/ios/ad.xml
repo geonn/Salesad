@@ -10,7 +10,7 @@
 	        	
 	         	<ImageView right='0' id="location" width='30' image="/images/location.png" />
 	         	<ImageView right='35' id="favorites" width='30' image="/images/icon-favorites.png" />
- 				<Button right='70' id="share" width='30' image="/images/shares.png" />
+ 				<ImageView right='70' id="share" width='30' image="/images/shares.png" />
 	        </View>
         </RightNavButton>
         <Require type="view" src="_ad" id="adView"/> 

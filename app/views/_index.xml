@@ -9,7 +9,7 @@
 		</View>
 		<View width="Ti.UI.FILL" height="Ti.UI.FILL">
 			<ScrollView layout="vertical" id="scrollview" height="Ti.UI.FILL" width="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE">
-				<View id="bannerListing" height="350" backgroundColor="black"></View>
+				<View id="bannerListing" height="350" width="Ti.UI.FILL" backgroundColor="black"></View>
 				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>
 			</ScrollView>
 		</View>

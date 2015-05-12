@@ -11,29 +11,80 @@ var category_info = category_library.getCategoryById(cate_id);
 function buildListing(){
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
 	var ads = c_ads_library.getLatestAdsByCategory(cate_id, 0);
+	console.log(ads);
 	
 	for(var a = 0; ads.length > a; a++){
+		var view_ad = $.UI.create("View",{
+			top: 10,
+			left: 10,
+			right: 10,
+			bottom: 10,
+			layout: "vertical",
+			m_id: ads[a].m_id,
+		  	a_id: ads[a].a_id,
+		  	width : Ti.UI.FILL,
+		  	height: Ti.UI.SIZE,
+			backgroundColor: "#ffffff"
+		});
+		
 		var bannerImage = Ti.UI.createImageView({
 	 	  defaultImage: "/images/warm-grey-bg.png",
 		  image :ads[a].img_path,
 		  width : Ti.UI.FILL,
 		  m_id: ads[a].m_id,
+		  a_id: ads[a].a_id,
 		  height: Ti.UI.SIZE,//ads_height,
-		  top: 10,
-		  left: 10,
-		  right: 10
 		});
-		$.adsCategory.ads_listing.add(bannerImage);
+		
+		var label_merchant = $.UI.create("Label", {
+			font: { fontWeight: 'bold', fontSize: 16},
+			text: ads[a].merchant,
+			top: 4,
+			left: 4,
+			right: 4,
+			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+			width: Ti.UI.FILL,
+			height: Ti.UI.SIZE,
+			color: "#000000"
+		});
+		
+		var label_ads_name = $.UI.create("Label", {
+			text: ads[a].ads_name,
+			left: 4,
+			right: 4,
+			font: {fontSize: 16},
+			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+			width: Ti.UI.FILL,
+			height: Ti.UI.SIZE,
+			color: "#000000"
+		});
+		
+		var label_date_period = $.UI.create("Label", {
+			text: ads[a].active_date+" - "+ads[a].expired_date,
+			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+			font:{fontSize: 12},
+			left: 4,
+			right: 4,
+			bottom: 4,
+			width: Ti.UI.FILL,
+			height: Ti.UI.SIZE,
+			color: "#ff0000"
+		});
+		
+		view_ad.add(bannerImage);
+		view_ad.add(label_merchant);
+		view_ad.add(label_ads_name);
+		view_ad.add(label_date_period);
+		$.adsCategory.ads_listing.add(view_ad);
 		
 		bannerImage.addEventListener('click', function(e) {
-		 	goAd(e.source.m_id);
+		 	goAd(e.source.m_id, e.source.a_id);
 		});
 	}
 }
 
 /** navigate to Ad **/
-var goAd = function(m_id){
-	console.log(m_id);
+var goAd = function(m_id, a_id){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {

@@ -6,7 +6,7 @@ var isFeed = args.isFeed || "";
 var nav = Alloy.Globals.navMenu;
 var clickTime = null;
 var isAdsAvailable  = false;
-
+console.log(args);
 /** google analytics**/
 var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
@@ -40,7 +40,9 @@ var gBannerImg;
 
 var getAdDetails = function(){
 	var ads = a_library.getAdsById(m_id,a_id);
-    var items = i_library.getItemByAds(ads.a_id); 
+    var items = i_library.getItemByAds(ads.a_id);
+    console.log(ads);
+    console.log(items);
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
 	  
@@ -129,14 +131,22 @@ var getAdDetails = function(){
 			top:10,
 			textAlign: 'center'
 		});
-		$.adView.ads_details.add(noAvailableLabel);
+		var default_image = $.UI.create("ImageView",{
+			image: "images/default-panel-1.png",
+			height: Ti.UI.FILL,
+			width: Ti.UI.FILL
+		});
+		$.adView.ads_details.add(default_image);
 	}
 	
 	/**Set Custom title**/
+	console.log(merchants);
 	
 	if(typeof pageTitle == "undefined"){ 
 		pageTitle =merchants.name;
 	}else{
+		pageTitle =merchants.name;
+		
 		Alloy.Globals.tracker.trackEvent({
 			category: "ads",
 			action: "view",
@@ -306,7 +316,6 @@ if (Titanium.Platform.name == 'iPhone OS'){
 	 
 	Social.addEventListener("complete", function(e){
 		Ti.API.info("complete: " + e.success);
-		console.log(e);
 
 		if (e.platform == "activityView" || e.platform == "activityPopover") {
 			switch (e.activity) {

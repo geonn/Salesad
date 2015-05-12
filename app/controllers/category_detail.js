@@ -134,6 +134,7 @@ var createGridListing = function(res){
 	   		}
 			tableData.push(row);
 	     }
+	     console.log(tableData);
 	     $.categoryDetailsView.category_tv.setData(tableData);
    	}
 };

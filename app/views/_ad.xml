@@ -1,8 +1,8 @@
 <Alloy>
 	 
         <View bottom='0' class="hr"></View>
-        <View height="100%">
-			<ScrollView id="ads_details" layout="vertical"></ScrollView>
+        <View height="100%" width="Ti.UI.FILL">
+			<ScrollView id="ads_details" contentWidth="Ti.UI.FILL" layout="vertical"></ScrollView>
 		
 			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
 		        <ActivityIndicator  id="activityIndicator" />

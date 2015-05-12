@@ -65,7 +65,7 @@ var bannerListing = function(){
 				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
 				//mainView.activityIndicator.top = 0; 
 			}else if (Ti.Platform.name === 'iPhone OS'){
-				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
 			}
 			activityIndicator.show();
 			}
@@ -163,7 +163,7 @@ function buildCateogryList(){
 		if(Ti.Platform.osname == "android"){
 			activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK; 
 		}else if (Ti.Platform.name === 'iPhone OS'){
-			activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.LIGHT;
+			activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
 		}
 		activityIndicator.show();
 		

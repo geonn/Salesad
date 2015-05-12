@@ -23,11 +23,10 @@ exports.definition = {
 				var limit = limit || false;
 				var collection = this;
                 if(limit){
-                	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+") as a, ads as b WHERE a.m_id = b.m_id order by b.updated desc limit 0,1";
                 	//sql = "SELECT merchants.m_id FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";
-                	sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit 0,1";
+                	var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit 0,1";
                 }else{
-                	var sql = "select a.m_id, a.updated, b.* from (SELECT merchants.m_id, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc";
+                	var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc";
                 }
                 
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
@@ -39,6 +38,7 @@ exports.definition = {
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
+                
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
                 	/* for(var a = 0; a < row_count; a++){
@@ -46,6 +46,10 @@ exports.definition = {
                 	 }*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
+					    merchant: res.fieldByName('name').replace(/&quot;/g, "'"),
+					    ads_name: res.fieldByName('ads_name').replace(/&quot;/g, "'"),
+					    active_date: res.fieldByName('active_date'),
+					    expired_date: res.fieldByName('expired_date'),
 					    updated: res.fieldByName('updated'),
 					    //updated: res.field(1),
 					    img_path: res.fieldByName('img_path'),
@@ -54,6 +58,10 @@ exports.definition = {
 					res.next();
 					count++;
 				} 
+				if(cate_id == 8){
+					console.log(sql);
+                	console.log(arr);
+                }
 				res.close();
                 db.close();
                 collection.trigger('sync');
