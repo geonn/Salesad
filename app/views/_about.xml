@@ -2,9 +2,9 @@
 	
         <View bottom='0' class="hr"></View>
 		<ScrollView id="main" layout="vertical">
-			<Label class="title_header" bottom=5>Description</Label>
-			<Label class="description_content" bottom=10>SalesAd features the best sales advertisement promotions, daily deals and rewards.</Label>	
-			<Label class="description_content"bottom=20>With SalesAd mobile app, you will never miss the great sales and promotions again!</Label>	
+			<Label class="title_header" bottom="5">Description</Label>
+			<Label class="description_content" bottom="10">SalesAd features the best sales advertisement promotions, daily deals and rewards.</Label>	
+			<Label class="description_content" bottom="20">With SalesAd mobile app, you will never miss the great sales and promotions again!</Label>	
 				
 		</ScrollView>
 	

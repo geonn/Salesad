@@ -1,13 +1,13 @@
 <Alloy>
 	<Window title="REGISTER" class="container" backButtonTitle="" fullscreen="true" navBarHidden="true" id="register" barColor="#CE1D1C" navTintColor="#FFFFFF">
 		<View layout="vertical" class="popupView">
-			<View layout="horizontal" height="40" width="15%" right=0>
+			<View layout="horizontal" height="40" width="15%" right="0">
 		 		<Button id="button" class="closeBtn" onClick="closeWindow" />
 			</View>
 			<View height="auto">
 			 	<View id="main" layout="vertical" height="95%">
 					<ScrollView layout="vertical" showVerticalScrollIndicator="true" id="registerScrollView" showHorizontalScrollIndicator="true" height="320" width="100%">
-						<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width=80 />
+						<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width="80" />
 						<TextField backgroundColor="white" class="textfield" id="username" hintText="Enter Username for login SalesAd" />
 						<TextField backgroundColor="white" class="textfield" id="fullname" hintText="Enter Fullname" />
 						<TextField backgroundColor="white" class="textfield" id="email" hintText="Enter Email" />

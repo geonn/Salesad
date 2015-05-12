@@ -4,10 +4,11 @@
 			<View left="0" width="10%">
 		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="65%" />
+	     	<View id="pageTitle" width="55%" />
 		    <View width="auto">
-	         	<ImageView right='10' id="location" width='30' image="/images/location.png" />
-	         	<ImageView right='45' id="favorites" width='30' image="/images/icon-favorites.png" /> 
+	         	<ImageView right='0' id="location" width='30' image="/images/location.png" />
+	         	<ImageView right='35' id="favorites" width='30' image="/images/icon-favorites.png" /> 
+	         	<ImageView right='70' id="share" width='30' image="/images/shares.png" />
 	        </View>
 	 	</View>
 		<Require type="view" src="_ads" id="adsView"/> 

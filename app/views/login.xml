@@ -8,7 +8,7 @@
         <View height="95%">
 			<View id="main" layout="vertical" height="auto">
 				<View layout="vertical" id="loginScrollView" height="260" width="100%">
-					<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width=150 />
+					<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width="150" />
 					<TextField backgroundColor="white" id="username" hintText="Enter Username" />
 					<TextField backgroundColor="white" id="password" hintText="Enter Password" />
 				</View>

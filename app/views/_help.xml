@@ -2,16 +2,16 @@
 	 
         <View bottom='0' class="hr"></View>
 		<ScrollView id="main" layout="vertical" scrollType="vertical">
-			<Label class="title_header" bottom=5>Description</Label>
-			<Label class="description_content" bottom=10>SalesAd features the best sales advertisement promotions, daily deals and rewards.</Label>	
+			<Label class="title_header" bottom="5">Description</Label>
+			<Label class="description_content" bottom="10">SalesAd features the best sales advertisement promotions, daily deals and rewards.</Label>	
 			
-			<Label class="description_content"bottom=20>With SalesAd mobile app, you will never miss the great sales and promotions again!</Label>	
+			<Label class="description_content" bottom="20">With SalesAd mobile app, you will never miss the great sales and promotions again!</Label>	
 				
-			<Label class="title_header" bottom=5>Key Features</Label>
-			<Label class="description_content" bottom=3>- Daily updates of recent sales and promotions advertisements</Label>	
-			<Label class="description_content" bottom=3>- Categories and specific brands search</Label>	
-			<Label class="description_content" bottom=3>- Register as member and be the first to know the best sales in your city or great deals near you</Label>	
-			<Label class="description_content" bottom=3>- As member, you will also received with your ID barcode to earn rewards points every time you purchase</Label>	
+			<Label class="title_header" bottom="5">Key Features</Label>
+			<Label class="description_content" bottom="3">- Daily updates of recent sales and promotions advertisements</Label>	
+			<Label class="description_content" bottom="3">- Categories and specific brands search</Label>	
+			<Label class="description_content" bottom="3">- Register as member and be the first to know the best sales in your city or great deals near you</Label>	
+			<Label class="description_content" bottom="3">- As member, you will also received with your ID barcode to earn rewards points every time you purchase</Label>	
 				
 		</ScrollView> 
 </Alloy>

@@ -346,4 +346,26 @@ if (Titanium.Platform.name == 'iPhone OS'){
 		Ti.API.info(e);	
 		
 	});
+}else{ 
+	$.share.addEventListener("click", function(e){
+    	var share = createShareOptions();
+		Ti.Android.currentActivity.startActivity(share);
+    });
 } 
+
+function createShareOptions(){
+ 
+    var subject = pageTitle;
+    var text = pageTitle + ". Download SalesAd : http://apple.co/1RtrCZ4";
+  
+    var intent = Ti.Android.createIntent({
+        action: Ti.Android.ACTION_SEND,
+        type: "text/plain",
+    });
+    intent.putExtra(Ti.Android.EXTRA_TEXT,text);
+    intent.putExtra(Ti.Android.EXTRA_SUBJECT,subject);
+ 	intent.putExtraUri(Ti.Android.EXTRA_STREAM,gBannerImg);
+    var share = Ti.Android.createIntentChooser(intent,'Share');
+ 
+    return share;
+}
