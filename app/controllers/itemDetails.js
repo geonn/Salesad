@@ -28,9 +28,9 @@ var getAdsImages = function(){
 	/***Set ads items***/
 	var the_view = [];
 	
-	for (var i=0; i< items.length; i++) {
-		console.log( items[i]);
+	for (var i=0; i< items.length; i++) { 
 		adImage = Ti.UI.createImageView({
+			defaultImage: "/images/warm-grey-bg.png",
 			image: items[i].img_path,
 			width:"100%",
 			height: Ti.UI.SIZE

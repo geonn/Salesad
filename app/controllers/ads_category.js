@@ -11,8 +11,7 @@ var category_info = category_library.getCategoryById(cate_id);
 function buildListing(){
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
 	var ads = c_ads_library.getLatestAdsByCategory(cate_id, 0);
-	console.log(ads);
-	
+	 
 	for(var a = 0; ads.length > a; a++){
 		var view_ad = $.UI.create("View",{
 			top: 10,
