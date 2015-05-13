@@ -1,8 +1,7 @@
 var args = {};
 var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
-var category_sync_counter = 0;
-
+var category_sync_counter = 0; 
 /** add new column for ads **/
 var ads = Alloy.createCollection('ads'); 
 ads.addColumn("status", "INTEGER");
