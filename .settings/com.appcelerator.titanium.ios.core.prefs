@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-iosLaunchConfigurationAttributes/ATTR_MINIFY=true
+iosLaunchConfigurationAttributes/ATTR_MINIFY=false
 iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=Salesad
 iosLaunchConfigurationAttributes/ATTR_UPLOAD_DEBUG_SYMBOLS=false
 iosLaunchConfigurationAttributes/appid=com.freejini.salesad
