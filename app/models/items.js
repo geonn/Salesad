@@ -34,11 +34,15 @@ exports.definition = {
                 var arr = []; 
                 var count = 0;
                  while (res.isValidRow()){
+                 	var caption = res.fieldByName('caption');
+                 	if(caption != ""){
+                 		caption = caption.replace(/&quot;/g,"'");
+                 	} 
 					arr[count] = {
 						i_id: res.fieldByName('i_id'),
 					    a_id: res.fieldByName('a_id'),
 					    price: res.fieldByName('price'),
-					    caption: res.fieldByName('caption'),
+					    caption: caption,
 					    img_path: res.fieldByName('img_path')
 					};
 					res.next();
@@ -59,8 +63,15 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
-                var res = db.execute(sql);
+                var res = db.execute(sql);  
+                if(caption === null){
+                	caption = "";
+                }
                 
+                if(caption != ""){
+                	caption = caption.replace(/["']/g, "&quot;");
+                }
+				
                 if (res.isValidRow()){
              		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id='"+a_id+"', price='"+price+"', caption='"+caption+"', img_path='"+img_path+"' WHERE i_id='" +i_id+"'";
                 }else{
