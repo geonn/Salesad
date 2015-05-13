@@ -29,11 +29,19 @@ var getAdsImages = function(){
 	var the_view = [];
 	
 	for (var i=0; i< items.length; i++) {
-		console.log( items[i].img_path);
+		console.log( items[i]);
 		adImage = Ti.UI.createImageView({
 			image: items[i].img_path,
 			width:"100%",
 			height: Ti.UI.SIZE
+		});
+		
+		var label_caption = Ti.UI.createLabel({
+			top: 0,
+			text: items[i].caption,
+			color: "#ffffff",
+			height: 60,
+			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
 		});
 		
 		var scrollView = Ti.UI.createScrollView({
@@ -50,7 +58,7 @@ var getAdsImages = function(){
 		row = $.UI.create('View', {  id:"view"+counter});
 		
 		row.add(adImage);
-		//row.add(img_caption);
+		row.add(label_caption);
 		scrollView.add(row);
 		the_view.push(scrollView); 
 		
