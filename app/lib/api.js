@@ -19,7 +19,7 @@ var getAdsDetailsById = "http://"+API_DOMAIN+"/api/getAdsDetailsById?user="+USER
 var searchResult               = "http://"+API_DOMAIN+"/api/searchResult?user="+USER+"&key="+KEY;
 var updateToken  	     	   = "http://"+API_DOMAIN+"/api/updateToken?user="+USER+"&key="+KEY;
 var updateUserFavourite  	   = "http://"+API_DOMAIN+"/api/updateUserFavourite?user="+USER+"&key="+KEY;
-
+var updateUserFromFB  		   = "http://"+API_DOMAIN+"/api/updateUserFromFB?user="+USER+"&key="+KEY;
 exports.getUserList       = "http://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;
 exports.getCategoryList   = getCategoryList;
 //exports.getMerchantListByCategory      = "http://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY+"type=category";
@@ -34,6 +34,42 @@ exports.getImagesByAds    = "http://"+API_DOMAIN+"/api/getImagesByAds?user="+USE
 /*********************
 **** API FUNCTION*****
 **********************/
+exports.updateUserFromFB = function(e, mainView){ 
+	var url = updateUserFromFB+"&email="+e.email+"&fbid="+e.fbid+"&link="+e.link+"&name="+e.name+"&gender="+e.gender;
+	console.log(url);
+	var client = Ti.Network.createHTTPClient({
+		// function called when the response data is available
+		onload : function(e) {
+			var res = JSON.parse(this.responseText);
+	
+		    if(res.status == "success"){ 
+		       	var member = Alloy.createCollection('member'); 
+				member.updateUserSession(res.data.u_id, res.data.username, res.data.fullname, res.data.email, res.data.session);
+	          
+	         	/** User session**/
+	         	Ti.App.Properties.setString('u_id', res.data.u_id);
+				Ti.App.Properties.setString('session', res.data.session);
+	         	Ti.App.Properties.setString('facebooklogin', 1);
+	         	 
+	         	//API.updateNotificationToken(); 
+				COMMON.closeWindow(mainView.login); 
+	         	 
+	         	var win = Alloy.createController("profile").getView(); 
+				COMMON.openWindow(win); 
+				COMMON.hideLoading();
+				 
+		    }
+		},
+		// function called when an error occurs, including a timeout
+		onerror : function(e) {
+		},
+		timeout : 7000  // in milliseconds
+	});
+	// Prepare the connection.
+	client.open("GET", url);
+	 // Send the request.
+	client.send();  
+};
 
 // update user device token
 exports.updateNotificationToken = function(e){
@@ -363,7 +399,7 @@ exports.loadAdsByCategory = function(cate_id){
 		last_updated = isUpdate.updated;
 	}
 	var url = getAdsByCategoryList+"&category_id="+cate_id+"&last_updated="+last_updated;
-	console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

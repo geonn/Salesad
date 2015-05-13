@@ -5,8 +5,7 @@ var from = args.from || "";
 var isFeed = args.isFeed || "";
 var nav = Alloy.Globals.navMenu;
 var clickTime = null;
-var isAdsAvailable  = false;
-console.log(args);
+var isAdsAvailable  = false; 
 /** google analytics**/
 var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
@@ -40,9 +39,7 @@ var gBannerImg;
 
 var getAdDetails = function(){
 	var ads = a_library.getAdsById(m_id,a_id);
-    var items = i_library.getItemByAds(ads.a_id);
-    console.log(ads);
-    console.log(items);
+    var items = i_library.getItemByAds(ads.a_id); 
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
 	  

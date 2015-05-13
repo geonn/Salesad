@@ -1,4 +1,4 @@
-var args = arguments[0] || {}; 
+var args = arguments[0] || {};  
 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
@@ -246,7 +246,11 @@ var doLogout = function (e) {
 	  	}
 	  	
 	    if (e.index === 1){
-	    	 
+	    	//fb logout
+	    	if(Ti.App.Properties.getString('facebooklogin') == "1"){
+	    		FACEBOOK.logout();
+	   		}
+	   		
 			var url = API.logoutUser + Ti.App.Properties.getString('session');
 			var client = Ti.Network.createHTTPClient({
 			     // function called when the response data is available

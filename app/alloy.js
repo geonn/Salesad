@@ -15,11 +15,17 @@ Alloy.Globals.tracker = GA.getTracker("UA-53651461-1");
 
 /** include required file**/
 var API = require('api');
-var COMMON = require('common');
+var COMMON = require('common'); 
 var isNotification = Ti.App.Properties.getString('notification'); 
 if(isNotification === null){
 	Ti.App.Properties.setString('notification', "1");
 }
+
+/***Facebook Library***/
+var FACEBOOK = require('facebook');
+FACEBOOK.appid = "1593197804284763";
+FACEBOOK.permissions = ['public_profile','email','user_friends']; // Permissions your app needs
+FACEBOOK.forceDialogAuth = true;
 
 var Cloud = require('ti.cloud');
  
@@ -54,7 +60,7 @@ function deviceTokenSuccess(e) {
 			    type:'ios',
 			    device_token: deviceToken
 			}, function (e) {
-				console.log(e);
+				 
 			    if (e.success) {
 			    	//alert('Success : ' + deviceToken);
 			    	/** User device token**/
@@ -201,6 +207,13 @@ var Utils = {
   }
 };
  
+function PixelsToDPUnits(ThePixels){
+  return (ThePixels / (Titanium.Platform.displayCaps.dpi / 160));
+}
+
+function DPUnitsToPixels(TheDPUnits){
+  return (TheDPUnits * (Titanium.Platform.displayCaps.dpi / 160));
+}
  
 function currentDateTime(){
 	var today = new Date();

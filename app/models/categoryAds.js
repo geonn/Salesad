@@ -58,10 +58,7 @@ exports.definition = {
 					res.next();
 					count++;
 				} 
-				if(cate_id == 8){
-					console.log(sql);
-                	console.log(arr);
-                }
+				 
 				res.close();
                 db.close();
                 collection.trigger('sync');
@@ -118,7 +115,7 @@ exports.definition = {
             	db = Ti.Database.open(collection.config.adapter.db_name);
             	sql_query = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE id in ("+ entry+")";
             	db.execute(sql_query);
-            	console.log(sql_query);
+            	//console.log(sql_query);
 	            db.close();
 	            collection.trigger('sync');
 			},

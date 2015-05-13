@@ -1,5 +1,5 @@
 var args = arguments[0] || {};
-
+COMMON.construct($); 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "account",
@@ -153,6 +153,7 @@ $.password.addEventListener("return", function(){
 });
 
 $.btnBack.addEventListener('click', function(){ 
+	FACEBOOK.removeEventListener('login', loginFacebook); 
 	COMMON.closeWindow($.login); 
 }); 
 
@@ -165,3 +166,36 @@ $.login.addEventListener("close", function(){
    // goCreateAccount = null;
    doLogin         = null;
 });
+
+/*** Facebook login***/ 
+$.fbloginView.add(FACEBOOK.createLoginButton({
+	    top : 10,
+	    style : FACEBOOK.BUTTON_STYLE_WIDE
+}));  
+
+function loginFacebook(e){
+	if (e.success) {
+		$.fbloginView.hide();
+		COMMON.showLoading();
+	    FACEBOOK.requestWithGraphPath('me', {}, 'GET', function(e) {
+		    if (e.success) { 
+		    	var fbRes = JSON.parse(e.result);
+		     	API.updateUserFromFB({
+			       	email: fbRes.email,
+			       	fbid: fbRes.id,
+			       	link: fbRes.link,
+			       	name: fbRes.name,
+			       	gender:fbRes.gender,
+			    }, $);
+			   
+		    }
+		}); 
+		FACEBOOK.removeEventListener('login', loginFacebook); 
+	}  else if (e.error) {
+		       
+	} else if (e.cancelled) {
+		        
+	}  	 
+} 
+	 
+FACEBOOK.addEventListener('login', loginFacebook); 

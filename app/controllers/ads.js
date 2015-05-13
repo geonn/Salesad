@@ -336,10 +336,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
 		Ti.API.info(e.rawResponse); //raw data - this is a string
 	});
 	 
-	Social.addEventListener("complete", function(e){
-		Ti.API.info("complete: " + e.success);
-		console.log(e);
-
+	Social.addEventListener("complete", function(e){ 
 		if (e.platform == "activityView" || e.platform == "activityPopover") {
 			switch (e.activity) {
 				case Social.ACTIVITY_TWITTER:

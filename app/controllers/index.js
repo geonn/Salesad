@@ -253,8 +253,7 @@ function bannerAdIamgeLoadEvent(adImage, activityIndicator){
 /** Bind Indicator to Ad Image **/
 function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
-		category_sync_counter--;
-		console.log(e.source);
+		category_sync_counter--; 
 		activityIndicator.hide();
 		if(!category_sync_counter){
 			if(Ti.Platform.osname != "android"){
