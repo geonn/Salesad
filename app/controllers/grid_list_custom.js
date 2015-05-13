@@ -94,8 +94,6 @@ var createGridListing = function(res){
 	   		view.add(adImage);
 	   		view.add(category_label);
 			row.add(view);
-			console.log('a');
-			console.log(row);
 			if(branch == ""){
 		   		createAdImageEvent(row, m_id);
 	   		}else{
@@ -103,8 +101,6 @@ var createGridListing = function(res){
 	   		}
 			tableData.push(row);
    		}
-   		console.log('b');
-   		console.log(tableData);
    		$.gridView.category_tv.setData(tableData);
    		/*
 	    for(var i=0; i< details.length; i++) {

@@ -137,7 +137,6 @@ var getAdDetails = function(){
 	}
 	
 	/**Set Custom title**/
-	console.log(merchants);
 	
 	if(typeof pageTitle == "undefined"){ 
 		pageTitle =merchants.name;
@@ -300,7 +299,6 @@ if (Titanium.Platform.name == 'iPhone OS'){
 	     	});
 	     } else {
 	     	//implement fallback sharing..
-	     	console.log("items called");
 	     }
 		 
     });

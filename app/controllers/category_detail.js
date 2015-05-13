@@ -85,7 +85,6 @@ var createGridListing = function(res){
 		 });
 		$.categoryDetailsView.category_tv.add(noRecord);
    	}else{
-   		console.log(details.length);
    		for(var i=0; i< details.length; i++) {
 	   		var m_id = details[i].m_id; 
 	   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
@@ -134,7 +133,6 @@ var createGridListing = function(res){
 	   		}
 			tableData.push(row);
 	     }
-	     console.log(tableData);
 	     $.categoryDetailsView.category_tv.setData(tableData);
    	}
 };
