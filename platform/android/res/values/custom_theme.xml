@@ -9,4 +9,5 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    <string name="facebook_app_id">1593197804284763</string>
 </resources> 

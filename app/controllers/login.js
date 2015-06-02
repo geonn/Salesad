@@ -170,6 +170,7 @@ $.login.addEventListener("close", function(){
 /*** Facebook login***/ 
 $.fbloginView.add(FACEBOOK.createLoginButton({
 	    top : 10,
+	    readPermissions: ['email','public_profile','user_friends'],
 	    style : FACEBOOK.BUTTON_STYLE_WIDE
 }));  
 
