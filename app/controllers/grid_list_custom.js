@@ -60,9 +60,12 @@ var createGridListing = function(res){
 	   		var row = $.gridView.UI.create("TableViewRow",{
 	   			height: Ti.UI.SIZE,
 	   			width: Ti.UI.FILL,
+	   			touchEnabled: true,
 	   		});
 	   		var view  = $.gridView.UI.create("View",{
 	   			layout: "horizontal",
+	   			objName: 'enabledWrapperView',
+	   			rowID: i,
 	   			width: Ti.UI.FILL,
 	   			height: Ti.UI.SIZE,
 	   			top: 10,
@@ -83,12 +86,16 @@ var createGridListing = function(res){
 				defaultImage: "/images/warm-grey-bg.png",
 				height: 50,
 				width: 50,
+				objName: 'disabledWarpperView',
+				touchEnabled: false,
 			});
 			 
 	   		var category_label = $.gridView.UI.create("Label",{
 	   			height: Ti.UI.SIZE,
 	   			text: info.name,
 	   			left: 10,
+	   			objName: 'label',
+	   			touchEnabled: false,
 	   		});
 	   		
 	   		view.add(adImage);
@@ -100,6 +107,14 @@ var createGridListing = function(res){
 	   			createAdBranchEvent(row, m_id);
 	   		}
 			tableData.push(row);
+			
+			table.addEventListener('swipe', function(e){
+              if (e.source && e.source.objName !== 'table'){
+                Ti.API.info('Row swiped: ' + e.source);
+                Ti.API.info('Row swiped: ' + e.source.objName);
+                Ti.API.info('Row ID : ' + e.source.rowID);
+              }
+            });
    		}
    		$.gridView.category_tv.setData(tableData);
    		/*
