@@ -107,8 +107,6 @@
         <module platform="iphone">ti.map</module>
         <module platform="android">ti.map</module>
         <module platform="iphone">analytics.google</module>
-        <module platform="android">com.appcelerator.apm</module>
-        <module platform="iphone">com.appcelerator.apm</module>
         <module platform="android">facebook</module>
         <module platform="iphone">facebook</module>
     </modules>

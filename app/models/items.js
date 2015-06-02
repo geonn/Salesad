@@ -73,13 +73,13 @@ exports.definition = {
                 }
 				
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id='"+a_id+"', price='"+price+"', caption='"+caption+"', img_path='"+img_path+"' WHERE i_id='" +i_id+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id=?, price=?, caption=?, img_path=? WHERE i_id=?";
+             		db.execute(sql_query, a_id, price, caption, img_path, i_id);
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (i_id,a_id,price,caption, img_path) VALUES ('"+i_id+"','"+a_id+"','"+price+"','"+caption+"', '"+img_path+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (i_id,a_id,price,caption, img_path) VALUES (?,?,?,?,?)" ;
+                	db.execute(sql_query, i_id, a_id, price, caption, img_path);
 				}
-           
-             
-	            db.execute(sql_query);
+				
 	            db.close();
 	            collection.trigger('sync');
 			},
