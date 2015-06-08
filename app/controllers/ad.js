@@ -263,7 +263,7 @@ $.ad.addEventListener("close", function(){
 });
 
 /**Call API to update app's data**/
-//API.loadAdsDetails(m_id,a_id);
+API.loadAdsDetails(m_id,a_id);
 
 Ti.App.addEventListener('app:loadAdsDetails', function(e){
 	if(e.needRefresh == true){

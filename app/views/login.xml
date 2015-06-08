@@ -9,13 +9,13 @@
 			<View id="main" layout="vertical" height="auto">
 				<View layout="vertical" id="loginScrollView" height="260" width="100%">
 					<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width="150" />
-					<TextField backgroundColor="white" id="username" hintText="Enter Username" />
-					<TextField backgroundColor="white" id="password" hintText="Enter Password" />
+					<TextField backgroundColor="white" borderRadius="3" id="username" hintText="Enter Username" />
+					<TextField backgroundColor="white" borderRadius="3" id="password" hintText="Enter Password" />
 				</View>
 				<Label class="ftText" onTouchend="doForgotPassword" left="15">Forgot your password?</Label>
 				<Button id="loginAccountButton" borderRadius="3" backgroundColor="#ffffff" onTouchend="doLogin" title="Sign In"  width="90%" top="20" height="40" color="#807C7C" />
-	           	<View height="40" id="fbloginView" />
-	           
+	           	 
+	           	<View height="60" id="fbloginView" width="90%" />
 	            <Button id="createAccountButton" onTouchend="goCreateAccount" title="Create an account" width="90%"  height="50" color="#ffffff" />
 	           
 			</View>

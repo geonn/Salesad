@@ -225,7 +225,9 @@ $.setting.addEventListener('click', function(e){
 
 $.categoryView.searchItem.addEventListener('focus', function f(e){
 	$.categoryView.searchItem.showCancel =  true; 
-	$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS;
+	if(Ti.Platform.osname == "android"){
+		$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS;
+	}
 	//$.categoryView.searchContainer.opacity = 1;
 	//$.categoryView.searchContainer.height = "auto";
 	//$.categoryView.searchItem.blur();
@@ -390,7 +392,9 @@ setTimeout(function(){
 		$.categoryView.searchItem.blur();
 		$.categoryView.searchItem.hide();
         $.categoryView.searchItem.show();
-		$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
+        if(Ti.Platform.osname == "android"){
+			$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
+		}
 	}
 },100);
  

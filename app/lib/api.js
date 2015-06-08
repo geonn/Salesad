@@ -462,7 +462,7 @@ exports.loadAdsDetails = function(m_id, a_id){
 	}else{
 		var url =  getAdsDetailsById +"&m_id="+m_id+"&token="+deviceToken+"&last_updated="+last_updated;
 	}
- 	// alert(url);
+ 	console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -475,7 +475,7 @@ exports.loadAdsDetails = function(m_id, a_id){
 	       		 if(arr == ""){
 	       		 	//return;
 	       		 }
-	       		 
+	       		 /**
 			     var ads = Alloy.createCollection('ads'); 
 				 var needRefresh = ads.saveAds(arr.a_id, arr.m_id, a_id, arr.name, arr.template_id, arr.description,arr.app_background, arr.img_path);
 			         	
@@ -489,7 +489,8 @@ exports.loadAdsDetails = function(m_id, a_id){
 					});
 				 }		
 		      checker.updateModule("4","getAdsDetailsById",currentDateTime());
-		      Ti.App.fireEvent('app:loadAdsDetails',{needRefresh: needRefresh});
+		     
+		      Ti.App.fireEvent('app:loadAdsDetails',{needRefresh: needRefresh}); **/
 	       }
 	       
 	     },
