@@ -11,19 +11,28 @@ var category_info = category_library.getCategoryById(cate_id);
 function buildListing(){
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
 	var ads = c_ads_library.getLatestAdsByCategory(cate_id, 0);
-	 
+	var dummy = $.UI.create("View",{
+		bottom: 10,
+		left: 10,
+		right: 10,
+	  	width : Ti.UI.FILL,
+	  	height: Ti.UI.SIZE,
+		backgroundColor: "#F1F1F2",
+	});
+	$.adsCategory.ads_listing.add(dummy);	
 	for(var a = 0; ads.length > a; a++){
 		var view_ad = $.UI.create("View",{
-			top: 10,
+			bottom: 10,
 			left: 10,
 			right: 10,
-			bottom: 10,
 			layout: "vertical",
 			m_id: ads[a].m_id,
 		  	a_id: ads[a].a_id,
 		  	width : Ti.UI.FILL,
 		  	height: Ti.UI.SIZE,
-			backgroundColor: "#ffffff"
+			backgroundColor: "#ffffff",
+			borderColor: "#C6C8CA",
+			borderRadius:4,
 		});
 		
 		var bannerImage = Ti.UI.createImageView({
@@ -38,24 +47,24 @@ function buildListing(){
 		var label_merchant = $.UI.create("Label", {
 			font: { fontWeight: 'bold', fontSize: 16},
 			text: ads[a].merchant,
-			top: 4,
-			left: 4,
-			right: 4,
+			top: 10,
+			left: 10,
+			right: 10,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
-			color: "#000000"
+			color: "#404041"
 		});
 		
 		var label_ads_name = $.UI.create("Label", {
 			text: ads[a].ads_name,
-			left: 4,
-			right: 4,
-			font: {fontSize: 16},
+			left: 10,
+			right: 10,
+			font: {fontSize: 14},
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
-			color: "#000000"
+			color: "#626366"
 		});
 		
 		var dateDescription =ads[a].active_date+" - "+ads[a].expired_date;
@@ -70,15 +79,22 @@ function buildListing(){
 			text: dateDescription,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 			font:{fontSize: 12},
-			left: 4,
-			right: 4,
-			bottom: 4,
+			left: 10,
+			right: 10,
+			bottom: 10,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
-			color: "#ff0000"
+			color: "#ED1C24"
+		});
+		
+		var line = $.UI.create("View",{
+			backgroundColor: "#C6C8CA",
+			height: 0.5,
+			width: Ti.UI.FILL
 		});
 		
 		view_ad.add(bannerImage);
+		view_ad.add(line);
 		view_ad.add(label_merchant);
 		view_ad.add(label_ads_name);
 		view_ad.add(label_date_period);
@@ -109,7 +125,8 @@ buildListing();
 
 var custom = Ti.UI.createLabel({ 
     text: category_info['categoryName'], 
-    color: '#CE1D1C' 
+    color: '#CE1D1C',
+    font: { fontWeight: 'bold'},
 });
 
 if(Ti.Platform.osname == "android"){ 

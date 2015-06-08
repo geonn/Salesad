@@ -11,6 +11,11 @@
 	backgroundColor: '#ccc',
 	bottom: '0',
 },
+".grey_line":{
+	height: '0.5',
+	width: Ti.UI.FILL,
+	backgroundColor: '#C6C8CA',
+},
 "#activityIndicator" : { 
 	top:30,
 	left:30,

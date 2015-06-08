@@ -155,14 +155,14 @@ var getAdDetails = function(){
 	
 	}
 	
-	if (pageTitle.length > 14) {// if too long...trim it!}
-    	pageTitle = pageTitle.substring(0, 14) + "...";
- 
-    }
-    pageTitle =pageTitle.replace(/&quot;/g, "'");
+	//if (pageTitle.length > 24) {// if too long...trim it!}
+    //	pageTitle = pageTitle.substring(0, 24) + "...";
+    //}
+    pageTitle = pageTitle.replace(/&quot;/g, "'");
 	
 	var custom = Ti.UI.createLabel({ 
 		    text: pageTitle, 
+		    font: { fontWeight: 'bold'},
 		    color: '#CE1D1C' 
 	});
 	
@@ -200,7 +200,7 @@ function createAdImageEvent(adImage,a_id,position, title) {
 }
 
  
-$.location.addEventListener('click', function(e){
+$.adView.location.addEventListener('click', function(e){
 	 
 	var win = Alloy.createController("location",{m_id:m_id,a_id:a_id}).getView(); 
 	COMMON.openWindow(win); 
@@ -211,14 +211,14 @@ $.location.addEventListener('click', function(e){
 
 getAdDetails();
 if(exist){
-	$.favorites.visible = false;
+	$.adView.favorites.image = "/images/icon-favorites-fill.png";
 }
 /*********************
 *** Event Listener ***
 **********************/
 
 //Add your favorite event
-$.favorites.addEventListener("click", function(){
+$.adView.favorites.addEventListener("click", function(){
 	var favoritesLibrary = Alloy.createCollection('favorites'); 
 	var message = "Are you sure want to add into favorite";
 	var dialog = Ti.UI.createAlertDialog({
@@ -236,7 +236,8 @@ $.favorites.addEventListener("click", function(){
 				    position : 0
 				});
 			favorite.save();
-			$.favorites.visible = false;
+			$.adView.favorites.image = "/images/icon-favorites-fill.png";
+			//$.adView.favorites.visible = false;
 			
 			API.updateUserFavourite({
 				m_id   : m_id,
@@ -289,7 +290,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
 	    Social.twitterAccountList();
     } 
      
-    $.share.addEventListener("click", function(e){
+    $.adView.share.addEventListener("click", function(e){
     	 
 		if(Social.isActivityViewSupported()){ //min iOS6 required
 	    	Social.activityView({
@@ -342,7 +343,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
 		
 	});
 }else{ 
-	$.share.addEventListener("click", function(e){
+	$.adView.share.addEventListener("click", function(e){
     	var share = createShareOptions();
 		Ti.Android.currentActivity.startActivity(share);
     });

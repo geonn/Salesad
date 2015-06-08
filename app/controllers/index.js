@@ -1,7 +1,6 @@
 var args = {};
 var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
-var category_sync_counter = 0; 
 /** add new column for ads **/
 var ads = Alloy.createCollection('ads'); 
 ads.addColumn("status", "INTEGER");
@@ -32,12 +31,16 @@ var bannerListing = function(){
 	
 	var banner_model = Alloy.createCollection('banners'); 
  	var banners = banner_model.getBannerList(); 
+ 	if(!banners.length){
+	 	API.bannerListing();
+	 	return;
+ 	}
 	var the_view = [];
    	var counter = 0;
 	var imagepath, adImage, row = '';
 	var my_page = 0;
 	 
-	var bannerHeight = $.indexView.bannerListing.rect.height;
+	//var bannerHeight = $.indexView.bannerListing.rect.height;
 	for (var i=0; i< banners.length; i++) {
 			adImage = Ti.UI.createImageView({
 				image: banners[i].img,
@@ -74,13 +77,13 @@ var bannerListing = function(){
 				scrollType: "horizontal",
 				contentWidth: 'auto',
 			  	contentHeight: 'auto',
-			   	height:bannerHeight,
 			   	backgroundImage: "/images/warm-grey-bg.png",
-			  	width: '100%' 
+			  	width: Ti.UI.FILL,
+			  	height: Ti.UI.FILL 
 			});
 			
-			row = $.indexView.UI.create('View', {classes: ["row"],layout:"", height:bannerHeight});
-			row.add(activityIndicator);
+			row = $.indexView.UI.create('View', {classes: ["row"],layout:"", height: Ti.UI.FILL});
+			//row.add(activityIndicator);
 			row.add(adImage);
 			//row.add(img_caption);
 			row.addEventListener('touchend', function(e) {
@@ -128,7 +131,11 @@ function buildCateogryList(){
 	};
 	var model_category = Alloy.createCollection('category'); 
 	var category_list = model_category.getCategoryList();
-	category_sync_counter = category_list.length;
+	if(!category_list.length){
+		API.loadCategory();
+		return;
+	}
+	
 	for (var i=0; i< category_list.length; i++) {
 		var cell = $.indexView.UI.create('View', {classes: ["cell"], id: category_list[i].id});
 		var pad_cell = $.indexView.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
@@ -172,15 +179,19 @@ function buildCateogryList(){
 		pad_cell.add(activityIndicator);
 		cell.add(pad_cell);
 		$.indexView.adListing.add(cell);
-		
-		syncCategory(category_list[i].id);
+		loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id);
+		//syncCategory(category_list[i].id);
 	}
 }
 
-/** Sync Merchant by category from Server **/
-function syncCategory(cate_id){
-	var API = require('api');
-	API.loadMerchantListByCategory(cate_id);
+function syncCategory(){
+	var model_category = Alloy.createCollection('category'); 
+	var category_list = model_category.getCategoryList();
+	
+	for (var i=0; i< category_list.length; i++) {
+		var API = require('api');
+		API.loadMerchantListByCategory(category_list[i].id);
+	}
 }
 
 /** Load Latest Ads by Category **/
@@ -198,8 +209,6 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id){
    		createAdImageEvent(adImage, latestc[0].m_id, latestc[0].a_id, cate_id);
    		adIamgeLoadEvent(adImage, activityIndicator);
    		cell.add(adImage);
-   	}else{
-   		category_sync_counter--;
    	}
 }
 
@@ -240,29 +249,13 @@ function createAdImageEvent(adImage,m_id, a_id, cate_id) {
 function bannerAdIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		activityIndicator.hide();
-		if(!category_sync_counter){
-			if(Ti.Platform.osname != "android"){
-				$.indexView.scrollview.setDisableBounce(false);
-			}
-      		$.indexView.scrollview.animate({top:0, duration: 500});
-		}
 	});
 }
 
 /** Bind Indicator to Ad Image **/
 function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
-		category_sync_counter--; 
 		activityIndicator.hide();
-		if(!category_sync_counter){
-			if(Ti.Platform.osname != "android"){
-				$.indexView.scrollview.setDisableBounce(false);
-			}else{
-				/** IOS trigger when all category image loaded **/
-			}
-      		$.indexView.scrollview.animate({top:0, duration: 500});
-      		
-		}
 	});
 }
 
@@ -283,20 +276,26 @@ var API = require('api');
  * > api.js Ti.App.fireEvent('app:bannerListing') 
  * > index.js bannerListing()
  **/
-API.bannerListing();
+
+bannerListing();
+//API.bannerListing();
 
 /** 
- * Category Flow 
- * index.js API.loadCategory() > api.js fireEvent('app:loadCategory')  // sync category from server
+ * New Category Flow 
+ * 
  * > index.js buildCateogryList() 
- * > index.js syncCategory() 
- * > index.js API.loadMerchantListByCategory(cate_id) > api.js fireEvent('app:category_detailCreateGridListing') // sync merchant from server
- * > index.js API.loadAdsByCategory(e.cate_id); > api.js fireEvent('app:adsUpdated', {cate_id: cate_id}); // sync ads from server
  * > index.js loadLatestImageByCategoryId();
  * > index.js categorAds.getLatestAdsByCategory(cate_id, 1);
+ * 
+ * Grab Category data from server 
+ * index.js API.loadCategory() > api.js fireEvent('app:loadCategory')  // sync category from server
+ * index.js syncCategory() 
+ * index.js API.loadMerchantListByCategory(cate_id) > api.js fireEvent('app:category_detailCreateGridListing') // sync merchant from server
+ * index.js API.loadAdsByCategory(e.cate_id); > api.js fireEvent('app:adsUpdated', {cate_id: cate_id}); // sync ads from server
  **/
-API.loadCategory();
 
+buildCateogryList();
+API.loadCategory();
 /*********************
 *** Event Listener ***
 **********************/
@@ -319,10 +318,11 @@ Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
 
 /** EventListner for after API.loadAdsByCategory success**/
 Ti.App.addEventListener('app:adsUpdated', function(e){
-	
+	if(!$.indexView.adListing.children.length){
+		buildCateogryList();
+	}
 	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
 		if($.indexView.adListing.children[c].id == e.cate_id){
-			
 			var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
 			var cell = $.indexView.adListing.children[c].children[0];
 			loadLatestImageByCategoryId(cell, activityIndicator, e.cate_id);
@@ -335,21 +335,8 @@ Ti.App.addEventListener('app:bannerListing', bannerListing);
 
 /** EventListner for after API.loadCategory success**/
 Ti.App.addEventListener('app:loadCategory', function(e){
-	buildCateogryList();
-});
-
-/** IOS Pull to refresh **/
-$.indexView.scrollview.addEventListener('scroll', function (e) {
-    //Ti.API.info('scroll', JSON.stringify(e));
-    /*
-    if (e.y <= -50 && !category_sync_counter) {
-       category_sync_counter = $.indexView.adListing.children.length;
-       if(Ti.Platform.osname != "android"){
-       	$.indexView.scrollview.setDisableBounce(true);
-       }
-       $.indexView.scrollview.setTop(30);
-       buildCateogryList();
-    }*/
+	//buildCateogryList();
+	syncCategory();
 });
 
 /** Android Click to refresh **/
@@ -366,7 +353,8 @@ if(Ti.Platform.osname == "android"){
 
 		$.indexView.arrow_link.animate(myAnimation); 
 		
-		buildCateogryList();
+		//buildCateogryList();
+		API.loadCategory();
 	});
 	
 	// trigger if user click back
@@ -393,7 +381,8 @@ if(Ti.Platform.osname == "android"){
 	});
 }else{
 	$.indexView.salesad_logo.addEventListener('click', function(e){
-		buildCateogryList();
+		//buildCateogryList();
+		API.loadCategory();
 	});
 }
 
