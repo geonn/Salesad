@@ -78,7 +78,7 @@ exports.definition = {
 			deleteFavorite : function(id){
 				var collection = this;
 		        var sql = "DELETE FROM " + collection.config.adapter.collection_name+" where id="+id;
-		        
+		       
 		        var db2 = Ti.Database.open(collection.config.adapter.db_name);
 		        db.file.setRemoteBackup(false);
 		        db2.execute(sql);

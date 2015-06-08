@@ -31,6 +31,11 @@ var merchants = m_library.getMerchantsById(m_id);
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var model_favorites = Alloy.createCollection('favorites');
 var exist = model_favorites.checkFavoriteExist(a_id, m_id);
+if(exist){
+	$.adView.favorites.image = "/images/icon-favorites-fill.png";
+}else{
+	$.adView.favorites.image = "/images/icon-favorites.png";
+}
 var getFavorites = model_favorites.getFavoritesByUid(u_id);
 var gBannerImg;
 /*********************
@@ -210,17 +215,42 @@ $.adView.location.addEventListener('click', function(e){
 *************************/
 
 getAdDetails();
-if(exist){
-	$.adView.favorites.image = "/images/icon-favorites-fill.png";
-}
+
 /*********************
 *** Event Listener ***
 **********************/
 
 //Add your favorite event
-$.adView.favorites.addEventListener("click", function(){
-	var favoritesLibrary = Alloy.createCollection('favorites'); 
-	var message = "Are you sure want to add into favorite";
+$.adView.favorites.addEventListener("click", function(){ 
+	var exist = model_favorites.checkFavoriteExist(a_id, m_id);
+ 
+	if(exist){
+		var message = "Are you sure want to remove from favorite";
+		var dialog = Ti.UI.createAlertDialog({
+		    cancel: 1,
+		    buttonNames: ['Cancel','Confirm'],
+		    message: message,
+		    title: 'Remove from favorite'
+		  });
+		  dialog.addEventListener('click', function(ex){
+		  	if (ex.index == 1){
+		    	 
+				model_favorites.deleteFavorite(exist); 
+				$.adView.favorites.image = "/images/icon-favorites.png";
+				//$.adView.favorites.visible = false;
+				
+				API.updateUserFavourite({
+					m_id   : m_id,
+					a_id     : a_id,
+					u_id	 : u_id,
+					status : 2
+				});
+				Ti.App.fireEvent("app:refreshAdsListing");
+				return;
+		  	}
+		 });
+	}else{
+		var message = "Are you sure want to add into favorite";
 	var dialog = Ti.UI.createAlertDialog({
 	    cancel: 1,
 	    buttonNames: ['Cancel','Confirm'],
@@ -249,6 +279,8 @@ $.adView.favorites.addEventListener("click", function(){
 			return;
 	  	}
 	 });
+	}
+	
 
 	dialog.show();
 });
