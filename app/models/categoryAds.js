@@ -64,6 +64,51 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getPopularAdsByCategory : function(cate_id, limit){
+				var limit = limit || false;
+				var collection = this;
+                if(limit){
+                	//sql = "SELECT merchants.m_id FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";
+                	var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b, popular as c WHERE a.m_id = b.m_id and b.status = 1 and c.m_id = a.m_id order by c.id desc limit 0,1";
+                }else{
+                	var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b, popular as c WHERE a.m_id = b.m_id and b.status = 1 and c.m_id = a.m_id order by c.id";
+                }
+                
+                //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
+                //var sql = "select * from merchants";
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                
+                while (res.isValidRow()){
+                	var row_count = res.fieldCount;
+                	/* for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }*/
+					arr[count] = {
+					    m_id: res.fieldByName('m_id'),
+					    merchant: res.fieldByName('name').replace(/&quot;/g, "'"),
+					    ads_name: res.fieldByName('ads_name').replace(/&quot;/g, "'"),
+					    active_date: res.fieldByName('active_date'),
+					    expired_date: res.fieldByName('expired_date'),
+					    updated: res.fieldByName('updated'),
+					    //updated: res.field(1),
+					    img_path: res.fieldByName('img_path'),
+					    a_id: res.fieldByName('a_id')
+					};
+					res.next();
+					count++;
+				} 
+				 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			// extended functions and properties go here
 			getCategoryAds : function(cate_id){
 				var collection = this;

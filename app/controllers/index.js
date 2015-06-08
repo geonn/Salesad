@@ -125,7 +125,8 @@ var bannerListing = function(){
 };
 
 /** create category grid **/
-function buildCateogryList(){
+function buildCateogryList(e){
+	
 	while($.indexView.adListing.children.length>0){
 	    $.indexView.adListing.remove($.indexView.adListing.children[0]);
 	};
@@ -179,7 +180,12 @@ function buildCateogryList(){
 		pad_cell.add(activityIndicator);
 		cell.add(pad_cell);
 		$.indexView.adListing.add(cell);
-		loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id);
+		console.log(typeof e);
+		if(typeof e != "undefined" && typeof e != "null"){
+			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id, e.types);
+		}else{
+			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id);
+		}
 		//syncCategory(category_list[i].id);
 	}
 }
@@ -195,9 +201,13 @@ function syncCategory(){
 }
 
 /** Load Latest Ads by Category **/
-function loadLatestImageByCategoryId(cell, activityIndicator, cate_id){
+function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 	var c_ads_library = Alloy.createCollection('categoryAds');
-	var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 1);
+	if(types == "popular"){
+		var latestc = c_ads_library.getPopularAdsByCategory(cate_id, 1);
+	}else{
+		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 1);
+	}
 	if(typeof latestc[0] == 'object' && latestc[0].a_id != 0 && typeof latestc[0].a_id != 'object'){
 
 		var adImage = Ti.UI.createImageView({
@@ -259,6 +269,10 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 	});
 }
 
+function do_popular(){
+	API.loadMerchantListByType("popular");
+}
+
 /************************
 *******APP RUNNING*******
 *************************/
@@ -306,6 +320,8 @@ $.indexView.category_link.addEventListener('click', function(e){
 	COMMON.openWindow(win);  
 });
 
+$.indexView.popular.addEventListener("click", do_popular);
+
 /** EventListerner for notification **/
 Ti.App.addEventListener('app:goToAds', function(e){
 	goAd(e.m_id,e.a_id,e.isFeed);
@@ -329,6 +345,7 @@ Ti.App.addEventListener('app:adsUpdated', function(e){
 		}
     }
 });
+Ti.App.addEventListener('app:triggerAdsType', buildCateogryList);
 
 /** EventListner for after API.bannerListing success**/
 Ti.App.addEventListener('app:bannerListing', bannerListing);

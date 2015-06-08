@@ -320,7 +320,7 @@ exports.loadMerchantListByType = function (type){
 			    }
 			});
 			checker.updateModule("3","getMerchantListByType",currentDateTime());
-			Ti.App.fireEvent('app:triggerAdsType', {types : type,pullFromServer : false});
+			Ti.App.fireEvent('app:triggerAdsType', {types : type, pullFromServer : false});
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
