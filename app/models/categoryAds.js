@@ -36,6 +36,45 @@ exports.definition = {
                 	db.file.setRemoteBackup(false);
 				}
                 var res = db.execute(sql);
+                var arr = [];
+                var count = 0;
+                
+                while (res.isValidRow()){
+                	var row_count = res.fieldCount;
+                	/* for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }*/
+					arr[count] = {
+					    m_id: res.fieldByName('m_id'),
+					    merchant: res.fieldByName('name').replace(/&quot;/g, "'"),
+					    ads_name: res.fieldByName('ads_name').replace(/&quot;/g, "'"),
+					    active_date: res.fieldByName('active_date'),
+					    expired_date: res.fieldByName('expired_date'),
+					    updated: res.fieldByName('updated'),
+					    //updated: res.field(1),
+					    img_path: res.fieldByName('img_path'),
+					    a_id: res.fieldByName('a_id')
+					};
+					res.next();
+					count++;
+				} 
+				 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			getAdsList : function(){
+				var limit = limit || false;
+				var collection = this;
+                var sql = "select a.m_id, a.name, a.latitude, a.longitude, a.updated, b.* from (SELECT merchants.latitude, merchants.longitude, merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc";
+                //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
+                //var sql = "select * from merchants";
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
                 
@@ -52,6 +91,8 @@ exports.definition = {
 					    expired_date: res.fieldByName('expired_date'),
 					    updated: res.fieldByName('updated'),
 					    //updated: res.field(1),
+					    latitude: res.fieldByName('latitude'),
+		    			longitude: res.fieldByName('longitude'),
 					    img_path: res.fieldByName('img_path'),
 					    a_id: res.fieldByName('a_id')
 					};

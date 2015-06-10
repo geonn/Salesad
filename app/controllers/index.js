@@ -273,6 +273,19 @@ function do_popular(){
 	API.loadMerchantListByType("popular");
 }
 
+function updateCategoryList(e){
+	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
+		var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
+		var cell = $.indexView.adListing.children[c].children[0];
+		console.log(e.types);
+		if(typeof e != "undefined" && typeof e != "null"){
+			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id, e.types);
+		}else{
+			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id);
+		}
+	}
+}
+
 /************************
 *******APP RUNNING*******
 *************************/
@@ -314,15 +327,24 @@ API.loadCategory();
 *** Event Listener ***
 **********************/
 
-/** navigate to category page **/
+/** navigate to category page *
 $.indexView.category_link.addEventListener('click', function(e){
 	var win = Alloy.createController("category").getView();  
 	COMMON.openWindow(win);  
+});*/
+/** EventListerner for notification **/
+
+$.indexView.more.addEventListener("click", function(e){
+	var win = Alloy.createController("category").getView();  
+	COMMON.openWindow(win);
 });
 
-$.indexView.popular.addEventListener("click", do_popular);
+$.indexView.nearby.addEventListener("click", function(e){
+	var win = Alloy.createController("nearby").getView();  
+	COMMON.openWindow(win);
+});
 
-/** EventListerner for notification **/
+
 Ti.App.addEventListener('app:goToAds', function(e){
 	goAd(e.m_id,e.a_id,e.isFeed);
 });
@@ -345,7 +367,8 @@ Ti.App.addEventListener('app:adsUpdated', function(e){
 		}
     }
 });
-Ti.App.addEventListener('app:triggerAdsType', buildCateogryList);
+
+Ti.App.addEventListener('app:triggerAdsType', updateCategoryList);
 
 /** EventListner for after API.bannerListing success**/
 Ti.App.addEventListener('app:bannerListing', bannerListing);
@@ -354,6 +377,25 @@ Ti.App.addEventListener('app:bannerListing', bannerListing);
 Ti.App.addEventListener('app:loadCategory', function(e){
 	//buildCateogryList();
 	syncCategory();
+});
+
+$.indexView.filter_link.addEventListener('click', function(e){
+	var dialog = Ti.UI.createOptionDialog({
+	  cancel: 2,
+	  options: ['Recent', 'Popular', 'Cancel'],
+	  selectedIndex: 0,
+	  title: 'Sorting By'
+	});
+	
+	dialog.show();
+	
+	dialog.addEventListener("click", function(e){
+		if(e.index == 0){
+			API.loadCategory();
+		}else if(e.index == 1){
+			do_popular();
+		}
+	});
 });
 
 /** Android Click to refresh **/
