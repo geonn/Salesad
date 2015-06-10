@@ -42,7 +42,7 @@ function init(e){
 		    color: "red",
 		    height: 20,
 			width: 20,
-			panel_id: entry.id
+			panel_id: entry.a_id
 		});
 		detBtn.addEventListener('click', function(ex){ 
 			nav.navigateWithArgs("clinic/clinicDetails", {panel_id:ex.source.panel_id});
@@ -50,13 +50,13 @@ function init(e){
 		var merchantLoc = Map.createAnnotation({
 		    latitude:entry.latitude,
 		    longitude:entry.longitude, 
-		    title: entry.clinicName,
+		    title: entry.merchant,
 		    image: '/images/sales-ad-loc.png',
 		    animate : true, 
-		    subtitle: entry.add1 + ", "+entry.add2 + ", "+entry.city+ ", "+entry.postcode+ ", "+entry.state,
-		    pincolor:Map.ANNOTATION_RED,
+		    subtitle: entry.ads_name,
+		    pincolor: Map.ANNOTATION_RED,
 		    rightView: detBtn,
-		    myid: entry.id// Custom property to uniquely identify this annotation.
+		    myid: entry.INFO// Custom property to uniquely identify this annotation.
 		});
 		console.log(merchantLoc);
 		//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
@@ -67,8 +67,7 @@ function init(e){
 	$.locationView.mapview.add(mapview);
 	// Handle click events on any annotations on this map.
 	mapview.addEventListener('click', function(evt) {
-		 
-	    //Ti.API.info("Annotation " + evt.title + " clicked, id: " + evt.annotation.myid);
+		 alert("Annotation " + evt.subtitle);
 	});
 
 }
