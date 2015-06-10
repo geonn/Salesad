@@ -67,7 +67,8 @@ function init(e){
 	$.locationView.mapview.add(mapview);
 	// Handle click events on any annotations on this map.
 	mapview.addEventListener('click', function(evt) {
-		 alert("Annotation " + evt.subtitle);
+		 
+	    //Ti.API.info("Annotation " + evt.title + " clicked, id: " + evt.annotation.myid);
 	});
 
 }
