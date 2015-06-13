@@ -119,7 +119,7 @@ function buildSmallBlock(data){
 				right: 10,
 				backgroundColor: "#cccccc",
 				textAlign: "center",
-				borderRadius: 4,
+				borderRadius: 2,
 				borderColor: "#C6C8CA",
 				zIndex: 10,
 			});
@@ -150,7 +150,7 @@ function buildSmallBlock(data){
 				right: 10,
 				backgroundColor: "#cccccc",
 				textAlign: "center",
-				borderRadius: 4,
+				borderRadius: 2,
 				borderColor: "#C6C8CA",
 				zIndex: 10,
 			});
@@ -173,7 +173,7 @@ function buildSmallBlock(data){
 			  var a = Ti.UI.createAnimation({
 			  	height: Ti.UI.SIZE,
 			  	width: Ti.UI.SIZE,
-			    duration : 2000,
+			    duration : 1000,
 			  });
 			  var b = Ti.UI.createAnimation({
 			  	height: Ti.UI.SIZE,
@@ -183,6 +183,34 @@ function buildSmallBlock(data){
 			  e.source.parent.children[1].children[0].animate(a);
 			  e.source.parent.children[1].animate(b);
 		});
+		
+		view.addEventListener("click", function(e){
+			var m_front_to_back = Ti.UI.create3DMatrix();
+            m_front_to_back = m_front_to_back.rotate(-180, 0, 1, 0);
+            var a_front_to_back = Ti.UI.createAnimation({
+                transform: m_front_to_back,
+                duration: 200
+            });
+            console.log(e.source);
+            e.source.animate(a_front_to_back);
+            
+            a_front_to_back.addEventListener('complete', function() {
+                Ti.API.info('showFront: Animating the back to the front.');
+ 
+                var m_back_to_front = Ti.UI.create3DMatrix();
+                m_back_to_front = m_back_to_front.rotate(0, 0, 1, 0);
+                var a_back_to_front = Ti.UI.createAnimation({
+                    transform: m_back_to_front,
+                    duration: 200,
+                    curve: Ti.UI.ANIMATION_CURVE_EASE_OUT
+                });
+ 
+                e.source.animate(a_back_to_front);
+            });
+		});
+		
+		
+		
 		pad_categoryLabel.add(label);
 		view.add(adImage);
 		view.add(pad_categoryLabel);
@@ -190,7 +218,7 @@ function buildSmallBlock(data){
 		
 		
 		if(i == lastbox && odd){
-			console.log('dont add to row');
+			console.log('dont add to row'); 
 		}else{
 			console.log("row < box");
 			row.add(box);
