@@ -175,6 +175,36 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getAllCategory : function(){
+				var collection = this;
+                var sql = "SELECT categoryAds.*, merchants.* FROM " + collection.config.adapter.collection_name + " LEFT OUTER JOIN merchants on merchants.m_id = categoryAds.m_id ";
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+                	var row_count = res.fieldCount;
+                	/* for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }*/
+					arr[count] = {
+					    m_id: res.fieldByName('m_id'),
+					    cate_id: res.fieldByName('cate_id'),
+					    name: res.fieldByName('name'),
+					    img_path: res.fieldByName('img_path'),
+					};
+					res.next();
+					count++;
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			getExistingId : function(){
 				var collection = this;
                 var sql = "SELECT id FROM " + collection.config.adapter.collection_name ;

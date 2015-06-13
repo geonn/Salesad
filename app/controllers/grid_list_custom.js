@@ -26,6 +26,185 @@ $.custom.addEventListener("close", function(){
     switch_position = null;
 });
 
+var pWidth = Ti.Platform.displayCaps.platformWidth - 10;
+var category_data = [{name: "Mid Valley"},{name: "Leisure Mall"},{name: "Sunway"},{name: "Lowyat "}, {name: "Imbi"}];
+var category = {name: "Shopping Mall"};
+
+var cateAdsLibrary = Alloy.createCollection("categoryAds");
+var category_data = cateAdsLibrary.getAllCategory();
+var library = Alloy.createCollection('category'); 
+var category_list = library.getCategoryList();
+
+for (var i=0; i < category_list.length; i++) {
+	buildBigBlock(category_list[i]);
+	var temp = [];
+	for (var a=0; a < category_data.length; a++) {
+		if(category_data[a]['cate_id'] == category_list[i]['id']){
+			temp.push(category_data[a]);
+		}
+	}
+	console.log(temp);
+	buildSmallBlock(temp);
+};
+function buildBigBlock(data){
+	console.log("create row");
+	var row = $.UI.create("View", {
+		width: Ti.UI.FILL,
+		height: Ti.UI.SIZE,
+		left: 10,
+		layout: "horizontal"
+	});
+	
+	var box = $.UI.create("View", {
+		height : (pWidth / 2),
+		width : Ti.UI.FILL,
+		layout: "vertical"
+	});
+	
+	var label = $.UI.create("Label",{
+		text: data.categoryName,
+		height: Ti.UI.FILL,
+		width: Ti.UI.FILL,
+		top: 10,
+		right: 10,
+		backgroundColor: "#cccccc",
+		textAlign: "center", 
+	});
+	
+	box.add(label);
+	row.add(box);
+	$.gridView.main.add(row);
+}
+
+function buildSmallBlock(data){
+	var odd = (data.length % 2);
+	var lastrow = (odd)?data.length - 3 : data.length - 2;
+	var lastbox = (odd)?data.length - 2 : data.length - 1;
+	var lastLabel = (odd)?data.length - 2: data.length;
+	
+	for (var i=0; i < data.length; i++) {
+		//create row to contain box
+		if(i%2 == 0 && lastrow >= i){
+			console.log("create row");
+			var row = $.UI.create("View", {
+				width: Ti.UI.FILL,
+				height: Ti.UI.SIZE,
+				left: 10,
+				layout: "horizontal"
+			});
+		}
+		// create box to contain the icon / label
+		if(lastbox >= i){
+			console.log("create box");
+			var box = $.UI.create("View", {
+				height : (pWidth / 2),
+				width : (pWidth / 2),
+				layout: "vertical",
+			});
+		}
+		if(lastLabel > i){
+			var adImage = Ti.UI.createImageView({
+				defaultImage: "/images/warm-grey-bg.png",
+				image: data[i]['img_path'],
+				height: Ti.UI.FILL,
+				width: "auto",
+			});
+			
+			console.log("box < label");
+		
+			var view = $.UI.create("View",{
+				height: Ti.UI.FILL,
+				width: Ti.UI.FILL,
+				top: 10,
+				right: 10,
+				backgroundColor: "#cccccc",
+				textAlign: "center",
+				borderRadius: 4,
+				borderColor: "#C6C8CA",
+				zIndex: 10,
+			});
+			var pad_categoryLabel = Ti.UI.createView({top:0, width: Ti.UI.FILL, height: Ti.UI.FILL,  backgroundImage:  "images/transparent-bg.png", zIndex: 10});
+			var label = $.UI.create("Label",{
+				text: data[i]['name'],
+				height: Ti.UI.FILL,
+				width: Ti.UI.FILL,
+			   color: "#fff",
+				textAlign: "center",
+				font:{
+					fontSize: 14
+				}, 
+				top: 4, right:4, left:4, bottom:20
+			});
+		}else{
+			var adImage = Ti.UI.createImageView({
+				defaultImage: "/images/warm-grey-bg.png",
+				image: data[i]['img_path'],
+				height: Ti.UI.FILL,
+				width: "auto",
+			});
+			console.log("box < label2");
+			var view = $.UI.create("View",{
+				height: ((pWidth / 2) - 20) / 2,
+				width: Ti.UI.FILL,
+				top: 10,
+				right: 10,
+				backgroundColor: "#cccccc",
+				textAlign: "center",
+				borderRadius: 4,
+				borderColor: "#C6C8CA",
+				zIndex: 10,
+			});
+			var pad_categoryLabel = Ti.UI.createView({top:0, width: Ti.UI.FILL, height: Ti.UI.FILL,  backgroundImage:  "images/transparent-bg.png", zIndex: 10});
+			var label = $.UI.create("Label",{
+				text: data[i]['name'],
+				height: Ti.UI.FILL,
+				width: Ti.UI.FILL,
+			     color: "#fff",
+				textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+				font:{
+					fontSize: 14
+				},
+				top: 4, right:4, left:4, bottom:20
+			});
+		}
+		
+		adImage.addEventListener("load", function(e){
+			console.log(e.source.parent.children[1]);
+			  var a = Ti.UI.createAnimation({
+			  	height: Ti.UI.SIZE,
+			  	width: Ti.UI.SIZE,
+			    duration : 2000,
+			  });
+			  var b = Ti.UI.createAnimation({
+			  	height: Ti.UI.SIZE,
+			    duration : 2000,
+			  });
+			  //e.source.parent.children[1].children[0].textAlign = Titanium.UI.TEXT_ALIGNMENT_LEFT;
+			  e.source.parent.children[1].children[0].animate(a);
+			  e.source.parent.children[1].animate(b);
+		});
+		pad_categoryLabel.add(label);
+		view.add(adImage);
+		view.add(pad_categoryLabel);
+		box.add(view);
+		
+		
+		if(i == lastbox && odd){
+			console.log('dont add to row');
+		}else{
+			console.log("row < box");
+			row.add(box);
+			if((i%2 && i > 0) || (i == data.length - 1 && odd)){
+				console.log("main < row");
+				$.gridView.main.add(row);
+			}
+		}
+		
+	};
+}
+
+
+
 /*** Get ads ***/
 var createGridListing = function(res){
 
@@ -257,4 +436,4 @@ $.btnBack.addEventListener('click', function(){
 }); 
 
 /* App Running */
-createGridListing();
+//createGridListing();

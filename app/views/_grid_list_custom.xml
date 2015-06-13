@@ -1,6 +1,7 @@
 <Alloy>
 	<View bottom='0' class="hr"></View>
-	<View id="main" layout="vertical">
-		<TableView id="category_tv" moving="true"></TableView>
-	</View>
+	<ScrollView id="main" layout="vertical">
+		
+	</ScrollView>
+	<TableView id="category_tv" moving="true"></TableView>
 </Alloy>
