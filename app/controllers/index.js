@@ -98,7 +98,7 @@ var bannerListing = function(){
 	var scrollableView = Ti.UI.createScrollableView({
 			id: "scrollableView",
 			views:the_view,
-			showPagingControl:true,
+			showPagingControl:false,
 		});
 		//scrollableView.setPagingControlColor("transparent");
 		$.indexView.bannerListing.removeAllChildren();
