@@ -4,9 +4,8 @@
     <name>SalesAd</name>
     <version>1.0.2</version>
     <publisher>Freejini</publisher>
-    <url>http://</url>
-    <description>salesAd
-</description>
+    <url>http://www.freejini.com</url>
+    <description>salesAd</description>
     <copyright>2014 by Freejini</copyright>
     <icon>appicon.png</icon>
     <fullscreen>true</fullscreen>
@@ -63,7 +62,6 @@
                         <key>CFBundleURLSchemes</key>
                         <array>
                             <!-- Prefix the Facebook App ID with 'fb' -->
-                          
                             <string>salesad</string>
                             <string>fb1593197804284763</string>
                         </array>
@@ -81,7 +79,7 @@
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <tool-api-level>16</tool-api-level>
         <manifest>
-            <application android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <application android:debuggable="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
                 <meta-data
                     android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBJ0EF9lpsbttU_OdKA3BBxscR0ygt9D2A"/>
                 <intent-filter>

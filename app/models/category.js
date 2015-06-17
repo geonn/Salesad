@@ -2,7 +2,8 @@ exports.definition = {
 	config: {
 		columns: {
 		    "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-		    "categoryName": "INTEGER"
+		    "categoryName": "INTEGER",
+		    "image": "TEXT"
 		},
 		adapter: {
 			type: "sql",
@@ -20,6 +21,25 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
+			addColumn : function( newFieldName, colSpec) {
+				var collection = this;
+				var db = Ti.Database.open(collection.config.adapter.db_name);
+				if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				var fieldExists = false;
+				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
+				while (resultSet.isValidRow()) {
+					if(resultSet.field(1)==newFieldName) {
+						fieldExists = true;
+					}
+					resultSet.next();
+				}  
+			 	if(!fieldExists) { 
+					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' ADD COLUMN '+newFieldName + ' ' + colSpec);
+				}
+				db.close();
+			},
 			getCategoryList : function(){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name ;
@@ -32,9 +52,14 @@ exports.definition = {
                 var categoryArr = []; 
                 var count = 0;
                 while (res.isValidRow()){
+                	var row_count = res.fieldCount;
+                	 for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }
 					categoryArr[count] = {
 					    id: res.fieldByName('id'),
-					    categoryName: res.fieldByName('categoryName')
+					    categoryName: res.fieldByName('categoryName'),
+					    image: res.fieldByName('image')
 					};
 					res.next();
 					count++;
@@ -96,7 +121,7 @@ exports.definition = {
 	            db.close();
 	            collection.trigger('sync');
 			},
-			saveCategory : function(id, categoryName){
+			saveCategory : function(id, categoryName, image){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE id='"+ id+"'";
                 var sql_query =  "";
@@ -105,17 +130,17 @@ exports.definition = {
                 	db.file.setRemoteBackup(false);
                 }
                 var res = db.execute(sql);
-                 
                 if (res.isValidRow()){ 
-                	if(res.fieldByName('categoryName') != categoryName){
-                		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET categoryName='"+categoryName+"' WHERE id="+ id;
+                	if(res.fieldByName('categoryName') != categoryName || res.fieldByName('image') != image){
+                		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET categoryName='"+categoryName+"', image='"+image+"' WHERE id="+ id;
                 		db.execute(sql_query); 
                 	}
                 }else{ 
                 	needRefresh = true;
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, categoryName) VALUES ('"+id+"','"+categoryName+"')";
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, categoryName, image) VALUES ('"+id+"','"+categoryName+"','"+image+"')";
                 	db.execute(sql_query); 
 				} 
+				console.log(sql_query);
 	            db.close();
 	            collection.trigger('sync');
 			},

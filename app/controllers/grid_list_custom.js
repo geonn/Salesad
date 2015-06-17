@@ -5,12 +5,11 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var nav = Alloy.Globals.navMenu; 
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
-    text: 'MY SALESAD', 
+    text: 'MY FAVOURITE', 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
- });
+});
   
-
 if(Ti.Platform.osname == "android"){ 
 	$.pageTitle.add(custom);  
 	Ti.UI.Android.hideSoftKeyboard();    
@@ -44,7 +43,7 @@ for (var i=0; i < category_list.length; i++) {
 		}
 	}
 	console.log(temp);
-	buildSmallBlock(temp);
+	buildSmallBlock(temp, category_list[i]['categoryName']);
 };
 function buildBigBlock(data){
 	console.log("create row");
@@ -57,8 +56,17 @@ function buildBigBlock(data){
 	
 	var box = $.UI.create("View", {
 		height : (pWidth / 2),
-		width : Ti.UI.FILL,
-		layout: "vertical"
+		width : Ti.UI.FILL
+	});
+	console.log(data.image);
+	var adImage = Ti.UI.createImageView({
+		defaultImage: "/images/warm-grey-bg.png",
+		image: data.image,
+		height: Ti.UI.FILL,
+		width: "auto",
+		top: 10,
+		right: 10,
+		zIndex: 10,
 	});
 	
 	var label = $.UI.create("Label",{
@@ -67,20 +75,44 @@ function buildBigBlock(data){
 		width: Ti.UI.FILL,
 		top: 10,
 		right: 10,
-		backgroundColor: "#cccccc",
+		zIndex: 10,
+		backgroundImage:  "images/transparent-bg.png",
 		textAlign: "center", 
 	});
 	
-	box.add(label);
+	box.add(adImage);
+	//box.add(label);
+	
 	row.add(box);
 	$.gridView.main.add(row);
+	
+	box.addEventListener("click", function(e){
+		var category_view = children({name: "cate", value: data.categoryName}, $.gridView.main);
+		for (var i=0; i < category_view.children.length; i++) {
+			 for (var a=0; a < category_view.children[i].children.length; a++) {
+				 	for (var b=0; b < category_view.children[i].children[a].children.length; b++) {
+		            var view_selected = category_view.children[i].children[a].children[b];
+		            rotate_box(view_selected);
+		           }
+	          }
+		}
+	});
 }
 
-function buildSmallBlock(data){
+function buildSmallBlock(data, category_name){
 	var odd = (data.length % 2);
 	var lastrow = (odd)?data.length - 3 : data.length - 2;
 	var lastbox = (odd)?data.length - 2 : data.length - 1;
 	var lastLabel = (odd)?data.length - 2: data.length;
+	var favoritesLibrary = Alloy.createCollection('favorites'); 
+	var favorites = favoritesLibrary.getFavoritesByUid(u_id);
+	
+	var smallBlockView = $.UI.create("View",{
+		cate: category_name,
+		width: Ti.UI.FILL,
+		height: Ti.UI.SIZE,
+		layout: "vertical"
+	});
 	
 	for (var i=0; i < data.length; i++) {
 		//create row to contain box
@@ -102,6 +134,13 @@ function buildSmallBlock(data){
 				layout: "vertical",
 			});
 		}
+		var favourite_checked = false;
+		for(c = 0; favorites.length > c; c++){
+			if(favorites[c].m_id == data[i]['m_id']){
+				favourite_checked = true;
+			}
+		}
+			
 		if(lastLabel > i){
 			var adImage = Ti.UI.createImageView({
 				defaultImage: "/images/warm-grey-bg.png",
@@ -109,9 +148,6 @@ function buildSmallBlock(data){
 				height: Ti.UI.FILL,
 				width: "auto",
 			});
-			
-			console.log("box < label");
-		
 			var view = $.UI.create("View",{
 				height: Ti.UI.FILL,
 				width: Ti.UI.FILL,
@@ -122,7 +158,11 @@ function buildSmallBlock(data){
 				borderRadius: 2,
 				borderColor: "#C6C8CA",
 				zIndex: 10,
+				mod: "box",
+				m_id: data[i]['m_id'],
+				favourite: favourite_checked,
 			});
+			
 			var pad_categoryLabel = Ti.UI.createView({top:0, width: Ti.UI.FILL, height: Ti.UI.FILL,  backgroundImage:  "images/transparent-bg.png", zIndex: 10});
 			var label = $.UI.create("Label",{
 				text: data[i]['name'],
@@ -153,6 +193,9 @@ function buildSmallBlock(data){
 				borderRadius: 2,
 				borderColor: "#C6C8CA",
 				zIndex: 10,
+				mod: "box",
+				m_id: data[i]['m_id'],
+				favourite: favourite_checked,
 			});
 			var pad_categoryLabel = Ti.UI.createView({top:0, width: Ti.UI.FILL, height: Ti.UI.FILL,  backgroundImage:  "images/transparent-bg.png", zIndex: 10});
 			var label = $.UI.create("Label",{
@@ -168,6 +211,12 @@ function buildSmallBlock(data){
 			});
 		}
 		
+		var favourite_images = Ti.UI.createImageView({
+			image: "images/favorite-status.png",
+			height: Ti.UI.FILL,
+			width: "auto"
+		});
+			
 		adImage.addEventListener("load", function(e){
 			console.log(e.source.parent.children[1]);
 			  var a = Ti.UI.createAnimation({
@@ -180,42 +229,23 @@ function buildSmallBlock(data){
 			    duration : 2000,
 			  });
 			  //e.source.parent.children[1].children[0].textAlign = Titanium.UI.TEXT_ALIGNMENT_LEFT;
+			  e.source.parent.children[1].height = Ti.UI.SIZE;
 			  e.source.parent.children[1].children[0].animate(a);
-			  e.source.parent.children[1].animate(b);
+			  //e.source.parent.children[1].animate(b);
 		});
 		
 		view.addEventListener("click", function(e){
-			var m_front_to_back = Ti.UI.create3DMatrix();
-            m_front_to_back = m_front_to_back.rotate(-180, 0, 1, 0);
-            var a_front_to_back = Ti.UI.createAnimation({
-                transform: m_front_to_back,
-                duration: 200
-            });
-            console.log(e.source);
-            e.source.animate(a_front_to_back);
-            
-            a_front_to_back.addEventListener('complete', function() {
-                Ti.API.info('showFront: Animating the back to the front.');
- 
-                var m_back_to_front = Ti.UI.create3DMatrix();
-                m_back_to_front = m_back_to_front.rotate(0, 0, 1, 0);
-                var a_back_to_front = Ti.UI.createAnimation({
-                    transform: m_back_to_front,
-                    duration: 200,
-                    curve: Ti.UI.ANIMATION_CURVE_EASE_OUT
-                });
- 
-                e.source.animate(a_back_to_front);
-            });
+			var view_selected = parent({name: "mod", value: "box"}, e.source);
+			rotate_box(view_selected);
 		});
-		
-		
 		
 		pad_categoryLabel.add(label);
 		view.add(adImage);
 		view.add(pad_categoryLabel);
+		if(favourite_checked){
+			view.add(favourite_images);
+		}
 		box.add(view);
-		
 		
 		if(i == lastbox && odd){
 			console.log('dont add to row'); 
@@ -224,14 +254,101 @@ function buildSmallBlock(data){
 			row.add(box);
 			if((i%2 && i > 0) || (i == data.length - 1 && odd)){
 				console.log("main < row");
-				$.gridView.main.add(row);
+				smallBlockView.add(row);
 			}
 		}
-		
 	};
+	$.gridView.main.add(smallBlockView);
 }
 
+function rotate_box(view_selected){
+	var favoritesLibrary = Alloy.createCollection('favorites');
+	var m_front_to_back = Ti.UI.create3DMatrix();
+	m_front_to_back = m_front_to_back.rotate(-180, 0, 1, 0);
+	var a_front_to_back = Ti.UI.createAnimation({
+        transform: m_front_to_back,
+        duration: 200,
+        box: view_selected
+    });
+     view_selected.animate(a_front_to_back);
+    
+    a_front_to_back.addEventListener('complete', function() {
+        Ti.API.info('showFront: Animating the back to the front.');
+		a_front_to_back.removeEventListener('complete',function(){});
+		
+        var m_back_to_front = Ti.UI.create3DMatrix();
+        m_back_to_front = m_back_to_front.rotate(0, 0, 1, 0);
+        var a_back_to_front = Ti.UI.createAnimation({
+            transform: m_back_to_front,
+            duration: 200,
+            curve: Ti.UI.ANIMATION_CURVE_EASE_OUT
+        });
+		var favourite_images = Ti.UI.createImageView({
+			image: "images/favorite-status.png",
+			height: Ti.UI.FILL,
+			width: "auto"
+		});
+		if(view_selected.favourite){
+			view_selected.favourite = false;
+			view_selected.remove(view_selected.children[2]);
+			favoritesLibrary.deleteFavoriteByMid(view_selected.m_id); 
+			API.updateUserFavourite({
+				m_id   : view_selected.m_id,
+				u_id	 : u_id,
+				status : 2
+			});
+		}else{
+			view_selected.add(favourite_images);
+			view_selected.favourite = true;
+			var favorite = Alloy.createModel('favorites', {
+				    m_id   : view_selected.m_id,
+				    u_id	 : u_id,
+				    position : 0
+				});
+			favorite.save();
+			API.updateUserFavourite({
+				m_id   : view_selected.m_id,
+				u_id	 : u_id,
+				status : 1
+			});
+		}
+        view_selected.animate(a_back_to_front);
+    });
+}
 
+function parent(key, e){
+	if(eval("e."+key.name+"") != key.value){
+		if(eval("e.parent."+key.name+"") != key.value){
+			if(eval("e.parent.parent."+key.name+"") != key.value){
+    			console.log("box not found");
+    		}else{
+    			return e.parent.parent;
+    		}
+    	}else{
+    		return e.parent;
+    	}
+    }else{
+    		return e;
+    }
+}
+
+function children(key, e){
+	if(eval("e."+key.name+"") != key.value){
+		for (var i=0; i < e.children.length; i++) {
+			if(eval("e.children[i]."+key.name+"") == key.value){
+		  		return e.children[i];
+		 	}
+			for (var a=0; a < e.children[i].children.length; a++) {
+				console.log(e.children[i].children[a]);
+			  if(eval("e.children[i].children[a]."+key.name+"") == key.value){
+			  	return e.children[i].children[a];
+			  }
+			};
+		};
+    }else{
+		return e;
+    }
+}
 
 /*** Get ads ***/
 var createGridListing = function(res){

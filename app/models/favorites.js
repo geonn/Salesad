@@ -85,6 +85,16 @@ exports.definition = {
 		        db2.close();
 		        collection.trigger('sync');
 			},
+			deleteFavoriteByMid : function(m_id){
+				var collection = this;
+		        var sql = "DELETE FROM " + collection.config.adapter.collection_name+" where m_id="+m_id;
+		       
+		        var db2 = Ti.Database.open(collection.config.adapter.db_name);
+		        db.file.setRemoteBackup(false);
+		        db2.execute(sql);
+		        db2.close();
+		        collection.trigger('sync');
+			},
 			resetFavorites : function(){
 				var collection = this;
 		        var sql = "DELETE FROM " + collection.config.adapter.collection_name;

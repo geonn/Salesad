@@ -250,7 +250,7 @@ $.adView.favorites.addEventListener("click", function(){
 		  	}
 		 });
 	}else{
-		var message = "Are you sure want to add into favorite";
+	var message = "Are you sure want to add into favorite";
 	var dialog = Ti.UI.createAlertDialog({
 	    cancel: 1,
 	    buttonNames: ['Cancel','Confirm'],

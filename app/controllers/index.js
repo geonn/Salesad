@@ -8,6 +8,10 @@ ads.addColumn("active_date", "TEXT");
 ads.addColumn("expired_date", "TEXT");
 ads.addColumn("created", "TEXT");
 ads.addColumn("updated", "TEXT");
+
+var model_category = Alloy.createCollection('category'); 
+model_category.addColumn("image", "TEXT");
+
 /** Google Analytic**/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "main",
@@ -28,7 +32,7 @@ Alloy.Globals.navMenu = $.navMenu;
 
 /** create banner slideshow**/
 var bannerListing = function(){
-	
+	console.log("bannerlisting");
 	var banner_model = Alloy.createCollection('banners'); 
  	var banners = banner_model.getBannerList(); 
  	if(!banners.length){
@@ -42,7 +46,8 @@ var bannerListing = function(){
 	 
 	//var bannerHeight = $.indexView.bannerListing.rect.height;
 	for (var i=0; i< banners.length; i++) {
-			adImage = Ti.UI.createImageView({
+		console.log(banners[i].img);
+				adImage = Ti.UI.createImageView({
 				image: banners[i].img,
 				source: banners[i].m_id,
 				width: Ti.UI.FILL,
@@ -130,9 +135,10 @@ function buildCateogryList(e){
 	while($.indexView.adListing.children.length>0){
 	    $.indexView.adListing.remove($.indexView.adListing.children[0]);
 	};
-	var model_category = Alloy.createCollection('category'); 
+	var model_category = Alloy.createCollection('category');
 	var category_list = model_category.getCategoryList();
 	if(!category_list.length){
+		console.log('no');
 		API.loadCategory();
 		return;
 	}
@@ -195,6 +201,7 @@ function syncCategory(){
 	var category_list = model_category.getCategoryList();
 	
 	for (var i=0; i< category_list.length; i++) {
+		console.log("no");
 		var API = require('api');
 		API.loadMerchantListByCategory(category_list[i].id);
 	}
