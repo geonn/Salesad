@@ -1,8 +1,8 @@
 <Alloy>
 	<Window title="" backButtonTitle="" class="container" id="ad" navTintColor="#CE1D1C">
 		<LeftNavButton>
-	        <View left="0">
-	         	<Button left='0' id="btnBack" width="25" height="25" backgroundImage="/images/btn-back.png" />
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <Require type="view" src="_ad" id="adView"/>

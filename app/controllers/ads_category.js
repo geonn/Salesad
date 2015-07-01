@@ -139,6 +139,6 @@ if(Ti.Platform.osname == "android"){
 /*
  * Event Listener 
  * */
-$.btnBack.addEventListener('click', function(){ 
+$.btnBack.addEventListener('touchend', function(){ 
 	COMMON.closeWindow($.ad); 
 }); 

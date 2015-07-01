@@ -92,6 +92,7 @@ var createGridListing = function(res){
 	   		var row = $.categoryDetailsView.UI.create("TableViewRow",{
 	   			height: Ti.UI.SIZE,
 	   			width: Ti.UI.FILL,
+	   			selectedBackgroundColor: "#FFE1E1",
 	   		});
 	   		var view  = $.categoryDetailsView.UI.create("View",{
 	   			layout: "horizontal",

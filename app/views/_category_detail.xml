@@ -5,6 +5,6 @@
         	<Label top="5" text="Loading" color="#ffffff" />
         </View>
 		<View id="main" layout="vertical">
-			<TableView id="category_tv"></TableView>
+			<TableView id="category_tv" height="Ti.UI.SIZE"></TableView>
 		</View>
 </Alloy>

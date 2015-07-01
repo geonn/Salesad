@@ -34,15 +34,7 @@
 },
 "#main":{
 	width: Ti.UI.FILL,
-},
-".row" :{
-	layout: 'horizontal',
-	height: '40%',
-},
-".cell" :{
-	width: '50%',
-	height: Ti.UI.SIZE
-},
+}, 
 ".big_font":{
 	font: {fontSize: '20dp'},
 },
