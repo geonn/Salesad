@@ -365,6 +365,7 @@ Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
 Ti.App.addEventListener('app:adsUpdated', function(e){
 	
 	if(!$.indexView.adListing.children.length){
+		console.log('nononono');
 		buildCateogryList();
 	}
 	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
@@ -381,7 +382,13 @@ Ti.App.addEventListener('app:bannerListing', bannerListing);
 
 /** EventListner for after API.loadCategory success**/
 Ti.App.addEventListener('app:loadCategory', function(e){
-	buildCateogryList(e);
+	var model_category = Alloy.createCollection('category'); 
+	var category_list = model_category.getCategoryList();
+	
+	for (var i=0; i< category_list.length; i++) {
+		var API = require('api');
+		API.loadMerchantListByCategory(category_list[i].id);
+	}
 });
 
 $.indexView.home.addEventListener('click', function(e){

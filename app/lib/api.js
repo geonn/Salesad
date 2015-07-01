@@ -133,7 +133,7 @@ exports.updateUserFavourite = function(e){
 };
 
 exports.loadMerchantListByCategory = function (ex){
-	
+	console.log("load merchant by category"+ex);
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById(100+ex);
 	var last_updated ="";
@@ -186,17 +186,21 @@ exports.loadMerchantListByCategory = function (ex){
 			}
 			
 			checker.updateModule(100+ex,"loadMerchantListByCategory",currentDateTime());
+			console.log(ex);
 			Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	//console.log("API loadMerchantListByCategory fail, skip sync with server");
+	     	console.log("API loadMerchantListByCategory fail, skip sync with server");
 	     	Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
-	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+	 if(Ti.Platform.osname == "android"){
+	 	client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+	 }
+	 
 	 client.open("POST", url);
 	 // Send the request.
 	client.send({list: existing_id});
@@ -246,7 +250,9 @@ exports.bannerListing = function (type){
 	     timeout : 7000  // in milliseconds
 	 });
 	 // Prepare the connection.
-	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	 if(Ti.Platform.osname == "android"){
+	 	client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+	 }
  
 	 client.open("POST", url);
 	 // Send the request.
@@ -427,6 +433,7 @@ exports.loadAdsByCategory = function(cate_id){
 				 }		
 			});
 			checker.updateModule(200+cate_id,"getAdsByCategoryList",currentDateTime());
+			console.log("ads updated"+cate_id);
 			setTimeout(function () {
 				Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
 			}, 1000);
@@ -524,7 +531,6 @@ exports.loadCategory = function (ex){
 	     onload : function(e) {
 	     	  
 	       var res = JSON.parse(this.responseText);
-	       console.log(res);
 	       if(res.status == "Success"){
 	       	/**reset current category**/
 			//library.resetCategory();
@@ -550,7 +556,9 @@ exports.loadCategory = function (ex){
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
-	 client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	 if(Ti.Platform.osname == "android"){
+	 	client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
+	 }
  
 	 client.open("POST", url);
 	 // Send the request.
