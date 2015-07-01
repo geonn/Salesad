@@ -391,6 +391,11 @@ Ti.App.addEventListener('app:loadCategory', function(e){
 	}
 });
 
+$.indexView.favorite.addEventListener('click', function(e){
+	var win = Alloy.createController("grid_list_custom").getView();  
+	COMMON.openWindow(win);
+});
+
 $.indexView.home.addEventListener('click', function(e){
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: 2,

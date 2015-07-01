@@ -26,243 +26,119 @@ $.custom.addEventListener("close", function(){
 });
 
 var pWidth = Ti.Platform.displayCaps.platformWidth - 10;
-var category_data = [{name: "Mid Valley"},{name: "Leisure Mall"},{name: "Sunway"},{name: "Lowyat "}, {name: "Imbi"}];
-var category = {name: "Shopping Mall"};
-
 var cateAdsLibrary = Alloy.createCollection("categoryAds");
 var category_data = cateAdsLibrary.getAllCategory();
 var library = Alloy.createCollection('category'); 
 var category_list = library.getCategoryList();
 
-for (var i=0; i < category_list.length; i++) {
-	buildBigBlock(category_list[i]);
-	var temp = [];
-	for (var a=0; a < category_data.length; a++) {
-		if(category_data[a]['cate_id'] == category_list[i]['id']){
-			temp.push(category_data[a]);
-		}
-	}
-	buildSmallBlock(temp, category_list[i]['categoryName']);
-};
-function buildBigBlock(data){
-	var row = $.UI.create("View", {
-		width: Ti.UI.FILL,
-		height: Ti.UI.SIZE,
-		left: 10,
-		layout: "horizontal"
-	});
-	
-	var box = $.UI.create("View", {
-		height : (pWidth / 2),
-		width : Ti.UI.FILL
-	});
-	var adImage = Ti.UI.createImageView({
-		defaultImage: "/images/warm-grey-bg.png",
-		image: data.image,
-		height: Ti.UI.FILL,
-		width: "auto",
-		top: 10,
-		right: 10,
-		zIndex: 10,
-	});
-	
-	var label = $.UI.create("Label",{
-		text: data.categoryName,
-		height: Ti.UI.FILL,
-		width: Ti.UI.FILL,
-		top: 10,
-		right: 10,
-		zIndex: 10,
-		backgroundImage:  "images/transparent-bg.png",
-		textAlign: "center", 
-	});
-	
-	box.add(adImage);
-	//box.add(label);
-	
-	row.add(box);
-	$.gridView.main.add(row);
-	
-	box.addEventListener("click", function(e){
-		var category_view = children({name: "cate", value: data.categoryName}, $.gridView.main);
-		for (var i=0; i < category_view.children.length; i++) {
-			 for (var a=0; a < category_view.children[i].children.length; a++) {
-				 	for (var b=0; b < category_view.children[i].children[a].children.length; b++) {
-			            var view_selected = category_view.children[i].children[a].children[b];
-			            rotate_box(view_selected);
-		           }
-	          }
-		}
-	});
-}
-
-function buildSmallBlock(data, category_name){
-	var odd = (data.length % 2);
-	var lastrow = (odd)?data.length - 3 : data.length - 2;
-	var lastbox = (odd)?data.length - 2 : data.length - 1;
-	var lastLabel = (odd)?data.length - 2: data.length;
-	var favoritesLibrary = Alloy.createCollection('favorites'); 
-	var favorites = favoritesLibrary.getFavoritesByUid(u_id);
-	
-	var smallBlockView = $.UI.create("View",{
-		cate: category_name,
-		width: Ti.UI.FILL,
-		height: Ti.UI.SIZE,
-		layout: "vertical"
-	});
-	
+var favoritesLibrary = Alloy.createCollection('favorites'); 
+var favorites = favoritesLibrary.getFavoritesByUid(u_id);
+buildSmallBlock(favorites);
+console.log(favorites);
+function buildSmallBlock(data){
 	for (var i=0; i < data.length; i++) {
-		//create row to contain box
-		if(i%2 == 0 && lastrow >= i){
-			console.log("create row");
-			var row = $.UI.create("View", {
-				width: Ti.UI.FILL,
-				height: Ti.UI.SIZE,
-				left: 10,
-				layout: "horizontal"
-			});
-		}
-		// create box to contain the icon / label
-		if(lastbox >= i){
-			console.log("create box");
-			var box = $.UI.create("View", {
-				height : Ti.UI.SIZE,
-				width : "50%",
-				layout: "vertical",
-			});
-		}
-		var favourite_checked = false;
-		for(c = 0; favorites.length > c; c++){
-			if(favorites[c].m_id == data[i]['m_id']){
-				favourite_checked = true;
-			}
-		}
-			
-		if(lastLabel > i){
-			var adImage = Ti.UI.createImageView({
-				defaultImage: "/images/warm-grey-bg.png",
-				image: data[i]['img_path'],
-				height: "auto",
-				width: Ti.UI.FILL,
-			});
-			var view = $.UI.create("View",{
-				height: Ti.UI.SIZE,
-				width: Ti.UI.FILL,
-				top: 10,
-				right: 10,
-				backgroundColor: "#cccccc",
-				textAlign: "center",
-				borderRadius: 2,
-				borderColor: "#C6C8CA",
-				zIndex: 10,
-				mod: "box",
-				m_id: data[i]['m_id'],
-				favourite: favourite_checked,
-			});
-			
-			var pad_categoryLabel = Ti.UI.createView({top:0, width: Ti.UI.FILL, height: Ti.UI.SIZE,  backgroundImage:  "images/transparent-bg.png", zIndex: 10});
-			var label = $.UI.create("Label",{
-				text: data[i]['name'],
-				height: Ti.UI.SIZE,
-				width: Ti.UI.FILL,
-			   color: "#fff",
-				textAlign: "center",
-				font:{
-					fontSize: 14
-				}, 
-				top: 4, right:4, left:4, bottom:20
-			});
-		}else{
-			var adImage = Ti.UI.createImageView({
-				defaultImage: "/images/warm-grey-bg.png",
-				image: data[i]['img_path'],
-				height: Ti.UI.FILL,
-				width: "auto",
-			});
-			console.log("box < label2");
-			var view = $.UI.create("View",{
-				height: ((pWidth / 2) - 20) / 2,
-				width: Ti.UI.FILL,
-				top: 10,
-				right: 10,
-				backgroundColor: "#cccccc",
-				textAlign: "center",
-				borderRadius: 2,
-				borderColor: "#C6C8CA",
-				zIndex: 10,
-				mod: "box",
-				m_id: data[i]['m_id'],
-				favourite: favourite_checked,
-			});
-			var pad_categoryLabel = Ti.UI.createView({top:0, width: Ti.UI.FILL, height: Ti.UI.FILL,  backgroundImage:  "images/transparent-bg.png", zIndex: 10});
-			var label = $.UI.create("Label",{
-				text: data[i]['name'],
-				height: Ti.UI.FILL,
-				width: Ti.UI.FILL,
-			     color: "#fff",
-				textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
-				font:{
-					fontSize: 14
-				},
-				top: 4, right:4, left:4, bottom:20
-			});
-		}
+		console.log("create box");
+		var box = $.UI.create("View", {
+			height : Ti.UI.SIZE,
+			width : "50%",
+			layout: "vertical",
+		});
+		
+		favourite_checked = true;
+		
+		var adImage = Ti.UI.createImageView({
+			defaultImage: "/images/warm-grey-bg.png",
+			image: data[i]['img_path'],
+			height: "auto",
+			width: Ti.UI.FILL,
+		});
+		var view = $.UI.create("View",{
+			height: Ti.UI.SIZE,
+			width: Ti.UI.FILL,
+			top: 4,
+			right: 4,
+			backgroundColor: "#cccccc",
+			textAlign: "center",
+			borderRadius: 2,
+			borderColor: "#C6C8CA",
+			zIndex: 10,
+			mod: "box",
+			m_id: data[i]['m_id'],
+			favourite: favourite_checked,
+		});
+		
+		var pad_categoryLabel = Ti.UI.createView({top:0, width: Ti.UI.FILL, height: Ti.UI.SIZE,  backgroundImage:  "/images/transparent-bg.png", zIndex: 10});
+		var label = $.UI.create("Label",{
+			text: data[i]['name'],
+			height: Ti.UI.SIZE,
+			width: Ti.UI.FILL,
+		   color: "#fff",
+			textAlign: "center",
+			font:{
+				fontSize: 14
+			}, 
+			top: 4, right:4, left:4, bottom:20
+		});
 		
 		var favourite_images = Ti.UI.createImageView({
-			image: "images/the-fav-button.png",
+			image: "/images/the-fav-button.png",
 			backgroundColor: "#EEEEEE",
 			opacity: 0.8,
-			height: Ti.UI.FILL,
-			width: "auto"
-		});
-			
-		adImage.addEventListener("load", function(e){
-			  var a = Ti.UI.createAnimation({
-			  	height: Ti.UI.SIZE,
-			  	width: Ti.UI.SIZE,
-			    duration : 1000,
-			  });
-			  var b = Ti.UI.createAnimation({
-			  	height: Ti.UI.SIZE,
-			    duration : 2000,
-			  });
-			  //e.source.parent.children[1].children[0].textAlign = Titanium.UI.TEXT_ALIGNMENT_LEFT;
-			  e.source.parent.children[1].height = Ti.UI.SIZE;
-			  e.source.parent.children[1].children[0].animate(a);
-			  //e.source.parent.children[1].animate(b);
-		});
-		
-		view.addEventListener("click", function(e){
-			var view_selected = parent({name: "mod", value: "box"}, e.source);
-			rotate_box(view_selected);
+			height: "auto",
+			width: Ti.UI.FILL
 		});
 		
 		pad_categoryLabel.add(label);
 		view.add(adImage);
 		view.add(pad_categoryLabel);
-		if(favourite_checked){
-			view.add(favourite_images);
-		}
+		view.add(favourite_images);
 		box.add(view);
+		$.gridView.main.add(box);
 		
-		if(i == lastbox && odd){
-			console.log('dont add to row'); 
-		}else{
-			console.log("row < box");
-			row.add(box);
-			if((i%2 && i > 0) || (i == data.length - 1 && odd)){
-				console.log("main < row");
-				smallBlockView.add(row);
+		view.addEventListener("click", function(e){
+			var view_selected = parent({name: "mod", value: "box"}, e.source);
+			console.log(view_selected.favourite);
+			
+			if(view_selected.favourite){
+				var title = "Unfavorite";
+				var message = 'Are you sure you want to unfavorite this merchant?';
+			}else{
+				var title = "Favorite";
+				var message = 'Are you sure you want to favorite this merchant?';
 			}
-		}
+			
+			var confirm = Titanium.UI.createAlertDialog({
+			        title: title,
+			        message: message,
+			        buttonNames: ['Yes', 'No'],
+			        cancel: 1
+			});
+			
+			confirm.addEventListener('click', function(e){
+			        if (e.cancel === e.index || e.cancel === true) {
+			        return false;
+			        }
+			        if (e.index === 0){
+			        	rotate_box(view_selected);
+			        }
+			});
+			
+			confirm.show();
+		});
 	};
-	$.gridView.main.add(smallBlockView);
 }
 
 function rotate_box(view_selected){
 	var favoritesLibrary = Alloy.createCollection('favorites');
-	var m_front_to_back = Ti.UI.create3DMatrix();
-	m_front_to_back = m_front_to_back.rotate(-180, 0, 1, 0);
+	
+	
+	if(Ti.Platform.osname == "android"){
+		var matrix2d = Ti.UI.create2DMatrix();
+		var m_front_to_back = matrix2d.scale(0);
+	}else{
+		var m_front_to_back = Ti.UI.create3DMatrix();
+		m_front_to_back = m_front_to_back.rotate(-180, 0, 1, 0);
+	}
 	var a_front_to_back = Ti.UI.createAnimation({
         transform: m_front_to_back,
         duration: 200,
@@ -273,21 +149,27 @@ function rotate_box(view_selected){
     a_front_to_back.addEventListener('complete', function() {
         Ti.API.info('showFront: Animating the back to the front.');
 		a_front_to_back.removeEventListener('complete',function(){});
-		
-        var m_back_to_front = Ti.UI.create3DMatrix();
-        m_back_to_front = m_back_to_front.rotate(0, 0, 1, 0);
+		if(Ti.Platform.osname == "android"){
+			var matrix2d = Ti.UI.create2DMatrix();
+			var m_back_to_front = matrix2d.scale(1);
+		}else{
+			var m_back_to_front = Ti.UI.create3DMatrix();
+        	m_back_to_front = m_back_to_front.rotate(0, 0, 1, 0);
+		}
         var a_back_to_front = Ti.UI.createAnimation({
             transform: m_back_to_front,
             duration: 200,
             curve: Ti.UI.ANIMATION_CURVE_EASE_OUT
         });
+        
 		var favourite_images = Ti.UI.createImageView({
-			image: "images/the-fav-button.png",
+			image: "/images/the-fav-button.png",
 			backgroundColor: "#EEEEEE",
 			opacity: 0.8,
-			height: Ti.UI.FILL,
-			width: "auto"
+			height: "auto",
+			width: Ti.UI.FILL
 		});
+		
 		if(view_selected.favourite){
 			view_selected.favourite = false;
 			view_selected.remove(view_selected.children[2]);

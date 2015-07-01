@@ -1,6 +1,6 @@
 <Alloy>
 	<View bottom='0' class="hr"></View>
-	<ScrollView id="main" layout="vertical">
+	<ScrollView id="main" layout="horizontal" left="4" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.FILL" width="Ti.UI.FILL" height="Ti.UI.FILL">
 		
 	</ScrollView>
 	<TableView id="category_tv" moving="true"></TableView>

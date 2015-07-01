@@ -25,7 +25,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getFavoritesByUid : function(uid){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE u_id='"+ uid+ "' order by position" ;
+                var sql = "SELECT favorites.*, merchants.name, merchants.img_path FROM " + collection.config.adapter.collection_name + " LEFT OUTER JOIN merchants ON merchants.m_id = favorites.m_id WHERE favorites.u_id='"+ uid+ "' order by favorites.position" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -41,7 +41,9 @@ exports.definition = {
 					    b_id: res.fieldByName('b_id'),
 						m_id: res.fieldByName('m_id'),
 						position: res.fieldByName('position'),
-					  	u_id: res.fieldByName('u_id')
+					  	u_id: res.fieldByName('u_id'),
+					  	name: res.fieldByName('name'),
+					  	img_path: res.fieldByName('img_path')
 					};
 					res.next();
 					count++;
