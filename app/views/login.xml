@@ -1,11 +1,10 @@
 <Alloy>
 	<Window title="LOGIN" class="container" backButtonTitle="" id="login" barColor="#CE1D1C" navTintColor="#FFFFFF">
-		<LeftNavButton platform="ios">
+		<LeftNavButton>
 	        <View left="0">
 	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-      
         <View height="95%">
 			<View id="main" layout="vertical" height="auto">
 				<View layout="vertical" id="loginScrollView" height="260" width="100%">
