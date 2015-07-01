@@ -1,10 +1,10 @@
 <Alloy>
 	<Window title="" backButtonTitle="" class="container" id="ad" navTintColor="#CE1D1C">
-		<View layout="horizontal" height="50" width="100%" backgroundColor="#ffffff"  >
-			<View left="0" width="Ti.UI.SIZE">
-	         	<ImageView id="btnBack" width="50" height="50" image="/images/btn-back.png" />
+		<View layout="horizontal" height="50" width="100%"  >
+			<View left="0" width="Ti.UI.SIZE"> 
+		        <ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" /> 
 		    </View>
-		    <View id="pageTitle" width="auto" backgroundColor="#efefef" />
+		    <View id="pageTitle" width="auto"  />
 	 	</View>
         <Require type="view" src="_ads_category" id="adsCategory"/> 
 	</Window>

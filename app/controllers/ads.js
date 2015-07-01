@@ -18,14 +18,14 @@ $.ad.backgroundColor = "#FFFFF6";
 var gBannerImg;
 /*********************
 *******FUNCTION*******
-**********************/
-
+**********************/ 
 var getAdDetails = function(a_id){
 	
 	var i_library = Alloy.createCollection('items'); 
 	var a_library = Alloy.createCollection('ads'); 
 	var ads = a_library.getAdsInfo(a_id);
 	ads = ads[0];
+	
 	var the_view = [];
     var items = i_library.getItemByAds(a_id);
 

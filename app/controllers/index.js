@@ -9,7 +9,7 @@ ads.addColumn("active_date", "TEXT");
 ads.addColumn("expired_date", "TEXT");
 ads.addColumn("created", "TEXT");
 ads.addColumn("updated", "TEXT");
-
+var model_merchants = Alloy.createCollection('merchants'); 
 var model_category = Alloy.createCollection('category'); 
 model_category.addColumn("image", "TEXT");
 /** Google Analytic**/ 
@@ -387,7 +387,6 @@ $.indexView.home.addEventListener('click', function(e){
 
 /** Android Click to refresh **/
 if(Ti.Platform.osname == "android"){
-	
 	// trigger if user click back
 	$.indexView.root.addEventListener('android:back', function (e) {
 		var dialog = Ti.UI.createAlertDialog({

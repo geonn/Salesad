@@ -80,7 +80,9 @@ exports.definition = {
 		        var sql = "DELETE FROM " + collection.config.adapter.collection_name+" where id="+id;
 		       
 		        var db2 = Ti.Database.open(collection.config.adapter.db_name);
-		        db.file.setRemoteBackup(false);
+		        if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
 		        db2.execute(sql);
 		        db2.close();
 		        collection.trigger('sync');
@@ -90,7 +92,9 @@ exports.definition = {
 		        var sql = "DELETE FROM " + collection.config.adapter.collection_name+" where m_id="+m_id;
 		       
 		        var db2 = Ti.Database.open(collection.config.adapter.db_name);
-		        db.file.setRemoteBackup(false);
+		        if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
 		        db2.execute(sql);
 		        db2.close();
 		        collection.trigger('sync');
