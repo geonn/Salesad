@@ -365,7 +365,7 @@ Ti.App.addEventListener('app:loadCategory', function(e){
 	buildCateogryList();
 });
 
-$.indexView.filter_link.addEventListener('click', function(e){
+$.indexView.home.addEventListener('click', function(e){
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: 2,
 	  options: ['Recent', 'Popular', 'Cancel'],
