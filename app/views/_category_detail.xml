@@ -6,6 +6,6 @@
         </View>
 		<View id="main" layout="vertical">
 			<View id="category_banner" width="Ti.UI.FILL" height="Ti.UI.SIZE"></View>
-			<TableView id="category_tv"></TableView>
+			<TableView id="category_tv" height="Ti.UI.SIZE"></TableView>
 		</View>
 </Alloy>

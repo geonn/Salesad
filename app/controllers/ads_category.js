@@ -197,6 +197,6 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	//buildListing()
 });
 
-$.btnBack.addEventListener('click', function(){ 
+$.btnBack.addEventListener('touchend', function(){
 	COMMON.closeWindow($.ad); 
 }); 

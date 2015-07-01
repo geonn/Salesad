@@ -76,7 +76,7 @@ function loadTable(){
 		    touchEnabled: true,
 		    mod: RegArr[j].mod, 
 		    height: 50,  
-		    backgroundSelectedColor: "#FFE1E1",
+		    selectedBackgroundColor: "#FFE1E1",
 			backgroundColor: "#ffffff",
 		  });
 		
@@ -136,7 +136,7 @@ function loadTable(){
 		    touchEnabled: true,
 		    height: 50, 
 		    id: "profile",
-		    backgroundSelectedColor: "#FFE1E1",
+		    selectedBackgroundColor: "#FFE1E1",
 			backgroundColor: "#ffffff",
 		  });
 		var title = Titanium.UI.createLabel({
@@ -188,7 +188,7 @@ function loadTable(){
 	var stateRow = Titanium.UI.createTableViewRow({
 	    touchEnabled: true,
 	    height: 50, 
-	    backgroundSelectedColor: "#FFE1E1",
+	    selectedBackgroundColor: "#FFE1E1",
 		backgroundColor: "#ffffff",
 	  });
 	var title = Titanium.UI.createLabel({

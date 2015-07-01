@@ -36,7 +36,10 @@ function generateSettingTable(){
 	var RegTable = Titanium.UI.createTableView({
 		width:'100%',
 		separatorColor: '#777777' ,
-		scrollable: false
+		scrollable: false,
+		height: Ti.UI.SIZE,
+		scrollable: false,
+		top: 0
 	});
 
 	var regData=[];
@@ -46,7 +49,7 @@ function generateSettingTable(){
 		    touchEnabled: true,
 		    height: 50, 
 		    id: "profile",
-		    backgroundSelectedColor: "#FFE1E1",
+		    selectedBackgroundColor: "#FFE1E1",
 			backgroundColor: "#FFFFF6",
 		  });
 
@@ -77,7 +80,7 @@ function generateSettingTable(){
 		    touchEnabled: true,
 		    height: 50, 
 		    id: "profile",
-		    backgroundSelectedColor: "#FFE1E1",
+		    selectedBackgroundColor: "#FFE1E1",
 			backgroundColor: "#FFFFF6",
 		  });
 

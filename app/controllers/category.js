@@ -67,7 +67,7 @@ function generateMyProfileTable(RegArr){
 	   
 	   var regRow = Titanium.UI.createTableViewRow({
 		    touchEnabled: true,
-		    backgroundSelectedColor: "#FFE1E1",
+		    selectedBackgroundColor: "#FFE1E1",
 		    height: 50, 
 		    id: "profile",
 			backgroundColor: "#ffffff",
@@ -75,10 +75,10 @@ function generateMyProfileTable(RegArr){
 		
 		var leftImage =  Titanium.UI.createImageView({
 			image:RegArr[j].leftImage,
-			width:50,
-			height:50,
-			left:10,
-			top:0
+			width:30,
+			borderRadius: 10, 
+			height:30,
+			left:10 
 		});	
 		
 		var title = $.categoryView.UI.create('Label', {
@@ -96,8 +96,7 @@ function generateMyProfileTable(RegArr){
 			height:15,
 			right:20,
 			top:20
-		});		
-		
+		});		 
 		regRow.add(leftImage);
 		regRow.add(title);
 		regRow.add(rightRegBtn);
@@ -124,7 +123,7 @@ function generateCategoryTable(details){
 		    touchEnabled: true,
 		    height: 50,
 		    id: details[i].id,
-		    backgroundSelectedColor: "#FFE1E1",
+		    selectedBackgroundColor: "#FFE1E1",
 			backgroundColor: "#ffffff",
 		  });
 		
@@ -307,7 +306,7 @@ var searchRes = function(res){
 			    touchEnabled: true,
 			    height: 70,
 			    source: entry.m_id,
-			    backgroundSelectedColor: "#FFE1E1",
+			    selectedBackgroundColor: "#FFE1E1",
 				backgroundColor: "#ffffff",
 			   });
 			
