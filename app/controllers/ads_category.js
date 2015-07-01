@@ -184,8 +184,13 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	console.log(!loading);*/
 	var cnt = e.source.children.length;
 	var lastChild = e.source.children[cnt-1];
-	var cHeight = (lastChild.rect.y + (lastChild.getSize().height / 2));
-	
+	if(Ti.Platform.osname == "android"){ 
+		var cHeight = (lastChild.rect.y + (lastChild.getSize().height / 2));
+	}else{
+		var cHeight = (lastChild.rect.y - (lastChild.getSize().height / 2));
+	}
+	console.log(cHeight+" "+e.source.contentOffset.y);
+	console.log("aa"+(lastChild.getSize().height / 2));
 	if(((cHeight - tolerance) < e.source.contentOffset.y) && !loading){
 		loading = true;
 		console.log("add indicator");

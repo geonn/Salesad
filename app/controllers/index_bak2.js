@@ -35,12 +35,18 @@ var bannerListing = function(){
 	
 	var banner_model = Alloy.createCollection('banners'); 
  	var banners = banner_model.getBannerList(); 
+ 	
+ 	if(!banners.length){
+	 	API.bannerListing();
+	 	return;
+ 	}
+ 	
 	var the_view = [];
    	var counter = 0;
 	var imagepath, adImage, row = '';
 	var my_page = 0;
 	 
-	//var Ti.UI.SIZE = $.indexView.bannerListing.rect.height;
+	//var bannerHeight = $.indexView.bannerListing.rect.height;
 	for (var i=0; i< banners.length; i++) {
 			adImage = Ti.UI.createImageView({
 				image: banners[i].img,
@@ -77,13 +83,13 @@ var bannerListing = function(){
 				scrollType: "horizontal",
 				contentWidth: 'auto',
 			  	contentHeight: 'auto',
-			   	height:Ti.UI.SIZE,
+			   	width: Ti.UI.FILL,
+			  	height: Ti.UI.FILL, 
 			   	backgroundImage: "/images/warm-grey-bg.png",
-			  	width: '100%' 
 			});
 			
-			row = $.indexView.UI.create('View', {classes: ["row"],layout:"", height:Ti.UI.SIZE});
-			row.add(activityIndicator);
+			row = $.indexView.UI.create('View', {classes: ["row"],layout:"", height: Ti.UI.FILL});
+			//row.add(activityIndicator);
 			row.add(adImage);
 			//row.add(img_caption);
 			row.addEventListener('touchend', function(e) {
@@ -261,19 +267,12 @@ function createAdImageEvent(adImage,m_id, a_id, cate_id) {
 function bannerAdIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
 		activityIndicator.hide();
-		if(!category_sync_counter){
-			if(Ti.Platform.osname != "android"){
-				$.indexView.scrollview.setDisableBounce(false);
-			}
-      		$.indexView.scrollview.animate({top:0, duration: 500});
-		}
 	});
 }
 
 /** Bind Indicator to Ad Image **/
 function adIamgeLoadEvent(adImage, activityIndicator){
 	adImage.addEventListener('load', function(e) {
-		category_sync_counter--; 
 		activityIndicator.hide();
 		if(!category_sync_counter){
 			if(Ti.Platform.osname != "android"){
@@ -285,6 +284,31 @@ function adIamgeLoadEvent(adImage, activityIndicator){
       		
 		}
 	});
+}
+
+function do_popular(){
+	API.loadMerchantListByType("popular");
+}
+
+function updateCategoryList(e){
+	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
+		var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
+		var cell = $.indexView.adListing.children[c].children[0];
+		console.log(e.types);
+		if(typeof e != "undefined" && typeof e != "null"){
+			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id, e.types);
+		}else{
+			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id);
+			if(!category_sync_counter){
+				if(Ti.Platform.osname != "android"){
+					$.indexView.scrollview.setDisableBounce(false);
+				}else{
+					/** IOS trigger when all category image loaded **/
+				}
+	      		$.indexView.scrollview.animate({top:0, duration: 500});
+	 		}
+ 		}
+	}
 }
 
 /************************
@@ -304,24 +328,27 @@ var API = require('api');
  * > api.js Ti.App.fireEvent('app:bannerListing') 
  * > index.js bannerListing()
  **/
-API.bannerListing();
+bannerListing();
 
-/** 
- * Category Flow 
- * index.js API.loadCategory() > api.js fireEvent('app:loadCategory')  // sync category from server
+/** New Category Flow
  * > index.js buildCateogryList() 
- * > index.js syncCategory() 
- * > index.js API.loadMerchantListByCategory(cate_id) > api.js fireEvent('app:category_detailCreateGridListing') // sync merchant from server
- * > index.js API.loadAdsByCategory(e.cate_id); > api.js fireEvent('app:adsUpdated', {cate_id: cate_id}); // sync ads from server
- * > index.js loadLatestImageByCategoryId();
- * > index.js categorAds.getLatestAdsByCategory(cate_id, 1);
- **/
+ ** > index.js loadLatestImageByCategoryId();
+  * > index.js categorAds.getLatestAdsByCategory(cate_id, 1);
+- * 
+- * Grab Category data from server 
+- * index.js API.loadCategory() > api.js fireEvent('app:loadCategory')  // sync category from server
+- * index.js syncCategory() 
+- * index.js API.loadMerchantListByCategory(cate_id) > api.js fireEvent('app:category_detailCreateGridListing') // sync merchant from server
+- * index.js API.loadAdsByCategory(e.cate_id); > api.js fireEvent('app:adsUpdated', {cate_id: cate_id}); // sync ads from server
+  **/
 buildCateogryList();
 API.loadCategory();
 
 /*********************
 *** Event Listener ***
 **********************/
+
+Ti.App.addEventListener('app:triggerAdsType', updateCategoryList);
 
 $.indexView.more.addEventListener("click", function(e){
 	var win = Alloy.createController("category").getView();  
@@ -345,7 +372,6 @@ Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
 
 /** EventListner for after API.loadAdsByCategory success**/
 Ti.App.addEventListener('app:adsUpdated', function(e){
-	
 	if(!$.indexView.adListing.children.length){
 		buildCateogryList();
 	}
@@ -363,7 +389,8 @@ Ti.App.addEventListener('app:bannerListing', bannerListing);
 
 /** EventListner for after API.loadCategory success**/
 Ti.App.addEventListener('app:loadCategory', function(e){
-	buildCateogryList(e);
+	syncCategory();
+	//buildCateogryList(e);
 });
 
 $.indexView.home.addEventListener('click', function(e){
@@ -380,7 +407,8 @@ $.indexView.home.addEventListener('click', function(e){
 		if(e.index == 0){
 			API.loadCategory();
 		}else if(e.index == 1){
-			API.loadCategory({types: "popular"});
+			do_popular();
+			//API.loadCategory({types: "popular"});
 		}
 	});
 });

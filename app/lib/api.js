@@ -540,7 +540,7 @@ exports.loadCategory = function (ex){
 			}
 			
 			checker.updateModule("5","getCategoryList",currentDateTime());
-			Ti.App.fireEvent('app:loadCategory');
+			Ti.App.fireEvent('app:loadCategory', ex);
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
