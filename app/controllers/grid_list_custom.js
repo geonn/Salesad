@@ -209,7 +209,9 @@ function buildSmallBlock(data, category_name){
 		}
 		
 		var favourite_images = Ti.UI.createImageView({
-			image: "images/favorite-status.png",
+			image: "images/the-fav-button.png",
+			backgroundColor: "#EEEEEE",
+			opacity: 0.8,
 			height: Ti.UI.FILL,
 			width: "auto"
 		});
@@ -280,7 +282,9 @@ function rotate_box(view_selected){
             curve: Ti.UI.ANIMATION_CURVE_EASE_OUT
         });
 		var favourite_images = Ti.UI.createImageView({
-			image: "images/favorite-status.png",
+			image: "images/the-fav-button.png",
+			backgroundColor: "#EEEEEE",
+			opacity: 0.8,
 			height: Ti.UI.FILL,
 			width: "auto"
 		});

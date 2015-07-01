@@ -23,10 +23,10 @@ if(isNotification === null){
 
 /***Facebook Library***/
 var FACEBOOK = require('facebook');
-FACEBOOK.appid = "1593197804284763";
+//FACEBOOK.appid = "1593197804284763";
 FACEBOOK.permissions = ['public_profile','email','user_friends']; // Permissions your app needs
 FACEBOOK.initialize(1000);
-FACEBOOK.forceDialogAuth = true;
+//FACEBOOK.forceDialogAuth = true;
 
 var Cloud = require('ti.cloud');
  

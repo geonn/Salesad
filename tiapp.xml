@@ -94,6 +94,7 @@
             <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21"/>
         </manifest>
     </android>
+     
     <mobileweb>
         <precache/>
         <splash>
