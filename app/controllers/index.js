@@ -208,7 +208,6 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 		var latestc = c_ads_library.getPopularAdsByCategory(cate_id, 1);
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
-		console.log(latestc);
 	}
 	if(typeof latestc[0] == 'object' && latestc[0].a_id != 0 && typeof latestc[0].a_id != 'object'){
 
@@ -287,6 +286,23 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 	});
 }
 
+function do_popular(){
+	API.loadMerchantListByType("popular");
+}
+
+function updateCategoryList(e){
+	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
+		var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
+		var cell = $.indexView.adListing.children[c].children[0];
+		console.log(e.types);
+		if(typeof e != "undefined" && typeof e != "null"){
+			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id, e.types);
+		}else{
+			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id);
+		}
+	}
+}
+
 /************************
 *******APP RUNNING*******
 *************************/
@@ -322,6 +338,8 @@ API.loadCategory();
 /*********************
 *** Event Listener ***
 **********************/
+
+Ti.App.addEventListener('app:triggerAdsType', updateCategoryList);
 
 $.indexView.more.addEventListener("click", function(e){
 	var win = Alloy.createController("category").getView();  
@@ -380,7 +398,8 @@ $.indexView.home.addEventListener('click', function(e){
 		if(e.index == 0){
 			API.loadCategory();
 		}else if(e.index == 1){
-			API.loadCategory({types: "popular"});
+			do_popular();
+			//API.loadCategory({types: "popular"});
 		}
 	});
 });
