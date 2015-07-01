@@ -96,21 +96,21 @@ for (var j=0; j< stateArr.length; j++) {
 
 	if(isCheck >= 0){
 		var rightRegBtn =  Titanium.UI.createImageView({
-			image:"/images/icon-favorites.png",
+			image:"/images/the-fav-button.png",
 			id: "selected_"+stateArr[j].key, 
-			width:15,
-			height:15,
+			width:50,
+			height:50,
 			right:20,
-			top:20
+			top:10
 		});	
 	}else{
 		var rightRegBtn =  Titanium.UI.createImageView({
 			image:"",
 			id: "selected_"+stateArr[j].key, 
-			width:15,
-			height:15,
+			width:50,
+			height:50,
 			right:20,
-			top:20
+			top:10
 		});	
 	}		
 	
@@ -129,7 +129,7 @@ for (var j=0; j< stateArr.length; j++) {
 			});
 			
 			favourite.save();
-			e.row.children[1].image = '/images/icon-favorites.png';
+			e.row.children[1].image = '/images/the-fav-button.png';
 	    }else  {
 	    	row.haveCheck = false;
 	    	var favourite = Alloy.createCollection('userState'); 

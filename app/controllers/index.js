@@ -9,7 +9,7 @@ ads.addColumn("active_date", "TEXT");
 ads.addColumn("expired_date", "TEXT");
 ads.addColumn("created", "TEXT");
 ads.addColumn("updated", "TEXT");
-
+var model_merchants = Alloy.createCollection('merchants'); 
 var model_category = Alloy.createCollection('category'); 
 model_category.addColumn("image", "TEXT");
 /** Google Analytic**/ 
@@ -400,21 +400,7 @@ $.indexView.scrollview.addEventListener('scroll', function (e) {
 
 /** Android Click to refresh **/
 if(Ti.Platform.osname == "android"){
-	$.indexView.arrow_link.addEventListener('click', function(e){
-		//Create the transformation
-		var imgTransform = Ti.UI.create2DMatrix().rotate(0, 360);
-				
-		var myAnimation = Ti.UI.createAnimation({
-		   transform   :   imgTransform,      //Transform property to change during animation
-		   duration     :  3000,         //Duration for the animation in millisecond
-		   repeat: 0
-		});
-
-		$.indexView.arrow_link.animate(myAnimation); 
-		
-		buildCateogryList();
-	});
-	
+	 
 	// trigger if user click back
 	$.indexView.root.addEventListener('android:back', function (e) {
 		var dialog = Ti.UI.createAlertDialog({

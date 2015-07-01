@@ -70,7 +70,7 @@ var getAdDetails = function(){
 	
 	gBannerImg = ads.img_path;
 	//Ti.Platform.openURL('whatsapp://send?text='+ads.img_path);
-	$.adView.ads_details.add(bannerImage);
+	
  	
  	if( ads.ads_background !== undefined){
 	 	$.ad.backgroundColor = "#"+ads.ads_background;
@@ -94,8 +94,9 @@ var getAdDetails = function(){
 	
 	});
 	/***Set ads items***/
- 
+  
 	if(items.length > 0 ){
+		$.adView.ads_details.add(bannerImage);
 		for (var i=0; i< items.length; i++) {
 	
 			if(counter%2 == 0){

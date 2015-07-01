@@ -2,9 +2,9 @@
 	<Window  class="container" id="ad" navTintColor="#CE1D1C">
 		<View layout="horizontal" id="adHeader" height="50" width="100%"  >
 			<View left="0" width="Ti.UI.SIZE" zIndex="10">
-		         <ImageView id="btnBack" width="50" height="50" image="/images/btn-back.png" />
+		         <ImageView id="btnBack" left='10' width="25" height="25" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="auto" backgroundColor="#efefef" />
+	     	<View id="pageTitle" width="auto"  />
 	 	</View>
 		<Require type="view" src="_ad" id="adView"/> 
 	</Window>
