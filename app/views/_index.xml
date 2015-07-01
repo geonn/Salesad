@@ -1,5 +1,26 @@
-<Alloy>
+<!--<Alloy>
 	<Window id="root" title="" navBarHidden="true" class="container" height="Ti.UI.FILL" layout="composite" fullscreen="true">
+		<View id="header" zIndex="12">
+			<ImageView left='0' width='157' height='45' image="/images/salesad_logo.png" id="salesad_logo" />
+			<!--<ImageView id="category_link" right='10' bottom="0" height='40' image="/images/salesad_beg.png" />
+			<ImageView id="filter_link" right='10' bottom="0" height='40' image="/images/popular-red.png" />
+			
+			<ImageView id="arrow_link" left='65%' height='Ti.UI.FILL' image="/images/refresh-icon.png" platform="android" />
+			<!--<ImageView id="arrow_link" left='65%' height='30' image="/images/icon-recent.png" />
+			<View bottom='0' class="hr"></View>
+		</View>
+		
+		<View width="Ti.UI.FILL" height="Ti.UI.FILL" top="45" bottom="61">
+			<ScrollView layout="vertical" id="scrollview" height="Ti.UI.FILL" width="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE">
+				<View id="bannerListing" height="350" width="Ti.UI.FILL" backgroundColor="black"></View>
+				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>
+			</ScrollView>
+		</View>
+		
+	</Window>
+</Alloy>-->
+<Alloy>
+	<Window id="root" title="" navBarHidden="true" class="container" layout="composite" fullscreen="true">
 		<View id="header" zIndex="12">
 			<ImageView left='0' width='157' height='45' image="/images/salesad_logo.png" id="salesad_logo" />
 			<!--<ImageView id="category_link" right='10' bottom="0" height='40' image="/images/salesad_beg.png" />-->
@@ -9,8 +30,7 @@
 			<!--<ImageView id="arrow_link" left='65%' height='30' image="/images/icon-recent.png" />-->
 			<View bottom='0' class="hr"></View>
 		</View>
-		
-		<View width="Ti.UI.FILL" height="Ti.UI.FILL" top="45" bottom="61">
+		<View width="Ti.UI.FILL" top="45" bottom="61" height="Ti.UI.FILL">
 			<ScrollView layout="vertical" id="scrollview" height="Ti.UI.FILL" width="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE">
 				<View id="bannerListing" height="350" width="Ti.UI.FILL" backgroundColor="black"></View>
 				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>
@@ -30,6 +50,6 @@
 	        <View width="25%" height="60">
 				<ImageView id="more" height="Ti.UI.FILL" image="/images/more.png" />
 			</View>
-	    </View>
+		</View>
 	</Window>
 </Alloy>

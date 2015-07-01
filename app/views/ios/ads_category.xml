@@ -5,6 +5,6 @@
 	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <Require type="view" src="_ads_category" id="adsCategory"/> 
+        <Require type="view" src="_ads_category" id="adsCategory"/>
 	</Window>
 </Alloy>

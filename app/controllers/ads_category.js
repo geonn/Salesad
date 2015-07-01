@@ -4,13 +4,39 @@ var nav = Alloy.Globals.navMenu;
 var clickTime = null;
 var category_library = Alloy.createCollection('category'); 
 var category_info = category_library.getCategoryById(cate_id);
+var ads_counter = 0;
+var loading = false;
+if (Ti.Platform.name === 'iPhone OS'){
+  var style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+}
+else {
+  var style = Ti.UI.ActivityIndicatorStyle.DARK;
+}
+var activityIndicator = Ti.UI.createActivityIndicator({
+  color: '#404041',
+  font: {fontFamily:'Helvetica Neue', fontSize:16, fontWeight:'bold'},
+  message: 'Loading...',
+  style:style,
+  bottom: 10,
+  height:Ti.UI.SIZE,
+  width: Ti.UI.FILL,
+  zIndex: 14,
+});
 
-/*
+/* 0 1 2 3 4 5 6
  * Function
  * */
 function buildListing(){
+	
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
-	var ads = c_ads_library.getLatestAdsByCategory(cate_id, 0);
+	var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);
+	if(ads.length <= 0){
+		console.log("remove indicator");
+		activityIndicator.hide();
+		$.adsCategory.ads_listing.remove(activityIndicator);
+		return;	
+	}
+	ads_counter += 3;
 	var dummy = $.UI.create("View",{
 		bottom: 10,
 		left: 10,
@@ -103,7 +129,18 @@ function buildListing(){
 		bannerImage.addEventListener('click', function(e) {
 		 	goAd(e.source.m_id, e.source.a_id);
 		});
+		
+		bannerImage.addEventListener('load', function(e){
+			activityIndicator.hide();
+			$.adsCategory.ads_listing.remove(activityIndicator);
+		});
+		setTimeout(function(e){
+			loading = false;
+			console.log("remove indicator");
+		}, 1000);
 	}
+	
+	
 }
 
 /** navigate to Ad **/
@@ -139,6 +176,27 @@ if(Ti.Platform.osname == "android"){
 /*
  * Event Listener 
  * */
+
+$.adsCategory.ads_listing.addEventListener("scroll", function(e){
+	var tolerance = 0;
+	/*console.log(e.source.contentOffset);
+	console.log(((e.source.getRect().height - tolerance) < e.source.contentOffset.y));
+	console.log(!loading);*/
+	var cnt = e.source.children.length;
+	var lastChild = e.source.children[cnt-1];
+	var cHeight = (lastChild.rect.y + (lastChild.getSize().height / 2));
+	
+	if(((cHeight - tolerance) < e.source.contentOffset.y) && !loading){
+		loading = true;
+		console.log("add indicator");
+		$.adsCategory.ads_listing.add(activityIndicator);
+		activityIndicator.show();
+		e.source.scrollToBottom();
+		buildListing();
+	}
+	//buildListing()
+});
+
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.ad); 
 }); 

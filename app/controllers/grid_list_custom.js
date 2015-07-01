@@ -42,11 +42,9 @@ for (var i=0; i < category_list.length; i++) {
 			temp.push(category_data[a]);
 		}
 	}
-	console.log(temp);
 	buildSmallBlock(temp, category_list[i]['categoryName']);
 };
 function buildBigBlock(data){
-	console.log("create row");
 	var row = $.UI.create("View", {
 		width: Ti.UI.FILL,
 		height: Ti.UI.SIZE,
@@ -58,7 +56,6 @@ function buildBigBlock(data){
 		height : (pWidth / 2),
 		width : Ti.UI.FILL
 	});
-	console.log(data.image);
 	var adImage = Ti.UI.createImageView({
 		defaultImage: "/images/warm-grey-bg.png",
 		image: data.image,
@@ -218,7 +215,6 @@ function buildSmallBlock(data, category_name){
 		});
 			
 		adImage.addEventListener("load", function(e){
-			console.log(e.source.parent.children[1]);
 			  var a = Ti.UI.createAnimation({
 			  	height: Ti.UI.SIZE,
 			  	width: Ti.UI.SIZE,
@@ -339,7 +335,6 @@ function children(key, e){
 		  		return e.children[i];
 		 	}
 			for (var a=0; a < e.children[i].children.length; a++) {
-				console.log(e.children[i].children[a]);
 			  if(eval("e.children[i].children[a]."+key.name+"") == key.value){
 			  	return e.children[i].children[a];
 			  }

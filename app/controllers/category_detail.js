@@ -9,7 +9,7 @@ Alloy.Globals.tracker.trackEvent({
 	action: "view",
 	label: "category details",
 	value: 1
-}); 
+});
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Category Details"
 }); 
@@ -24,7 +24,17 @@ var custom = Ti.UI.createLabel({
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
-  
+
+var category_banner = Ti.UI.createImageView({
+	defaultImage: "/images/warm-grey-bg.png",
+	image: details.image,
+	height: "auto",
+	width: Ti.UI.FILL,
+	zIndex: 10,
+});
+
+$.categoryDetailsView.category_banner.add(category_banner);
+
 if(Ti.Platform.osname == "android"){ 
 	$.pageTitle.add(custom);  
 	Ti.UI.Android.hideSoftKeyboard();   

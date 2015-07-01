@@ -103,7 +103,8 @@ exports.definition = {
                
                 if (res.isValidRow()){
 					arr = {
-					    categoryName: res.fieldByName('categoryName')
+					    categoryName: res.fieldByName('categoryName'),
+					    image: res.fieldByName('image')
 					};
 					
 				} 

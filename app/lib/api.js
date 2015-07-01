@@ -223,7 +223,7 @@ exports.bannerListing = function (type){
 	       //console.log(res);
 	       if(res.status == "success"){
 	       	/**reset current category**/
-			//library.resetBanner();
+			library.resetBanner();
 			
 			/**load new set of category from API**/
 	       	var arr = res.data;
