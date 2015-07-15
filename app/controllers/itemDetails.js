@@ -52,10 +52,10 @@ var getAdsImages = function(){
 			bottom: 0
 		});
 		if(items[i].barcode != ""){
-			//if(isScan == "1"){ 
+			if(isScan == "1"){ 
 				var bcwv = BARCODE.generateBarcode(items[i].barcode);
 				barCodeView.add(bcwv);
-			//}
+			}
 			
 			var saIcon =Ti.UI.createImageView({
 				image : "/images/icon_mySalesAd.png",
