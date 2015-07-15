@@ -1,16 +1,27 @@
 <Alloy>
     <View height="100%" width="Ti.UI.FILL">
+    	
     	<View class="hr" top="0"></View>
 		<ScrollView id="ads_details" contentWidth="Ti.UI.FILL" top="1" bottom="60" layout="vertical"></ScrollView>
 		<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
 	        <ActivityIndicator  id="activityIndicator" />
 	    	<Label top="5" text="Loading" color="#ffffff" />
 	    </View>
-	    <View bottom="0" height="61" backgroundColor="white" width="Ti.UI.FILL" layout="horizontal" zIndex="2">
+	    
+	    <View bottom="0" height="61" width="Ti.UI.FILL" layout="horizontal" zIndex="12">
 	    	<View class="grey_line"></View>
-	    	<ImageView id="location" height='60' image="/images/location.png" />
-	        <ImageView id="favorites" height='60' left="10" image="/images/icon-favorites.png" />
-			<ImageView id="share" height='60' left="10" image="/images/shares.png" />
-	    </View>
+	    	<View width="25%" height="60">
+	    		<ImageView id="home" height="Ti.UI.FILL" image="/images/home.png" />
+	    	</View>
+			<View width="25%" height="60">
+				<ImageView id="location" height="Ti.UI.FILL" image="/images/location.png" />
+			</View>
+	        <View width="25%" height="60">
+	        	<ImageView id="favorites" height="Ti.UI.FILL" image="/images/icon-favorites.png" />
+	        </View>
+	        <View width="25%" height="60">
+				<ImageView id="share" height="Ti.UI.FILL" image="/images/shares.png" />
+			</View>
+		</View>
 	</View>
 </Alloy>

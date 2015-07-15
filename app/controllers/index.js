@@ -7,11 +7,15 @@ var ads = Alloy.createCollection('ads');
 ads.addColumn("status", "INTEGER");
 ads.addColumn("active_date", "TEXT");
 ads.addColumn("expired_date", "TEXT");
+ads.addColumn("youtube", "TEXT");
 ads.addColumn("created", "TEXT");
 ads.addColumn("updated", "TEXT");
 var model_merchants = Alloy.createCollection('merchants'); 
 var model_category = Alloy.createCollection('category'); 
 model_category.addColumn("image", "TEXT");
+
+var items = Alloy.createCollection('items'); 
+items.addColumn("barcode", "TEXT");
 /** Google Analytic**/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "main",
@@ -132,8 +136,7 @@ function buildCateogryList(e){
 	};
 	var model_category = Alloy.createCollection('category');
 	var category_list = model_category.getCategoryList();
-	if(!category_list.length){
-		console.log('no');
+	if(!category_list.length){ 
 		API.loadCategory();
 		return;
 	}
@@ -180,8 +183,7 @@ function buildCateogryList(e){
 		pad_cell.add(pad_categoryLabel);
 		pad_cell.add(activityIndicator);
 		cell.add(pad_cell);
-		$.indexView.adListing.add(cell);
-		console.log(typeof e);
+		$.indexView.adListing.add(cell); 
 		if(typeof e != "undefined" && typeof e != "null"){
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id, e.types);
 		}else{
@@ -293,8 +295,7 @@ function do_popular(){
 function updateCategoryList(e){
 	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
 		var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
-		var cell = $.indexView.adListing.children[c].children[0];
-		console.log(e.types);
+		var cell = $.indexView.adListing.children[c].children[0]; 
 		if(typeof e != "undefined" && typeof e != "null"){
 			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id, e.types);
 		}else{
@@ -364,8 +365,7 @@ Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
 /** EventListner for after API.loadAdsByCategory success**/
 Ti.App.addEventListener('app:adsUpdated', function(e){
 	
-	if(!$.indexView.adListing.children.length){
-		console.log('nononono');
+	if(!$.indexView.adListing.children.length){ 
 		buildCateogryList();
 	}
 	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
@@ -447,6 +447,6 @@ if(Ti.Platform.osname == "android"){
 }
 
 /** close all login eventListener when close the page**/
-$.indexView.root.addEventListener("close", function(){
+$.indexView.root.addEventListener("close", function(){ 
     $.indexView.destroy();
 });

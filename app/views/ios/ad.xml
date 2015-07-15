@@ -5,6 +5,12 @@
 	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
+        <RightNavButton>
+	        <View id="scanner" right="10"  width="30" height="45">
+	         	 <ImageView image="/images/scan.png" width="30" />
+	        </View>
+        </RightNavButton>
+        
         <Require type="view" src="_ad" id="adView"/>
 	</Window>
 </Alloy>

@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 var cate_id = args.category_id;
 var nav = Alloy.Globals.navMenu; 
 $.categoryDetailsView.activityIndicator.show();
-
+Alloy.Globals.naviPath.push($.category_details);
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "category",

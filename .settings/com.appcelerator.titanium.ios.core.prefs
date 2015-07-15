@@ -5,5 +5,5 @@ iosLaunchConfigurationAttributes/ATTR_UPLOAD_DEBUG_SYMBOLS=false
 iosLaunchConfigurationAttributes/appid=com.freejini.salesad
 iosLaunchConfigurationAttributes/certificate=Freejini Sdn Bhd (MB2GQ323RN)
 iosLaunchConfigurationAttributes/keychain=
-iosLaunchConfigurationAttributes/sdk_version=8.3
+iosLaunchConfigurationAttributes/sdk_version=8.4
 iosLaunchConfigurationAttributes/uuid=1ccd3b7c-1c05-4e7f-896d-b89aa1944b6b

@@ -12,7 +12,7 @@
 Alloy.Globals.Map = require('ti.map');
 var GA = require('analytics.google');
 Alloy.Globals.tracker = GA.getTracker("UA-53651461-1");
-
+Alloy.Globals.naviPath = [];
 /** include required file**/
 var API = require('api');
 var COMMON = require('common'); 

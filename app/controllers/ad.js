@@ -3,9 +3,12 @@ var m_id = args.m_id;
 var a_id = args.a_id || "";
 var from = args.from || "";
 var isFeed = args.isFeed || "";
+var isScan = "";
 var nav = Alloy.Globals.navMenu;
 var clickTime = null;
 var isAdsAvailable  = false; 
+Alloy.Globals.naviPath.push($.ad);
+var BARCODE = require('barcode');
 /** google analytics**/
 var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
@@ -19,6 +22,12 @@ $.adView.loadingBar.top = "100";
 
 //Default ads background
 $.ad.backgroundColor = "#FFFFF6";
+getScanMerchant();
+function getScanMerchant(){
+	isScan = Ti.App.Properties.getString('sales'+m_id);
+	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);	
+}
+
 
 //load model
 var m_library = Alloy.createCollection('merchants'); 
@@ -41,7 +50,7 @@ var gBannerImg;
 /*********************
 *******FUNCTION*******
 **********************/
-
+ 
 var getAdDetails = function(){
 	var ads = a_library.getAdsById(m_id,a_id);
     var items = i_library.getItemByAds(ads.a_id); 
@@ -50,7 +59,7 @@ var getAdDetails = function(){
 	  
 	var last = items.length-1;
 
- 	$.adView.ads_details.removeAllChildren(); 
+ 	//$.adView.ads_details.removeAllChildren(); 
  	/***Set ads template***/
  	var ads_height = "100%";
  	if(ads.template == "1"){
@@ -106,6 +115,10 @@ var getAdDetails = function(){
 			
 			imagepath = items[i].img_path;
 			
+			var itemImageView = Ti.UI.createView({
+				height: Ti.UI.SIZE,
+				width: Ti.UI.SIZE
+			});
 			adImage = Ti.UI.createImageView({
 				defaultImage: "/images/warm-grey-bg.png",
 				image: imagepath,
@@ -113,10 +126,11 @@ var getAdDetails = function(){
 				width: Ti.UI.FILL,
 				height: "auto",
 			});
+			itemImageView.add(adImage);
+			//itemImageView.add(BARCODE.generateBarcode("686068606860"));
+			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name);
 			
-			createAdImageEvent(adImage,ads.a_id,counter,ads.name);
-			
-			cell.add(adImage);
+			cell.add(itemImageView);
 			row.add(cell);
 			
 			if(counter%2 == 1 || last == counter){
@@ -195,7 +209,7 @@ function createAdImageEvent(adImage,a_id,position, title) {
 	        return;
 	    };
 	    clickTime = currentTime;
-		var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title}).getView(); 
+		var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isScan: isScan}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -206,8 +220,7 @@ function createAdImageEvent(adImage,a_id,position, title) {
 }
 
  
-$.adView.location.addEventListener('click', function(e){
-	 
+$.adView.location.addEventListener('click', function(e){ 
 	var win = Alloy.createController("location",{m_id:m_id,a_id:a_id}).getView(); 
 	COMMON.openWindow(win); 
 });
@@ -304,6 +317,8 @@ Ti.App.addEventListener('app:loadAdsDetails', function(e){
 	}
 });	
 
+Ti.App.addEventListener('getScanMerchant', getScanMerchant);	
+
 
 /*** GEO experiment***/  
 if (Titanium.Platform.name == 'iPhone OS'){
@@ -382,6 +397,14 @@ if (Titanium.Platform.name == 'iPhone OS'){
     });
 } 
 
+$.adView.home.addEventListener("click", function(e){  
+	var naviPath = Alloy.Globals.naviPath;
+	for (var i=0; i< naviPath.length; i++) {
+		COMMON.closeWindow(naviPath[i]); 	 
+	}
+	//
+});
+    
 function createShareOptions(){
  
     var subject = pageTitle;
@@ -398,3 +421,20 @@ function createShareOptions(){
  
     return share;
 }
+
+var SCANNER = require("scanner");
+
+// Create a window to add the picker to and display it. 
+var window = SCANNER.createScannerWindow();
+	
+// create start scanner button
+var button = SCANNER.createScannerButton(); 
+	
+	
+button.addEventListener('click', function() {
+	SCANNER.openScanner("1");
+});
+	 
+SCANNER.init(window); 
+$.scanner.add(button);
+ 

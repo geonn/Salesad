@@ -1,8 +1,10 @@
 var args = arguments[0] || {};
 var a_id = args.a_id;
 var position = args.position;
+var isScan = args.isScan;
 //$.item_Details.title= args.title;
-
+var BARCODE = require('barcode');
+var showBarcode = 1;
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "ads",
@@ -29,12 +31,52 @@ var getAdsImages = function(){
 	var the_view = [];
 	
 	for (var i=0; i< items.length; i++) { 
+		var itemImageView = Ti.UI.createView({
+			height: Ti.UI.SIZE,
+			width: Ti.UI.SIZE
+		});
+			
 		adImage = Ti.UI.createImageView({
 			defaultImage: "/images/warm-grey-bg.png",
 			image: items[i].img_path,
 			width:"100%",
 			height: Ti.UI.SIZE
 		});
+		
+		
+		//BARCODE
+		var barCodeView = Ti.UI.createView({ 
+			height:Ti.UI.SIZE,
+			width:Ti.UI.SIZE ,
+			layout: "horizontal",
+			bottom: 0
+		});
+		if(items[i].barcode != ""){
+			//if(isScan == "1"){ 
+				var bcwv = BARCODE.generateBarcode(items[i].barcode);
+				barCodeView.add(bcwv);
+			//}
+			
+			var saIcon =Ti.UI.createImageView({
+				image : "/images/icon_mySalesAd.png",
+				width: 35,
+				height: 35,
+				right:0,
+				bottom:0,
+				id:"barCodeControl",
+				borderRadius : 10
+			});
+			saIcon.addEventListener('click',function(){
+				if(showBarcode == 1){
+					showBarcode = 0;
+					bcwv.opacity = 0;
+				}else{
+					showBarcode = 1;
+					bcwv.opacity = 1;
+				}
+			});
+			barCodeView.add(saIcon);
+		}
 		
 		var label_caption = Ti.UI.createLabel({
 			top: 0,
@@ -56,8 +98,9 @@ var getAdsImages = function(){
 		});
 	
 		row = $.UI.create('View', {  id:"view"+counter});
-		
-		row.add(adImage);
+		itemImageView.add(adImage);
+		itemImageView.add(barCodeView);
+		row.add(itemImageView);
 		row.add(label_caption);
 		scrollView.add(row);
 		the_view.push(scrollView); 
@@ -84,11 +127,18 @@ var getAdsImages = function(){
 *** Event Listener ***
 **********************/
 $.item_Details.addEventListener('click', function(e){
-	$.item_Details.close({
+	var elbl = JSON.stringify(e.source); 
+	var res = JSON.parse(elbl); 
+	if(res.id == "barCodeControl"){
+		return false;
+	}else{
+		$.item_Details.close({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
 			opacity: 0,
 			duration: 200
 		});
+	}
+	
 });
 
  

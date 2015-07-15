@@ -69,6 +69,7 @@ exports.definition = {
 					    b_id: res.fieldByName('b_id'),
 					    ads_name: res.fieldByName('ads_name'),
 					    ads_background: res.fieldByName('ads_background'),
+					    youtube: res.fieldByName('youtube'),
 					    desc: res.fieldByName('desc'),
 					    template: res.fieldByName('template'),
 					    img_path: res.fieldByName('img_path')
@@ -106,6 +107,7 @@ exports.definition = {
 					    b_id: res.fieldByName('b_id'),
 					    ads_name: res.fieldByName('ads_name'),
 					    ads_background: res.fieldByName('ads_background'),
+					    youtube: res.fieldByName('youtube'),
 					    desc: res.fieldByName('desc'),
 					    template: res.fieldByName('template'),
 					    img_path: res.fieldByName('img_path')
@@ -141,6 +143,7 @@ exports.definition = {
 					    b_id: res.fieldByName('b_id'),
 					    ads_name: res.fieldByName('ads_name'),
 					    ads_background: res.fieldByName('ads_background'),
+					    youtube: res.fieldByName('youtube'),
 					    desc: res.fieldByName('desc'),
 					    template: res.fieldByName('template'),
 					    img_path: res.fieldByName('img_path')
@@ -153,7 +156,7 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			saveAds : function(a_id,m_id,b_id,ads_name,template,desc,ads_background, img_path, status, active_date, expired_date, created, updated){
+			saveAds : function(a_id,m_id,b_id,ads_name,template,desc,ads_background,youtube, img_path, status, active_date, expired_date, created, updated){
 			//console.log("start save ad"); 
 				ads_name = ads_name.replace(/["']/g, "&quot;");
 					
@@ -171,16 +174,16 @@ exports.definition = {
                  
                 if (res.isValidRow()){ 
                 	//console.log(res.fieldByName('updated')+" "+updated+" "+ads_name);
-                	if(res.fieldByName('ads_name') != ads_name || res.fieldByName('template') != template || res.fieldByName('desc') != desc || res.fieldByName('ads_background') != ads_background || res.fieldByName('img_path') != img_path || res.fieldByName('status') != status || res.fieldByName('active_date') != active_date || res.fieldByName('expired_date') != expired_date || res.fieldByName('created') != created || res.fieldByName('updated') != updated){
-                		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id='"+a_id+"', ads_name='"+ads_name+"', template='"+template+"', desc='"+desc+"', img_path='"+img_path+"', ads_background='"+ads_background+"', status='"+status+"', active_date='"+active_date+"', expired_date='"+expired_date+"', created='"+created+"', updated='"+updated+"' WHERE m_id="+ m_id+" AND b_id='"+b_id+ "'" ;
+                	if(res.fieldByName('ads_name') != ads_name || res.fieldByName('template') != template || res.fieldByName('desc') != desc || res.fieldByName('ads_background') != ads_background || res.fieldByName('img_path') != img_path || res.fieldByName('youtube') != youtube || res.fieldByName('status') != status || res.fieldByName('active_date') != active_date || res.fieldByName('expired_date') != expired_date || res.fieldByName('created') != created || res.fieldByName('updated') != updated){
+                		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id='"+a_id+"', ads_name='"+ads_name+"', template='"+template+"', desc='"+desc+"', img_path='"+img_path+"', ads_background='"+ads_background+"', youtube='"+youtube+"', status='"+status+"', active_date='"+active_date+"', expired_date='"+expired_date+"', created='"+created+"', updated='"+updated+"' WHERE m_id="+ m_id+" AND b_id='"+b_id+ "'" ;
                 		needRefresh = true;
                 		db.execute(sql_query); 
                 		 
                 	}
                 }else{ 
                 	needRefresh = true;
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (a_id,m_id,b_id,ads_name,template,  desc, ads_background, img_path, status, active_date, expired_date, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                	db.execute(sql_query, a_id, m_id, b_id, ads_name, template, desc, ads_background, img_path, status,  active_date,  expired_date, created, updated); 
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (a_id,m_id,b_id,ads_name,template,  desc, ads_background,youtube, img_path, status, active_date, expired_date, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                	db.execute(sql_query, a_id, m_id, b_id, ads_name, template, desc, ads_background, youtube, img_path, status,  active_date,  expired_date, created, updated); 
 				} 
 	           
 	            db.close();
