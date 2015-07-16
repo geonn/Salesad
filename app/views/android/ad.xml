@@ -4,7 +4,10 @@
 			<View left="0" width="Ti.UI.SIZE" zIndex="10">
 		         <ImageView id="btnBack" left='10' width="25" height="25" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="auto"  />
+	     	<View id="pageTitle" width="75%"  />
+	     	<View id="scanner" backgroundColor="transparent" right="0"  width="30" height="45">
+	         	 <ImageView image="/images/scan.png" width="30" />
+	        </View>
 	 	</View>
 		<Require type="view" src="_ad" id="adView"/> 
 	</Window>

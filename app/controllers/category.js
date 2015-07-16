@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
  
 var clickTime = null;
-
+Alloy.Globals.naviPath.push($.category);
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "category",

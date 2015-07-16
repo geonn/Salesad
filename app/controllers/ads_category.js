@@ -6,6 +6,8 @@ var category_library = Alloy.createCollection('category');
 var category_info = category_library.getCategoryById(cate_id);
 var ads_counter = 0;
 var loading = false;
+Alloy.Globals.naviPath.push($.adCategory);
+
 if (Ti.Platform.name === 'iPhone OS'){
   var style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
 }
@@ -30,13 +32,13 @@ function buildListing(){
 	
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
 	var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);
+	 
 	if(ads.length <= 0){
 		activityIndicator.hide();
 		$.adsCategory.ads_listing.remove(activityIndicator);
 		return;	
 	}
 	ads_counter += 3;
-	
 	for(var a = 0; ads.length > a; a++){
 		var tbr = Ti.UI.createTableViewRow({
 			height: Ti.UI.SIZE,
@@ -56,14 +58,35 @@ function buildListing(){
 			borderRadius:4,
 		});
 		
-		var bannerImage = Ti.UI.createImageView({
-	 	  defaultImage: "/images/warm-grey-bg.png",
-		  image :ads[a].img_path,
-		  width : Ti.UI.FILL,
-		  m_id: ads[a].m_id,
-		  a_id: ads[a].a_id,
-		  height: Ti.UI.SIZE,//ads_height,
-		});
+		if(ads[a].youtube != ""){
+			var bannerImage = Ti.UI.createView({
+				width : Ti.UI.FILL,
+				height: 200,
+				backgroundColor: "#ffffff",
+				borderColor: "#C6C8CA",
+				borderRadius:4,
+			});
+			var webView = Ti.UI.createWebView({
+			    url: 'http://www.youtube.com/embed/'+ads[a].youtube+'?autoplay=1&autohide=1&cc_load_policy=0&color=white&controls=0&fs=0&iv_load_policy=3&modestbranding=1&rel=0&showinfo=0',
+			    enableZoomControls: false,
+			    scalesPageToFit: false,
+			    scrollsToTop: false,
+			    scalesPageToFit :true,
+			    disableBounce: true,
+			    showScrollbars: false
+			});
+			bannerImage.add(webView);
+		}else{
+			var bannerImage = Ti.UI.createImageView({
+		 	  defaultImage: "/images/warm-grey-bg.png",
+			  image :ads[a].img_path,
+			  width : Ti.UI.FILL,
+			  m_id: ads[a].m_id,
+			  a_id: ads[a].a_id,
+			  height: Ti.UI.SIZE,//ads_height,
+			});
+		}
+		
 		
 		var label_merchant = $.UI.create("Label", {
 			font: { fontWeight: 'bold', fontSize: 16},
@@ -121,22 +144,34 @@ function buildListing(){
 		view_ad.add(label_date_period);
 		tbr.add(view_ad);
 		$.adsCategory.ads_listing.appendRow(tbr);
-		
-		bannerImage.addEventListener('click', function(e) {
-		 	goAd(e.source.m_id, e.source.a_id);
-		});
-		
+
 		bannerImage.addEventListener('load', function(e){
 			activityIndicator.hide();
 			$.adsCategory.ads_listing.remove(activityIndicator);
 		});
+		
 		setTimeout(function(e){
 			loading = false;
 		}, 1000);
+		
+		if(ads[a].youtube == ""){ 
+			bannerImage.addEventListener('click', function(e) {
+			 	goAd(e.source.m_id, e.source.a_id);
+			});
+		}
 	}
+	setTimeout(function(e){
+		activityIndicator.hide();
+		$.adsCategory.ads_listing.remove(activityIndicator);
+		loading = false;
+		console.log("remove indicator");
+	}, 1000);
 	
 	
 }
+
+
+//$.adsCategory.ads_listing.add(videoView);
 
 /** navigate to Ad **/
 var goAd = function(m_id, a_id){
@@ -153,6 +188,15 @@ var goAd = function(m_id, a_id){
 /*
  * App Running
  * */
+var dummy = $.UI.create("View",{
+	bottom: 10,
+	left: 10,
+	right: 10,
+  	width : Ti.UI.FILL,
+  	height: Ti.UI.SIZE,
+	backgroundColor: "#F1F1F2",
+});
+$.adsCategory.ads_listing.add(dummy);
 buildListing();
 
 var custom = Ti.UI.createLabel({ 
@@ -165,7 +209,7 @@ if(Ti.Platform.osname == "android"){
 	COMMON.removeAllChildren($.pageTitle);
 	$.pageTitle.add(custom);   
 }else{
-	$.ad.titleControl = custom; 
+	$.adCategory.titleControl = custom; 
 }
 
 /*
@@ -182,6 +226,7 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	if(Ti.Platform.osname == "android"){ 
 		var cHeight = e.source.getRect().height;
 	}else{
+<<<<<<< HEAD
 		var cHeight = e.source.getRect().height;
 		//var cHeight = (lastChild.rect.y - (lastChild.getSize().height / 2));
 	}
@@ -189,6 +234,12 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	if(((cHeight - tolerance) < e.contentOffset.y) && !loading){
 		loading = true;
 		console.log("add indicator");
+=======
+		var cHeight = (lastChild.rect.y - (lastChild.getSize().height / 2));
+	} 
+	if(((cHeight - tolerance) < e.source.contentOffset.y) && !loading){
+		loading = true; 
+>>>>>>> origin/master
 		$.adsCategory.ads_listing.add(activityIndicator);
 		activityIndicator.show();
 		buildListing();
@@ -226,5 +277,5 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 });
 
 $.btnBack.addEventListener('touchend', function(){
-	COMMON.closeWindow($.ad); 
+	COMMON.closeWindow($.adCategory); 
 }); 

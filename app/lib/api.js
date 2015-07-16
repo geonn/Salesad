@@ -36,7 +36,7 @@ exports.getImagesByAds    = "http://"+API_DOMAIN+"/api/getImagesByAds?user="+USE
 **********************/
 exports.updateUserFromFB = function(e, mainView){ 
 	var url = updateUserFromFB+"&email="+e.email+"&fbid="+e.fbid+"&link="+e.link+"&name="+e.name+"&gender="+e.gender;
-	console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 		// function called when the response data is available
 		onload : function(e) {
@@ -133,7 +133,7 @@ exports.updateUserFavourite = function(e){
 };
 
 exports.loadMerchantListByCategory = function (ex){
-	console.log("load merchant by category"+ex);
+	//console.log("load merchant by category"+ex);
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById(100+ex);
 	var last_updated ="";
@@ -145,7 +145,7 @@ exports.loadMerchantListByCategory = function (ex){
 		last_updated = isUpdate.updated;
 	} 
 	var url = getMerchantListByCategory+"&category_id="+ex+"&last_updated="+last_updated;
-	console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -186,13 +186,13 @@ exports.loadMerchantListByCategory = function (ex){
 			}
 			
 			checker.updateModule(100+ex,"loadMerchantListByCategory",currentDateTime());
-			console.log(ex);
+			//console.log(ex);
 			Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	console.log("API loadMerchantListByCategory fail, skip sync with server");
+	     	//console.log("API loadMerchantListByCategory fail, skip sync with server");
 	     	Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	     },
 	     timeout : 7000  // in milliseconds
@@ -405,7 +405,7 @@ exports.loadAdsByCategory = function(cate_id){
 		last_updated = isUpdate.updated;
 	}
 	var url = getAdsByCategoryList+"&category_id="+cate_id+"&last_updated="+last_updated;
-	//console.log(url);
+	console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -420,7 +420,7 @@ exports.loadAdsByCategory = function(cate_id){
 	       	var arr = res.data;
 	       	arr.forEach(function(entry) {
 			     var ads = Alloy.createCollection('ads'); 
-				 var needRefresh = ads.saveAds(entry.a_id, entry.m_id, entry.branch, entry.name, entry.template_id, entry.description,entry.app_background, entry.img_path, entry.status, entry.activate_date, entry.expired_date, entry.created, entry.updated);
+				 var needRefresh = ads.saveAds(entry.a_id, entry.m_id, entry.branch, entry.name, entry.template_id, entry.description,entry.app_background,entry.youtube, entry.img_path, entry.status, entry.activate_date, entry.expired_date, entry.created, entry.updated);
 			         	
 			     //Save item info
 				 var items = entry.item;
@@ -428,12 +428,12 @@ exports.loadAdsByCategory = function(cate_id){
 				 it.resetItem(entry.a_id);	    
 				 if(items.length > 0){
 					items.forEach(function(item) {
-						it.saveItem( item.i_id, item.a_id, item.price,item.caption, item.img_path);
+						it.saveItem( item.i_id, item.a_id, item.price,item.barcode,item.caption, item.img_path);
 					});
 				 }		
 			});
 			checker.updateModule(200+cate_id,"getAdsByCategoryList",currentDateTime());
-			console.log("ads updated"+cate_id);
+			//console.log("ads updated"+cate_id);
 			setTimeout(function () {
 				Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
 			}, 1000);
@@ -469,7 +469,7 @@ exports.loadAdsDetails = function(m_id, a_id){
 	}else{
 		var url =  getAdsDetailsById +"&m_id="+m_id+"&token="+deviceToken+"&last_updated="+last_updated;
 	}
- 	console.log(url);
+ 	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -525,7 +525,7 @@ exports.loadCategory = function (ex){
 		last_updated = isUpdate.updated;
 	} 
 	 var url = getCategoryList+"&last_updated="+last_updated;
-	 console.log(url);
+	 //console.log(url);
 	 var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
