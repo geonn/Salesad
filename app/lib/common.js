@@ -7,8 +7,6 @@ exports.deconstruct = function(){
 	mainView = null;
 };
 
-var openWindow = _.debounce(open_window, 1000, true);
-
 function open_window(win){
 	if(Ti.Platform.osname == "android"){ 
 	  	win.open(); //{fullscreen:false, navBarHidden: false}
@@ -18,11 +16,7 @@ function open_window(win){
 	} 
 }
 
-exports.openWindow = function(win){
-	openWindow(win);
-};
-
-exports.closeWindow = function(win){
+function closeWindow(win){
 	if(Ti.Platform.osname == "android"){ 
 	  	win.close(); 
 	}else{ 
@@ -31,7 +25,7 @@ exports.closeWindow = function(win){
 	} 
 };
 
-exports.removeAllChildren = function(viewObject){
+function removeAllChildren (viewObject){
     //copy array of child object references because view's "children" property is live collection of child object references
     var children = viewObject.children.slice(0);
  
@@ -40,7 +34,7 @@ exports.removeAllChildren = function(viewObject){
     }
 };
 
-exports.createAlert = function(tt,msg){
+function createAlert (tt,msg){
 	var box = Titanium.UI.createAlertDialog({
 		title: tt,
 		ok: 'OK',
@@ -48,6 +42,11 @@ exports.createAlert = function(tt,msg){
 	});
 	box.show();
 };
+
+exports.openWindow = _.debounce(openWindow, 1000, true);
+exports.closeWindow = _.debounce(closeWindow, 1000, true);
+exports.removeAllChildren = _.debounce(removeAllChildren, 1000, true);
+exports.createAlert = _.debounce(createAlert, 1000, true);
 
 exports.hideLoading = function(){
 	mainView.activityIndicator.hide();
