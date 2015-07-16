@@ -1,6 +1,6 @@
 <Alloy>
     <View bottom='0' class="hr"></View>
-	<ScrollView id="ads_listing" width="Ti.UI.FILL" backgroundColor="#d3d3d3" layout="horizontal" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></ScrollView>
+	<TableView separatorColor="transparent" minRowHeight="50" id="ads_listing" width="Ti.UI.FILL" backgroundColor="#d3d3d3" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></TableView>
 	<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#F1F1F2" >
         <ActivityIndicator  id="activityIndicator" />
     	<Label top="5" text="Loading" color="#ffffff" />

@@ -251,7 +251,7 @@ var goAds = function(m_id, a_id,cate_id){
 
 /** Bind GoAds Event to Image **/
 function createAdImageEvent(adImage,m_id, a_id, cate_id) {
-    adImage.addEventListener('click', function(e) {
+    adImage.addEventListener('singletap', function(e) {
         goAds(m_id, a_id, cate_id);
     });
 }

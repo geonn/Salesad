@@ -2,7 +2,8 @@ var args = arguments[0] || {};
 var f_select, s_select = '';
 var animationType = [];
 var u_id = Ti.App.Properties.getString('u_id') || "";
-var nav = Alloy.Globals.navMenu; 
+var nav = Alloy.Globals.navMenu;
+
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: 'MY FAVOURITE', 
@@ -130,8 +131,6 @@ function buildSmallBlock(data){
 
 function rotate_box(view_selected){
 	var favoritesLibrary = Alloy.createCollection('favorites');
-	
-	
 	if(Ti.Platform.osname == "android"){
 		var matrix2d = Ti.UI.create2DMatrix();
 		var m_front_to_back = matrix2d.scale(0);
