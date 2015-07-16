@@ -7,13 +7,19 @@ exports.deconstruct = function(){
 	mainView = null;
 };
 
-exports.openWindow = function(win){
+var openWindow = _.debounce(open_window, 1000, true);
+
+function open_window(win){
 	if(Ti.Platform.osname == "android"){ 
 	  	win.open(); //{fullscreen:false, navBarHidden: false}
 	}else{ 
 		var nav = Alloy.Globals.navMenu;
 		nav.openWindow(win,{animated:true});  
 	} 
+}
+
+exports.openWindow = function(win){
+	openWindow(win);
 };
 
 exports.closeWindow = function(win){

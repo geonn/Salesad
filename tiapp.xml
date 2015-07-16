@@ -112,8 +112,6 @@
         <module platform="iphone">facebook</module>
         <module platform="commonjs" version="3.2.8">ti.cloud</module>
         <module platform="android">ti.cloudpush</module>
-        <module platform="android">com.mirasense.scanditsdk</module>
-        <module platform="iphone">com.mirasense.scanditsdk</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

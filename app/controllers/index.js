@@ -239,17 +239,18 @@ var goAd = function(m_id,b_id,isFeed){
 };
 
 /** navigate to Ads **/
-var goAds = function(m_id, a_id,cate_id){
+function goAds(m_id, a_id,cate_id){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
 	clickTime = currentTime;
-	
 	var win = Alloy.createController("ads_category", {m_id:m_id, a_id: a_id, cate_id: cate_id}).getView(); 
 	COMMON.openWindow(win); 
 };
+
+//var goAds = _.debounce(eventAds, 1000, true);
 
 /** Bind GoAds Event to Image **/
 function createAdImageEvent(adImage,m_id, a_id, cate_id) {
