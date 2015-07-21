@@ -205,7 +205,10 @@ function addRegClickEvent(table){
 		if(e.index == 1){
 			
 			if(user === null){
-				var win = Alloy.createController("login").getView(); 
+				var win = Alloy.createController("login").getView();
+				if(Ti.Platform.osname == "android"){
+					win.fbProxy = FACEBOOK.createActivityWorker({lifecycleContainer: win});
+				}
 				COMMON.openWindow(win);  
 			}else{
 				var win = Alloy.createController("profile").getView(); 

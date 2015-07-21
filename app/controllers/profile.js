@@ -257,8 +257,7 @@ var doLogout = function (e) {
 			     onload : function(e) {
 			     	Ti.App.Properties.removeProperty('u_id');
 			     	Ti.App.Properties.removeProperty('session');
-			     	 var win = Alloy.createController("index").getView(); 
-			     	 win.open();
+			     	 COMMON.closeWindow($.profile);
 			     },
 			     // function called when an error occurs, including a timeout
 			     onerror : function(e) {

@@ -277,6 +277,6 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	}
 });
 
-$.btnBack.addEventListener('touchend', function(){
-	COMMON.closeWindow($.adsCategoryWin); 
+$.btnBack.addEventListener('touchend', function(){ 
+	COMMON.closeWindow($.adsCategoryWin);  
 }); 

@@ -9,6 +9,7 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
+var _ = require('underscore')._;
 Alloy.Globals.Map = require('ti.map');
 var GA = require('analytics.google');
 Alloy.Globals.tracker = GA.getTracker("UA-53651461-1");
