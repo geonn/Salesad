@@ -47,7 +47,7 @@ var openScanner = function() {
 		height:"100%"
 	});
 	// Initialize the barcode picker, remember to paste your own app key here.
-	picker.init("enter Scandit SDK APP KEY here" - sign up at www.scandit.com, 0);
+	// picker.init("enter Scandit SDK APP KEY here" - sign up at www.scandit.com, 0);
 
 
 	picker.showSearchBar(true);
