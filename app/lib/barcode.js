@@ -11,8 +11,8 @@ exports.deconstruct = function(){
 exports.generateBarcode = function(code){
 	
 	var str = '<html  style=" overflow: hidden;">';
-		str += '<head>';
-		str += '<meta name="viewport" content="user-scalable=0">';
+		str += '<head>'; 
+		str += '<meta name="viewport" content="initial-scale=1.0, width=device-width, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no" />';
 	 	str += '<script src="./jquery.min.jsf"></script>';
 	 	str += '<script src="./jquery-barcode.jsf"></script>';
 	 	str += '<script> ';
@@ -40,8 +40,8 @@ exports.generateBarcode = function(code){
 		}else{
 			return Ti.UI.createWebView({ 
 				html: str,
-				enableZoomControls : false,
-				overScrollMode : Titanium.UI.Android.OVER_SCROLL_IF_CONTENT_SCROLLS,
+				//enableZoomControls : false,
+				//overScrollMode : Titanium.UI.Android.OVER_SCROLL_IF_CONTENT_SCROLLS,
 				width : 250,
 				height: 50,
 			}) ; 

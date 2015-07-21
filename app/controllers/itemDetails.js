@@ -55,27 +55,29 @@ var getAdsImages = function(){
 			if(isScan == "1"){ 
 				var bcwv = BARCODE.generateBarcode(items[i].barcode);
 				barCodeView.add(bcwv);
+				
+				var saIcon =Ti.UI.createImageView({
+					image : "/images/icon_mySalesAd.png",
+					width: 35,
+					height: 35,
+					right:0,
+					bottom:0,
+					id:"barCodeControl",
+					borderRadius : 10
+				});
+				saIcon.addEventListener('click',function(){
+					if(showBarcode == 1){
+						showBarcode = 0;
+						bcwv.opacity = 0;
+					}else{
+						showBarcode = 1;
+						bcwv.opacity = 1;
+					}
+				});
+				barCodeView.add(saIcon);
 			}
 			
-			var saIcon =Ti.UI.createImageView({
-				image : "/images/icon_mySalesAd.png",
-				width: 35,
-				height: 35,
-				right:0,
-				bottom:0,
-				id:"barCodeControl",
-				borderRadius : 10
-			});
-			saIcon.addEventListener('click',function(){
-				if(showBarcode == 1){
-					showBarcode = 0;
-					bcwv.opacity = 0;
-				}else{
-					showBarcode = 1;
-					bcwv.opacity = 1;
-				}
-			});
-			barCodeView.add(saIcon);
+			
 		}
 		
 		var label_caption = Ti.UI.createLabel({

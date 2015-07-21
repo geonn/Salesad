@@ -398,11 +398,13 @@ if (Titanium.Platform.name == 'iPhone OS'){
 } 
 
 $.adView.home.addEventListener("click", function(e){  
-	var naviPath = Alloy.Globals.naviPath;
+	var naviPath = Alloy.Globals.naviPath; 
 	for (var i=0; i< naviPath.length; i++) {
-		COMMON.closeWindow(naviPath[i]); 	 
-	}
-	//
+		if(naviPath[i] != null){
+			COMMON.closeWindow(naviPath[i]);
+		}
+		 	 
+	} 
 });
     
 function createShareOptions(){

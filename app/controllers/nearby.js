@@ -1,7 +1,6 @@
 var args = arguments[0] || {};
 var categoryAds = Alloy.createCollection('categoryAds');
-var adsList = categoryAds.getAdsList();
-console.log(adsList);
+var adsList = categoryAds.getAdsList(); 
 var showCurLoc = false;
 
 if(args.id){
@@ -16,8 +15,7 @@ if (Ti.Geolocation.locationServicesEnabled) {
     alert('Please enable location services');
 } 
 
-function init(e){
-	console.log(e);
+function init(e){ 
 	var longitude = e.coords.longitude;
     var latitude = e.coords.latitude;
     var altitude = e.coords.altitude;
@@ -51,14 +49,14 @@ function init(e){
 		    latitude:entry.latitude,
 		    longitude:entry.longitude, 
 		    title: entry.merchant,
-		    image: '/images/sales-ad-loc.png',
+		    image: '/images/sales-ad-loc_small.png',
 		    animate : true, 
 		    subtitle: entry.ads_name,
 		    pincolor: Map.ANNOTATION_RED,
 		    rightView: detBtn,
 		    myid: entry.INFO// Custom property to uniquely identify this annotation.
 		});
-		console.log(merchantLoc);
+		 
 		//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
 		mapview.addAnnotation(merchantLoc); 
 	});

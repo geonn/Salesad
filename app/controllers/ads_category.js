@@ -42,6 +42,7 @@ function buildListing(){
 	for(var a = 0; ads.length > a; a++){
 		var tbr = Ti.UI.createTableViewRow({
 			height: Ti.UI.SIZE,
+			selectedBackgroundColor: "#FFE1E1"
 		});
 		
 		var view_ad = $.UI.create("View",{
@@ -58,7 +59,7 @@ function buildListing(){
 			borderRadius:4,
 		});
 		
-		if(ads[a].youtube != ""){
+		if(ads[a].youtube != "" && ads[a].youtube != null){
 			var bannerImage = Ti.UI.createView({
 				width : Ti.UI.FILL,
 				height: 200,
@@ -209,7 +210,7 @@ if(Ti.Platform.osname == "android"){
 	COMMON.removeAllChildren($.pageTitle);
 	$.pageTitle.add(custom);   
 }else{
-	$.adCategory.titleControl = custom; 
+	$.adsCategoryWin.titleControl = custom; 
 }
 
 /*
@@ -277,5 +278,5 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 });
 
 $.btnBack.addEventListener('touchend', function(){
-	COMMON.closeWindow($.adCategory); 
+	COMMON.closeWindow($.adsCategoryWin); 
 }); 

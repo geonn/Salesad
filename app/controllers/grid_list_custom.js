@@ -34,15 +34,39 @@ var category_list = library.getCategoryList();
 
 var favoritesLibrary = Alloy.createCollection('favorites'); 
 var favorites = favoritesLibrary.getFavoritesByUid(u_id);
-buildSmallBlock(favorites);
-console.log(favorites);
+
+var refreshAdsListing = function(){
+ 
+	favorites = favoritesLibrary.getFavoritesByUid(u_id); 
+	buildSmallBlock(favorites);
+	Ti.App.removeEventListener('app:refreshAdsListing' , refreshAdsListing);
+};
+Ti.App.addEventListener('app:refreshAdsListing' , refreshAdsListing);
+buildSmallBlock(favorites); 
 function buildSmallBlock(data){
-	for (var i=0; i < data.length; i++) {
-		console.log("create box");
+	 
+	var tblGridView = Ti.UI.createTableView({
+		layout :'vertical',
+		backgroundColor : '#d3d3d3',
+		separatorColor : 'transparent',
+		contentHeight : Ti.UI.SIZE,
+		contentWidth : Ti.UI.FILL,
+		width : Ti.UI.FILL,
+		height : Ti.UI.FILL
+	});	
+	
+	var tblData = [];
+	for (var i=0; i < data.length; i++) { 
+		 
+		var tbr = Ti.UI.createTableViewRow({
+			height: Ti.UI.SIZE,
+			selectedBackgroundColor: "#FFE1E1"
+		});
 		var box = $.UI.create("View", {
 			height : Ti.UI.SIZE,
-			width : "50%",
+			width : "80%",
 			layout: "vertical",
+			source: data[i]['m_id'],
 		});
 		
 		favourite_checked = true;
@@ -51,6 +75,7 @@ function buildSmallBlock(data){
 			defaultImage: "/images/warm-grey-bg.png",
 			image: data[i]['img_path'],
 			height: "auto",
+			source: data[i]['m_id'],
 			width: Ti.UI.FILL,
 		});
 		var view = $.UI.create("View",{
@@ -58,75 +83,56 @@ function buildSmallBlock(data){
 			width: Ti.UI.FILL,
 			top: 4,
 			right: 4,
-			backgroundColor: "#cccccc",
+			layout: "vertical",
+			backgroundColor: "#ffffff",
 			textAlign: "center",
 			borderRadius: 2,
 			borderColor: "#C6C8CA",
 			zIndex: 10,
 			mod: "box",
 			m_id: data[i]['m_id'],
-			favourite: favourite_checked,
+			favourite: favourite_checked, 
+			
 		});
 		
-		var pad_categoryLabel = Ti.UI.createView({top:0, width: Ti.UI.FILL, height: Ti.UI.SIZE,  backgroundImage:  "/images/transparent-bg.png", zIndex: 10});
-		var label = $.UI.create("Label",{
-			text: data[i]['name'],
-			height: Ti.UI.SIZE,
-			width: Ti.UI.FILL,
-		   color: "#fff",
-			textAlign: "center",
-			font:{
-				fontSize: 14
-			}, 
-			top: 4, right:4, left:4, bottom:20
-		});
+		view.add(adImage);
 		
-		var favourite_images = Ti.UI.createImageView({
-			image: "/images/the-fav-button.png",
-			backgroundColor: "#EEEEEE",
-			opacity: 0.8,
-			height: "auto",
+		var line = $.UI.create("View",{
+			backgroundColor: "#C6C8CA",
+			height: 0.5,
 			width: Ti.UI.FILL
 		});
+		view.add(line);
 		
-		pad_categoryLabel.add(label);
-		view.add(adImage);
-		view.add(pad_categoryLabel);
-		view.add(favourite_images);
-		box.add(view);
-		$.gridView.main.add(box);
-		
-		view.addEventListener("click", function(e){
-			var view_selected = parent({name: "mod", value: "box"}, e.source);
-			console.log(view_selected.favourite);
-			
-			if(view_selected.favourite){
-				var title = "Unfavorite";
-				var message = 'Are you sure you want to unfavorite this merchant?';
-			}else{
-				var title = "Favorite";
-				var message = 'Are you sure you want to favorite this merchant?';
-			}
-			
-			var confirm = Titanium.UI.createAlertDialog({
-			        title: title,
-			        message: message,
-			        buttonNames: ['Yes', 'No'],
-			        cancel: 1
-			});
-			
-			confirm.addEventListener('click', function(e){
-			        if (e.cancel === e.index || e.cancel === true) {
-			        return false;
-			        }
-			        if (e.index === 0){
-			        	rotate_box(view_selected);
-			        }
-			});
-			
-			confirm.show();
+		var label_ads_name = $.UI.create("Label", {
+			text: data[i]['name'],
+			left: 10,
+			right: 10,
+			top: 10,
+			bottom: 10, 
+			font: {fontSize: 14},
+			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+			width: Ti.UI.FILL,
+			height: Ti.UI.SIZE,
+			color: "#626366"
 		});
-	};
+		
+		view.add(label_ads_name);
+		//view.add(pad_categoryLabel); 
+		box.add(view);
+		tbr.add(box);
+		tblData.push(tbr);
+		 
+		box.addEventListener("click", function(e){
+			var elbl = JSON.stringify(e.source); 
+			var res = JSON.parse(elbl);
+			var win = Alloy.createController("ad", {m_id: res.source, from : "favoriteAd"}).getView(); 
+			COMMON.openWindow(win); 
+			 
+		});
+	} 
+	tblGridView.setData(tblData);
+	$.gridView.favTableView.add(tblGridView);
 }
 
 function rotate_box(view_selected){
@@ -201,7 +207,7 @@ function parent(key, e){
 	if(eval("e."+key.name+"") != key.value){
 		if(eval("e.parent."+key.name+"") != key.value){
 			if(eval("e.parent.parent."+key.name+"") != key.value){
-    			console.log("box not found");
+    			
     		}else{
     			return e.parent.parent;
     		}
@@ -261,50 +267,56 @@ var createGridListing = function(res){
    			var m_id = details[i].m_id; 
 	   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
 	   		var info = merchantsLibrary.getMerchantsById(m_id);
-	   		var row = $.gridView.UI.create("TableViewRow",{
-	   			height: Ti.UI.SIZE,
-	   			width: Ti.UI.FILL,
-	   			touchEnabled: true,
-	   		});
-	   		var view  = $.gridView.UI.create("View",{
-	   			layout: "horizontal",
-	   			objName: 'enabledWrapperView',
-	   			rowID: i,
-	   			width: Ti.UI.FILL,
-	   			height: Ti.UI.SIZE,
-	   			top: 10,
-	   			bottom: 10,
-	   			left: 10,
-	   			right: 10,
-	   		});
 	   		
-	   		var imagepath='';
-	   		if(!info.img_path){
-	   			imagepath = "icon_mySalesAd.png";
-	   		}else{
-	   			imagepath = info.img_path;
-	   		}
-			
-			adImage = Ti.UI.createImageView({
-				image: imagepath,
-				defaultImage: "/images/warm-grey-bg.png",
-				height: 50,
-				width: 50,
-				objName: 'disabledWarpperView',
-				touchEnabled: false,
+		var tbr = Ti.UI.createTableViewRow({
+			height: Ti.UI.SIZE,
+			selectedBackgroundColor: "#FFE1E1"
+		});
+		
+		var view_ad = $.UI.create("View",{
+			bottom: 10,
+			left: 10,
+			right: 10,
+			layout: "vertical",
+			m_id: info.m_id, 
+		  	width : Ti.UI.FILL,
+		  	height: Ti.UI.SIZE,
+			backgroundColor: "#ffffff",
+			borderColor: "#C6C8CA",
+			borderRadius:4,
+		});
+		
+		var bannerImage = Ti.UI.createImageView({
+		 	  defaultImage: "/images/warm-grey-bg.png",
+			  image :info.img_path,
+			  width : Ti.UI.FILL,
+			  m_id: info.m_id, 
+			  height: Ti.UI.SIZE,//ads_height,
 			});
-			 
-	   		var category_label = $.gridView.UI.create("Label",{
-	   			height: Ti.UI.SIZE,
-	   			text: info.name,
-	   			left: 10,
-	   			objName: 'label',
-	   			touchEnabled: false,
-	   		});
-	   		
-	   		view.add(adImage);
-	   		view.add(category_label);
-			row.add(view);
+		var label_merchant = $.UI.create("Label", {
+			font: { fontWeight: 'bold', fontSize: 16},
+			text: info.merchant,
+			top: 10,
+			left: 10,
+			right: 10,
+			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+			width: Ti.UI.FILL,
+			height: Ti.UI.SIZE,
+			color: "#404041"
+		}); 
+		
+		var line = $.UI.create("View",{
+			backgroundColor: "#C6C8CA",
+			height: 0.5,
+			width: Ti.UI.FILL
+		});
+		
+		view_ad.add(bannerImage);
+		view_ad.add(line);
+		view_ad.add(label_merchant); 
+		tbr.add(view_ad);
+		$.gridView.category_tv.appendRow(tbr);
+//end
 			if(branch == ""){
 		   		createAdImageEvent(row, m_id);
 	   		}else{
@@ -320,8 +332,8 @@ var createGridListing = function(res){
               }
             });
    		}
-   		$.gridView.category_tv.setData(tableData);
-   		/*
+   		/*$.gridView.category_tv.setData(tableData);
+   		
 	    for(var i=0; i< details.length; i++) {
 	    	favoritesLibrary.updatePosition(details[i].id, i);
 	   		var m_id = details[i].m_id;
