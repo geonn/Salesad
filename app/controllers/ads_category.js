@@ -6,7 +6,7 @@ var category_library = Alloy.createCollection('category');
 var category_info = category_library.getCategoryById(cate_id);
 var ads_counter = 0;
 var loading = false;
-Alloy.Globals.naviPath.push($.adCategory);
+Alloy.Globals.naviPath.push($.adsCategoryWin);
 
 if (Ti.Platform.name === 'iPhone OS'){
   var style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;

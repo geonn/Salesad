@@ -398,13 +398,11 @@ if (Titanium.Platform.name == 'iPhone OS'){
 } 
 
 $.adView.home.addEventListener("click", function(e){  
-	var naviPath = Alloy.Globals.naviPath; 
-	for (var i=0; i< naviPath.length; i++) {
-		if(naviPath[i] != null){
-			COMMON.closeWindow(naviPath[i]);
-		}
-		 	 
+	var naviPath = Alloy.Globals.naviPath;  
+	for (var i=0; i< naviPath.length; i++) { 
+		COMMON.closeWindow(naviPath[i]);  
 	} 
+	
 });
     
 function createShareOptions(){
@@ -433,10 +431,10 @@ var window = SCANNER.createScannerWindow();
 var button = SCANNER.createScannerButton(); 
 	
 	
-button.addEventListener('click', function() {
+$.scanner.addEventListener('click', function() {
 	SCANNER.openScanner("1");
 });
 	 
 SCANNER.init(window); 
-$.scanner.add(button);
+//$.scanner.add(button);
  

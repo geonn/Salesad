@@ -16,6 +16,7 @@ function openWindow(win){
 	} 
 }
 
+
 function closeWindow(win){
 	if(Ti.Platform.osname == "android"){ 
 	  	win.close(); 
@@ -43,10 +44,19 @@ function createAlert (tt,msg){
 	box.show();
 };
 
-exports.openWindow = _.debounce(openWindow, 1000, true);
-exports.closeWindow = _.debounce(closeWindow, 1000, true);
+//exports.openWindow = _.debounce(openWindow, 1000, true);
+//exports.closeWindow = //_.debounce(closeWindow, 1000, true);
 exports.removeAllChildren = _.debounce(removeAllChildren, 1000, true);
 exports.createAlert = _.debounce(createAlert, 1000, true);
+
+exports.openWindow = function(win){
+	openWindow(win);
+};
+
+
+exports.closeWindow = function(win){
+	closeWindow(win);
+};
 
 exports.hideLoading = function(){
 	mainView.activityIndicator.hide();
