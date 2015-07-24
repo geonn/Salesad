@@ -4,6 +4,7 @@ exports.definition = {
 		    "i_id": "INTEGER",
 		    "a_id": "INTEGER",
 		    "price": "TEXT",
+		    "barcode":  "INTEGER",
 		    "caption": "TEXT",
 		    "img_path": "TEXT"
 		},

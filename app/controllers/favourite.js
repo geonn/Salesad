@@ -1,16 +1,19 @@
 var args = arguments[0] || {};
 var cate_id = args.cate_id || "";
+var u_id = Ti.App.Properties.getString('u_id') || "";
 var nav = Alloy.Globals.navMenu;
 var clickTime = null;
 var category_library = Alloy.createCollection('category'); 
 var category_info = category_library.getCategoryById(cate_id);
 var ads_counter = 0;
 var loading = false;
+var favoritesLibrary = Alloy.createCollection('favorites'); 
+favorites = favoritesLibrary.getFavoritesByUid(u_id); 
 Alloy.Globals.naviPath.push($.adCategory);
-
 if (Ti.Platform.name === 'iPhone OS'){
   var style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
-}else {
+}
+else {
   var style = Ti.UI.ActivityIndicatorStyle.DARK;
 }
 var activityIndicator = Ti.UI.createActivityIndicator({
@@ -28,16 +31,18 @@ var activityIndicator = Ti.UI.createActivityIndicator({
  * Function
  * */
 function buildListing(){
-	
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
-	var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);
+	var ads = c_ads_library.getLatestAdsByCategory(0, ads_counter, 999, _.pluck(favorites, "m_id"));
+	 
 	if(ads.length <= 0){
 		activityIndicator.hide();
-		$.adsCategory.ads_listing.remove(activityIndicator);
+		$.ads_listing.remove(activityIndicator);
+		build_no_ads_logo(_.pluck(favorites, "m_id"));
 		return;	
 	}
-	ads_counter += 3;
+	ads_counter += 999;
 	for(var a = 0; ads.length > a; a++){
+		
 		var tbr = Ti.UI.createTableViewRow({
 			height: Ti.UI.SIZE,
 			selectedBackgroundColor: "#FFE1E1"
@@ -142,11 +147,11 @@ function buildListing(){
 		view_ad.add(label_ads_name);
 		view_ad.add(label_date_period);
 		tbr.add(view_ad);
-		$.adsCategory.ads_listing.appendRow(tbr);
+		$.ads_listing.appendRow(tbr);
 
 		bannerImage.addEventListener('load', function(e){
 			activityIndicator.hide();
-			$.adsCategory.ads_listing.remove(activityIndicator);
+			$.ads_listing.remove(activityIndicator);
 		});
 		
 		setTimeout(function(e){
@@ -161,16 +166,47 @@ function buildListing(){
 	}
 	setTimeout(function(e){
 		activityIndicator.hide();
-		$.adsCategory.ads_listing.remove(activityIndicator);
+		$.ads_listing.remove(activityIndicator);
 		loading = false;
 		console.log("remove indicator");
 	}, 1000);
 	
+	var no_ads = _.difference(_.pluck(favorites, "m_id"), _.pluck(ads, "m_id"));
+	console.log(_.pluck(favorites, "m_id"));
+	console.log(_.pluck(ads, "m_id"));
+	console.log(no_ads);
+	build_no_ads_logo(no_ads);
+}
+
+function build_no_ads_logo(no_ads){
+	var tbr = Ti.UI.createTableViewRow({
+		height: Ti.UI.SIZE,
+		selectedBackgroundColor: "#FFE1E1"
+	});
+	
+	for (var i=0; i < favorites.length; i++) {
+	   if(_.contains(no_ads, favorites[i].m_id)){
+	   	var view_cell = $.UI.create("View",{
+	   		width: "50%",
+	   		height: Ti.UI.SIZE,
+	   	});
+		var img_logo = Ti.UI.createImageView({
+	 	  defaultImage: "/images/warm-grey-bg.png",
+		  image : favorites[i].img_path,
+		  height : Ti.UI.SIZE,
+		  width: Ti.UI.FILL,//ads_height,
+		  left: 8,
+		  bottom: 8,
+		});
+		view_cell.add(img_logo);
+		$.sv.add(view_cell);
+		createAdImageEvent(view_cell, favorites[i].m_id);
+	   }
+	};
 	
 }
 
-
-//$.adsCategory.ads_listing.add(videoView);
+//$.ads_listing.add(videoView);
 
 /** navigate to Ad **/
 var goAd = function(m_id){
@@ -195,11 +231,11 @@ var dummy = $.UI.create("View",{
   	height: Ti.UI.SIZE,
 	backgroundColor: "#F1F1F2",
 });
-$.adsCategory.ads_listing.add(dummy);
+$.ads_listing.add(dummy);
 buildListing();
 
 var custom = Ti.UI.createLabel({ 
-    text: category_info['categoryName'], 
+    text: "Favourite", 
     color: '#CE1D1C',
     font: { fontWeight: 'bold'},
 });
@@ -209,6 +245,12 @@ if(Ti.Platform.osname == "android"){
 	$.pageTitle.add(custom);   
 }else{
 	$.adsCategoryWin.titleControl = custom; 
+}
+
+function createAdImageEvent(adImage, m_id) {
+    adImage.addEventListener('click', function(e) {
+        goAd(m_id);
+    });
 }
 
 /*
@@ -247,14 +289,14 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 });
 */
 var lastDistance = 0;
-$.adsCategory.ads_listing.addEventListener("scroll", function(e){
+$.ads_listing.addEventListener("scroll", function(e){
 	if(Ti.Platform.osname == 'iphone'){
 		var offset = e.contentOffset.y;
 		var height = e.size.height;
 		var total = offset + height;
 		var theEnd = e.contentSize.height;
 		var distance = theEnd - total;
-
+		console.log(distance +"<"+ lastDistance);
 		if (distance < lastDistance){
 			var nearEnd = theEnd * .75;
  			if (!loading && (total >= nearEnd)){

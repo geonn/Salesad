@@ -39,7 +39,7 @@ var merchants = m_library.getMerchantsById(m_id);
 
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var model_favorites = Alloy.createCollection('favorites');
-var exist = model_favorites.checkFavoriteExist(a_id, m_id);
+var exist = model_favorites.checkFavoriteExist(m_id);
 if(exist){
 	$.adView.favorites.image = "/images/icon-favorites-fill.png";
 }else{
@@ -52,7 +52,7 @@ var gBannerImg;
 **********************/
  
 var getAdDetails = function(){
-	var ads = a_library.getAdsById(m_id,a_id);
+	var ads = a_library.getAdsById(m_id);
     var items = i_library.getItemByAds(ads.a_id); 
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
@@ -236,7 +236,7 @@ getAdDetails();
 
 //Add your favorite event
 $.adView.favorites.addEventListener("click", function(){ 
-	var exist = model_favorites.checkFavoriteExist(a_id, m_id);
+	var exist = model_favorites.checkFavoriteExist(m_id);
  
 	if(exist){
 		var message = "Are you sure want to remove from favorite";
@@ -275,7 +275,6 @@ $.adView.favorites.addEventListener("click", function(){
 	  	if (ex.index == 1){
 	    	var favorite = Alloy.createModel('favorites', {
 				    m_id   : m_id,
-				    b_id     : a_id,
 				    u_id	 : u_id,
 				    position : 0
 				});

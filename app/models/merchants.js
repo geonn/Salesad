@@ -2,6 +2,8 @@ exports.definition = {
 	config: {
 		columns: {
 		    "m_id": "INTEGER",
+		    "u_id": "INTEGER",
+		    "parent": "INTEGER",
 		    "name": "TEXT",
 		    "mobile": "TEXT",
 		    "area": "TEXT",
@@ -59,7 +61,7 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-            saveMerchants : function(m_id,name,mobile,area,state_key, state, img_path, longitude, latitude) {
+            saveMerchants : function(m_id, u_id, parent, name,mobile,area,state_key, state, img_path, longitude, latitude) {
                 var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id="+ m_id ;
                 var sql_query =  "";
@@ -70,9 +72,9 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET name='"+name+"', mobile='"+mobile+"', area='"+area+"', state_key='"+state_key+"', state='"+state+"', img_path='"+ img_path+"', longitude='"+longitude+"', latitude='"+latitude+"' WHERE m_id='" +m_id+"'";
+             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET u_id='"+u_id+"', parent='"+parent+"', name='"+name+"', mobile='"+mobile+"', area='"+area+"', state_key='"+state_key+"', state='"+state+"', img_path='"+ img_path+"', longitude='"+longitude+"', latitude='"+latitude+"' WHERE m_id='" +m_id+"'";
                 }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (m_id, name, mobile,area,state_key, state, img_path,longitude,latitude) VALUES ('"+m_id+"','"+name+"','"+mobile+"','"+area+"', '"+state_key+"', '"+state+"', '"+img_path+"', '"+longitude+"', '"+latitude+"')" ;
+                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (m_id, u_id, parent, name, mobile,area,state_key, state, img_path,longitude,latitude) VALUES ('"+m_id+"','"+u_id+"','"+parent+"','"+name+"','"+mobile+"','"+area+"', '"+state_key+"', '"+state+"', '"+img_path+"', '"+longitude+"', '"+latitude+"')" ;
 				}
            
 	            db.execute(sql_query);

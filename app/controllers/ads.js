@@ -274,7 +274,6 @@ $.favorites.addEventListener("click", function(){
 	  	if (ex.index == 1){
 	    	var favorite = Alloy.createModel('favorites', {
 				    m_id   : m_id,
-				    b_id     : a_id,
 				    u_id	 : u_id,
 				    position : 0
 				});
@@ -283,7 +282,6 @@ $.favorites.addEventListener("click", function(){
 			
 			API.updateUserFavourite({
 				m_id   : m_id,
-				a_id     : a_id,
 				u_id	 : u_id,
 				status : 1
 			});

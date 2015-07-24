@@ -63,7 +63,7 @@ var feedResult = function(res){
 		}else{
 
 	   		arr.forEach(function(entry) {
-	   			var a_det = lib_ads.getAdsByMerchantAndAds(entry.m_id, entry.a_id);
+	   			var a_det = lib_ads.getAdsByMerchantAndAds(entry.m_id);
 	   			var m_det = lib_mer.getMerchantsById(entry.m_id ); 
 	   			var row = Titanium.UI.createTableViewRow({
 			    touchEnabled: true,

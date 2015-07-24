@@ -19,11 +19,15 @@ exports.definition = {
 	},
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
-			getLatestAdsByCategory : function(cate_id, start, end){
+			getLatestAdsByCategory : function(cate_id, start, end, m_id){
 				var limit = limit || false;
 				var collection = this;
-				var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
-                
+				console.log(typeof(m_id));
+				if(typeof(m_id) != "undefined"){
+					var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
+				}else{
+					var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
+                }
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
                 //var sql = "select * from merchants";
                 db = Ti.Database.open(collection.config.adapter.db_name);

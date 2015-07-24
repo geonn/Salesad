@@ -169,16 +169,8 @@ exports.loadMerchantListByCategory = function (ex){
 			    
 			    //Save merchant info
 	       		var merchant = Alloy.createCollection('merchants');
-				merchant.saveMerchants(entry.m_id, entry.merchant_name, entry.mobile, entry.area, entry.state_key, entry.state_name, entry.img_path, entry.longitude, entry.latitude);
+				merchant.saveMerchants(entry.m_id, entry.u_id, entry.parent, entry.merchant_name, entry.mobile, entry.area, entry.state_key, entry.state_name, entry.img_path, entry.longitude, entry.latitude);
 	         	
-				//Save branches info
-			    var branches = entry.branch;
-			    if(branches.length > 0){
-			    	branches.forEach(function(branch) {
-			    		var br = Alloy.createCollection('branches');
-						br.saveBranches( branch.b_id, branch.m_id, branch.name,branch.mobile, branch.area, branch.state_key,branch.state, branch.longitude, branch.latitude);
-			    	});
-			    }
 			});
 			
 			if(res.remove){
@@ -313,7 +305,7 @@ exports.loadMerchantListByType = function (type){
 					
 	       		//Save merchant info
 	       		var merchant = Alloy.createCollection('merchants'); 
-				merchant.saveMerchants(entry.m_id, entry.merchant_name, entry.mobile, entry.area, entry.state_key, entry.state_name, entry.img_path, entry.longitude, entry.latitude);
+				merchant.saveMerchants(entry.m_id, entry.u_id, entry.parent, entry.merchant_name, entry.mobile, entry.area, entry.state_key, entry.state_name, entry.img_path, entry.longitude, entry.latitude);
 	         	
 				//Save branches info
 			    var branches = entry.branch; 
@@ -420,7 +412,7 @@ exports.loadAdsByCategory = function(cate_id){
 	       	var arr = res.data;
 	       	arr.forEach(function(entry) {
 			     var ads = Alloy.createCollection('ads'); 
-				 var needRefresh = ads.saveAds(entry.a_id, entry.m_id, entry.branch, entry.name, entry.template_id, entry.description,entry.app_background,entry.youtube, entry.img_path, entry.status, entry.activate_date, entry.expired_date, entry.created, entry.updated);
+				 var needRefresh = ads.saveAds(entry.a_id, entry.m_id, entry.name, entry.template_id, entry.description,entry.app_background,entry.youtube, entry.img_path, entry.status, entry.activate_date, entry.expired_date, entry.created, entry.updated);
 			         	
 			     //Save item info
 				 var items = entry.item;
@@ -484,7 +476,7 @@ exports.loadAdsDetails = function(m_id, a_id){
 	       		 }
 	       		 /**
 			     var ads = Alloy.createCollection('ads'); 
-				 var needRefresh = ads.saveAds(arr.a_id, arr.m_id, a_id, arr.name, arr.template_id, arr.description,arr.app_background, arr.img_path);
+				 var needRefresh = ads.saveAds(arr.a_id, arr.m_id, arr.name, arr.template_id, arr.description,arr.app_background, arr.img_path);
 			         	
 			     //Save item info
 				 var items = arr.item; 

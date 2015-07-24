@@ -4,7 +4,6 @@ exports.definition = {
 			"id": "INTEGER PRIMARY KEY AUTOINCREMENT",
 		    "m_id": "INTEGER",
 		    "u_id": "INTEGER",
-		    "b_id": "INTEGER",
 		    "position": "INTEGER"
 		},
 		adapter: {
@@ -17,7 +16,6 @@ exports.definition = {
 		_.extend(Model.prototype, {
 			// extended functions and properties go here
 		});
-
 		return Model;
 	},
 	extendCollection: function(Collection) {
@@ -38,7 +36,6 @@ exports.definition = {
                 while (res.isValidRow()){
 					arr[count] = {
 						id: res.fieldByName('id'),
-					    b_id: res.fieldByName('b_id'),
 						m_id: res.fieldByName('m_id'),
 						position: res.fieldByName('position'),
 					  	u_id: res.fieldByName('u_id'),
@@ -54,9 +51,39 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			checkFavoriteExist : function(b_id, m_id){
+			getFavoritesWithAdsByUid : function(uid){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE b_id='"+ b_id+ "' AND m_id='"+m_id+"'" ;
+                var sql = "SELECT favorites.* FROM " + collection.config.adapter.collection_name + " WHERE favorites.u_id='"+ uid+ "'" ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+               
+                while (res.isValidRow()){
+					arr[count] = {
+						id: res.fieldByName('id'),
+						m_id: res.fieldByName('m_id'),
+						position: res.fieldByName('position'),
+					  	u_id: res.fieldByName('u_id'),
+					  	name: res.fieldByName('name'),
+					  	img_path: res.fieldByName('img_path')
+					};
+					res.next();
+					count++;
+				} 
+                
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			checkFavoriteExist : function(m_id){
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+m_id+"'" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){

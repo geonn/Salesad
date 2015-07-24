@@ -43,10 +43,10 @@ function createAlert (tt,msg){
 	box.show();
 };
 
-exports.openWindow = _.debounce(openWindow, 1000, true);
-exports.closeWindow = _.debounce(closeWindow, 1000, true);
-exports.removeAllChildren = _.debounce(removeAllChildren, 1000, true);
-exports.createAlert = _.debounce(createAlert, 1000, true);
+exports.openWindow = _.throttle(openWindow, 500, true);
+exports.closeWindow = _.debounce(closeWindow, 0, true);
+exports.removeAllChildren = _.debounce(removeAllChildren, 0, true);
+exports.createAlert = _.throttle(createAlert, 500, true);
 
 exports.hideLoading = function(){
 	mainView.activityIndicator.hide();

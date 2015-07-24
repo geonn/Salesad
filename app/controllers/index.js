@@ -3,19 +3,11 @@ var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var category_sync_counter = 0; 
 /** add new column for ads **/
-var ads = Alloy.createCollection('ads'); 
-ads.addColumn("status", "INTEGER");
-ads.addColumn("active_date", "TEXT");
-ads.addColumn("expired_date", "TEXT");
-ads.addColumn("youtube", "TEXT");
-ads.addColumn("created", "TEXT");
-ads.addColumn("updated", "TEXT");
+var ads = Alloy.createCollection('ads');
 var model_merchants = Alloy.createCollection('merchants'); 
-var model_category = Alloy.createCollection('category'); 
-model_category.addColumn("image", "TEXT");
+var model_category = Alloy.createCollection('category');
+var items = Alloy.createCollection('items');
 
-var items = Alloy.createCollection('items'); 
-items.addColumn("barcode", "TEXT");
 /** Google Analytic**/ 
 Alloy.Globals.tracker.trackEvent({
 	category: "main",
@@ -226,7 +218,7 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 }
 
 /** navigate to Ad **/
-var goAd = function(m_id,b_id,isFeed){
+var goAd = function(m_id, isFeed){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
@@ -239,14 +231,15 @@ var goAd = function(m_id,b_id,isFeed){
 };
 
 /** navigate to Ads **/
-function goAds(m_id, a_id,cate_id){
+function goAds(cate_id){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
 	clickTime = currentTime;
-	var win = Alloy.createController("ads_category", {m_id:m_id, a_id: a_id, cate_id: cate_id}).getView(); 
+	console.log(cate_id);
+	var win = Alloy.createController("ads_category", {cate_id: cate_id}).getView(); 
 	COMMON.openWindow(win); 
 };
 
@@ -255,7 +248,7 @@ function goAds(m_id, a_id,cate_id){
 /** Bind GoAds Event to Image **/
 function createAdImageEvent(adImage,m_id, a_id, cate_id) {
     adImage.addEventListener('click', function(e) {
-        goAds(m_id, a_id, cate_id);
+        goAds(cate_id);
     });
 }
 
@@ -355,7 +348,7 @@ $.indexView.nearby.addEventListener("click", function(e){
 
 /** EventListerner for notification **/
 Ti.App.addEventListener('app:goToAds', function(e){
-	goAd(e.m_id,e.a_id,e.isFeed);
+	goAd(e.m_id, e.isFeed);
 });
 
 /** EventListner for after API.loadMerchantListByCategory success**/
@@ -393,7 +386,7 @@ Ti.App.addEventListener('app:loadCategory', function(e){
 });
 
 $.indexView.favorite.addEventListener('click', function(e){
-	var win = Alloy.createController("grid_list_custom").getView();  
+	var win = Alloy.createController("favourite", {cate_id: 7}).getView();  
 	COMMON.openWindow(win);
 });
 

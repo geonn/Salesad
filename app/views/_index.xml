@@ -15,13 +15,13 @@
 				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>
 			</ScrollView>
 		</View>
-		<View bottom="0" height="61" width="Ti.UI.FILL" layout="horizontal" zIndex="12">
+		<View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
 	    	<View class="grey_line"></View>
 	    	<View width="25%" height="60">
 	    		<ImageView id="home" height="Ti.UI.FILL" image="/images/home.png" />
 	    	</View>
 			<View width="25%" height="60">
-				<ImageView id="favorite" height="Ti.UI.FILL" image="/images/icon-favorites-fill.png" />
+				<ImageView id="favorite" height="Ti.UI.FILL" image="/images/icon-favorites.png" />
 			</View>
 	        <View width="25%" height="60">
 	        	<ImageView id="nearby" height="Ti.UI.FILL" image="/images/nearby.png" />

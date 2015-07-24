@@ -8,7 +8,7 @@
 	    	<Label top="5" text="Loading" color="#ffffff" />
 	    </View>
 	    
-	    <View bottom="0" height="61" width="Ti.UI.FILL" layout="horizontal" zIndex="12">
+	    <View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
 	    	<View class="grey_line"></View>
 	    	<View width="25%" height="60">
 	    		<ImageView id="home" height="Ti.UI.FILL" image="/images/home.png" />
