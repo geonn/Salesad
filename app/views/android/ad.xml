@@ -5,8 +5,8 @@
 		         <ImageView id="btnBack" left='10' width="25" height="25" image="/images/btn-back.png" />
 		    </View>
 	     	<View id="pageTitle" width="70%"  />
-	     	<View width="auto">
-		    	<ImageView right='10' id="scanner" width='30' image="/images/scan.png" />
+	     	<View width="auto"  >
+		    	<ImageView  id="scanner" right='10'  width='30' image="/images/scan.png" />
 		    </View>
 	 	</View>
 		<Require type="view" src="_ad" id="adView"/> 

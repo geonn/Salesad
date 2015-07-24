@@ -29,8 +29,9 @@ exports.createScannerWindow = function(){
 
 exports.createScannerButton = function(){
 	return Titanium.UI.createButton({
-		"width":200,
-		"height": 80 
+		width:200,
+		height: 80,
+		image: '/images/scan.png' 
 	});
 };
 // Sets up the scanner and starts it in a new window.

@@ -16,6 +16,7 @@ function openWindow(win){
 	} 
 }
 
+
 function closeWindow(win){
 	if(Ti.Platform.osname == "android"){ 
 	  	win.close(); 
