@@ -12,10 +12,8 @@
 		    <View id="pageTitle" width="auto"  />
 	 	</View>
 	 	<View bottom='0' class="hr"></View>
-	 	<ScrollView backgroundColor="#d3d3d3" width="Ti.UI.FILL" height="Ti.UI.FILL" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.FILL" layout="vertical">
-			<TableView separatorColor="transparent" touchEnabled="false" minRowHeight="50" id="ads_listing" width="Ti.UI.FILL" backgroundColor="#d3d3d3" height="Ti.UI.SIZE" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></TableView>
-			<View id="sv" width="Ti.UI.FILL" height="Ti.UI.SIZE" right="10" layout="horizontal"></View>
-		</ScrollView>
+			<TableView separatorColor="transparent" minRowHeight="50" id="ads_listing" width="Ti.UI.FILL" backgroundColor="#d3d3d3" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></TableView>
+			<!--<View id="sv" width="Ti.UI.FILL" height="Ti.UI.SIZE" right="10" layout="horizontal"></View>-->
 		<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#F1F1F2" >
 	        <ActivityIndicator  id="activityIndicator" />
 	    	<Label top="5" text="Loading" color="#ffffff" />

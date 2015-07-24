@@ -172,18 +172,23 @@ function buildListing(){
 	}, 1000);
 	
 	var no_ads = _.difference(_.pluck(favorites, "m_id"), _.pluck(ads, "m_id"));
-	console.log(_.pluck(favorites, "m_id"));
-	console.log(_.pluck(ads, "m_id"));
-	console.log(no_ads);
-	build_no_ads_logo(no_ads);
+	var no_ads_tbr = build_no_ads_logo(no_ads);
+	console.log(no_ads_tbr);
+	console.log("no_ads_tbr");
+	$.ads_listing.appendRow(no_ads_tbr);
 }
 
 function build_no_ads_logo(no_ads){
 	var tbr = Ti.UI.createTableViewRow({
 		height: Ti.UI.SIZE,
-		selectedBackgroundColor: "#FFE1E1"
+		selectedBackgroundColor: "#FFE1E1",
+		
 	});
-	
+	var view_contain = $.UI.create("View", {
+		height: Ti.UI.SIZE,
+		width: Ti.UI.FILL,
+		layout: "horizontal",
+	});
 	for (var i=0; i < favorites.length; i++) {
 	   if(_.contains(no_ads, favorites[i].m_id)){
 	   	var view_cell = $.UI.create("View",{
@@ -195,15 +200,18 @@ function build_no_ads_logo(no_ads){
 		  image : favorites[i].img_path,
 		  height : Ti.UI.SIZE,
 		  width: Ti.UI.FILL,//ads_height,
-		  left: 8,
-		  bottom: 8,
+		  left: 5,
+		  right: 5,
+		  bottom: 10,
 		});
 		view_cell.add(img_logo);
-		$.sv.add(view_cell);
+		view_contain.add(view_cell);
+		console.log(view_cell);
 		createAdImageEvent(view_cell, favorites[i].m_id);
 	   }
 	};
-	
+	tbr.add(view_contain);
+	return tbr;
 }
 
 //$.ads_listing.add(videoView);
@@ -289,14 +297,13 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 });
 */
 var lastDistance = 0;
-$.ads_listing.addEventListener("scroll", function(e){
+/*$.ads_listing.addEventListener("scroll", function(e){
 	if(Ti.Platform.osname == 'iphone'){
 		var offset = e.contentOffset.y;
 		var height = e.size.height;
 		var total = offset + height;
 		var theEnd = e.contentSize.height;
 		var distance = theEnd - total;
-		console.log(distance +"<"+ lastDistance);
 		if (distance < lastDistance){
 			var nearEnd = theEnd * .75;
  			if (!loading && (total >= nearEnd)){
@@ -316,7 +323,7 @@ $.ads_listing.addEventListener("scroll", function(e){
 		}
 	}
 });
-
+*/
 $.btnBack.addEventListener('touchend', function(){ 
 	COMMON.closeWindow($.adsCategoryWin);  
 }); 

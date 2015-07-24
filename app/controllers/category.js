@@ -199,7 +199,7 @@ function addRegClickEvent(table){
 		var user = Ti.App.Properties.getString('session');
 		
 		if(e.index == 0){
-			var win = Alloy.createController("grid_list_custom").getView(); 
+			var win = Alloy.createController("favourite").getView(); 
 			COMMON.openWindow(win); 
 		}
 		if(e.index == 1){
