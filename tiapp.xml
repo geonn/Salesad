@@ -91,6 +91,8 @@
                     android:name="com.facebook.LoginActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
                 <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
             </application>
+            <uses-permission android:name="android.permission.READ_CALENDAR" />
+        	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
             <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21"/>
         </manifest>
     </android>

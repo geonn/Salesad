@@ -117,7 +117,8 @@ function buildListing(){
 			dateDescription = "Until "+ads[a].expired_date+"!";
 		}else if(ads[a].active_date != "00/00/0000" && ads[a].expired_date =="No Expired"){
 			dateDescription = "Start from "+ads[a].active_date+"!";
-		} 
+		}
+		
 		var label_date_period = $.UI.create("Label", {
 			text: dateDescription,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
@@ -136,14 +137,74 @@ function buildListing(){
 			width: Ti.UI.FILL
 		});
 		
+		var line2 = $.UI.create("View",{
+			backgroundColor: "#C6C8CA",
+			height: 0.5,
+			width: Ti.UI.FILL
+		});
+		var view_buttonBar = $.UI.create("View", {
+			classes: ['horz', 'wfill', 'hsize']
+		});
+		var line3 = $.UI.create("View",{
+			backgroundColor: "#C6C8CA",
+			height: 30,
+			width: 0.5
+		});
+		
+		var btn_reminder = $.UI.create("Button", {
+			width: "50%",
+			height: 30,
+			active_date: ads[a].active_date,
+			expired_date: ads[a].expired_date,
+			ads_name: ads[a].ads_name,
+			backgroundColor:"#ededed",
+			backgroundFocusedColor: "#ffffff",
+			selectedColor: "#ffffff",
+			title: "Reminder",
+			color: "#ED1C24"
+		});
+		
+		btn_reminder.addEventListener('click', function(e){
+			if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
+			    setCalendarEvent(e);
+			} else {
+			    Ti.Calendar.requestEventsAuthorization(function(e){
+		            if (e.success) {
+		                setCalendarEvent(e);
+		            } else {
+		                alert('Access to calendar is not allowed');
+		            }
+		        });
+			}
+		});
+		
+		var btn_share = $.UI.create("Button", {
+			width: Ti.UI.FILL,
+			height: 30,
+			backgroundFocusedColor: "#ffffff",
+			selectedColor: "#ffffff",
+			backgroundColor:"#ededed",
+			title: "Share",
+			color: "#ED1C24"
+		});
+		
+		btn_share.addEventListener('click', function(e){
+			
+		});
+		
 		view_ad.add(bannerImage);
 		view_ad.add(line);
 		view_ad.add(label_merchant);
 		view_ad.add(label_ads_name);
 		view_ad.add(label_date_period);
+		view_ad.add(line2);
+		view_buttonBar.add(btn_reminder);
+		view_buttonBar.add(line3);
+		view_buttonBar.add(btn_share);
+		view_ad.add(view_buttonBar);
 		tbr.add(view_ad);
 		$.adsCategory.ads_listing.appendRow(tbr);
-
+		
 		bannerImage.addEventListener('load', function(e){
 			activityIndicator.hide();
 			$.adsCategory.ads_listing.remove(activityIndicator);
@@ -169,6 +230,43 @@ function buildListing(){
 	
 }
 
+function setCalendarEvent(e){
+	if(e.source.active_date != "00/00/0000"){
+		var cal = Ti.Calendar.defaultCalendar;
+		var active_date = e.source.active_date.split("/");
+		var start_date = new Date(active_date[2], active_date[1]-1, active_date[0], 10, 0, 0);
+		var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 0, 0);
+		/*
+		if(e.source.expired_date != "00/00/0000"){
+			var expired_date = e.source.expired_date.split("/");
+			var end_date = new Date(expired_date[2], expired_date[1]-1, expired_date[0]-1, 10, 0, 0);
+		}else{
+			var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 0, 0);
+		}*/
+		
+		console.log(start_date);
+		 var event = cal.createEvent({
+		    title: e.source.ads_name,
+		    begin: start_date,
+		    end: end_date,
+		    availability: Ti.Calendar.AVAILABILITY_FREE,
+		    allDay: true
+		});
+		
+		 var mil = 60*1000;
+		
+		 //adding alert to your event , this alert will be before the start _date with 1 minutes
+		 var alert1 = event.createAlert({
+		    relativeOffset: mil
+		});
+		
+		 event.alerts = [alert1];
+		 event.save(Ti.Calendar.SPAN_FUTUREEVENTS);
+		 COMMON.createAlert("Calendar", "Sales reminder added into your calendar.");
+	}else{
+		COMMON.createAlert("Warning", "Sales started.");
+	}
+}
 
 //$.adsCategory.ads_listing.add(videoView);
 

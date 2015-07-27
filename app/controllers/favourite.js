@@ -206,7 +206,6 @@ function build_no_ads_logo(no_ads){
 		});
 		view_cell.add(img_logo);
 		view_contain.add(view_cell);
-		console.log(view_cell);
 		createAdImageEvent(view_cell, favorites[i].m_id);
 	   }
 	};
