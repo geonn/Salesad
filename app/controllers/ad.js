@@ -398,7 +398,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
 
 $.adView.home.addEventListener("click", function(e){  
 	var naviPath = Alloy.Globals.naviPath;  
-	for (var i=0; i< naviPath.length; i++) { 
+	for (var i=0; i< naviPath.length; i++) {  
 		COMMON.closeWindow(naviPath[i]);  
 	} 
 	

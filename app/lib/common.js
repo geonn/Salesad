@@ -17,7 +17,8 @@ function openWindow(win){
 }
 
 
-function closeWindow(win){
+//function closeWindow(win){
+exports.closeWindow = function(win){
 	if(Ti.Platform.osname == "android"){ 
 	  	win.close(); 
 	}else{ 
@@ -45,7 +46,7 @@ function createAlert (tt,msg){
 };
 
 exports.openWindow = _.throttle(openWindow, 500, true);
-exports.closeWindow = _.debounce(closeWindow, 0, true);
+//exports.closeWindow = _.debounce(closeWindow, 0, true);
 exports.removeAllChildren = _.debounce(removeAllChildren, 0, true);
 exports.createAlert = _.throttle(createAlert, 500, true);
 

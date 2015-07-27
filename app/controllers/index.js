@@ -203,6 +203,7 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
 	}
+	 
 	if(typeof latestc[0] == 'object' && latestc[0].a_id != 0 && typeof latestc[0].a_id != 'object'){
 
 		var adImage = Ti.UI.createImageView({
