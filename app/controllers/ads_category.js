@@ -24,6 +24,72 @@ var activityIndicator = Ti.UI.createActivityIndicator({
   zIndex: 14,
 });
 
+/***Share***/
+if (OS_IOS){
+//iOS only module
+	
+var Social = require('dk.napp.social'); 
+
+// find all Twitter accounts on this phone
+if(Social.isRequestTwitterSupported()){ //min iOS6 required
+    var accounts = []; 
+    Social.addEventListener("accountList", function(e){
+    	Ti.API.info("Accounts:");
+    	accounts = e.accounts; //accounts
+    	Ti.API.info(accounts);
+    });
+    
+    Social.twitterAccountList();
+}
+ Social.addEventListener("complete", function(e){
+		Ti.API.info("complete: " + e.success);
+
+		if (e.platform == "activityView" || e.platform == "activityPopover") {
+			switch (e.activity) {
+				case Social.ACTIVITY_TWITTER:
+					Ti.API.info("User is shared on Twitter");
+					break;
+				case Social.ACTIVITY_FACEBOOK:
+					Ti.API.info("User is shared on Facebook");
+					break;
+				case Social.ACTIVITY_CUSTOM:
+					Ti.API.info("This is a customActivity: " + e.activityName);
+					break;
+			}
+		}
+	});
+	
+	Social.addEventListener("error", function(e){
+		Ti.API.info("error:");	
+		Ti.API.info(e);	
+	});
+	
+	Social.addEventListener("cancelled", function(e){
+		Ti.API.info("cancelled:");
+		Ti.API.info(e);		
+	}); 
+	Social.addEventListener("customActivity", function(e){
+		Ti.API.info("customActivity");	
+		Ti.API.info(e);	
+		
+	});
+} 
+
+function createShareOptions(adsName, adsImage){
+	var subject = adsName;
+    var text = adsName + ". Download SalesAd : http://apple.co/1RtrCZ4";
+  
+    var intent = Ti.Android.createIntent({
+        action: Ti.Android.ACTION_SEND,
+        type: "text/plain",
+    });
+    intent.putExtra(Ti.Android.EXTRA_TEXT,text);
+    intent.putExtra(Ti.Android.EXTRA_SUBJECT,subject);
+ 	intent.putExtraUri(Ti.Android.EXTRA_STREAM,adsImage);
+    var share = Ti.Android.createIntentChooser(intent,'Share');
+ 
+    return share;
+}
 /* 0 1 2 3 4 5 6
  * Function
  * */
@@ -185,10 +251,26 @@ function buildListing(){
 			selectedColor: "#ffffff",
 			backgroundColor:"#ededed",
 			title: "Share",
-			color: "#ED1C24"
+			color: "#ED1C24",
+			adsName: ads[a].ads_name,
+			adsImage: ads[a].img_path
 		});
 		
-		btn_share.addEventListener('click', function(e){
+		btn_share.addEventListener('click', function(e){ 
+			if(OS_IOS){
+				if(Social.isActivityViewSupported()){ //min iOS6 required
+			    	Social.activityView({
+			        	text: e.source.adsName + ". Download SalesAd : http://apple.co/1RtrCZ4",
+			        	//url: "http://apple.co/1RtrCZ4",
+			        	image:e.source.adsImage
+			     	});
+			     } else {
+			     	//implement fallback sharing..
+			     }
+			}else{
+				var share = createShareOptions(e.source.adsName,e.source.adsImage);
+				Ti.Android.currentActivity.startActivity(share);
+			}
 			
 		});
 		
