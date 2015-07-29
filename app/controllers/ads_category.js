@@ -209,7 +209,8 @@ function buildListing(){
 			width: Ti.UI.FILL
 		});
 		var view_buttonBar = $.UI.create("View", {
-			classes: ['horz', 'wfill', 'hsize']
+			classes: ['horz', 'wfill'],
+			height: 30
 		});
 		var line3 = $.UI.create("View",{
 			backgroundColor: "#C6C8CA",
@@ -223,6 +224,7 @@ function buildListing(){
 			active_date: ads[a].active_date,
 			expired_date: ads[a].expired_date,
 			ads_name: ads[a].ads_name,
+			description: ads[a].description,
 			backgroundColor:"#ededed",
 			backgroundFocusedColor: "#ffffff",
 			selectedColor: "#ffffff",
@@ -231,16 +233,21 @@ function buildListing(){
 		});
 		
 		btn_reminder.addEventListener('click', function(e){
-			if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
-			    setCalendarEvent(e);
-			} else {
-			    Ti.Calendar.requestEventsAuthorization(function(e){
-		            if (e.success) {
-		                setCalendarEvent(e);
-		            } else {
-		                alert('Access to calendar is not allowed');
-		            }
-		        });
+			if(Ti.Platform.osname == "android"){
+				setAndroidCalendarEvent(e);
+				
+			}else{
+				if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
+				    setCalendarEvent(e);
+				} else {
+				    Ti.Calendar.requestEventsAuthorization(function(e){
+			            if (e.success) {
+			                setCalendarEvent(e);
+			            } else {
+			                alert('Access to calendar is not allowed');
+			            }
+			        });
+				}
 			}
 		});
 		
@@ -312,12 +319,42 @@ function buildListing(){
 	
 }
 
+function setAndroidCalendarEvent(e){
+	if(e.source.active_date != "00/00/0000"){
+		var CALENDAR_TO_USE = 3;
+		var calendar = Ti.Calendar.getCalendarById(CALENDAR_TO_USE);
+		var active_date = e.source.active_date.split("/");
+		var eventBegins = new Date(active_date[2], active_date[1]-1, active_date[0], 10, 0, 0);
+		var eventEnds = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 59, 59);
+		// Create the event
+		var details = {
+		    title: e.source.ads_name,
+		    description: e.source.description,
+		    begin: eventBegins,
+		    end: eventEnds
+		};
+		
+		var event = calendar.createEvent(details);
+		
+		// Now add a reminder via e-mail for 10 minutes before the event.
+		var reminderDetails = {
+		    minutes: 10,
+		    method: Ti.Calendar.METHOD_ALERT
+		};
+		
+		event.createReminder(reminderDetails);
+		COMMON.createAlert("Message", "Sales reminder added into your calendar.");
+	}else{
+		COMMON.createAlert("Message", "Sales started.");
+	}
+}
+
 function setCalendarEvent(e){
 	if(e.source.active_date != "00/00/0000"){
 		var cal = Ti.Calendar.defaultCalendar;
 		var active_date = e.source.active_date.split("/");
 		var start_date = new Date(active_date[2], active_date[1]-1, active_date[0], 10, 0, 0);
-		var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 0, 0);
+		var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 59, 59);
 		/*
 		if(e.source.expired_date != "00/00/0000"){
 			var expired_date = e.source.expired_date.split("/");
@@ -344,9 +381,9 @@ function setCalendarEvent(e){
 		
 		 event.alerts = [alert1];
 		 event.save(Ti.Calendar.SPAN_FUTUREEVENTS);
-		 COMMON.createAlert("Calendar", "Sales reminder added into your calendar.");
+		 COMMON.createAlert("Message", "Sales reminder added into your calendar.");
 	}else{
-		COMMON.createAlert("Warning", "Sales started.");
+		COMMON.createAlert("Message", "Sales started.");
 	}
 }
 
