@@ -313,7 +313,7 @@ function buildListing(){
 		activityIndicator.hide();
 		$.adsCategory.ads_listing.remove(activityIndicator);
 		loading = false;
-		console.log("remove indicator");
+		 
 	}, 1000);
 	
 	
@@ -363,7 +363,7 @@ function setCalendarEvent(e){
 			var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 0, 0);
 		}*/
 		
-		console.log(start_date);
+		 
 		 var event = cal.createEvent({
 		    title: e.source.ads_name,
 		    begin: start_date,
@@ -475,7 +475,7 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 		if (distance < lastDistance){
 			var nearEnd = theEnd * .75;
  			if (!loading && (total >= nearEnd)){
- 				console.log('loading new feed');
+ 				 
  				loading = true;
  				buildListing();
  			}
@@ -485,7 +485,7 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	
 	if(Ti.Platform.osname == 'android' && !loading){
 		if((e.firstVisibleItem+e.visibleItemCount) == e.totalItemCount){
-			console.log(e.firstVisibleItem+" "+e.visibleItemCount+" "+e.totalItemCount);
+			 
 			loading = true;
 			buildListing();
 		}
