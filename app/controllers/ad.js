@@ -39,17 +39,19 @@ console.log(a_id);
 var ads = a_library.getAdsById(a_id);
 console.log(ads);
 var m_id = args.m_id || ads.m_id;
-console.log(m_id);
+
 var merchants = m_library.getMerchantsById(m_id);
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var model_favorites = Alloy.createCollection('favorites');
 var exist = model_favorites.checkFavoriteExist(m_id);
+ 
 if(exist){
 	$.adView.favorites.image = "/images/icon-favorites-fill.png";
 }else{
 	$.adView.favorites.image = "/images/icon-favorites.png";
 }
 var getFavorites = model_favorites.getFavoritesByUid(u_id);
+ 
 var gBannerImg;
 /*********************
 *******FUNCTION*******
