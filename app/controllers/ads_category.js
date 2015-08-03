@@ -228,7 +228,7 @@ function buildListing(){
 			backgroundColor:"#ededed",
 			backgroundFocusedColor: "#ffffff",
 			selectedColor: "#ffffff",
-			title: "Reminder",
+			title: "Add To Calendar",
 			color: "#ED1C24"
 		});
 		
@@ -322,9 +322,9 @@ function setAndroidCalendarEvent(e){
 	if(e.source.active_date != "0000-00-00"){
 		var CALENDAR_TO_USE = 3;
 		var calendar = Ti.Calendar.getCalendarById(CALENDAR_TO_USE);
-		var active_date = e.source.active_date.split("/");
-		var eventBegins = new Date(active_date[2], active_date[1]-1, active_date[0], 10, 0, 0);
-		var eventEnds = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 59, 59);
+		var active_date = e.source.active_date.split("-");
+		var eventBegins = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
+		var eventEnds = new Date(active_date[0], active_date[1]-1, active_date[2], 23, 59, 59);
 		// Create the event
 		var details = {
 		    title: e.source.ads_name,
@@ -352,8 +352,8 @@ function setCalendarEvent(e){
 	if(e.source.active_date != "0000-00-00"){
 		var cal = Ti.Calendar.defaultCalendar;
 		var active_date = e.source.active_date.split("/");
-		var start_date = new Date(active_date[2], active_date[1]-1, active_date[0], 10, 0, 0);
-		var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 59, 59);
+		var start_date = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
+		var end_date = new Date(active_date[0], active_date[1]-1, active_date[2], 23, 59, 59);
 		/*
 		if(e.source.expired_date != "0000-00-00"){
 			var expired_date = e.source.expired_date.split("/");
