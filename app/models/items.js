@@ -1,16 +1,19 @@
 exports.definition = {
 	config: {
 		columns: {
-		    "i_id": "INTEGER",
+		    "i_id": "INTEGER PRIMARY KEY",
 		    "a_id": "INTEGER",
 		    "price": "TEXT",
 		    "barcode":  "INTEGER",
 		    "caption": "TEXT",
-		    "img_path": "TEXT"
+		    "img_path": "TEXT",
+		    "position": "INTEGER",
+		    "status": "INTEGER",
 		},
 		adapter: {
 			type: "sql",
-			collection_name: "items"
+			collection_name: "items",
+			idAttribute: "i_id"
 		}
 	},
 	extendModel: function(Model) {
@@ -55,7 +58,8 @@ exports.definition = {
                 var count = 0;
                  while (res.isValidRow()){
                  	var caption = res.fieldByName('caption');
-                 	if(caption != ""){
+                 	console.log(caption);
+                 	if(caption != "" && caption != null){
                  		caption = caption.replace(/&quot;/g,"'");
                  	} 
 					arr[count] = {
@@ -101,6 +105,24 @@ exports.definition = {
                 	db.execute(sql_query, i_id, a_id, price,barcode, caption, img_path);
 				}
 				
+	            db.close();
+	            collection.trigger('sync');
+			},
+            saveArray : function(arr){
+				var collection = this;
+				
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                db.execute("BEGIN");
+                arr.forEach(function(entry) {
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (i_id, a_id, price,barcode,caption,img_path,position,status) VALUES (?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.i_id, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status);
+					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET a_id=?, price=?,barcode=?,caption=?,img_path=?,position=?,status=? WHERE i_id=?";
+					db.execute(sql_query, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.i_id);
+				});
+				db.execute("COMMIT");
 	            db.close();
 	            collection.trigger('sync');
 			},

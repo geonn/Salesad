@@ -34,9 +34,9 @@ var getAdDetails = function(a_id){
 	var last = items.length-1;
  	var adspage = Ti.UI.createScrollView({
  		
- 		ads_name: ads.ads_name,
+ 		name: ads.name,
  		m_id: ads.m_id,
- 		ads_background: ads.ads_background,
+ 		app_background: ads.app_background,
  		a_id: ads.a_id,
 		bottom: 4,
 		scrollType: "vertical",
@@ -48,10 +48,10 @@ var getAdDetails = function(a_id){
  	});
  	/***Set ads template***/
  	var ads_height = "100%";
- 	if(ads.template == "1"){
+ 	if(ads.template_id == "1"){
  		ads_height = "33%";
  	}
- 	if(ads.template == "2"){
+ 	if(ads.template_id == "2"){
  		ads_height = "66%";
  	}
  	 
@@ -65,8 +65,8 @@ var getAdDetails = function(a_id){
 	gBannerImg = ads.img_path;
 	adspage.add(bannerImage);
  	
- 	if( ads.ads_background !== undefined){
-	 	$.ad.backgroundColor = "#"+ads.ads_background;
+ 	if( ads.app_background !== undefined){
+	 	$.ad.backgroundColor = "#"+ads.app_background;
 	 }else{
 	 	 $.ad.backgroundColor = "#fffff6";
 	 }
@@ -116,7 +116,7 @@ var getAdDetails = function(a_id){
 	}
 	
 	/**Set Custom title*/
-	var pageTitle = ads.ads_name; 
+	var pageTitle = ads.name; 
 	if(typeof pageTitle == "undefined"){
 		pageTitle ="";
 	}else{
@@ -180,7 +180,7 @@ for(var a = 0; ads.length > a; a++){
 /********						set first ads title								*******/
 var a_library = Alloy.createCollection('ads'); 
 var currentAds = a_library.getAdsInfo(ads[0].a_id);
-var	adsTitle = currentAds[0].ads_name;
+var	adsTitle = currentAds[0].name;
 adsTitle =adsTitle.replace(/&quot;/g, "'");
 var custom = Ti.UI.createLabel({ 
 		    text: adsTitle, 
@@ -204,7 +204,7 @@ var model_favorites = Alloy.createCollection('favorites');
 	
 /*********					set first ads background color******/
 if( currentAds[0].ads_backgroun !== undefined){
- 	$.ad.backgroundColor = "#"+currentAds[0].ads_background;
+ 	$.ad.backgroundColor = "#"+currentAds[0].app_background;
  }else{
  	 $.ad.backgroundColor = "#fffff6";
  }
@@ -222,7 +222,7 @@ $.adsView.ads_details.addEventListener("scrollend", function(e){
 	if (typeof e.view === "undefined") {
 		return;
 	}
-	var label_text = JSON.stringify(e.view.ads_name);
+	var label_text = JSON.stringify(e.view.name);
 	var m_id_v= JSON.stringify(e.view.m_id);
 	var a_id_v = JSON.stringify(e.view.a_id);
 	
@@ -239,7 +239,7 @@ $.adsView.ads_details.addEventListener("scrollend", function(e){
 	label_text =label_text.replace(/&quot;/g, "'");
 	m_id = m_id_v.replace(/"/g, "");
 	a_id = a_id_v.replace(/"/g, "");  
-	$.ad.backgroundColor = "#"+JSON.stringify(e.view.ads_background).replace(/"/g, "");
+	$.ad.backgroundColor = "#"+JSON.stringify(e.view.app_background).replace(/"/g, "");
  
 	var custom = Ti.UI.createLabel({ 
 	    text: label_text, 

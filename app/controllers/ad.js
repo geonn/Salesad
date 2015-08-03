@@ -1,5 +1,5 @@
 var args = arguments[0] || {};
-var m_id = args.m_id;
+
 var a_id = args.a_id || "";
 var from = args.from || "";
 var isFeed = args.isFeed || "";
@@ -33,10 +33,14 @@ function getScanMerchant(){
 var m_library = Alloy.createCollection('merchants'); 
 var a_library = Alloy.createCollection('ads'); 
 var i_library = Alloy.createCollection('items'); 
- 
-//load merchant & branches list
-var merchants = m_library.getMerchantsById(m_id);
 
+console.log(a_id);
+//load merchant & branches list
+var ads = a_library.getAdsById(a_id);
+console.log(ads);
+var m_id = args.m_id || ads.m_id;
+console.log(m_id);
+var merchants = m_library.getMerchantsById(m_id);
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var model_favorites = Alloy.createCollection('favorites');
 var exist = model_favorites.checkFavoriteExist(m_id);
@@ -52,7 +56,7 @@ var gBannerImg;
 **********************/
  
 var getAdDetails = function(){
-	var ads = a_library.getAdsById(m_id);
+	var ads = a_library.getAdsById(a_id);
     var items = i_library.getItemByAds(ads.a_id); 
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
@@ -62,10 +66,10 @@ var getAdDetails = function(){
  	//$.adView.ads_details.removeAllChildren(); 
  	/***Set ads template***/
  	var ads_height = "100%";
- 	if(ads.template == "1"){
+ 	if(ads.template_id == "1"){
  		ads_height = "33%";
  	}
- 	if(ads.template == "2"){
+ 	if(ads.template_id == "2"){
  		ads_height = "66%";
  	}
  	 
@@ -81,8 +85,8 @@ var getAdDetails = function(){
 	//Ti.Platform.openURL('whatsapp://send?text='+ads.img_path);
 	
  	
- 	if( ads.ads_background !== undefined){
-	 	$.ad.backgroundColor = "#"+ads.ads_background;
+ 	if( ads.app_background !== undefined){
+	 	$.ad.backgroundColor = "#"+ads.app_background;
 	 	if(Ti.Platform.osname == "android"){ 
 	 		$.adHeader.backgroundColor = "#fffff6";
 	 	}
@@ -157,11 +161,11 @@ var getAdDetails = function(){
 	}
 	
 	/**Set Custom title**/
-	
+	console.log(merchants);
 	if(typeof pageTitle == "undefined"){ 
-		pageTitle =merchants.name;
+		pageTitle =merchants.merchant_name;
 	}else{
-		pageTitle =merchants.name;
+		pageTitle =merchants.merchant_name;
 		
 		Alloy.Globals.tracker.trackEvent({
 			category: "ads",

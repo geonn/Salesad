@@ -13,14 +13,14 @@ var merchants = m_library.getMerchantsById(m_id);
 var branches = b_library.getBranchesByMerchant(m_id);
  
 /*** Display merchant info ***/
-var mer_loc = merchants.state;
+var mer_loc = merchants.state_name;
 if(merchants.area != ""){
-	mer_loc = merchants.area + ", "+merchants.state;
+	mer_loc = merchants.area + ", "+merchants.state_name;
 }
 
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
-    text: merchants.name, 
+    text: merchants.merchant_name, 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
@@ -33,7 +33,7 @@ Alloy.Globals.tracker.trackEvent({
 	value: 1
 }); 
 Alloy.Globals.tracker.trackScreen({
-	screenName: "Brancehes - " +merchants.name
+	screenName: "Brancehes - " +merchants.merchant_name
 });
 
 if(Ti.Platform.osname == "android"){ 
@@ -43,7 +43,7 @@ if(Ti.Platform.osname == "android"){
 }
   
 $.branchesView.merchantThumb.image = merchants.img_path;
-$.branchesView.merchantName.text = merchants.name;
+$.branchesView.merchantName.text = merchants.merchant_name;
 $.branchesView.merchantLocation.text = mer_loc;
 $.branchesView.merchantMobile.text = "Tel: "+merchants.mobile || "Tel: -";
 $.branchesView.merchantView.m_id = m_id;

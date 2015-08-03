@@ -295,7 +295,7 @@ var createGridListing = function(res){
 			});
 		var label_merchant = $.UI.create("Label", {
 			font: { fontWeight: 'bold', fontSize: 16},
-			text: info.merchant,
+			text: info.merchant_name,
 			top: 10,
 			left: 10,
 			right: 10,

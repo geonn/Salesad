@@ -88,7 +88,7 @@ var feedResult = function(res){
 				});	
 		 
 				var popUpTitle = Titanium.UI.createLabel({
-					text:m_det.name,
+					text:m_det.merchant_name,
 					font:{fontSize:16},
 					source: entry.m_id,
 					color: "#848484",
@@ -100,7 +100,7 @@ var feedResult = function(res){
 				});
 				
 				var category =  Titanium.UI.createLabel({
-					text:m_det.state,
+					text:m_det.state_name,
 					source: a_det.m_id,
 					font:{fontSize:12,fontWeight:'bold'},
 					width:'auto',
