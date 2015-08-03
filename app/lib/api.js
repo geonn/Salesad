@@ -402,7 +402,7 @@ exports.loadAdsByCategory = function(cate_id){
 		last_updated = isUpdate.updated;
 	}
 	var url = getAdsByCategoryList+"&category_id="+cate_id+"&last_updated="+last_updated;
-	console.log(url);
+	//console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

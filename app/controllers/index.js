@@ -246,8 +246,7 @@ function goAds(cate_id){
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
-	clickTime = currentTime;
-	console.log(cate_id);
+	clickTime = currentTime; 
 	var win = Alloy.createController("ads_category", {cate_id: cate_id}).getView(); 
 	COMMON.openWindow(win); 
 };

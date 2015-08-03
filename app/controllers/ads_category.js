@@ -361,7 +361,7 @@ function setCalendarEvent(e){
 		}else{
 			var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 0, 0);
 		}*/
-		
+	
 		 var event = cal.createEvent({
 		    title: e.source.ads_name,
 		    begin: start_date,
