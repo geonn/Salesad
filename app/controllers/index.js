@@ -308,11 +308,10 @@ function updateCategoryList(e){
 
 function loadingViewFinish(){
 	loadingView.finish(function(){
-		//loadingView.getView().close();
 		if(OS_IOS){
 			$.navMenu.open({fullscreen:true});
-		}
-		else{
+			loadingView.getView().close();
+		}else{
 			$.indexView.root.open();
 		} 
 		init();
