@@ -3,9 +3,14 @@ CHECKER CONFIG
 ID       type Name
 ------------------------------------
 1		getMerchantListByCategory	 
-2 		getFeaturedBanner 	 
+2 		banner 	 
 3 		getMerchantListByType
 4 		getAdsDetailsById	
+5 		category	
+6 		merchant
+7 		categoryAds
+8		ads
+9		items
 100++       getCategoryList
 200++		getAdsByCategoryList
 ************************************/

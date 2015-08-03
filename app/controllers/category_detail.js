@@ -130,7 +130,7 @@ var createGridListing = function(res){
 			 
 	   		var category_label = $.categoryDetailsView.UI.create("Label",{
 	   			height: Ti.UI.SIZE,
-	   			text: info.name,
+	   			text: info.merchant_name,
 	   			left: 10,
 	   		});
 	   		
@@ -152,7 +152,7 @@ var createGridListing = function(res){
 /************************
 *******APP RUNNING*******
 *************************/
-API.loadMerchantListByCategory(cate_id);
+API.getMerchantListByCategory(cate_id);
 var refreshListFromServer = function(){
 	var currentTime = new Date().getTime();
 	var lastUpdate  =  Ti.App.Properties.getString('refreshTime'+cate_id);
@@ -173,7 +173,7 @@ createGridListing({cate_id: cate_id});
 *** Event Listener ***
 **********************/
 
-Ti.App.addEventListener('app:category_detailCreateGridListing', createGridListing);
+//Ti.App.addEventListener('app:category_detailCreateGridListing', createGridListing);
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.category_details); 
@@ -182,7 +182,7 @@ $.btnBack.addEventListener('click', function(){
 //release memory when close
 $.category_details.addEventListener("close", function(){
     $.categoryDetailsView.destroy();
-    Ti.App.removeEventListener('app:category_detailCreateGridListing', createGridListing);
+    //Ti.App.removeEventListener('app:category_detailCreateGridListing', createGridListing);
     /* release function memory */
     createGridListing = null;
     goAd =null;

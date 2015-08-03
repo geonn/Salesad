@@ -305,7 +305,7 @@ function buildListing(){
 		
 		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
-			 	goAd(e.source.m_id);
+			 	goAd(e.source.a_id);
 			});
 		}
 	}
@@ -313,7 +313,6 @@ function buildListing(){
 		activityIndicator.hide();
 		$.adsCategory.ads_listing.remove(activityIndicator);
 		loading = false;
-		console.log("remove indicator");
 	}, 1000);
 	
 	
@@ -363,7 +362,6 @@ function setCalendarEvent(e){
 			var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 0, 0);
 		}*/
 		
-		console.log(start_date);
 		 var event = cal.createEvent({
 		    title: e.source.ads_name,
 		    begin: start_date,
@@ -390,7 +388,7 @@ function setCalendarEvent(e){
 //$.adsCategory.ads_listing.add(videoView);
 
 /** navigate to Ad **/
-var goAd = function(m_id){
+var goAd = function(a_id){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
@@ -398,7 +396,7 @@ var goAd = function(m_id){
 	};
 	clickTime = currentTime;
 	    
-	var win = Alloy.createController("ad", {m_id: m_id, from : "home"}).getView(); 
+	var win = Alloy.createController("ad", {a_id: a_id, from : "home"}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*
@@ -431,38 +429,7 @@ if(Ti.Platform.osname == "android"){
 /*
  * Event Listener 
  * */
-/*
-$.adsCategory.ads_listing.addEventListener("scroll", function(e){
-	var tolerance = 100;
-	/*console.log(e.source.contentOffset);
-	console.log(((e.source.getRect().height - tolerance) < e.source.contentOffset.y));
-	console.log(!loading);//end here
-	var cnt = e.source.children.length;
-	var lastChild = e.source.children[cnt-1];
-	if(Ti.Platform.osname == "android"){ 
-		var cHeight = e.source.getRect().height;
-	}else{
-<<<<<<< HEAD
-		var cHeight = e.source.getRect().height;
-		//var cHeight = (lastChild.rect.y - (lastChild.getSize().height / 2));
-	}
-	console.log(cHeight+" "+e.contentOffset.y);
-	if(((cHeight - tolerance) < e.contentOffset.y) && !loading){
-		loading = true;
-		console.log("add indicator");
-=======
-		var cHeight = (lastChild.rect.y - (lastChild.getSize().height / 2));
-	} 
-	if(((cHeight - tolerance) < e.source.contentOffset.y) && !loading){
-		loading = true; 
->>>>>>> origin/master
-		$.adsCategory.ads_listing.add(activityIndicator);
-		activityIndicator.show();
-		buildListing();
-	}
-	//buildListing()
-});
-*/
+
 var lastDistance = 0;
 $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	if(Ti.Platform.osname == 'iphone'){
@@ -475,7 +442,6 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 		if (distance < lastDistance){
 			var nearEnd = theEnd * .75;
  			if (!loading && (total >= nearEnd)){
- 				console.log('loading new feed');
  				loading = true;
  				buildListing();
  			}
@@ -485,7 +451,6 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	
 	if(Ti.Platform.osname == 'android' && !loading){
 		if((e.firstVisibleItem+e.visibleItemCount) == e.totalItemCount){
-			console.log(e.firstVisibleItem+" "+e.visibleItemCount+" "+e.totalItemCount);
 			loading = true;
 			buildListing();
 		}

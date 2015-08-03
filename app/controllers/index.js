@@ -2,6 +2,11 @@ var args = {};
 var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var category_sync_counter = 0; 
+
+var loadingView = Alloy.createController("loader");
+loadingView.getView().open();
+loadingView.start();
+
 /** add new column for ads **/
 var ads = Alloy.createCollection('ads');
 var model_merchants = Alloy.createCollection('merchants'); 
@@ -35,12 +40,12 @@ var bannerListing = function(){
    	var counter = 0;
 	var imagepath, adImage, row = '';
 	var my_page = 0;
-	 
+	console.log(banners);
 	//var Ti.UI.SIZE = $.indexView.bannerListing.rect.height;
 	for (var i=0; i< banners.length; i++) {
 			adImage = Ti.UI.createImageView({
-				image: banners[i].img,
-				source: banners[i].m_id,
+				image: banners[i].img_path,
+				m_id: banners[i].m_id,
 				width: Ti.UI.FILL,
 				height: Ti.UI.FILL,
 				defaultImage: "/images/warm-grey-bg.png",
@@ -83,7 +88,8 @@ var bannerListing = function(){
 			row.add(adImage);
 			//row.add(img_caption);
 			row.addEventListener('touchend', function(e) {
-			 	goAd(e.source.source);
+				console.log(e.source.m_id);
+			 	goAd(e.source.m_id);
 			});
 			
 			//scrollView.add(row);
@@ -192,18 +198,20 @@ function syncCategory(){
 	
 	for (var i=0; i< category_list.length; i++) {
 		var API = require('api');
-		API.loadMerchantListByCategory(category_list[i].id);
+		API.getMerchantListByCategory(category_list[i].id);
 	}
 }
 /** Load Latest Ads by Category **/
 function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 	var c_ads_library = Alloy.createCollection('categoryAds');
+	console.log(cate_id+" index");
 	if(types == "popular"){
 		var latestc = c_ads_library.getPopularAdsByCategory(cate_id, 1);
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
+		console.log(latestc);
 	}
-	 
+	
 	if(typeof latestc[0] == 'object' && latestc[0].a_id != 0 && typeof latestc[0].a_id != 'object'){
 
 		var adImage = Ti.UI.createImageView({
@@ -299,11 +307,51 @@ function updateCategoryList(e){
 	}
 }
 
+function loadingViewFinish(){
+	loadingView.finish(function(){
+		if(OS_IOS){
+			$.navMenu.open({fullscreen:true});
+		}
+		else{
+			$.indexView.root.open();
+		} 
+		init();
+		loadingView.getView().close();
+		loadingView = null;
+	});
+}
+
+function init(){
+	bannerListing();
+	buildCateogryList();
+}
 /************************
 *******APP RUNNING*******
 *************************/
+/*
+var loadingView = Alloy.createController("loader");
+loadingView.getView().open();
+loadingView.start(); 
 
-if(Ti.Platform.osname == "android"){ 
+setTimeout(function(){
+	loadingView.finish(function(){
+		
+		if(OS_IOS){
+			$.nav.open()
+		}
+		else if(OS_MOBILEWEB){
+			$.index.open();
+		}
+		else{
+			$.index.getView().open();
+		} 
+		
+		loadingView.getView().close();
+		loadingView = null;
+	});
+}, 1500);
+*/
+/*if(Ti.Platform.osname == "android"){ 
 	$.indexView.root.open(); 
 }else{ 
 	$.navMenu.open({fullscreen:true});
@@ -316,7 +364,7 @@ var API = require('api');
  * > api.js Ti.App.fireEvent('app:bannerListing') 
  * > index.js bannerListing()
  **/
-API.bannerListing();
+//API.bannerListing();
 
 /** 
  * Category Flow 
@@ -328,8 +376,8 @@ API.bannerListing();
  * > index.js loadLatestImageByCategoryId();
  * > index.js categorAds.getLatestAdsByCategory(cate_id, 1);
  **/
-buildCateogryList();
-API.loadCategory();
+//buildCateogryList();
+//API.loadCategory();
 
 /*********************
 *** Event Listener ***
@@ -352,8 +400,11 @@ Ti.App.addEventListener('app:goToAds', function(e){
 	goAd(e.m_id, e.isFeed);
 });
 
-/** EventListner for after API.loadMerchantListByCategory success**/
+/** EventListner for after API.loadMerchantListByCategory success
+ * function ready to remove.
+ * **/
 Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
+	console.log('why load arrr');
 	API.loadAdsByCategory(e.cate_id);
 });
 
@@ -372,6 +423,7 @@ Ti.App.addEventListener('app:adsUpdated', function(e){
     }
 });
 
+Ti.App.addEventListener('app:loadingViewFinish', loadingViewFinish);
 /** EventListner for after API.bannerListing success**/
 Ti.App.addEventListener('app:bannerListing', bannerListing);
 
@@ -382,7 +434,7 @@ Ti.App.addEventListener('app:loadCategory', function(e){
 	
 	for (var i=0; i< category_list.length; i++) {
 		var API = require('api');
-		API.loadMerchantListByCategory(category_list[i].id);
+		API.getMerchantListByCategory(category_list[i].id);
 	}
 });
 

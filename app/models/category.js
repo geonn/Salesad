@@ -140,8 +140,25 @@ exports.definition = {
                 	needRefresh = true;
                 	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, categoryName, image) VALUES ('"+id+"','"+categoryName+"','"+image+"')";
                 	db.execute(sql_query); 
-				} 
-				console.log(sql_query);
+				}
+	            db.close();
+	            collection.trigger('sync');
+			},
+			saveArray : function(arr){
+				var collection = this;
+				
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                db.execute("BEGIN");
+                arr.forEach(function(entry) {
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, categoryName, image) VALUES(?,?,?)";
+					db.execute(sql_query, entry.id, entry.categoryName, entry.image);
+					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET categoryName = ?, image = ? WHERE id=?";
+					db.execute(sql_query, entry.categoryName, entry.image, entry.id);
+				});
+				db.execute("COMMIT");
 	            db.close();
 	            collection.trigger('sync');
 			},

@@ -1,13 +1,13 @@
 exports.definition = {
 	config: {
 		columns: {
-		    "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-		    "m_id": "INTEGER",
+		    "m_id": "INTEGER PRIMARY KEY",
 		    "cate_id": "INTEGER"
 		},
 		adapter: {
 			type: "sql",
-			collection_name: "categoryAds"
+			collection_name: "categoryAds",
+			idAttribute: "m_id"
 		}
 	},
 	extendModel: function(Model) {
@@ -20,13 +20,13 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			getLatestAdsByCategory : function(cate_id, start, end, m_id){
+				console.log(cate_id);
 				var limit = limit || false;
 				var collection = this;
-				console.log(typeof(m_id));
 				if(typeof(m_id) != "undefined"){
-					var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
+					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
 				}else{
-					var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
+					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
                 }
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
                 //var sql = "select * from merchants";
@@ -39,14 +39,16 @@ exports.definition = {
                 var count = 0;
                 
                 while (res.isValidRow()){
+                	console.log('a');
                 	var row_count = res.fieldCount;
-                	/* for(var a = 0; a < row_count; a++){
+                	
+                	 /*for(var a = 0; a < row_count; a++){
                 		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
                 	 }*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
-					    merchant: res.fieldByName('name').replace(/&quot;/g, "'"),
-					    ads_name: res.fieldByName('ads_name').replace(/&quot;/g, "'"),
+					    merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),
 					    expired_date: res.fieldByName('expired_date'),
@@ -67,7 +69,7 @@ exports.definition = {
 			getAdsList : function(){
 				var limit = limit || false;
 				var collection = this;
-                var sql = "select a.m_id, a.name, a.latitude, a.longitude, a.updated, b.* from (SELECT merchants.latitude, merchants.longitude, merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc";
+                var sql = "select a.m_id, a.merchant_name, a.latitude, a.longitude, a.updated, b.* from (SELECT merchants.latitude, merchants.longitude, merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc";
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
                 //var sql = "select * from merchants";
                 db = Ti.Database.open(collection.config.adapter.db_name);
@@ -85,8 +87,8 @@ exports.definition = {
                 	 }*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
-					    merchant: res.fieldByName('name').replace(/&quot;/g, "'"),
-					    ads_name: res.fieldByName('ads_name').replace(/&quot;/g, "'"),
+					    merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    expired_date: res.fieldByName('expired_date'),
 					    updated: res.fieldByName('updated'),
@@ -110,9 +112,9 @@ exports.definition = {
 				var collection = this;
                 if(limit){
                 	//sql = "SELECT merchants.m_id FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";
-                	var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b, popular as c WHERE a.m_id = b.m_id and b.status = 1 and c.m_id = a.m_id order by c.id desc limit 0,1";
+                	var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b, popular as c WHERE a.m_id = b.m_id and b.status = 1 and c.m_id = a.m_id order by c.id desc limit 0,1";
                 }else{
-                	var sql = "select a.m_id, a.name, a.updated, b.* from (SELECT merchants.m_id, merchants.name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b, popular as c WHERE a.m_id = b.m_id and b.status = 1 and c.m_id = a.m_id order by c.id";
+                	var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b, popular as c WHERE a.m_id = b.m_id and b.status = 1 and c.m_id = a.m_id order by c.id";
                 }
                 
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
@@ -132,8 +134,8 @@ exports.definition = {
                 	 }*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
-					    merchant: res.fieldByName('name').replace(/&quot;/g, "'"),
-					    ads_name: res.fieldByName('ads_name').replace(/&quot;/g, "'"),
+					    merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    expired_date: res.fieldByName('expired_date'),
 					    updated: res.fieldByName('updated'),
@@ -255,6 +257,24 @@ exports.definition = {
                 	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (id, categoryName) VALUES ('"+id+"','"+categoryName+"')";
                 	db.execute(sql_query); 
 				} 
+	            db.close();
+	            collection.trigger('sync');
+			},
+			saveArray : function(arr){
+				var collection = this;
+				
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                db.execute("BEGIN");
+                arr.forEach(function(entry) {
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (m_id, cate_id) VALUES (?,?)";
+					db.execute(sql_query, entry.m_id, entry.cate_id);
+					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET cate_id=? WHERE m_id=?";
+					db.execute(sql_query, entry.cate_id, entry.m_id);
+				});
+				db.execute("COMMIT");
 	            db.close();
 	            collection.trigger('sync');
 			},
