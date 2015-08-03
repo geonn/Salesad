@@ -349,7 +349,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
     	 
 		if(Social.isActivityViewSupported()){ //min iOS6 required
 	    	Social.activityView({
-	        	text: pageTitle + ". Download SalesAd : http://apple.co/1RtrCZ4",
+	        	text: ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4",
 	        	//url: "http://apple.co/1RtrCZ4",
 	        	image:gBannerImg
 	     	});
@@ -415,7 +415,7 @@ $.adView.home.addEventListener("click", function(e){
 function createShareOptions(){
  
     var subject = pageTitle;
-    var text = pageTitle + ". Download SalesAd : http://apple.co/1RtrCZ4";
+    var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";
   
     var intent = Ti.Android.createIntent({
         action: Ti.Android.ACTION_SEND,
