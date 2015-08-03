@@ -40,7 +40,6 @@ var bannerListing = function(){
    	var counter = 0;
 	var imagepath, adImage, row = '';
 	var my_page = 0;
-	console.log(banners);
 	//var Ti.UI.SIZE = $.indexView.bannerListing.rect.height;
 	for (var i=0; i< banners.length; i++) {
 			adImage = Ti.UI.createImageView({
@@ -54,15 +53,15 @@ var bannerListing = function(){
 			if(Ti.Platform.osname == "android"){
 				curActivity = Titanium.Android.currentActivity;
 			}
-			if (curActivity != null || Ti.Platform.name === 'iPhone OS') { 
-				var activityIndicator = Ti.UI.createActivityIndicator({
-				  color: 'green', 
-				  top:10,
-				  left:10,
-				  height:Ti.UI.SIZE,
-				  width:Ti.UI.SIZE,
-				  zIndex: 11,
-				});
+			//if (curActivity != null || Ti.Platform.name === 'iPhone OS') { 
+			var activityIndicator = Ti.UI.createActivityIndicator({
+			  color: 'green', 
+			  top:10,
+			  left:10,
+			  height:Ti.UI.SIZE,
+			  width:Ti.UI.SIZE,
+			  zIndex: 11,
+			});
 			
 			if(Ti.Platform.osname == "android"){
 				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
@@ -71,7 +70,7 @@ var bannerListing = function(){
 				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
 			}
 			activityIndicator.show();
-			}
+			
 			bannerAdIamgeLoadEvent(adImage, activityIndicator);
 			var scrollView = Ti.UI.createScrollView({
 				top:"0",
@@ -174,6 +173,7 @@ function buildCateogryList(e){
 		}else if (Ti.Platform.name === 'iPhone OS'){
 			activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
 		}
+		console.log(activityIndicator);
 		activityIndicator.show();
 		
 		pad_categoryLabel.add(categoryLabel);
@@ -308,6 +308,7 @@ function updateCategoryList(e){
 
 function loadingViewFinish(){
 	loadingView.finish(function(){
+		//loadingView.getView().close();
 		if(OS_IOS){
 			$.navMenu.open({fullscreen:true});
 		}
@@ -315,7 +316,6 @@ function loadingViewFinish(){
 			$.indexView.root.open();
 		} 
 		init();
-		loadingView.getView().close();
 		loadingView = null;
 	});
 }
@@ -350,6 +350,7 @@ setTimeout(function(){
 	});
 }, 1500);
 */
+
 /*if(Ti.Platform.osname == "android"){ 
 	$.indexView.root.open(); 
 }else{ 

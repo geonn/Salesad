@@ -105,8 +105,8 @@ exports.definition = {
 					    template: res.fieldByName('template'),
 					    img_path: res.fieldByName('img_path')
 					};
-					
-				} 
+				}
+				
 				// console.log(arr );
 				res.close();
                 db.close();
@@ -147,7 +147,6 @@ exports.definition = {
 				console.log(m_id);
 				var collection = this;
 				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' AND status=1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') order by updated desc" ;
-				sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' order by updated desc";
                 //console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
