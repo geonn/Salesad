@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 //load model
 var m_library = Alloy.createCollection('merchants'); 
 var a_library = Alloy.createCollection('ads'); 
-var i_library = Alloy.createCollection('items'); 
+var i_library = Alloy.createCollection('items');
 
 if(typeof args.m_id != "undefined"){
 	var m_id = args.m_id;
@@ -166,7 +166,6 @@ var getAdDetails = function(){
 	}
 	
 	/**Set Custom title**/
-	console.log(merchants);
 	if(typeof pageTitle == "undefined"){ 
 		pageTitle =merchants.merchant_name;
 	}else{

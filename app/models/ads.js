@@ -144,8 +144,10 @@ exports.definition = {
                 return arr;
 			},
 			getAdsByMid : function(m_id){
+				console.log(m_id);
 				var collection = this;
-				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' AND status=1 AND ( expired_date < date('now') OR expired_date = '0000-00-00') order by updated desc" ;
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' AND status=1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') order by updated desc" ;
+				sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' order by updated desc";
                 //console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -155,6 +157,11 @@ exports.definition = {
                 var arr = []; 
                
                 if (res.isValidRow()){
+                	var row_count = res.fieldCount;
+                	
+                	 /*for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }*/
 					arr = {
 					    a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
