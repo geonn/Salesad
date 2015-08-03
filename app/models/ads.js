@@ -115,7 +115,37 @@ exports.definition = {
 			},
 			getAdsById : function(a_id){
 				var collection = this;
-				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "' AND status=1" ;
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "' AND status=1 order by updated desc" ;
+                //console.log(sql);
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql);
+                var arr = []; 
+               
+                if (res.isValidRow()){
+					arr = {
+					    a_id: res.fieldByName('a_id'),
+					    m_id: res.fieldByName('m_id'),
+					    name: res.fieldByName('name'),
+					    app_background: res.fieldByName('app_background'),
+					    youtube: res.fieldByName('youtube'),
+					    description: res.fieldByName('description'),
+					    template_id: res.fieldByName('template_id'),
+					    img_path: res.fieldByName('img_path')
+					};
+					
+				} 
+				// console.log(arr );
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			getAdsByMid : function(m_id){
+				var collection = this;
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' AND status=1 AND ( expired_date < date('now') OR expired_date = '0000-00-00') order by updated desc" ;
                 //console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){

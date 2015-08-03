@@ -1,6 +1,19 @@
 var args = arguments[0] || {};
+//load model
+var m_library = Alloy.createCollection('merchants'); 
+var a_library = Alloy.createCollection('ads'); 
+var i_library = Alloy.createCollection('items'); 
 
-var a_id = args.a_id || "";
+if(typeof args.m_id != "undefined"){
+	var m_id = args.m_id;
+	var ads = a_library.getAdsByMid(m_id);
+	var a_id = ads.a_id || "";
+}else{
+	var a_id = args.a_id || "";
+	var ads = a_library.getAdsById(a_id);
+	var m_id = args.m_id || ads.m_id;
+}
+
 var from = args.from || "";
 var isFeed = args.isFeed || "";
 var isScan = "";
@@ -29,17 +42,8 @@ function getScanMerchant(){
 }
 
 
-//load model
-var m_library = Alloy.createCollection('merchants'); 
-var a_library = Alloy.createCollection('ads'); 
-var i_library = Alloy.createCollection('items'); 
-
-console.log(a_id);
 //load merchant & branches list
-var ads = a_library.getAdsById(a_id);
-console.log(ads);
-var m_id = args.m_id || ads.m_id;
-console.log(m_id);
+
 var merchants = m_library.getMerchantsById(m_id);
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var model_favorites = Alloy.createCollection('favorites');
@@ -56,7 +60,6 @@ var gBannerImg;
 **********************/
  
 var getAdDetails = function(){
-	var ads = a_library.getAdsById(a_id);
     var items = i_library.getItemByAds(ads.a_id); 
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';

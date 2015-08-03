@@ -177,11 +177,11 @@ function buildListing(){
 		});
 		
 		var dateDescription =ads[a].active_date+" - "+ads[a].expired_date;
-		if(ads[a].active_date == "00/00/0000" && ads[a].expired_date =="No Expired"){
+		if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
 			dateDescription = "Start from now!";
-		}else if(ads[a].active_date == "00/00/0000" && ads[a].expired_date !="No Expired"){
+		}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
 			dateDescription = "Until "+ads[a].expired_date+"!";
-		}else if(ads[a].active_date != "00/00/0000" && ads[a].expired_date =="No Expired"){
+		}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
 			dateDescription = "Start from "+ads[a].active_date+"!";
 		}
 		
@@ -319,7 +319,7 @@ function buildListing(){
 }
 
 function setAndroidCalendarEvent(e){
-	if(e.source.active_date != "00/00/0000"){
+	if(e.source.active_date != "0000-00-00"){
 		var CALENDAR_TO_USE = 3;
 		var calendar = Ti.Calendar.getCalendarById(CALENDAR_TO_USE);
 		var active_date = e.source.active_date.split("/");
@@ -349,13 +349,13 @@ function setAndroidCalendarEvent(e){
 }
 
 function setCalendarEvent(e){
-	if(e.source.active_date != "00/00/0000"){
+	if(e.source.active_date != "0000-00-00"){
 		var cal = Ti.Calendar.defaultCalendar;
 		var active_date = e.source.active_date.split("/");
 		var start_date = new Date(active_date[2], active_date[1]-1, active_date[0], 10, 0, 0);
 		var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 59, 59);
 		/*
-		if(e.source.expired_date != "00/00/0000"){
+		if(e.source.expired_date != "0000-00-00"){
 			var expired_date = e.source.expired_date.split("/");
 			var end_date = new Date(expired_date[2], expired_date[1]-1, expired_date[0]-1, 10, 0, 0);
 		}else{

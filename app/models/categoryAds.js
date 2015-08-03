@@ -24,9 +24,9 @@ exports.definition = {
 				var limit = limit || false;
 				var collection = this;
 				if(typeof(m_id) != "undefined"){
-					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
+					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND ( b.expired_date < date('now') OR b.expired_date = '0000-00-00') order by b.updated desc limit "+start+", "+end+"";
 				}else{
-					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc limit "+start+", "+end+"";
+					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND ( b.expired_date < date('now') OR b.expired_date = '0000-00-00') order by b.updated desc limit "+start+", "+end+"";
                 }
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
                 //var sql = "select * from merchants";
@@ -39,7 +39,6 @@ exports.definition = {
                 var count = 0;
                 
                 while (res.isValidRow()){
-                	console.log('a');
                 	var row_count = res.fieldCount;
                 	
                 	 /*for(var a = 0; a < row_count; a++){

@@ -29,8 +29,8 @@ exports.definition = {
 			// extended functions and properties go here
 			getBannerList : function(){
 				var collection = this;
-                //var sql = "SELECT * FROM " + collection.config.adapter.collection_name +" WHERE b_status = 1 AND (b_enddate > date('now') || b_enddate = '0000-00-00')" ;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name +" WHERE b_status = 1 AND ( b_enddate < date('now') OR b_enddate = '0000-00-00')" ;
+
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -39,6 +39,10 @@ exports.definition = {
                 var bannerArr = []; 
                 var count = 0;   
                 while (res.isValidRow()){
+                	var row_count = res.fieldCount;
+                	/*for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }*/
 					bannerArr[count] = {
 					    b_id: res.fieldByName('b_id'),
 					    m_id: res.fieldByName('m_id'),

@@ -115,14 +115,14 @@ function buildListing(){
 			color: "#626366"
 		});
 		
-		var dateDescription =ads[a].active_date+" - "+ads[a].expired_date;
-		if(ads[a].active_date == "00/00/0000" && ads[a].expired_date =="No Expired"){
+		var dateDescription = ads[a].active_date+" - "+ads[a].expired_date;
+		if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
 			dateDescription = "Start from now!";
-		}else if(ads[a].active_date == "00/00/0000" && ads[a].expired_date !="No Expired"){
+		}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
 			dateDescription = "Until "+ads[a].expired_date+"!";
-		}else if(ads[a].active_date != "00/00/0000" && ads[a].expired_date =="No Expired"){
+		}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
 			dateDescription = "Start from "+ads[a].active_date+"!";
-		} 
+		}
 		var label_date_period = $.UI.create("Label", {
 			text: dateDescription,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
