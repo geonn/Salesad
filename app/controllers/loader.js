@@ -27,7 +27,7 @@ $.start = function() {
  * exposed function to finish the loading animation. Animates the rocket off the screen.
  */
 $.finish = function(_callback) {
-	$.rocketFlight.opacity = 0.1;
+	/*$.rocketFlight.opacity = 0.1;
 	
 	$.rocketFlight.start();
 	
@@ -35,19 +35,21 @@ $.finish = function(_callback) {
 		opacity: 1,
 		duration: 500
 	});
-	
+	*/
+	$.rocketSmoke.stop();
 	$.rocketSmoke.animate({
-		opacity: 0,
 		duration: 500,
-		delay: 500
+		delay: 500,
+		right: -500,
+		curve: Ti.UI.ANIMATION_CURVE_EASE_IN
 	}, function() {
-		$.rocketSmoke.stop();
 		
-		$.rocketFlight.animate({
+		
+		/*$.rocketFlight.animate({
 			top: -130,
 			duration: 750,
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN
-		});
+		});*/
 		
 		$.overlay.animate({
 			opacity: 0,
