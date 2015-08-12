@@ -247,36 +247,37 @@ function currentDateTime(){
 	return datetime ;
 }
 
-
-// Save initial launch command line arguments
-Ti.App.launchURL = '';
-Ti.App.pauseURL = '';
-var cmd = Ti.App.getArguments();
-if ( (typeof(cmd) == 'object') && cmd.hasOwnProperty('url') ) {
-    Ti.App.launchURL = cmd.url;
-    Ti.API.info( 'Launched with url = ' + Ti.App.launchURL );
+if(Ti.Platform.name == "iPhone OS"){
+	// Save initial launch command line arguments
+	Ti.App.launchURL = '';
+	Ti.App.pauseURL = '';
+	var cmd = Ti.App.getArguments();
+	if ( (typeof(cmd) == 'object') && cmd.hasOwnProperty('url') ) {
+	    Ti.App.launchURL = cmd.url;
+	    Ti.API.info( 'Launched with url = ' + Ti.App.launchURL );
+	}
+	 
+	// Save launch URL at the time last paused
+	Ti.App.addEventListener( 'pause', function(e) {
+	    Ti.App.pauseURL = Ti.App.launchURL;
+	});
+	 
+	// After app is fully resumed, recheck if launch arguments
+	// have changed and ignore duplicate schemes.
+	Ti.App.addEventListener( 'resumed', function(e) {
+	    Ti.App.launchURL = '';
+	    cmd = Ti.App.getArguments();
+	    if ( (typeof(cmd) == 'object') && cmd.hasOwnProperty('url') ) {
+	        if ( cmd.url != Ti.App.pauseURL ) {
+	            Ti.App.launchURL = cmd.url;
+	            var details = cmd.url;
+	            var arg = details.split("://"); 
+	            var ads = arg[1].split("_");
+	           
+	            var win = Alloy.createController( ads[0] , {a_id:  ads[1] , from : "home"}).getView(); 
+				COMMON.openWindow(win); 
+	            Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
+	        }
+	    }
+	});
 }
- 
-// Save launch URL at the time last paused
-Ti.App.addEventListener( 'pause', function(e) {
-    Ti.App.pauseURL = Ti.App.launchURL;
-});
- 
-// After app is fully resumed, recheck if launch arguments
-// have changed and ignore duplicate schemes.
-Ti.App.addEventListener( 'resumed', function(e) {
-    Ti.App.launchURL = '';
-    cmd = Ti.App.getArguments();
-    if ( (typeof(cmd) == 'object') && cmd.hasOwnProperty('url') ) {
-        if ( cmd.url != Ti.App.pauseURL ) {
-            Ti.App.launchURL = cmd.url;
-            var details = cmd.url;
-            var arg = details.split("://"); 
-            var ads = arg[1].split("_");
-           
-            var win = Alloy.createController( ads[0] , {a_id:  ads[1] , from : "home"}).getView(); 
-			COMMON.openWindow(win); 
-            Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
-        }
-    }
-});

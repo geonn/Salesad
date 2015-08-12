@@ -33,7 +33,7 @@
 	height: Ti.UI.FILL,
 	top: 0,
 	left: 0,
-	backgroundColor: "#C41230",
+	backgroundColor: "#CB2228",
 },
 "#rocketSmoke": {
 	width: 110,
