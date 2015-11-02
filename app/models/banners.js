@@ -60,6 +60,7 @@ exports.definition = {
 				res.close();
                 db.close();
                 collection.trigger('sync');
+                console.log(bannerArr);
                 return bannerArr;
 			},
 			getExistingId : function(){
