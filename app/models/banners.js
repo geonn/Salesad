@@ -40,9 +40,9 @@ exports.definition = {
                 var count = 0;   
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	/*for(var a = 0; a < row_count; a++){
+                	for(var a = 0; a < row_count; a++){
                 		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }*/
+                	 }
 					bannerArr[count] = {
 					    b_id: res.fieldByName('b_id'),
 					    m_id: res.fieldByName('m_id'),
