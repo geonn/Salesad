@@ -215,7 +215,7 @@ exports.bannerListing = function (type){
 	} 
 	var url = getFeaturedBanner;//+"&last_updated="+last_updated;
 	console.log(url);
-	
+	console.log(existing_id);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {

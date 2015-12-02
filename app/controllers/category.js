@@ -176,7 +176,7 @@ if(Ti.Platform.osname == "android"){
 /**Set mysalesad and my account table**/
 var RegArr = [
 { leftImage:'/images/icon_mySalesAd.png', title:"My Favourite", hasChild:true },
-{ leftImage:'/images/icon_accounts.png', title:"Accounts", hasChild:true } 
+{ leftImage:'/images/icon_accounts.png', title:"Profile", hasChild:true } 
 ];
 
 generateMyProfileTable(RegArr);

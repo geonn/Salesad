@@ -63,6 +63,7 @@ $.finish = function(_callback) {
 };
 
 //load API loadAPIBySequence
+//API.bannerListing();
 API.loadAPIBySequence();
 
 Ti.App.addEventListener('app:update_loading_text', update_loading_text);
