@@ -26,6 +26,7 @@ Alloy.Globals.tracker.trackScreen({
 	screenName: "Merchant Location"
 });
 //load merchant & branches list
+console.log(all_branches);
 for(var k=0; k < all_branches.length; k++){
 	if(all_branches[k].b_id != ""){
 		var branch = b_library.getBranchById(all_branches[k].b_id);

@@ -95,54 +95,60 @@ var createGridListing = function(res){
 		 });
 		$.categoryDetailsView.category_tv.add(noRecord);
    	}else{
+   		 
    		for(var i=0; i< details.length; i++) {
 	   		var m_id = details[i].m_id; 
 	   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
-	   		var info = merchantsLibrary.getMerchantsById(m_id);
-	   		var row = $.categoryDetailsView.UI.create("TableViewRow",{
-	   			height: Ti.UI.SIZE,
-	   			width: Ti.UI.FILL,
-	   			selectedBackgroundColor: "#FFE1E1",
-	   		});
-	   		var view  = $.categoryDetailsView.UI.create("View",{
-	   			layout: "horizontal",
-	   			width: Ti.UI.FILL,
-	   			height: Ti.UI.SIZE,
-	   			top: 10,
-	   			bottom: 10,
-	   			left: 10,
-	   			right: 10,
-	   		});
-	   		
-	   		var imagepath='';
-	   		if(!info.img_path){
-	   			imagepath = "icon_mySalesAd.png";
-	   		}else{
-	   			imagepath = info.img_path;
-	   		}
-			
-			adImage = Ti.UI.createImageView({
-				image: imagepath,
-				defaultImage: "/images/warm-grey-bg.png",
-				height: 50,
-				width: 50,
-			});
-			 
-	   		var category_label = $.categoryDetailsView.UI.create("Label",{
-	   			height: Ti.UI.SIZE,
-	   			text: info.merchant_name,
-	   			left: 10,
-	   		});
-	   		
-	   		view.add(adImage);
-	   		view.add(category_label);
-			row.add(view);
-			if(branch == ""){
-		   		createAdImageEvent(row, m_id);
-	   		}else{
-	   			createAdBranchEvent(row, m_id);
-	   		}
-			tableData.push(row);
+	   		var info = merchantsLibrary.getMerchantsById(m_id); 
+	   		if(info != ""){
+	   			 
+		   		var row = $.categoryDetailsView.UI.create("TableViewRow",{
+		   			height: Ti.UI.SIZE,
+		   			width: Ti.UI.FILL,
+		   			selectedBackgroundColor: "#FFE1E1",
+		   		});
+		   		var view  = $.categoryDetailsView.UI.create("View",{
+		   			layout: "horizontal",
+		   			width: Ti.UI.FILL,
+		   			height: Ti.UI.SIZE,
+		   			top: 10,
+		   			bottom: 10,
+		   			left: 10,
+		   			right: 10,
+		   		});
+		   		
+		   		var imagepath='';
+		   		if(!info.img_path){
+		   			imagepath = "icon_mySalesAd.png";
+		   		}else{
+		   			imagepath = info.img_path;
+		   		}
+				
+				adImage = Ti.UI.createImageView({
+					image: imagepath,
+					defaultImage: "/images/warm-grey-bg.png",
+					height: 50,
+					width: 50,
+				});
+				
+				var mn =info.merchant_name;
+				mn = mn.replace(/&quot;/g, "'"); 
+		   		var category_label = $.categoryDetailsView.UI.create("Label",{
+		   			height: Ti.UI.SIZE,
+		   			text: mn,
+		   			left: 10,
+		   		});
+		   		
+		   		view.add(adImage);
+		   		view.add(category_label);
+				row.add(view);
+				if(branch == ""){
+			   		createAdImageEvent(row, m_id);
+		   		}else{
+		   			createAdBranchEvent(row, m_id);
+		   		}
+				tableData.push(row);
+			}
 	     }
 	     $.categoryDetailsView.category_tv.setData(tableData);
    	}

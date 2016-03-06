@@ -67,7 +67,7 @@ var bannerListing = function(){
 				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
 				//mainView.activityIndicator.top = 0; 
 			}else if (Ti.Platform.name === 'iPhone OS'){
-				activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
+				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
 			}
 			activityIndicator.show();
 			
@@ -87,7 +87,7 @@ var bannerListing = function(){
 			row.add(adImage);
 			//row.add(img_caption);
 			row.addEventListener('touchend', function(e) {
-				console.log(e.source.m_id);
+				 
 			 	goAd(e.source.m_id);
 			});
 			
@@ -168,12 +168,8 @@ function buildCateogryList(e){
 		  height:Ti.UI.SIZE,
 		  width:Ti.UI.SIZE
 		});
-		if(Ti.Platform.osname == "android"){
-			activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK; 
-		}else if (Ti.Platform.name === 'iPhone OS'){
-			activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
-		}
-		console.log(activityIndicator);
+		var style = Ti.UI.ActivityIndicatorStyle.DARK;
+		 
 		activityIndicator.show();
 		
 		pad_categoryLabel.add(categoryLabel);
@@ -204,12 +200,12 @@ function syncCategory(){
 /** Load Latest Ads by Category **/
 function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 	var c_ads_library = Alloy.createCollection('categoryAds');
-	console.log(cate_id+" index");
+	 
 	if(types == "popular"){
 		var latestc = c_ads_library.getPopularAdsByCategory(cate_id, 1);
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
-		console.log(latestc);
+		 
 	}
 	
 	if(typeof latestc[0] == 'object' && latestc[0].a_id != 0 && typeof latestc[0].a_id != 'object'){
@@ -320,6 +316,8 @@ function loadingViewFinish(){
 }
 
 function init(){
+	API.loadMerchantListByType("all");
+	 
 	bannerListing();
 	buildCateogryList();
 }
@@ -403,7 +401,7 @@ Ti.App.addEventListener('app:goToAds', function(e){
  * function ready to remove.
  * **/
 Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
-	console.log('why load arrr');
+	 
 	API.loadAdsByCategory(e.cate_id);
 });
 

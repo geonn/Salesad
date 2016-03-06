@@ -30,7 +30,7 @@ exports.definition = {
 			getBranchesByMerchant : function(m_id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "'" ;
-                
+                //console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -99,13 +99,14 @@ exports.definition = {
                 	db.file.setRemoteBackup(false);
 				}
                 var res = db.execute(sql);
-                
+                //console.log("geo-");
                 if (res.isValidRow()){
              		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET name='"+name+"', m_id='"+m_id+"', mobile='"+mobile+"', area='"+area+"', state_key='"+state_key+"', state='"+state+"', longitude='"+longitude+"', latitude='"+latitude+"' WHERE b_id='" +b_id+"'";
                 }else{
                 	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (b_id, m_id, name, mobile,area,state_key, state,longitude,latitude ) VALUES ('"+b_id+"','"+m_id+"','"+name+"','"+mobile+"','"+area+"', '"+state_key+"', '"+state+"', '"+longitude+"', '"+latitude+"')" ;
 				}
-         //console.log(sql_query);
+          		
+          		//console.log(sql_query);
 	            db.execute(sql_query);
 	            db.close();
 	            collection.trigger('sync');

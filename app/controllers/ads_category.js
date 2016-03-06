@@ -8,11 +8,8 @@ var ads_counter = 0;
 var loading = false;
 Alloy.Globals.naviPath.push($.adsCategoryWin);
 
-if (Ti.Platform.name === 'iPhone OS'){
-  var style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;
-}else {
-  var style = Ti.UI.ActivityIndicatorStyle.DARK;
-}
+var style = Ti.UI.ActivityIndicatorStyle.DARK;
+
 var activityIndicator = Ti.UI.createActivityIndicator({
   color: '#404041',
   font: {fontFamily:'Helvetica Neue', fontSize:16, fontWeight:'bold'},

@@ -10,7 +10,7 @@ var b_library = Alloy.createCollection('branches');
 
 //load merchant & branches list
 var merchants = m_library.getMerchantsById(m_id);
-var branches = b_library.getBranchesByMerchant(m_id);
+var branches = b_library.getBranchesByMerchant(merchants.u_id);
  
 /*** Display merchant info ***/
 var mer_loc = merchants.state_name;

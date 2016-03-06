@@ -178,7 +178,7 @@ exports.getMerchantListByCategory = function (ex){
 	       	for (var i=0; i < arr.length; i++) {
 				 arr[i].cate_id = ex;
 			   };
-			console.log(arr);
+			//console.log(arr);
 	       	categoryAds.saveArray(arr);
 	       	merchant.saveArray(arr);
 	       	
@@ -214,8 +214,8 @@ exports.bannerListing = function (type){
 		last_updated = isUpdate.updated;
 	} 
 	var url = getFeaturedBanner;//+"&last_updated="+last_updated;
-	console.log(url);
-	console.log(existing_id);
+	//console.log(url);
+	//console.log(existing_id);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -265,7 +265,7 @@ exports.loadMerchantListByType = function (type){
 		last_updated = isUpdate.updated;
 	} 
 	var url = getMerchantListByType+"&type="+type+"&last_updated="+last_updated;
-	
+	console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
 	     onload : function(e) {
@@ -300,30 +300,38 @@ exports.loadMerchantListByType = function (type){
 	       
 			/**load new set of category from API**/
 	       	var arr = res.data;
+	       
 	       	arr.forEach(function(entry) {
+	       		if(type != "all"){
+	       			//Save Type List
+		       		var typeList = Alloy.createModel(type, {
+						m_id    : entry.m_id
+					});
+					typeList.save();
+	       		}
 	       		
-	       		//Save Type List
-	       		var typeList = Alloy.createModel(type, {
-					m_id    : entry.m_id
-				});
-				typeList.save();
 					
 	       		//Save merchant info
 	       		var merchant = Alloy.createCollection('merchants'); 
-				merchant.saveMerchants(entry.m_id, entry.u_id, entry.parent, entry.merchant_name, entry.mobile, entry.area, entry.state_key, entry.state_name, entry.img_path, entry.longitude, entry.latitude);
+	       		 
+				merchant.saveMerchants(entry.m_id, entry.u_id, entry.parent, entry.merchant_name, entry.mobile, entry.area, entry.state_key, entry.state_name, entry.status, entry.img_path, entry.longitude, entry.latitude);
 	         	
 				//Save branches info
-			    var branches = entry.branch; 
-			    
+			    var branches = entry.branch;  
 			    if(branches.length > 0){
-			    	branches.forEach(function(branch) {
+			    	branches.forEach(function(branch) { 
 			    		var br = Alloy.createCollection('branches'); 
 						br.saveBranches( branch.b_id, branch.m_id, branch.name,branch.mobile, branch.area, branch.state_key,branch.state, branch.longitude, branch.latitude);
-			    	});
+			    	}); 
 			    }
 			});
+			 
 			checker.updateModule("3","getMerchantListByType",currentDateTime());
-			Ti.App.fireEvent('app:triggerAdsType', {types : type, pullFromServer : false});
+		 
+			if(type != "all"){
+				Ti.App.fireEvent('app:triggerAdsType', {types : type, pullFromServer : false});
+			}
+			 
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
