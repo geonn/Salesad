@@ -29,8 +29,10 @@ var getAdsImages = function(){
 	   		
 	/***Set ads items***/
 	var the_view = [];
-	
+	console.log("isScan : "+isScan);
 	for (var i=0; i< items.length; i++) { 
+		
+		
 		var itemImageView = Ti.UI.createView({
 			height: Ti.UI.SIZE,
 			width: Ti.UI.SIZE
@@ -44,15 +46,17 @@ var getAdsImages = function(){
 		});
 		
 		
-		//BARCODE
-		var barCodeView = Ti.UI.createView({ 
-			height:Ti.UI.SIZE,
-			width:Ti.UI.SIZE ,
-			layout: "horizontal",
-			bottom: 0
-		});
+		
 		if(items[i].barcode != ""){
 			if(isScan == "1"){ 
+				//BARCODE
+				var barCodeView = Ti.UI.createView({ 
+					height:Ti.UI.SIZE,
+					width:Ti.UI.SIZE ,
+					layout: "horizontal",
+					bottom: 0
+				});
+				console.log(items[i]['i_id']+"=="+items[i].barcode);
 				var bcwv = BARCODE.generateBarcode(items[i].barcode);
 				barCodeView.add(bcwv);
 				
@@ -101,7 +105,9 @@ var getAdsImages = function(){
 	
 		row = $.UI.create('View', {  id:"view"+counter});
 		itemImageView.add(adImage);
-		itemImageView.add(barCodeView);
+		if(items[i].barcode != ""){
+			itemImageView.add(barCodeView);
+		}
 		row.add(itemImageView);
 		row.add(label_caption);
 		scrollView.add(row);

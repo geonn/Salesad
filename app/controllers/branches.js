@@ -11,7 +11,8 @@ var b_library = Alloy.createCollection('branches');
 //load merchant & branches list
 var merchants = m_library.getMerchantsById(m_id);
 var branches = b_library.getBranchesByMerchant(merchants.u_id);
- 
+ console.log("geo m_id:"+m_id);
+  console.log("geo u_id:"+merchants.u_id);
 /*** Display merchant info ***/
 var mer_loc = merchants.state_name;
 if(merchants.area != ""){
@@ -61,14 +62,14 @@ var goToAds = function(e){
 		return;
 	};
 	clickTime = currentTime;
-	var win = Alloy.createController("ad", {m_id: e.source.m_id, a_id: e.source.a_id}).getView(); 
+	var win = Alloy.createController("ad", {m_id: m_id, a_id: e.source.a_id}).getView(); 
 	COMMON.openWindow(win,{animated:true}); 
 };
 
 /*** Display branches**/
 var TheTable = Titanium.UI.createTableView({
 	width:'100%',
-	separatorColor: '#ffffff',
+	separatorColor: '#B7B7B7',
 	backgroundColor: '#fffff6'
 });
 
@@ -79,10 +80,10 @@ for (var i = 0; i < branches.length; i++) {
 	var row = Titanium.UI.createTableViewRow({
 	    touchEnabled: true,
 	    height: 65,
-	    m_id: branches[i].m_id,
+	    m_id: m_id,
 	    a_id: branches[i].b_id,
 	    
-	    selectedBackgroundColor: "#FFE1E1",
+	    backgroundSelectedColor: "#FFE1E1",
 		backgroundGradient: {
 	      type: 'linear',
 	      colors: ['#FEFEFB','#F7F7F6'],
@@ -100,9 +101,9 @@ for (var i = 0; i < branches.length; i++) {
 		color: "#848484",
 		width:'auto',
 		textAlign:'left',
-		top:2,
+		top:5,
 		left:20,
-		height:25
+		height:20
 	});
 	
 	var str_loc = branches[i].state;
@@ -117,9 +118,9 @@ for (var i = 0; i < branches.length; i++) {
 		width:'auto',
 		color: "#848484",
 		textAlign:'left',
-		bottom:23,
+		bottom:20,
 		left:20,
-		height:12
+		height:16
 	});
 	
 	var mobile =  Titanium.UI.createLabel({
@@ -132,7 +133,7 @@ for (var i = 0; i < branches.length; i++) {
 		textAlign:'left',
 		bottom:5,
 		left:20,
-		height:12
+		height:16
 	});
 	
 	var rightForwardBtn =  Titanium.UI.createImageView({

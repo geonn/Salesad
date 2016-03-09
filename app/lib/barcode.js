@@ -16,7 +16,7 @@ exports.generateBarcode = function(code){
 	 	str += '<script src="./jquery.min.jsf"></script>';
 	 	str += '<script src="./jquery-barcode.jsf"></script>';
 	 	str += '<script> ';
-	 	str += 'var bCode="'+code.trim()+'"; ';
+	 	str += 'var bCode="'+code+'"; ';
 		str += '$(document).ready(function(){'; 
 		str += '$("#barcode").barcode(bCode, "ean13",{barWidth:2, barHeight:30});';
 		str += 'var contentHeight = $( "div" ).height();';

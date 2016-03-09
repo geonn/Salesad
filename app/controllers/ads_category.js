@@ -103,7 +103,7 @@ function buildListing(){
 	for(var a = 0; ads.length > a; a++){
 		var tbr = Ti.UI.createTableViewRow({
 			height: Ti.UI.SIZE,
-			selectedBackgroundColor: "#FFE1E1"
+			backgroundSelectedColor: "#FFE1E1"
 		});
 		
 		var view_ad = $.UI.create("View",{

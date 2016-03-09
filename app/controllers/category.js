@@ -67,7 +67,7 @@ function generateMyProfileTable(RegArr){
 	   
 	   var regRow = Titanium.UI.createTableViewRow({
 		    touchEnabled: true,
-		    selectedBackgroundColor: "#FFE1E1",
+		    backgroundSelectedColor: "#FFE1E1",
 		    height: 50, 
 		    id: "profile",
 			backgroundColor: "#ffffff",
@@ -123,7 +123,7 @@ function generateCategoryTable(details){
 		    touchEnabled: true,
 		    height: 50,
 		    id: details[i].id,
-		    selectedBackgroundColor: "#FFE1E1",
+		    backgroundSelectedColor: "#FFE1E1",
 			backgroundColor: "#ffffff",
 		  });
 		
@@ -309,7 +309,7 @@ var searchRes = function(res){
 			    touchEnabled: true,
 			    height: 70,
 			    source: entry.m_id,
-			    selectedBackgroundColor: "#FFE1E1",
+			    backgroundSelectedColor: "#FFE1E1",
 				backgroundColor: "#ffffff",
 			   });
 			

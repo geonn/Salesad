@@ -4,13 +4,15 @@ var m_library = Alloy.createCollection('merchants');
 var a_library = Alloy.createCollection('ads'); 
 var i_library = Alloy.createCollection('items');
 
-if(typeof args.m_id != "undefined"){
+if(typeof args.m_id != "undefined"){ 
 	var m_id = args.m_id;
 	var ads = a_library.getAdsByMid(m_id);
+	var merc = m_library.getMerchantsById(m_id);
 	var a_id = ads.a_id || "";
-}else{
+}else{ 
 	var a_id = args.a_id || "";
 	var ads = a_library.getAdsById(a_id);
+	var merc = m_library.getMerchantsById(ads.m_id);
 	var m_id = args.m_id || ads.m_id;
 }
 
@@ -37,18 +39,20 @@ $.adView.loadingBar.top = "100";
 $.ad.backgroundColor = "#FFFFF6";
 getScanMerchant();
 function getScanMerchant(){
-	isScan = Ti.App.Properties.getString('sales'+m_id);
+	console.log("u_id : "+merc.u_id);
+	console.log("m_id : "+m_id);
+	console.log("a_id : "+a_id);
+	isScan = Ti.App.Properties.getString('sales'+merc.u_id);
 	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);	
 }
 
 
 //load merchant & branches list
-
-var merchants = m_library.getMerchantsById(m_id);
+ 
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var model_favorites = Alloy.createCollection('favorites');
 var exist = model_favorites.checkFavoriteExist(m_id);
- 
+ console.log("m_id : "+m_id); 
 if(exist){
 	$.adView.favorites.image = "/images/icon-favorites-fill.png";
 }else{
@@ -167,9 +171,9 @@ var getAdDetails = function(){
 	
 	/**Set Custom title**/
 	if(typeof pageTitle == "undefined"){ 
-		pageTitle =merchants.merchant_name;
+		pageTitle =merc.merchant_name;
 	}else{
-		pageTitle =merchants.merchant_name;
+		pageTitle =merc.merchant_name;
 		
 		Alloy.Globals.tracker.trackEvent({
 			category: "ads",
