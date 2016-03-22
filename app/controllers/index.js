@@ -53,24 +53,20 @@ var bannerListing = function(){
 			if(Ti.Platform.osname == "android"){
 				curActivity = Titanium.Android.currentActivity;
 			}
+			console.log('a');
 			//if (curActivity != null || Ti.Platform.name === 'iPhone OS') { 
 			var activityIndicator = Ti.UI.createActivityIndicator({
 			  color: 'green', 
 			  top:10,
 			  left:10,
+			  style: Ti.UI.ActivityIndicatorStyle.DARK,
 			  height:Ti.UI.SIZE,
 			  width:Ti.UI.SIZE,
 			  zIndex: 11,
 			});
-			
-			if(Ti.Platform.osname == "android"){
-				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
-				//mainView.activityIndicator.top = 0; 
-			}else if (Ti.Platform.name === 'iPhone OS'){
-				activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
-			}
+			console.log('a');
 			activityIndicator.show();
-			
+			console.log('a');
 			bannerAdIamgeLoadEvent(adImage, activityIndicator);
 			var scrollView = Ti.UI.createScrollView({
 				top:"0",
@@ -137,7 +133,8 @@ function buildCateogryList(e){
 		API.loadCategory();
 		return;
 	}
-	
+	var contest = {categoryName: "Contest", id: 0};
+	category_list.push(contest);
 	for (var i=0; i< category_list.length; i++) {
 		var cell = $.indexView.UI.create('View', {classes: ["cell"], id: category_list[i].id});
 		var pad_cell = $.indexView.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
@@ -168,7 +165,6 @@ function buildCateogryList(e){
 		  height:Ti.UI.SIZE,
 		  width:Ti.UI.SIZE
 		});
-		var style = Ti.UI.ActivityIndicatorStyle.DARK;
 		 
 		activityIndicator.show();
 		
@@ -178,7 +174,21 @@ function buildCateogryList(e){
 		pad_cell.add(activityIndicator);
 		cell.add(pad_cell);
 		$.indexView.adListing.add(cell); 
-		if(typeof e != "undefined" && typeof e != "null"){
+		if(!category_list[i].id){
+			var contest = Alloy.createCollection("contest");
+			var contests = contest.getData();
+			var adImage = Ti.UI.createImageView({
+	   			defaultImage: "/images/warm-grey-bg.png",
+				image: contests[0].img_path,
+				width: Ti.UI.FILL,
+				height: Ti.UI.SIZE
+			});
+	   		adIamgeLoadEvent(adImage, activityIndicator);
+	   		cell.add(adImage);
+	   		adImage.addEventListener('click', function(e){
+	   			goAds("", contests[0].id);
+	   		});
+		}else if(typeof e != "undefined" && typeof e != "null"){
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id, e.types);
 		}else{
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id);
@@ -236,14 +246,18 @@ var goAd = function(m_id, isFeed){
 };
 
 /** navigate to Ads **/
-function goAds(cate_id){
+function goAds(cate_id, contest_id){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
-	clickTime = currentTime; 
-	var win = Alloy.createController("ads_category", {cate_id: cate_id}).getView(); 
+	clickTime = currentTime;
+	if(typeof contest_id != "undefined"){
+		var win = Alloy.createController("ads_category", {contest_id: contest_id}).getView();
+	}else{
+		var win = Alloy.createController("ads_category", {cate_id: cate_id}).getView(); 
+	}
 	COMMON.openWindow(win); 
 };
 

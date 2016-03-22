@@ -18,7 +18,7 @@ exports.generateBarcode = function(code){
 	 	str += '<script> ';
 	 	str += 'var bCode="'+code+'"; ';
 		str += '$(document).ready(function(){'; 
-		str += '$("#barcode").barcode(bCode, "ean13",{barWidth:2, barHeight:30});';
+		str += '$("#barcode").barcode(bCode, "ean13",{barWidth:2, barHeight:60});';
 		str += 'var contentHeight = $( "div" ).height();';
 		str += '$("html").css("height", contentHeight + 10);';
 		str += ' $("body").css("height", contentHeight);';	 
@@ -27,7 +27,7 @@ exports.generateBarcode = function(code){
 		str += '</script>'; 
 		str += '</head>';
 		str += '<body style="overflow: hidden;font-size:14px;display: flex;font-family:arial;">';
-		str += '<div id="barcode"style="height:50px;" ></div>';   
+		str += '<div id="barcode"style="height:80px;" ></div>';   
 		str += '</body>';
 		str += '</html>'; 
 		
@@ -35,7 +35,7 @@ exports.generateBarcode = function(code){
 			return Ti.UI.createWebView({ 
 				html: str,
 				width : 250,
-				height: 50,  
+				height: 80,  
 			}) ;  
 		}else{
 			return Ti.UI.createWebView({ 
@@ -43,7 +43,7 @@ exports.generateBarcode = function(code){
 				//enableZoomControls : false,
 				//overScrollMode : Titanium.UI.Android.OVER_SCROLL_IF_CONTENT_SCROLLS,
 				width : 250,
-				height: 50,
+				height: 80,
 			}) ; 
 		}
 	

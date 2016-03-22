@@ -6,13 +6,18 @@ var i_library = Alloy.createCollection('items');
 
 if(typeof args.m_id != "undefined"){ 
 	var m_id = args.m_id;
+	console.log(m_id+"not undefined");
 	var ads = a_library.getAdsByMid(m_id);
 	var merc = m_library.getMerchantsById(m_id);
 	var a_id = ads.a_id || "";
 }else{ 
+	
 	var a_id = args.a_id || "";
 	var ads = a_library.getAdsById(a_id);
+	console.log(ads);
+	console.log("m_id undefined");
 	var merc = m_library.getMerchantsById(ads.m_id);
+	console.log(merc);
 	var m_id = args.m_id || ads.m_id;
 }
 
@@ -24,6 +29,7 @@ var clickTime = null;
 var isAdsAvailable  = false; 
 Alloy.Globals.naviPath.push($.ad);
 var BARCODE = require('barcode');
+
 /** google analytics**/
 var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
@@ -66,6 +72,7 @@ var gBannerImg;
 **********************/
  
 var getAdDetails = function(){
+	console.log('getAdDetails');
     var items = i_library.getItemByAds(ads.a_id); 
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
@@ -141,6 +148,7 @@ var getAdDetails = function(){
 			});
 			itemImageView.add(adImage);
 			//itemImageView.add(BARCODE.generateBarcode("686068606860"));
+			console.log('wtf');
 			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name);
 			
 			cell.add(itemImageView);
@@ -168,6 +176,7 @@ var getAdDetails = function(){
 		});
 		$.adView.ads_details.add(default_image);
 	}
+
 	
 	/**Set Custom title**/
 	if(typeof pageTitle == "undefined"){ 
@@ -221,13 +230,20 @@ function createAdImageEvent(adImage,a_id,position, title) {
 	        return;
 	    };
 	    clickTime = currentTime;
-		var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isScan: isScan}).getView(); 
+	    var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isScan: isScan}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
 			opacity: 1,
 			duration: 300
 		});
+		/*var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isScan: isScan}).getView(); 
+	  	page.open();
+	  	page.animate({
+			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
+			opacity: 1,
+			duration: 300
+		});*/
     });
 }
 
