@@ -51,6 +51,44 @@ exports.definition = {
 				}
 				db.close();
 			},
+			getData: function(){
+				var collection = this;
+				var sql = "select ads.*, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' limit 0, 6";
+				db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr = [];
+				var count = 0;
+                
+                while (res.isValidRow()){
+                	 var row_count = res.fieldCount;
+                	 /*for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }*/
+                	
+                	arr[count] = {
+                		a_id: res.fieldByName('a_id'),
+					    m_id: res.fieldByName('m_id'),
+					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
+					    active_date: res.fieldByName('active_date'),
+					    youtube: res.fieldByName('youtube'),
+					    expired_date: res.fieldByName('expired_date'),
+					    updated: res.fieldByName('updated'),
+					    img_path: res.fieldByName('img_path'),
+					    description: res.fieldByName('description'),
+					    status: res.fieldByName('status'),
+					};
+                	res.next();
+					count++;
+                }
+                res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			getAdsInfo : function(a_id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "'" ;
