@@ -28,8 +28,7 @@ var getMerchantList			= "http://"+API_DOMAIN+"/api/getMerchantList?user="+USER+"
 var getCategoryAds			= "http://"+API_DOMAIN+"/api/getCategoryAds?user="+USER+"&key="+KEY;
 var getAdsList			= "http://"+API_DOMAIN+"/api/getAdsList?user="+USER+"&key="+KEY;
 var getItemList			= "http://"+API_DOMAIN+"/api/getItemList?user="+USER+"&key="+KEY;
-var getVoucherByIdUrl			= "http://"+API_DOMAIN+"/api/getVoucherById?user="+USER+"&key="+KEY;
-var getContestListUrl 	= "http://"+API_DOMAIN+"/api/getContestList?user="+USER+"&key="+KEY;
+
 var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
 //API that call in sequence 
 var APILoadingList = [
@@ -39,7 +38,6 @@ var APILoadingList = [
 	{url: getCategoryAds, model: "categoryAds", checkId: "7"},
 	{url: getAdsList, model: "ads", checkId: "8"},
 	{url: getItemList, model: "items", checkId: "9"},
-	{url: getContestListUrl, model: "contest", checkId: "10"}
 ];
 
 exports.getUserList       = "http://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;
@@ -203,40 +201,6 @@ exports.getMerchantListByCategory = function (ex){
 	 client.open("POST", url);
 	 // Send the request.
 	client.send();
-};
-
-exports.getVoucherById = function(v_id, callback){
-	var url = getVoucherByIdUrl;//+"&last_updated="+last_updated;
-	//console.log(url);
-	//console.log(existing_id);
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	    
-	       var res = JSON.parse(this.responseText); 
-	       console.log(res);
-	       if(res.status == "success"){
-			
-			/**load new set of category from API**/
-	       	var obj = res.data;
-	       	callback(obj);
-	       }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) { 
-	     	console.log('err'+e);
-	     },
-	     timeout : 7000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 if(Ti.Platform.osname == "android"){
-	 	client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
-	 }
- 
-	 client.open("POST", url);
-	 // Send the request.
-	console.log("vid"+v_id);
-	client.send({v_id: v_id}); 
 };
 
 // load featured banner

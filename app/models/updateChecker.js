@@ -11,7 +11,6 @@ ID       type Name
 7 		categoryAds
 8		ads
 9		items
-10		contest
 100++       getCategoryList
 200++		getAdsByCategoryList
 ************************************/

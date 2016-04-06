@@ -62,15 +62,6 @@ exports.openScanner = function(scanType) {
 		if(scanType == "1"){ 
 			var barcode = e.barcode; 
 			var barRes = barcode.split('||');
-			if(typeof barRes[2] != "undefined"){
-				var page = Alloy.createController("voucher",{v_id: barRes[2]}).getView(); 
-			  	page.open();
-			  	page.animate({
-					curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
-					opacity: 1,
-					duration: 300
-				});
-			} 
 			var barStr = 'sales'+barRes[0];
 			console.log('1)'+barStr);
 			Ti.App.Properties.setString(barStr, '1'); 

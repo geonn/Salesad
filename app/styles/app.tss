@@ -22,11 +22,10 @@
 	width:60, 
 },
 ".container": {
-	backgroundColor: '#FFFFF6',
-	fullscreen: true,
-	
+	backgroundColor:"#FFFFF6",
+	layout: 'vertical',
 	width: Ti.UI.FILL,
-	height: Ti.UI.SIZE
+	fullscreen: true,
 },
 "#header": {
 	width: Ti.UI.FILL,
@@ -91,40 +90,3 @@
 	right: 10,
 	bottom: 10,
 }
-
-
-".h1":{
-	font:{
-		fontSize: 36,
-	}
-},
-
-".h2":{
-	font:{
-		fontSize: 30,
-	}
-},
-
-".h3":{
-	font:{
-		fontSize: 24,
-	}
-},
-
-".h4":{
-	font:{
-		fontSize: 18,
-	},
-},
-
-".h5":{
-	font:{
-		fontSize: 14,
-	}
-},
-
-".h6":{
-	font:{
-		fontSize: 12,
-	}
-},

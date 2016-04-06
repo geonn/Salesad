@@ -1,12 +1,11 @@
 var args = arguments[0] || {};
 var cate_id = args.cate_id || "";
-var contest_id = args.contest_id || "";
 var nav = Alloy.Globals.navMenu;
 var clickTime = null;
+var category_library = Alloy.createCollection('category'); 
+var category_info = category_library.getCategoryById(cate_id);
 var ads_counter = 0;
 var loading = false;
-var isAd = (typeof contest_id != "undefined" && contest_id != "")?false:true;
-console.log(typeof contest_id+" "+contest_id);
 Alloy.Globals.naviPath.push($.adsCategoryWin);
 
 var style = Ti.UI.ActivityIndicatorStyle.DARK;
@@ -92,14 +91,9 @@ function createShareOptions(adsName, adsImage){
  * Function
  * */
 function buildListing(){
-	if(isAd){
-		var c_ads_library = Alloy.createCollection('categoryAds'); 
-		var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);
-	}else{
-		var contest = Alloy.createCollection('contest'); 
-		var ads = contest.getData(ads_counter, 3);
-		console.log(ads);
-	}
+	
+	var c_ads_library = Alloy.createCollection('categoryAds'); 
+	var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);
 	if(ads.length <= 0){
 		activityIndicator.hide();
 		$.adsCategory.ads_listing.remove(activityIndicator);
@@ -150,9 +144,7 @@ function buildListing(){
 			  image :ads[a].img_path,
 			  width : Ti.UI.FILL,
 			  m_id: ads[a].m_id,
-			  name: ads[a].name,
 			  a_id: ads[a].a_id,
-			  id: ads[a].id,
 			  height: Ti.UI.SIZE,//ads_height,
 			});
 		}
@@ -181,17 +173,13 @@ function buildListing(){
 			color: "#626366"
 		});
 		
-		if(isAd){
-			var dateDescription =ads[a].active_date+" - "+ads[a].expired_date;
-			if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
-				dateDescription = "Start from now!";
-			}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
-				dateDescription = "Until "+ads[a].expired_date+"!";
-			}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
-				dateDescription = "Start from "+ads[a].active_date+"!";
-			}
-		}else{
-			var dateDescription = ads[a].description;
+		var dateDescription =ads[a].active_date+" - "+ads[a].expired_date;
+		if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
+			dateDescription = "Start from now!";
+		}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
+			dateDescription = "Until "+ads[a].expired_date+"!";
+		}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
+			dateDescription = "Start from "+ads[a].active_date+"!";
 		}
 		
 		var label_date_period = $.UI.create("Label", {
@@ -295,14 +283,11 @@ function buildListing(){
 		view_ad.add(label_merchant);
 		view_ad.add(label_ads_name);
 		view_ad.add(label_date_period);
-		
-		if(isAd){
-			view_ad.add(line2);
-			view_buttonBar.add(btn_reminder);
-			view_buttonBar.add(line3);
-			view_buttonBar.add(btn_share);
-			view_ad.add(view_buttonBar);
-		}
+		view_ad.add(line2);
+		view_buttonBar.add(btn_reminder);
+		view_buttonBar.add(line3);
+		view_buttonBar.add(btn_share);
+		view_ad.add(view_buttonBar);
 		tbr.add(view_ad);
 		$.adsCategory.ads_listing.appendRow(tbr);
 		
@@ -317,12 +302,7 @@ function buildListing(){
 		
 		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
-				if(isAd){
-				 	goAd(e.source.a_id);
-				 }else{
-				  	var win = Alloy.createController("webview", {id: e.source.id, title: e.source.name}).getView(); 
-					COMMON.openWindow(win); 
-				 }
+			 	goAd(e.source.a_id);
 			});
 		}
 	}
@@ -427,35 +407,21 @@ var dummy = $.UI.create("View",{
   	height: Ti.UI.SIZE,
 	backgroundColor: "#F1F1F2",
 });
-
 $.adsCategory.ads_listing.add(dummy);
 buildListing();
-render_header();
 
-function render_header(){
-	if(isAd){
-		var category_library = Alloy.createCollection('category'); 
-		var category_info = category_library.getCategoryById(cate_id);
-		var customeTitle = category_info['categoryName'];
-	}else{
-		var customeTitle = "CONTEST";
-	}
-	
-	
-	var custom = Ti.UI.createLabel({ 
-	    text: customeTitle, 
-	    color: '#CE1D1C',
-	    font: { fontWeight: 'bold'},
-	});
-	
-	if(Ti.Platform.osname == "android"){ 
-		COMMON.removeAllChildren($.pageTitle);
-		$.pageTitle.add(custom);   
-	}else{
-		$.adsCategoryWin.titleControl = custom; 
-	}
+var custom = Ti.UI.createLabel({ 
+    text: category_info['categoryName'], 
+    color: '#CE1D1C',
+    font: { fontWeight: 'bold'},
+});
+
+if(Ti.Platform.osname == "android"){ 
+	COMMON.removeAllChildren($.pageTitle);
+	$.pageTitle.add(custom);   
+}else{
+	$.adsCategoryWin.titleControl = custom; 
 }
-
 
 /*
  * Event Listener 

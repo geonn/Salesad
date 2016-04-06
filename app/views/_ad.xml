@@ -18,7 +18,7 @@
 			</View>
 	        <View width="25%" height="60">
 	        	<ImageView id="favorites" height="Ti.UI.FILL" image="/images/icon-favorites.png" />
-	        </View>	
+	        </View>
 	        <View width="25%" height="60">
 				<ImageView id="share" height="Ti.UI.FILL" image="/images/shares.png" />
 			</View>
