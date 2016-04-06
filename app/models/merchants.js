@@ -61,6 +61,7 @@ exports.definition = {
 					    status: res.fieldByName('status'),
 					};
 				} 
+
 				console.log(arr);
 				res.close();
                 db.close();
