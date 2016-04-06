@@ -162,10 +162,9 @@ var Utils = {
     return image;
   },
   RemoteImage2: function(a){
-  	var style =  Ti.UI.ActivityIndicatorStyle.DARK;
 	var activityIndicator = Ti.UI.createActivityIndicator({
 	  color: 'green',
-	  style:style,
+	  style: Ti.UI.ActivityIndicatorStyle.DARK,
 	  top:10,
 	  left:10,
 	  height:Ti.UI.SIZE,

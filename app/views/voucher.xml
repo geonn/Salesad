@@ -1,0 +1,11 @@
+<Alloy>
+	<Window id="item_Details" title="" fullscreen="true" navBarHidden="true" navTintColor="#CE1D1C" backgroundColor="#ffffff" >
+		<View id="inner_box" class="hfill wfill vert">
+			<ImageView image="/images/salesad_exclusive.png" class="wfill hsize"></ImageView>
+		 	<Label class="h3 wsize hsize padding">BEST BUY</Label>
+		 	<Label class="h1 wsize hsize padding" id="discount"></Label>
+		 	<Label class="h3 wsize hsize padding" id="title"></Label>
+		 	<Label class="h4 wsize hsize padding" id="description"></Label>
+		</View>
+	</Window>
+</Alloy>
