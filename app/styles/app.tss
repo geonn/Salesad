@@ -4,7 +4,7 @@
 	backgroundColor: '#ed1c24',
 },
 'NavigationWindow':{
-	backgroundColor: '#ee1c23',
+	backgroundColor: '#ffffff',
 },
 ".line":{
 	height: '1',
@@ -22,11 +22,10 @@
 	width:60, 
 },
 ".container": {
-	backgroundColor: '#FFFFF6',
-	fullscreen: true,
-	
+	backgroundColor: '#ffffff',
+	layout: 'vertical',
 	width: Ti.UI.FILL,
-	height: Ti.UI.SIZE
+	height: Ti.UI.SIZE,
 },
 "#header": {
 	width: Ti.UI.FILL,
@@ -67,22 +66,6 @@
 
 '.hsize':{
 	height: Ti.UI.SIZE
-}
-
-'.conthsize':{
-	contentHeight: Ti.UI.SIZE
-}
-
-'.conthfill':{
-	contentHeight: Ti.UI.FILL
-}
-
-'.contwsize':{
-	contentWidth: Ti.UI.SIZE
-}
-
-'.contwfill':{
-	contentWidth: Ti.UI.FILL
 }
 
 '.padding':{

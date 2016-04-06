@@ -44,7 +44,7 @@ exports.definition = {
                 //	return;
                 var res = db.execute(sql);
                 var arr = []; 
-               console.log(sql);
+               
                 if (res.isValidRow()){
 					arr = {
 						m_id: res.fieldByName('m_id'),
@@ -61,7 +61,7 @@ exports.definition = {
 					    status: res.fieldByName('status'),
 					};
 				} 
-				console.log(arr);
+				//console.log(arr);
 				res.close();
                 db.close();
                 collection.trigger('sync');
