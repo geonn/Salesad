@@ -53,7 +53,7 @@ var bannerListing = function(){
 			if(Ti.Platform.osname == "android"){
 				curActivity = Titanium.Android.currentActivity;
 			}
-			console.log('a');
+			
 			//if (curActivity != null || Ti.Platform.name === 'iPhone OS') { 
 			var activityIndicator = Ti.UI.createActivityIndicator({
 			  color: 'green', 
@@ -64,9 +64,9 @@ var bannerListing = function(){
 			  width:Ti.UI.SIZE,
 			  zIndex: 11,
 			});
-			console.log('a');
+			
 			activityIndicator.show();
-			console.log('a');
+			
 			bannerAdIamgeLoadEvent(adImage, activityIndicator);
 			var scrollView = Ti.UI.createScrollView({
 				top:"0",
@@ -176,7 +176,7 @@ function buildCateogryList(e){
 		$.indexView.adListing.add(cell); 
 		if(!category_list[i].id){
 			var contest = Alloy.createCollection("contest");
-			var contests = contest.getData();
+			var contests = contest.getData(0,1);
 			var adImage = Ti.UI.createImageView({
 	   			defaultImage: "/images/warm-grey-bg.png",
 				image: contests[0].img_path,
@@ -215,10 +215,9 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 		var latestc = c_ads_library.getPopularAdsByCategory(cate_id, 1);
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
-		 
 	}
 	
-	if(typeof latestc[0] == 'object' && latestc[0].a_id != 0 && typeof latestc[0].a_id != 'object'){
+	if(typeof latestc[0] == 'object'){
 
 		var adImage = Ti.UI.createImageView({
    			defaultImage: "/images/warm-grey-bg.png",
@@ -226,7 +225,7 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE
 		});
-   		createAdImageEvent(adImage, latestc[0].m_id, latestc[0].a_id, cate_id);
+   		createAdImageEvent(adImage, cate_id);
    		adIamgeLoadEvent(adImage, activityIndicator);
    		cell.add(adImage);
    	}
@@ -264,7 +263,7 @@ function goAds(cate_id, contest_id){
 //var goAds = _.debounce(eventAds, 1000, true);
 
 /** Bind GoAds Event to Image **/
-function createAdImageEvent(adImage,m_id, a_id, cate_id) {
+function createAdImageEvent(adImage, cate_id) {
     adImage.addEventListener('click', function(e) {
         goAds(cate_id);
     });
@@ -300,10 +299,6 @@ function adIamgeLoadEvent(adImage, activityIndicator){
 	});
 }
 
-function do_popular(){
-	API.loadMerchantListByType("popular");
-}
-
 function updateCategoryList(e){
 	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
 		var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
@@ -330,7 +325,7 @@ function loadingViewFinish(){
 }
 
 function init(){
-	API.loadMerchantListByType("all");
+	//API.loadMerchantListByType("all");
 	 
 	bannerListing();
 	buildCateogryList();
@@ -458,18 +453,16 @@ $.indexView.home.addEventListener('click', function(e){
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: 2,
 	  options: ['Recent', 'Popular', 'Cancel'],
-	  selectedIndex: 0,
-	  title: 'Sorting By'
+	  selectedIndex: 2,
+	  title: 'View All'
 	});
 	
 	dialog.show();
 	
 	dialog.addEventListener("click", function(e){
-		if(e.index == 0){
-			API.loadCategory();
-		}else if(e.index == 1){
-			do_popular();
-			//API.loadCategory({types: "popular"});
+		if(e.index != 2){
+			var win = Alloy.createController("home_all", {action_type: e.index}).getView();  
+			COMMON.openWindow(win);
 		}
 	});
 });

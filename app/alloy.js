@@ -305,3 +305,68 @@ if(Ti.Platform.name == "iPhone OS"){
 	    }
 	});
 }
+
+function parent(key, e){
+	// if key.value undefined mean it look for key only
+	console.log(typeof key.value);
+	console.log(key.value);
+	if(typeof key.value != "undefined"){
+		
+		if(eval("e."+key.name+"") != key.value){
+			if(eval("e.parent."+key.name+"") != key.value){
+				if(eval("e.parent.parent."+key.name+"") != key.value){
+	    			console.log("box not found");
+	    		}else{
+	    			return e.parent.parent;
+	    		}
+	    	}else{
+	    		return e.parent;
+	    	}
+	    }else{
+	    		return e;
+	    }
+	}else{
+		if(eval("typeof e."+key.name) == "undefined"){
+			if(eval("typeof e.parent."+key.name+"") == "undefined"){
+				if(eval("typeof e.parent.parent."+key.name+"") == "undefined"){
+	    			console.log("box not found");
+	    		}else{
+	    			return eval("e.parent.parent."+key.name);
+	    		}
+	    	}else{
+	    		return eval("e.parent."+key.name);
+	    	}
+	    }else{
+	    		return eval("e."+key.name);
+	    }
+	}
+}
+
+function children(key, e){
+	console.log("find children");
+	console.log(key);
+	console.log(e);
+	
+	if(eval("e."+key.name+"") != key.value){
+		for (var i=0; i < e.children.length; i++) {
+			if(eval("e.children[i]."+key.name+"") == key.value){
+		  		return e.children[i];
+		 	}
+		 	console.log(e.children[i].zIndex);
+			for (var a=0; a < e.children[i].children.length; a++) {
+			  if(eval("e.children[i].children[a]."+key.name+"") == key.value){
+			  	return e.children[i].children[a];
+			  }
+			  console.log(e.children[i].children[a].zIndex);
+			  for (var c=0; c < e.children[i].children[a].children.length; c++) {
+			  	  console.log(e.children[i].children[a].children[c].zIndex);
+				  if(eval("e.children[i].children[a].children[c]."+key.name+"") == key.value){
+				  	return e.children[i].children[a].children[c];
+				  }
+				};
+			};
+		};
+    }else{
+		return e;
+    }
+}

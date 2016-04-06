@@ -4,7 +4,7 @@
 	backgroundColor: '#ed1c24',
 },
 'NavigationWindow':{
-	backgroundColor: '#ffffff',
+	backgroundColor: '#ee1c23',
 },
 ".line":{
 	height: '1',
@@ -22,10 +22,11 @@
 	width:60, 
 },
 ".container": {
-	backgroundColor: '#ffffff',
-	layout: 'vertical',
+	backgroundColor: '#FFFFF6',
+	fullscreen: true,
+	
 	width: Ti.UI.FILL,
-	height: Ti.UI.SIZE,
+	height: Ti.UI.SIZE
 },
 "#header": {
 	width: Ti.UI.FILL,
@@ -66,6 +67,22 @@
 
 '.hsize':{
 	height: Ti.UI.SIZE
+}
+
+'.conthsize':{
+	contentHeight: Ti.UI.SIZE
+}
+
+'.conthfill':{
+	contentHeight: Ti.UI.FILL
+}
+
+'.contwsize':{
+	contentWidth: Ti.UI.SIZE
+}
+
+'.contwfill':{
+	contentWidth: Ti.UI.FILL
 }
 
 '.padding':{
