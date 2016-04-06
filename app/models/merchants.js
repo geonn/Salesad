@@ -61,7 +61,8 @@ exports.definition = {
 					    status: res.fieldByName('status'),
 					};
 				} 
-				//console.log(arr);
+				console.log("getMerchantsById");
+				console.log(arr);
 				res.close();
                 db.close();
                 collection.trigger('sync');

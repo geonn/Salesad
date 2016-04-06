@@ -59,7 +59,7 @@ exports.definition = {
 					res.next();
 					count++;
 				} 
-				 
+				 console.log(arr);
 				res.close();
                 db.close();
                 collection.trigger('sync');
