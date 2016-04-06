@@ -2,7 +2,21 @@ var args = arguments[0] || {};
 var action_type = args.action_type;// "1 - popular":"0 - recent";
 var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
-
+var action_text = "Recent";
+if(action_type == "1"){
+	action_text = "Popular";
+}
+var custom = Ti.UI.createLabel({ 
+	    text: action_text, 
+	    color: '#CE1D1C',
+	    font: { fontWeight: 'bold'},
+});
+	
+if(Ti.Platform.osname == "android"){ 
+		COMMON.removeAllChildren($.pageTitle);
+		$.pageTitle.add(custom);   
+}
+	
 function init(){
 	$.win.add(loading.getView());
 	loading.start();

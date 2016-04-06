@@ -24,9 +24,9 @@
 ".container": {
 	backgroundColor: '#FFFFF6',
 	fullscreen: true,
-	
+	layout: "vertical",
 	width: Ti.UI.FILL,
-	height: Ti.UI.SIZE
+	height: Ti.UI.FILL
 },
 "#header": {
 	width: Ti.UI.FILL,
