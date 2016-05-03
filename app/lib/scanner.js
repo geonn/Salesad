@@ -38,6 +38,7 @@ exports.createScannerButton = function(){
 /*********
  * 1 - scan and assigned resources and finish goods
  * 2 - scan to check the product info
+ * 3 - get contest pharmacy code
  */
 exports.openScanner = function(scanType) {
 	 
@@ -77,6 +78,12 @@ exports.openScanner = function(scanType) {
 	 
 			setTimeout(function(){ Ti.App.Properties.removeProperty(barStr); }, 60000);
 			Ti.App.fireEvent('getScanMerchant');
+		}else if(scanType == "2"){
+			var barcode = e.barcode; 
+			var barRes = barcode.split('?');
+			if(typeof barRes[1] != "undefined"){
+				Ti.App.fireEvent('updatePharmacy_code', {pharmacy_code: barRes[1]});
+			} 
 		}
 		closeScanner();
 	});
