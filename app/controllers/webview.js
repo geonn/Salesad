@@ -1,14 +1,19 @@
 var args = arguments[0] || {};
-var id = args.id;
+var id = 0;
 var loading = Alloy.createController("loading");
-var title = args.title;
+var title = "";
 console.log(id);
 var pharmacy_code = 0;
 //load model
 
 function updatePharmacy_code(e){
-	console.log(e.pharmacy_code);
+	console.log(e.pharmacy_code+" "+e.id);
 	pharmacy_code = e.pharmacy_code;
+	var contest = Alloy.createCollection('contest'); 
+	var ads = contest.getDataById(e.id);
+	console.log(ads.name+" contest name");
+	title = ads.name;
+	id = e.id;
 	init();
 }
 

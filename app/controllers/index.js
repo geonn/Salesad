@@ -186,7 +186,9 @@ function buildCateogryList(e){
 	   		adIamgeLoadEvent(adImage, activityIndicator);
 	   		pad_cell.add(adImage);
 	   		adImage.addEventListener('click', function(e){
-	   			goAds("", contests[0].id);
+	   			//goAds("", contests[0].id);
+	   			var win = Alloy.createController("webview").getView(); 
+				COMMON.openWindow(win); 
 	   		});
 		}else if(typeof e != "undefined" && typeof e != "null"){
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id, e.types);

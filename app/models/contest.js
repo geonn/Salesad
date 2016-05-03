@@ -87,6 +87,42 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getDataById : function(id){
+				var collection = this;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 AND id=? order by `updated`";
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+               // console.log(sql);
+                var res = db.execute(sql, id);
+                var arr; 
+                var count = 0;
+                if (res.isValidRow()){
+					arr = {
+					    id: res.fieldByName('id'),
+					    name: res.fieldByName('name'),
+					    description: res.fieldByName('description'),
+					    merchant_id: res.fieldByName('merchant_id'),
+					    merchant_name: res.fieldByName('merchant_name'),
+					    merchant: res.fieldByName('merchant_name'),
+					    ads_name: res.fieldByName('name'),
+					    status: res.fieldByName('status'),
+					    img_path: res.fieldByName('img_path'),
+					    created: res.fieldByName('created'),
+					    updated: res.fieldByName('updated'),
+					    youtube: "",
+					    m_id: res.fieldByName('merchant_id'),
+					    a_id: 0,
+					};
+				}
+				res.close();
+                db.close();
+                
+                collection.trigger('sync');
+                return arr;
+			},
 			saveArray : function(arr){
 				var collection = this;
 				

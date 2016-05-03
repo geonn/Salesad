@@ -81,8 +81,9 @@ exports.openScanner = function(scanType) {
 		}else if(scanType == "2"){
 			var barcode = e.barcode; 
 			var barRes = barcode.split('?');
+			var param = barRes[1].split("&");
 			if(typeof barRes[1] != "undefined"){
-				Ti.App.fireEvent('updatePharmacy_code', {pharmacy_code: barRes[1]});
+				Ti.App.fireEvent('updatePharmacy_code', {id: param[0], pharmacy_code: param[1]});
 			} 
 		}
 		closeScanner();
