@@ -181,10 +181,10 @@ function buildCateogryList(e){
 	   			defaultImage: "/images/warm-grey-bg.png",
 				image: contests[0].img_path,
 				width: Ti.UI.FILL,
-				height: Ti.UI.SIZE
+				height: Ti.UI.SIZE,
 			});
 	   		adIamgeLoadEvent(adImage, activityIndicator);
-	   		cell.add(adImage);
+	   		pad_cell.add(adImage);
 	   		adImage.addEventListener('click', function(e){
 	   			goAds("", contests[0].id);
 	   		});

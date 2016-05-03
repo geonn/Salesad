@@ -35,3 +35,7 @@ $.btnBack.addEventListener('click', function(){
 }); 
 
 Ti.App.addEventListener("updatePharmacy_code", updatePharmacy_code);
+
+$.win.addEventListener("close", function (e){
+	Ti.App.removeEventListener("updatePharmacy_code", updatePharmacy_code);
+});
