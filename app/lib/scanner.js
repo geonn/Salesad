@@ -89,6 +89,7 @@ exports.openScanner = function(scanType) {
 		closeScanner();
 	});
 	picker.setCancelCallback(function(e) { 
+		Ti.App.fireEvent('scanner_cancel');
 		closeScanner();
 	});
 

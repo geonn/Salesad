@@ -14,33 +14,43 @@ function updatePharmacy_code(e){
 	console.log(ads.name+" contest name");
 	title = ads.name;
 	id = e.id;
-	init();
+	render_webview();
 }
 
-function init(){
-	$.win.add(loading.getView());
+function scanner_cancel(){
+	$.win.close();
+}
+
+function render_webview(){
 	loading.start();
 	$.webview.url = "http://salesad.my/contest/index/"+id+"?pharmacy_code="+pharmacy_code;
 	console.log("http://salesad.my/contest/index/"+id+"?pharmacy_code="+pharmacy_code);
 	$.win.title = title;
 }
 
+function init(){
+	$.win.add(loading.getView());
+	var SCANNER = require("scanner");
+	var window = SCANNER.createScannerWindow();
+	var button = SCANNER.createScannerButton(); 
+	SCANNER.init(window);	
+	setTimeout(function(e){SCANNER.openScanner("2");}, 1000);
+}
+
+init();
+
 $.webview.addEventListener("load", function(e){
 	loading.finish();
 });
-
-var SCANNER = require("scanner");
-var window = SCANNER.createScannerWindow();
-var button = SCANNER.createScannerButton(); 
-SCANNER.init(window);	
-SCANNER.openScanner("2");
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
 }); 
 
 Ti.App.addEventListener("updatePharmacy_code", updatePharmacy_code);
+Ti.App.addEventListener("scanner_cancel", scanner_cancel);
 
 $.win.addEventListener("close", function (e){
 	Ti.App.removeEventListener("updatePharmacy_code", updatePharmacy_code);
+	Ti.App.removeEventListener("scanner_cancel", scanner_cancel);
 });
