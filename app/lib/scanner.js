@@ -90,6 +90,7 @@ exports.openScanner = function(scanType) {
 	});
 	picker.setCancelCallback(function(e) { 
 		Ti.App.fireEvent('scanner_cancel');
+		console.log("scanner cancel");
 		closeScanner();
 	});
 
@@ -110,7 +111,8 @@ exports.openScanner = function(scanType) {
 		picker.startScanning();		// startScanning() has to be called after the window is opened. 
 	});
 	
-	window.addEventListener('android:back', function (e) { 
+	window.addEventListener('android:back', function (e) {
+		Ti.App.fireEvent('scanner_cancel'); 
 		closeScanner(); 
 	});
 

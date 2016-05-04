@@ -18,6 +18,7 @@ function updatePharmacy_code(e){
 }
 
 function scanner_cancel(){
+	console.log("webview close");
 	$.win.close();
 }
 
