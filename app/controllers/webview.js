@@ -3,12 +3,12 @@ var id = 0;
 var loading = Alloy.createController("loading");
 var title = "";
 console.log(id);
+var params = [];
 var pharmacy_code = 0;
 //load model
 
 function updatePharmacy_code(e){
-	console.log(e.pharmacy_code+" "+e.id);
-	pharmacy_code = e.pharmacy_code;
+	params =  e.params.split(",");
 	var contest = Alloy.createCollection('contest'); 
 	var ads = contest.getDataById(e.id);
 	console.log(ads.name+" contest name");
@@ -24,8 +24,12 @@ function scanner_cancel(){
 
 function render_webview(){
 	loading.start();
-	$.webview.url = "http://salesad.my/contest/index/"+id+"?pharmacy_code="+pharmacy_code;
-	console.log("http://salesad.my/contest/index/"+id+"?pharmacy_code="+pharmacy_code);
+	var p = "";
+	for (var i=0; i < params.length; i++) {
+	  p = p + params[i]+"&";
+	};
+	$.webview.url = "http://salesad.my/contest/index/"+id+"?"+p;
+	console.log("http://salesad.my/contest/index/"+id+"?"+p);
 	$.win.title = title;
 }
 
