@@ -80,23 +80,28 @@ var bannerListing = function(){
 			});
 			
 			row = $.indexView.UI.create('View', {classes: ["row"],layout:"", height:Ti.UI.SIZE});
+			
+			
 			//row.add(activityIndicator);
 			row.add(adImage);
 			//row.add(img_caption);
-			row.addEventListener('click', function(e) {
-				console.log("geo im:"+e.source.m_id); 
-			 	goAd(e.source.m_id);
-			});
+			
 			
 			//scrollView.add(row);
 			the_view.push(row); 
 			counter++;			
 	}
-
+	
+			
+	
 	var scrollableView = Ti.UI.createScrollableView({
 			id: "scrollableView",
 			views:the_view,
 			showPagingControl:false,
+		});
+		
+		scrollableView.addEventListener('click', function(e) { 
+			goAd(e.source.m_id);
 		});
 		//scrollableView.setPagingControlColor("transparent");
 		$.indexView.bannerListing.removeAllChildren();
