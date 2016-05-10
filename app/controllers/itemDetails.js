@@ -1,6 +1,6 @@
 var args = arguments[0] || {};
 var a_id = args.a_id;
-var position = args.position;
+var position = args.position || 1;
 var isScan = args.isScan;
 //$.item_Details.title= args.title;
 var BARCODE = require('barcode');
@@ -15,7 +15,7 @@ Alloy.Globals.tracker.trackEvent({
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Item Details"
 }); 
-
+console.log("position : "+position);
 //load model 
 var i_library = Alloy.createCollection('items'); 
 
@@ -26,13 +26,10 @@ var getAdsImages = function(){
 	var counter = 0;
 	var imagepath, adImage, row = '';
 	var my_page = 0;
-	   		
+	var selectedView;   		
 	/***Set ads items***/
-	var the_view = [];
-	console.log("isScan : "+isScan);
-	for (var i=0; i< items.length; i++) { 
-		
-		
+	var the_view = []; 
+	for (var i=0; i< items.length; i++) {  
 		var itemImageView = Ti.UI.createView({
 			height: Ti.UI.SIZE,
 			width: Ti.UI.SIZE
@@ -110,6 +107,9 @@ var getAdsImages = function(){
 		}
 		row.add(itemImageView);
 		row.add(label_caption);
+		if(position == counter){
+			selectedView = row;
+		}
 		scrollView.add(row);
 		the_view.push(scrollView); 
 		
@@ -117,18 +117,21 @@ var getAdsImages = function(){
 	}  
 	
 	$.scrollableView.setViews(the_view); 
-	$.scrollableView.scrollToView(position, true); 
+	setTimeout(function(){
+		$.scrollableView.scrollToView(position);  
+	},250);
 	
-		
+	//$.scrollableView.currentPage = position;
+	/**	
 	$.scrollableView.addEventListener( 'scrollend', function(e) {
 		if(($.scrollableView.currentPage+1) === items.length){
 			if($.scrollableView.currentPage === my_page){
 				$.scrollableView.currentPage=0;
 			}
-		}
-		
+		} 
 		my_page =  $.scrollableView.currentPage;
 	});
+	**/
 };
 
 /*********************

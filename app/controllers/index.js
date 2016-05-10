@@ -55,6 +55,7 @@ var bannerListing = function(){
 			}
 			
 			//if (curActivity != null || Ti.Platform.name === 'iPhone OS') { 
+			
 			var activityIndicator = Ti.UI.createActivityIndicator({
 			  color: 'green', 
 			  top:10,
@@ -64,10 +65,10 @@ var bannerListing = function(){
 			  width:Ti.UI.SIZE,
 			  zIndex: 11,
 			});
-			
+			/**
 			activityIndicator.show();
-			
-			bannerAdIamgeLoadEvent(adImage, activityIndicator);
+			**/
+			bannerAdIamgeLoadEvent(adImage);
 			var scrollView = Ti.UI.createScrollView({
 				top:"0",
 				scrollType: "horizontal",
@@ -79,11 +80,11 @@ var bannerListing = function(){
 			});
 			
 			row = $.indexView.UI.create('View', {classes: ["row"],layout:"", height:Ti.UI.SIZE});
-			row.add(activityIndicator);
+			//row.add(activityIndicator);
 			row.add(adImage);
 			//row.add(img_caption);
-			row.addEventListener('touchend', function(e) {
-				 
+			row.addEventListener('click', function(e) {
+				console.log("geo im:"+e.source.m_id); 
 			 	goAd(e.source.m_id);
 			});
 			
@@ -272,9 +273,9 @@ function createAdImageEvent(adImage, cate_id) {
 }
 
 /** Bind Indicator to Banner Image **/
-function bannerAdIamgeLoadEvent(adImage, activityIndicator){
-	adImage.addEventListener('load', function(e) {
-		activityIndicator.hide();
+function bannerAdIamgeLoadEvent(adImage){
+	//activityIndicator.hide(); 
+	adImage.addEventListener('load', function(e) { 
 		if(!category_sync_counter){
 			if(Ti.Platform.osname != "android"){
 				$.indexView.scrollview.setDisableBounce(false);

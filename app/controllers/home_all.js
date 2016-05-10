@@ -27,11 +27,10 @@ function render_listingBytype(){
 	var model_ads = Alloy.createCollection("ads");
 	var data = model_ads.getData();
 	var counter = 0;
-	console.log(data);
-	
+ 
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
 	var cell_width = Math.floor((pwidth - 30)/2);
-	console.log(cell_width);
+ 
 	for (var i=0; i < data.length; i++) {
 		var cell = $.UI.create("View", {
 			left: 10,
@@ -90,8 +89,7 @@ function navToAd(e){
 function Imageappear(e){
 	var img = e.source;
 	//var ads_name = parent({name: "ads_name"}, e.source);
-	//console.log(ads_name);
-	console.log(e.source.ads_name);
+	//console.log(ads_name); 
 	img.animate({opacity: 1, duration: 500});
 }
 
