@@ -33,6 +33,10 @@ function render_webview(){
 	$.win.title = title;
 }
 
+function windowClose(){
+	$.win.close();
+}
+
 function init(){
 	$.win.add(loading.getView());
 	var SCANNER = require("scanner");

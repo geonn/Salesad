@@ -193,7 +193,7 @@ function buildCateogryList(e){
 	   		pad_cell.add(adImage);
 	   		adImage.addEventListener('click', function(e){
 	   			//goAds("", contests[0].id);
-	   			var win = Alloy.createController("webview").getView(); 
+	   			var win = Alloy.createController("contest_preview").getView(); 
 				COMMON.openWindow(win); 
 	   		});
 		}else if(typeof e != "undefined" && typeof e != "null"){

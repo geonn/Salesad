@@ -1,7 +1,7 @@
 /*********************
 *** SETTING / API ***
 **********************/
-var API_DOMAIN = "salesad.freejini.com.my";
+var API_DOMAIN = "salesad.my";
 var XHR = require("xhr");
 var xhr = new XHR();
 
@@ -31,6 +31,7 @@ var getItemList			= "http://"+API_DOMAIN+"/api/getItemList?user="+USER+"&key="+K
 var getVoucherByIdUrl			= "http://"+API_DOMAIN+"/api/getVoucherById?user="+USER+"&key="+KEY;
 var getContestListUrl 	= "http://"+API_DOMAIN+"/api/getContestList?user="+USER+"&key="+KEY;
 var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
+
 //API that call in sequence 
 var APILoadingList = [
 	{url: getCategoryList, model: "category", checkId: "5"},
@@ -672,4 +673,120 @@ exports.loadAPIBySequence = function (ex, counter){
 	 client.open("POST", url);
 	 // Send the request.
 	client.send();
+};
+
+// call API by post method
+exports.callByPost = function(e, onload, onerror){
+	
+	var deviceToken = Ti.App.Properties.getString('deviceToken');
+	if(deviceToken != ""){  
+		var url = eval(e.url);
+		console.log(url);
+		var _result = contactServerByPost(url, e.params || {});   
+		_result.onload = function(ex) {  
+			onload && onload(this.responseText); 
+		};
+		
+		_result.onerror = function(ex) { 
+			console.log(ex);
+			//API.callByPost(e, onload, onerror); 
+		};
+	}
+};
+
+// call API by post method
+exports.callByPostWithJson = function(e, onload, onerror){
+	
+	var deviceToken = Ti.App.Properties.getString('deviceToken');
+	if(deviceToken != ""){  
+		var url = eval(e.url);
+		console.log(url);
+		var _result = contactServerByPostWithJson(url, e.params || {});   
+		_result.onload = function(ex) { 
+			console.log('success callByPost');
+			console.log(this.responseText);
+			onload && onload(this.responseText); 
+		};
+		
+		_result.onerror = function(ex) {
+			console.log('failure callByPost');
+			console.log(ex);
+			//API.callByPost(e, onload, onerror); 
+		};
+	}
+};
+
+// call API by post method
+exports.callByPostImage = function(e, onload, onerror) { 
+	var client = Ti.Network.createHTTPClient({
+		timeout : 50000
+	});
+	var url = eval(e.url);
+	var _result = contactServerByPostImage(url+"&u_id="+e.params.u_id,e.img);
+	_result.onload = function(e) { 
+		console.log('success');
+		onload && onload(this.responseText); 
+	};
+	
+	_result.onerror = function(ex) { 
+		console.log("onerror");
+		API.callByPostImage(e, onload);
+		//onerror && onerror();
+	};
+};
+
+/*********************
+ * Private function***
+ *********************/
+function contactServerByGet(url) { 
+	var client = Ti.Network.createHTTPClient({
+		timeout : 5000
+	});
+	client.open("GET", url);
+	client.send(); 
+	return client;
+};
+
+function contactServerByPost(url,records) { 
+	var client = Ti.Network.createHTTPClient({
+		timeout : 5000
+	});
+	if(OS_ANDROID){
+	 	client.setRequestHeader('ContentType', 'application/x-www-form-urlencoded'); 
+	 }
+	console.log(records);
+	client.open("POST", url);
+	client.send(records);
+	return client;
+};
+
+function contactServerByPostWithJson(url,records) { 
+	var client = Ti.Network.createHTTPClient({
+		timeout : 5000
+	});
+	
+	client.setRequestHeader('ContentType', 'application/json');
+	//client.setRequestHeader('processData', false);
+	console.log(records);
+	client.open("POST", url);
+	client.send(records);
+	return client;
+};
+
+function contactServerByPostImage(url, img) { 
+ 
+	var client = Ti.Network.createHTTPClient({
+		timeout : 50000
+	});
+	 
+	//client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  
+	client.open("POST", url);
+	client.send({Filedata: img.photo}); 
+	return client;
+	
+};
+
+function onErrorCallback(e) { 
+	// Handle your errors in here
+	COMMON.createAlert("Error", e);
 };

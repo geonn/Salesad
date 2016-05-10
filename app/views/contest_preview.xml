@@ -5,11 +5,19 @@
 	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <View layout="horizontal" id="adHeader" height="50" width="100%" platform="android"  >
+        <RightNavButton>
+	        <View onClick="navToWeb" right="10"  width="30" height="45">
+	         	 <ImageView image="/images/scan.png" width="30" />
+	        </View>
+        </RightNavButton>
+        <View layout="horizontal" height="50" width="100%" platform="android" >
 			<View left="0" width="Ti.UI.SIZE" zIndex="10">
 		         <ImageView onClick="windowClose" left='10' width="25" height="25" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="70%"  />
+	     	<View id="pageTitle" width="70%"/>
+	     	<View width="auto"  >
+		    	<ImageView onClick="navToWeb" right='10'  width='30' image="/images/scan.png" />
+		    </View>
 	 	</View>
 		<WebView id="webview"  class="wfill hfill"></WebView>
 	</Window>
