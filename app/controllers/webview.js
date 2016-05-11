@@ -28,8 +28,7 @@ function render_webview(){
 	for (var i=0; i < params.length; i++) {
 	  p = p + params[i]+"&";
 	};
-	$.webview.url = "http://salesad.my/contest/index/"+id+"?"+p;
-	console.log("http://salesad.my/contest/index/"+id+"?"+p);
+	$.webview.url = "http://salesad.my/contest/index/"+id+"?"+p; 
 	$.win.title = title;
 }
 

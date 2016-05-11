@@ -8,6 +8,7 @@ exports.definition = {
 		    "merchant_name": "TEXT",
 		    "status": "INTEGER",		//1 - publish, 2 - unpublish
 		    "img_path": "TEXT",
+		    "preview_url" : "TEXT",
 		    "expired": "DATETIME",
 		    "created" : "DATETIME",
 		    "updated" : "DATETIME"

@@ -6,12 +6,12 @@ var window;
 
 /***Private function***/
 // Stops the scanner, removes it from the window and closes the latter.
-var closeScanner = function() { 
-	if (picker != null) {
+var closeScanner = function() {  
+	if (picker != null) { 
 		picker.stopScanning();
 		//window.remove(picker);
-	}
-	window.close();
+	} 
+	window.close(); 
 };
 
 
@@ -57,8 +57,7 @@ exports.openScanner = function(scanType) {
 	// Set callback functions for when scanning succeedes and for when the 
 	// scanning is canceled.
 	picker.setSuccessCallback(function(e) { 
-		// 1 - scan and assigned resources and finish goods
-		console.log('scanType : '+scanType);
+		// 1 - scan and assigned resources and finish goods 
 		
 		if(scanType == "1"){ 
 			var barcode = e.barcode; 
@@ -72,8 +71,7 @@ exports.openScanner = function(scanType) {
 					duration: 300
 				});
 			} 
-			var barStr = 'sales'+barRes[0];
-			console.log('1)'+barStr);
+			var barStr = 'sales'+barRes[0]; 
 			Ti.App.Properties.setString(barStr, '1'); 
 	 
 			setTimeout(function(){ Ti.App.Properties.removeProperty(barStr); }, 60000);
@@ -89,9 +87,8 @@ exports.openScanner = function(scanType) {
 		closeScanner();
 	});
 	picker.setCancelCallback(function(e) { 
-		Ti.App.fireEvent('scanner_cancel');
-		console.log("scanner cancel");
 		closeScanner();
+		Ti.App.fireEvent('scanner_cancel'); 
 	});
 
 	window.add(picker);
