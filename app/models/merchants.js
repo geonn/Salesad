@@ -44,7 +44,7 @@ exports.definition = {
                 //	return;
                 var res = db.execute(sql);
                 var arr = []; 
-               console.log(sql);
+                
                 if (res.isValidRow()){
 					arr = {
 						m_id: res.fieldByName('m_id'),
@@ -58,10 +58,52 @@ exports.definition = {
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName('latitude'),
 					    is_featured: res.fieldByName('is_featured'),
+					    parent:  res.fieldByName('parent'),
 					    status: res.fieldByName('status'),
 					};
 				} 
-				console.log(arr);
+				 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			getBranchesByMerchant : function(u_id,showAll){
+				var collection = this;
+				//console.log("model showAll :"+showAll);
+				if(showAll != "false"){
+					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE parent='"+ u_id+ "'" ; 
+				}else{
+					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ u_id+ "'" ; 
+				}
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                //	return;
+               var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+					arr[count] = {
+					   m_id: res.fieldByName('m_id'),
+						u_id: res.fieldByName('u_id'),
+					    merchant_name: res.fieldByName('merchant_name'),
+					    area: res.fieldByName('area'),
+					    mobile: res.fieldByName('mobile'),
+					    state_key: res.fieldByName('state_key'),
+					    state_name: res.fieldByName('state_name'),
+					    img_path: res.fieldByName('img_path'),
+					    longitude: res.fieldByName('longitude'),
+					    latitude: res.fieldByName('latitude'),
+					    is_featured: res.fieldByName('is_featured'),
+					    status: res.fieldByName('status'),
+					};
+					res.next();
+					count++;
+				} 
+				 
 				res.close();
                 db.close();
                 collection.trigger('sync');

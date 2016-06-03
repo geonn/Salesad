@@ -40,10 +40,12 @@ function init(e){
 		    color: "red",
 		    height: 20,
 			width: 20,
-			panel_id: entry.a_id
+			m_id: entry.m_id
 		});
 		detBtn.addEventListener('click', function(ex){ 
-			nav.navigateWithArgs("clinic/clinicDetails", {panel_id:ex.source.panel_id});
+			var win = Alloy.createController("ad", {m_id: e.source.m_id}).getView(); 
+			COMMON.openWindow(win,{animated:true}); 
+			return false;
 		});       
 		var merchantLoc = Map.createAnnotation({
 		    latitude:entry.latitude,
@@ -53,7 +55,7 @@ function init(e){
 		    animate : true, 
 		    subtitle: entry.ads_name,
 		    pincolor: Map.ANNOTATION_RED,
-		    rightView: detBtn,
+		   // rightView: detBtn,
 		    myid: entry.INFO// Custom property to uniquely identify this annotation.
 		});
 		 

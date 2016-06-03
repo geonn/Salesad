@@ -355,6 +355,8 @@ exports.loadMerchantListByType = function (type){
 	         	
 				//Save branches info
 			    var branches = entry.branch;  
+			    console.log("geo here branches");
+			    console.log(branches);
 			    if(branches.length > 0){
 			    	branches.forEach(function(branch) { 
 			    		var br = Alloy.createCollection('branches'); 

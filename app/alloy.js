@@ -25,13 +25,13 @@ if(isNotification === null){
 	Ti.App.Properties.setString('notification', "1");
 }
 
-/***Facebook Library***/
+/***Facebook Library***/ 
 var FACEBOOK = require('facebook');
-//FACEBOOK.appid = "1593197804284763";
-FACEBOOK.permissions = ['public_profile','email','user_friends']; // Permissions your app needs
-FACEBOOK.initialize(1000);
-//FACEBOOK.forceDialogAuth = true;
-
+FACEBOOK.appid = "1593197804284763";
+FACEBOOK.permissions = ['email','public_profile','user_friends']; // Permissions your app needs
+FACEBOOK.initialize(1000); 
+FACEBOOK.forceDialogAuth = true; 
+ 
 var Cloud = require('ti.cloud');
  
 Cloud.Users.login({

@@ -6,13 +6,14 @@ var clickTime = null;
 
 //load model
 var m_library = Alloy.createCollection('merchants'); 
-var b_library = Alloy.createCollection('branches'); 
+//var b_library = Alloy.createCollection('branches'); 
 
 //load merchant & branches list
 var merchants = m_library.getMerchantsById(m_id);
-var branches = b_library.getBranchesByMerchant(merchants.u_id);
- console.log("geo m_id:"+m_id);
-  console.log("geo u_id:"+merchants.u_id);
+var branches = m_library.getBranchesByMerchant(merchants.u_id, true);
+// console.log("geo m_id:"+m_id);
+// console.log("geo u_id:"+merchants.u_id);
+// console.log(branches);
 /*** Display merchant info ***/
 var mer_loc = merchants.state_name;
 if(merchants.area != ""){
@@ -61,8 +62,8 @@ var goToAds = function(e){
 	if (currentTime - clickTime < 2000) {
 		return;
 	};
-	clickTime = currentTime;
-	var win = Alloy.createController("ad", {m_id: m_id, a_id: e.source.a_id}).getView(); 
+	clickTime = currentTime; 
+	var win = Alloy.createController("location", {m_id: e.source.a_id, a_id: "", showAll:"false"}).getView(); 
 	COMMON.openWindow(win,{animated:true}); 
 };
 
@@ -81,7 +82,7 @@ for (var i = 0; i < branches.length; i++) {
 	    touchEnabled: true,
 	    height: 65,
 	    m_id: m_id,
-	    a_id: branches[i].b_id,
+	    a_id: branches[i].m_id,
 	    
 	    backgroundSelectedColor: "#FFE1E1",
 		backgroundGradient: {
@@ -94,9 +95,9 @@ for (var i = 0; i < branches.length; i++) {
 	
 	
 	var branch_name = Titanium.UI.createLabel({
-		text: branches[i].name,
-		m_id: branches[i].m_id,
-		a_id: branches[i].b_id,
+		text: branches[i].merchant_name,
+		m_id: branches[i].u_id,
+		a_id: branches[i].m_id,
 		font:{fontSize:16,fontWeight:'bold'},
 		color: "#848484",
 		width:'auto',
@@ -106,14 +107,14 @@ for (var i = 0; i < branches.length; i++) {
 		height:20
 	});
 	
-	var str_loc = branches[i].state;
+	var str_loc = branches[i].state_name;
 	if(branches[i].area != ""){
-		str_loc = branches[i].area + ", "+branches[i].state;
+		str_loc = branches[i].area + ", "+branches[i].state_name;
 	}
 	var location =  Titanium.UI.createLabel({
 		text:str_loc,
-		m_id: branches[i].m_id,
-		a_id: branches[i].b_id,
+		m_id: branches[i].u_id,
+		a_id: branches[i].m_id,
 		font:{fontSize:12},
 		width:'auto',
 		color: "#848484",
@@ -125,8 +126,8 @@ for (var i = 0; i < branches.length; i++) {
 	
 	var mobile =  Titanium.UI.createLabel({
 		text:branches[i].mobile,
-		m_id: branches[i].m_id,
-		a_id: branches[i].b_id,
+		m_id: branches[i].u_id,
+		a_id: branches[i].m_id,
 		font:{fontSize:12},
 		width:'auto',
 		color: "#848484",
@@ -139,6 +140,8 @@ for (var i = 0; i < branches.length; i++) {
 	var rightForwardBtn =  Titanium.UI.createImageView({
 		image:"/images/btn-forward.png",
 		width:20,
+		m_id: branches[i].u_id,
+		a_id: branches[i].m_id,
 		height:20,
 		right:25,
 		top:20

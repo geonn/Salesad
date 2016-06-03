@@ -6,7 +6,7 @@ var i_library = Alloy.createCollection('items');
 
 if(typeof args.m_id != "undefined"){ 
 	var m_id = args.m_id;
-	console.log(m_id+"not undefined");
+	//console.log(m_id+"not undefined");
 	var ads = a_library.getAdsByMid(m_id);
 	var merc = m_library.getMerchantsById(m_id);
 	var a_id = ads.a_id || "";
@@ -16,7 +16,7 @@ if(typeof args.m_id != "undefined"){
 	var ads = a_library.getAdsById(a_id);
 	 
 	var merc = m_library.getMerchantsById(ads.m_id);
-	console.log(merc);
+	//console.log(merc);
 	var m_id = args.m_id || ads.m_id;
 }
 
@@ -44,9 +44,7 @@ $.adView.loadingBar.top = "100";
 $.ad.backgroundColor = "#FFFFF6";
 getScanMerchant();
 function getScanMerchant(){
-	console.log("u_id : "+merc.u_id);
-	console.log("m_id : "+m_id);
-	console.log("a_id : "+a_id);
+	 
 	isScan = Ti.App.Properties.getString('sales'+merc.u_id);
 	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);	
 }
@@ -57,7 +55,7 @@ function getScanMerchant(){
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var model_favorites = Alloy.createCollection('favorites');
 var exist = model_favorites.checkFavoriteExist(m_id);
- console.log("m_id : "+m_id); 
+ //console.log("m_id : "+m_id); 
 if(exist){
 	$.adView.favorites.image = "/images/icon-favorites-fill.png";
 }else{
@@ -71,7 +69,7 @@ var gBannerImg;
 **********************/
  
 var getAdDetails = function(){
-	console.log('getAdDetails');
+	 
     var items = i_library.getItemByAds(ads.a_id); 
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
@@ -146,8 +144,7 @@ var getAdDetails = function(){
 				height: "auto",
 			});
 			itemImageView.add(adImage);
-			//itemImageView.add(BARCODE.generateBarcode("686068606860"));
-			console.log('wtf');
+			//itemImageView.add(BARCODE.generateBarcode("686068606860")); 
 			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name);
 			
 			cell.add(itemImageView);

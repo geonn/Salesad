@@ -48,8 +48,11 @@ if(Ti.Platform.osname == "android"){
 
 //dynamic addEventListener for adImage
 function createAdImageEvent(adImage, m_id) {
-    adImage.addEventListener('click', function(e) {
-        goAd(m_id);
+    adImage.addEventListener('click', function(e) { 
+    	if(e.source.action != "locationIcon"){
+    		goAd(m_id);
+    	}
+        
     });
 }
 
@@ -84,6 +87,7 @@ var createGridListing = function(res){
 	$.categoryDetailsView.loadingBar.height = "0";
 	$.categoryDetailsView.loadingBar.top = "0";
    	$.categoryDetailsView.category_tv.removeAllChildren();
+   	
    	if(details.length < 1){
    		var noRecord = Ti.UI.createLabel({ 
 		    text: "No record found", 
@@ -100,7 +104,8 @@ var createGridListing = function(res){
 	   		var m_id = details[i].m_id; 
 	   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
 	   		var info = merchantsLibrary.getMerchantsById(m_id); 
-	   		if(info != ""){
+	   		console.log(info);
+	   		if(info != "" && (info.parent == "0" || info.parent == null)){
 	   			 
 		   		var row = $.categoryDetailsView.UI.create("TableViewRow",{
 		   			height: Ti.UI.SIZE,
@@ -108,7 +113,7 @@ var createGridListing = function(res){
 		   			backgroundSelectedColor: "#FFE1E1",
 		   		});
 		   		var view  = $.categoryDetailsView.UI.create("View",{
-		   			layout: "horizontal",
+		   			//layout: "horizontal",
 		   			width: Ti.UI.FILL,
 		   			height: Ti.UI.SIZE,
 		   			top: 10,
@@ -129,6 +134,7 @@ var createGridListing = function(res){
 					defaultImage: "/images/warm-grey-bg.png",
 					height: 50,
 					width: 50,
+					left: 10,
 				});
 				
 				var mn =info.merchant_name;
@@ -136,17 +142,31 @@ var createGridListing = function(res){
 		   		var category_label = $.categoryDetailsView.UI.create("Label",{
 		   			height: Ti.UI.SIZE,
 		   			text: mn,
-		   			left: 10,
+		   			left: 70,
 		   		});
 		   		
+		   		var rightRegBtn =  Titanium.UI.createImageView({
+					image:"/images/sales-ad-loc_small.png",
+					width:20, 
+					m_id:m_id,
+					right:20,
+					action: "locationIcon",
+					top:20
+				});		 
+				rightRegBtn.addEventListener('click', function(e){
+					var win = Alloy.createController("location", {m_id: e.source.m_id, a_id: "", showAll: true}).getView(); 
+					COMMON.openWindow(win,{animated:true}); 
+					return false;
+				});
 		   		view.add(adImage);
 		   		view.add(category_label);
+		   		view.add(rightRegBtn);
 				row.add(view);
-				if(branch == ""){
+				//if(branch == ""){
 			   		createAdImageEvent(row, m_id);
-		   		}else{
-		   			createAdBranchEvent(row, m_id);
-		   		}
+		   		//}else{
+		   		//	createAdBranchEvent(row, m_id);
+		   		//}
 				tableData.push(row);
 			}
 	     }

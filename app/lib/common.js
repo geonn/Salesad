@@ -69,7 +69,7 @@ exports.showLoading = function(){
 		//mainView.activityIndicator.top = 0; 
 	}else if (Ti.Platform.name === 'iPhone OS'){
 		mainView.loadingBar.top = (Ti.Platform.displayCaps.platformHeight / 2) -50; 
-		mainView.activityIndicator.style = Ti.UI.iPhone.ActivityIndicatorStyle.BIG;
+		mainView.activityIndicator.style = Ti.UI.ActivityIndicatorStyle.BIG;
 	}  
 };
 

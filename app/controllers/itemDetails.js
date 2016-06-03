@@ -1,6 +1,6 @@
 var args = arguments[0] || {};
 var a_id = args.a_id;
-var position = args.position || 1;
+var position = args.position || 0;
 var isScan = args.isScan;
 //$.item_Details.title= args.title;
 var BARCODE = require('barcode');
@@ -15,7 +15,7 @@ Alloy.Globals.tracker.trackEvent({
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Item Details"
 }); 
-console.log("position : "+position);
+//console.log("position : "+position);
 //load model 
 var i_library = Alloy.createCollection('items'); 
 
@@ -53,7 +53,7 @@ var getAdsImages = function(){
 					layout: "horizontal",
 					bottom: 0
 				});
-				console.log(items[i]['i_id']+"=="+items[i].barcode);
+				//console.log(items[i]['i_id']+"=="+items[i].barcode);
 				var bcwv = BARCODE.generateBarcode(items[i].barcode);
 				barCodeView.add(bcwv);
 				

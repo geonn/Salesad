@@ -1,6 +1,5 @@
 var args = arguments[0] || {};
-var v_id = args.v_id || 0;
-console.log("v_id"+v_id);
+var v_id = args.v_id || 0; 
 var BARCODE = require('barcode');
 
 /** google analytics**/ 
@@ -15,8 +14,7 @@ Alloy.Globals.tracker.trackScreen({
 });
 
 function render_voucher(e){
-	console.log(e.barcode);
-	console.log("yes");
+	//console.log(e.barcode); 
 	var bcwv = BARCODE.generateBarcode(e.barcode);
 	$.discount.text = e.discount;
 	$.title.text = e.title;

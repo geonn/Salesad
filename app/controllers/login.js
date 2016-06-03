@@ -168,6 +168,11 @@ $.login.addEventListener("close", function(){
 });
 
 /*** Facebook login***/ 
+
+if (Ti.Platform.name === 'android') {
+    $.login.fbProxy = FACEBOOK.createActivityWorker({lifecycleContainer: $.login});
+}
+
 $.fbloginView.add(FACEBOOK.createLoginButton({
 	    top : 10,
 	    readPermissions: ['email','public_profile','user_friends'],
@@ -176,11 +181,12 @@ $.fbloginView.add(FACEBOOK.createLoginButton({
 
 function loginFacebook(e){
 	if (e.success) {
-		$.fbloginView.hide();
+		//$.fbloginView.hide();
 		COMMON.showLoading();
-	    FACEBOOK.requestWithGraphPath('me', {}, 'GET', function(e) {
+	    FACEBOOK.requestWithGraphPath('me', {'fields': 'id, email,name,link'}, 'GET', function(e) {
 		    if (e.success) { 
 		    	var fbRes = JSON.parse(e.result);
+		    	console.log(fbRes);
 		     	API.updateUserFromFB({
 			       	email: fbRes.email,
 			       	fbid: fbRes.id,
@@ -190,13 +196,15 @@ function loginFacebook(e){
 			    }, $);
 			   
 		    }
-		}); 
-		FACEBOOK.removeEventListener('login', loginFacebook); 
+		});  
+
+		//FACEBOOK.removeEventListener('login', loginFacebook); 
 	}  else if (e.error) {
 		       
 	} else if (e.cancelled) {
-		        
-	}  	 
+	 
+	}  	
+	 
 } 
 	 
 FACEBOOK.addEventListener('login', loginFacebook); 

@@ -9,9 +9,9 @@ exports.definition = {
 		    "status": "INTEGER",		//1 - publish, 2 - unpublish
 		    "img_path": "TEXT", 
 		    "preview_url" : "TEXT", 
-		    "expired": "DATETIME",
-		    "created" : "DATETIME",
-		    "updated" : "DATETIME"
+		    "expired": "TEXT",
+		    "created" : "TEXT",
+		    "updated" : "TEXT"
 		},
 		adapter: {
 			type: "sql",

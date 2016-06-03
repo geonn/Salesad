@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 var m_id = args.m_id;
 var a_id = args.a_id; 
-
+var showAll = args.showAll || true;
 var showCurLoc = false;
 var longitude = [];
 var latitude  = [];
@@ -12,8 +12,14 @@ var mer_loc   = [];
 var a_library = Alloy.createCollection('ads'); 
 var m_library = Alloy.createCollection('merchants'); 
 var b_library = Alloy.createCollection('branches'); 
+ //console.log(showAll +"=="+m_id);
+var merc = m_library.getMerchantsById(m_id); 
+ if(showAll == "false"){
+ 	var all_branches = m_library.getBranchesByMerchant(m_id,showAll);
+ }else{
+ 	var all_branches = m_library.getBranchesByMerchant(merc.u_id,showAll);
+ }
 
-var all_branches = b_library.getBranchesByMerchant(m_id);
 
 /** google analytics**/ 
 Alloy.Globals.tracker.trackEvent({
@@ -25,23 +31,22 @@ Alloy.Globals.tracker.trackEvent({
 Alloy.Globals.tracker.trackScreen({
 	screenName: "Merchant Location"
 });
-//load merchant & branches list
-console.log(all_branches);
-for(var k=0; k < all_branches.length; k++){
-	if(all_branches[k].b_id != ""){
-		var branch = b_library.getBranchById(all_branches[k].b_id);
-		l_id[k]      = all_branches[k].b_id; 
-		name[k]      = branch.name;
-		longitude[k] = branch.longitude;
-		latitude[k]  = branch.latitude;
-		/*** Display branch info ***/
-		mer_loc[k] = branch.state;
-		if(branch.area != ""){
-			mer_loc[k] = branch.area + ", "+branch.state;
-		}
-		
+//load merchant & branches list 
+if(all_branches.length > 0){
+	for(var k=0; k < all_branches.length; k++){ 
+			l_id[k]      = all_branches[k].m_id; 
+			name[k]      = all_branches[k].merchant_name;
+			longitude[k] = all_branches[k].longitude;
+			latitude[k]  = all_branches[k].latitude;
+			/*** Display branch info ***/
+			mer_loc[k] = all_branches[k].state_name;
+			if(all_branches[k].area != ""){
+				mer_loc[k] = all_branches[k].area + ", "+all_branches[k].state_name;
+			}
+			 
 	}
 }
+
  //console.log(name);
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.location); 
@@ -103,20 +108,25 @@ if(showCurLoc == true){
 	$.locationView.mapview.addAnnotation(currenLocation);    
 }
  
-
+ 
+var delta = 2;
+if(name.length < 2){
+	delta = 0.01;
+}
 if(a_id != ""){
 	for(var i=0; i < name.length; i++){
-		if((l_id[i] == a_id)){
+		//if((l_id[i] == a_id)){
 			var merchantLoc = Alloy.Globals.Map.createAnnotation({
 			    latitude:latitude[i],
 			    longitude:longitude[i],
 			    title: name[i],
 			    subtitle:mer_loc[i],
 			    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
+			    image: '/images/sales-ad-loc_small.png',
 			    myid:i // Custom property to uniquely identify this annotation.
 			});
 			$.locationView.mapview.region = {latitude: latitude[i], longitude:longitude[i],
-			                    latitudeDelta:0.01, longitudeDelta:0.01};
+			                    latitudeDelta:delta, longitudeDelta:delta};
 			merchantLoc.addEventListener('click', function(evt){
 			       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
 					COMMON.openWindow(win);   
@@ -124,7 +134,7 @@ if(a_id != ""){
 			});
 			//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
 			$.locationView.mapview.addAnnotation(merchantLoc); 
-		}
+		//}
 	}
 	
 }else{
@@ -135,15 +145,15 @@ if(a_id != ""){
 		    title: name[i],
 		    subtitle:mer_loc[i],
 		    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
+		    image: '/images/sales-ad-loc_small.png',
 		    myid:i // Custom property to uniquely identify this annotation.
 		});
 		$.locationView.mapview.region = {latitude: latitude[i], longitude:longitude[i],
-		                    latitudeDelta:2, longitudeDelta:2};
+		                    latitudeDelta:delta, longitudeDelta:delta};
 		merchantLoc.addEventListener('click', function(evt){
-			       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
-					COMMON.openWindow(win);   
-			    
-			});
+			var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
+			COMMON.openWindow(win);   
+		});
 	          
 		$.locationView.mapview.addAnnotation(merchantLoc); 
 	}

@@ -6,7 +6,7 @@ var clickTime = null;
 var ads_counter = 0;
 var loading = false;
 var isAd = (typeof contest_id != "undefined" && contest_id != "")?false:true;
-console.log(typeof contest_id+" "+contest_id);
+//console.log(typeof contest_id+" "+contest_id);
 Alloy.Globals.naviPath.push($.adsCategoryWin);
 
 var style = Ti.UI.ActivityIndicatorStyle.DARK;
@@ -97,8 +97,7 @@ function buildListing(){
 		var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);
 	}else{
 		var contest = Alloy.createCollection('contest'); 
-		var ads = contest.getData(ads_counter, 3);
-		console.log(ads);
+		var ads = contest.getData(ads_counter, 3); 
 	}
 	if(ads.length <= 0){
 		activityIndicator.hide();

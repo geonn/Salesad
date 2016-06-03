@@ -323,7 +323,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
 	     	});
 	     } else {
 	     	//implement fallback sharing..
-	     	console.log("items called");
+	     	 
 	     }
 		 
     });

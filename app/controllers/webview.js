@@ -10,15 +10,13 @@ var pharmacy_code = 0;
 function updatePharmacy_code(e){
 	params =  e.params.split(",");
 	var contest = Alloy.createCollection('contest'); 
-	var ads = contest.getDataById(e.id);
-	console.log(ads.name+" contest name");
+	var ads = contest.getDataById(e.id); 
 	title = ads.name;
 	id = e.id;
 	render_webview();
 }
 
-function scanner_cancel(){
-	console.log("webview close");
+function scanner_cancel(){ 
 	$.win.close();
 }
 
