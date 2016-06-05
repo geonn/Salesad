@@ -139,12 +139,14 @@ exports.definition = {
                 	db.file.setRemoteBackup(false);
                 }
                 db.execute("BEGIN");
+               
                 arr.forEach(function(entry) {
 	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (m_id, u_id, parent,merchant_name,mobile,area,state_key,state_name,longitude,latitude,updated,img_path,is_featured,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					db.execute(sql_query, entry.m_id, entry.u_id, entry.parent,mysql_real_escape_string(entry.merchant_name),entry.mobile,entry.area,entry.state_key,entry.state_name,entry.longitude,entry.latitude,entry.updated,entry.img_path,entry.is_featured,entry.status);
 					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET u_id=?, parent=?,merchant_name=?,mobile=?,area=?,state_key=?,state_name=?,longitude=?,latitude=?,updated=?,img_path=?,is_featured=?,status=? WHERE m_id=?";
 					db.execute(sql_query, entry.u_id, entry.parent,mysql_real_escape_string(entry.merchant_name),entry.mobile,entry.area,entry.state_key,entry.state_name,entry.longitude,entry.latitude,entry.updated,entry.img_path,entry.is_featured,entry.status, entry.m_id);
 				});
+				
 				db.execute("COMMIT");
 	            db.close();
 	            collection.trigger('sync');

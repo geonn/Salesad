@@ -651,8 +651,7 @@ exports.loadAPIBySequence = function (ex, counter){
 	       	/**reset current category**/
 			//library.resetCategory();
 			/**load new set of category from API**/
-	       	var arr = res.data;
-	       //	console.log(res);
+	       	var arr = res.data; 
 	        model.saveArray(arr);
 	       }
 			Ti.App.fireEvent('app:update_loading_text', {text: APILoadingList[counter]['model']+" loading..."});
