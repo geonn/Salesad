@@ -10,6 +10,7 @@ loadingView.start();
 /** add new column for ads **/
 var ads = Alloy.createCollection('ads');
 var model_merchants = Alloy.createCollection('merchants'); 
+ 
 var model_category = Alloy.createCollection('category');
 var items = Alloy.createCollection('items');
 
@@ -141,7 +142,8 @@ function buildCateogryList(e){
 	}
 	var contest = {categoryName: "Contest", id: 0};
 	category_list.push(contest);
-	for (var i=0; i< category_list.length; i++) {
+	setTimeout(function(){
+			for (var i=0; i< category_list.length; i++) {
 		var cell = $.indexView.UI.create('View', {classes: ["cell"], id: category_list[i].id});
 		var pad_cell = $.indexView.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
 		var temp_image = $.indexView.UI.create('ImageView',{
@@ -205,6 +207,8 @@ function buildCateogryList(e){
 		}
 		//syncCategory(category_list[i].id);
 	}
+	},500);
+	
 }
 
 /** Sync Merchant by category from Server **/
@@ -226,7 +230,8 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
 	}
-	 
+	console.log("geogeo");
+	console.log(latestc[0]);
 	if(typeof latestc[0] == 'object'){
 		console.log("latest :"+latestc[0].img_path);
 		var adImage = Ti.UI.createImageView({
