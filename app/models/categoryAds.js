@@ -53,19 +53,18 @@ exports.definition = {
                 return arr;
 			},
 			getLatestAdsByCategory : function(cate_id, start, end, m_id){
-				console.log(cate_id);
 				var limit = limit || false;
 				var collection = this;
 				if(typeof(m_id) != "undefined"){
 					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND ( b.expired_date > date('now') OR b.expired_date = '0000-00-00') order by b.updated desc limit "+start+", "+end+"";
 				}else{
-					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND ( b.expired_date > date('now') OR b.expired_date = '0000-00-00') order by b.updated desc limit "+start+", "+end+"";
+					var sql = "select a.m_id, b.updated, b.* from (SELECT categoryAds.m_id FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND ( b.expired_date > date('now') OR b.expired_date = '0000-00-00') order by b.updated desc limit "+start+", "+end;
 					
                 }
-                console.log(cate_id+" category ID");
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
-                //var sql = "SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";
-                console.log(sql);
+                //sql = "SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";
+                //sql = "SELECT categoryAds.*, merchants.* FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";	
+                //sql = "select * from merchants";
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -76,14 +75,14 @@ exports.definition = {
                 
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	
+                	 /*
                 	 for(var a = 0; a < row_count; a++){
                 		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
                 	 }
-                	 
+                	*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
-					    merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),
@@ -93,6 +92,7 @@ exports.definition = {
 					    img_path: res.fieldByName('img_path'),
 					    a_id: res.fieldByName('a_id')
 					};
+					
 					res.next();
 					count++;
 				} 

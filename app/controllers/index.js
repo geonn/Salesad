@@ -224,9 +224,7 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
 	}
-	
 	if(typeof latestc[0] == 'object'){
-
 		var adImage = Ti.UI.createImageView({
    			defaultImage: "/images/warm-grey-bg.png",
 			image: latestc[0].img_path,
