@@ -10,7 +10,7 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 var _ = require('underscore')._;
-Alloy.Globals.Map = require('ti.map');
+Alloy.Globals.Map =  (OS_IOS || OS_ANDROID) ? require('ti.map') : Ti.Map;
 var GA = require('analytics.google');
 Alloy.Globals.tracker = GA.getTracker("UA-53651461-1");
 Alloy.Globals.naviPath = [];

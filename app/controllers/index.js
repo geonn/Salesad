@@ -197,8 +197,10 @@ function buildCateogryList(e){
 				COMMON.openWindow(win); 
 	   		});
 		}else if(typeof e != "undefined" && typeof e != "null"){
+			console.log("aaa");
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id, e.types);
 		}else{
+			console.log("bbb");
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id);
 		}
 		//syncCategory(category_list[i].id);
@@ -224,9 +226,9 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
 	}
-	
+	 
 	if(typeof latestc[0] == 'object'){
-
+		console.log("latest :"+latestc[0].img_path);
 		var adImage = Ti.UI.createImageView({
    			defaultImage: "/images/warm-grey-bg.png",
 			image: latestc[0].img_path,
