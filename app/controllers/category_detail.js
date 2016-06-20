@@ -4,16 +4,25 @@ var nav = Alloy.Globals.navMenu;
 $.categoryDetailsView.activityIndicator.show();
 Alloy.Globals.naviPath.push($.category_details);
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "category",
-	action: "view",
-	label: "category details",
-	value: 1
-});
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Category Details"
-}); 
-
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "category",
+		action: "view",
+		label: "category details",
+		value: 1
+	});
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Category Details"
+	}); 
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "category",
+		action: "view",
+		label: "category details",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Category Details');
+}
 /** load category from Model**/
 var library = Alloy.createCollection("category"); 
 var details = library.getCategoryById(cate_id);
@@ -104,7 +113,7 @@ var createGridListing = function(res){
 	   		var m_id = details[i].m_id; 
 	   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
 	   		var info = merchantsLibrary.getMerchantsById(m_id); 
-	   		console.log(info);
+	   		//console.log(info);
 	   		if(info != "" && (info.parent == "0" || info.parent == null)){
 	   			 
 		   		var row = $.categoryDetailsView.UI.create("TableViewRow",{
@@ -153,14 +162,15 @@ var createGridListing = function(res){
 					action: "locationIcon",
 					top:20
 				});		 
-				rightRegBtn.addEventListener('click', function(e){
+				
+		   		view.add(adImage);
+		   		view.add(category_label);
+		   		view.add(rightRegBtn);
+		   		view.addEventListener('click', function(e){
 					var win = Alloy.createController("location", {m_id: e.source.m_id, a_id: "", showAll: true}).getView(); 
 					COMMON.openWindow(win,{animated:true}); 
 					return false;
 				});
-		   		view.add(adImage);
-		   		view.add(category_label);
-		   		view.add(rightRegBtn);
 				row.add(view);
 				//if(branch == ""){
 			   		createAdImageEvent(row, m_id);

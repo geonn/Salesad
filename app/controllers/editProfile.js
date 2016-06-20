@@ -1,15 +1,25 @@
 var args = arguments[0] || {};
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "account",
-	action: "view",
-	label: "edit profile",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Edit Profile"
-});
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "account",
+		action: "view",
+		label: "edit profile",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Edit Profile"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "account",
+		action: "view",
+		label: "edit profile",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Edit Profile');
+}
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: "EDIT " +args.title, 

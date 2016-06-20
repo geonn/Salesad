@@ -11,7 +11,7 @@
     <fullscreen>true</fullscreen>
     <navbar-hidden>true</navbar-hidden>
     <analytics>true</analytics>
-    <guid>73e86c38-864d-4c85-9222-6afe06ffe88e</guid>
+    <guid>254f579d-1452-4389-9ddd-9c270646c49f</guid>
     <property name="acs-oauth-secret-development" type="string">Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF</property>
     <!-- Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF-->
     <property name="acs-oauth-key-development" type="string">PkZ7J8IJ29OvM3gZdYiMDm2csn2LbFAc</property>
@@ -112,20 +112,14 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
-        <module platform="android">analytics.google</module>
-        <module platform="iphone">dk.napp.social</module>
-<<<<<<< HEAD
-        <module platform="android" version="2.3.10">ti.map</module>
-=======
->>>>>>> origin/master
-        <module platform="iphone">ti.map</module>
-        <module platform="android" version="2.3.1">ti.map</module>
         <module platform="iphone">analytics.google</module>
-        <module platform="commonjs" version="3.2.8">ti.cloud</module>
-        <module platform="android" version="3.3.8">ti.cloudpush</module>
-        <module platform="android">com.mirasense.scanditsdk</module>
-        <module platform="iphone">com.mirasense.scanditsdk</module>
+        <module platform="iphone">dk.napp.social</module>
+        <module platform="android">ti.cloudpush</module>
+        <module platform="android">ti.ga</module>
+        <module platform="commonjs">ti.cloud</module>
         <module platform="android">facebook</module>
+        <module platform="android">ti.map</module>
+        <module platform="iphone">ti.map</module>
         <module platform="iphone">facebook</module>
     </modules>
     <deployment-targets>
@@ -135,7 +129,7 @@
         <target device="iphone">true</target>
         <target device="mobileweb">true</target>
     </deployment-targets>
-    <sdk-version>6.0.0.v20151218093451</sdk-version>
+    <sdk-version>5.3.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>

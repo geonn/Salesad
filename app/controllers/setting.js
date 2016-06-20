@@ -1,15 +1,25 @@
 var args = arguments[0] || {}; 
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "settings",
-	action: "view",
-	label: "settings",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Settings Main"
-});
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "settings",
+		action: "view",
+		label: "settings",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Settings Main"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "settings",
+		action: "view",
+		label: "settings",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Settings Main');
+}
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: 'SETTINGS', 

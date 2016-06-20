@@ -1,16 +1,25 @@
 var args = arguments[0] || {}; 
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "settings",
-	action: "view",
-	label: "push notification settings",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Push Notification Settings"
-});
-
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "settings",
+		action: "view",
+		label: "push notification settings",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Push Notification Settings"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "settings",
+		action: "view",
+		label: "push notification settings",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Push Notification Settings');
+}
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: 'Push Notification', 

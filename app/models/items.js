@@ -58,7 +58,7 @@ exports.definition = {
                 var count = 0;
                  while (res.isValidRow()){
                  	var caption = res.fieldByName('caption');
-                 	console.log(caption);
+                 	//console.log(caption);
                  	if(caption != "" && caption != null){
                  		caption = caption.replace(/&quot;/g,"'");
                  	} 

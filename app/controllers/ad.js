@@ -5,11 +5,14 @@ var a_library = Alloy.createCollection('ads');
 var i_library = Alloy.createCollection('items');
 
 if(typeof args.m_id != "undefined"){ 
+	
 	var m_id = args.m_id;
+	console.log("aa : "+m_id);
 	//console.log(m_id+"not undefined");
 	var ads = a_library.getAdsByMid(m_id);
 	var merc = m_library.getMerchantsById(m_id);
 	var a_id = ads.a_id || "";
+	pageTitle =merc.merchant_name;
 }else{ 
 	
 	var a_id = args.a_id || "";
@@ -18,7 +21,9 @@ if(typeof args.m_id != "undefined"){
 	var merc = m_library.getMerchantsById(ads.m_id);
 	//console.log(merc);
 	var m_id = args.m_id || ads.m_id;
+	pageTitle =ads.name;
 }
+//console.log(merc);
 
 var from = args.from || "";
 var isFeed = args.isFeed || "";
@@ -48,7 +53,6 @@ function getScanMerchant(){
 	isScan = Ti.App.Properties.getString('sales'+merc.u_id);
 	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);	
 }
-
 
 //load merchant & branches list
  
@@ -176,26 +180,34 @@ var getAdDetails = function(){
 	
 	/**Set Custom title**/
 	if(typeof pageTitle == "undefined"){ 
-		pageTitle =merc.merchant_name;
-	}else{
-		pageTitle =merc.merchant_name;
 		
-		Alloy.Globals.tracker.trackEvent({
-			category: "ads",
-			action: "view",
-			label: "ads_details",
-			value: 1
-		});
-		Alloy.Globals.tracker.trackScreen({
-		    screenName: "Ads Details - " +pageTitle
-		});
-	
+	}else{
+ 
+		if(OS_IOS){
+			Alloy.Globals.tracker.trackEvent({
+				category: "ads",
+				action: "view",
+				label: "ads_details",
+				value: 1
+			});
+			Alloy.Globals.tracker.trackScreen({
+			    screenName: "Ads Details - " +pageTitle
+			});
+		}else{ 
+			Alloy.Globals.tracker.addEvent({
+		        category: "ads",
+				action: "view",
+				label: "ads_details",
+				value: 1
+		    }); 
+			Alloy.Globals.tracker.addScreenView("Ads Details - " +pageTitle);
+		}
 	}
 	
 	//if (pageTitle.length > 24) {// if too long...trim it!}
     //	pageTitle = pageTitle.substring(0, 24) + "...";
     //}
-    pageTitle = pageTitle.replace(/&quot;/g, "'");
+    //pageTitle = pageTitle.replace(/&quot;/g, "'");
 	
 	var custom = Ti.UI.createLabel({ 
 		    text: pageTitle, 

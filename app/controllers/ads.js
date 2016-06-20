@@ -120,15 +120,26 @@ var getAdDetails = function(a_id){
 	if(typeof pageTitle == "undefined"){
 		pageTitle ="";
 	}else{
-		Alloy.Globals.tracker.trackEvent({
-			category: "ads",
-			action: "view",
-			label: "ads_details",
-			value: 1
-		}); 
-		Alloy.Globals.tracker.trackScreen({
-		    screenName: "Ads Details - " +pageTitle
-		});
+		if(OS_IOS){
+			Alloy.Globals.tracker.trackEvent({
+				category: "ads",
+				action: "view",
+				label: "ads_details",
+				value: 1
+			}); 
+			Alloy.Globals.tracker.trackScreen({
+			    screenName: "Ads Details - " +pageTitle
+			});
+		}else{ 
+			Alloy.Globals.tracker.addEvent({
+		        category: "ads",
+				action: "view",
+				label: "ads_details",
+				value: 1
+		    }); 
+			Alloy.Globals.tracker.addScreenView("Ads Details - " +pageTitle);
+		}
+		
 	}
 	
 	if (pageTitle.length > 14) {// if too long...trim it!}

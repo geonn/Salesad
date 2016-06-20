@@ -6,15 +6,25 @@ var isScan = args.isScan;
 var BARCODE = require('barcode');
 var showBarcode = 1;
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "ads",
-	action: "view",
-	label: "ads items",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Item Details"
-}); 
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "ads",
+		action: "view",
+		label: "ads items",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Item Details"
+	}); 
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "ads",
+		action: "view",
+		label: "ads items",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Item Details');
+}
 //console.log("position : "+position);
 //load model 
 var i_library = Alloy.createCollection('items'); 

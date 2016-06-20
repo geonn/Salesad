@@ -215,7 +215,7 @@ exports.getVoucherById = function(v_id, callback){
 	     onload : function(e) {
 	    
 	       var res = JSON.parse(this.responseText); 
-	       console.log(res);
+	       //console.log(res);
 	       if(res.status == "success"){
 			
 			/**load new set of category from API**/
@@ -356,7 +356,7 @@ exports.loadMerchantListByType = function (type){
 				//Save branches info
 			    var branches = entry.branch;  
 			    console.log("geo here branches");
-			    console.log(branches);
+			    //console.log(branches);
 			    if(branches.length > 0){
 			    	branches.forEach(function(branch) { 
 			    		var br = Alloy.createCollection('branches'); 

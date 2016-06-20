@@ -93,9 +93,7 @@ exports.definition = {
                 	db.file.setRemoteBackup(false);
 				}
                 var res = db.execute(sql);  
-                console.log("GEO QUERY ");
-                console.log(entry);
-                console.log("GEO QUERY END");
+                
                 if (res.isValidRow()){
              		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET m_id=?, b_name=?,b_uid=?,b_type=?,b_status=?,b_startdate=?,b_enddate=?,img_path=? WHERE b_id=?";
              		db.execute(sql_query, entry.m_id, entry.b_name,entry.b_uid,entry.b_type,entry.b_status,entry.b_startdate,entry.b_enddate,entry.img_path,entry.b_id);
@@ -110,8 +108,7 @@ exports.definition = {
             	 var collection = this;
             	 db = Ti.Database.open(collection.config.adapter.db_name);
             	 sql_query = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE b_id in ("+ entry+")";
-            	db.execute(sql_query);
-            	console.log(sql_query);
+            	db.execute(sql_query); 
 	            db.close();
 	            collection.trigger('sync');
             },

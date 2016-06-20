@@ -22,15 +22,25 @@ var merc = m_library.getMerchantsById(m_id);
 
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "merchants",
-	action: "view",
-	label: "merchant location",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Merchant Location"
-});
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "merchants",
+		action: "view",
+		label: "merchant location",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Merchant Location"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "merchants",
+		action: "view",
+		label: "merchant location",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Merchant Location');
+}
 //load merchant & branches list 
 if(all_branches.length > 0){
 	for(var k=0; k < all_branches.length; k++){ 

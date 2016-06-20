@@ -1,15 +1,25 @@
 var args = arguments[0] || {};
 $.editPasswordView.username.text = args.username;
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "account",
-	action: "view",
-	label: "edit password",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Edit Password"
-});
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "account",
+		action: "view",
+		label: "edit password",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Edit Password"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "account",
+		action: "view",
+		label: "edit password",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Edit Password');
+}
 var isSubmit        = 0;
 
 var doSave = function(){

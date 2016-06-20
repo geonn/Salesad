@@ -1,15 +1,25 @@
 var args = arguments[0] || {};
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "account",
-	action: "view",
-	label: "forgotpassword",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Member Forgot Password"
-}); 
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "account",
+		action: "view",
+		label: "forgotpassword",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Member Forgot Password"
+	}); 
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "account",
+		action: "view",
+		label: "forgotpassword",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Member Forgot Password');
+}
 
 /** To check if keyboard onfocus or onblur**/
 var isKeyboardFocus = 0;

@@ -1,15 +1,25 @@
 var args = arguments[0] || {};
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "settings",
-	action: "view",
-	label: "privacy and terms",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Privacy and Terms"
-}); 
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "settings",
+		action: "view",
+		label: "privacy and terms",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Privacy and Terms"
+	}); 
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "settings",
+		action: "view",
+		label: "privacy and terms",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Privacy and Terms');
+}
 var clickTime = null;
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 

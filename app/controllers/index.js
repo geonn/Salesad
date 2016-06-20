@@ -10,20 +10,30 @@ loadingView.start();
 /** add new column for ads **/
 var ads = Alloy.createCollection('ads');
 var model_merchants = Alloy.createCollection('merchants'); 
- 
 var model_category = Alloy.createCollection('category');
 var items = Alloy.createCollection('items');
 
 /** Google Analytic**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "main",
-	action: "view",
-	label: "home",
-	value: 1
-});
-Alloy.Globals.tracker.trackScreen({
-    screenName: "Home"
-});
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "main",
+		action: "view",
+		label: "home",
+		value: 1
+	});
+	Alloy.Globals.tracker.trackScreen({
+	    screenName: "Home"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "main",
+		action: "view",
+		label: "home",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Home');
+}
+
 
 //Global Variable Set Navigation Menu
 Alloy.Globals.navMenu = $.navMenu;
@@ -142,8 +152,7 @@ function buildCateogryList(e){
 	}
 	var contest = {categoryName: "Contest", id: 0};
 	category_list.push(contest);
-	setTimeout(function(){
-			for (var i=0; i< category_list.length; i++) {
+	for (var i=0; i< category_list.length; i++) {
 		var cell = $.indexView.UI.create('View', {classes: ["cell"], id: category_list[i].id});
 		var pad_cell = $.indexView.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
 		var temp_image = $.indexView.UI.create('ImageView',{
@@ -199,16 +208,14 @@ function buildCateogryList(e){
 				COMMON.openWindow(win); 
 	   		});
 		}else if(typeof e != "undefined" && typeof e != "null"){
-			console.log("aaa");
+		//	console.log("aaa");
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id, e.types);
 		}else{
-			console.log("bbb");
+		//	console.log("bbb");
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id);
 		}
 		//syncCategory(category_list[i].id);
 	}
-	},500);
-	
 }
 
 /** Sync Merchant by category from Server **/

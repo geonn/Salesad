@@ -69,6 +69,7 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
+				db.execute("PRAGMA automatic_index=off;");
                 var res = db.execute(sql);
                 var arr = [];
                 var count = 0;

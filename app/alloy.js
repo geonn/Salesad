@@ -11,8 +11,16 @@
 // Alloy.Globals.someGlobalFunction = function(){};
 var _ = require('underscore')._;
 Alloy.Globals.Map =  (OS_IOS || OS_ANDROID) ? require('ti.map') : Ti.Map;
-var GA = require('analytics.google');
-Alloy.Globals.tracker = GA.getTracker("UA-53651461-1");
+if(OS_IOS){
+	var GA = require('analytics.google');
+	Alloy.Globals.tracker = GA.getTracker("UA-53651461-1");
+}else{
+	var GA =  require('ti.ga');
+	Alloy.Globals.tracker = GA.createTracker({
+	   trackingId:"UA-53651461-1" 
+	});
+}
+ 
 Alloy.Globals.naviPath = [];
 /** include required file**/
 var API = require('api');

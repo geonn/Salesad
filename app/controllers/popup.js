@@ -15,15 +15,25 @@ $.typeWindowPopUp.addEventListener('touchend', function(e){
 });
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "category",
-	action: "view",
-	label: "category popup",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Category Popup"
-});
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "category",
+		action: "view",
+		label: "category popup",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Category Popup"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "category",
+		action: "view",
+		label: "category popup",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView("Category Popup");
+}
 function navByType(evt){
 	hideWin =0;
 	if(evt.source.source == "nearby"){

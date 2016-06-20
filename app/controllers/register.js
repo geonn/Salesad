@@ -1,15 +1,25 @@
 var args = arguments[0] || {};
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "account",
-	action: "view",
-	label: "register",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Member Register"
-});
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "account",
+		action: "view",
+		label: "register",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Member Register"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "account",
+		action: "view",
+		label: "register",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Member Register');
+}
 /** include required file**/
 var api = require('api');
 

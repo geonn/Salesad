@@ -3,16 +3,25 @@ var v_id = args.v_id || 0;
 var BARCODE = require('barcode');
 
 /** google analytics**/ 
-Alloy.Globals.tracker.trackEvent({
-	category: "ads",
-	action: "view",
-	label: "Voucher",
-	value: 1
-}); 
-Alloy.Globals.tracker.trackScreen({
-	screenName: "Voucher Details"
-});
-
+if(OS_IOS){
+	Alloy.Globals.tracker.trackEvent({
+		category: "ads",
+		action: "view",
+		label: "Voucher",
+		value: 1
+	}); 
+	Alloy.Globals.tracker.trackScreen({
+		screenName: "Voucher Details"
+	});
+}else{ 
+	Alloy.Globals.tracker.addEvent({
+        category: "ads",
+		action: "view",
+		label: "Voucher",
+		value: 1
+    }); 
+	Alloy.Globals.tracker.addScreenView('Voucher Details');
+}
 function render_voucher(e){
 	//console.log(e.barcode); 
 	var bcwv = BARCODE.generateBarcode(e.barcode);
