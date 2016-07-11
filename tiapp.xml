@@ -121,6 +121,8 @@
         <module platform="android">ti.map</module>
         <module platform="iphone">ti.map</module>
         <module platform="iphone">facebook</module>
+        <module platform="android">com.mirasense.scanditsdk</module>
+        <module platform="iphone">com.mirasense.scanditsdk</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>
