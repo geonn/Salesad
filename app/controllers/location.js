@@ -20,7 +20,13 @@ var merc = m_library.getMerchantsById(m_id);
  	var all_branches = m_library.getBranchesByMerchant(merc.u_id,showAll);
  }
 
+<<<<<<< Updated upstream
 
+=======
+var all_branches = b_library.getBranchesByMerchant(m_id);
+var merchants = m_library.getMerchantsById(m_id);
+console.log(merchants);
+>>>>>>> Stashed changes
 /** google analytics**/ 
 if(OS_IOS){
 	Alloy.Globals.tracker.trackEvent({
@@ -117,12 +123,35 @@ if(showCurLoc == true){
 
 	$.locationView.mapview.addAnnotation(currenLocation);    
 }
+<<<<<<< Updated upstream
  
  
 var delta = 2;
 if(name.length < 2){
 	delta = 0.01;
 }
+=======
+
+var merchantLoc = Alloy.Globals.Map.createAnnotation({
+    latitude:merchants.latitude,
+    longitude:merchants.longitude,
+    title: merchants.merchant_name,
+    subtitle:merchants.mobile,
+    image: "/images/sales-ad-loc_small.png",
+    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
+    myid:merchants.m_id // Custom property to uniquely identify this annotation.
+});
+$.locationView.mapview.region =  {latitude: merchants.latitude, longitude:merchants.longitude,
+                    latitudeDelta:0.01, longitudeDelta:0.01};
+merchantLoc.addEventListener('click', function(evt){
+       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
+		COMMON.openWindow(win);   
+    
+});
+//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
+$.locationView.mapview.addAnnotation(merchantLoc); 
+/***
+>>>>>>> Stashed changes
 if(a_id != ""){
 	for(var i=0; i < name.length; i++){
 		//if((l_id[i] == a_id)){
@@ -148,7 +177,8 @@ if(a_id != ""){
 	}
 	
 }else{
-	for(var i=0; i < name.length; i++){ 
+	for(var i=0; i < name.length; i++){
+		 
 		var merchantLoc = Alloy.Globals.Map.createAnnotation({
 		    latitude:latitude[i],
 		    longitude:longitude[i],
@@ -168,6 +198,7 @@ if(a_id != ""){
 		$.locationView.mapview.addAnnotation(merchantLoc); 
 	}
 }
+***/
 $.locationView.mapview.addEventListener('click',report);
 $.location.addEventListener("close", function(){
 	Ti.Geolocation.removeEventListener('location',saveCurLoc);

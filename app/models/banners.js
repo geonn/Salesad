@@ -30,7 +30,7 @@ exports.definition = {
 			getBannerList : function(){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name +" WHERE b_status = 1 AND ( b_enddate > date('now') OR b_enddate = '0000-00-00')" ;
-
+				console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);

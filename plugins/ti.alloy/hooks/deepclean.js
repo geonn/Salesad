@@ -12,10 +12,16 @@ exports.init = function (logger, config, cli, appc) {
 		fs = require('fs'),
 		afs = appc.fs;
 
+<<<<<<< Updated upstream
 	function run(finished) {
 		if(cli.argv['shallow'] === '') {
 			logger.info('Not cleaning the Resources directory');
 			finished();
+=======
+	function run() {
+		if(cli.argv['shallow'] === '') {
+			logger.info('Not cleaning the Resources directory');
+>>>>>>> Stashed changes
 			return;
 		}
 		var appDir = path.join(cli.argv['project-dir'], 'app');
@@ -28,16 +34,26 @@ exports.init = function (logger, config, cli, appc) {
 		var resourcesDir = path.join(cli.argv['project-dir'], 'Resources');
 		if (!afs.exists(resourcesDir)) {
 			logger.debug('Resources directory does not exist.');
+<<<<<<< Updated upstream
 			finished();
+=======
+>>>>>>> Stashed changes
 			return;
 		}
 		rmdir(resourcesDir, fs, path, logger);
 		logger.debug('Resources directory of %s has been emptied', appDir.cyan);
+<<<<<<< Updated upstream
 		finished();
 	}
 
 	cli.addHook('clean.post', function (build, finished) {
 		run(finished);
+=======
+	}
+
+	cli.addHook('clean.post', function (build, finished) {
+		run();
+>>>>>>> Stashed changes
 	});
 
 };
