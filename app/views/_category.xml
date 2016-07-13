@@ -7,7 +7,7 @@
         	<Label top="5" text="Loading" color="#ffffff" />
         </View>
 	</ScrollView>
-	<View id="table1Container" height="100"></View>
+	<View id="table1Container" class="wfill hsize"></View>
 	<View id="headerView" height="50"></View>
 	<View id="table2Container" height="auto"></View>
 </Alloy>
