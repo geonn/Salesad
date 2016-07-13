@@ -53,9 +53,6 @@ exports.definition = {
                 var count = 0;
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	 for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }
 					categoryArr[count] = {
 					    id: res.fieldByName('id'),
 					    categoryName: res.fieldByName('categoryName'),
@@ -118,7 +115,6 @@ exports.definition = {
             	db = Ti.Database.open(collection.config.adapter.db_name);
             	sql_query = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE id in ("+ entry+")";
             	db.execute(sql_query);
-            	console.log(sql_query);
 	            db.close();
 	            collection.trigger('sync');
 			},

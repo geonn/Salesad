@@ -18,11 +18,10 @@ var merc = m_library.getMerchantsById(m_id);
  	var all_branches = m_library.getBranchesByMerchant(m_id,showAll);
  }else{
  	var all_branches = m_library.getBranchesByMerchant(merc.u_id,showAll);
- }
- 
+ } 
 var all_branches = b_library.getBranchesByMerchant(m_id);
 var merchants = m_library.getMerchantsById(m_id);
-console.log(merchants); 
+console.log(merchants);  
 /** google analytics**/ 
 if(OS_IOS){
 	Alloy.Globals.tracker.trackEvent({
@@ -118,11 +117,12 @@ if(showCurLoc == true){
 	});
 
 	$.locationView.mapview.addAnnotation(currenLocation);    
+ 
 } 
 var delta = 2;
 if(name.length < 2){
 	delta = 0.01;
-} 
+}  
 var merchantLoc = Alloy.Globals.Map.createAnnotation({
     latitude:merchants.latitude,
     longitude:merchants.longitude,
@@ -142,7 +142,7 @@ merchantLoc.addEventListener('click', function(evt){
 //console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
 $.locationView.mapview.addAnnotation(merchantLoc); 
 /***
->>>>>>> Stashed changes
+
 if(a_id != ""){
 	for(var i=0; i < name.length; i++){
 		//if((l_id[i] == a_id)){

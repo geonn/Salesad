@@ -1,5 +1,12 @@
 var args = arguments[0] || {};
- 
+
+/**Set mysalesad and my account table**/
+var RegArr = [
+	{ leftImage:'/images/icon_mySalesAd.png', title:"My Favourite", hasChild:true },
+	{ leftImage:'/images/icon_accounts.png', title:"My Profile", hasChild:true },
+	{ leftImage:'/images/icon_mySalesAd.png', title:"My Rewards", hasChild:true },
+];
+
 var clickTime = null;
 Alloy.Globals.naviPath.push($.category);
 /** google analytics**/ 
@@ -65,9 +72,12 @@ function addClickEvent(table){
 }
 
 function generateMyProfileTable(RegArr){
+	console.log("generateMyProfileTable");
+	console.log(RegArr);
 	var regData=[];
 	var RegTable = Titanium.UI.createTableView({
-		width:'100%', 
+		classes: ['wfill','contwfill','conthsize'],
+		height: 150,
 		scrollable: false
 	});
 	var fontSizeClasses = (Ti.App.Properties.getString("fontSizeClasses"))?Ti.App.Properties.getString("fontSizeClasses"):"normal_font";
@@ -171,7 +181,11 @@ function generateCategoryTable(details){
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
     text: 'CONTENTS', 
-    color: '#CE1D1C', 
+    color: '#CE1D1C',
+    font:{
+    	fontSize: 15,
+    	fontWeight: "bold"
+    },
     width: Ti.UI.SIZE 
  });
 
@@ -181,12 +195,6 @@ if(Ti.Platform.osname == "android"){
 }else{
 	$.category.titleControl = custom;
 } 
-
-/**Set mysalesad and my account table**/
-var RegArr = [
-{ leftImage:'/images/icon_mySalesAd.png', title:"My Favourite", hasChild:true },
-{ leftImage:'/images/icon_accounts.png', title:"Profile", hasChild:true } 
-];
 
 generateMyProfileTable(RegArr);
 
@@ -210,9 +218,7 @@ function addRegClickEvent(table){
 		if(e.index == 0){
 			var win = Alloy.createController("favourite").getView(); 
 			COMMON.openWindow(win); 
-		}
-		if(e.index == 1){
-			
+		}else if(e.index == 1){
 			if(user === null){
 				var win = Alloy.createController("login").getView();
 				if(Ti.Platform.osname == "android"){
@@ -223,8 +229,10 @@ function addRegClickEvent(table){
 				var win = Alloy.createController("profile").getView(); 
 				COMMON.openWindow(win); 
 			}
-			
-		} 
+		}else if(e.index == 2){
+			var win = Alloy.createController("reward").getView(); 
+			COMMON.openWindow(win);
+		}
 	});
 }
 $.setting.addEventListener('click', function(e){
@@ -275,10 +283,6 @@ var goAd = function(m_id){
 };
 
 var fontReset = function(){
-	var RegArr = [
-	{ leftImage:'/images/icon_mySalesAd.png', title:"My SalesAd", hasChild:true },
-	{ leftImage:'/images/icon_accounts.png', title:"Accounts", hasChild:true } 
-	];
 	
 	generateMyProfileTable(RegArr);
 	

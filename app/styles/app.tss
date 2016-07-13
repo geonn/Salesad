@@ -3,6 +3,15 @@
 	height: '1',
 	backgroundColor: '#ed1c24',
 },
+'Window': {
+    titleAttributes:  {
+        color: "#CE1D1C",
+        font:{
+			fontWeight: "bold",
+			fontSize: 15
+		}
+   }
+},
 'NavigationWindow':{
 	backgroundColor: '#ee1c23',
 },
@@ -72,7 +81,13 @@
 '.conthsize':{
 	contentHeight: Ti.UI.SIZE
 }
-
+".rounded":{
+	borderRadius: 4
+},
+'.box':{
+	borderColor: "#a5a5a5",
+	backgroundColor: "#ffffff",
+},
 '.conthfill':{
 	contentHeight: Ti.UI.FILL
 }
@@ -92,6 +107,12 @@
 	bottom: 10,
 }
 
+'.small-padding':{
+	top: 5,
+	left: 5,
+	right: 5,
+	bottom: 5,
+}
 
 ".h1":{
 	font:{
@@ -126,5 +147,17 @@
 ".h6":{
 	font:{
 		fontSize: 12,
+	}
+},
+
+".h7":{
+	font:{
+		fontSize: 10,
+	}
+},
+
+".bold":{
+	font: {
+		fontFamily: 'Lato-Regular',
 	}
 },

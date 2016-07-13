@@ -52,7 +52,7 @@ exports.definition = {
 			},
 			getData : function(start, limit){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 order by `updated` DESC limit "+start+", "+limit;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 AND (expired > date('now') OR expired = '0000-00-00') order by `updated` DESC limit "+start+", "+limit;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -75,6 +75,7 @@ exports.definition = {
 					    img_path: res.fieldByName('img_path'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
+					    expired: res.fieldByName('expired'),
 					    youtube: "",
 					    m_id: res.fieldByName('merchant_id'),
 					    a_id: 0,

@@ -194,19 +194,23 @@ function buildCateogryList(e){
 		if(!category_list[i].id){
 			var contest = Alloy.createCollection("contest");
 			var contests = contest.getData(0,1);
-			var adImage = Ti.UI.createImageView({
-	   			defaultImage: "/images/warm-grey-bg.png",
-				image: contests[0].img_path,
-				width: Ti.UI.FILL,
-				height: Ti.UI.SIZE,
-			});
-	   		adIamgeLoadEvent(adImage, activityIndicator);
-	   		pad_cell.add(adImage);
-	   		adImage.addEventListener('click', function(e){
-	   			//goAds("", contests[0].id);
-	   			var win = Alloy.createController("contest_preview").getView(); 
-				COMMON.openWindow(win); 
-	   		});
+			if(contests.length){
+				var adImage = Ti.UI.createImageView({
+		   			defaultImage: "/images/warm-grey-bg.png",
+					image: contests[0].img_path,
+					width: Ti.UI.FILL,
+					height: Ti.UI.SIZE,
+				});
+		   		adIamgeLoadEvent(adImage, activityIndicator);
+		   		pad_cell.add(adImage);
+		   		adImage.addEventListener('click', function(e){
+		   			//goAds("", contests[0].id);
+		   			var win = Alloy.createController("contest_preview").getView(); 
+					COMMON.openWindow(win); 
+		   		});
+	   		}else{
+	   			$.indexView.adListing.remove(cell); 
+	   		}
 		}else if(typeof e != "undefined" && typeof e != "null"){
 		//	console.log("aaa");
 			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id, e.types);
