@@ -425,6 +425,13 @@ $.indexView.nearby.addEventListener("click", function(e){
 	COMMON.openWindow(win);
 });
 
+$.indexView.scanner.addEventListener("click", function(e){
+	var SCANNER = require("scanner");
+	var window = SCANNER.createScannerWindow();
+	SCANNER.init(window); 
+	SCANNER.openScanner("1");
+});
+
 /** EventListerner for notification **/
 Ti.App.addEventListener('app:goToAds', function(e){
 	goAd(e.m_id, e.isFeed);

@@ -7,7 +7,13 @@
         	<Label top="5" text="Loading" color="#ffffff" />
         </View>
 	</ScrollView>
-	<View id="table1Container" class="wfill hsize"></View>
-	<View id="headerView" height="50"></View>
-	<View id="table2Container" height="auto"></View>
+	
+	<ScrollView  class="wfill hfill contwfill conthsize vert"  bottom="50">
+		<View id="table1Container" class="wfill hsize"></View>
+		<View id="headerView" height="50"></View>
+		<View id="table2Container" height="auto"></View>
+	</ScrollView>
+	<View bottom="0" class="wfill" height="50">
+		<Button id="goToAdvertiser" width="60%" class="button" height="40" backgroundColor="#CE1D1C" title="For Advertiser" ></Button>
+	</View> 
 </Alloy>

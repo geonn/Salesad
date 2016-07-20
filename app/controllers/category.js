@@ -71,9 +71,7 @@ function addClickEvent(table){
 	});
 }
 
-function generateMyProfileTable(RegArr){
-	console.log("generateMyProfileTable");
-	console.log(RegArr);
+function generateMyProfileTable(RegArr){ 
 	var regData=[];
 	var RegTable = Titanium.UI.createTableView({
 		classes: ['wfill','contwfill','conthsize'],
@@ -126,6 +124,10 @@ function generateMyProfileTable(RegArr){
 	addRegClickEvent(RegTable);
 	$.categoryView.table1Container.add(RegTable); 
 }
+
+$.categoryView.goToAdvertiser.addEventListener('click',function(){
+	
+});
 
 function generateCategoryTable(details){
 	var data=[];
