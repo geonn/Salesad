@@ -2,9 +2,9 @@ var args = arguments[0] || {};
 
 /**Set mysalesad and my account table**/
 var RegArr = [
-	{ leftImage:'/images/icon_mySalesAd.png', title:"My Favourite", hasChild:true },
-	{ leftImage:'/images/icon_accounts.png', title:"My Profile", hasChild:true },
-	{ leftImage:'/images/icon_mySalesAd.png', title:"My Rewards", hasChild:true },
+	{ leftImage:'/images/icon_my-favourites.png', title:"My Favourite", hasChild:true },
+	{ leftImage:'/images/icon_my-profile.png', title:"My Profile", hasChild:true },
+	{ leftImage:'/images/icon_my-rewards.png.png', title:"My Rewards", hasChild:true },
 ];
 
 var clickTime = null;
