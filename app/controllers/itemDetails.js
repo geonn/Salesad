@@ -44,11 +44,11 @@ var getAdsImages = function(){
 			height: Ti.UI.SIZE,
 			width: Ti.UI.SIZE
 		});
-			
 		adImage = Ti.UI.createImageView({
 			defaultImage: "/images/warm-grey-bg.png",
 			image: items[i].img_path,
 			width:"100%",
+			enableZoomControls: true,
 			height: Ti.UI.SIZE
 		});
 		
@@ -65,6 +65,7 @@ var getAdsImages = function(){
 				});
 				//console.log(items[i]['i_id']+"=="+items[i].barcode);
 				var bcwv = BARCODE.generateBarcode(items[i].barcode);
+				
 				barCodeView.add(bcwv);
 				
 				var saIcon =Ti.UI.createImageView({
@@ -111,11 +112,11 @@ var getAdsImages = function(){
 		});
 	
 		row = $.UI.create('View', {  id:"view"+counter});
-		itemImageView.add(adImage);
-		if(items[i].barcode != ""){
+		itemImageView.add(adImage); 
+	 	if(items[i].barcode != "" && typeof(barCodeView)  != "undefined"){
 			if(isScan == "1"){
 				itemImageView.add(barCodeView);
-			}
+			} 
 		}
 		row.add(itemImageView);
 		row.add(label_caption);

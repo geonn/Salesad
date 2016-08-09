@@ -31,7 +31,7 @@ var isScan = "";
 var nav = Alloy.Globals.navMenu;
 var clickTime = null;
 var isAdsAvailable  = false; 
-Alloy.Globals.naviPath.push($.ad);
+Alloy.Globals.naviPath.push($.win);
 var BARCODE = require('barcode');
 
 /** google analytics**/
@@ -46,7 +46,7 @@ $.adView.loadingBar.height = "120";
 $.adView.loadingBar.top = "100";
 
 //Default ads background
-$.ad.backgroundColor = "#FFFFF6";
+$.win.backgroundColor = "#FFFFF6";
 getScanMerchant();
 function getScanMerchant(){
 	 
@@ -103,13 +103,13 @@ var getAdDetails = function(){
 	
  	
  	if( ads.app_background !== undefined){
-	 	$.ad.backgroundColor = "#"+ads.app_background;
+	 	$.win.backgroundColor = "#"+ads.app_background;
 	 	if(Ti.Platform.osname == "android"){ 
 	 		$.adHeader.backgroundColor = "#fffff6";
 	 	}
 	 	
 	 }else{
-	 	 $.ad.backgroundColor = "#fffff6";
+	 	 $.win.backgroundColor = "#fffff6";
 	 }
 	 
 	$.adView.ads_details.addEventListener('click', function(e) {
@@ -219,7 +219,7 @@ var getAdDetails = function(){
 	if(Ti.Platform.osname == "android"){ 
 		$.pageTitle.add(custom);   
 	}else{
-		$.ad.titleControl = custom;
+		$.win.titleControl = custom;
 	} 
 	
 	$.adView.activityIndicator.hide();
@@ -334,24 +334,29 @@ $.adView.favorites.addEventListener("click", function(){
 	dialog.show();
 });
 
-$.btnBack.addEventListener('click', function(){ 
-	COMMON.closeWindow($.ad); 
-}); 
+function loadAdDetail(){
+	if(e.needRefresh == true){
+		getAdDetails();
+	}
+}
 
-$.ad.addEventListener("close", function(){
+function closeWindow(){
+	COMMON.closeWindow($.win); 
+}
+
+$.btnBack.addEventListener('click', closeWindow); 
+
+$.win.addEventListener("close", function(){
 	Ti.App.fireEvent('removeNav');
+	Ti.App.removeEventListener('app:loadAdsDetails', loadAdDetail);
+	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);
     $.adView.destroy();
 });
 
 /**Call API to update app's data**/
 API.loadAdsDetails(m_id,a_id);
 
-Ti.App.addEventListener('app:loadAdsDetails', function(e){
-	if(e.needRefresh == true){
-		getAdDetails();
-	}
-});	
-
+Ti.App.addEventListener('app:loadAdsDetails', loadAdDetail);
 Ti.App.addEventListener('getScanMerchant', getScanMerchant);	
 
 
@@ -474,10 +479,10 @@ var window = SCANNER.createScannerWindow();
 var button = SCANNER.createScannerButton(); 
 	
 	
-$.scanner.addEventListener('click', function() {
-	SCANNER.openScanner("1");
-});
+$.scanner.addEventListener('click', QrScan);
 	 
 SCANNER.init(window); 
 //$.scanner.add(button);
- 
+function QrScan(){
+	SCANNER.openScanner("1");
+}

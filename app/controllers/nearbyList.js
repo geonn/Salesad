@@ -158,7 +158,7 @@ $.btnBack.addEventListener('click', function(){
 }); 
 
 $.nearbyWin.addEventListener("close", function(){
-	
+	Ti.App.removeEventListener('app:nearbyMerchantResult', nearbyMerchantResult);
     $.destroy();
     /* release function memory */
     nearbyMerchantResult = null;
