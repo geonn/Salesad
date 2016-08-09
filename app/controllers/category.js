@@ -92,8 +92,7 @@ function generateMyProfileTable(RegArr){
 		
 		var leftImage =  Titanium.UI.createImageView({
 			image:RegArr[j].leftImage,
-			width:30,
-			borderRadius: 10, 
+			width:30, 
 			height:30,
 			left:10 
 		});	
@@ -124,11 +123,7 @@ function generateMyProfileTable(RegArr){
 	addRegClickEvent(RegTable);
 	$.categoryView.table1Container.add(RegTable); 
 }
-
-$.categoryView.goToAdvertiser.addEventListener('click',function(){
-	
-});
-
+ 
 function generateCategoryTable(details){
 	var data=[];
 	var TheTable = Titanium.UI.createTableView({
@@ -139,7 +134,7 @@ function generateCategoryTable(details){
 	var fontSizeClasses = (Ti.App.Properties.getString("fontSizeClasses"))?Ti.App.Properties.getString("fontSizeClasses"):"normal_font";
 	
 	for (var i=0; i< details.length; i++) {
-		
+		console.log(details);
 	   var row = Titanium.UI.createTableViewRow({
 		    touchEnabled: true,
 		    height: 50,
@@ -148,6 +143,13 @@ function generateCategoryTable(details){
 			backgroundColor: "#ffffff",
 		  });
 		
+		var leftImage =  Titanium.UI.createImageView({
+			image: "http://salesad.my/public/images/category/"+details[i].id+".png",
+			width:30, 
+			height:30,
+			left:10 
+		});	
+		
 		var category_name = $.categoryView.UI.create('Label', {
 			text: details[i].categoryName , 
 			id: details[i].id,
@@ -155,7 +157,7 @@ function generateCategoryTable(details){
 			color: "#848484",
 			width:'auto',
 			textAlign:'left',
-			left:20,
+			left:70,
 		});
 		
 		var rightForwardBtn = Titanium.UI.createImageView({
@@ -165,6 +167,7 @@ function generateCategoryTable(details){
 			right:20,
 			top:20
 		});		
+		row.add(leftImage);
 		row.add(category_name);
 		row.add(rightForwardBtn);
 		data.push(row);

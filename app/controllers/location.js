@@ -119,9 +119,9 @@ if(showCurLoc == true){
 	$.locationView.mapview.addAnnotation(currenLocation);    
  
 } 
-var delta = 2;
+var delta = "2";
 if(name.length < 2){
-	delta = 0.01;
+	delta = "0.01";
 }  
 var merchantLoc = Alloy.Globals.Map.createAnnotation({
     latitude:merchants.latitude,

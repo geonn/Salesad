@@ -113,7 +113,9 @@ var getAdsImages = function(){
 		row = $.UI.create('View', {  id:"view"+counter});
 		itemImageView.add(adImage);
 		if(items[i].barcode != ""){
-			itemImageView.add(barCodeView);
+			if(isScan == "1"){
+				itemImageView.add(barCodeView);
+			}
 		}
 		row.add(itemImageView);
 		row.add(label_caption);

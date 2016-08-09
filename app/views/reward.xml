@@ -29,7 +29,7 @@
 	 		<View class="line" backgroundColor="#484848"></View>
  			<View class="wfill hfill">
 		 		<ScrollView class="wfill hfill contwfill conthsize vert" id="point">
-		 			<Label class="wsize hsize bold h1" top="20" bottom="15">50 POINT</Label>
+		 			<Label class="wsize hsize bold h1" top="20" bottom="15">50 POINTS</Label>
 		 			<Label class="wsize hsize bold h4">You're off to a great start</Label>
 		 			<Label class="wsize hsize h6">Get a free gift card in a few easy steps.</Label>
 		 			<ScrollView id="horz_reward_list" backgroundColor="#d0d0d0" top="20" class="wfill hsize contwsize conthsize horz" showHorizontalScrollIndicator="true" scrollType="horizontal" disableBounce="true">
