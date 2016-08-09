@@ -13,13 +13,25 @@
    }
 },
 'NavigationWindow':{
-	backgroundColor: '#ee1c23',
+	backgroundColor: '#E4E4E4',
 },
 ".line":{
 	height: '1',
 	backgroundColor: '#ccc',
 	bottom: '0',
 },
+
+'.button': {
+	height: 50,
+	borderColor: "#C6C8CA",
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	backgroundColor: "#ED1C24",
+	borderRadius: 6,
+	color: "#ffffff",
+	width: Titanium.UI.FILL, 
+	top: 10,
+},
+
 ".grey_line":{
 	height: '0.5',
 	width: Ti.UI.FILL,
