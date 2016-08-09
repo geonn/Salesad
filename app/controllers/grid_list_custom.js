@@ -20,6 +20,7 @@ if(Ti.Platform.osname == "android"){
 /* Event Listener */
 $.custom.addEventListener("close", function(){
     $.gridView.destroy();
+    Ti.App.removeEventListener('app:refreshAdsListing' , refreshAdsListing);
     Ti.App.fireEvent("app:refreshAdsListing");
     createGridListing = null;
     createAdImageEvent = null;
@@ -36,7 +37,6 @@ var favoritesLibrary = Alloy.createCollection('favorites');
 var favorites = favoritesLibrary.getFavoritesByUid(u_id);
 
 var refreshAdsListing = function(){
- 
 	favorites = favoritesLibrary.getFavoritesByUid(u_id); 
 	buildSmallBlock(favorites);
 	Ti.App.removeEventListener('app:refreshAdsListing' , refreshAdsListing);

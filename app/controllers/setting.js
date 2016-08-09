@@ -120,6 +120,7 @@ function generateSettingTable(){
 
 /* Event Listener */
 $.setting.addEventListener("close", function(){
+	Ti.App.removeEventListener('app:fontReset', fontReset);
     $.destroy();
 });
 

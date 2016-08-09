@@ -425,22 +425,15 @@ $.indexView.nearby.addEventListener("click", function(e){
 	COMMON.openWindow(win);
 });
 
-/** EventListerner for notification **/
-Ti.App.addEventListener('app:goToAds', function(e){
+function goToAds(e){
 	goAd(e.m_id, e.isFeed);
-});
+}
 
-/** EventListner for after API.loadMerchantListByCategory success
- * function ready to remove.
- * **/
-Ti.App.addEventListener('app:category_detailCreateGridListing', function(e){
-	 
+function category_detailCreateGridListing(e){
 	API.loadAdsByCategory(e.cate_id);
-});
+}
 
-/** EventListner for after API.loadAdsByCategory success**/
-Ti.App.addEventListener('app:adsUpdated', function(e){
-	
+function adsUpdated(e){
 	if(!$.indexView.adListing.children.length){ 
 		buildCateogryList();
 	}
@@ -451,14 +444,9 @@ Ti.App.addEventListener('app:adsUpdated', function(e){
 			loadLatestImageByCategoryId(cell, activityIndicator, e.cate_id);
 		}
     }
-});
+}
 
-Ti.App.addEventListener('app:loadingViewFinish', loadingViewFinish);
-/** EventListner for after API.bannerListing success**/
-Ti.App.addEventListener('app:bannerListing', bannerListing);
-
-/** EventListner for after API.loadCategory success**/
-Ti.App.addEventListener('app:loadCategory', function(e){
+function loadCategory(e){
 	var model_category = Alloy.createCollection('category'); 
 	var category_list = model_category.getCategoryList();
 	
@@ -466,7 +454,25 @@ Ti.App.addEventListener('app:loadCategory', function(e){
 		var API = require('api');
 		API.getMerchantListByCategory(category_list[i].id);
 	}
-});
+}
+
+/** EventListerner for notification **/
+Ti.App.addEventListener('app:goToAds', goToAds);
+
+/** EventListner for after API.loadMerchantListByCategory success
+ * function ready to remove.
+ * **/
+Ti.App.addEventListener('app:category_detailCreateGridListing', category_detailCreateGridListing);
+
+/** EventListner for after API.loadAdsByCategory success**/
+Ti.App.addEventListener('app:adsUpdated', adsUpdated);
+
+Ti.App.addEventListener('app:loadingViewFinish', loadingViewFinish);
+/** EventListner for after API.bannerListing success**/
+Ti.App.addEventListener('app:bannerListing', bannerListing);
+
+/** EventListner for after API.loadCategory success**/
+Ti.App.addEventListener('app:loadCategory', loadCategory);
 
 $.indexView.favorite.addEventListener('click', function(e){
 	var win = Alloy.createController("favourite", {cate_id: 7}).getView();  
@@ -523,5 +529,12 @@ if(Ti.Platform.osname == "android"){
 
 /** close all login eventListener when close the page**/
 $.indexView.root.addEventListener("close", function(){ 
+	Ti.App.removeEventListener('app:triggerAdsType', updateCategoryList);
+	Ti.App.removeEventListener('app:goToAds', goToAds);
+	Ti.App.removeEventListener('app:category_detailCreateGridListing', category_detailCreateGridListing);
+	Ti.App.removeEventListener('app:adsUpdated', adsUpdated);
+	Ti.App.removeEventListener('app:loadingViewFinish', loadingViewFinish);
+	Ti.App.removeEventListener('app:bannerListing', bannerListing);
+	Ti.App.removeEventListener('app:loadCategory', loadCategory);
     $.indexView.destroy();
 });

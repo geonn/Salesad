@@ -153,7 +153,7 @@ $.btnBack.addEventListener('click', function(){
 }); 
 
 $.feedWin.addEventListener("close", function(){
-	
+	Ti.App.removeEventListener('app:feedResult', feedResult);
     $.destroy();
     /* release function memory */
     feedResult = null;
