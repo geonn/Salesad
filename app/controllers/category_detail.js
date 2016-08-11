@@ -25,18 +25,18 @@ if(OS_IOS){
 }
 /** load category from Model**/
 var library = Alloy.createCollection("category"); 
-var details = library.getCategoryById(cate_id);
+var category_data = library.getCategoryById(cate_id);
 
 /**Set Custom title**/
 var custom = Ti.UI.createLabel({ 
-    text: details.categoryName, 
+    text: category_data.categoryName, 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
  });
 
 var category_banner = Ti.UI.createImageView({
 	defaultImage: "/images/warm-grey-bg.png",
-	image: details.image,
+	image: category_data.image,
 	height: "auto",
 	width: Ti.UI.FILL,
 	zIndex: 10,
@@ -60,6 +60,10 @@ function createAdImageEvent(adImage, m_id) {
     adImage.addEventListener('click', function(e) { 
     	if(e.source.action != "locationIcon"){
     		goAd(m_id);
+    	}else{
+    		console.log(m_id+" "+e.source.m_id);
+    		var win = Alloy.createController("location", {m_id: e.source.m_id, a_id: "", showAll: true}).getView(); 
+			COMMON.openWindow(win,{animated:true}); 
     	}
         
     });
@@ -91,7 +95,7 @@ var createGridListing = function(res){
    	var imagepath, adImage, row, cell = '';
  	var last = details.length-1;
    	var tableData = [];
-   	
+   	console.log(details);
    	//hide loading bar
 	$.categoryDetailsView.loadingBar.height = "0";
 	$.categoryDetailsView.loadingBar.top = "0";
@@ -110,11 +114,11 @@ var createGridListing = function(res){
    	}else{
    		 
    		for(var i=0; i< details.length; i++) {
+   			console.log(i+" category merchant");
 	   		var m_id = details[i].m_id; 
-	   		var branch = branchLibrary.getBranchesByMerchant(m_id); 
-	   		var info = merchantsLibrary.getMerchantsById(m_id); 
+	   		
 	   		//console.log(info);
-	   		if(info != "" && (info.parent == "0" || info.parent == null)){
+	   		
 	   			 
 		   		var row = $.categoryDetailsView.UI.create("TableViewRow",{
 		   			height: Ti.UI.SIZE,
@@ -132,12 +136,11 @@ var createGridListing = function(res){
 		   		});
 		   		
 		   		var imagepath='';
-		   		if(!info.img_path){
+		   		if(!details[i].img_path){
 		   			imagepath = "icon_mySalesAd.png";
 		   		}else{
-		   			imagepath = info.img_path;
+		   			imagepath = details[i].img_path;
 		   		}
-				
 				adImage = Ti.UI.createImageView({
 					image: imagepath,
 					defaultImage: "/images/warm-grey-bg.png",
@@ -146,7 +149,7 @@ var createGridListing = function(res){
 					left: 10,
 				});
 				
-				var mn =info.merchant_name;
+				var mn =details[i].merchant_name;
 				mn = mn.replace(/&quot;/g, "'"); 
 		   		var category_label = $.categoryDetailsView.UI.create("Label",{
 		   			height: Ti.UI.SIZE,
@@ -166,20 +169,15 @@ var createGridListing = function(res){
 		   		view.add(adImage);
 		   		view.add(category_label);
 		   		view.add(rightRegBtn);
-		   		view.addEventListener('click', function(e){
+		   		/*view.addEventListener('click', function(e){
 					var win = Alloy.createController("location", {m_id: e.source.m_id, a_id: "", showAll: true}).getView(); 
 					COMMON.openWindow(win,{animated:true}); 
 					return false;
-				});
+				});*/
 				row.add(view);
-				//if(branch == ""){
-			   		createAdImageEvent(row, m_id);
-		   		//}else{
-		   		//	createAdBranchEvent(row, m_id);
-		   		//}
+		   		createAdImageEvent(row, m_id);
 				tableData.push(row);
 			}
-	     }
 	     $.categoryDetailsView.category_tv.setData(tableData);
    	}
 };
@@ -189,20 +187,7 @@ var createGridListing = function(res){
 *******APP RUNNING*******
 *************************/
 API.getMerchantListByCategory(cate_id);
-var refreshListFromServer = function(){
-	var currentTime = new Date().getTime();
-	var lastUpdate  =  Ti.App.Properties.getString('refreshTime'+cate_id);
-	var timeDifferent = currentTime - lastUpdate;
-	/**Will not refresh within 5 min***/
-	if (timeDifferent < 300000) {
-	     return;
-	}
-	 
-	Ti.App.Properties.setString('refreshTime'+cate_id, currentTime);
-	//API.loadMerchantListByCategory(cate_id);
-	
-};
-refreshListFromServer();
+
 createGridListing({cate_id: cate_id});
 
 /*********************

@@ -103,6 +103,8 @@ if (Ti.Geolocation.locationServicesEnabled) {
 		
 // API calls to the map module need to use the Alloy.Globals.Map reference
 if(showCurLoc == true){
+	console.log("showCurLoc");
+	console.log(Ti.App.Properties.getString('latitude')+" "+Ti.App.Properties.getString('longitude'));
 	 var currenLocation = Alloy.Globals.Map.createAnnotation({
 	    latitude:Ti.App.Properties.getString('latitude'),
 	    longitude:Ti.App.Properties.getString('longitude'),
@@ -119,28 +121,31 @@ if(showCurLoc == true){
 	$.locationView.mapview.addAnnotation(currenLocation);    
  
 } 
-var delta = 2;
-if(name.length < 2){
-	delta = 0.01;
-}  
-var merchantLoc = Alloy.Globals.Map.createAnnotation({
-    latitude:merchants.latitude,
-    longitude:merchants.longitude,
-    title: merchants.merchant_name,
-    subtitle:merchants.mobile,
-    image: "/images/sales-ad-loc_small.png",
-    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
-    myid:merchants.m_id // Custom property to uniquely identify this annotation.
-});
-$.locationView.mapview.region =  {latitude: merchants.latitude, longitude:merchants.longitude,
-                    latitudeDelta:0.01, longitudeDelta:0.01};
-merchantLoc.addEventListener('click', function(evt){
-       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
-		COMMON.openWindow(win);   
-    
-});
-//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
-$.locationView.mapview.addAnnotation(merchantLoc); 
+
+if(merchants.longitude == ""){
+	alert("No location found");
+	COMMON.closeWindow($.location);
+}else{
+	var merchantLoc = Alloy.Globals.Map.createAnnotation({
+	    latitude:merchants.latitude,
+	    longitude:merchants.longitude,
+	    title: merchants.merchant_name,
+	    subtitle:merchants.mobile,
+	    image: "/images/sales-ad-loc_small.png",
+	    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
+	    myid:merchants.m_id // Custom property to uniquely identify this annotation.
+	});
+	$.locationView.mapview.region =  {latitude: merchants.latitude, longitude:merchants.longitude,
+	                    latitudeDelta:0.01, longitudeDelta:0.01};
+	merchantLoc.addEventListener('click', function(evt){
+	       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
+			COMMON.openWindow(win);   
+	    
+	});
+	//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
+	$.locationView.mapview.addAnnotation(merchantLoc); 
+
+}
 /***
 
 if(a_id != ""){

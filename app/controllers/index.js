@@ -353,6 +353,20 @@ function init(){
 	 
 	bannerListing();
 	buildCateogryList();
+	cmd = Ti.App.getArguments();
+	console.log(cmd);
+	if ( (typeof(cmd) == 'object') && cmd.hasOwnProperty('url') ) {
+	    if ( cmd.url != Ti.App.pauseURL ) {
+	        Ti.App.launchURL = cmd.url;
+	        var details = cmd.url;
+	        var arg = details.split("://"); 
+	        var ads = arg[1].split("?");
+	       
+	        var win = Alloy.createController( ads[0] , {a_id:  ads[1], from : "home"}).getView(); 
+			COMMON.openWindow(win); 
+	        Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
+	    }
+	}
 }
 /************************
 *******APP RUNNING*******

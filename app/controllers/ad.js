@@ -382,8 +382,10 @@ if (Titanium.Platform.name == 'iPhone OS'){
     	 
 		if(Social.isActivityViewSupported()){ //min iOS6 required
 	    	Social.activityView({
-	        	text: ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4",
-	        	//url: "http://apple.co/1RtrCZ4",
+	        	//text: ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4",
+	        	text: ads.name + ". For more detail : http://salesad.my/main/adsDetails/"+args.a_id,
+	        	//url: "http://apple.co/1RtrCZ4",",
+	        
 	        	image:gBannerImg
 	     	});
 	     } else {

@@ -51,9 +51,10 @@ exports.definition = {
 				}
 				db.close();
 			},
-			getData: function(){
+			getData: function(unlimit){
+				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
-				var sql = "select ads.*, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' limit 0, 6";
+				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' "+sql_limit;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -72,6 +73,8 @@ exports.definition = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
 					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    longitude: res.fieldByName('longitude'),
+					    latitude: res.fieldByName("latitude"),
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),

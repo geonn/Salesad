@@ -107,6 +107,7 @@ exports.definition = {
 				var limit = limit || false;
 				var collection = this;
                 var sql = "select a.m_id, a.merchant_name, a.latitude, a.longitude, a.updated, b.* from (SELECT merchants.latitude, merchants.longitude, merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 order by b.updated desc";
+                
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
                 //var sql = "select * from merchants";
                 db = Ti.Database.open(collection.config.adapter.db_name);
@@ -192,7 +193,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getCategoryAds : function(cate_id){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE cate_id='"+cate_id+"' ";
+                var sql = "SELECT ca.*, m.img_path, m.merchant_name FROM categoryAds as ca LEFT OUTER JOIN merchants as m on m.m_id = ca.m_id WHERE ca.cate_id='"+cate_id+"' AND m.merchant_name is not null AND m.parent is null ";
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -204,7 +205,9 @@ exports.definition = {
                 while (res.isValidRow()){
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
-					    cate_id: res.fieldByName('cate_id')
+					    cate_id: res.fieldByName('cate_id'),
+					    img_path: res.fieldByName('img_path'),
+					    merchant_name: res.fieldByName('merchant_name'),
 					};
 					res.next();
 					count++;

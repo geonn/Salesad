@@ -304,9 +304,9 @@ if(Ti.Platform.name == "iPhone OS"){
 	            Ti.App.launchURL = cmd.url;
 	            var details = cmd.url;
 	            var arg = details.split("://"); 
-	            var ads = arg[1].split("_");
+	            var ads = arg[1].split("?");
 	           
-	            var win = Alloy.createController( ads[0] , {a_id:  ads[1] , from : "home"}).getView(); 
+	            var win = Alloy.createController( ads[0] , {a_id:  ads[1], from : "home"}).getView(); 
 				COMMON.openWindow(win); 
 	            Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
 	        }

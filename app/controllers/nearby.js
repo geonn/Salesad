@@ -1,40 +1,37 @@
 var args = arguments[0] || {};
 var categoryAds = Alloy.createCollection('categoryAds');
-var adsList = categoryAds.getAdsList(); 
+var ad_model = Alloy.createCollection("ads"); 
+var adsList = ad_model.getData(true); 
 var showCurLoc = false;
-
+console.log("adsList1");
+console.log(adsList);
 if(args.id){
 	var clinic = library.getPanelListById(args.id);
 }
  
+var saveCurLoc = function(e) {
+	//console.log(e);
+    if (e.error) {
+       // alert('Location service is disabled. ');
+    } else {
+    	//console.log(e);
+    	showCurLoc = true;
+    	Ti.App.Properties.setString('latitude', e.coords.latitude);
+    	Ti.App.Properties.setString('longitude', e.coords.longitude);
+       //console.log(Ti.App.Properties.getString('latitude') + "=="+ Ti.App.Properties.getString('longitude'));
+    }
+}; 
+ 
 if (Ti.Geolocation.locationServicesEnabled) {
     Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
-    //Ti.Geolocation.addEventListener('location', setCurLoc);
-    Ti.Geolocation.getCurrentPosition(init);
+    Ti.Geolocation.addEventListener('location', saveCurLoc);
 } else {
     alert('Please enable location services');
 } 
 
-function init(e){ 
-	var longitude = e.coords.longitude;
-    var latitude = e.coords.latitude;
-    var altitude = e.coords.altitude;
-    var heading = e.coords.heading;
-    var accuracy = e.coords.accuracy;
-    var speed = e.coords.speed;
-    var timestamp = e.coords.timestamp;
-    var altitudeAccuracy = e.coords.altitudeAccuracy;
-    
-	var Map = require('ti.map');
-	var mapview = Map.createView({
-        mapType: Map.NORMAL_TYPE,
-        region: {latitude: latitude, longitude: longitude, latitudeDelta:0.01, longitudeDelta:0.01},
-        animate:true,
-        regionFit:true,
-        userLocation:true
-    });
-    
-	adsList.forEach(function(entry) {
+if(showCurLoc == true){
+ 	
+ 	adsList.forEach(function(entry) {
 		var detBtn =Ti.UI.createButton({
 		    backgroundImage: '/images/btn-forward.png',
 		    color: "red",
@@ -51,7 +48,7 @@ function init(e){
 		    latitude:entry.latitude,
 		    longitude:entry.longitude, 
 		    title: entry.merchant,
-		    image: '/images/sales-ad-loc_small.png',
+		    //image: '/images/sales-ad-loc_small.png',
 		    animate : true, 
 		    subtitle: entry.ads_name,
 		    pincolor: Map.ANNOTATION_RED,
@@ -59,27 +56,23 @@ function init(e){
 		    myid: entry.INFO// Custom property to uniquely identify this annotation.
 		});
 		 
-		//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
-		mapview.addAnnotation(merchantLoc); 
+		//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]); 
+		console.log("entry latitude"+entry.latitude);  
+		if(entry.latitude != ""){   
+			console.log(entry.latitude+" added");
+			$.locationView.mapview.addAnnotation(merchantLoc); 
+		}
 	});
-	
-	//mapview.addAnnotation(mountainView);
-	$.locationView.mapview.add(mapview);
-	// Handle click events on any annotations on this map.
-	mapview.addEventListener('click', function(evt) {
-		 
-	    //Ti.API.info("Annotation " + evt.title + " clicked, id: " + evt.annotation.myid);
-	});
-
-}
-
-function setCurLoc(e){
-    var region = {
-        latitude: e.coords.latitude, longitude: e.coords.longitude,
-        latitudeDelta:0.01, longitudeDelta:0.01
-    };
-    mapview.setLocation(region);
+	var lat = i.App.Properties.getString('latitude');
+	var lot = Ti.App.Properties.getString('longitude');
+	$.locationView.mapview.region =  {latitude: lat, longitude:lot,
+	                    latitudeDelta:0.01, longitudeDelta:0.01};
 } 
+
+$.location.addEventListener("close", function(){
+	Ti.Geolocation.removeEventListener('location',saveCurLoc);
+    $.destroy();
+});
 
  //console.log(name);
 $.btnBack.addEventListener('click', function(){ 
