@@ -112,9 +112,11 @@ var getAdsImages = function(){
 		});
 	
 		row = $.UI.create('View', {  id:"view"+counter});
-		itemImageView.add(adImage);
-		if(items[i].barcode != "" && typeof(barCodeView)  != "undefined"){
-			itemImageView.add(barCodeView);
+		itemImageView.add(adImage); 
+	 	if(items[i].barcode != "" && typeof(barCodeView)  != "undefined"){
+			if(isScan == "1"){
+				itemImageView.add(barCodeView);
+			} 
 		}
 		row.add(itemImageView);
 		row.add(label_caption);

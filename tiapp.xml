@@ -131,7 +131,8 @@
         <target device="iphone">true</target>
         <target device="mobileweb">true</target>
     </deployment-targets>
-    <sdk-version>6.0.0.v20151218093451</sdk-version>
+
+    <sdk-version>5.2.2.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>

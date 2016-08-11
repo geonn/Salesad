@@ -1,35 +1,28 @@
 <Alloy>
-	<Window title="LOGIN" class="container" backButtonTitle="" id="login" barColor="#CE1D1C" navTintColor="#FFFFFF">
+	<Window title="Advertiser Login" class="container" backButtonTitle="" id="login" navTintColor="#CE1D1C">
 		<LeftNavButton>
 	        <View left="0">
 	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <View height="95%">
+        <View class="hfill wfill" backgroundColor="#CC2228">
 			<View id="main" layout="vertical" height="auto">
-				<View layout="vertical" id="loginScrollView" height="260" width="100%">
-					<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width="150" />
+				<View layout="vertical" id="loginScrollView" height="100" width="100%">
+					<ImageView  width='Ti.UI.FILL' image="/images/salesad_logo_invert.png" id="loginLogo" top="30" bottom="30" height="60" />
 					<TextField backgroundColor="white" borderRadius="3" id="username" hintText="Enter Username" />
-					<TextField backgroundColor="white" borderRadius="3" id="password" hintText="Enter Password" />
+					<TextField backgroundColor="white" borderRadius="3" id="password" hintText="Enter Password" top="10" />
 				</View>
 				<Label class="ftText" onTouchend="doForgotPassword" left="15">Forgot your password?</Label>
 				<Button id="loginAccountButton" borderRadius="3" backgroundColor="#ffffff" onTouchend="doLogin" title="Sign In"  width="90%" top="20" height="40" color="#807C7C" />
-	           	 
-	           	<View height="60" id="fbloginView" width="90%" />
-	            <Button id="createAccountButton" onTouchend="goCreateAccount" title="Create an account" width="90%"  height="50" color="#ffffff" />
-	           
+	           	   
 			</View>
 			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
 		        <ActivityIndicator  id="activityIndicator" />
 		    	<Label top="5" text="Loading" color="#ffffff" />
 		    </View>
 		</View>
-		<View id="footer" height="auto">
-				 <Label class="ftText" left="5">SaleAd</Label>
-				 <Label class="ftText" left="45">|</Label>
-				 <Label class="ftText" left="50" id="showTnC">Privacy & Terms</Label>
-				 <Label class="ftText" left="130">|</Label>
-				 <Label class="ftText" left="135" id="help">Help</Label>
+	 	<View id="footer" height="auto">
+				 <Label class="ftText" left="5">SaleAd</Label> 
 				 <Label class="ftText" right="5" textAlign="right" >&#169; freejini</Label>
 			</View>
 	</Window>

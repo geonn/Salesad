@@ -146,6 +146,7 @@ if(merchants.longitude == ""){
 	$.locationView.mapview.addAnnotation(merchantLoc); 
 
 }
+
 /***
 
 if(a_id != ""){

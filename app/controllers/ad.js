@@ -440,10 +440,18 @@ if (Titanium.Platform.name == 'iPhone OS'){
 } 
 
 $.adView.home.addEventListener("click", function(e){  
+	console.log("geo geo");
 	var naviPath = Alloy.Globals.naviPath;  
-	for (var i=0; i< naviPath.length; i++) {  
-		COMMON.closeWindow(naviPath[i]);  
-	} 
+	console.log(naviPath);
+	if(naviPath == ""){
+		COMMON.closeWindow($.ad);
+	}else{
+		for (var i=0; i< naviPath.length; i++) {  
+			console.log(naviPath[i]);
+			COMMON.closeWindow(naviPath[i]);  
+		} 
+	}
+	
 	
 });
     
