@@ -21,7 +21,7 @@ if(OS_IOS){
 	Alloy.Globals.tracker.addScreenView('Member Profile');
 }
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", {  
     text: 'MY PROFILE', 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
@@ -90,7 +90,7 @@ function loadTable(){
 			backgroundColor: "#ffffff",
 		  });
 		
-		var title = Titanium.UI.createLabel({
+		var title = $.UI.create("Label", {
 			titles: RegArr[j].title ,  
 			text: RegArr[j].title ,  
 			mod: RegArr[j].mod,  
@@ -101,7 +101,7 @@ function loadTable(){
 			left:10
 		});
 		
-		var label = Titanium.UI.createLabel({
+		var label = $.UI.create("Label", {
 			text: RegArr[j].value ,
 			titles: RegArr[j].title ,  
 			mod: RegArr[j].mod,   
@@ -149,7 +149,7 @@ function loadTable(){
 		    selectedBackgroundColor: "#FFE1E1",
 			backgroundColor: "#ffffff",
 		  });
-		var title = Titanium.UI.createLabel({
+		var title = $.UI.create("Label", {
 			text: "Change Password", 
 			font:{fontSize:16 },
 			color: "#848484",
@@ -158,7 +158,7 @@ function loadTable(){
 			left:10
 		});
 		
-		var label = Titanium.UI.createLabel({
+		var label = $.UI.create("Label", {
 			
 			font:{fontSize:12 },
 			color: "#848484",
@@ -201,7 +201,7 @@ function loadTable(){
 	    selectedBackgroundColor: "#FFE1E1",
 		backgroundColor: "#ffffff",
 	  });
-	var title = Titanium.UI.createLabel({
+	var title = $.UI.create("Label", {
 		text: "State", 
 		font:{fontSize:16 },
 		color: "#848484",
@@ -210,7 +210,7 @@ function loadTable(){
 		left:10
 	});
 	
-	var label = Titanium.UI.createLabel({
+	var label = $.UI.create("Label", {
 		
 		font:{fontSize:12 },
 		color: "#848484",
@@ -237,7 +237,7 @@ function loadTable(){
 	stateRow.add(rightRegBtn);
 	stateData.push(stateRow);
 	stateTable.setData(stateData);
-	$.profileView.table3Container.add(stateTable); 
+	//$.profileView.table3Container.add(stateTable); 
 	
 }
 

@@ -22,7 +22,7 @@ if(OS_IOS){
 }
 var clickTime = null;
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", {  
     text: 'PRIVACY & TERMS', 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 

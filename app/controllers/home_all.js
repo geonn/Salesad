@@ -6,7 +6,7 @@ var action_text = "Recent";
 if(action_type == "1"){
 	action_text = "Popular";
 }
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
 	    text: action_text, 
 	    color: '#CE1D1C',
 	    font: { fontWeight: 'bold'},

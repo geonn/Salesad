@@ -24,7 +24,6 @@
 
 ".container":{
 	backgroundColor: "#C41230",
-	theme:"Theme.NoActionBar",
 	layout: "composite"
 }
 

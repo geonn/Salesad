@@ -28,7 +28,7 @@ var library = Alloy.createCollection("category");
 var category_data = library.getCategoryById(cate_id);
 
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: category_data.categoryName, 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
@@ -76,7 +76,8 @@ function createAdBranchEvent(adImage, m_id){
 }
 
 var goAd = function(m_id){
-	var win = Alloy.createController("ad", {m_id: m_id}).getView(); 
+	var win = Alloy.createController("branch_or_ad", {m_id: m_id}).getView(); 
+	//var win = Alloy.createController("ad", {m_id: m_id}).getView(); 
 	COMMON.openWindow(win); 
 };
 
@@ -102,7 +103,7 @@ var createGridListing = function(res){
    	$.categoryDetailsView.category_tv.removeAllChildren();
    	
    	if(details.length < 1){
-   		var noRecord = Ti.UI.createLabel({ 
+   		var noRecord = $.UI.create("Label", { 
 		    text: "No record found", 
 		    color: '#CE1D1C', 
 		    textAlign: 'center',

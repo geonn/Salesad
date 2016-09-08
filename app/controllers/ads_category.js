@@ -441,7 +441,7 @@ function render_header(){
 	}
 	
 	
-	var custom = Ti.UI.createLabel({ 
+	var custom = $.UI.create("Label", { 
 	    text: customeTitle, 
 	    color: '#CE1D1C',
 	    font: { fontWeight: 'bold'},

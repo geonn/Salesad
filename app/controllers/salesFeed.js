@@ -10,7 +10,7 @@ var details = lib_feeds.getSalesFeed();
 
 $.activityIndicator.show();
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'Sales Feed', 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
@@ -61,7 +61,7 @@ var feedResult = function(res){
    		var counter = 0;
    		
    		if(arr.length < 1){
-			var noRecord = Ti.UI.createLabel({ 
+			var noRecord = $.UI.create("Label", { 
 			    text: "No record found", 
 			    color: '#CE1D1C', 
 			    textAlign: 'center',
@@ -97,7 +97,7 @@ var feedResult = function(res){
 					top:10
 				});	
 		 
-				var popUpTitle = Titanium.UI.createLabel({
+				var popUpTitle = $.UI.create("Label", {
 					text:m_det.merchant_name,
 					font:{fontSize:16},
 					source: entry.m_id,
@@ -109,7 +109,7 @@ var feedResult = function(res){
 					height:25
 				});
 				
-				var category =  Titanium.UI.createLabel({
+				var category =  $.UI.create("Label", {
 					text:m_det.state_name,
 					source: a_det.m_id,
 					font:{fontSize:12,fontWeight:'bold'},

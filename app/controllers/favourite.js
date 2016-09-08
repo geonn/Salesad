@@ -236,7 +236,7 @@ var dummy = $.UI.create("View",{
 $.ads_listing.add(dummy);
 buildListing();
 
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: "Favourite", 
     color: '#CE1D1C',
     font: { fontWeight: 'bold'},

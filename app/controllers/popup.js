@@ -117,7 +117,7 @@ for (var i = 0; i < CustomData.length; i++) {
 		top:10
 	});
  
-	var popUpTitle = Titanium.UI.createLabel({
+	var popUpTitle = $.UI.create("Label", {
 		text:CustomData[i].title,
 		source: CustomData[i].source,
 		font:{fontSize:16},

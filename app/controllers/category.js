@@ -37,7 +37,7 @@ var createCustomView = function(title) {
         height: 48,
         backgroundColor: "#FCFBFB"
     });
-    var text = Ti.UI.createLabel({
+    var text = $.UI.create("Label", { 
         text: title,
         left: 10,
         color: '#CE1D1C',
@@ -100,7 +100,7 @@ function generateMyProfileTable(RegArr){
 		var title = $.categoryView.UI.create('Label', {
 			text: RegArr[j].title,
 			classes: [fontSizeClasses],
-			color: "#848484",
+			color: "#88919D",
 			width:'auto',
 			textAlign:'left',
 			left:70,
@@ -154,7 +154,7 @@ function generateCategoryTable(details){
 			text: details[i].categoryName , 
 			id: details[i].id,
 			classes: [fontSizeClasses],
-			color: "#848484",
+			color: "#88919D",
 			width:'auto',
 			textAlign:'left',
 			left:70,
@@ -184,7 +184,7 @@ function generateCategoryTable(details){
 *************************/
 
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'CONTENTS', 
     color: '#CE1D1C',
     font:{
@@ -306,11 +306,11 @@ var searchRes = function(res){
 	$.categoryView.loadingBar.opacity = "0";
 	if(arr.length < 1){
 		$.categoryView.searchContainer.removeAllChildren();
-		var noRecord = Ti.UI.createLabel({ 
+		var noRecord = $.UI.create("Label", { 
 		    text: "No record found", 
 		    color: '#CE1D1C', 
 		    textAlign: 'center',
-		    font:{fontSize:14,fontStyle:'italic'},
+		    font:{fontSize:14},
 		    top: 15,
 		    width: Ti.UI.SIZE 
 		 });
@@ -340,11 +340,11 @@ var searchRes = function(res){
 					top:10
 				});	
 		 
-				var popUpTitle = Titanium.UI.createLabel({
+				var popUpTitle = $.UI.create("Label", {
 					text:entry.merchant_name,
 					font:{fontSize:16},
 					source: entry.m_id,
-					color: "#848484",
+					color: "#88919D",
 					width:'65%',
 					textAlign:'left',
 					top:8,
@@ -352,12 +352,12 @@ var searchRes = function(res){
 					height:25
 				});
 				
-				var category =  Titanium.UI.createLabel({
+				var category =  $.UI.create("Label", {
 					text:entry.category,
 					source: entry.m_id,
 					font:{fontSize:12,fontWeight:'bold'},
 					width:'auto',
-					color: "#848484",
+					color: "#88919D",
 					textAlign:'left',
 					width:'65%',
 					bottom:15,

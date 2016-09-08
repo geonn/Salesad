@@ -8,7 +8,8 @@
         color: "#CE1D1C",
         font:{
 			fontWeight: "bold",
-			fontSize: 15
+			fontSize: 15,
+			fontFamily: 'FrutigerLT-Light'
 		}
    }
 },
@@ -29,6 +30,9 @@
 	borderRadius: 6,
 	color: "#ffffff",
 	width: Titanium.UI.FILL, 
+	font:{
+			fontFamily: 'FrutigerLT-Light'
+	},
 	top: 10,
 },
 
@@ -129,47 +133,66 @@
 ".h1":{
 	font:{
 		fontSize: 36,
+		fontFamily: 'FrutigerLT-Light'
 	}
 },
 
 ".h2":{
 	font:{
 		fontSize: 30,
+		fontFamily: 'FrutigerLT-Light'
 	}
 },
 
 ".h3":{
 	font:{
 		fontSize: 24,
+		fontFamily: 'FrutigerLT-Light'
 	}
 },
 
 ".h4":{
 	font:{
 		fontSize: 18,
+		fontFamily: 'FrutigerLT-Light'
 	},
 },
 
 ".h5":{
 	font:{
 		fontSize: 14,
+		fontFamily: 'FrutigerLT-Light'
 	}
 },
-
+"Label":{
+	font:{
+		fontFamily: 'FrutigerLT-Light'
+	},
+	color: "#88919D"
+	
+},
+"Button":{
+	font:{
+		fontFamily: 'FrutigerLT-Light'
+	}
+},
 ".h6":{
 	font:{
 		fontSize: 12,
+		fontFamily: 'FrutigerLT-Light'
 	}
 },
 
 ".h7":{
 	font:{
 		fontSize: 10,
+		fontFamily: 'FrutigerLT-Light'
 	}
 },
 
 ".bold":{
 	font: {
 		fontFamily: 'Lato-Regular',
-	}
+	},
+	color: "#404041"
 },

@@ -1,0 +1,57 @@
+<Alloy>
+	<Window id="win" title="" navTintColor="#CE1D1C" backgroundColor="#fff" class="container" >
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+			<View left="0" width="10%">
+		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+		    </View>
+	     	<View id="pageTitle" width="70%">
+	     		<Label color="#CE1D1C" id="title"></Label>
+	     	</View>
+	 	</View>
+	 	<View class="wfill hfill vert">
+	 		<View class="wfill hsize">
+	 			<View class="padding wfill hsize" horizontalWrap="false">
+	 				<View class="wsize hsize horz box rounded" borderColor="#484848">
+						<View id="firstTab" tab="1" onClick="switchListing" backgroundColor="#484848" class="wsize hsize">
+							<Label v="label" onClick="switchListing" width="70" textAlign="center" color="#ffffff" class="hsize small-padding h6" >Branch</Label>
+						</View>
+						<View tab="2" id="secondTab"  onClick="switchListing" class="wsize hsize">
+							<Label v="label" onClick="switchListing" width="70" color="#484848" textAlign="center" class="hsize small-padding h6">Sales</Label>
+						</View>
+					</View>
+				</View>
+	 		</View>
+	 		<View class="line" backgroundColor="#484848"></View>
+ 			<View class="wfill hfill">
+		 		<ScrollView class="wfill hfill contwfill conthsize vert" id="point">
+		 			<View class="wfill hsize horz">
+		 				<ImageView class="hsize" width="80" id="merchant_logo"></ImageView>
+		 				<View class="hsize vert" width="auto">
+		 					<Label width="auto" class="hsize bold h4" id="merchant_name"></Label>
+		 					<Label class="wsize hsize h6" id="numbers_branch">Number of Branches: 0</Label>
+		 				</View>
+		 			</View>
+		 			
+		 			<TableView id="branch_table" class="wfill hfill contwfill conthsize">
+		 				<TableViewRow class="horz hsize">
+		 					<View class="hsize horz padding" left="0" width="auto">
+		 						<View class="vert hsize" width="78%">
+		 							<Label class="wfill hsize h5">No Branch Found</Label>
+		 							<Label class="wfill hsize h6">Please try again later</Label>
+		 						</View>
+		 					</View>
+		 				</TableViewRow>
+		 			</TableView>
+		 		</ScrollView>
+		 		<View class="wfill hfill" id="sales">
+		 			
+		 		</View>
+	 		</View>
+	 	</View>
+	</Window>
+</Alloy>

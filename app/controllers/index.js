@@ -162,7 +162,7 @@ function buildCateogryList(e){
 		});
 		
 		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundImage:  "images/transparent-bg.png", zIndex: 10});
-		var categoryLabel = Ti.UI.createLabel({
+		var categoryLabel = $.UI.create("Label", {
 			text: category_list[i].categoryName,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
@@ -344,28 +344,35 @@ function loadingViewFinish(){
 			$.indexView.root.open();
 		} 
 		init();
-		loadingView = null;
+		//loadingView = null;
 	});
 }
 
 function init(){
 	//API.loadMerchantListByType("all");
-	 
 	bannerListing();
 	buildCateogryList();
-	cmd = Ti.App.getArguments();
-	console.log(cmd);
-	if ( (typeof(cmd) == 'object') && cmd.hasOwnProperty('url') ) {
-	    if ( cmd.url != Ti.App.pauseURL ) {
-	        Ti.App.launchURL = cmd.url;
-	        var details = cmd.url;
-	        var arg = details.split("://"); 
-	        var ads = arg[1].split("?");
-	       
-	        var win = Alloy.createController( ads[0] , {a_id:  ads[1], from : "home"}).getView(); 
-			COMMON.openWindow(win); 
-	        Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
-	    }
+	var url = "";
+	
+	if(OS_IOS){
+		cmd = Ti.App.getArguments();
+		url = cmd.url;
+	}else{
+		if(global_url != null && global_url!=""){
+			url = global_url;
+		}
+	}
+	console.log(url);
+	console.log(typeof(url));
+	if ( url != "" && typeof(url)!="undefined") {
+        var details = url;
+        var arg = details.split("://"); 
+        var ads = arg[1].split("?");
+       
+        var win = Alloy.createController( ads[0] , {a_id:  ads[1], from : "home"}).getView(); 
+		COMMON.openWindow(win); 
+        Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
+	     Ti.App.Properties.setString('global_url', "");
 	}
 }
 /************************
@@ -514,6 +521,13 @@ $.indexView.home.addEventListener('click', function(e){
 /** Android Click to refresh **/
 if(Ti.Platform.osname == "android"){
 	// trigger if user click back
+	
+	function onPaused(){
+		console.log("onpause");
+		var activity = Titanium.Android.currentActivity;
+		activity.finish();
+	}
+	
 	$.indexView.root.addEventListener('android:back', function (e) {
 		var dialog = Ti.UI.createAlertDialog({
 			    cancel: 1,
@@ -535,6 +549,18 @@ if(Ti.Platform.osname == "android"){
 		});
 		dialog.show(); 
 	});
+	Ti.App.addEventListener('paused', onPaused);
+	var platformTools = require('bencoding.android.tools').createPlatform(),
+    wasInForeGround = true;
+
+setInterval(function() {
+    var isInForeground = platformTools.isInForeground();
+    if (wasInForeGround !== isInForeground) {
+        Ti.App.fireEvent(isInForeground ? 'resumed' : 'paused');
+console.log(isInForeground);
+        wasInForeGround = isInForeground;
+    }
+}, 3000);
 }else{
 	$.indexView.salesad_logo.addEventListener('click', function(e){
 		buildCateogryList();

@@ -64,7 +64,7 @@ $.btnBack.addEventListener('click', function(){
 }); 
 
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: "LOCATION", 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 
@@ -82,45 +82,47 @@ function report(evt) {
 var saveCurLoc = function(e) {
     	//console.log(e);
         if (e.error) {
-           // alert('Location service is disabled. ');
+            alert('Location service is disabled. ');
         } else {
         	//console.log(e);
         	showCurLoc = true;
         	Ti.App.Properties.setString('latitude', e.coords.latitude);
         	Ti.App.Properties.setString('longitude', e.coords.longitude);
            //console.log(Ti.App.Properties.getString('latitude') + "=="+ Ti.App.Properties.getString('longitude'));
+           render_map();
+           Ti.Geolocation.removeEventListener('location',saveCurLoc );
         }
     };
     
 if (Ti.Geolocation.locationServicesEnabled) {
-	
     Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
-    
     Ti.Geolocation.addEventListener('location',saveCurLoc );
 } else {
     alert('Please enable location services');
 }
 		
 // API calls to the map module need to use the Alloy.Globals.Map reference
-if(showCurLoc == true){
-	console.log("showCurLoc");
-	console.log(Ti.App.Properties.getString('latitude')+" "+Ti.App.Properties.getString('longitude'));
-	 var currenLocation = Alloy.Globals.Map.createAnnotation({
-	    latitude:Ti.App.Properties.getString('latitude'),
-	    longitude:Ti.App.Properties.getString('longitude'),
-	    title:"Current Location",
-	    subtitle:"",
-	    pincolor:Alloy.Globals.Map.ANNOTATION_GREEN,
-	    myid:99 // Custom property to uniquely identify this annotation.
-	}); 
-	currenLocation.addEventListener('click', function(evt){
-       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
-		COMMON.openWindow(win);   
-	});
-
-	$.locationView.mapview.addAnnotation(currenLocation);    
- 
-} 
+function render_map(){
+	if(showCurLoc == true){
+		console.log("showCurLoc");
+		console.log(Ti.App.Properties.getString('latitude')+" "+Ti.App.Properties.getString('longitude'));
+		 var currenLocation = Alloy.Globals.Map.createAnnotation({
+		    latitude:Ti.App.Properties.getString('latitude'),
+		    longitude:Ti.App.Properties.getString('longitude'),
+		    title:"Current Location",
+		    subtitle:"",
+		    pincolor:Alloy.Globals.Map.ANNOTATION_GREEN,
+		    myid:99 // Custom property to uniquely identify this annotation.
+		}); 
+		currenLocation.addEventListener('click', function(evt){
+	       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
+			COMMON.openWindow(win);   
+		});
+	
+		$.locationView.mapview.addAnnotation(currenLocation);    
+	 
+	} 
+}
 
 if(merchants.longitude == ""){
 	alert("No location found");

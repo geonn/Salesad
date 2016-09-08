@@ -23,7 +23,6 @@ if(typeof args.m_id != "undefined"){
 	var m_id = args.m_id || ads.m_id;
 	pageTitle =ads.name;
 }
-//console.log(merc);
 
 var from = args.from || "";
 var isFeed = args.isFeed || "";
@@ -162,7 +161,7 @@ var getAdDetails = function(){
 		
 		isAdsAvailable = true;
 	}else{
-		var noAvailableLabel = Ti.UI.createLabel({
+		var noAvailableLabel = $.UI.create("Label", { 
 			text : "No ads available",
 			height: Ti.UI.SIZE,
 			width: Ti.UI.FILL,
@@ -209,7 +208,7 @@ var getAdDetails = function(){
     //}
     //pageTitle = pageTitle.replace(/&quot;/g, "'");
 	
-	var custom = Ti.UI.createLabel({ 
+	var custom = $.UI.create("Label", { 
 		    text: pageTitle, 
 		    font: { fontWeight: 'bold'},
 		    color: '#CE1D1C' 
@@ -458,7 +457,8 @@ $.adView.home.addEventListener("click", function(e){
 function createShareOptions(){
  
     var subject = pageTitle;
-    var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";
+    var text = ads.name + ". For more detail : http://salesad.my/main/adsDetails/"+args.a_id;
+   // var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";
   
     var intent = Ti.Android.createIntent({
         action: Ti.Android.ACTION_SEND,

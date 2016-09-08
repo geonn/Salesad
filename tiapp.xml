@@ -8,8 +8,9 @@
     <description>salesAd</description>
     <copyright>2016 by Freejini</copyright>
     <icon>appicon.png</icon>
-    <fullscreen>true</fullscreen>
-    <navbar-hidden>true</navbar-hidden>
+    <fullscreen>false</fullscreen>
+    <navbar-hidden>false</navbar-hidden>
+    <statusbar-hidden>false</statusbar-hidden>
     <analytics>true</analytics>
     <guid>fb335e76-88c2-482f-9fff-7812f16fcac3</guid>
     <property name="acs-oauth-secret-development" type="string">Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF</property>
@@ -85,7 +86,22 @@
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <tool-api-level>16</tool-api-level>
         <manifest>
-            <application android:debuggable="true" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <application android:debuggable="true" android:theme="@style/Theme.Titanium">
+                <activity
+                    android:configChanges="keyboardHidden|orientation"
+                    android:label="@string/app_name"
+                    android:name=".SalesadActivity" android:theme="@style/Theme.Titanium">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN"/>
+                        <category android:name="android.intent.category.LAUNCHER"/>
+                    </intent-filter>
+                    <intent-filter>
+                        <action android:name="android.intent.action.VIEW"/>
+                        <category android:name="android.intent.category.DEFAULT"/>
+                        <category android:name="android.intent.category.BROWSABLE"/>
+                        <data android:scheme="salesad"/>
+                    </intent-filter>
+                </activity>
                 <meta-data
                     android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBJ0EF9lpsbttU_OdKA3BBxscR0ygt9D2A"/>
                 <intent-filter>
@@ -123,6 +139,7 @@
         <module platform="iphone">facebook</module>
         <module platform="android">com.mirasense.scanditsdk</module>
         <module platform="iphone">com.mirasense.scanditsdk</module>
+        <module platform="android">bencoding.android.tools</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>
@@ -131,8 +148,7 @@
         <target device="iphone">true</target>
         <target device="mobileweb">true</target>
     </deployment-targets>
-
-    <sdk-version>5.2.2.GA</sdk-version>
+    <sdk-version>6.0.0.v20151218093451</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
@@ -147,4 +163,5 @@
     <property name="acs-password-production" type="string">uAbeYqw9NzUxhtwtrk</property>
     <property name="appc-org-id" type="number">100016072</property>
     <property name="appc-creator-user-id" type="string">974ebc0c-0865-4ea6-b748-9098dc431587</property>
+    <property name="ti.android.useLegacyWindow" type="bool">true</property>
 </ti:app>

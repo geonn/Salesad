@@ -12,10 +12,10 @@
 		        <View class="line" />
 		    </View>
 			<View id="table2Container" height="50"></View> 
-	      	<View backgroundColor="#fcfbfb" height="40">
+	      	<!--<View backgroundColor="#fcfbfb" height="40">
 		        <Label class="label">Favourite Location</Label>
 		        <View class="line" />
-		    </View>
-			<View id="table3Container" height="50"></View>
+		 </View>
+			<View id="table3Container" height="50"></View>-->
 		</View>
 </Alloy>

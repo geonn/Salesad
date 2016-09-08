@@ -21,7 +21,7 @@ if(OS_IOS){
 	Alloy.Globals.tracker.addScreenView('Push Notification Settings');
 }
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'Push Notification', 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 

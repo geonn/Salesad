@@ -22,7 +22,7 @@ if(OS_IOS){
 }
 var textsize = Ti.App.Properties.getString("fontSizeClasses");
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'TEXT SIZE', 
     color: '#CE1D1C', 
     width: Ti.UI.SIZE 

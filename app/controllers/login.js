@@ -21,7 +21,7 @@ if(OS_IOS){
 	Alloy.Globals.tracker.addScreenView("Member Login");
 }
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'LOGIN', 
     color: '#ffffff', 
     width: Ti.UI.SIZE 

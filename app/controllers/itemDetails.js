@@ -92,7 +92,7 @@ var getAdsImages = function(){
 			
 		}
 		
-		var label_caption = Ti.UI.createLabel({
+		var label_caption = $.UI.create("Label", { 
 			top: 0,
 			text: items[i].caption,
 			color: "#ffffff",
