@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="favoriteAd" title="" backButtonTitle="" class="container" navTintColor="#CE1D1C">
+	<Window id="favoriteAd" title="" backButtonTitle="" class="container" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View left="0">
 	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />

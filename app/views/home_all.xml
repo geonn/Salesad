@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="SALESAD" navTintColor="#CE1D1C" backgroundColor="#cccccc" class="container" >
+	<Window id="win" title="SalesXpress" navTintColor="#ED1C24" backgroundColor="#cccccc" class="container" >
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
@@ -11,11 +11,18 @@
 		    </View>
 	     	<View id="pageTitle" width="70%" />
 	 	</View>
-	 	
-	 	
 	 	<ScrollView id="content" class="hfill wfill contwfill conthsize padding horz" left="0">
-	 		<View id="col1" class="hsize vert" top="0" width="50%"></View>
-	 		<View id="col2" class="hsize vert" top="0" width="50%"></View>
+ 			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad1.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" onClick="navTo" e_id="1" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad2_Scrub.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad3.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad4.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" e_id="3" top="10" image="/images/dummy/giant_sales.png" onClick="navTo"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad5.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad6.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" onClick="navTo" e_id="2" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad7_Bata.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad8.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad9.jpg"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad10.jpg"></ImageView>
 	 	</ScrollView>
 	</Window>
 </Alloy>

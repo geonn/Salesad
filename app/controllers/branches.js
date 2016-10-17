@@ -1,5 +1,4 @@
 var args = arguments[0] || {}; 
-
 var m_id = args.m_id;
 var from = args.from || ""; 
 var clickTime = null;
@@ -21,9 +20,9 @@ if(merchants.area != ""){
 }
 
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: merchants.merchant_name, 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
 
@@ -72,7 +71,8 @@ var goToAds = function(e){
 		return;
 	};
 	clickTime = currentTime; 
-	var win = Alloy.createController("location", {m_id: e.source.a_id, a_id: "", showAll:"false"}).getView(); 
+	var mid = parent({name: "m_id"}, e.source);
+	var win = Alloy.createController("location", {m_id: mid, a_id: "", showAll:"false"}).getView(); 
 	COMMON.openWindow(win,{animated:true}); 
 };
 
@@ -103,7 +103,7 @@ for (var i = 0; i < branches.length; i++) {
 	  });
 	
 	
-	var branch_name = Titanium.UI.createLabel({
+	var branch_name = $.UI.create("Label", {
 		text: branches[i].merchant_name,
 		m_id: branches[i].u_id,
 		a_id: branches[i].m_id,
@@ -120,7 +120,7 @@ for (var i = 0; i < branches.length; i++) {
 	if(branches[i].area != ""){
 		str_loc = branches[i].area + ", "+branches[i].state_name;
 	}
-	var location =  Titanium.UI.createLabel({
+	var location =  $.UI.create("Label", {
 		text:str_loc,
 		m_id: branches[i].u_id,
 		a_id: branches[i].m_id,
@@ -133,7 +133,7 @@ for (var i = 0; i < branches.length; i++) {
 		height:16
 	});
 	
-	var mobile =  Titanium.UI.createLabel({
+	var mobile =  $.UI.create("Label", {
 		text:branches[i].mobile,
 		m_id: branches[i].u_id,
 		a_id: branches[i].m_id,

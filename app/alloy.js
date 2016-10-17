@@ -279,40 +279,35 @@ function currentDateTime(){
 	return datetime ;
 }
 
-if(Ti.Platform.name == "iPhone OS"){
-	// Save initial launch command line arguments
-	Ti.App.launchURL = '';
-	Ti.App.pauseURL = '';
-	var cmd = Ti.App.getArguments();
-	if ( (typeof(cmd) == 'object') && cmd.hasOwnProperty('url') ) {
-	    Ti.App.launchURL = cmd.url;
-	    Ti.API.info( 'Launched with url = ' + Ti.App.launchURL );
-	}
-	 
-	// Save launch URL at the time last paused
-	Ti.App.addEventListener( 'pause', function(e) {
-	    Ti.App.pauseURL = Ti.App.launchURL;
-	});
-	 
-	// After app is fully resumed, recheck if launch arguments
-	// have changed and ignore duplicate schemes.
-	Ti.App.addEventListener( 'resumed', function(e) {
-	    Ti.App.launchURL = '';
-	    cmd = Ti.App.getArguments();
-	    if ( (typeof(cmd) == 'object') && cmd.hasOwnProperty('url') ) {
-	        if ( cmd.url != Ti.App.pauseURL ) {
-	            Ti.App.launchURL = cmd.url;
-	            var details = cmd.url;
-	            var arg = details.split("://"); 
-	            var ads = arg[1].split("?");
-	           
-	            var win = Alloy.createController( ads[0] , {a_id:  ads[1], from : "home"}).getView(); 
-				COMMON.openWindow(win); 
-	            Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
-	        }
-	    }
-	});
+global_url = "";
+if (OS_ANDROID) {
+    // Somehow, only in alloy.js we can get the data (URL) that opened the app
+    global_url = Ti.Android.currentActivity.intent.data;
 }
+
+// After app is fully resumed, recheck if launch arguments
+// have changed and ignore duplicate schemes.
+Ti.App.addEventListener( 'resumed', function(e) {
+    var url = "";
+	if(OS_IOS){
+		cmd = Ti.App.getArguments();
+		url = cmd.url;
+	}else{
+		url = Alloy.globals.url;
+	}
+	console.log(url);
+	console.log(typeof(url));
+	if ( (typeof(url) == 'undefined') && url != "" && url != null ) {
+        var details = url;
+        var arg = details.split("://"); 
+        var ads = arg[1].split("?");
+       
+        var win = Alloy.createController( ads[0] , {a_id:  ads[1], from : "home"}).getView(); 
+		COMMON.openWindow(win); 
+        Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
+	    
+	}
+});
 
 function parent(key, e){
 	// if key.value undefined mean it look for key only

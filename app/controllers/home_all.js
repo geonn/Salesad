@@ -3,12 +3,13 @@ var action_type = args.action_type;// "1 - popular":"0 - recent";
 var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 var action_text = "Recent";
+var cell_width;
 if(action_type == "1"){
 	action_text = "Popular";
 }
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
 	    text: action_text, 
-	    color: '#CE1D1C',
+	    color: '#ED1C24',
 	    font: { fontWeight: 'bold'},
 });
 	
@@ -16,68 +17,37 @@ if(Ti.Platform.osname == "android"){
 		COMMON.removeAllChildren($.pageTitle);
 		$.pageTitle.add(custom);   
 }
+
+function navTo(e){
+	var e_id = parent({name: "e_id"}, e.source);
+	console.log(e_id+" ez");
+	if(e_id == 3){
+		var win = Alloy.createController("ad", {a_id: 310}).getView(); 
+		COMMON.openWindow(win); 
+	}else{
+		var win = Alloy.createController("express_detail", {e_id: e_id}).getView(); 
+		COMMON.openWindow(win); 
+	}
+}
 	
 function init(){
 	$.win.add(loading.getView());
 	loading.start();
-	setTimeout(function(e){render_listingBytype();}, 1000);
-}
-
-function render_listingBytype(){
-	var model_ads = Alloy.createCollection("ads");
-	var data = model_ads.getData();
-	var counter = 0;
- 
+	
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
-	var cell_width = Math.floor((pwidth - 30)/2);
- 
-	for (var i=0; i < data.length; i++) {
-		var cell = $.UI.create("View", {
-			left: 10,
-			bottom: 10,
-			width: cell_width,
-			a_id: data[i].a_id,
-			classes:['hsize']
-		});
-		var view_container = $.UI.create("View", {
-			classes: ['wfill', 'hsize', 'vert'],
-			backgroundColor: "#ffffff"
-		});
-		var view_backgroundColor = $.UI.create("View", {
-			backgroundColor: random_color[Math.round(Math.random() * 5)],
-			classes: ['wfill', 'hsize']
-		});
-		var image_thumb = $.UI.create("ImageView",{
-			width: "100%",
-			height: "auto",
-			ads_name: data[i].ads_name,
-			image: data[i].img_path,
-			opacity: 0
-		});
-		var text_padd = $.UI.create("View", {
-			classes:['wfill','hsize']
-		});
-		var text_ads = $.UI.create("Label", {
-			text: data[i].ads_name,
-			classes:['wfill', 'hsize', 'h6'],
-			color: "#525152",
-			top: 10, right:4, left:4, bottom:10,
-		});
-		cell.add(view_container);
-		text_padd.add(text_ads);
-		view_backgroundColor.add(image_thumb);
-		view_container.add(view_backgroundColor);
-		view_container.add(text_padd);
-		if(counter % 2){
-			$.col1.add(cell);
-		}else{
-			$.col2.add(cell);
+	if(OS_ANDROID){
+		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
+	}else{
+		cell_width = Math.floor(pwidth / 2) - 15;
+	}
+	console.log(cell_width);
+	var child = $.content.getChildren();
+	for (var i=0; i < child.length; i++) {
+		if(child[i].e_id != 3){
+			child[i].width = cell_width;
 		}
-		cell.addEventListener("click", navToAd);
-		image_thumb.addEventListener("load", Imageappear);
-		counter ++;
 	};
-	loading.finish();
+	//setTimeout(function(e){render_listingBytype();}, 1000);
 }
 
 function navToAd(e){
@@ -86,11 +56,9 @@ function navToAd(e){
 	COMMON.openWindow(win); 
 }
 
-function Imageappear(e){
-	var img = e.source;
-	//var ads_name = parent({name: "ads_name"}, e.source);
-	//console.log(ads_name); 
-	img.animate({opacity: 1, duration: 500});
+// convert pixel to dp.
+function pixelToDp(px) {
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160))+'dp';
 }
 
 init();

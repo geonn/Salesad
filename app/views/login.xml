@@ -1,5 +1,5 @@
 <Alloy>
-	<Window title="LOGIN" class="container" backButtonTitle="" id="login" barColor="#CE1D1C" navTintColor="#FFFFFF">
+	<Window title="LOGIN" class="container" backButtonTitle="" id="login" barColor="#ED1C24" navTintColor="#FFFFFF">
 		<LeftNavButton>
 	        <View left="0">
 	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />

@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 var cate_id = args.category_id;
 var nav = Alloy.Globals.navMenu; 
-$.categoryDetailsView.activityIndicator.show();
+var loading = Alloy.createController("loading");
 Alloy.Globals.naviPath.push($.category_details);
 /** google analytics**/ 
 if(OS_IOS){
@@ -28,9 +28,9 @@ var library = Alloy.createCollection("category");
 var category_data = library.getCategoryById(cate_id);
 
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: category_data.categoryName, 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
 
@@ -76,7 +76,8 @@ function createAdBranchEvent(adImage, m_id){
 }
 
 var goAd = function(m_id){
-	var win = Alloy.createController("ad", {m_id: m_id}).getView(); 
+	var win = Alloy.createController("branch_or_ad", {m_id: m_id}).getView(); 
+	//var win = Alloy.createController("ad", {m_id: m_id}).getView(); 
 	COMMON.openWindow(win); 
 };
 
@@ -90,21 +91,18 @@ var createGridListing = function(res){
 	var merchantsLibrary = Alloy.createCollection('merchants'); 
 	var branchLibrary = Alloy.createCollection('branches');
  	
- 	var details = cateAdsLibrary.getCategoryAds(res.cate_id);
+ 	var details = cateAdsLibrary.getCategoryAds(cate_id);
  	var counter = 0;
    	var imagepath, adImage, row, cell = '';
  	var last = details.length-1;
    	var tableData = [];
-   	console.log(details);
    	//hide loading bar
-	$.categoryDetailsView.loadingBar.height = "0";
-	$.categoryDetailsView.loadingBar.top = "0";
    	$.categoryDetailsView.category_tv.removeAllChildren();
    	
    	if(details.length < 1){
-   		var noRecord = Ti.UI.createLabel({ 
+   		var noRecord = $.UI.create("Label", { 
 		    text: "No record found", 
-		    color: '#CE1D1C', 
+		    color: '#ED1C24', 
 		    textAlign: 'center',
 		    font:{fontSize:14,fontStyle:'italic'},
 		    top: 15,
@@ -157,38 +155,27 @@ var createGridListing = function(res){
 		   			left: 70,
 		   		});
 		   		
-		   		var rightRegBtn =  Titanium.UI.createImageView({
-					image:"/images/sales-ad-loc_small.png",
-					width:20, 
-					m_id:m_id,
-					right:20,
-					action: "locationIcon",
-					top:20
-				});		 
-				
+		   		
 		   		view.add(adImage);
 		   		view.add(category_label);
-		   		view.add(rightRegBtn);
-		   		/*view.addEventListener('click', function(e){
-					var win = Alloy.createController("location", {m_id: e.source.m_id, a_id: "", showAll: true}).getView(); 
-					COMMON.openWindow(win,{animated:true}); 
-					return false;
-				});*/
+		   		
 				row.add(view);
 		   		createAdImageEvent(row, m_id);
 				tableData.push(row);
 			}
 	     $.categoryDetailsView.category_tv.setData(tableData);
    	}
+   	loading.finish();
 };
 
  
 /************************
 *******APP RUNNING*******
 *************************/
-API.getMerchantListByCategory(cate_id);
+$.categoryDetailsView.container.add(loading.getView());
+loading.start();
+API.getMerchantListByCategory(cate_id, createGridListing);
 
-createGridListing({cate_id: cate_id});
 
 /*********************
 *** Event Listener ***

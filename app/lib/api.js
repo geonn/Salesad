@@ -31,7 +31,7 @@ var getItemList			= "http://"+API_DOMAIN+"/api/getItemList?user="+USER+"&key="+K
 var getVoucherByIdUrl			= "http://"+API_DOMAIN+"/api/getVoucherById?user="+USER+"&key="+KEY;
 var getContestListUrl 	= "http://"+API_DOMAIN+"/api/getContestList?user="+USER+"&key="+KEY;
 var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
-
+var sendFeedback = "http://"+API_DOMAIN+"/api/sendFeedback?user="+USER+"&key="+KEY;
 //API that call in sequence 
 var APILoadingList = [
 	{url: getCategoryList, model: "category", checkId: "5"},
@@ -155,7 +155,7 @@ exports.updateUserFavourite = function(e){
 	
 };
 
-exports.getMerchantListByCategory = function (ex){
+exports.getMerchantListByCategory = function (ex, callback){
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById(100+ex);
 	var last_updated ="";
@@ -186,13 +186,15 @@ exports.getMerchantListByCategory = function (ex){
 	       	merchant.saveArray(arr);
 	       	
 			checker.updateModule(100+ex, "getMerchantListByCategory", currentDateTime());
+			callback();
 			//console.log(ex);
 			//Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	       }
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	//console.log("API loadMerchantListByCategory fail, skip sync with server");
+	     	console.log("API loadMerchantListByCategory fail, skip sync with server");
+	     	callback();
 	     	//Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	     },
 	     timeout : 7000  // in milliseconds
@@ -238,150 +240,6 @@ exports.getVoucherById = function(v_id, callback){
 	 // Send the request.
 	console.log("vid"+v_id);
 	client.send({v_id: v_id}); 
-};
-
-// load featured banner
-exports.bannerListing = function (type){
-	var checker = Alloy.createCollection('updateChecker'); 
-	var isUpdate = checker.getCheckerById("2");
-	var library = Alloy.createCollection('banners'); 
-	var existing_id = library.getExistingId();
-	var last_updated ="";
-	if(isUpdate != "" ){
-		last_updated = isUpdate.updated;
-	} 
-	var url = getFeaturedBanner;//+"&last_updated="+last_updated;
-	//console.log(url);
-	//console.log(existing_id);
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	    
-	       var res = JSON.parse(this.responseText); 
-	       //console.log(res);
-	       if(res.status == "success"){
-	       	/**reset current category**/
-			library.resetBanner();
-			
-			/**load new set of category from API**/
-	       	var arr = res.data;
-	       	arr.forEach(function(entry) {
-	       		library.saveBanner(entry); 
-			});
-			
-			if(res.remove){
-				library.removeBanner(res.remove); 
-			}
-			
-			checker.updateModule("2","getFeaturedBanner",currentDateTime());
-			Ti.App.fireEvent('app:bannerListing');
-	       }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) { 
-	     	Ti.App.fireEvent('app:bannerListing');
-	     },
-	     timeout : 7000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 if(Ti.Platform.osname == "android"){
-	 	client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
-	 }
- 
-	 client.open("POST", url);
-	 // Send the request.
-	client.send({list: existing_id});  
-};
-
-//abandoned function
-exports.loadMerchantListByType = function (type){
-	var checker = Alloy.createCollection('updateChecker'); 
-	var isUpdate = checker.getCheckerById("3");
-	var last_updated ="";
-	if(isUpdate != "" ){
-		last_updated = isUpdate.updated;
-	} 
-	var url = getMerchantListByType+"&type="+type+"&last_updated="+last_updated;
-	console.log(url);
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	    
-	       var res = JSON.parse(this.responseText);
-	       var arr = res.data;
-	       if(res.status == "success"){
-	       	
-	       	if(type == "featured"){
-	       		/**reset**/
-		       	var library = Alloy.createCollection("featured"); 
-		       	library.resetFeatured();
-	       	}
-	       	
-	       	if(type == "recent"){
-	       		/**reset**/
-		       	var library = Alloy.createCollection("recent"); 
-		       	library.resetRecent();
-	       	}
-	       
-			if(type == "popular"){
-	       		/**reset**/
-		       	var library = Alloy.createCollection("popular"); 
-		       	library.resetPopular();
-	       	}
-	       	
-	       	if(type == "favoriteAd"){
-	       		/**reset**/
-		       	//var library = Alloy.createCollection("popular"); 
-		       	//library.resetPopular();
-	       	}
-	       
-			/**load new set of category from API**/
-	       	var arr = res.data;
-	       
-	       	arr.forEach(function(entry) {
-	       		if(type != "all"){
-	       			//Save Type List
-		       		var typeList = Alloy.createModel(type, {
-						m_id    : entry.m_id
-					});
-					typeList.save();
-	       		}
-	       		
-					
-	       		//Save merchant info
-	       		var merchant = Alloy.createCollection('merchants'); 
-	       		 
-				merchant.saveMerchants(entry.m_id, entry.u_id, entry.parent, entry.merchant_name, entry.mobile, entry.area, entry.state_key, entry.state_name, entry.status, entry.img_path, entry.longitude, entry.latitude);
-	         	
-				//Save branches info
-			    var branches = entry.branch;  
-			    console.log("geo here branches");
-			    //console.log(branches);
-			    if(branches.length > 0){
-			    	branches.forEach(function(branch) { 
-			    		var br = Alloy.createCollection('branches'); 
-						br.saveBranches( branch.b_id, branch.m_id, branch.name,branch.mobile, branch.area, branch.state_key,branch.state, branch.longitude, branch.latitude);
-			    	}); 
-			    }
-			});
-			 
-			checker.updateModule("3","getMerchantListByType",currentDateTime());
-		 
-			if(type != "all"){
-				Ti.App.fireEvent('app:triggerAdsType', {types : type, pullFromServer : false});
-			}
-			 
-	       }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     },
-	     timeout : 7000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
 };
 
 //search user nearby
@@ -431,62 +289,6 @@ exports.searchAdsItems = function(str){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     },
-	     timeout : 7000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
-	
-};
-
-exports.loadAdsByCategory = function(cate_id){
-	var checker = Alloy.createCollection('updateChecker'); 
-	var isUpdate = checker.getCheckerById(200+cate_id);
-	var last_updated ="";
-	if(isUpdate != "" ){
-		last_updated = isUpdate.updated;
-	}
-	var url = getAdsByCategoryList+"&category_id="+cate_id+"&last_updated="+last_updated;
-	console.log(url);
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	    
-	       var res = JSON.parse(this.responseText);
-			
-	       var arr = res.data;
-	       
-	       if(res.status == "success"){
-	       	/**reset current category**/
-	       
-	       	var arr = res.data;
-	       	arr.forEach(function(entry) {
-			     var ads = Alloy.createCollection('ads'); 
-				 var needRefresh = ads.saveAds(entry.a_id, entry.m_id, entry.name, entry.template_id, entry.description,entry.app_background,entry.youtube, entry.img_path, entry.status, entry.activate_date, entry.expired_date, entry.created, entry.updated);
-			         	
-			     //Save item info
-				 var items = entry.item;
-				 var it = Alloy.createCollection('items'); 
-				 it.resetItem(entry.a_id);	    
-				 if(items.length > 0){
-					items.forEach(function(item) {
-						it.saveItem( item.i_id, item.a_id, item.price,item.barcode,item.caption, item.img_path);
-					});
-				 }		
-			});
-			checker.updateModule(200+cate_id,"getAdsByCategoryList",currentDateTime());
-			//console.log("ads updated"+cate_id);
-			setTimeout(function () {
-				Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
-			}, 1000);
-	       }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	//console.log("API getAdsByCategoryList fail, skip sync with server");
-	     	Ti.App.fireEvent('app:adsUpdated', {cate_id: cate_id});
 	     },
 	     timeout : 7000  // in milliseconds
 	 });
@@ -555,58 +357,6 @@ exports.loadAdsDetails = function(m_id, a_id){
 	 client.open("GET", url);
 	 // Send the request.
 	 client.send(); 
-};
-
-//load category to db
-exports.loadCategory = function (ex){ 
-	var checker = Alloy.createCollection('updateChecker'); 
-	var isUpdate = checker.getCheckerById("5");
-	var last_updated ="";
-	var library = Alloy.createCollection('category'); 
-	var existing_id = library.getExistingId();
-	
-	if(isUpdate != "" ){
-		last_updated = isUpdate.updated;
-	} 
-	 var url = getCategoryList+"&last_updated="+last_updated;
-	 //console.log(url);
-	 var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	  
-	       var res = JSON.parse(this.responseText);
-	       if(res.status == "Success"){
-	       	/**reset current category**/
-			//library.resetCategory();
-			/**load new set of category from API**/
-	       	var arr = res.data;
-	       //	console.log(res);
-	       	arr.forEach(function(entry) {
-	       		library.saveCategory(entry.id, entry.categoryName, entry.image);
-			});
-			
-			if(res.remove){
-				library.removeCategory(res.remove); 
-			}
-			
-			checker.updateModule("5","getCategoryList",currentDateTime());
-			Ti.App.fireEvent('app:loadCategory', ex);
-	       }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	//console.log("API getCategoryList fail, skip sync with server");
-	     	Ti.App.fireEvent('app:loadCategory');
-	     },
-	     timeout : 7000  // in milliseconds
-	 });
-	 if(Ti.Platform.osname == "android"){
-	 	client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
-	 }
- 
-	 client.open("POST", url);
-	 // Send the request.
-	client.send({list: existing_id});
 };
 
 //private function
@@ -690,7 +440,7 @@ exports.callByPost = function(e, onload, onerror){
 		
 		_result.onerror = function(ex) { 
 			console.log(ex);
-			//API.callByPost(e, onload, onerror); 
+			setTimeout(function(e){API.callByPost(e, onload, onerror);}, 3000);
 		};
 	}
 };
@@ -741,7 +491,7 @@ exports.callByPostImage = function(e, onload, onerror) {
  *********************/
 function contactServerByGet(url) { 
 	var client = Ti.Network.createHTTPClient({
-		timeout : 5000
+		timeout : 50000
 	});
 	client.open("GET", url);
 	client.send(); 
@@ -750,7 +500,7 @@ function contactServerByGet(url) {
 
 function contactServerByPost(url,records) { 
 	var client = Ti.Network.createHTTPClient({
-		timeout : 5000
+		timeout : 50000
 	});
 	if(OS_ANDROID){
 	 	client.setRequestHeader('ContentType', 'application/x-www-form-urlencoded'); 
@@ -763,7 +513,7 @@ function contactServerByPost(url,records) {
 
 function contactServerByPostWithJson(url,records) { 
 	var client = Ti.Network.createHTTPClient({
-		timeout : 5000
+		timeout : 50000
 	});
 	
 	client.setRequestHeader('ContentType', 'application/json');
@@ -780,7 +530,7 @@ function contactServerByPostImage(url, img) {
 		timeout : 50000
 	});
 	 
-	//client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  
+	//client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	client.open("POST", url);
 	client.send({Filedata: img.photo}); 
 	return client;

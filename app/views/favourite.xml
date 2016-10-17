@@ -1,22 +1,19 @@
 <Alloy>
-	<Window title="" backButtonTitle="" class="container" id="adsCategoryWin" navTintColor="#CE1D1C">
+	<Window title="Favorites" backButtonTitle="" class="container" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
-	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
+	         	<Button left='0' width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <View layout="horizontal" height="50" width="100%" platform="android" >
-			<View left="0" width="Ti.UI.SIZE"> 
-		        <ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" /> 
+        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+			<View left="0" width="10%">
+		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 		    </View>
-		    <View id="pageTitle" width="auto"  />
+	     	<View id="pageTitle" width="70%">
+	     		<Label color="#ED1C24" id="title"></Label>
+	     	</View>
 	 	</View>
 	 	<View bottom='0' class="hr"></View>
-			<TableView separatorColor="transparent" minRowHeight="50" id="ads_listing" width="Ti.UI.FILL" backgroundColor="#d3d3d3" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></TableView>
-			<!--<View id="sv" width="Ti.UI.FILL" height="Ti.UI.SIZE" right="10" layout="horizontal"></View>-->
-		<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#F1F1F2" >
-	        <ActivityIndicator  id="activityIndicator" />
-	    	<Label top="5" text="Loading" color="#ffffff" />
-	    </View>
+	 	<ScrollView id="inner_box" class="wfill hfill conthsize contwfill horz"></ScrollView>
 	</Window>
 </Alloy>

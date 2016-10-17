@@ -1,0 +1,47 @@
+<Alloy>
+	<Window title="" backButtonTitle="" class="container" id="win" navTintColor="#ED1C24">
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <RightNavButton>
+	        <View id="scanner" right="10"  width="30" height="45">
+	         	 <ImageView image="/images/scan.png" width="30" />
+	        </View>
+        </RightNavButton>
+        <View class="wfill hfill vert">
+	        <View layout="horizontal" id="adHeader" height="50" width="100%" platform="android" >
+				<View left="0" width="Ti.UI.SIZE" zIndex="10">
+			         <ImageView id="btnBack" left='10' width="25" height="25" image="/images/btn-back.png" />
+			    </View>
+		     	<View id="pageTitle" width="70%"  />
+		     	<View width="auto"  >
+			    	<ImageView  id="scanner" right='10'  width='30' image="/images/scan.png" />
+			    </View>
+		 	</View>
+		    <View class="hr" top="0"></View>
+		    <View class="wfill hfill">
+				<ScrollView contentWidth="Ti.UI.FILL" top="1" bottom="60" layout="vertical">
+					<View class="wfill hsize" id="banner"></View>
+					<View class="wfill hsize vert" id="ads_details"></View>
+				</ScrollView>
+			    <View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
+			    	<View class="grey_line"></View>
+			    	<View width="25%" height="60">
+			    		<ImageView id="home" height="Ti.UI.FILL" image="/images/SalesAd_Home.png" />
+			    	</View>
+					<View width="25%" height="60">
+						<ImageView id="location" height="Ti.UI.FILL" image="/images/SalesAd_Location.png" />
+					</View>
+			        <View width="25%" height="60">
+			        	<ImageView id="favorites" height="Ti.UI.FILL" image="/images/SalesAd_Favorite.png" />
+			        </View>	
+			        <View width="24%" height="60">
+						<ImageView id="share" height="Ti.UI.FILL" image="/images/SalesAd_Share.png" />
+					</View>
+				</View>
+			</View>
+		</View>
+	</Window>
+</Alloy>

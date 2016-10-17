@@ -7,7 +7,7 @@
 		fontSize: '14dp'
 	},
 	 color: '#000000',
-	 backgroundColor: '#CE1D1C',
+	 backgroundColor: '#ED1C24',
 	 width:'90%',
 	 height: '35dp',
 	 bottom:5,
@@ -21,7 +21,7 @@
 		fontSize: '14dp'
 	},
 	color: '#000000',
-	backgroundColor: '#CE1D1C',
+	backgroundColor: '#ED1C24',
 	 width:'90%',
 	 height: '35dp',
 	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,

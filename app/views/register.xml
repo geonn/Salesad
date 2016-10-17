@@ -1,5 +1,5 @@
 <Alloy>
-	<Window title="REGISTER" class="container" backButtonTitle="" fullscreen="true" navBarHidden="true" id="register" barColor="#CE1D1C" navTintColor="#FFFFFF">
+	<Window title="REGISTER" class="container" backButtonTitle="" fullscreen="true" navBarHidden="true" id="register" barColor="#ED1C24" navTintColor="#FFFFFF">
 		<View layout="vertical" class="popupView">
 			<View layout="horizontal" height="40" width="15%" right="0">
 		 		<Button id="button" class="closeBtn" onClick="closeWindow" />

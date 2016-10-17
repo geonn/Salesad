@@ -9,6 +9,7 @@ exports.definition = {
 		    "img_path": "TEXT",
 		    "position": "INTEGER",
 		    "status": "INTEGER",
+		    "isExclusive": "INTEGER"		//1-exclusive, 2- normal
 		},
 		adapter: {
 			type: "sql",

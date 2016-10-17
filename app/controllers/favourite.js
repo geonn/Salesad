@@ -1,323 +1,88 @@
 var args = arguments[0] || {};
-var cate_id = args.cate_id || "";
 var u_id = Ti.App.Properties.getString('u_id') || "";
-var nav = Alloy.Globals.navMenu;
-var clickTime = null;
-var category_library = Alloy.createCollection('category'); 
-var category_info = category_library.getCategoryById(cate_id);
-var ads_counter = 0;
-var loading = false;
-var favoritesLibrary = Alloy.createCollection('favorites'); 
-favorites = favoritesLibrary.getFavoritesByUid(u_id); 
-Alloy.Globals.naviPath.push($.adCategory);
-var style = Ti.UI.ActivityIndicatorStyle.DARK;
-var activityIndicator = Ti.UI.createActivityIndicator({
-  color: '#404041',
-  font: {fontFamily:'Helvetica Neue', fontSize:16, fontWeight:'bold'},
-  message: 'Loading...',
-  style:style,
-  bottom: 10,
-  height:Ti.UI.SIZE,
-  width: Ti.UI.FILL,
-  zIndex: 14,
-});
+var data;
+var loading = Alloy.createController("loading");
+var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 
-/* 0 1 2 3 4 5 6
- * Function
- * */
-function buildListing(){
-	var c_ads_library = Alloy.createCollection('categoryAds'); 
-	var ads = c_ads_library.getLatestAdsByCategory(0, ads_counter, 999, _.pluck(favorites, "m_id"));
-	 
-	if(ads.length <= 0){
-		activityIndicator.hide();
-		$.ads_listing.remove(activityIndicator);
-		build_no_ads_logo(_.pluck(favorites, "m_id"));
-		return;	
-	}
-	ads_counter += 999;
-	for(var a = 0; ads.length > a; a++){
-		
-		var tbr = Ti.UI.createTableViewRow({
-			height: Ti.UI.SIZE,
-			selectedBackgroundColor: "#FFE1E1"
-		});
-		
-		var view_ad = $.UI.create("View",{
-			bottom: 10,
-			left: 10,
-			right: 10,
-			layout: "vertical",
-			m_id: ads[a].m_id,
-		  	a_id: ads[a].a_id,
-		  	width : Ti.UI.FILL,
-		  	height: Ti.UI.SIZE,
-			backgroundColor: "#ffffff",
-			borderColor: "#C6C8CA",
-			borderRadius:4,
-		});
-		
-		if(ads[a].youtube != "" && ads[a].youtube != null){
-			var bannerImage = Ti.UI.createView({
-				width : Ti.UI.FILL,
-				height: 200,
-				backgroundColor: "#ffffff",
-				borderColor: "#C6C8CA",
-				borderRadius:4,
-			});
-			var webView = Ti.UI.createWebView({
-			    url: 'http://www.youtube.com/embed/'+ads[a].youtube+'?autoplay=1&autohide=1&cc_load_policy=0&color=white&controls=0&fs=0&iv_load_policy=3&modestbranding=1&rel=0&showinfo=0',
-			    enableZoomControls: false,
-			    scalesPageToFit: false,
-			    scrollsToTop: false,
-			    scalesPageToFit :true,
-			    disableBounce: true,
-			    showScrollbars: false
-			});
-			bannerImage.add(webView);
-		}else{
-			var bannerImage = Ti.UI.createImageView({
-		 	  defaultImage: "/images/warm-grey-bg.png",
-			  image :ads[a].img_path,
-			  width : Ti.UI.FILL,
-			  m_id: ads[a].m_id,
-			  a_id: ads[a].a_id,
-			  height: Ti.UI.SIZE,//ads_height,
-			});
-		}
-		
-		
-		var label_merchant = $.UI.create("Label", {
-			font: { fontWeight: 'bold', fontSize: 16},
-			text: ads[a].merchant,
-			top: 10,
-			left: 10,
-			right: 10,
-			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
-			width: Ti.UI.FILL,
-			height: Ti.UI.SIZE,
-			color: "#404041"
-		});
-		
-		var label_ads_name = $.UI.create("Label", {
-			text: ads[a].ads_name,
-			left: 10,
-			right: 10,
-			font: {fontSize: 14},
-			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
-			width: Ti.UI.FILL,
-			height: Ti.UI.SIZE,
-			color: "#626366"
-		});
-		
-		var dateDescription = ads[a].active_date+" - "+ads[a].expired_date;
-		if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
-			dateDescription = "Start from now!";
-		}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
-			dateDescription = "Until "+ads[a].expired_date+"!";
-		}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
-			dateDescription = "Start from "+ads[a].active_date+"!";
-		}
-		var label_date_period = $.UI.create("Label", {
-			text: dateDescription,
-			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
-			font:{fontSize: 12},
-			left: 10,
-			right: 10,
-			bottom: 10,
-			width: Ti.UI.FILL,
-			height: Ti.UI.SIZE,
-			color: "#ED1C24"
-		});
-		
-		var line = $.UI.create("View",{
-			backgroundColor: "#C6C8CA",
-			height: 0.5,
-			width: Ti.UI.FILL
-		});
-		
-		view_ad.add(bannerImage);
-		view_ad.add(line);
-		view_ad.add(label_merchant);
-		view_ad.add(label_ads_name);
-		view_ad.add(label_date_period);
-		tbr.add(view_ad);
-		$.ads_listing.appendRow(tbr);
-
-		bannerImage.addEventListener('load', function(e){
-			activityIndicator.hide();
-			$.ads_listing.remove(activityIndicator);
-		});
-		
-		setTimeout(function(e){
-			loading = false;
-		}, 1000);
-		
-		if(ads[a].youtube == ""){ 
-			bannerImage.addEventListener('click', function(e) {
-			 	goAd(e.source.m_id);
-			});
-		}
-	}
-	setTimeout(function(e){
-		activityIndicator.hide();
-		$.ads_listing.remove(activityIndicator);
-		loading = false;
-		console.log("remove indicator");
-	}, 1000);
+function unfavourite(){
 	
-	var no_ads = _.difference(_.pluck(favorites, "m_id"), _.pluck(ads, "m_id"));
-	var no_ads_tbr = build_no_ads_logo(no_ads);
-	console.log(no_ads_tbr);
-	console.log("no_ads_tbr");
-	$.ads_listing.appendRow(no_ads_tbr);
 }
 
-function build_no_ads_logo(no_ads){
-	var tbr = Ti.UI.createTableViewRow({
-		height: Ti.UI.SIZE,
-		selectedBackgroundColor: "#FFE1E1",
-		
-	});
-	var view_contain = $.UI.create("View", {
-		height: Ti.UI.SIZE,
-		width: Ti.UI.FILL,
-		layout: "horizontal",
-	});
-	for (var i=0; i < favorites.length; i++) {
-	   if(_.contains(no_ads, favorites[i].m_id)){
-	   	var view_cell = $.UI.create("View",{
-	   		width: "50%",
-	   		height: Ti.UI.SIZE,
-	   	});
-		var img_logo = Ti.UI.createImageView({
-	 	  defaultImage: "/images/warm-grey-bg.png",
-		  image : favorites[i].img_path,
-		  height : Ti.UI.SIZE,
-		  width: Ti.UI.FILL,//ads_height,
-		  left: 5,
-		  right: 5,
-		  bottom: 10,
-		});
-		view_cell.add(img_logo);
-		view_contain.add(view_cell);
-		createAdImageEvent(view_cell, favorites[i].m_id);
-	   }
-	};
-	tbr.add(view_contain);
-	return tbr;
-}
-
-//$.ads_listing.add(videoView);
-
-/** navigate to Ad **/
-var goAd = function(m_id){
-	// double click prevention
-	var currentTime = new Date();
-	if (currentTime - clickTime < 1000) {
-	    return;
-	};
-	clickTime = currentTime;
-	    
-	var win = Alloy.createController("ad", {m_id: m_id, from : "home"}).getView(); 
+function nav_to_merchant(e){
+	var m_id = parent({name: "m_id"}, e.source);
+	var win = Alloy.createController("branch_or_ad", {m_id: m_id, from : "favourite"}).getView(); 
 	COMMON.openWindow(win); 
-};
-/*
- * App Running
- * */
-var dummy = $.UI.create("View",{
-	bottom: 10,
-	left: 10,
-	right: 10,
-  	width : Ti.UI.FILL,
-  	height: Ti.UI.SIZE,
-	backgroundColor: "#F1F1F2",
-});
-$.ads_listing.add(dummy);
-buildListing();
-
-var custom = Ti.UI.createLabel({ 
-    text: "Favourite", 
-    color: '#CE1D1C',
-    font: { fontWeight: 'bold'},
-});
-
-if(Ti.Platform.osname == "android"){ 
-	COMMON.removeAllChildren($.pageTitle);
-	$.pageTitle.add(custom);   
-}else{
-	$.adsCategoryWin.titleControl = custom; 
 }
 
-function createAdImageEvent(adImage, m_id) {
-    adImage.addEventListener('click', function(e) {
-        goAd(m_id);
-    });
-}
-
-/*
- * Event Listener 
- * */
-/*
-$.adsCategory.ads_listing.addEventListener("scroll", function(e){
-	var tolerance = 100;
-	/*console.log(e.source.contentOffset);
-	console.log(((e.source.getRect().height - tolerance) < e.source.contentOffset.y));
-	console.log(!loading);//end here
-	var cnt = e.source.children.length;
-	var lastChild = e.source.children[cnt-1];
-	if(Ti.Platform.osname == "android"){ 
-		var cHeight = e.source.getRect().height;
+function render_favourite_merchant(){
+	var pwidth = Titanium.Platform.displayCaps.platformWidth;
+	if(OS_ANDROID){
+		var cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
 	}else{
-<<<<<<< HEAD
-		var cHeight = e.source.getRect().height;
-		//var cHeight = (lastChild.rect.y - (lastChild.getSize().height / 2));
-	}
-	console.log(cHeight+" "+e.contentOffset.y);
-	if(((cHeight - tolerance) < e.contentOffset.y) && !loading){
-		loading = true;
-		console.log("add indicator");
-=======
-		var cHeight = (lastChild.rect.y - (lastChild.getSize().height / 2));
-	} 
-	if(((cHeight - tolerance) < e.source.contentOffset.y) && !loading){
-		loading = true; 
->>>>>>> origin/master
-		$.adsCategory.ads_listing.add(activityIndicator);
-		activityIndicator.show();
-		buildListing();
-	}
-	//buildListing()
-});
-*/
-var lastDistance = 0;
-/*$.ads_listing.addEventListener("scroll", function(e){
-	if(Ti.Platform.osname == 'iphone'){
-		var offset = e.contentOffset.y;
-		var height = e.size.height;
-		var total = offset + height;
-		var theEnd = e.contentSize.height;
-		var distance = theEnd - total;
-		if (distance < lastDistance){
-			var nearEnd = theEnd * .75;
- 			if (!loading && (total >= nearEnd)){
- 				console.log('loading new feed');
- 				loading = true;
- 				buildListing();
- 			}
-		}
-		lastDistance = distance;
+		var cell_width = Math.floor(pwidth / 2) - 15;
 	}
 	
-	if(Ti.Platform.osname == 'android' && !loading){
-		if((e.firstVisibleItem+e.visibleItemCount) == e.totalItemCount){
-			console.log(e.firstVisibleItem+" "+e.visibleItemCount+" "+e.totalItemCount);
-			loading = true;
-			buildListing();
-		}
-	}
-});
-*/
-$.btnBack.addEventListener('touchend', function(){ 
-	COMMON.closeWindow($.adsCategoryWin);  
+	for (var i=0; i < data.length; i++) {
+		console.log("m_id: "+data[i].m_id);
+		var cell = $.UI.create("View", {
+			left: 10,
+			bottom: 10,
+			width: cell_width,
+			m_id: data[i].m_id,
+			classes:['hsize']
+		});
+		var view_container = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'vert'],
+			m_id: data[i].m_id,
+			backgroundColor: "#ffffff"
+		});
+		var view_backgroundColor = $.UI.create("View", {
+			backgroundColor: random_color[Math.round(Math.random() * 5)],
+			classes: ['wfill', 'hsize']
+		});
+		var image_thumb = $.UI.create("ImageView",{
+			width: cell_width,
+			classes: ['hsize'],
+			image: data[i].img_path
+		});
+		var text_padd = $.UI.create("View", {
+			classes:['wfill','hsize']
+		});
+		var text_ads = $.UI.create("Label", {
+			text: data[i].name,
+			classes:['wfill', 'hsize', 'h6'],
+			color: "#525152",
+			top: 10, right:4, left:4, bottom:10,
+		});
+		cell.add(view_container);
+		text_padd.add(text_ads);
+		view_backgroundColor.add(image_thumb);
+		view_container.add(view_backgroundColor);
+		view_container.add(text_padd);
+		$.inner_box.add(cell);
+		cell.addEventListener("click", nav_to_merchant);
+	};
+}
+
+function refresh(){
+	var favoritesLibrary = Alloy.createCollection('favorites'); 
+	data = favoritesLibrary.getFavoritesByUid(u_id); 
+	render_favourite_merchant();
+	loading.finish();
+}
+
+function init(){
+	$.win.add(loading.getView());
+	loading.start();
+	refresh();
+}
+
+init();
+
+function pixelToDp(px) {
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160))+'dp';
+}
+
+$.btnBack.addEventListener('click', function(){ 
+	COMMON.closeWindow($.win);
 }); 

@@ -5,9 +5,9 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var nav = Alloy.Globals.navMenu;
 
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'MY FAVOURITE', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
 });
   
@@ -253,9 +253,9 @@ var createGridListing = function(res){
     $.gridView.category_tv.removeAllChildren();
     
     if(details.length < 1){
-   		var noRecord = Ti.UI.createLabel({ 
+   		var noRecord = $.UI.create("Label", { 
 		    text: "No record found", 
-		    color: '#CE1D1C', 
+		    color: '#ED1C24', 
 		    textAlign: 'center',
 		    font:{fontSize:14,fontStyle:'italic'},
 		    top: 15,

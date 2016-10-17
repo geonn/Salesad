@@ -21,9 +21,9 @@ if(OS_IOS){
 	Alloy.Globals.tracker.addScreenView('Edit Profile');
 }
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: "EDIT " +args.title, 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
    

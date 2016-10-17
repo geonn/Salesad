@@ -24,18 +24,7 @@
 	    width: 40,
 	    height: 40	
 },
-".textfield" : {
-	 font:{
-		fontSize: '14dp'
-	},
-	 color: '#000000', 
-	 width:'90%',
-	 height: '35dp',
-	 bottom:5,
-	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
-     returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
-	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
-},
+
 ".password" : {
 	 passwordMask:true,
 	 font:{

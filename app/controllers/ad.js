@@ -1,4 +1,5 @@
 var args = arguments[0] || {};
+<<<<<<< HEAD
 //load model
 var m_library = Alloy.createCollection('merchants'); 
 var a_library = Alloy.createCollection('ads'); 
@@ -23,63 +24,59 @@ if(typeof args.m_id != "undefined"){
 }
 //console.log(merc);
 
+=======
+var a_id = args.a_id || "";
+var m_id = args.m_id || "";
+var ads;
+>>>>>>> origin/master
 var from = args.from || "";
 var isFeed = args.isFeed || "";
 var isScan = "";
 var nav = Alloy.Globals.navMenu;
 var clickTime = null;
 var isAdsAvailable  = false; 
+var u_id = Ti.App.Properties.getString('u_id') || "";
+var items;
+
 Alloy.Globals.naviPath.push($.win);
 var BARCODE = require('barcode');
+
+//load model
+var m_library = Alloy.createCollection('merchants'); 
+var a_library = Alloy.createCollection('ads'); 
+var i_library = Alloy.createCollection('items');
+var loading = Alloy.createController("loading");
+
+function getAdData(){
+	ads = a_library.getAdsById(a_id);
+}
+
+function getItemData(){
+	items = i_library.getItemByAds(ads.a_id);
+}
 
 /** google analytics**/
 var lib_feeds = Alloy.createCollection('feeds');
 if(isFeed == 1){ 
 	lib_feeds.updateUserFeeds(m_id,a_id);		
 }
-	
-$.adView.activityIndicator.show();
-$.adView.loadingBar.opacity = "1";
-$.adView.loadingBar.height = "120";
-$.adView.loadingBar.top = "100";
 
-//Default ads background
-$.win.backgroundColor = "#FFFFF6";
-getScanMerchant();
 function getScanMerchant(){
-	 
-	isScan = Ti.App.Properties.getString('sales'+merc.u_id);
+	isScan = Ti.App.Properties.getString('sales'+ads.m_id);
 	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);	
 }
 
-//load merchant & branches list
- 
-var u_id = Ti.App.Properties.getString('u_id') || "";
-var model_favorites = Alloy.createCollection('favorites');
-var exist = model_favorites.checkFavoriteExist(m_id);
- //console.log("m_id : "+m_id); 
-if(exist){
-	$.adView.favorites.image = "/images/icon-favorites-fill.png";
-}else{
-	$.adView.favorites.image = "/images/icon-favorites.png";
+function checkFavorite(){
+	var model_favorites = Alloy.createCollection('favorites');
+	console.log(m_id+" m_id");
+	var exist = model_favorites.checkFavoriteExist(m_id);
+	 //console.log("m_id : "+m_id);
+	var fav_img = (exist)?"/images/SalesAd_Favorited.png":"/images/SalesAd_Favorite.png";
+	$.favorites.image = fav_img;
 }
-var getFavorites = model_favorites.getFavoritesByUid(u_id);
- 
-var gBannerImg;
-/*********************
-*******FUNCTION*******
-**********************/
- 
-var getAdDetails = function(){
-	 
-    var items = i_library.getItemByAds(ads.a_id); 
-	var counter = 0;
-	var imagepath, adImage, row, cell = '';
-	  
-	var last = items.length-1;
 
- 	//$.adView.ads_details.removeAllChildren(); 
- 	/***Set ads template***/
+function render_banner(){
+	/***Set ads template***/
  	var ads_height = "100%";
  	if(ads.template_id == "1"){
  		ads_height = "33%";
@@ -87,7 +84,7 @@ var getAdDetails = function(){
  	if(ads.template_id == "2"){
  		ads_height = "66%";
  	}
- 	 
+ 	
  	/***Add ads banner***/
  	var bannerImage = Ti.UI.createImageView({
  		defaultImage: "/images/warm-grey-bg.png",
@@ -96,41 +93,29 @@ var getAdDetails = function(){
 		height: Ti.UI.SIZE,//ads_height,
 	});
 	
-	gBannerImg = ads.img_path;
-	//Ti.Platform.openURL('whatsapp://send?text='+ads.img_path);
+	var app_background = (ads.app_background !== undefined)?"#"+ads.app_background:"#fffff6";
+	$.win.backgroundColor = app_background;
+	$.banner.add(bannerImage);
+}
+
+var getAdDetails = function(){
+	var counter = 0;
+	var imagepath, adImage, row, cell = '';
+	  
+	var last = items.length-1;
+	var pwidth = Titanium.Platform.displayCaps.platformWidth;
+	if(OS_ANDROID){
+		var cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 2;
+	}else{
+		var cell_width = Math.floor(pwidth / 2) - 2;
+	}
 	
- 	
- 	if( ads.app_background !== undefined){
-	 	$.win.backgroundColor = "#"+ads.app_background;
-	 	if(Ti.Platform.osname == "android"){ 
-	 		$.adHeader.backgroundColor = "#fffff6";
-	 	}
-	 	
-	 }else{
-	 	 $.win.backgroundColor = "#fffff6";
-	 }
-	 
-	$.adView.ads_details.addEventListener('click', function(e) {
-		// double click prevention
-	    var currentTime = new Date();
-	    if (currentTime - clickTime < 1000) {
-	        return;
-	    };
-	    clickTime = currentTime; 
-		var win = Alloy.createController("branches", {m_id: m_id}).getView(); 
-		COMMON.openWindow(win); 
-	
-	});
-	/***Set ads items***/
-  
 	if(items.length > 0 ){
-		$.adView.ads_details.add(bannerImage);
 		for (var i=0; i< items.length; i++) {
-	
 			if(counter%2 == 0){
-				row = $.adView.UI.create('View', {classes: ["rowAd"],});
+				row = $.UI.create('View', {classes: ["rowAd"],});
 			}
-			cell = $.adView.UI.create('View', {classes: ["cellAd"],});
+			cell = $.UI.create('View', {classes: ["cellAd"], width: cell_width});
 			
 			imagepath = items[i].img_path;
 			
@@ -153,14 +138,14 @@ var getAdDetails = function(){
 			row.add(cell);
 			
 			if(counter%2 == 1 || last == counter){
-				$.adView.ads_details.add(row);
+				$.ads_details.add(row);
 			}
 			counter++;
 		} 
 		
 		isAdsAvailable = true;
 	}else{
-		var noAvailableLabel = Ti.UI.createLabel({
+		var noAvailableLabel = $.UI.create("Label", { 
 			text : "No ads available",
 			height: Ti.UI.SIZE,
 			width: Ti.UI.FILL,
@@ -172,45 +157,13 @@ var getAdDetails = function(){
 			height: Ti.UI.FILL,
 			width: Ti.UI.FILL
 		});
-		$.adView.ads_details.add(default_image);
+		$.ads_details.add(default_image);
 	}
 
-	
-	/**Set Custom title**/
-	if(typeof pageTitle == "undefined"){ 
-		
-	}else{
- 
-		if(OS_IOS){
-			Alloy.Globals.tracker.trackEvent({
-				category: "ads",
-				action: "view",
-				label: "ads_details",
-				value: 1
-			});
-			Alloy.Globals.tracker.trackScreen({
-			    screenName: "Ads Details - " +pageTitle
-			});
-		}else{ 
-			Alloy.Globals.tracker.addEvent({
-		        category: "ads",
-				action: "view",
-				label: "ads_details",
-				value: 1
-		    }); 
-			Alloy.Globals.tracker.addScreenView("Ads Details - " +pageTitle);
-		}
-	}
-	
-	//if (pageTitle.length > 24) {// if too long...trim it!}
-    //	pageTitle = pageTitle.substring(0, 24) + "...";
-    //}
-    //pageTitle = pageTitle.replace(/&quot;/g, "'");
-	
-	var custom = Ti.UI.createLabel({ 
+	var custom = $.UI.create("Label", { 
 		    text: pageTitle, 
 		    font: { fontWeight: 'bold'},
-		    color: '#CE1D1C' 
+		    color: '#ED1C24' 
 	});
 	
 	//var ads_title = textCounter(pageTitle , 14);
@@ -220,12 +173,20 @@ var getAdDetails = function(){
 		$.win.titleControl = custom;
 	} 
 	
-	$.adView.activityIndicator.hide();
-	$.adView.loadingBar.opacity = "0";
-	$.adView.loadingBar.height = "0";
-	$.adView.loadingBar.top = "0";	
+	loading.finish();
 };
 
+function init(){
+	$.win.add(loading.getView());
+	getAdData();
+	m_id = ads.m_id;
+	getScanMerchant();
+	checkFavorite();
+	refresh();
+	pageTitle = ads.name;	// set Page Title
+}
+
+init();
 
 //dynamic addEventListener for adImage
 function createAdImageEvent(adImage,a_id,position, title) {
@@ -243,33 +204,22 @@ function createAdImageEvent(adImage,a_id,position, title) {
 			opacity: 1,
 			duration: 300
 		});
-		/*var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isScan: isScan}).getView(); 
-	  	page.open();
-	  	page.animate({
-			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
-			opacity: 1,
-			duration: 300
-		});*/
     });
 }
 
  
-$.adView.location.addEventListener('click', function(e){ 
+$.location.addEventListener('click', function(e){ 
 	var win = Alloy.createController("location",{m_id:m_id,a_id:a_id}).getView(); 
 	COMMON.openWindow(win); 
 });
-/************************
-*******APP RUNNING*******
-*************************/
-
-getAdDetails();
 
 /*********************
 *** Event Listener ***
 **********************/
 
 //Add your favorite event
-$.adView.favorites.addEventListener("click", function(){ 
+$.favorites.addEventListener("click", function(){ 
+	var model_favorites = Alloy.createCollection('favorites');
 	var exist = model_favorites.checkFavoriteExist(m_id);
  
 	if(exist){
@@ -282,10 +232,10 @@ $.adView.favorites.addEventListener("click", function(){
 		  });
 		  dialog.addEventListener('click', function(ex){
 		  	if (ex.index == 1){
-		    	 
+		     	var model_favorites = Alloy.createCollection('favorites');
 				model_favorites.deleteFavorite(exist); 
-				$.adView.favorites.image = "/images/icon-favorites.png";
-				//$.adView.favorites.visible = false;
+				$.favorites.image = "/images/SalesAd_Favorite.png";
+				//$.favorites.visible = false;
 				
 				API.updateUserFavourite({
 					m_id   : m_id,
@@ -297,45 +247,40 @@ $.adView.favorites.addEventListener("click", function(){
 				return;
 		  	}
 		 });
+		 dialog.show();
 	}else{
-	var message = "Are you sure want to add into favorite";
-	var dialog = Ti.UI.createAlertDialog({
-	    cancel: 1,
-	    buttonNames: ['Cancel','Confirm'],
-	    message: message,
-	    title: 'Add to favorite'
-	  });
-	  dialog.addEventListener('click', function(ex){
-	  	if (ex.index == 1){
-	    	var favorite = Alloy.createModel('favorites', {
-				    m_id   : m_id,
-				    u_id	 : u_id,
-				    position : 0
-				});
-			favorite.save();
-			$.adView.favorites.image = "/images/icon-favorites-fill.png";
-			//$.adView.favorites.visible = false;
-			
-			API.updateUserFavourite({
-				m_id   : m_id,
-				a_id     : a_id,
-				u_id	 : u_id,
-				status : 1
+		var favorite = Alloy.createModel('favorites', {
+			    m_id   : m_id,
+			    u_id	 : u_id,
+			    position : 0
 			});
-			Ti.App.fireEvent("app:refreshAdsListing");
-			return;
-	  	}
-	 });
+		favorite.save();
+		$.favorites.image = "/images/SalesAd_Favorited.png";
+		//$.favorites.visible = false;
+		
+		API.updateUserFavourite({
+			m_id   : m_id,
+			a_id     : a_id,
+			u_id	 : u_id,
+			status : 1
+		});
+		Ti.App.fireEvent("app:refreshAdsListing");
+		return;
 	}
-	
-
-	dialog.show();
 });
 
-function loadAdDetail(){
-	if(e.needRefresh == true){
+function refresh(e){
+	loading.start();
+	API.callByPost({url: "getItemList", params:{a_id: a_id}}, function(responseText){
+		var model = Alloy.createCollection("items");
+		var res = JSON.parse(responseText);
+		var arr = res.data || null;
+		model.saveArray(arr);
+		getItemData();
+		render_banner();
 		getAdDetails();
-	}
+		loading.finish();
+	});
 }
 
 function closeWindow(){
@@ -346,17 +291,14 @@ $.btnBack.addEventListener('click', closeWindow);
 
 $.win.addEventListener("close", function(){
 	Ti.App.fireEvent('removeNav');
-	Ti.App.removeEventListener('app:loadAdsDetails', loadAdDetail);
+	Ti.App.removeEventListener('app:loadAdsDetails', refresh);
 	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);
-    $.adView.destroy();
+    $.destroy();
 });
 
-/**Call API to update app's data**/
-API.loadAdsDetails(m_id,a_id);
 
-Ti.App.addEventListener('app:loadAdsDetails', loadAdDetail);
+Ti.App.addEventListener('app:loadAdsDetails', refresh);
 Ti.App.addEventListener('getScanMerchant', getScanMerchant);	
-
 
 /*** GEO experiment***/  
 if (Titanium.Platform.name == 'iPhone OS'){
@@ -376,7 +318,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
 	    Social.twitterAccountList();
     } 
      
-    $.adView.share.addEventListener("click", function(e){
+    $.share.addEventListener("click", function(e){
     	 
 		if(Social.isActivityViewSupported()){ //min iOS6 required
 	    	Social.activityView({
@@ -384,7 +326,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
 	        	text: ads.name + ". For more detail : http://salesad.my/main/adsDetails/"+args.a_id,
 	        	//url: "http://apple.co/1RtrCZ4",",
 	        
-	        	image:gBannerImg
+	        	image: ads.img_path
 	     	});
 	     } else {
 	     	//implement fallback sharing..
@@ -431,32 +373,34 @@ if (Titanium.Platform.name == 'iPhone OS'){
 		
 	});
 }else{ 
-	$.adView.share.addEventListener("click", function(e){
+	$.share.addEventListener("click", function(e){
     	var share = createShareOptions();
 		Ti.Android.currentActivity.startActivity(share);
     });
 } 
 
-$.adView.home.addEventListener("click", function(e){  
-	console.log("geo geo");
-	var naviPath = Alloy.Globals.naviPath;  
-	console.log(naviPath);
+$.home.addEventListener("click", function(e){
+	var naviPath = Alloy.Globals.naviPath;
 	if(naviPath == ""){
-		COMMON.closeWindow($.ad);
+		console.log("here?");
+		closeWindow();
 	}else{
-		for (var i=0; i< naviPath.length; i++) {  
-			console.log(naviPath[i]);
+		console.log('yes!');
+		for (var i=0; i< naviPath.length; i++) { 
 			COMMON.closeWindow(naviPath[i]);  
 		} 
 	}
-	
-	
 });
     
+function pixelToDp(px) {
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160))+'dp';
+}    
+
 function createShareOptions(){
  
     var subject = pageTitle;
-    var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";
+    var text = ads.name + ". For more detail : http://salesad.my/main/adsDetails/"+args.a_id;
+   // var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";
   
     var intent = Ti.Android.createIntent({
         action: Ti.Android.ACTION_SEND,
@@ -464,7 +408,7 @@ function createShareOptions(){
     });
     intent.putExtra(Ti.Android.EXTRA_TEXT,text);
     intent.putExtra(Ti.Android.EXTRA_SUBJECT,subject);
- 	intent.putExtraUri(Ti.Android.EXTRA_STREAM,gBannerImg);
+ 	intent.putExtraUri(Ti.Android.EXTRA_STREAM, ads.img_path);
     var share = Ti.Android.createIntentChooser(intent,'Share');
  
     return share;
@@ -474,11 +418,7 @@ var SCANNER = require("scanner");
 
 // Create a window to add the picker to and display it. 
 var window = SCANNER.createScannerWindow();
-	
-// create start scanner button
-var button = SCANNER.createScannerButton(); 
-	
-	
+
 $.scanner.addEventListener('click', QrScan);
 	 
 SCANNER.init(window); 

@@ -16,8 +16,6 @@
 	font: {
         fontSize: '18'
     },
-    
-    color: '#6E6E6E',
     left: '10',
     textAlign: "left",
     right: '10'

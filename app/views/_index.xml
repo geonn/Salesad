@@ -13,23 +13,23 @@
 		</View>
 		<View width="Ti.UI.FILL" top="45" bottom="61" height="Ti.UI.FILL">
 			<ScrollView layout="vertical" id="scrollview" height="Ti.UI.FILL" width="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE">
-				<View id="bannerListing" height="350" width="Ti.UI.FILL" backgroundColor="black"></View>
+				<View id="bannerListing" class="hsize wfill" backgroundColor="black"></View>
 				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>
 			</ScrollView>
 		</View>
 		<View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
 	    	<View class="grey_line"></View>
 	    	<View width="25%" height="60">
-	    		<ImageView id="home" height="Ti.UI.FILL" image="/images/home.png" />
+	    		<ImageView id="home" height="Ti.UI.FILL" image="/images/SalesAd_SalesXpress.png" />
 	    	</View>
 			<View width="25%" height="60">
-				<ImageView id="favorite" height="Ti.UI.FILL" image="/images/icon-favorites.png" />
+				<ImageView id="favorite" height="Ti.UI.FILL" image="/images/SalesAd_Favorites.png" />
 			</View>
 	        <View width="25%" height="60">
-	        	<ImageView id="nearby" height="Ti.UI.FILL" image="/images/nearby.png" />
+	        	<ImageView id="nearby" height="Ti.UI.FILL" image="/images/SalesAd_NearMe.png" />
 	        </View>
-	        <View width="25%" height="60">
-				<ImageView id="more" height="Ti.UI.FILL" image="/images/more.png" />
+	        <View width="24%" height="60">
+				<ImageView id="more" height="Ti.UI.FILL" image="/images/SalesAd_More.png" />
 			</View>
 		</View>
 	</Window>

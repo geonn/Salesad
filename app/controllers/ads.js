@@ -193,9 +193,9 @@ var a_library = Alloy.createCollection('ads');
 var currentAds = a_library.getAdsInfo(ads[0].a_id);
 var	adsTitle = currentAds[0].name;
 adsTitle =adsTitle.replace(/&quot;/g, "'");
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
 		    text: adsTitle, 
-		    color: '#CE1D1C' 
+		    color: '#ED1C24' 
 });
 if(Ti.Platform.osname == "android"){ 
 	$.pageTitle.add(custom);   
@@ -252,9 +252,9 @@ $.adsView.ads_details.addEventListener("scrollend", function(e){
 	a_id = a_id_v.replace(/"/g, "");  
 	$.ad.backgroundColor = "#"+JSON.stringify(e.view.app_background).replace(/"/g, "");
  
-	var custom = Ti.UI.createLabel({ 
+	var custom = $.UI.create("Label", { 
 	    text: label_text, 
-	    color: '#CE1D1C' 
+	    color: '#ED1C24' 
 	});
 	if(Ti.Platform.osname == "android"){ 
 		//$.pageTitle.removeAllChildren();

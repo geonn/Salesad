@@ -1,0 +1,25 @@
+<Alloy>
+	<Window id="win" title="Feedback & Support" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+			<View left="0" width="10%">
+		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+		    </View>
+	     	<View id="pageTitle" width="70%">
+	     		<Label color="#ED1C24">Feedback & Support</Label>
+	     	</View>
+	 	</View>
+	 	<View class="wfill hfill vert" id="inner_box" top=20>
+	 		<TextField backgroundColor="white" required="true" class="textfield" id="name" hintText="Name" />
+	    	<TextField backgroundColor="white" required="true" class="textfield" id="email" hintText="Email Address" />
+	    	<TextField backgroundColor="white" class="textfield" id="mobile" hintText="Mobile No." />
+	    	<TextField backgroundColor="white" required="true" class="textfield" id="subject" hintText="Subject" />	
+	    	<TextArea backgroundColor="white" id="comment" onFocus="clearHintText" onBlur="setHintText" required="true" _hintText="Feedback" height="60" value="Feedback"></TextArea>
+	    	<Button class="button" onClick="submit" left="10" right="10" title="Enquiry"></Button>
+	 	</View>
+	</Window>
+</Alloy>

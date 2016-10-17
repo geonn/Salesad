@@ -21,9 +21,9 @@ if(OS_IOS){
 	Alloy.Globals.tracker.addScreenView('About');
 }
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'ABOUT', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
   

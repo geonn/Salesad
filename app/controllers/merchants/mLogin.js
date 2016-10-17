@@ -21,7 +21,7 @@ if(OS_IOS){
 	Alloy.Globals.tracker.addScreenView("Advertiser Login");
 }
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'Advertiser Login', 
     color: '#ffffff', 
     width: Ti.UI.SIZE 

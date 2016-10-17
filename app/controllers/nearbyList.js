@@ -5,9 +5,9 @@ var nav = Alloy.Globals.navMenu;
 API.searchNearbyMerchant(args.latitude, args.longitude);
 $.activityIndicator.show();
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'MERCHANTS NEARBY', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
   
@@ -56,9 +56,9 @@ var nearbyMerchantResult = function(res){
    		var counter = 0;
    		
    		if(arr.length < 1){
-			var noRecord = Ti.UI.createLabel({ 
+			var noRecord = $.UI.create("Label", {  
 			    text: "No record found", 
-			    color: '#CE1D1C', 
+			    color: '#ED1C24', 
 			    textAlign: 'center',
 			    font:{fontSize:14,fontStyle:'italic'},
 			    top: 15,
@@ -90,7 +90,7 @@ var nearbyMerchantResult = function(res){
 					top:10
 				});	
 		 
-				var popUpTitle = Titanium.UI.createLabel({
+				var popUpTitle = $.UI.create("Label", {
 					text:entry.merchant_name,
 					font:{fontSize:16},
 					source: entry.m_id,
@@ -102,7 +102,7 @@ var nearbyMerchantResult = function(res){
 					height:25
 				});
 				
-				var category =  Titanium.UI.createLabel({
+				var category =  $.UI.create("Label", {
 					text:entry.category,
 					source: entry.m_id,
 					font:{fontSize:12,fontWeight:'bold'},
@@ -115,7 +115,7 @@ var nearbyMerchantResult = function(res){
 					height:12
 				});
 				
-				var distance =  Titanium.UI.createLabel({
+				var distance =  $.UI.create("Label", {
 					text:entry.distance,
 					source: entry.m_id,
 					font:{fontSize:12,fontWeight:'bold'},

@@ -29,9 +29,9 @@ details.forEach(function(entry) {
 });
 
 /**Set Custom title**/
-var custom = Ti.UI.createLabel({ 
+var custom = $.UI.create("Label", { 
     text: 'Select Favourite State', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
    
@@ -91,7 +91,7 @@ for (var j=0; j< stateArr.length; j++) {
 	  });
 	
 	
-	var title = Titanium.UI.createLabel({
+	var title = $.UI.create("Label", {
 		text: stateArr[j].title,  
 		
 		font:{fontSize:16 },
