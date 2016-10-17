@@ -16,7 +16,7 @@
  			<ImageView class="wfill hsize" onClick="navTo" e_id="1" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad2_Scrub.jpg"></ImageView>
  			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad3.jpg"></ImageView>
  			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad4.jpg"></ImageView>
- 			<ImageView class="wfill hsize" left="10" e_id="3" top="10" image="/images/dummy/giant_sales.png" onClick="navTo"></ImageView>
+ 			<ImageView class="wfill hsize" left="10" e_id="3" top="10" image="/images/dummy/gurdian_sales.png" onClick="navTo"></ImageView>
  			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad5.jpg"></ImageView>
  			<ImageView class="wfill hsize" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad6.jpg"></ImageView>
  			<ImageView class="wfill hsize" onClick="navTo" e_id="2" left="10" top="10" image="/images/dummy/App_Mockup_v4_Ad7_Bata.jpg"></ImageView>

@@ -22,7 +22,7 @@ function navTo(e){
 	var e_id = parent({name: "e_id"}, e.source);
 	console.log(e_id+" ez");
 	if(e_id == 3){
-		var win = Alloy.createController("ad", {a_id: 310}).getView(); 
+		var win = Alloy.createController("ad", {a_id: 315}).getView(); 
 		COMMON.openWindow(win); 
 	}else{
 		var win = Alloy.createController("express_detail", {e_id: e_id}).getView(); 
