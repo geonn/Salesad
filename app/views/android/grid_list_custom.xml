@@ -1,5 +1,5 @@
 <Alloy>
-	<Window title="CONTENTS" class="container" id="custom"  navTintColor="#CE1D1C">
+	<Window title="CONTENTS" class="container" id="custom"  navTintColor="#ED1C24">
 		
 		<View layout="horizontal" height="50" width="100%"  >
 			<View left="0" width="10%">

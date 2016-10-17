@@ -1,17 +1,12 @@
 var args = {};
 var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
-var category_sync_counter = 0; 
 
 var loadingView = Alloy.createController("loader");
 loadingView.getView().open();
 loadingView.start();
 
-/** add new column for ads **/
-var ads = Alloy.createCollection('ads');
-var model_merchants = Alloy.createCollection('merchants'); 
 var model_category = Alloy.createCollection('category');
-var items = Alloy.createCollection('items');
 
 /** Google Analytic**/ 
 if(OS_IOS){
@@ -34,8 +29,6 @@ if(OS_IOS){
 	Alloy.Globals.tracker.addScreenView('Home');
 }
 
-
-//Global Variable Set Navigation Menu
 Alloy.Globals.navMenu = $.navMenu;
  
 /*********************
@@ -45,74 +38,48 @@ Alloy.Globals.navMenu = $.navMenu;
 /** create banner slideshow**/
 var bannerListing = function(){
 	
-	var banner_model = Alloy.createCollection('banners'); 
- 	var banners = banner_model.getBannerList(); 
+	var ads_model = Alloy.createCollection('ads'); 
+ 	var banners = ads_model.getBannerList();
 	var the_view = [];
    	var counter = 0;
 	var imagepath, adImage, row = '';
 	var my_page = 0;
-	//var Ti.UI.SIZE = $.indexView.bannerListing.rect.height;
-	for (var i=0; i< banners.length; i++) {
-			adImage = Ti.UI.createImageView({
-				image: banners[i].img_path,
-				m_id: banners[i].m_id,
-				width: Ti.UI.FILL,
-				height: Ti.UI.FILL,
-				defaultImage: "/images/warm-grey-bg.png",
-			});
-			var curActivity = '';
-			if(Ti.Platform.osname == "android"){
-				curActivity = Titanium.Android.currentActivity;
-			}
-			
-			//if (curActivity != null || Ti.Platform.name === 'iPhone OS') { 
-			
-			var activityIndicator = Ti.UI.createActivityIndicator({
-			  color: 'green', 
-			  top:10,
-			  left:10,
-			  style: Ti.UI.ActivityIndicatorStyle.DARK,
-			  height:Ti.UI.SIZE,
-			  width:Ti.UI.SIZE,
-			  zIndex: 11,
-			});
-			/**
-			activityIndicator.show();
-			**/
-			bannerAdIamgeLoadEvent(adImage);
-			var scrollView = Ti.UI.createScrollView({
-				top:"0",
-				scrollType: "horizontal",
-				contentWidth: 'auto',
-			  	contentHeight: 'auto',
-			   	height:Ti.UI.SIZE,
-			   	backgroundImage: "/images/warm-grey-bg.png",
-			  	width: '100%' 
-			});
-			
-			row = $.indexView.UI.create('View', {classes: ["row"],layout:"", height:Ti.UI.SIZE});
-			
-			
-			//row.add(activityIndicator);
-			row.add(adImage);
-			//row.add(img_caption);
-			
-			
-			//scrollView.add(row);
-			the_view.push(row); 
-			counter++;			
+	var pwidth = Titanium.Platform.displayCaps.platformWidth;
+	if(OS_ANDROID){
+		var cell_width = pixelToDp(pwidth);
+	}else{
+		var cell_width = pwidth;
 	}
-	
-			
+	for (var i=0; i< banners.length; i++) {
+		adImage = Ti.UI.createImageView({
+			image: banners[i].img_path,
+			a_id: banners[i].a_id,
+			width: cell_width,
+			height: cell_width,
+			defaultImage: "/images/warm-grey-bg.png",
+		});
+
+		row = $.indexView.UI.create('View', {
+			classes: ["row"],layout:"", 
+			height: cell_width, 
+			backgroundImage: "/images/warm-grey-bg.png",
+			width: cell_width,
+		});
+		
+		row.add(adImage);
+		the_view.push(row); 
+		counter++;			
+	}
 	
 	var scrollableView = Ti.UI.createScrollableView({
 			id: "scrollableView",
 			views:the_view,
+			height: cell_width, 
 			showPagingControl:false,
 		});
 		
 		scrollableView.addEventListener('click', function(e) { 
-			goAd(e.source.m_id);
+			goAd(e.source.a_id);			// tomorrow kill you.
 		});
 		//scrollableView.setPagingControlColor("transparent");
 		$.indexView.bannerListing.removeAllChildren();
@@ -140,20 +107,20 @@ var bannerListing = function(){
 
 /** create category grid **/
 function buildCateogryList(e){
-	
-	while($.indexView.adListing.children.length>0){
-	    $.indexView.adListing.remove($.indexView.adListing.children[0]);
-	};
-	var model_category = Alloy.createCollection('category');
-	var category_list = model_category.getCategoryList();
-	if(!category_list.length){ 
-		API.loadCategory();
-		return;
+	$.indexView.adListing.removeAllChildren();
+	var pwidth = Titanium.Platform.displayCaps.platformWidth;
+	if(OS_ANDROID){
+		var cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 2;
+	}else{
+		var cell_width = Math.floor(pwidth / 2) - 2;
 	}
+	
+	var category_list = model_category.getCategoryList();
+	
 	var contest = {categoryName: "Contest", id: 0};
 	category_list.push(contest);
 	for (var i=0; i< category_list.length; i++) {
-		var cell = $.indexView.UI.create('View', {classes: ["cell"], id: category_list[i].id});
+		var cell = $.indexView.UI.create('View', {classes:['hsize'], width: cell_width, id: category_list[i].id});
 		var pad_cell = $.indexView.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
 		var temp_image = $.indexView.UI.create('ImageView',{
 			image: "/images/warm-grey-bg.png",
@@ -174,21 +141,10 @@ function buildCateogryList(e){
 			color: "#ffffff",
 			top: 4, right:4, left:4, bottom:20,
 		});
-		 
-		var activityIndicator = Ti.UI.createActivityIndicator({
-		  color: 'green', 
-		  bottom:10,
-		  right:10,
-		  height:Ti.UI.SIZE,
-		  width:Ti.UI.SIZE
-		});
-		 
-		activityIndicator.show();
 		
 		pad_categoryLabel.add(categoryLabel);
 		pad_cell.add(temp_image);
 		pad_cell.add(pad_categoryLabel);
-		pad_cell.add(activityIndicator);
 		cell.add(pad_cell);
 		$.indexView.adListing.add(cell); 
 		if(!category_list[i].id){
@@ -201,7 +157,6 @@ function buildCateogryList(e){
 					width: Ti.UI.FILL,
 					height: Ti.UI.SIZE,
 				});
-		   		adIamgeLoadEvent(adImage, activityIndicator);
 		   		pad_cell.add(adImage);
 		   		adImage.addEventListener('click', function(e){
 		   			//goAds("", contests[0].id);
@@ -212,28 +167,15 @@ function buildCateogryList(e){
 	   			$.indexView.adListing.remove(cell); 
 	   		}
 		}else if(typeof e != "undefined" && typeof e != "null"){
-		//	console.log("aaa");
-			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id, e.types);
+			loadLatestImageByCategoryId(pad_cell, category_list[i].id, e.types);
 		}else{
-		//	console.log("bbb");
-			loadLatestImageByCategoryId(pad_cell, activityIndicator, category_list[i].id);
+			loadLatestImageByCategoryId(pad_cell, category_list[i].id);
 		}
-		//syncCategory(category_list[i].id);
 	}
 }
 
-/** Sync Merchant by category from Server **/
-function syncCategory(){
-	var model_category = Alloy.createCollection('category'); 
-	var category_list = model_category.getCategoryList();
-	
-	for (var i=0; i< category_list.length; i++) {
-		var API = require('api');
-		API.getMerchantListByCategory(category_list[i].id);
-	}
-}
 /** Load Latest Ads by Category **/
-function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
+function loadLatestImageByCategoryId(cell, cate_id, types){
 	var c_ads_library = Alloy.createCollection('categoryAds');
 	 
 	if(types == "popular"){
@@ -246,17 +188,17 @@ function loadLatestImageByCategoryId(cell, activityIndicator, cate_id, types){
 		var adImage = Ti.UI.createImageView({
    			defaultImage: "/images/warm-grey-bg.png",
 			image: latestc[0].img_path,
+			cate_id: cate_id,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE
 		});
-   		createAdImageEvent(adImage, cate_id);
-   		adIamgeLoadEvent(adImage, activityIndicator);
+		adImage.addEventListener("click", goAds);
    		cell.add(adImage);
    	}
 }
 
 /** navigate to Ad **/
-var goAd = function(m_id, isFeed){
+var goAd = function(a_id, isFeed){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
@@ -264,13 +206,13 @@ var goAd = function(m_id, isFeed){
 	};
 	clickTime = currentTime;
 	    
-	var win = Alloy.createController("ad", {m_id: m_id, from : "home", isFeed: isFeed}).getView(); 
-	COMMON.openWindow(win); 
+	var win = Alloy.createController("ad", {a_id: a_id, from : "home", isFeed: isFeed}).getView(); 
+	COMMON.openWindow(win);
 };
 
 /** navigate to Ads **/
-function goAds(cate_id, contest_id){
-	// double click prevention
+function goAds(e){
+	var cate_id = parent({name: "cate_id"}, e.source);
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
 	    return;
@@ -283,57 +225,6 @@ function goAds(cate_id, contest_id){
 	}
 	COMMON.openWindow(win); 
 };
-
-//var goAds = _.debounce(eventAds, 1000, true);
-
-/** Bind GoAds Event to Image **/
-function createAdImageEvent(adImage, cate_id) {
-    adImage.addEventListener('click', function(e) {
-        goAds(cate_id);
-    });
-}
-
-/** Bind Indicator to Banner Image **/
-function bannerAdIamgeLoadEvent(adImage){
-	//activityIndicator.hide(); 
-	adImage.addEventListener('load', function(e) { 
-		if(!category_sync_counter){
-			if(Ti.Platform.osname != "android"){
-				$.indexView.scrollview.setDisableBounce(false);
-			}
-      		$.indexView.scrollview.animate({top:0, duration: 500});
-		}
-	});
-}
-
-/** Bind Indicator to Ad Image **/
-function adIamgeLoadEvent(adImage, activityIndicator){
-	adImage.addEventListener('load', function(e) {
-		category_sync_counter--; 
-		activityIndicator.hide();
-		if(!category_sync_counter){
-			if(Ti.Platform.osname != "android"){
-				$.indexView.scrollview.setDisableBounce(false);
-			}else{
-				/** IOS trigger when all category image loaded **/
-			}
-      		$.indexView.scrollview.animate({top:0, duration: 500});
-      		
-		}
-	});
-}
-
-function updateCategoryList(e){
-	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
-		var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
-		var cell = $.indexView.adListing.children[c].children[0]; 
-		if(typeof e != "undefined" && typeof e != "null"){
-			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id, e.types);
-		}else{
-			loadLatestImageByCategoryId(cell, activityIndicator, $.indexView.adListing.children[c].id);
-		}
-	}
-}
 
 function loadingViewFinish(){
 	loadingView.finish(function(){
@@ -349,7 +240,7 @@ function loadingViewFinish(){
 }
 
 function init(){
-	//API.loadMerchantListByType("all");
+	
 	bannerListing();
 	buildCateogryList();
 	var url = "";
@@ -362,8 +253,6 @@ function init(){
 			url = global_url;
 		}
 	}
-	console.log(url);
-	console.log(typeof(url));
 	if ( url != "" && typeof(url)!="undefined") {
         var details = url;
         var arg = details.split("://"); 
@@ -375,66 +264,15 @@ function init(){
 	     Ti.App.Properties.setString('global_url', "");
 	}
 }
-/************************
-*******APP RUNNING*******
-*************************/
-/*
-var loadingView = Alloy.createController("loader");
-loadingView.getView().open();
-loadingView.start(); 
 
-setTimeout(function(){
-	loadingView.finish(function(){
-		
-		if(OS_IOS){
-			$.nav.open()
-		}
-		else if(OS_MOBILEWEB){
-			$.index.open();
-		}
-		else{
-			$.index.getView().open();
-		} 
-		
-		loadingView.getView().close();
-		loadingView = null;
-	});
-}, 1500);
-*/
-
-/*if(Ti.Platform.osname == "android"){ 
-	$.indexView.root.open(); 
-}else{ 
-	$.navMenu.open({fullscreen:true});
-} 
-
-var API = require('api');
-/** 
- * Banner Flow 
- * index.js API.bannerListing() 
- * > api.js Ti.App.fireEvent('app:bannerListing') 
- * > index.js bannerListing()
- **/
-//API.bannerListing();
-
-/** 
- * Category Flow 
- * index.js API.loadCategory() > api.js fireEvent('app:loadCategory')  // sync category from server
- * > index.js buildCateogryList() 
- * > index.js syncCategory() 
- * > index.js API.loadMerchantListByCategory(cate_id) > api.js fireEvent('app:category_detailCreateGridListing') // sync merchant from server
- * > index.js API.loadAdsByCategory(e.cate_id); > api.js fireEvent('app:adsUpdated', {cate_id: cate_id}); // sync ads from server
- * > index.js loadLatestImageByCategoryId();
- * > index.js categorAds.getLatestAdsByCategory(cate_id, 1);
- **/
-//buildCateogryList();
-//API.loadCategory();
+// convert pixel to dp.
+function pixelToDp(px) {
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160))+'dp';
+}
 
 /*********************
 *** Event Listener ***
 **********************/
-
-Ti.App.addEventListener('app:triggerAdsType', updateCategoryList);
 
 $.indexView.more.addEventListener("click", function(e){
 	var win = Alloy.createController("category").getView();  
@@ -450,50 +288,10 @@ function goToAds(e){
 	goAd(e.m_id, e.isFeed);
 }
 
-function category_detailCreateGridListing(e){
-	API.loadAdsByCategory(e.cate_id);
-}
-
-function adsUpdated(e){
-	if(!$.indexView.adListing.children.length){ 
-		buildCateogryList();
-	}
-	for (var c = $.indexView.adListing.children.length - 1; c >= 0; c--) {
-		if($.indexView.adListing.children[c].id == e.cate_id){
-			var activityIndicator = $.indexView.adListing.children[c].children[0].children[2];
-			var cell = $.indexView.adListing.children[c].children[0];
-			loadLatestImageByCategoryId(cell, activityIndicator, e.cate_id);
-		}
-    }
-}
-
-function loadCategory(e){
-	var model_category = Alloy.createCollection('category'); 
-	var category_list = model_category.getCategoryList();
-	
-	for (var i=0; i< category_list.length; i++) {
-		var API = require('api');
-		API.getMerchantListByCategory(category_list[i].id);
-	}
-}
-
 /** EventListerner for notification **/
 Ti.App.addEventListener('app:goToAds', goToAds);
 
-/** EventListner for after API.loadMerchantListByCategory success
- * function ready to remove.
- * **/
-Ti.App.addEventListener('app:category_detailCreateGridListing', category_detailCreateGridListing);
-
-/** EventListner for after API.loadAdsByCategory success**/
-Ti.App.addEventListener('app:adsUpdated', adsUpdated);
-
 Ti.App.addEventListener('app:loadingViewFinish', loadingViewFinish);
-/** EventListner for after API.bannerListing success**/
-Ti.App.addEventListener('app:bannerListing', bannerListing);
-
-/** EventListner for after API.loadCategory success**/
-Ti.App.addEventListener('app:loadCategory', loadCategory);
 
 $.indexView.favorite.addEventListener('click', function(e){
 	var win = Alloy.createController("favourite", {cate_id: 7}).getView();  
@@ -501,6 +299,9 @@ $.indexView.favorite.addEventListener('click', function(e){
 });
 
 $.indexView.home.addEventListener('click', function(e){
+	var win = Alloy.createController("home_all", {action_type: e.index}).getView();  
+	COMMON.openWindow(win);
+	/*
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: 2,
 	  options: ['Recent', 'Popular', 'Cancel'],
@@ -515,7 +316,7 @@ $.indexView.home.addEventListener('click', function(e){
 			var win = Alloy.createController("home_all", {action_type: e.index}).getView();  
 			COMMON.openWindow(win);
 		}
-	});
+	});*/
 });
 
 /** Android Click to refresh **/
@@ -567,14 +368,21 @@ console.log(isInForeground);
 	});
 }
 
+
+
 /** close all login eventListener when close the page**/
-$.indexView.root.addEventListener("close", function(){ 
-	Ti.App.removeEventListener('app:triggerAdsType', updateCategoryList);
+$.indexView.root.addEventListener("close", function(){
 	Ti.App.removeEventListener('app:goToAds', goToAds);
-	Ti.App.removeEventListener('app:category_detailCreateGridListing', category_detailCreateGridListing);
-	Ti.App.removeEventListener('app:adsUpdated', adsUpdated);
 	Ti.App.removeEventListener('app:loadingViewFinish', loadingViewFinish);
-	Ti.App.removeEventListener('app:bannerListing', bannerListing);
-	Ti.App.removeEventListener('app:loadCategory', loadCategory);
     $.indexView.destroy();
 });
+
+var SCANNER = require("scanner");
+var window = SCANNER.createScannerWindow();
+SCANNER.init(window); 
+
+$.indexView.scanner.addEventListener('click', QrScan);
+
+function QrScan(){
+	SCANNER.openScanner("4");
+}

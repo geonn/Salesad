@@ -1,11 +1,11 @@
 ".hr" :{
 	width: Ti.UI.FILL,
 	height: '1',
-	backgroundColor: '#ed1c24',
+	backgroundColor: '#ED1C24',
 },
 'Window': {
     titleAttributes:  {
-        color: "#CE1D1C",
+        color: "#ED1C24",
         font:{
 			fontWeight: "bold",
 			fontSize: 15,
@@ -13,6 +13,33 @@
 		}
    }
 },
+
+".textfield" : {
+	 font:{
+		fontSize: '14dp'
+	},
+	 color: '#000000', 
+	 width:'90%',
+	 height: '35dp',
+	 bottom:5,
+	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
+     returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
+	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+},
+
+"TextArea":{
+	 font:{
+		fontSize: '14dp'
+	},
+	 color: '#000000', 
+	 width:'90%',
+	 borderWidth : 1,
+	 borderColor: "#E3E5E8",
+	 borderRadius : 5,
+     returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
+	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+}
+
 'NavigationWindow':{
 	backgroundColor: '#E4E4E4',
 },

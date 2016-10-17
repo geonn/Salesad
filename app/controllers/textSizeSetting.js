@@ -24,7 +24,7 @@ var textsize = Ti.App.Properties.getString("fontSizeClasses");
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'TEXT SIZE', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
  

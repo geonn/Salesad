@@ -24,7 +24,7 @@ var clickTime = null;
 /**Set Custom title**/
 var custom = $.UI.create("Label", {  
     text: 'PRIVACY & TERMS', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
    

@@ -195,7 +195,7 @@ var	adsTitle = currentAds[0].name;
 adsTitle =adsTitle.replace(/&quot;/g, "'");
 var custom = $.UI.create("Label", { 
 		    text: adsTitle, 
-		    color: '#CE1D1C' 
+		    color: '#ED1C24' 
 });
 if(Ti.Platform.osname == "android"){ 
 	$.pageTitle.add(custom);   
@@ -254,7 +254,7 @@ $.adsView.ads_details.addEventListener("scrollend", function(e){
  
 	var custom = $.UI.create("Label", { 
 	    text: label_text, 
-	    color: '#CE1D1C' 
+	    color: '#ED1C24' 
 	});
 	if(Ti.Platform.osname == "android"){ 
 		//$.pageTitle.removeAllChildren();

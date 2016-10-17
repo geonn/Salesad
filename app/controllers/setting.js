@@ -23,7 +23,7 @@ if(OS_IOS){
 /**Set Custom title**/
 var custom = $.UI.create("Label", {  
     text: 'SETTINGS', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
    
@@ -39,6 +39,7 @@ function generateSettingTable(){
 		{ title: 'Privacy and Terms', hasChild:true },
 		{ title: 'Text Size', hasChild:true },
 		{ title: 'Push Notification', hasChild:true },
+		{ title: 'Feedback & Support', hasChild:true },
 	];
 
 	var fontSizeClasses = (Ti.App.Properties.getString("fontSizeClasses"))?Ti.App.Properties.getString("fontSizeClasses"):"normal_font";
@@ -145,6 +146,11 @@ $.setting.addEventListener('click', function(e){
 
 	if(e.index == 4){
 		var win = Alloy.createController("pushNotificationSettings").getView();  
+		COMMON.openWindow(win); 
+	}
+	
+	if(e.index == 5){
+		var win = Alloy.createController("feedback").getView();  
 		COMMON.openWindow(win); 
 	}
 	

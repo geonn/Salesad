@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="SALESAD" navTintColor="#CE1D1C" backgroundColor="#fff" class="container" >
+	<Window id="win" title="SALESAD" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
@@ -10,7 +10,7 @@
 		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 		    </View>
 	     	<View id="pageTitle" width="70%">
-	     		<Label color="#CE1D1C">SALESAD</Label>
+	     		<Label color="#ED1C24">SALESAD</Label>
 	     	</View>
 	 	</View>
     	<View bottom='0' class="hr"></View>

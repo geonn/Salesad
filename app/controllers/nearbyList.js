@@ -7,7 +7,7 @@ $.activityIndicator.show();
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'MERCHANTS NEARBY', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
   
@@ -58,7 +58,7 @@ var nearbyMerchantResult = function(res){
    		if(arr.length < 1){
 			var noRecord = $.UI.create("Label", {  
 			    text: "No record found", 
-			    color: '#CE1D1C', 
+			    color: '#ED1C24', 
 			    textAlign: 'center',
 			    font:{fontSize:14,fontStyle:'italic'},
 			    top: 15,

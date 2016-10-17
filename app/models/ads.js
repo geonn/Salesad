@@ -10,8 +10,10 @@ exports.definition = {
 		    "description": "TEXT",
 		    "img_path": "TEXT",
 		    "status" : "INTEGER",
+		    "branch": "TEXT",
 		    "active_date" : "TEXT",
 		    "expired_date" : "TEXT",
+		    "recommended": "INTEGER",	//1 - recommended, 2 - normal
 		    "created" : "TEXT",
 		    "updated" : "TEXT"
 		},
@@ -84,6 +86,45 @@ exports.definition = {
 					    description: res.fieldByName('description'),
 					    status: res.fieldByName('status'),
 					};
+                	res.next();
+					count++;
+                }
+                res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			getBannerList: function(){
+				var u_id = Ti.App.Properties.getString('u_id') || "";
+				
+				var collection = this;
+				var columns = collection.config.columns;
+				var names = [];
+				for (var k in columns) {
+	                names.push(k);
+	            }
+	            
+				var sql = "select * from ads where recommended = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND status = 1";
+				db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr = [];
+				var count = 0;
+                
+                var eval_column = "";
+            	for (var i=0; i < names.length; i++) {
+					eval_column = eval_column+names[i]+": res.fieldByName('"+names[i]+"'),";
+				};
+                
+                var row_count = res.fieldCount;
+            	for(var a = 0; a < row_count; a++){
+            		console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+            	}
+                
+                while (res.isValidRow()){
+                	eval("arr[count] = {"+eval_column+"}");
                 	res.next();
 					count++;
                 }
@@ -252,6 +293,7 @@ exports.definition = {
 					    name: res.fieldByName('name'),
 					    app_background: res.fieldByName('app_background'),
 					    youtube: res.fieldByName('youtube'),
+					    branch: res.fieldByName('branch'),
 					    description: res.fieldByName('description'),
 					    template_id: res.fieldByName('template_id'),
 					    img_path: res.fieldByName('img_path')
@@ -349,10 +391,10 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated);
-					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET m_id=?, app_background=?,name=?,youtube=?,template_id=?,description=?,img_path=?,status=?,active_date=?,expired_date=?,created=?,updated=?  WHERE a_id=?";
-					db.execute(sql_query, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.a_id);
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch);
+					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET m_id=?, app_background=?,name=?,youtube=?,template_id=?,description=?,img_path=?,status=?,active_date=?,expired_date=?,created=?,updated=?, recommended=?, branch=? WHERE a_id=?";
+					db.execute(sql_query, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.a_id);
 				});
 				db.execute("COMMIT");
 	            db.close();

@@ -23,7 +23,7 @@ if(OS_IOS){
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'HELP', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
 

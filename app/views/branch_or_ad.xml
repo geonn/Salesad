@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="" navTintColor="#CE1D1C" backgroundColor="#fff" class="container" >
+	<Window id="win" title="" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
@@ -10,18 +10,19 @@
 		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 		    </View>
 	     	<View id="pageTitle" width="70%">
-	     		<Label color="#CE1D1C" id="title"></Label>
+	     		<Label color="#ED1C24" id="title"></Label>
 	     	</View>
 	 	</View>
+	 	<View bottom='0' class="hr"></View>
 	 	<View class="wfill hfill vert">
 	 		<View class="wfill hsize">
 	 			<View class="padding wfill hsize" horizontalWrap="false">
 	 				<View class="wsize hsize horz box rounded" borderColor="#484848">
-						<View id="firstTab" tab="1" onClick="switchListing" backgroundColor="#484848" class="wsize hsize">
-							<Label v="label" onClick="switchListing" width="70" textAlign="center" color="#ffffff" class="hsize small-padding h6" >Branch</Label>
-						</View>
 						<View tab="2" id="secondTab"  onClick="switchListing" class="wsize hsize">
 							<Label v="label" onClick="switchListing" width="70" color="#484848" textAlign="center" class="hsize small-padding h6">Sales</Label>
+						</View>
+						<View id="firstTab" tab="1" onClick="switchListing" backgroundColor="#484848" class="wsize hsize">
+							<Label v="label" onClick="switchListing" width="70" textAlign="center" color="#ffffff" class="hsize small-padding h6" >Branch</Label>
 						</View>
 					</View>
 				</View>

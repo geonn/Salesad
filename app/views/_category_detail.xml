@@ -1,11 +1,9 @@
 <Alloy>
-	 <View bottom='0' class="hr"></View>
-		<View layout="vertical" id="loadingBar" height="120" width="120" borderRadius="15" top="100" backgroundColor="#2E2E2E" >
-        	<ActivityIndicator  id="activityIndicator" />
-        	<Label top="5" text="Loading" color="#ffffff" />
-        </View>
+ 	<View class="wfill hfill" id="container">
 		<View id="main" layout="vertical">
+			<View bottom='0' class="hr"></View>
 			<View id="category_banner" width="Ti.UI.FILL" height="Ti.UI.SIZE"></View>
 			<TableView id="category_tv" height="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></TableView>
 		</View>
+	</View>
 </Alloy>

@@ -7,7 +7,7 @@ var nav = Alloy.Globals.navMenu;
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'MY FAVOURITE', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
 });
   
@@ -255,7 +255,7 @@ var createGridListing = function(res){
     if(details.length < 1){
    		var noRecord = $.UI.create("Label", { 
 		    text: "No record found", 
-		    color: '#CE1D1C', 
+		    color: '#ED1C24', 
 		    textAlign: 'center',
 		    font:{fontSize:14,fontStyle:'italic'},
 		    top: 15,

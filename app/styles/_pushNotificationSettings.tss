@@ -13,7 +13,7 @@
 	top:15
 },
 ".label" :{
-	color:"#CE1D1C",
+	color:"#ED1C24",
 	textAlign: "left",
 	font:{fontSize:'14dp'}
 }

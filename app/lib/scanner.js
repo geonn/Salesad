@@ -39,6 +39,7 @@ exports.createScannerButton = function(){
  * 1 - scan and assigned resources and finish goods
  * 2 - scan to check the product info
  * 3 - get contest pharmacy code
+ * 4 - homepage scan nav to ad page
  */
 exports.openScanner = function(scanType) {
 	 
@@ -58,7 +59,6 @@ exports.openScanner = function(scanType) {
 	// scanning is canceled.
 	picker.setSuccessCallback(function(e) { 
 		// 1 - scan and assigned resources and finish goods 
-		
 		if(scanType == "1"){ 
 			var barcode = e.barcode; 
 			var barRes = barcode.split('||');
@@ -71,7 +71,7 @@ exports.openScanner = function(scanType) {
 					duration: 300
 				});
 			} 
-			var barStr = 'sales'+barRes[0]; 
+			var barStr = 'sales'+barRes[0];
 			Ti.App.Properties.setString(barStr, '1'); 
 	 
 			setTimeout(function(){ Ti.App.Properties.removeProperty(barStr); }, 60000);
@@ -83,6 +83,19 @@ exports.openScanner = function(scanType) {
 			if(typeof barRes[1] != "undefined"){
 				Ti.App.fireEvent('updatePharmacy_code', {id: params[0], params: params[1]});
 			}
+		}else if(scanType == "4"){
+			var barcode = e.barcode; 
+			var barRes = barcode.split("||");
+			if(typeof barRes[0] != "undefined"){
+				var barStr = 'sales'+barRes[0];
+				Ti.App.Properties.setString(barStr, '1'); 
+		 
+				setTimeout(function(){ Ti.App.Properties.removeProperty(barStr); }, 60000);
+			}
+			setTimeout(function(ex){
+				var win = Alloy.createController("branch_ad", {m_id: barRes[0], from : "home"}).getView(); 
+				COMMON.openWindow(win);
+			}, 500);
 		}
 		closeScanner();
 	});

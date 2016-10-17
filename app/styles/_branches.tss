@@ -6,7 +6,7 @@
 },
 "#branchLabel" : {
 	left: 10,
-	color: '#CE1D1C',
+	color: '#ED1C24',
 	font: { fontSize: 18 }
 },
 "#merchantName" :{

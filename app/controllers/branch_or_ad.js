@@ -9,26 +9,23 @@ function switchListing(e){
 	var text = children({name: "v", value:"label"}, $.firstTab);
 	var secondtext = children({name: "v", value:"label"}, $.secondTab);
 	
-	if(tab == 1){
+	if(tab == 2){
 		current_tab = "branch";
-		//$.firstTab.backgroundColor = "#75d0cb";
 		text.color = "#ffffff";
 		$.firstTab.backgroundColor = "#484848";
 		$.secondTab.backgroundColor = "transparent";
 		secondtext.color = "#484848";
-		$.point.show();
-		$.sales.hide();
-	}else if(tab == 2){
+		$.point.hide();
+		$.sales.show();
+	}else if(tab == 1){
 		current_tab = "ad";
-		//$.secondTab.backgroundColor = "#75d0cb";
 		secondtext.color = "#ffffff";
 		$.firstTab.backgroundColor = "transparent";
 		$.secondTab.backgroundColor = "#484848";
 		text.color = "#484848";
-		$.point.hide();
-		$.sales.show();
+		$.point.show();
+		$.sales.hide();
 	}
-	//refresh();
 }
 
 function nav_ad_listing(e){
@@ -89,7 +86,7 @@ function init(){
 	loading.start();
 	render_sales();
 	get_current_location();
-	$.sales.hide();
+	$.point.hide();
 }
 
 function get_current_location(){

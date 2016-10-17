@@ -22,7 +22,7 @@ if(merchants.area != ""){
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: merchants.merchant_name, 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
 

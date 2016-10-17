@@ -116,7 +116,6 @@ function buildListing(){
 			left: 10,
 			right: 10,
 			layout: "vertical",
-			m_id: ads[a].m_id,
 		  	a_id: ads[a].a_id,
 		  	width : Ti.UI.FILL,
 		  	height: Ti.UI.SIZE,
@@ -148,7 +147,6 @@ function buildListing(){
 		 	  defaultImage: "/images/warm-grey-bg.png",
 			  image :ads[a].img_path,
 			  width : Ti.UI.FILL,
-			  m_id: ads[a].m_id,
 			  name: ads[a].name,
 			  a_id: ads[a].a_id,
 			  id: ads[a].id,
@@ -443,7 +441,7 @@ function render_header(){
 	
 	var custom = $.UI.create("Label", { 
 	    text: customeTitle, 
-	    color: '#CE1D1C',
+	    color: '#ED1C24',
 	    font: { fontWeight: 'bold'},
 	});
 	

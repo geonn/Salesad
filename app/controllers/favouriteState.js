@@ -31,7 +31,7 @@ details.forEach(function(entry) {
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'Select Favourite State', 
-    color: '#CE1D1C', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
    

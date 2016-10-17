@@ -12,16 +12,17 @@ var saveCurLoc = function(e) {
 	console.log("saveCurLoc");
     if (e.error) {
         alert('Location service is disabled. ');
+        COMMON.closeWindow($.location);
     } else {
     	//console.log(e);
     	showCurLoc = true;
     	Ti.App.Properties.setString('latitude', e.coords.latitude);
     	Ti.App.Properties.setString('longitude', e.coords.longitude);
-    	Ti.Geolocation.removeEventListener('location',saveCurLoc);
     	render_map();
     	Ti.Geolocation.addEventListener('location', centerMap);
        //console.log(Ti.App.Properties.getString('latitude') + "=="+ Ti.App.Properties.getString('longitude'));
     }
+    Ti.Geolocation.removeEventListener('location',saveCurLoc);
 }; 
 
 console.log(Ti.Geolocation.locationServicesEnabled+" Ti.Geolocation.locationServicesEnabled");
@@ -34,7 +35,10 @@ if (Ti.Geolocation.locationServicesEnabled) {
 } 
 
 function centerMap(e){
-	$.locationView.mapview.region =  {latitude: e.coords.latitude, longitude:e.coords.longitude, latitudeDelta:0.005, longitudeDelta:0.005};
+	var lat = Ti.App.Properties.getString('latitude');
+	var lot = Ti.App.Properties.getString('longitude');
+	$.locationView.mapview.region =  {latitude: lat, longitude:lot, latitudeDelta:0.005, longitudeDelta:0.005};
+	Ti.Geolocation.removeEventListener('location', centerMap);
 }
 
 function render_map(){
@@ -76,17 +80,11 @@ function render_map(){
 		var lot = Ti.App.Properties.getString('longitude');
 		$.locationView.mapview.region =  {latitude: lat, longitude:lot,
 		                    latitudeDelta:0.05, longitudeDelta:0.05};
-		var route = Alloy.Globals.Map.createRoute({ 
-		      points : [{latitude: lat, longitude: lot}, {latitude: "3.128710", longitude: "101.763144"}], 
-		      color : "#f00", 
-		      width : 5.0 
-		 });
-		$.locationView.mapview.addRoute(route);
 	} 
 }
 
 $.location.addEventListener("close", function(){
-	Ti.Geolocation.removeEventListener('location',saveCurLoc);
+	//Ti.Geolocation.removeEventListener('location',saveCurLoc);
     $.destroy();
 });
 
