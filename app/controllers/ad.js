@@ -1,34 +1,7 @@
 var args = arguments[0] || {};
-<<<<<<< HEAD
-//load model
-var m_library = Alloy.createCollection('merchants'); 
-var a_library = Alloy.createCollection('ads'); 
-var i_library = Alloy.createCollection('items');
-
-if(typeof args.m_id != "undefined"){ 
-	
-	var m_id = args.m_id;
-	console.log("aa : "+m_id);
-	//console.log(m_id+"not undefined");
-	var ads = a_library.getAdsByMid(m_id);
-	var merc = m_library.getMerchantsById(m_id);
-	var a_id = ads.a_id || "";
-	pageTitle =merc.merchant_name;
-}else{  
-	var a_id = args.a_id || "";
-	var ads = a_library.getAdsById(a_id); 
-	var merc = m_library.getMerchantsById(ads.m_id);
-	//console.log(merc);
-	var m_id = args.m_id || ads.m_id;
-	pageTitle =ads.name;
-}
-//console.log(merc);
-
-=======
 var a_id = args.a_id || "";
 var m_id = args.m_id || "";
 var ads;
->>>>>>> origin/master
 var from = args.from || "";
 var isFeed = args.isFeed || "";
 var isScan = "";
