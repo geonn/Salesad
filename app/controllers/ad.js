@@ -13,11 +13,9 @@ if(typeof args.m_id != "undefined"){
 	var merc = m_library.getMerchantsById(m_id);
 	var a_id = ads.a_id || "";
 	pageTitle =merc.merchant_name;
-}else{ 
-	
+}else{  
 	var a_id = args.a_id || "";
-	var ads = a_library.getAdsById(a_id);
-	 
+	var ads = a_library.getAdsById(a_id); 
 	var merc = m_library.getMerchantsById(ads.m_id);
 	//console.log(merc);
 	var m_id = args.m_id || ads.m_id;
