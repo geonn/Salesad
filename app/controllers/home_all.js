@@ -16,35 +16,24 @@ function navTo(e){
 }
 
 var start = 0;
-//var anchor = COMMON.	
+var anchor = COMMON.todayDateTime();
+var last_updated = COMMON.todayDateTime();
+var keyword = "";
 
-function getPreviousData(param){ 
-	start = parseInt(start);
-	var model = Alloy.createCollection("helpline");
-	data = model.getData(false, start, anchor);
-	var estimate_time = Ti.App.Properties.getString('estimate_time');
-	console.log(estimate_time+" estimate time");
-	console.log(data);
-	last_id = (data.length > 0)?_.first(data)['id']:last_id;
-	last_uid = (data.length > 0)?_.first(data)['sender_id']:last_uid;
-	console.log(last_id+" why");
-	if(estimate_time != "0"){
-		$.estimate.text = "Our support will serve you soon. Estimate "+estimate_time+" minute left";
-		$.estimate.parent.show();
-	}else{
-		$.estimate.parent.hide();
-	}
-	render_conversation(false);
-	start = start + 10;
-	if(typeof param.firsttime != "undefined"){ 
-		setTimeout(function(e){scrollToBottom();}, 500);
-	}else{
-		if(OS_IOS){
-			$.chatroom.setContentOffset({y: 1000}, {animated: false});
-		} 
-	}
- 
+function getPreviousData(param){
+	keyword = (typeof param.keyword != "undefined")?param.keyword:keyword;
+	var model = Alloy.createCollection("xpress");
+	data = model.getData({anchor: anchor, last_updated: last_updated, start: start, latest: false, keyword: keyword});
+	start = start + data.length;
+	console.log(data.length+" "+start);
 }	
+
+function doSearch(){
+	start = 0;
+	anchor = COMMON.todayDateTime();
+	getPreviousData({keyword:$.searchbar.value});
+	render({clear: true});
+}
 	
 function refresh(){
 	API.callByPost({
@@ -55,10 +44,10 @@ function refresh(){
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
-			console.log('yes!!!onload');
+			getPreviousData({});
+			render({});
 		},
 		onerror: function(err){
-			console.log("onerror here!!!");
 			_.isString(err.message) && alert(err.message);
 		},
 		onexception: function(){
@@ -67,19 +56,21 @@ function refresh(){
 	});
 }	
 
-function render(){
+function render(e){
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
+	if(typeof e.clear != "undefined"){
+		$.content.removeAllChildren();
+	}
 	if(OS_ANDROID){
 		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
 	}else{
 		cell_width = Math.floor(pwidth / 2) - 15;
 	}
-	console.log(cell_width);
-	var child = $.content.getChildren();
-	for (var i=0; i < child.length; i++) {
-		if(child[i].e_id != 3){
-			child[i].width = cell_width;
-		}
+	for (var i=0; i < data.length; i++) {
+		var container = $.UI.create("View", {classes:['hsize'], width: cell_width, left: 10, top:10});
+		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});
+		container.add(img);
+		$.content.add(container);
 	};
 }
 
@@ -95,6 +86,26 @@ function pixelToDp(px) {
 }
 
 init();
+
+var load = false;
+var lastDistance = 0;
+$.content_scrollview.addEventListener("scroll", function(e){
+	var theEnd = $.content.rect.height;
+	var total = e.y+e.source.rect.height;
+	var distance = theEnd - total;
+	if (distance < lastDistance){
+		var nearEnd = theEnd * .75;
+		if (!load && (total >= nearEnd)){
+			console.log(nearEnd+" "+total);
+			//console.log(e.y+e.source.rect.height+" "+$.content.rect.height);
+			load = true;
+			getPreviousData({});
+			render({});
+		}
+	}
+	lastDistance = distance;
+	//
+});
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);

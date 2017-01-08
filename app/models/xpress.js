@@ -4,13 +4,15 @@ exports.definition = {
 		    "id": "INTEGER PRIMARY KEY",
 		    "u_id": "INTEGER",
 		    "category": "INTEGER",
-		    "status": "INTEGER",
+		    "status": "INTEGER",	//1 - publish, 2 - unpublish, 3 - deleted
 		    "name": "TEXT",
 		    "description": "TEXT",
 		    "store_name": "TEXT",
 		    "address": "TEXT",
 		    "latitude": "TEXT",
 		    "longitude": "TEXT",
+		    "img_path": "TEXT",
+		    "owner_img_path": "TEXT",
 		    "expired_date" : "DATE",
 		    "sales_from" : "DATE",
 		    "sales_to" : "DATE",
@@ -54,20 +56,29 @@ exports.definition = {
 				}
 				db.close();
 			},
-			getData : function(){
+			getData : function(e){
 				var collection = this;
 				var columns = collection.config.columns;
 				var names = [];
 				for (var k in columns) {
 	                names.push(k);
 	            }
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 AND (expired > date('now') OR expired = '0000-00-00') order by `updated` DESC limit "+start+", "+limit;
+	            
+	            if(e.latest){
+					var start_limit = "";
+					var sql_lastupdate = " AND created > '"+e.anchor+"'";
+				}else{
+					var start_limit = " limit "+e.start+", 8";
+					var sql_lastupdate = " AND created <= '"+e.anchor+"'";
+				}
+	            var sql_keyword = (typeof e.keyword != "undefined")?" AND name like '%"+e.keyword+"%'":"";
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_keyword+" order by `updated` DESC "+start_limit;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-               // console.log(sql);
+                console.log(sql);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;

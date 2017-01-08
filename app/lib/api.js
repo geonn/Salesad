@@ -395,9 +395,6 @@ exports.loadAPIBySequence = function (e){ //counter,
 		params: params
 	},{
 		onload: function(responseText){
-			//var res = JSON.parse(responseText);
-			//var arr = res.data || null;
-			console.log('yes!!!onload'+api['type']);
 			if(api['type'] == "api_function"){
 				eval("_.isFunction("+api['method']+") && "+api['method']+"(responseText)");
 			}else if(api['type'] == "api_model"){
@@ -417,37 +414,6 @@ exports.loadAPIBySequence = function (e){ //counter,
 			API.loadAPIBySequence({counter: counter});
 		}
 	});
-	/*
-	 var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	  
-	       var res = JSON.parse(this.responseText);
-	       if(res.status == "Success" || res.status == "success"){
-	       	var arr = res.data; 
-	       	var model = Alloy.createCollection(api['model']);
-	        model.saveArray(arr);
-	       }
-			Ti.App.fireEvent('app:update_loading_text', {text: APILoadingList[counter]['model']+" loading..."});
-			checker.updateModule(APILoadingList[counter]['checkId'],APILoadingList[counter]['model'],currentDateTime());
-			
-			counter++;
-			API.loadAPIBySequence({counter: counter});
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(ex) {
-	     	console.log("API getCategoryList fail, skip sync with server");
-	     	API.loadAPIBySequence({counter: counter});
-	     },
-	     timeout : 7000  // in milliseconds
-	 });
-	 if(Ti.Platform.osname == "android"){
-	 	client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
-	 }
- 
-	 client.open("POST", url);
-	 // Send the request.
-	client.send();*/
 };
 
 function sync_server_time(responseText){
