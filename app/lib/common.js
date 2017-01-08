@@ -1,4 +1,5 @@
 var mainView = null;
+var time_offset = 0;
 
 exports.construct = function(mv){
 	mainView = mv;
@@ -36,13 +37,14 @@ function removeAllChildren (viewObject){
     }
 };
 
-function createAlert (tt,msg){
+function createAlert (tt,msg, callback){
 	var box = Titanium.UI.createAlertDialog({
 		title: tt,
 		ok: 'OK',
 		message: msg
 	});
 	box.show();
+	_.isFunction(callback) && box.addEventListener('click', callback);
 };
 
 exports.openWindow = _.throttle(openWindow, 500, true);
@@ -73,11 +75,39 @@ exports.showLoading = function(){
 	}  
 };
 
+exports.sync_time = function(time){ 
+	var a = time.trim();
+	a = a.replace("  ", " ");
+	var b = a.split(" ");
+	var date = b[0].split("-");
+	var time = b[1].split(":"); 
+	var s_date = new Date(date[0], date[1]-1, date[2],time[0],time[1],time[2]);
+	var now = new Date();
+	var s = Date.parse(s_date.toUTCString());
+	var l = Date.parse(now.toUTCString());
+	 
+	time_offset = s-l; 
+};
+
 exports.todayDateTime = function(){
 	var today = new Date();
+	today.setTime(today.getTime() + time_offset);
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; 
 	var yyyy = today.getFullYear();
+	
+	var hours = today.getHours();
+	var minutes = today.getMinutes();
+	var sec = today.getSeconds();
+	if (minutes < 10){
+		minutes = "0" + minutes;
+	} 
+	if (sec < 10){
+		sec = "0" + sec;
+	} 
+	if (hours < 10){
+		hours = "0" + hours;
+	} 
 	
 	if(dd<10) {
 	    dd='0'+dd;
@@ -87,6 +117,7 @@ exports.todayDateTime = function(){
 	    mm='0'+mm;
 	} 
 	
-	today = yyyy+'-'+mm+'-'+ dd + " "+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-	return today;
+	datetime = yyyy+'-'+mm+'-'+dd + " "+ hours+":"+minutes+":"+sec;
+ 
+	return datetime ;
 };

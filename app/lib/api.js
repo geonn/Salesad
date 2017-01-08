@@ -20,6 +20,7 @@ var searchResult               = "http://"+API_DOMAIN+"/api/searchResult?user="+
 var updateToken  	     	   = "http://"+API_DOMAIN+"/api/updateToken?user="+USER+"&key="+KEY;
 var updateUserFavourite  	   = "http://"+API_DOMAIN+"/api/updateUserFavourite?user="+USER+"&key="+KEY;
 var updateUserFromFB  		   = "http://"+API_DOMAIN+"/api/updateUserFromFB?user="+USER+"&key="+KEY;
+var dateNow = "http://"+API_DOMAIN+"/api/serverDate?user="+USER+"&key="+KEY;
 
 //API when app loading phase
 var getCategoryList            = "http://"+API_DOMAIN+"/api/getCategoryList?user="+USER+"&key="+KEY;
@@ -31,16 +32,20 @@ var getItemList			= "http://"+API_DOMAIN+"/api/getItemList?user="+USER+"&key="+K
 var getVoucherByIdUrl			= "http://"+API_DOMAIN+"/api/getVoucherById?user="+USER+"&key="+KEY;
 var getContestListUrl 	= "http://"+API_DOMAIN+"/api/getContestList?user="+USER+"&key="+KEY;
 var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
+var getSXItem = "http://"+API_DOMAIN+"/api/getSXItem?user="+USER+"&key="+KEY;
 var sendFeedback = "http://"+API_DOMAIN+"/api/sendFeedback?user="+USER+"&key="+KEY;
+
 //API that call in sequence 
 var APILoadingList = [
-	{url: getCategoryList, model: "category", checkId: "5"},
-	{url: getFeaturedBanner, model: "banners", checkId: "2"},
-	{url: getMerchantList, model: "merchants", checkId: "6"},
-	{url: getCategoryAds, model: "categoryAds", checkId: "7"},
-	{url: getAdsList, model: "ads", checkId: "8"},
-	{url: getItemList, model: "items", checkId: "9"},
-	{url: getContestListUrl, model: "contest", checkId: "10"}
+	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
+	{url: "getCategoryList", type: "api_model", model: "category", checkId: "5"},
+	{url: "getFeaturedBanner", type: "api_model", model: "banners", checkId: "2"},
+	{url: "getMerchantList", type: "api_model", model: "merchants", checkId: "6"},
+	{url: "getCategoryAds", type: "api_model", model: "categoryAds", checkId: "7"},
+	{url: "getAdsList", type: "api_model", model: "ads", checkId: "8"},
+	{url: "getItemList", type: "api_model", model: "items", checkId: "9"},
+	{url: "getContestListUrl", type: "api_model", model: "contest", checkId: "10"},
+	{url: "getSXItem", type: "api_model", model: "xpress", checkId: "11"},
 ];
 
 exports.getUserList       = "http://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;
@@ -367,14 +372,8 @@ function fireIndexgrid(e){
 	//Ti.App.fireEvent('app:create2GridListing', res);
 };
 
-function onErrorCallback(e) {
-	var common = require('common');
-	// Handle your errors in here
-	common.createAlert("Error", e);
-};
-
-exports.loadAPIBySequence = function (ex, counter){ 
-	counter = (typeof counter == "undefined")?0:counter;
+exports.loadAPIBySequence = function (e){ //counter,
+	var counter = (typeof e.counter == "undefined")?0:e.counter;
 	if(counter >= APILoadingList.length){
 		Ti.App.fireEvent('app:loadingViewFinish');
 		return false;
@@ -383,64 +382,90 @@ exports.loadAPIBySequence = function (ex, counter){
 	var api = APILoadingList[counter];
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById(api['checkId']);
-	var last_updated ="";
+	var params ="";
 	
-	var model = Alloy.createCollection(api['model']);
 	if(isUpdate != "" ){
-		last_updated = isUpdate.updated;
+		params = {last_updated: isUpdate.updated};
 	}
 	
-	 var url = api['url']+"&last_updated="+last_updated;
-	 console.log(url);
-	 var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	  
-	       var res = JSON.parse(this.responseText);
-	       if(res.status == "Success" || res.status == "success"){
-	       	/**reset current category**/
-			//library.resetCategory();
-			/**load new set of category from API**/
-	       	var arr = res.data; 
-	        model.saveArray(arr);
-	       }
+	var url = api['url'];
+	console.log(url);
+	API.callByPost({
+		url: url,
+		params: params
+	},{
+		onload: function(responseText){
+			if(api['type'] == "api_function"){
+				eval("_.isFunction("+api['method']+") && "+api['method']+"(responseText)");
+			}else if(api['type'] == "api_model"){
+				var res = JSON.parse(responseText);
+				var arr = res.data; 
+		       	var model = Alloy.createCollection(api['model']);
+		        model.saveArray(arr);
+		        checker.updateModule(APILoadingList[counter]['checkId'],APILoadingList[counter]['model'],currentDateTime());
+			}
 			Ti.App.fireEvent('app:update_loading_text', {text: APILoadingList[counter]['model']+" loading..."});
-			checker.updateModule(APILoadingList[counter]['checkId'],APILoadingList[counter]['model'],currentDateTime());
-			
 			counter++;
-			API.loadAPIBySequence(ex, counter);
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	console.log("API getCategoryList fail, skip sync with server");
-	     	API.loadAPIBySequence(ex, counter);
-	     },
-	     timeout : 7000  // in milliseconds
-	 });
-	 if(Ti.Platform.osname == "android"){
-	 	client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); 
-	 }
- 
-	 client.open("POST", url);
-	 // Send the request.
-	client.send();
+			API.loadAPIBySequence({counter: counter});
+		},
+		onerror: function(err){
+			Ti.App.fireEvent('app:update_loading_text', {text: APILoadingList[counter]['model']+" loading..."});
+			counter++;
+			API.loadAPIBySequence({counter: counter});
+		}
+	});
 };
 
+function sync_server_time(responseText){
+	var res = JSON.parse(responseText);
+	if(res.status != "error"){
+		COMMON.sync_time(res.data);
+	}
+}
+
 // call API by post method
-exports.callByPost = function(e, onload, onerror){
+exports.callByPost = function(e, handler){
 	
 	var deviceToken = Ti.App.Properties.getString('deviceToken');
-	if(deviceToken != ""){  
-		var url = eval(e.url);
+	if(deviceToken != ""){ 
+		var url = (typeof e.new != "undefined")?"http://"+API_DOMAIN+"/api/"+e.url+"?user="+USER+"&key="+KEY:eval(e.url);
 		console.log(url);
 		var _result = contactServerByPost(url, e.params || {});   
 		_result.onload = function(ex) {  
-			onload && onload(this.responseText); 
+			try{
+				JSON.parse(this.responseText);
+			}
+			catch(e){
+				console.log('callbypost JSON exception');
+				console.log(e);
+				COMMON.createAlert("Error", e.message, handler.onexception);
+				return;
+			}
+			_.isFunction(handler.onload) && handler.onload(this.responseText); 
 		};
 		
-		_result.onerror = function(ex) { 
-			console.log(ex);
-			setTimeout(function(e){API.callByPost(e, onload, onerror);}, 3000);
+		_result.onerror = function(ex) {
+			//-1001	The request timed out.
+			if(ex.code == "-1009"){		//The Internet connection appears to be offline.
+				COMMON.createAlert("Error", ex.error, handler.onerror);
+				return;
+			}
+			if(_.isNumber(e.retry_times)){
+				console.log(e.retry_times);
+				e.retry_times --;
+				if(e.retry_times > 0){
+					API.callByPost(e, handler);
+				}else{
+					console.log('onerror msg');
+					console.log(ex);
+					COMMON.createAlert("Error", ex.error, handler.onerror);
+				}
+			}else{
+				console.log('onerror msg without no');
+				console.log(ex);
+				e.retry_times = 2;
+				API.callByPost(e, handler);
+			}
 		};
 	}
 };
@@ -500,7 +525,7 @@ function contactServerByGet(url) {
 
 function contactServerByPost(url,records) { 
 	var client = Ti.Network.createHTTPClient({
-		timeout : 50000
+		timeout : 6000
 	});
 	if(OS_ANDROID){
 	 	client.setRequestHeader('ContentType', 'application/x-www-form-urlencoded'); 
@@ -535,9 +560,4 @@ function contactServerByPostImage(url, img) {
 	client.send({Filedata: img.photo}); 
 	return client;
 	
-};
-
-function onErrorCallback(e) { 
-	// Handle your errors in here
-	COMMON.createAlert("Error", e);
 };

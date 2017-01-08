@@ -1,22 +1,7 @@
 var args = arguments[0] || {};
-var action_type = args.action_type;// "1 - popular":"0 - recent";
 var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
-var action_text = "Recent";
 var cell_width;
-if(action_type == "1"){
-	action_text = "Popular";
-}
-var custom = $.UI.create("Label", { 
-	    text: action_text, 
-	    color: '#ED1C24',
-	    font: { fontWeight: 'bold'},
-});
-	
-if(Ti.Platform.osname == "android"){ 
-		COMMON.removeAllChildren($.pageTitle);
-		$.pageTitle.add(custom);   
-}
 
 function navTo(e){
 	var e_id = parent({name: "e_id"}, e.source);
@@ -29,31 +14,70 @@ function navTo(e){
 		COMMON.openWindow(win); 
 	}
 }
+
+var start = 0;
+var anchor = COMMON.todayDateTime();
+var last_updated = COMMON.todayDateTime();
+var keyword = "";
+
+function getPreviousData(param){
+	keyword = (typeof param.keyword != "undefined")?param.keyword:keyword;
+	var model = Alloy.createCollection("xpress");
+	data = model.getData({anchor: anchor, last_updated: last_updated, start: start, latest: false, keyword: keyword});
+	start = start + data.length;
+	console.log(data.length+" "+start);
+}	
+
+function doSearch(){
+	start = 0;
+	anchor = COMMON.todayDateTime();
+	getPreviousData({keyword:$.searchbar.value});
+	render({clear: true});
+}
 	
-function init(){
-	$.win.add(loading.getView());
-	loading.start();
-	
+function refresh(){
+	API.callByPost({
+		url: "getSXItem",
+		new: true
+	}, 
+	{
+		onload: function(responseText){
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			getPreviousData({});
+			render({});
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+		},
+		onexception: function(){
+			COMMON.closeWindow($.win);
+		}
+	});
+}	
+
+function render(e){
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
+	if(typeof e.clear != "undefined"){
+		$.content.removeAllChildren();
+	}
 	if(OS_ANDROID){
 		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
 	}else{
 		cell_width = Math.floor(pwidth / 2) - 15;
 	}
-	console.log(cell_width);
-	var child = $.content.getChildren();
-	for (var i=0; i < child.length; i++) {
-		if(child[i].e_id != 3){
-			child[i].width = cell_width;
-		}
+	for (var i=0; i < data.length; i++) {
+		var container = $.UI.create("View", {classes:['hsize'], width: cell_width, left: 10, top:10});
+		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});
+		container.add(img);
+		$.content.add(container);
 	};
-	//setTimeout(function(e){render_listingBytype();}, 1000);
 }
 
-function navToAd(e){
-	var a_id = parent({name: "a_id"}, e.source);
-	var win = Alloy.createController("ad", {a_id: a_id, from : "home_all"}).getView(); 
-	COMMON.openWindow(win); 
+function init(){
+	$.win.add(loading.getView());
+	loading.start();
+	refresh();
 }
 
 // convert pixel to dp.
@@ -62,6 +86,26 @@ function pixelToDp(px) {
 }
 
 init();
+
+var load = false;
+var lastDistance = 0;
+$.content_scrollview.addEventListener("scroll", function(e){
+	var theEnd = $.content.rect.height;
+	var total = e.y+e.source.rect.height;
+	var distance = theEnd - total;
+	if (distance < lastDistance){
+		var nearEnd = theEnd * .75;
+		if (!load && (total >= nearEnd)){
+			console.log(nearEnd+" "+total);
+			//console.log(e.y+e.source.rect.height+" "+$.content.rect.height);
+			load = true;
+			getPreviousData({});
+			render({});
+		}
+	}
+	lastDistance = distance;
+	//
+});
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
