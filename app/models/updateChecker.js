@@ -12,6 +12,7 @@ ID       type Name
 8		ads
 9		items
 10		contest
+11		getSXItem
 100++       getCategoryList
 200++		getAdsByCategoryList
 ************************************/
