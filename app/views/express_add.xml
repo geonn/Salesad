@@ -1,0 +1,38 @@
+<Alloy>
+	<Window title="Add New SalesXpress" backButtonTitle="" id="win" navTintColor="#ED1C24">
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0' width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View class="wfill hfill vert">
+	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+				<View left="0" width="10%">
+			         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+			    </View>
+		     	<View id="pageTitle" width="70%">
+		     		<Label color="#ED1C24" id="title">Add New SalesXpress</Label>
+		     	</View>
+		 	</View>
+		 	<View bottom='0' class="hr"></View>
+		 	<ScrollView id="inner_box" bottom="40" class="wfill hfill conthsize contwfill vert">
+		 		<ImageView id="photoLoad" image="/images/icon_my-profile.png" onClick="popCamera" form_type="image" width="80" height="80" value="0"></ImageView>
+		 		<TextField hintText="Xpress Title" form_type="text" require="true" id="name"></TextField>
+		 		<TextField hintText="Store Name" form_type="text" require="true" id="store_name"></TextField>
+		 		<TextField hintText="Description" form_type="text" require="true" id="description"></TextField>
+		 		<View class="textfield" master="1" form_type="text" require="true" id="category" model="category" submitColumn="id" optionColumn="categoryName" onClick="popDialogOption">
+		 			<Label class="wsize hsize padding">Category</Label>
+		 		</View>
+		 		<View class="textfield" master="1" form_type="date_picker" require="true" id="sales_from" onClick="popDatePicker">
+		 			<Label class="wsize hsize padding">Sales Date From</Label>
+		 		</View>
+		 		<View class="textfield" master="1" form_type="date_picker" require="true" id="sales_to" onClick="popDatePicker">
+		 			<Label class="wsize hsize padding">Sales Date To</Label>
+		 		</View>
+		 		<TextField hintText="Map Location" form_type="text" require="true" id="location"></TextField>
+		 		<TextField hintText="Address" form_type="text" require="true" id="address"></TextField>
+		 		<Button class="button" onClick="doSubmit">Submit</Button>
+		 	</ScrollView>
+	 	</View>
+	</Window>
+</Alloy>

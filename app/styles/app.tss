@@ -4,6 +4,7 @@
 	backgroundColor: '#ED1C24',
 },
 'Window': {
+	backgroundColor: "#F6F6F6",
     titleAttributes:  {
         color: "#ED1C24",
         font:{
@@ -13,12 +14,11 @@
 		}
    }
 },
-
-".textfield" : {
+"TextField" : {
 	 font:{
 		fontSize: '14dp'
 	},
-	 color: '#000000', 
+	 color: '#404041', 
 	 width:'90%',
 	 height: '35dp',
 	 bottom:5,
@@ -26,26 +26,35 @@
      returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
 	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
 },
+".textfield":{
+	width:'90%',
+	 height: '35dp',
+	 bottom:5,
+	 borderRadius: 4,
+	 backgroundColor: "#ffffff",
+	 borderWidth: 1,
+	 borderColor: "#cccccc"
+},
 
 "TextArea":{
 	 font:{
 		fontSize: '14dp'
 	},
-	 color: '#000000', 
+	 color: '#404041', 
 	 width:'90%',
 	 borderWidth : 1,
-	 borderColor: "#E3E5E8",
+	 borderColor: "#404041",
 	 borderRadius : 5,
      returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
 	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
 }
 
 'NavigationWindow':{
-	backgroundColor: '#E4E4E4',
+	backgroundColor: '#F6F6F6',
 },
 ".line":{
 	height: '1',
-	backgroundColor: '#ccc',
+	backgroundColor: '#404041',
 	bottom: '0',
 },
 
@@ -195,7 +204,7 @@
 	font:{
 		fontFamily: 'FrutigerLT-Light'
 	},
-	color: "#88919D"
+	color: "#404041"
 	
 },
 "Button":{
@@ -223,3 +232,16 @@
 	},
 	color: "#404041"
 },
+
+".red": {
+	color: "#ED1C24"
+},
+".grey": {
+	color: "#88919D"
+}
+".dark_grey":{
+	color: "#404041"
+} 
+".lighter_grey":{
+	color: "#E3E5E8"
+}

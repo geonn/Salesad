@@ -285,30 +285,6 @@ if (OS_ANDROID) {
     global_url = Ti.Android.currentActivity.intent.data;
 }
 
-// After app is fully resumed, recheck if launch arguments
-// have changed and ignore duplicate schemes.
-Ti.App.addEventListener( 'resumed', function(e) {
-    var url = "";
-	if(OS_IOS){
-		cmd = Ti.App.getArguments();
-		url = cmd.url;
-	}else{
-		url = Alloy.globals.url;
-	}
-	console.log(url);
-	console.log(typeof(url));
-	if ( (typeof(url) == 'undefined') && url != "" && url != null ) {
-        var details = url;
-        var arg = details.split("://"); 
-        var ads = arg[1].split("?");
-       
-        var win = Alloy.createController( ads[0] , {a_id:  ads[1], from : "home"}).getView(); 
-		COMMON.openWindow(win); 
-        Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
-	    
-	}
-});
-
 function parent(key, e){
 	// if key.value undefined mean it look for key only
 	console.log(typeof key.value);
@@ -316,9 +292,22 @@ function parent(key, e){
 	if(typeof key.value != "undefined"){
 		
 		if(eval("e."+key.name+"") != key.value){
+			console.log(e.parent);
 			if(eval("e.parent."+key.name+"") != key.value){
+				console.log(e.parent.parent);
 				if(eval("e.parent.parent."+key.name+"") != key.value){
-	    			console.log("box not found");
+	    			console.log(e.parent.parent);
+	    			if(eval("e.parent.parent.parent."+key.name+"") != key.value){
+	    				console.log(e.parent.parent.parent);
+	    				if(eval("e.parent.parent.parent.parent."+key.name+"") != key.value){
+	    					console.log(e.parent.parent.parent.parent);
+		    				console.log("box not found");
+			    		}else{
+			    			return e.parent.parent.parent.parent;
+			    		}
+		    		}else{
+		    			return e.parent.parent.parent;
+		    		}
 	    		}else{
 	    			return e.parent.parent;
 	    		}
@@ -332,7 +321,11 @@ function parent(key, e){
 		if(eval("typeof e."+key.name) == "undefined"){
 			if(eval("typeof e.parent."+key.name+"") == "undefined"){
 				if(eval("typeof e.parent.parent."+key.name+"") == "undefined"){
-	    			console.log("box not found");
+	    			if(eval("typeof e.parent.parent.parent."+key.name+"") == "undefined"){
+		    			console.log("box not found");
+		    		}else{
+		    			return eval("e.parent.parent.parent."+key.name);
+		    		}
 	    		}else{
 	    			return eval("e.parent.parent."+key.name);
 	    		}
@@ -372,4 +365,23 @@ function children(key, e){
     }else{
 		return e;
     }
+}
+
+function convertToDBDateFormat(datetime){
+	var timeStamp = datetime.split(" ");  
+	var newFormat;
+	 
+	var date = timeStamp[0].split("/");  
+	if(timeStamp.length == 1){
+		newFormat = date[2]+"-"+date[1]+"-"+date[0] ;
+	}else{
+		var time = timeStamp[1].split(":");
+		var hour = (timeStamp[2] == "pm")?12 + parseInt(time[0]):time[0];
+		var min = time[1] || "00";
+		var sec = time[2] || "00";
+		
+		newFormat = date[2]+"-"+date[1]+"-"+date[0] + " "+hour+":"+min+":"+sec;
+	}
+	
+	return newFormat;
 }

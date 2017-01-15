@@ -322,13 +322,7 @@ $.indexView.home.addEventListener('click', function(e){
 /** Android Click to refresh **/
 if(Ti.Platform.osname == "android"){
 	// trigger if user click back
-	
-	function onPaused(){
-		console.log("onpause");
-		var activity = Titanium.Android.currentActivity;
-		activity.finish();
-	}
-	
+
 	$.indexView.root.addEventListener('android:back', function (e) {
 		var dialog = Ti.UI.createAlertDialog({
 			    cancel: 1,
@@ -350,7 +344,6 @@ if(Ti.Platform.osname == "android"){
 		});
 		dialog.show(); 
 	});
-	Ti.App.addEventListener('paused', onPaused);
 	var platformTools = require('bencoding.android.tools').createPlatform(),
     wasInForeGround = true;
 

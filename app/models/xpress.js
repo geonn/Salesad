@@ -13,6 +13,7 @@ exports.definition = {
 		    "longitude": "TEXT",
 		    "img_path": "TEXT",
 		    "owner_img_path": "TEXT",
+		    "owner_name": "TEXT",
 		    "expired_date" : "DATE",
 		    "sales_from" : "DATE",
 		    "sales_to" : "DATE",
@@ -72,7 +73,8 @@ exports.definition = {
 					var sql_lastupdate = " AND created <= '"+e.anchor+"'";
 				}
 	            var sql_keyword = (typeof e.keyword != "undefined")?" AND name like '%"+e.keyword+"%'":"";
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_keyword+" order by `updated` DESC "+start_limit;
+	            var sql_category = (typeof e.category_id != "undefined")?" AND category = '"+e.category_id+"'":"";
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+" order by `updated` DESC "+start_limit;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){

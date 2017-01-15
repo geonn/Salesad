@@ -432,6 +432,7 @@ exports.callByPost = function(e, handler){
 		console.log(url);
 		var _result = contactServerByPost(url, e.params || {});   
 		_result.onload = function(ex) {  
+			console.log(this.responseText);
 			try{
 				JSON.parse(this.responseText);
 			}

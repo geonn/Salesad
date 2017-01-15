@@ -2,7 +2,7 @@ exports.definition = {
 	config: {
 		columns: {
 		    "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-		    "categoryName": "INTEGER",
+		    "categoryName": "TEXT",
 		    "image": "TEXT"
 		},
 		adapter: {
@@ -40,8 +40,41 @@ exports.definition = {
 				}
 				db.close();
 			},
+			getPickerList : function(){
+				var collection = this;
+				var columns = collection.config.columns;
+				var names = [];
+				for (var k in columns) {
+	                names.push(k);
+	            }
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                
+                var eval_column = "";
+            	for (var i=0; i < names.length; i++) {
+					eval_column = eval_column+names[i]+": res.fieldByName('"+names[i]+"'),";
+				};
+                while (res.isValidRow()){
+                	eval("arr[count] = {"+eval_column+"}");
+                	res.next();
+					count++;
+                }
+				res.close();
+                db.close();
+                
+                collection.trigger('sync');
+                return arr;
+			},
 			getCategoryList : function(){
 				var collection = this;
+				
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
