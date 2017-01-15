@@ -1,3 +1,69 @@
+<h1>Scandit SDK 5.1</h1>
+
+<h2>New Features/Performance Improvements</h2>
+
+<ul>
+<li>Improved blurry scan performance for a wide range of Android devices, for example the Samsung Galaxy A5 and J5 devices.</li>
+<li>Improved off center Aztec scan performance.</li>
+<li>The Aztec error correction can now handle codes that are damaged by dirt or small scale glare and codes that are partially outside of the camera image.</li>
+</ul>
+
+<h2>Bug Fixes/Software Updates in Scandit SDK 5.1.0 (January 13th 2017)</h2>
+
+<h3>All SDKs</h3>
+
+<ul>
+<li>Minor behaviour change: If the EAN13 symbology is enabled, then UPCA codes are scanned too. The codes are returned as a 13 digit EAN13 code. Prior to 5.1 UPCA had to be enabled explicitly.</li>
+<li>Improved erasure correction for PDF417 and MicroPDF417.</li>
+<li>Removed tiny QR and tiny DataMatrix modes. Enabling these modes is still safe, but will have no effect. It might be necessary to adapt the zoom value in case of performance regressions.</li>
+<li>Improved accuracy of localized barcode bounding boxes.</li>
+<li>Fix an issue in the QR reader that can cause frame processing to take forever.</li>
+<li>Fix incorrect UTF-8 conversion of UPCE codes in UPCA representation.</li>
+</ul>
+
+<h3>Android</h3>
+
+<ul>
+<li>Fix choppy camera preview on Samsung Galaxy J3.</li>
+<li>Fix an issue that caused the camera switch button to flicker when turning the torch on.</li>
+<li>Fix an inconsistency between how the torch behaves on Android and iOS. Previous to this change, the torch would be enabled when enabling the torch and switching from rear (back) to front camera and back. Now the torch is off when returning to the rear camera.</li>
+<li>We no longer require a camera restart when enabling the torch.</li>
+<li>Added support for optimizing the scan performance for vertical codes.</li>
+</ul>
+
+<h3>iOS</h3>
+
+<ul>
+<li>Added support for optimizing the scan performance for vertical codes.</li>
+<li>Fix an inconsistency in naming of setTorchOffImage and setTorchOnImage in Swift.</li>
+<li>Improve swift types for <code>[SBSScanSettings settingsWithDictionary:error:]</code>.</li>
+<li>Added method to create a SBSScanCaseSettings instance from an NSDictionary.</li>
+</ul>
+
+<h3>Windows</h3>
+
+<ul>
+<li>Scandit.Recognition can now be used with Windows Desktop applications.</li>
+<li>Added character encoding information of raw barcode data to the public API.</li>
+<li>Added automatic barcode data conversion from non-ASCII characters to UTF-8. E.g. for QR codes in Kanji mode.</li>
+<li>Added optional support for GPU acceleration through ANGLE. Requires the ANGLE UWP NuGet package version 2.1.13 or newer. This feature is currently not supported for Windows 8.1.</li>
+</ul>
+
+<h3>Titanium</h3>
+
+<ul>
+<li>Fix a bug in setViewfinderSize on iOS, which caused the new size not to be applied correctly.</li>
+<li>Add missing implementation for setCameraSwitchButtonMarginsAndSize and setTorchButtonMarginsAndSize on Android.</li>
+<li>Add missing implementation for setReverseDetectionEnabled on Android.</li>
+<li>Added scan case API support on iOS. </li>
+</ul>
+
+<h1>Linux</h1>
+
+<ul>
+<li>Fix rare deadlock on SDK deallocation.</li>
+</ul>
+
 <h1>Scandit SDK 5.0</h1>
 
 <h2>Important Changes</h2>
@@ -12,7 +78,37 @@
 </ul></li>
 </ul>
 
-<h2>Bug Fixes/Software Updates in Scandit SDK 5.0.0 (to be released)</h2>
+<h2>Bug Fixes/Software Updates in Scandit SDK 5.0.1 (December 1st 2016)</h2>
+
+<h3>Android</h3>
+
+<ul>
+<li>Improved 1D barcode decode range and scan speed on Motorola G3, G4 and G4 Plus. The scanning distance of a 10mil EAN13 code using the 4G Plus increased from 6-30cm to 4-45cm.</li>
+</ul>
+
+<h3>Windows</h3>
+
+<ul>
+<li>Fixed issue that caused camera initialization to fail on devices with the latest Windows 10 installed.</li>
+</ul>
+
+<h3>Titanium</h3>
+
+<ul>
+<li>Increased the api level of the modules to be compatible with SDK version 6.0.0.</li>
+</ul>
+
+<h3>Xamarin</h3>
+
+<ul>
+<li>Add missing framework dependencies for iOS.</li>
+<li>Implement Pinch to zoom for iOS, Android and Unified.</li>
+<li>Fixed vibrate permission in the Unified Extended Sample app.</li>
+<li>Fixed disabling the restricted scan area in the Unified Extended Sample app.</li>
+<li>Enable AutoFocusOnTapEnabled by default in Unified (only works on iOS)</li>
+</ul>
+
+<h2>Bug Fixes/Software Updates in Scandit SDK 5.0.0 (October 27th 2016)</h2>
 
 <h3>All SDKs</h3>
 
@@ -27,7 +123,7 @@
 <h3>Android</h3>
 
 <ul>
-<li>Added conversion to UTF-8 for non ASCII encodings. This fixes the display of (Micro)PDF417 codes with ECI data and QR codes in Kanji or Hanzi mode.  </li>
+<li>Added conversion to UTF-8 for non ASCII encodings. This fixes the display of (Micro)PDF417 codes with ECI data and QR codes in Kanji or Hanzi mode.</li>
 <li>Fixed scanning area restriction issues on devices with non-landscape camera sensor orientation.</li>
 <li>Improved camera configuration parameters on Google Glass.</li>
 </ul>
