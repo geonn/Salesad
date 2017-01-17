@@ -110,6 +110,8 @@ function buildListing(){
 		return;	
 	}
 	ads_counter += 3;
+	console.log('check data');
+	console.log(data);
 	for(var a = 0; data.length > a; a++){
 		var tbr = Ti.UI.createTableViewRow({
 			height: Ti.UI.SIZE,

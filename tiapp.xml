@@ -145,14 +145,13 @@
     </mobileweb>
     <modules>
         <module platform="iphone">dk.napp.social</module>
-        <module platform="android">ti.cloudpush</module>
+        <module platform="android">com.mirasense.scanditsdk</module>
+        <module platform="android" version="3.0.0">ti.map</module>
+        <module platform="android" version="3.0.0">ti.ga</module>
         <module platform="commonjs">ti.cloud</module>
-        <module platform="android">ti.ga</module>
-        <module platform="android">bencoding.android.tools</module>
         <module platform="android">facebook</module>
-        <module platform="iphone">com.mirasense.scanditsdk</module>
-        <module platform="android">ti.map</module>
         <module platform="iphone">ti.map</module>
+        <module platform="iphone">com.mirasense.scanditsdk</module>
         <module platform="iphone">analytics.google</module>
         <module platform="iphone">facebook</module>
     </modules>

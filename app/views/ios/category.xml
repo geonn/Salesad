@@ -5,11 +5,6 @@
 	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-		<RightNavButton>
-	        <View>
-	         	<ImageView right='0' id="setting" width='30' image="/images/icon_setting.png" />
-	        </View>
-        </RightNavButton>
         <Require type="view" src="_category" id="categoryView"/> 
 	</Window>
 </Alloy>

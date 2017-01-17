@@ -27,14 +27,14 @@ function submit(){
 		}
 		eval("_.extend(params, {"+form[i].id+": form[i].value})");
 	};
-	API.callByPost({url: "sendFeedback", params:params}, function(responseText){
+	API.callByPost({url: "sendFeedback", params:params}, {onload: function(responseText){
 		var res = JSON.parse(responseText);
 		if(res.status == "success"){
 			COMMON.createAlert("Notification", "Successfully", windowClose);
 		}else{
 			COMMON.createAlert("Notification", res.data);
 		}
-	});
+	}});
 }
 
 function windowClose(){

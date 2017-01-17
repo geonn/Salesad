@@ -7,7 +7,29 @@ function render_page(){
 }
 
 function init(){
+	textarea_hintext();
 	$.win.add(loading.getView());
+}
+
+function textarea_hintext(){
+	var forms_array = $.inner_box.getChildren();
+	for (var i=0; i < forms_array.length; i++) {
+		if(forms_array[i].form_type == "textarea"){
+			forms_array[i].value = forms_array[i].hintText;
+			forms_array[i].addEventListener("focus", function(e){
+				if(e.source.value == e.source.hintText){
+					e.source.color = "#404041";
+					e.source.value = "";
+				}
+			});
+			forms_array[i].addEventListener("blur", function(e){
+				if(e.source.value == ""){
+					e.source.color = "#cccccc";
+					e.source.value = e.source.hintText;
+				}
+			});
+		}
+	}
 }
 
 init();
@@ -24,6 +46,10 @@ function doSubmit(){
 			if(forms_array[i].value == ""){
 				error = error + forms_array[i].hintText+" cannot be empty\n"; 
 			}
+		}
+		if(forms_array[i].form_type == "image"){
+			var img_blob = forms_array[i].blob_submit.imageAsResized(640, 640); 
+			_.extend(params, {Filedata: img_blob});
 		}
 	};
 	if(error != ""){
@@ -47,6 +73,11 @@ function doSubmit(){
 		}
 	}
 	);
+}
+
+function popMap(e){
+	var win = Alloy.createController("express_location").getView(); 
+	COMMON.openWindow(win);
 }
 
 function popDatePicker(e){
@@ -77,6 +108,7 @@ function popDatePicker(e){
 		source.value = yyyy+'-'+mm+'-'+dd;
 		source.date = picker.value;
 		source.children[0].text = yyyy+'-'+mm+'-'+dd;
+		source.children[0].color = "#404041";
 		$.win.remove(view_container);
 	});
 	
@@ -106,6 +138,7 @@ function popDialogOption(e){
 		if(ex.index != options.length - 1){
 			source.record = picker_list[ex.index];
 			eval("source.children[0].text = picker_list[ex.index]."+source.optionColumn);
+			source.children[0].color = "#404041";
 		}
 	});
 }
@@ -170,15 +203,25 @@ function popCamera(e){
 	            	// set image view
 	            	var image = event.media;
             		if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
+            			console.log(JSON.stringify(event));
 		            	console.log(event.media.nativePath+" whyyyy!");
-			            var win = Alloy.createController("image_preview", {image: image.nativePath}).getView(); 
-					    COMMON.openWindow(win);
+		            	if(event.media.nativePath == null){
+		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, 'default.png');
+		            		if(writeFile.exists()){
+		            			writeFile.deleteFile();
+		            		}
+		            		writeFile.write(image);
+		            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+					    	COMMON.openWindow(win);
+		            	}else{
+		            		 var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
+					    	COMMON.openWindow(win);
+		            	}
 				    }
 	            },
 	            cancel:function() {
 	               
 	            },
-	            
 	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
 	        });
 	    	
@@ -192,11 +235,24 @@ function popCamera(e){
 }
 
 function cropped_image(e){
-	$.photoLoad.image = e.image;
+	$.photoLoad.image = Titanium.Utils.base64decode(e.image_callback);
+	$.photoLoad.blob_submit = Titanium.Utils.base64decode(e.image_callback);
 	$.photoLoad.value = 1;
 }
 
+function set_location(e){
+	$.location.value = e.location;
+	$.location.children[0].text = e.location;
+	$.location.children[0].color = "#404041";
+}
+
 Ti.App.addEventListener("cropped_image", cropped_image);
+Ti.App.addEventListener("set_location", set_location);
+
+$.win.addEventListener("close", function(e){
+	Ti.App.removeEventListener("cropped_image", cropped_image);
+	Ti.App.removeEventListener("set_location", set_location);
+});
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);

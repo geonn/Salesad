@@ -21,7 +21,7 @@ function windowClose(){
 function init(){
 	$.win.add(loading.getView());
 	loading.start();
-	API.callByPost({url: "getContestListUrl"}, render_webview);
+	API.callByPost({url: "getContestListUrl"}, {onload: render_webview});
 }
 
 init();

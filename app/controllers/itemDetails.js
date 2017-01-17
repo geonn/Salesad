@@ -39,11 +39,8 @@ var getAdsImages = function(){
 	var selectedView;   		
 	/***Set ads items***/
 	var the_view = []; 
-	for (var i=0; i< items.length; i++) {  
-		var itemImageView = Ti.UI.createView({
-			height: Ti.UI.SIZE,
-			width: Ti.UI.SIZE
-		});
+	for (var i=0; i< items.length; i++) { 
+		var itemImageView = $.UI.create("View", {classes:['wfill','hsize']});
 		adImage = Ti.UI.createImageView({
 			defaultImage: "/images/warm-grey-bg.png",
 			image: items[i].img_path,
@@ -51,8 +48,6 @@ var getAdsImages = function(){
 			enableZoomControls: true,
 			height: Ti.UI.SIZE
 		});
-		
-		
 		
 		if(items[i].barcode != ""){
 			if(isScan == "1"){ 
@@ -88,38 +83,41 @@ var getAdsImages = function(){
 				});
 				barCodeView.add(saIcon);
 			}
-			
-			
 		}
 		
 		var label_caption = $.UI.create("Label", { 
 			top: 0,
 			text: items[i].caption,
-			color: "#ffffff",
 			height: 60,
 			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
 		});
 		
+		var label_description = $.UI.create("Label",{
+			classes:['wfill','hsize','h5','padding'],
+			text: item[i].description
+		});
+		
 		var scrollView = Ti.UI.createScrollView({
-			contentWidth: 'auto',
-		  	contentHeight: 'auto',
+			contentWidth: Ti.UI.FILL,
+		  	contentHeight: Ti.UI.SIZE,
 		   	maxZoomScale: 30,
 		    minZoomScale: 1,
 		    zoomScale: 1,
-		    scrollType: "horizontal",
-		  	height: Ti.UI.SIZE,
-		  	width: '100%'
+		    scrollType: "vertical",
+		  	height: Ti.UI.FILL,
+		  	width: Ti.UI.FILL
 		});
 	
-		row = $.UI.create('View', {  id:"view"+counter});
+		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert']});
 		itemImageView.add(adImage); 
 	 	if(items[i].barcode != "" && typeof(barCodeView)  != "undefined"){
 			if(isScan == "1"){
-				itemImageView.add(barCodeView);
+				//itemImageView.add(barCodeView);
 			} 
 		}
-		row.add(itemImageView);
 		row.add(label_caption);
+		row.add(label_description);
+		row.add(itemImageView);
 		if(position == counter){
 			selectedView = row;
 		}
@@ -133,18 +131,6 @@ var getAdsImages = function(){
 	setTimeout(function(){
 		$.scrollableView.scrollToView(position);  
 	},250);
-	
-	//$.scrollableView.currentPage = position;
-	/**	
-	$.scrollableView.addEventListener( 'scrollend', function(e) {
-		if(($.scrollableView.currentPage+1) === items.length){
-			if($.scrollableView.currentPage === my_page){
-				$.scrollableView.currentPage=0;
-			}
-		} 
-		my_page =  $.scrollableView.currentPage;
-	});
-	**/
 };
 
 /*********************

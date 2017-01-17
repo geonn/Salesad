@@ -1,18 +1,15 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<script src="jquery-3.1.1.min.js"></script>
-<script type="javascript">
-$(document).ready(function(){
-	
-});
-Ti.App.fireEvent("image_preview:loadImage");
-Ti.App.addEventListener("html:loadImage", function(e){
-	alert(e.image);
-	$("#img").attr("src", e.image);
-});
-</script>
+	<meta name="viewport" content="initial-scale=1.0, width=device-width, minimum-scale=1.0, maximum-scale=5.0" />
 </head>
+<script src="jquery-3.1.1.min.js"></script>
+<script>
+	Ti.App.addEventListener("html:loadImage", function(e){
+		$("#img").attr("src", e.image);
+	});
+	Ti.App.fireEvent("image_preview:loadImage");
+</script>
 <body>
 	<img id="img"/>
 </body>

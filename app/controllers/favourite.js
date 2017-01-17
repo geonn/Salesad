@@ -80,7 +80,7 @@ function init(){
 init();
 
 function pixelToDp(px) {
-    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160))+'dp';
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
 }
 
 $.btnBack.addEventListener('click', function(){ 

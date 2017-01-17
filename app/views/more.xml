@@ -1,0 +1,66 @@
+<Alloy>
+	<Window title="More" backButtonTitle="" id="win" navTintColor="#ED1C24">
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0' width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View class="wfill hfill vert">
+	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+				<View left="0" width="10%">
+			         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+			    </View>
+		     	<View id="pageTitle" width="70%">
+		     		<Label color="#ED1C24" id="title">More</Label>
+		     	</View>
+		 	</View>
+		 	<View bottom='0' class="hr"></View>
+		 	<TableView onClick="navTo">
+		 		<TableViewSection>
+		 			<TableViewRow target="reward" height="50">
+		 				<Label left="10" class="wsize hsize">My Rewards</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 			<TableViewRow height="50" target='category'>
+		 				<Label left="10" class="wsize hsize">My Category</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 			<TableViewRow height="50" target="favourite">
+		 				<Label left="10" class="wsize hsize">Manage Favorites</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 		</TableViewSection>
+		 		<TableViewSection headerTitle=" ">
+		 			<TableViewRow height="50" target="feedback">
+		 				<Label left="10" class="wsize hsize">Help & Feedback</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 			<TableViewRow height="50" target="profile">
+		 				<Label left="10" class="wsize hsize">My Profile</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 			<TableViewRow height="50" target="notification">
+		 				<Label left="10" class="wsize hsize">Notification</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 		</TableViewSection>
+		 		<TableViewSection headerTitle=" ">
+		 			<TableViewRow height="50" target="about">
+		 				<Label left="10" class="wsize hsize">About</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 			<TableViewRow height="50" target="">
+		 				<Label left="10" class="wsize hsize">Advertise in SalesAd</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 			<TableViewRow height="50" target="">
+		 				<Label left="10" class="wsize hsize">Version</Label>
+		 			</TableViewRow>
+		 			<TableViewRow height="50" target="">
+		 				<Label class="wfill hsize" textAlign="center">2017 All rights reserved.</Label>
+		 			</TableViewRow>
+		 		</TableViewSection>
+		 	</TableView>
+	 	</View>
+	</Window>
+</Alloy>

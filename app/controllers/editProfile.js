@@ -56,16 +56,9 @@ var doSave = function (){
 	     onload : function(e) {
 	         var res = JSON.parse(this.responseText);
 	         if(res.status == "success"){
-	         	var member = Alloy.createCollection('member'); 
-	         	if(field == "fullname"){
-	         		args.fullname = value;
-	         	}
-	         	if(field == "email"){
-	         		args.email = value;
-	         	}
-				member.updateUserProfile(session, args.fullname, args.email);
+	         	Ti.App.Properties.setString(field, value);
 	         	$.editProfile.close({animated:true});
-	         	Ti.App.fireEvent("updateProfile", {fullname:args.fullname, email:args.email });
+	         	Ti.App.fireEvent("updateProfile");
 	         }else{
 	         	COMMON.createAlert('Authentication warning',res.data);
 	         }

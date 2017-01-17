@@ -201,8 +201,6 @@ if(Ti.Platform.osname == "android"){
 	$.category.titleControl = custom;
 } 
 
-generateMyProfileTable(RegArr);
-
 /**Set Category table**/
 createCustomView('Categories');
 
@@ -240,12 +238,6 @@ function addRegClickEvent(table){
 		}
 	});
 }
-$.setting.addEventListener('click', function(e){
-	var win = Alloy.createController("setting").getView(); 
-	COMMON.openWindow(win);  
-});
-
- 
 
 $.categoryView.searchItem.addEventListener('focus', function f(e){
 	$.categoryView.searchItem.showCancel =  true; 

@@ -41,13 +41,15 @@ var goSignUp = function(){
 	$.loadingBar.top = "100";
 	
 	//$.registerButton.hide();
+	console.log($.gender.record.id+" $.gender.record.id");
 	var common = require('common');
-	var username 		 = $.username.value;
-	var fullname 		 = $.fullname.value;
+	var firstname 		 = $.firstname.value;
+	var lastname 		 = $.lastname.value;
+	var gender 		 = $.gender.record.id;
 	var email 		     = $.email.value;
 	var password 		 = $.password.value;
 	var password2 		 = $.confirm_password.value;
-	var url = api.registerUser +"&username="+username+"&fullname="+fullname+"&email="+email+"&password="+password+"&password2="+password2;
+	var url = api.registerUser +"&firstname="+firstname+"&lastname="+lastname+"&gender="+gender+"&email="+email+"&password="+password+"&password2="+password2;
 	
 	var client = Ti.Network.createHTTPClient({
 	     // function called when the response data is available
@@ -59,17 +61,15 @@ var goSignUp = function(){
 	         if(res.status == "success"){
 	         	 
 	         	//save session
-	         	Ti.App.Properties.setString('session',res.data.session);
+	         	Ti.App.Properties.setString('u_id', res.data.u_id);
+	         	Ti.App.Properties.setString('firstname', res.data.firstname);
+	         	Ti.App.Properties.setString('lastname', res.data.lastname);
+	         	Ti.App.Properties.setString('email', res.data.email);
+	         	Ti.App.Properties.setString('gender', res.data.gender);
+				Ti.App.Properties.setString('session', res.data.session);
 	         	/**load new set of category from API**/
 		       	
-		       	var member = Alloy.createModel('member', {
-				        u_id       : res.data.userid,
-				        username   : res.data.username,
-				        fullname   : res.data.fullname,
-				        email      : res.data.email
-				    });
-				member.save();
-				
+		       	
 				common.createAlert('Successfully register', "Thank you sign up with Salesad. Please login to continue.");
 				closeWindow(e);
 				isSubmit = 0;
@@ -101,58 +101,29 @@ var closeWindow = function(e){
 	});
 };
 
+function popDialogOption(e){
+	var source = parent({name: "master", value: "1"}, e.source);
+	var picker_list = [{name: "Male", id: 1}, {name: "Female", id: 2}];
+	var options = _.pluck(picker_list, "name");
+	options.push("Cancel");
+	var dialog = Ti.UI.createOptionDialog({
+	  cancel: options.length - 1,
+	  options: options,
+	  title: 'Category'
+	});
+	dialog.show();
+	dialog.addEventListener("click", function(ex){   
+		if(ex.index != options.length - 1){
+			source.record = picker_list[ex.index];
+			source.children[0].text = picker_list[ex.index].name;
+			source.children[0].color = "#404041";
+		}
+	});
+}
 
 /*********************
 *** Event Listener ***
 **********************/
-/** To fixed keyboard hide/show when textfield is activate**/
-$.register.addEventListener('touchend', function(e){
-	if(isKeyboardFocus == 1){
-		isKeyboardFocus = 0;
-		return;
-	}else{
-		$.username.blur();
-	    $.email.blur();
-	    $.fullname.blur();
-	    $.password.blur();
-	    $.confirm_password.blur();
-	    isKeyboardFocus = 0;
-	}
-});
-
-$.username.addEventListener('touchend', function(e){
-    $.username.focus();
-    isKeyboardFocus = 1;
-});
-$.email.addEventListener('touchend', function(e){
-    $.email.focus();
-    isKeyboardFocus = 1;
-});
-$.fullname.addEventListener('touchend', function(e){
-    $.fullname.focus();
-    isKeyboardFocus = 1;
-});
-$.password.addEventListener('touchend', function(e){
-    $.password.focus();
-    isKeyboardFocus = 1;
-});
-$.confirm_password.addEventListener('touchend', function(e){
-    $.confirm_password.focus();
-    isKeyboardFocus = 1;
-});
-
-$.username.addEventListener("return", function(){
-	$.fullname.focus();
-});
-$.fullname.addEventListener("return", function(){
-	$.email.focus();
-});
-$.email.addEventListener("return", function(){
-	$.password.focus();
-});
-$.password.addEventListener("return", function(){
-	$.confirm_password.focus();
-});
 $.confirm_password.addEventListener("return", function(){
 	goSignUp();
 });

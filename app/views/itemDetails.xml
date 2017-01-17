@@ -1,5 +1,5 @@
 <Alloy>
-	<Window  id="item_Details" title="" fullscreen="true" navBarHidden="true" navTintColor="#ED1C24" backgroundColor="#000000" >
-		 <ScrollableView id="scrollableView" showPagingControl="true" />
+	<Window  id="item_Details" title="" fullscreen="true" navBarHidden="true" navTintColor="#ED1C24" >
+		 <ScrollableView id="scrollableView" />
 	</Window>
 </Alloy>

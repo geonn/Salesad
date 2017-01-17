@@ -5,6 +5,7 @@
 },
 'Window': {
 	backgroundColor: "#F6F6F6",
+	fullscreen: true,
     titleAttributes:  {
         color: "#ED1C24",
         font:{
@@ -16,7 +17,8 @@
 },
 "TextField" : {
 	 font:{
-		fontSize: '14dp'
+		fontSize: '14dp',
+		fontFamily: 'FrutigerLT-Light'
 	},
 	 color: '#404041', 
 	 width:'90%',
@@ -33,18 +35,28 @@
 	 borderRadius: 4,
 	 backgroundColor: "#ffffff",
 	 borderWidth: 1,
-	 borderColor: "#cccccc"
+	 borderColor: "#cccccc"	
 },
-
-"TextArea":{
-	 font:{
-		fontSize: '14dp'
+"ListItem":{
+	font:{
+		fontSize: '14dp',
+		fontFamily: 'FrutigerLT-Light'
 	},
-	 color: '#404041', 
+	color: '#404041'
+},
+"TextArea":{
+	font:{
+		fontSize: '14dp',
+		fontFamily: 'FrutigerLT-Light'
+	},
+	 height: 80,
 	 width:'90%',
+	 color: '#cccccc',
+	 bottom: 5,
 	 borderWidth : 1,
-	 borderColor: "#404041",
+	 borderColor: "#ccc",
 	 borderRadius : 5,
+     keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
      returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
 	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
 }

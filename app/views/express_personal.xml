@@ -1,0 +1,29 @@
+<Alloy>
+	<Window id="win" title="My Posted SalesXpress" navTintColor="#ED1C24" backgroundColor="#cccccc" class="container" >
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <RightNavButton>
+	        <View right="0" onClick="popMore" width="30" height="45">
+	         	<Button left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
+	        </View>
+        </RightNavButton>
+        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+			<View left="0" width="10%">
+		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+		    </View>
+	     	<View id="pageTitle" width="70%">
+	     		<Label color='#ED1C24' >My Posted SalesXpress</Label>
+	     	</View>
+	     	<View right="0" onClick="popMore" width="30" height="45">
+	         	<Button left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
+	        </View>
+	 	</View>
+	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
+	 		<SearchBar id="searchbar" class="hsize wfill" onReturn="doSearch"></SearchBar>
+	 		<View id="content" class="wfill hsize horz" top="0"></View>
+	 	</ScrollView>
+	</Window>
+</Alloy>

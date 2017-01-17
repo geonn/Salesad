@@ -68,6 +68,7 @@ function render_banner(){
 	
 	var app_background = (ads.app_background !== undefined)?"#"+ads.app_background:"#fffff6";
 	$.win.backgroundColor = app_background;
+	console.log(bannerImage);
 	$.banner.add(bannerImage);
 }
 
@@ -82,7 +83,7 @@ var getAdDetails = function(){
 	}else{
 		var cell_width = Math.floor(pwidth / 2) - 2;
 	}
-	
+	console.log(items.length+" how many items");
 	if(items.length > 0 ){
 		for (var i=0; i< items.length; i++) {
 			if(counter%2 == 0){
@@ -104,8 +105,9 @@ var getAdDetails = function(){
 				height: "auto",
 			});
 			itemImageView.add(adImage);
+			console.log(items[i]);
 			//itemImageView.add(BARCODE.generateBarcode("686068606860")); 
-			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name);
+			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].description);
 			
 			cell.add(itemImageView);
 			row.add(cell);
@@ -155,6 +157,7 @@ function init(){
 	m_id = ads.m_id;
 	getScanMerchant();
 	checkFavorite();
+	console.log('after check favorite');
 	refresh();
 	pageTitle = ads.name;	// set Page Title
 }
@@ -162,7 +165,7 @@ function init(){
 init();
 
 //dynamic addEventListener for adImage
-function createAdImageEvent(adImage,a_id,position, title) {
+function createAdImageEvent(adImage,a_id,position, title, description) {
     adImage.addEventListener('click', function(e) {
     	// double click prevention
 	    var currentTime = new Date();
@@ -170,7 +173,7 @@ function createAdImageEvent(adImage,a_id,position, title) {
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isScan: isScan}).getView(); 
+	    var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isScan: isScan, description: description}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -244,7 +247,7 @@ $.favorites.addEventListener("click", function(){
 
 function refresh(e){
 	loading.start();
-	API.callByPost({url: "getItemList", params:{a_id: a_id}}, function(responseText){
+	API.callByPost({url: "getItemList", params:{a_id: a_id}}, {onload: function(responseText){
 		var model = Alloy.createCollection("items");
 		var res = JSON.parse(responseText);
 		var arr = res.data || null;
@@ -253,7 +256,7 @@ function refresh(e){
 		render_banner();
 		getAdDetails();
 		loading.finish();
-	});
+	}});
 }
 
 function closeWindow(){
@@ -366,7 +369,7 @@ $.home.addEventListener("click", function(e){
 });
     
 function pixelToDp(px) {
-    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160))+'dp';
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
 }    
 
 function createShareOptions(){

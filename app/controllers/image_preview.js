@@ -1,27 +1,35 @@
 var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
-
+var pwidth = Titanium.Platform.displayCaps.platformWidth;
+if(OS_ANDROID){
+	$.cropped.width = pixelToDp(pwidth);
+	$.cropped.height = pixelToDp(pwidth);
+}else{
+	$.cropped.width = pwidth;
+	$.cropped.height = pwidth;
+}
 function init(){
 	console.log('yes! init');
 	$.win.add(loading.getView());
-	console.log(args.image);
-	console.log(args.image.nativePath);
-	Ti.App.fireEvent("app:fromTitanium", {image: args.image.nativePath});
+	Ti.App.fireEvent("html:loadImage", {image: args.image});
 }
 
 function doSave(){
-	Ti.App.fireEvent("cropped_image", {image: $.cropped.toImage()});
+	var encode = Titanium.Utils.base64encode($.cropped.toImage());
+	Ti.App.fireEvent("cropped_image", {image_callback: String(encode), abc: "asd"});
+	closeWindow();
 }
 
 function closeWindow(){
 	console.log("why didnt close one");
+	Ti.App.removeEventListener("image_preview:loadImage", init);
 	COMMON.closeWindow($.win);
 }
 
-Ti.App.addEventListener("image_preview:loadImage", init);
+// convert pixel to dp.
+function pixelToDp(px) {
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
+}
 
-$.btnBack.addEventListener('click', function(){ 
-	console.log("why didnt close one");
-	COMMON.closeWindow($.win);
-});
+Ti.App.addEventListener("image_preview:loadImage", init);

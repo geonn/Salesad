@@ -2,8 +2,9 @@ exports.definition = {
 	config: {
 		columns: {
 		    "u_id": "INTEGER",
-		    "username": "TEXT",
-		    "fullname": "TEXT",
+		    "firstname": "TEXT",
+		    "lastname": "TEXT",
+		    "gender": "INTEGER",
 		    "email": "TEXT",
 		    "session": "TEXT",
 		    "location": "TEXT"
@@ -37,8 +38,9 @@ exports.definition = {
                 if (res.isValidRow()){
 					memberArr = {
 					    u_id: res.fieldByName('u_id'),
-					    username: res.fieldByName('username'),
-					    fullname: res.fieldByName('fullname'),
+					    firstname: res.fieldByName('firstname'),
+					    lastname: res.fieldByName('lastname'),
+					    gender: res.fieldByName("gender"),
 					    email: res.fieldByName('email'),
 					    session: res.fieldByName('session')
 					};
@@ -49,7 +51,7 @@ exports.definition = {
                 collection.trigger('sync');
                 return memberArr;
 			},
-            updateUserSession : function(u_id,username,fullname,email, session) {
+            updateUserSession : function(u_id,firstname,fullname,gender,email, session) {
                 var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE u_id="+ u_id ;
                 var sql_query =  "";

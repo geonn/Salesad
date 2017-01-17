@@ -58,7 +58,7 @@ exports.definition = {
 				if(typeof(m_id) != "undefined"){
 					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND ( b.expired_date > date('now') OR b.expired_date = '0000-00-00') order by b.updated desc limit "+start+", "+end+"";
 				}else{
-					var sql = "select a.m_id, b.updated, b.* from (SELECT categoryAds.m_id FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND ( b.expired_date > date('now') OR b.expired_date = '0000-00-00') order by b.updated desc limit "+start+", "+end;
+					var sql = "select a.m_id, a.merchant_name, b.updated, b.* from (SELECT categoryAds.m_id, merchants.merchant_name FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND ( b.expired_date > date('now') OR b.expired_date = '0000-00-00') order by b.updated desc limit "+start+", "+end;
 					
                 }
                 //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
@@ -83,7 +83,7 @@ exports.definition = {
                 	*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
-					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),

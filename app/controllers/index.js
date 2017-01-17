@@ -109,6 +109,7 @@ var bannerListing = function(){
 function buildCateogryList(e){
 	$.indexView.adListing.removeAllChildren();
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
+	
 	if(OS_ANDROID){
 		var cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 2;
 	}else{
@@ -120,6 +121,7 @@ function buildCateogryList(e){
 	var contest = {categoryName: "Contest", id: 0};
 	category_list.push(contest);
 	for (var i=0; i< category_list.length; i++) {
+		
 		var cell = $.indexView.UI.create('View', {classes:['hsize'], width: cell_width, id: category_list[i].id});
 		var pad_cell = $.indexView.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
 		var temp_image = $.indexView.UI.create('ImageView',{
@@ -267,7 +269,7 @@ function init(){
 
 // convert pixel to dp.
 function pixelToDp(px) {
-    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160))+'dp';
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
 }
 
 /*********************
@@ -275,7 +277,7 @@ function pixelToDp(px) {
 **********************/
 
 $.indexView.more.addEventListener("click", function(e){
-	var win = Alloy.createController("category").getView();  
+	var win = Alloy.createController("more").getView();  
 	COMMON.openWindow(win);
 });
 
@@ -344,17 +346,7 @@ if(Ti.Platform.osname == "android"){
 		});
 		dialog.show(); 
 	});
-	var platformTools = require('bencoding.android.tools').createPlatform(),
-    wasInForeGround = true;
-
-setInterval(function() {
-    var isInForeground = platformTools.isInForeground();
-    if (wasInForeGround !== isInForeground) {
-        Ti.App.fireEvent(isInForeground ? 'resumed' : 'paused');
-console.log(isInForeground);
-        wasInForeGround = isInForeground;
-    }
-}, 3000);
+	
 }else{
 	$.indexView.salesad_logo.addEventListener('click', function(e){
 		buildCateogryList();

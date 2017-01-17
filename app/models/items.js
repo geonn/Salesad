@@ -5,6 +5,8 @@ exports.definition = {
 		    "a_id": "INTEGER",
 		    "price": "TEXT",
 		    "barcode":  "INTEGER",
+		    "description": "TEXT",
+		    "voucher_description": "TEXT",
 		    "caption": "TEXT",
 		    "img_path": "TEXT",
 		    "position": "INTEGER",
@@ -68,6 +70,8 @@ exports.definition = {
 					    a_id: res.fieldByName('a_id'),
 					    price: res.fieldByName('price'),
 					    barcode: res.fieldByName('barcode'),
+					    description: res.fieldByName("description"),
+					    voucher_description: res.fieldByName("voucher_description"),
 					    caption: caption,
 					    img_path: res.fieldByName('img_path')
 					};
@@ -118,10 +122,10 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (i_id, a_id, price,barcode,caption,img_path,position,status) VALUES (?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.i_id, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status);
-					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET a_id=?, price=?,barcode=?,caption=?,img_path=?,position=?,status=? WHERE i_id=?";
-					db.execute(sql_query, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.i_id);
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (i_id, a_id, price,barcode,caption,img_path,position,status, description, voucher_description) VALUES (?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.i_id, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description);
+					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET a_id=?, price=?,barcode=?,caption=?,img_path=?,position=?,status=?, description=?, voucher_description=? WHERE i_id=?";
+					db.execute(sql_query, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.i_id);
 				});
 				db.execute("COMMIT");
 	            db.close();

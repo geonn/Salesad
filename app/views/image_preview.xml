@@ -5,6 +5,11 @@
 	         	<Button left='0' width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
+        <RightNavButton>
+	        <View id="btnBack" right="0"  width="30" height="45" onClick="doSave">
+	         	<Label class='wsize hsize red'>Save</Label>
+	        </View>
+        </RightNavButton>
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
 				<View left="0" width="10%">
@@ -14,12 +19,12 @@
 		     		<Label color="#ED1C24" id="title">Preview</Label>
 		     	</View>
 		     	<View width="10%" onClick="doSave">
-		     		<Label class='wsize hsize'>Save</Label>
+		     		<Label class='wsize hsize red'>Save</Label>
 		     	</View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
 		 	<View class="wfill" id="cropped">
-		 		<WebView class="wfill hfill" height="300" id="html" url="/html/preview.html"></WebView>
+		 		<WebView class="wfill hfill"  id="html" url="/html/preview.html"></WebView>
 		 	</View>
 	 	</View>
 	</Window>

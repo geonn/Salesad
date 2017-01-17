@@ -1,6 +1,7 @@
-var args = arguments[0] || {};  
-
+var args = arguments[0] || {};
 /** google analytics**/ 
+
+
 if(OS_IOS){
 	Alloy.Globals.tracker.trackEvent({
 		category: "account",
@@ -64,12 +65,17 @@ function addRegClickEvent(table){
 }
 
 function loadTable(){
-	details = library.getUserBySession(session);
-
+	var u_id = Ti.App.Properties.getString('u_id');
+ 	var firstname = Ti.App.Properties.getString('firstname');
+ 	var lastname = Ti.App.Properties.getString('lastname');
+ 	var email = Ti.App.Properties.getString('email');
+ 	var gender = Ti.App.Properties.getString('gender');
+	var session = Ti.App.Properties.getString('session');
+	console.log(firstname+"firstname");
 	var RegArr = [
-	{ title:'Username', value:details.username, mod: "username",  hasChild:false  },
-	{ title:'Fullname', value:details.fullname, mod:"fullname", hasChild:true },
-	{ title:'Email',  value:details.email, mod:"email",hasChild:true },
+	{ title:'Firstname', value:firstname, mod: "firstname",  hasChild:true  },
+	{ title:'Lastname', value:lastname, mod:"lastname", hasChild:true },
+	{ title:'Email',  value:email, mod:"email",hasChild:true },
 	];
 	
 	var RegTable = Titanium.UI.createTableView({
@@ -266,8 +272,12 @@ var doLogout = function (e) {
 			     // function called when the response data is available
 			     onload : function(e) {
 			     	Ti.App.Properties.removeProperty('u_id');
-			     	Ti.App.Properties.removeProperty('session');
-			     	 COMMON.closeWindow($.profile);
+		         	Ti.App.Properties.removeProperty('firstname');
+		         	Ti.App.Properties.removeProperty('lastname');
+		         	Ti.App.Properties.removeProperty('email');
+		         	Ti.App.Properties.removeProperty('gender');
+					Ti.App.Properties.removeProperty('session');
+			     	COMMON.closeWindow($.profile);
 			     },
 			     // function called when an error occurs, including a timeout
 			     onerror : function(e) {

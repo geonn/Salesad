@@ -91,11 +91,15 @@ function doLogin() {
 	     	$.createAccountButton.show();
 	         var res = JSON.parse(this.responseText);
 	         if(res.status == "success"){
-	         	var member = Alloy.createCollection('member'); 
-				member.updateUserSession(res.data.u_id, res.data.username, res.data.fullname, res.data.email, res.data.session);
-	         	
+	         	//var member = Alloy.createCollection('member'); 
+				//member.updateUserSession(res.data.u_id, res.data.username, res.data.fullname, res.data.email, res.data.session);
+	         	console.log(res.data);
 	         	/** User session**/
 	         	Ti.App.Properties.setString('u_id', res.data.u_id);
+	         	Ti.App.Properties.setString('firstname', res.data.firstname);
+	         	Ti.App.Properties.setString('lastname', res.data.lastname);
+	         	Ti.App.Properties.setString('email', res.data.email);
+	         	Ti.App.Properties.setString('gender', res.data.gender);
 				Ti.App.Properties.setString('session', res.data.session);
 	         	
 	         	var isForgotPassword = Ti.App.Properties.getString('isForgotPassword');

@@ -51,6 +51,9 @@ function popMore(){
 		}else if(e.index == 1){
 			var win = Alloy.createController("express_add").getView(); 
 			COMMON.openWindow(win); 
+		}else if(e.index == 2){
+			var win = Alloy.createController("express_personal").getView(); 
+			COMMON.openWindow(win); 
 		}
 	});
 }
@@ -112,7 +115,7 @@ function render(e){
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
 		var container = $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ffffff", width: cell_width, left: 10, top:10, record: data[i]});
 		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});
-		var title = $.UI.create("Label", {classes: ['h6', 'bold','wfill','small-padding'], height: 30,ellipsize: true,wordWrap:false,  textAlign:"left",  text: data[i].name});
+		var title = $.UI.create("Label", {classes: ['h6', 'bold','wfill','small-padding'], height: 30,ellipsize: true,wordWrap:false,  textAlign:"left",  text: data[i].description});
 		var subtitle = $.UI.create("Label", {classes: ['h7','wfill','hsize','small-padding'], top:0, textAlign:"left",  text: data[i].sales_from+" - "+data[i].sales_to});
 		var hr = $.UI.create("View", {classes:['hr']});
 		var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding']});
@@ -143,7 +146,7 @@ function init(){
 
 // convert pixel to dp.
 function pixelToDp(px) {
-    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160))+'dp';
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
 }
 
 init();

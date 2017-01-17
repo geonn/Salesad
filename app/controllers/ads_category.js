@@ -154,10 +154,10 @@ function buildListing(){
 			});
 		}
 		
-		
+		console.log(ads[a].merchant_name+" merchant name");
 		var label_merchant = $.UI.create("Label", {
 			font: { fontWeight: 'bold', fontSize: 16},
-			text: ads[a].merchant,
+			text: ads[a].ads_name,
 			top: 10,
 			left: 10,
 			right: 10,
@@ -168,7 +168,7 @@ function buildListing(){
 		});
 		
 		var label_ads_name = $.UI.create("Label", {
-			text: ads[a].ads_name,
+			text: ads[a].merchant_name,
 			left: 10,
 			right: 10,
 			font: {fontSize: 14},

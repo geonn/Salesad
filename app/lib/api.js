@@ -71,8 +71,8 @@ exports.updateUserFromFB = function(e, mainView){
 			var res = JSON.parse(this.responseText);
 	
 		    if(res.status == "success"){ 
-		       	var member = Alloy.createCollection('member'); 
-				member.updateUserSession(res.data.u_id, res.data.username, res.data.fullname, res.data.email, res.data.session);
+		       	//var member = Alloy.createCollection('member'); 
+				//member.updateUserSession(res.data.u_id, res.data.username, res.data.fullname, res.data.email, res.data.session);
 	          
 	         	/** User session**/
 	         	Ti.App.Properties.setString('u_id', res.data.u_id);
