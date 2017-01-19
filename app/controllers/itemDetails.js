@@ -5,6 +5,12 @@ var isScan = args.isScan;
 //$.item_Details.title= args.title;
 var BARCODE = require('barcode');
 var showBarcode = 1;
+
+var SCANNER = require("scanner");
+
+// Create a window to add the picker to and display it. 
+var window = SCANNER.createScannerWindow();
+
 /** google analytics**/ 
 if(OS_IOS){
 	Alloy.Globals.tracker.trackEvent({
@@ -49,42 +55,6 @@ var getAdsImages = function(){
 			height: Ti.UI.SIZE
 		});
 		
-		if(items[i].barcode != ""){
-			if(isScan == "1"){ 
-				//BARCODE
-				var barCodeView = Ti.UI.createView({ 
-					height:Ti.UI.SIZE,
-					width:Ti.UI.SIZE ,
-					layout: "horizontal",
-					bottom: 0
-				});
-				//console.log(items[i]['i_id']+"=="+items[i].barcode);
-				var bcwv = BARCODE.generateBarcode(items[i].barcode);
-				
-				barCodeView.add(bcwv);
-				
-				var saIcon =Ti.UI.createImageView({
-					image : "/images/icon_mySalesAd.png",
-					width: 35,
-					height: 35,
-					right:0,
-					bottom:0,
-					id:"barCodeControl",
-					borderRadius : 10
-				});
-				saIcon.addEventListener('click',function(){
-					if(showBarcode == 1){
-						showBarcode = 0;
-						bcwv.opacity = 0;
-					}else{
-						showBarcode = 1;
-						bcwv.opacity = 1;
-					}
-				});
-				barCodeView.add(saIcon);
-			}
-		}
-		
 		var label_caption = $.UI.create("Label", { 
 			top: 0,
 			text: items[i].caption,
@@ -92,9 +62,14 @@ var getAdsImages = function(){
 			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
 		});
 		
+		var header = $.UI.create("View", {classes:['wfill','hsize']});
+		var img_back = $.UI.create("ImageView", {width: 20, height: 20, left: 10, zIndex: 100, image: "/images/btn-back.png"});
+		header.add(img_back);
+		header.add(label_caption);
+		img_back.addEventListener("click", closeWindow);
 		var label_description = $.UI.create("Label",{
 			classes:['wfill','hsize','h5','padding'],
-			text: item[i].description
+			text: items[i].description
 		});
 		
 		var scrollView = Ti.UI.createScrollView({
@@ -107,17 +82,43 @@ var getAdsImages = function(){
 		  	height: Ti.UI.FILL,
 		  	width: Ti.UI.FILL
 		});
-	
+		
+		var view_voucher = $.UI.create("View", {classes:['wfill','hsize','vert', 'padding'], borderWidth: 2, borderColor: "#ED1C24"});
+		var label_voucher_title = $.UI.create("Label", {classes: ['wfill','hsize','padding'], textAlign: "center", text: "SalesAd Exclusive Voucher"});
+		var view_hr = $.UI.create("View", {classes:['hr']});
+		
+		view_voucher.add(label_voucher_title);
+		view_voucher.add(view_hr);
+		console.log(isScan+" is scan");
+			if(isScan == "1"){
+				var voucher_description = $.UI.create("Label", {classes:['wfill','hsize','padding'], textAlign: "center", text: items[i].voucher_description});
+				view_voucher.add(voucher_description);
+				if(items[i].barcode != ""){
+					var bcwv = BARCODE.generateBarcode(items[i].barcode);
+					view_voucher.add(bcwv);
+				}
+				var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','padding','grey'], textAlign: "center", text: "Please present this voucher at payment counter to redeem"});
+				view_voucher.add(label_subtitle);
+			}else{
+				var image_button = $.UI.create("ImageView", {classes:['wfill', 'hsize','padding'], image: "/images/Button_ScanQRCode.png"});
+				var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','padding','grey'], textAlign: "center", text: "in participating stores to get Exclusive deals"});
+				view_voucher.add(image_button);
+				view_voucher.add(label_subtitle);
+				image_button.addEventListener("click", QrScan);
+			}
+
 		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert']});
 		itemImageView.add(adImage); 
-	 	if(items[i].barcode != "" && typeof(barCodeView)  != "undefined"){
-			if(isScan == "1"){
-				//itemImageView.add(barCodeView);
-			} 
-		}
-		row.add(label_caption);
-		row.add(label_description);
+	 	
+		row.add(header);
 		row.add(itemImageView);
+		row.add(label_description);
+		console.log(items[i]);
+		if(items[i].isExclusive == 1){
+			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 40, right: 10, top:0, image:"/images/SalesAd Exclusive_Logo(Smaller).png"});
+			itemImageView.add(exclusive_icon);
+			row.add(view_voucher);
+		}
 		if(position == counter){
 			selectedView = row;
 		}
@@ -133,23 +134,13 @@ var getAdsImages = function(){
 	},250);
 };
 
-/*********************
-*** Event Listener ***
-**********************/
-$.item_Details.addEventListener('click', function(e){
-	var elbl = JSON.stringify(e.source); 
-	var res = JSON.parse(elbl); 
-	if(res.id == "barCodeControl"){
-		return false;
-	}else{
-		$.item_Details.close({
-			curve: Ti.UI.ANIMATION_CURVE_EASE_OUT,
-			opacity: 0,
-			duration: 200
-		});
-	}
-	
-});
+function QrScan(){
+	SCANNER.openScanner("1");
+}
+
+function closeWindow(){
+	$.item_Details.close();
+}
 
  
 /************************

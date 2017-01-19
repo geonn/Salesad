@@ -117,10 +117,10 @@ function render(e){
 		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});
 		var title = $.UI.create("Label", {classes: ['h6', 'bold','wfill','small-padding'], height: 30,ellipsize: true,wordWrap:false,  textAlign:"left",  text: data[i].description});
 		var subtitle = $.UI.create("Label", {classes: ['h7','wfill','hsize','small-padding'], top:0, textAlign:"left",  text: data[i].sales_from+" - "+data[i].sales_to});
-		var hr = $.UI.create("View", {classes:['hr']});
+		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#E3E5E8'});
 		var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding']});
 		var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 45});
-		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/logo_small.png",height:40, width: 40, left:0});
+		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/logo_small.png", borderRadius: 20, height:40, width: 40, left:0});
 		var owner_name = $.UI.create("Label", {classes: ['h6', 'bold','wfill'], top:0, height: 30,ellipsize: true,wordWrap:false,  textAlign:"left",  text: data[i].owner_name});
 		
 		var label_category = $.UI.create("Label", {classes: ['h6','wfill'], height: 15, ellipsize: true,wordWrap:false,  textAlign:"left",  text: obj_category[0].categoryName});
@@ -140,6 +140,7 @@ function render(e){
 
 function init(){
 	$.win.add(loading.getView());
+	
 	loading.start();
 	refresh();
 }

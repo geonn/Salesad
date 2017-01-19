@@ -35,7 +35,17 @@ if(isFeed == 1){
 }
 
 function getScanMerchant(){
-	isScan = Ti.App.Properties.getString('sales'+ads.m_id);
+	var expire = Ti.App.Properties.getString('sales'+ads.m_id);
+	var currentDate = new Date();
+	console.log(expire);
+	console.log(typeof expire);
+	if(expire != null && currentDate > expire){
+		isScan = 1;
+	}else{
+		isScan = 0;
+	}
+	console.log('sales'+ads.m_id);
+	console.log(isScan+" why got value one");
 	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);	
 }
 
@@ -107,7 +117,8 @@ var getAdDetails = function(){
 			itemImageView.add(adImage);
 			console.log(items[i]);
 			//itemImageView.add(BARCODE.generateBarcode("686068606860")); 
-			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].description);
+			
+			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].description, items[i].isExclusive);
 			
 			cell.add(itemImageView);
 			row.add(cell);
@@ -165,7 +176,7 @@ function init(){
 init();
 
 //dynamic addEventListener for adImage
-function createAdImageEvent(adImage,a_id,position, title, description) {
+function createAdImageEvent(adImage,a_id,position, title, description, isExclusive) {
     adImage.addEventListener('click', function(e) {
     	// double click prevention
 	    var currentTime = new Date();
@@ -173,7 +184,7 @@ function createAdImageEvent(adImage,a_id,position, title, description) {
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isScan: isScan, description: description}).getView(); 
+	    var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,

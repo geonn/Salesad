@@ -59,7 +59,7 @@ exports.definition = {
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
-                 while (res.isValidRow()){
+                while (res.isValidRow()){
                  	var caption = res.fieldByName('caption');
                  	//console.log(caption);
                  	if(caption != "" && caption != null){
@@ -73,6 +73,7 @@ exports.definition = {
 					    description: res.fieldByName("description"),
 					    voucher_description: res.fieldByName("voucher_description"),
 					    caption: caption,
+					    isExclusive: res.fieldByName("isExclusive"),
 					    img_path: res.fieldByName('img_path')
 					};
 					res.next();
@@ -122,10 +123,10 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (i_id, a_id, price,barcode,caption,img_path,position,status, description, voucher_description) VALUES (?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.i_id, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description);
-					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET a_id=?, price=?,barcode=?,caption=?,img_path=?,position=?,status=?, description=?, voucher_description=? WHERE i_id=?";
-					db.execute(sql_query, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.i_id);
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (i_id, a_id, price,barcode,caption,img_path,position,status, description, voucher_description, isExclusive) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.i_id, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.isExclusive);
+					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET a_id=?, price=?,barcode=?,caption=?,img_path=?,position=?,status=?, description=?, voucher_description=?, isExclusive=? WHERE i_id=?";
+					db.execute(sql_query, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.isExclusive, entry.i_id);
 				});
 				db.execute("COMMIT");
 	            db.close();

@@ -59,6 +59,8 @@ exports.openScanner = function(scanType) {
 	// scanning is canceled.
 	picker.setSuccessCallback(function(e) { 
 		// 1 - scan and assigned resources and finish goods 
+		var currentDate = new Date();
+		currentDate.setDate(currentDate.getDate() + 1);
 		if(scanType == "1"){ 
 			var barcode = e.barcode; 
 			var barRes = barcode.split('||');
@@ -72,7 +74,8 @@ exports.openScanner = function(scanType) {
 				});
 			} 
 			var barStr = 'sales'+barRes[0];
-			Ti.App.Properties.setString(barStr, '1'); 
+			console.log(barStr);
+			Ti.App.Properties.setString(barStr, currentDate); 
 	 
 			setTimeout(function(){ Ti.App.Properties.removeProperty(barStr); }, 60000);
 			Ti.App.fireEvent('getScanMerchant');
@@ -88,7 +91,8 @@ exports.openScanner = function(scanType) {
 			var barRes = barcode.split("||");
 			if(typeof barRes[0] != "undefined"){
 				var barStr = 'sales'+barRes[0];
-				Ti.App.Properties.setString(barStr, '1'); 
+				console.log(barStr);
+				Ti.App.Properties.setString(barStr, currentDate); 
 		 
 				setTimeout(function(){ Ti.App.Properties.removeProperty(barStr); }, 60000);
 			}

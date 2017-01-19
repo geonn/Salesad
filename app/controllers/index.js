@@ -301,24 +301,15 @@ $.indexView.favorite.addEventListener('click', function(e){
 });
 
 $.indexView.home.addEventListener('click', function(e){
+	var u_id = Ti.App.Properties.getString('u_id') || "";
+	if(u_id == ""){
+		var win = Alloy.createController("login").getView(); 
+		COMMON.openWindow(win);
+		return;
+	}
 	var win = Alloy.createController("home_all", {action_type: e.index}).getView();  
 	COMMON.openWindow(win);
-	/*
-	var dialog = Ti.UI.createOptionDialog({
-	  cancel: 2,
-	  options: ['Recent', 'Popular', 'Cancel'],
-	  selectedIndex: 2,
-	  title: 'View All'
-	});
 	
-	dialog.show();
-	
-	dialog.addEventListener("click", function(e){
-		if(e.index != 2){
-			var win = Alloy.createController("home_all", {action_type: e.index}).getView();  
-			COMMON.openWindow(win);
-		}
-	});*/
 });
 
 /** Android Click to refresh **/
