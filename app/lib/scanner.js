@@ -9,9 +9,12 @@ var window;
 var closeScanner = function() {  
 	if (picker != null) { 
 		picker.stopScanning();
-		//window.remove(picker);
+		//window.remove(picker); 
 	} 
-	window.close(); 
+	setTimeout(function() {
+		window.close();
+		window.remove(picker); 
+	}, 1);
 };
 
 
@@ -42,19 +45,27 @@ exports.createScannerButton = function(){
  * 4 - homepage scan nav to ad page
  */
 exports.openScanner = function(scanType) {
-	 
+	scanditsdk.appKey = "qt/U+huGEeSG62SYxtngPa7xVDA0BLRMw7gQLH8qAB0"; 
+	scanditsdk.cameraFacingPreference = 0; 
 	// Instantiate the Scandit SDK Barcode Picker view
 	picker = scanditsdk.createView({
 		width:"100%",
 		height:"100%"
 	});
+	 
 	// Initialize the barcode picker, remember to paste your own app key here.
-	picker.init("qt/U+huGEeSG62SYxtngPa7xVDA0BLRMw7gQLH8qAB0", 0);
+	picker.init();
 
 	picker.showSearchBar(false);
 	// add a tool bar at the bottom of the scan view with a cancel button (iphone/ipad only)
 	picker.showToolBar(true);
-
+	picker.setEan13AndUpc12Enabled(true);
+	picker.setEan8Enabled(true);
+	picker.setUpceEnabled(true);
+	picker.setCode39Enabled(true);
+	picker.setCode128Enabled(true);
+	picker.setQrEnabled(true);
+	picker.setDataMatrixEnabled(true);
 	// Set callback functions for when scanning succeedes and for when the 
 	// scanning is canceled.
 	picker.setSuccessCallback(function(e) { 
