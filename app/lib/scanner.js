@@ -1,6 +1,7 @@
 // load the Scandit SDK module
 var scanditsdk = require("com.mirasense.scanditsdk"); 
- 
+scanditsdk.appKey = "qt/U+huGEeSG62SYxtngPa7xVDA0BLRMw7gQLH8qAB0"; 
+scanditsdk.cameraFacingPreference = 0; 
 var picker;
 var window;
 
@@ -11,10 +12,10 @@ var closeScanner = function() {
 		picker.stopScanning();
 		//window.remove(picker); 
 	} 
-	setTimeout(function() {
+//	setTimeout(function() {
 		window.close();
 		window.remove(picker); 
-	}, 1);
+	//}, 1);
 };
 
 
@@ -45,8 +46,7 @@ exports.createScannerButton = function(){
  * 4 - homepage scan nav to ad page
  */
 exports.openScanner = function(scanType) {
-	scanditsdk.appKey = "qt/U+huGEeSG62SYxtngPa7xVDA0BLRMw7gQLH8qAB0"; 
-	scanditsdk.cameraFacingPreference = 0; 
+	 
 	// Instantiate the Scandit SDK Barcode Picker view
 	picker = scanditsdk.createView({
 		width:"100%",
@@ -112,26 +112,21 @@ exports.openScanner = function(scanType) {
 				COMMON.openWindow(win);
 			}, 500);
 		}
-		closeScanner();
+		//closeScanner();
+		
+		picker.stopScanning();
+		window.close();
+		window.remove(picker);
 	});
 	picker.setCancelCallback(function(e) { 
-		closeScanner();
-		Ti.App.fireEvent('scanner_cancel'); 
+		picker.stopScanning();
+		window.close();
+		window.remove(picker);
+		Ti.App.fireEvent('scanner_cancel');  
 	});
 
 	window.add(picker);
-	window.addEventListener('open', function(e) {
-		// Adjust to the current orientation.
-		// since window.orientation returns 'undefined' on ios devices 
-		// we are using Ti.UI.orientation (which is deprecated and no longer 
-	    // working on Android devices.)
-		if(Ti.Platform.osname == 'iphone' || Ti.Platform.osname == 'ipad'){
-    		//picker.setOrientation(Ti.UI.orientation);
-		}	
-		else {
-			picker.setOrientation(window.orientation);
-		}
-// 		
+	window.addEventListener('open', function(e) { 
 		picker.setSize(Ti.Platform.displayCaps.platformWidth,  Ti.Platform.displayCaps.platformHeight);
 		picker.startScanning();		// startScanning() has to be called after the window is opened. 
 	});
