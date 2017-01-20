@@ -11,7 +11,7 @@ if(OS_IOS){
 	Alloy.Globals.tracker.trackScreen({
 		screenName: "Privacy and Terms"
 	}); 
-}else{ 
+}else{
 	Alloy.Globals.tracker.addEvent({
         category: "settings",
 		action: "view",
@@ -28,11 +28,7 @@ var custom = $.UI.create("Label", {
     width: Ti.UI.SIZE 
  });
    
-if(Ti.Platform.osname == "android"){ 
-	$.pageTitle.add(custom);    
-}else{
-	$.tnc.titleControl = custom;
-} 
+$.pageTitle.add(custom);  
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.tnc); 
 }); 

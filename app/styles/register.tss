@@ -33,7 +33,9 @@
 	color: '#000000', 
 	 width:'90%',
 	 height: '35dp',
-	 bottom:5,
+	 borderWidth: 1,
+	 borderColor: "#cccccc",
+	 bottom:10,
 	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
      returnKeyType: Titanium.UI.RETURNKEY_DONE  ,
 	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED

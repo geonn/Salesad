@@ -38,13 +38,24 @@ function removeAllChildren (viewObject){
 };
 
 function createAlert (tt,msg, callback){
+	console.log('a');
 	var box = Titanium.UI.createAlertDialog({
 		title: tt,
-		ok: 'OK',
+		ok: "Ok",
+		cancel: 1,
+		buttonNames: ['Ok','Cancel'],
 		message: msg
 	});
+	console.log('b');
 	box.show();
-	_.isFunction(callback) && box.addEventListener('click', callback);
+	_.isFunction(callback) && box.addEventListener('click', function(e){
+		console.log(e.index+" "+e.source.cancel);
+		if(e.index === e.source.cancel){
+			
+		}else{
+			callback();
+		}
+	});
 };
 
 exports.openWindow = _.throttle(openWindow, 500, true);
@@ -120,4 +131,86 @@ exports.todayDateTime = function(){
 	datetime = yyyy+'-'+mm+'-'+dd + " "+ hours+":"+minutes+":"+sec;
  
 	return datetime ;
+};
+
+exports.CheckboxwithText = function(text,highlightText, checkboxspecs, urlLink){
+	var checkbox = this.createCheckbox({}, checkboxspecs);
+	var label_sms = Titanium.UI.createLabel({
+		text: text,
+		width: "auto",
+		height: Ti.UI.SIZE,
+		font:{
+			fontSize: 12
+		}
+	});
+	var label_privacy = Titanium.UI.createLabel({
+		text: highlightText,
+		width: "auto",
+		height: Ti.UI.SIZE,
+		color: "#ED1C24",
+		font:{
+			fontWeight: "bold",
+			fontSize: 12
+		}
+	});
+	var view_sms_box =  Titanium.UI.createView({
+		width: Ti.UI.FILL,
+		height: Ti.UI.SIZE,
+		layout: "horizontal"
+	});
+	view_sms_box.add(checkbox);
+	view_sms_box.add(label_sms);
+	view_sms_box.add(label_privacy);
+	label_privacy.addEventListener('touchend',function(){  
+		var win = Alloy.createController(urlLink).getView();  
+		win.open(); 
+	});
+	return view_sms_box;
+};
+
+exports.createCheckbox = function(specs,checkboxspecs,image) {
+
+    if(typeof checkboxspecs != "object")
+        checkboxspecs = {};
+    checkboxspecs.width = checkboxspecs.width || 25;
+    checkboxspecs.backgroundColor = checkboxspecs.unCheckedColor || "white";
+    checkboxspecs.height = checkboxspecs.height || 25;
+    checkboxspecs.border = checkboxspecs.border || 1;
+    checkboxspecs.borderColor = checkboxspecs.borderColor || "silver";
+    var imageView = Ti.UI.createImageView({
+        image:image || "images/checkbox.gif",
+        height:checkboxspecs.height * 1.5,
+        bottom:3 + checkboxspecs.height * 0.5,
+        left:3 + checkboxspecs.width * 0.5,
+        opacity:0
+    }) ;
+
+    var viw = Ti.UI.createView(checkboxspecs);
+    specs.width =  checkboxspecs.width * 1.5;
+    specs.height = checkboxspecs.height * 1.5;
+
+    var outerview = Ti.UI.createView({
+        width: specs.width * 1.5,
+        height: specs.height * 1.5,
+    });
+    var clickview = Ti.UI.createView({
+        width:checkboxspecs.width,
+        height:checkboxspecs.height
+    });
+    outerview.add(viw);
+    outerview.add(imageView);
+    outerview.add(clickview);
+
+    function togglecheck () {
+        if(!viw.checked) {
+            viw.checked = true;
+            imageView.opacity = 1; 
+        }
+        else {
+            viw.checked = false;
+            imageView.opacity = 0; 
+        }           
+    }
+    clickview.addEventListener("click",togglecheck);
+    return outerview;
 };

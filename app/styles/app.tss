@@ -31,7 +31,7 @@
 ".textfield":{
 	width:'90%',
 	 height: '35dp',
-	 bottom:5,
+	 bottom:10,
 	 borderRadius: 4,
 	 backgroundColor: "#ffffff",
 	 borderWidth: 1,

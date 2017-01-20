@@ -77,24 +77,11 @@ function popCategory(){
 }	
 	
 function refresh(){
-	API.callByPost({
-		url: "getSXItem",
-		new: true
-	}, 
-	{
-		onload: function(responseText){
-			var res = JSON.parse(responseText);
-			var arr = res.data || null;
-			getPreviousData({});
-			render({});
-		},
-		onerror: function(err){
-			_.isString(err.message) && alert(err.message);
-		},
-		onexception: function(){
-			COMMON.closeWindow($.win);
-		}
-	});
+	start = 0;
+	anchor = COMMON.todayDateTime();
+	last_updated = COMMON.todayDateTime();
+	getPreviousData({});
+	render({});
 }	
 
 function render(e){
@@ -111,7 +98,9 @@ function render(e){
 		var obj_category = _.where(category, {id: data[i].category});
 		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/logo_small.png":data[i].owner_img_path;
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
-		var container = $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ffffff", width: cell_width, left: 10, top:10, record: data[i]});
+		var container = $.UI.create("View", {classes:['hsize'], master:1, backgroundColor: "#ffffff", width: cell_width, left: 10, top:10, record: data[i]});
+		var inner_view = $.UI.create("View", {classes:['wfill','hsize','vert']});
+		var img_close = $.UI.create("ImageView", {image: "/images/Icon_Delete_Round.png", width: 30, height: 30, right:5, top:5, zIndex: 100});
 		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});
 		var title = $.UI.create("Label", {classes: ['h6', 'bold','wfill','small-padding'], height: 30,ellipsize: true,wordWrap:false,  textAlign:"left",  text: data[i].description});
 		var subtitle = $.UI.create("Label", {classes: ['h7','wfill','hsize','small-padding'], top:0, textAlign:"left",  text: data[i].sales_from+" - "+data[i].sales_to});
@@ -122,18 +111,50 @@ function render(e){
 		var owner_name = $.UI.create("Label", {classes: ['h6', 'bold','wfill'], top:0, height: 30,ellipsize: true,wordWrap:false,  textAlign:"left",  text: data[i].owner_name});
 		
 		var label_category = $.UI.create("Label", {classes: ['h6','wfill'], height: 15, ellipsize: true,wordWrap:false,  textAlign:"left",  text: obj_category[0].categoryName});
-		container.add(img);
-		container.add(title);
-		container.add(subtitle);
-		container.add(hr);
+		inner_view.add(img);
+		inner_view.add(title);
+		inner_view.add(subtitle);
+		inner_view.add(hr);
 		view_bottom_right.add(owner_name);
 		view_bottom_right.add(label_category);
 		view_bottom.add(owner_img);
 		view_bottom.add(view_bottom_right);
-		container.add(view_bottom);
-		container.addEventListener("click", navTo);
+		inner_view.add(view_bottom);
+		inner_view.addEventListener("click", navTo);
+		img_close.addEventListener("click", popDelete);
+		container.add(img_close);
+		container.add(inner_view);
 		$.content.add(container);
 	};
+}
+
+function popDelete(e){
+	console.log('yes');
+	COMMON.createAlert("Alert", "Are you sure want to delete it?", function(ex){
+		var source = parent({name:"master", value: 1}, e.source);
+		alert(source.record.id);
+	API.callByPost({
+		url: "getAdsStatus",
+		new: true,
+		params: {
+			id: source.record.id,
+			status: 3
+		}
+	}, 
+	{
+		onload: function(responseText){
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			refresh();
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+		},
+		onexception: function(){
+			COMMON.closeWindow($.win);
+		}
+	});
+	});
 }
 
 function init(){
