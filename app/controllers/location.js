@@ -111,9 +111,11 @@ function render_map(){
 			    backgroundImage: '/images/btn-forward.png',
 			    height: 20,
 				width: 20,
-				m_id: branch[i].l_id
+				m_id: branch[i].m_id
 			});
 			ad_arrow.addEventListener('click', function(ex){ 
+				console.log(ex.source);
+				console.log(ex.source.m_id);
 				m_id = ex.source.m_id;
 				setCurrentLocation();
 			});
@@ -150,6 +152,7 @@ function switchLocation(e){
 }
 
 function setCurrentLocation(){
+	console.log(branch);
 	if(m_id != ""){
 		var cur = _.where(branch, {m_id: m_id});
 		cur = cur[0];

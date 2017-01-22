@@ -115,7 +115,7 @@ var getAdDetails = function(){
 				height: "auto",
 			});
 			itemImageView.add(adImage);
-			console.log(items[i]);
+			
 			//itemImageView.add(BARCODE.generateBarcode("686068606860")); 
 			
 			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].description, items[i].isExclusive);
@@ -165,10 +165,12 @@ var getAdDetails = function(){
 function init(){
 	$.win.add(loading.getView());
 	getAdData();
-	m_id = ads.m_id;
+	var merchant = m_library.getMerchantsById(ads.m_id);
+	
+	m_id = (merchant.parent != 0 && merchant.parent != null)?merchant.parent:ads.m_id;
+	
 	getScanMerchant();
 	checkFavorite();
-	console.log('after check favorite');
 	refresh();
 	pageTitle = ads.name;	// set Page Title
 }
@@ -369,10 +371,10 @@ if (Titanium.Platform.name == 'iPhone OS'){
 $.home.addEventListener("click", function(e){
 	var naviPath = Alloy.Globals.naviPath;
 	if(naviPath == ""){
-		console.log("here?");
+		
 		closeWindow();
 	}else{
-		console.log('yes!');
+		
 		for (var i=0; i< naviPath.length; i++) { 
 			COMMON.closeWindow(naviPath[i]);  
 		} 
