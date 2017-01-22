@@ -15,6 +15,7 @@ var closeScanner = function() {
 //	setTimeout(function() {
 		window.close();
 		window.remove(picker); 
+		window.removeEventListener('open', openScannerWindow); 
 	//}, 1);
 };
 
@@ -38,6 +39,12 @@ exports.createScannerButton = function(){
 		image: '/images/scan.png' 
 	});
 };
+
+function openScannerWindow(){  
+		picker.setSize(Ti.Platform.displayCaps.platformWidth,  Ti.Platform.displayCaps.platformHeight);
+		picker.startScanning();		// startScanning() has to be called after the window is opened.  
+}
+
 // Sets up the scanner and starts it in a new window.
 /*********
  * 1 - scan and assigned resources and finish goods
@@ -115,28 +122,29 @@ exports.openScanner = function(scanType) {
 		//closeScanner();
 		
 		picker.stopScanning();
-		window.close();
+		window.close(); 
 		window.remove(picker);
+		window.removeEventListener('open', openScannerWindow);
+ 
+		
 	});
 	picker.setCancelCallback(function(e) { 
 		picker.stopScanning();
-		window.close();
+		window.close(); 
 		window.remove(picker);
+		window.removeEventListener('open', openScannerWindow); 
 		Ti.App.fireEvent('scanner_cancel');  
 	});
 
 	window.add(picker);
-	window.addEventListener('open', function(e) { 
-		picker.setSize(Ti.Platform.displayCaps.platformWidth,  Ti.Platform.displayCaps.platformHeight);
-		picker.startScanning();		// startScanning() has to be called after the window is opened. 
-	});
+	window.addEventListener('open', openScannerWindow);
 	
 	window.addEventListener('android:back', function (e) {
 		Ti.App.fireEvent('scanner_cancel'); 
 		closeScanner(); 
 	});
 
-	window.open();
+	window.open(); 
 };
 
 exports.init = function(win){
@@ -148,17 +156,4 @@ if(Ti.Platform.osname == 'iphone' || Ti.Platform.osname == 'ipad'){
 	Titanium.UI.iPhone.statusBarHidden = true;
 }
 
-
-// Changes the picker dimensions and the video feed orientation when the
-// orientation of the device changes.
-Ti.Gesture.addEventListener('orientationchange', function(e) {
-	window.orientationModes = [Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, 
-				   Titanium.UI.LANDSCAPE_LEFT, Titanium.UI.LANDSCAPE_RIGHT];
-	if (picker != null) {
-		picker.setOrientation(e.orientation);
-		picker.setSize(Ti.Platform.displayCaps.platformWidth, 
-				Ti.Platform.displayCaps.platformHeight);
-		// You can also adjust the interface here if landscape should look
-		// different than portrait.
-	}
-});
+ 
