@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>com.freejini.salesad</id>
     <name>SalesAd</name>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <publisher>Freejini</publisher>
     <url>http://www.freejini.com</url>
     <description>salesAd</description>
@@ -12,7 +12,7 @@
     <navbar-hidden>false</navbar-hidden>
     <statusbar-hidden>false</statusbar-hidden>
     <analytics>true</analytics>
-    <guid>5e4570e3-e254-4c7f-9888-98ec7f80f592</guid>
+    <guid>254f579d-1452-4389-9ddd-9c270646c49f</guid>
     <property name="acs-oauth-secret-development" type="string">Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF</property>
     <!-- Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF-->
     <property name="acs-oauth-key-development" type="string">PkZ7J8IJ29OvM3gZdYiMDm2csn2LbFAc</property>
