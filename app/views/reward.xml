@@ -1,127 +1,30 @@
 <Alloy>
-	<Window id="win" title="MY REWARDS" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
+	<Window id="win" title="MY REWARDS" navTintColor="#ED1C24" backgroundColor="#fff">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
-			<View left="0" width="10%">
-		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
-		    </View>
-	     	<View id="pageTitle" width="70%">
-	     		<Label color="#ED1C24">MY REWARDS</Label>
-	     	</View>
-	 	</View>
-	 	<View class="wfill hfill vert">
-	 		<View class="wfill hsize">
-	 			<View class="padding wfill hsize" horizontalWrap="false">
-	 				<View class="wsize hsize horz box rounded" borderColor="#484848">
-						<View id="firstTab" tab="1" onClick="switchListing" backgroundColor="#484848" class="wsize hsize">
-							<Label v="label" onClick="switchListing" width="70" textAlign="center" color="#ffffff" class="hsize small-padding h6" >Points</Label>
-						</View>
-						<View tab="2" id="secondTab"  onClick="switchListing" class="wsize hsize">
-							<Label v="label" onClick="switchListing" width="70" color="#484848" textAlign="center" class="hsize small-padding h6">Gift Cards</Label>
-						</View>
-					</View>
-				</View>
-	 		</View>
-	 		<View class="line" backgroundColor="#484848"></View>
- 			<View class="wfill hfill">
-		 		<ScrollView class="wfill hfill contwfill conthsize vert" id="point">
-		 			<Label class="wsize hsize bold h1" top="20" bottom="15">50 POINTS</Label>
-		 			<Label class="wsize hsize bold h4">You're off to a great start</Label>
-		 			<Label class="wsize hsize h6">Get a free gift card in a few easy steps.</Label>
-		 			<ScrollView id="horz_reward_list" backgroundColor="#d0d0d0" top="20" class="wfill hsize contwsize conthsize horz" showHorizontalScrollIndicator="true" scrollType="horizontal" disableBounce="true">
-		 				<View class="wsize hsize">
-		 					<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24">
-			 					<Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label>
-			 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
-		 					</View>
-		 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="images/sample-reward.png" />
-		 				</View>
-		 				<View class="wsize hsize">
-		 					<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24">
-			 					<Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label>
-			 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
-		 					</View>
-		 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="images/sample-reward.png" />
-		 				</View>
-		 				<View class="wsize hsize">
-		 					<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24">
-			 					<Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label>
-			 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
-		 					</View>
-		 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="images/sample-reward.png" />
-		 				</View>
-		 			</ScrollView>
-		 			<TableView class="wfill hfill contwfill conthsize">
-		 				<TableViewRow class="horz hsize">
-		 					<ImageView image="images/task-yes.png" class="hsize padding" width="30"></ImageView>
-		 					<View class="hsize horz padding" left="0" width="auto">
-		 						<View class="vert hsize" width="78%">
-		 							<Label class="wfill hsize h5">Sign Up</Label>
-		 							<Label class="wfill hsize h6">Create a SaleAd Account</Label>
-		 						</View>
-		 						<View class="hsize" width="22%">
-		 							<Label class="wfill hsize h5">20 PTS</Label>
-		 						</View>
-		 					</View>
-		 				</TableViewRow>
-		 				<TableViewRow class="horz hsize">
-		 					<ImageView image="images/task-no.png" class="hsize padding" width="30"></ImageView>
-		 					<View class="hsize horz padding" left="0" width="auto">
-		 						<View class="vert hsize" width="78%">
-		 							<Label class="wfill hsize h5">Personalize SaleAd</Label>
-		 							<Label class="wfill hsize h6">Select the brands you love</Label>
-		 						</View>
-		 						<View class="hsize" width="22%">
-		 							<Label class="wfill hsize h5">40 PTS</Label>
-		 						</View>
-		 					</View>
-		 				</TableViewRow>
-		 				<TableViewRow class="horz hsize">
-		 					<ImageView image="images/task-no.png" class="hsize padding" width="30"></ImageView>
-		 					<View class="hsize horz padding" left="0" width="auto">
-		 						<View class="vert hsize" width="78%">
-		 							<Label class="wfill hsize h5">Invite friends</Label>
-		 							<Label class="wfill hsize h6">Invite more friends for more points</Label>
-		 						</View>
-		 						<View class="hsize" width="22%">
-		 							<Label class="wfill hsize h5">100 PTS</Label>
-		 						</View>
-		 					</View>
-		 				</TableViewRow>
-		 			</TableView>
-		 		</ScrollView>
-		 		<ScrollView class="wfill hfill contwfill conthsize vert" id="reward">
-		 			<Label class="wsize hsize bold h1" top="20" bottom="15">50 POINT</Label>
-		 			<Label class="wsize hsize h6">Check out the gift card below</Label>
-		 			<View id="reward_list" class="wfill hsize horz">
-			 			<View class="wsize hsize">
-		 					<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24">
-			 					<Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label>
-			 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
-		 					</View>
-		 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="images/sample-reward.png" />
-		 				</View>
-		 				<View class="wsize hsize">
-		 					<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24">
-			 					<Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label>
-			 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
-		 					</View>
-		 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="images/sample-reward.png" />
-		 				</View>
-		 				<View class="wsize hsize">
-		 					<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24">
-			 					<Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label>
-			 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
-		 					</View>
-		 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="images/sample-reward.png" />
-		 				</View>
-		 			</View>
-		 		</ScrollView>
-	 		</View>
+        <View class="wfill hfill vert">
+	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+				<View left="0" width="10%">
+			         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+			    </View>
+		     	<View id="pageTitle" width="70%">
+		     		<Label color="#ED1C24">MY REWARDS</Label>
+		     	</View>
+		 	</View>
+		 	<View class="wfill hfill vert">
+	 			<View class="wfill hfill">
+			 		<ScrollView class="wfill hfill contwfill conthsize vert" id="point">
+			 			<Label class="wsize hsize bold h1" top="20" bottom="15" id="current_point">0 POINTS</Label>
+			 			<Label class="wsize hsize bold h4">You're off to a great start</Label>
+			 			<Label class="wsize hsize h6">Get a free gift card in a few easy steps.</Label>
+			 			<TableView class="wfill hfill contwfill conthsize" id="point_list">
+			 			</TableView>
+			 		</ScrollView>
+		 		</View>
+		 	</View>	
 	 	</View>
 	</Window>
 </Alloy>

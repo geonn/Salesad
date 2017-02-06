@@ -90,6 +90,7 @@ function createShareOptions(adsName, adsImage){
 }
 
 function getData(){
+	console.log(type+" "+args.m_id);
 	if(type == "branch"){
 		var ads_model = Alloy.createCollection('ads'); 
 		data = ads_model.getDataByBranch(args.m_id, ads_counter, 3);

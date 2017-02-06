@@ -45,6 +45,35 @@ function openScannerWindow(){
 		picker.startScanning();		// startScanning() has to be called after the window is opened.  
 }
 
+function checkExpired(m_id){
+	var expire = Ti.App.Properties.getString('sales'+m_id);
+	var currentDate = new Date();
+	console.log(expire);
+	console.log(typeof expire);
+	if(expire != null && currentDate > expire){
+		return true;
+	}else if(expire == null){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function checkReward(m_id){
+	var u_id = Ti.App.Properties.getString('u_id');
+	if(typeof u_id == "undefined"){
+		return;
+	}
+	if(checkExpired(m_id)){
+		Ti.App.fireEvent("callbypost", {
+			url: "doPointAction",
+			new: true,
+			params: {u_id: u_id, action: "add", purpose: 4},
+			onload: function(ex){Ti.App.fireEvent("reward:refresh");}
+		});
+	}
+}
+
 // Sets up the scanner and starts it in a new window.
 /*********
  * 1 - scan and assigned resources and finish goods
@@ -92,10 +121,9 @@ exports.openScanner = function(scanType) {
 				});
 			} 
 			var barStr = 'sales'+barRes[0];
-			console.log(barStr);
-			Ti.App.Properties.setString(barStr, currentDate); 
-	 
-			setTimeout(function(){ Ti.App.Properties.removeProperty(barStr); }, 60000);
+			console.log(barRes[0]);
+			checkReward(barRes[0]);
+			Ti.App.Properties.setString(barStr, currentDate);
 			Ti.App.fireEvent('getScanMerchant');
 		}else if(scanType == "2"){
 			var barcode = e.barcode; 
@@ -109,10 +137,9 @@ exports.openScanner = function(scanType) {
 			var barRes = barcode.split("||");
 			if(typeof barRes[0] != "undefined"){
 				var barStr = 'sales'+barRes[0];
-				console.log(barStr);
+				console.log(barRes[0]);
+				checkReward(barRes[0]);
 				Ti.App.Properties.setString(barStr, currentDate); 
-		 
-				setTimeout(function(){ Ti.App.Properties.removeProperty(barStr); }, 60000);
 			}
 			setTimeout(function(ex){
 				var win = Alloy.createController("branch_ad", {m_id: barRes[0], from : "home"}).getView(); 

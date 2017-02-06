@@ -26,6 +26,7 @@ var keyword = "";
 function getPreviousData(param){
 	var model = Alloy.createCollection("xpress");
 	data = model.getData({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start, latest: false, keyword: keyword, category_id: category_id});
+	console.log(data);
 	start = start + data.length;
 	console.log(data.length+" "+start);
 }	
@@ -81,6 +82,7 @@ function refresh(){
 	anchor = COMMON.todayDateTime();
 	last_updated = COMMON.todayDateTime();
 	getPreviousData({});
+	$.content.removeAllChildren();
 	render({});
 }	
 
@@ -132,9 +134,8 @@ function popDelete(e){
 	console.log('yes');
 	COMMON.createAlert("Alert", "Are you sure want to delete it?", function(ex){
 		var source = parent({name:"master", value: 1}, e.source);
-		alert(source.record.id);
 	API.callByPost({
-		url: "getAdsStatus",
+		url: "updateSXStatus",
 		new: true,
 		params: {
 			id: source.record.id,
@@ -145,6 +146,8 @@ function popDelete(e){
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
+			var xp = Alloy.createCollection("xpress");
+			xp.saveArray(arr);
 			refresh();
 		},
 		onerror: function(err){

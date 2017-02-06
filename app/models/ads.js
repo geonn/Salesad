@@ -74,7 +74,7 @@ exports.definition = {
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
-					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName("latitude"),
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
@@ -135,12 +135,12 @@ exports.definition = {
 			},
 			getDataByBranch: function(m_id, start, end){
 				var collection = this;
-				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.m_id = ? AND ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' limit "+start+", "+end;
+				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where (',' || ads.branch || ',') LIKE '%,"+m_id+",%' AND ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' limit "+start+", "+end;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
-                var res = db.execute(sql, m_id);
+                var res = db.execute(sql);
                 var arr = [];
 				var count = 0;
                 
@@ -198,6 +198,7 @@ exports.definition = {
 					    latitude: res.fieldByName("latitude"),
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
+					    branch: res.fieldByName("branch"),
 					    youtube: res.fieldByName('youtube'),
 					    expired_date: res.fieldByName('expired_date'),
 					    updated: res.fieldByName('updated'),

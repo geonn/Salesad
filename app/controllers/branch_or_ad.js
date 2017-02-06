@@ -31,6 +31,7 @@ function switchListing(e){
 function nav_ad_listing(e){
 	//var ads_model = Alloy.createCollection('ads'); 
 	//var data = ads_model.getDataBym_id(e.rowData.m_id);
+	console.log(e.rowData.m_id);
 	var win = Alloy.createController("branch_ad", {m_id: e.rowData.m_id, type: "branch"}).getView(); 
 	COMMON.openWindow(win); 
 }

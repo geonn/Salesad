@@ -1,39 +1,238 @@
 var args = arguments[0] || {};
+var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
-var current_tab = "point";
+var data = [], daily_data = [], point_list=[];
+var pwidth = Titanium.Platform.displayCaps.platformWidth;
+var SCANNER = require("scanner");
+var window = SCANNER.createScannerWindow();
+SCANNER.init(window); 
 
-function switchListing(e){
-	var tab = parent({name: "tab"}, e.source);
-	var text = children({name: "v", value:"label"}, $.firstTab);
-	var secondtext = children({name: "v", value:"label"}, $.secondTab);
+if (OS_IOS){
+//iOS only module
 	
-	if(tab == 1){
-		current_tab = "point";
-		//$.firstTab.backgroundColor = "#75d0cb";
-		text.color = "#ffffff";
-		$.firstTab.backgroundColor = "#484848";
-		$.secondTab.backgroundColor = "transparent";
-		secondtext.color = "#484848";
-		$.point.show();
-		$.reward.hide();
-	}else if(tab == 2){
-		current_tab = "reward";
-		//$.secondTab.backgroundColor = "#75d0cb";
-		secondtext.color = "#ffffff";
-		$.firstTab.backgroundColor = "transparent";
-		$.secondTab.backgroundColor = "#484848";
-		text.color = "#484848";
-		$.point.hide();
-		$.reward.show();
+var Social = require('dk.napp.social'); 
+
+// find all Twitter accounts on this phone
+if(Social.isRequestTwitterSupported()){ //min iOS6 required
+    var accounts = []; 
+    Social.addEventListener("accountList", function(e){
+    	Ti.API.info("Accounts:");
+    	accounts = e.accounts; //accounts
+    	Ti.API.info(accounts);
+    });
+    
+    Social.twitterAccountList();
+}
+ Social.addEventListener("complete", function(e){
+		Ti.API.info("complete: " + e.success);
+
+		if (e.platform == "activityView" || e.platform == "activityPopover") {
+			switch (e.activity) {
+				case Social.ACTIVITY_TWITTER:
+					Ti.API.info("User is shared on Twitter");
+					break;
+				case Social.ACTIVITY_FACEBOOK:
+					Ti.API.info("User is shared on Facebook");
+					break;
+				case Social.ACTIVITY_CUSTOM:
+					Ti.API.info("This is a customActivity: " + e.activityName);
+					break;
+			}
+		}
+	});
+	
+	Social.addEventListener("error", function(e){
+		Ti.API.info("error:");	
+		Ti.API.info(e);	
+	});
+	
+	Social.addEventListener("cancelled", function(e){
+		Ti.API.info("cancelled:");
+		Ti.API.info(e);		
+	}); 
+	Social.addEventListener("customActivity", function(e){
+		Ti.API.info("customActivity");	
+		Ti.API.info(e);	
+		
+	});
+} 
+
+function refresh(){
+	loading.start();
+	API.callByPost({
+		url: "getMemberPointsRecords",
+		new: true,
+		params: {u_id: u_id}
+	}, 
+	{
+		onload: function(responseText){
+			var model = Alloy.createCollection("points");
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			model.saveArray(arr);
+			data = model.getData({u_id: u_id});
+			daily_data = model.getData({u_id: u_id, daily: true});
+			console.log(data);
+			render_current_point();
+			render_point_list();
+			loading.finish();
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+			loading.finish();
+		},
+		onexception: function(){
+			COMMON.closeWindow($.win);
+			loading.finish();
+		}
+	});
+	
+	API.callByPost({
+		url: "pointDescList",
+		new: true,
+	}, 
+	{
+		onload: function(responseText){
+			var res = JSON.parse(responseText);
+			point_list = res.data || null;
+			point_list.pop();
+			console.log(point_list);
+			render_point_list();
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+		},
+		onexception: function(){
+			COMMON.closeWindow($.win);
+		}
+	});
+}
+
+function render_current_point(){
+	if(data.length > 0){
+		$.current_point.text = data[data.length - 1].balance+" POINTS";
+	}else{
+		$.current_point.text = "0 POINTS";
 	}
-	//refresh();
+}
+
+function render_point_list(){
+	var arr = [];
+	for (var i=0; i < point_list.length; i++) {
+		console.log(point_list[i].title);
+		var found;
+		if(point_list[i].daily){
+			found = _.where(daily_data, {purpose: point_list[i].id});
+		}else{
+			found = _.where(data, {purpose: point_list[i].id});
+		}
+		var task_yes_no_path = (found.length>0)?task_yes = "/images/task-yes.png":"/images/task-no.png";
+		var checked = (found.length>0)?true:false;
+		_.extend(point_list[i], {checked: checked});
+		var row = $.UI.create("TableViewRow", {classes:['horz','hsize'], record: point_list[i]});
+		var task_yes_no = $.UI.create("ImageView", {image: task_yes_no_path, classes:['hsize','padding'], width: 30});
+		var view_mid = $.UI.create("View", {classes:['vert','hsize'], width: c_percent("63%", pwidth)});
+		var label_title = $.UI.create("Label", {classes:['wfill','hsize','h5'], text: point_list[i].title});
+		var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','h6'], text: point_list[i].subtitle});
+		var view_last = $.UI.create("View", {classes:['hsize'], width: "auto"});
+		var label_point = $.UI.create("Label", {classes: ['wfill','hsize','h5'],  text: point_list[i].points+" PTS"});
+		view_last.add(label_point);
+		view_mid.add(label_title);
+		view_mid.add(label_subtitle);
+		row.add(task_yes_no);
+		row.add(view_mid);
+		row.add(view_last);
+		arr.push(row);
+	};
+	$.point_list.setData(arr);
+	$.point_list.addEventListener("click", navTo);
+}
+
+function navTo(e){
+	var row = e.row;
+	console.log(row.record);
+	loading.start();
+	if(row.record.id == 2){
+		if(!row.record.checked){
+			API.callByPost({
+				url: "doPointAction",
+				new: true,
+				params: {u_id: u_id, action: "add", purpose: row.record.id}
+			}, 
+			{
+				onload: function(responseText){
+					refresh();
+					loading.finish();
+				},
+				onerror: function(err){
+					_.isString(err.message) && alert(err.message);
+					loading.finish();
+				},
+				onexception: function(){
+					COMMON.closeWindow($.win);
+					loading.finish();
+				}
+			});
+		}
+		loading.finish();
+	}else if(row.record.id == 3){
+		loading.start();
+		API.callByPost({
+				url: "encrypt_uid",
+				new: true,
+				params: {u_id: u_id}
+			}, 
+			{
+				onload: function(responseText){
+					var res = JSON.parse(responseText);
+					var encrypt_code = res.data || null;
+					var share_url = "http://salesad.my//users/member_register?referral="+encrypt_code;
+					if(OS_IOS){
+						if(Social.isActivityViewSupported()){ //min iOS6 required
+					    	Social.activityView({
+					        	text: "SalesAd. Please signup via the link : "+share_url,
+					        	//url: "http://apple.co/1RtrCZ4"
+					     	});
+					     } else {
+					     	//implement fallback sharing..
+					     }
+					}else{
+					    var text = "SalesAd. Please signup via the link : "+share_url;
+					  
+					    var intent = Ti.Android.createIntent({
+					        action: Ti.Android.ACTION_SEND,
+					        type: "text/plain",
+					    });
+					    intent.putExtra(Ti.Android.EXTRA_TEXT,text);
+					    intent.putExtra(Ti.Android.EXTRA_SUBJECT, "Salesad Invite Friend");
+					    var share = Ti.Android.createIntentChooser(intent,'Share');
+						Ti.Android.currentActivity.startActivity(share);
+					}
+					
+					loading.finish();
+				},
+				onerror: function(err){
+					_.isString(err.message) && alert(err.message);
+					loading.finish();
+				},
+				onexception: function(){
+					COMMON.closeWindow($.win);
+					loading.finish();
+				}
+			});
+	}else if(row.record.id == 4){
+		if(!row.record.checked){
+			SCANNER.openScanner("4");
+		}
+		loading.finish();
+	}else if(row.record.id == 1){
+		loading.finish();
+	}
 }
 
 function init(){
 	$.win.add(loading.getView());
-	loading.start();
-	setTimeout(function(e){$.horz_reward_list.scrollTo(50,0);}, 500);
-	$.reward.hide();
+	refresh();
 }
 
 init();
@@ -41,3 +240,16 @@ init();
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
 }); 
+
+$.win.addEventListener("close", function(){
+	Ti.App.removeEventListener('reward:refresh', refresh);
+});
+
+Ti.App.addEventListener('reward:refresh', refresh);
+
+function c_percent(percent, relative) {
+    var percentInt = percent.replace("%", "");
+    var percentInt = parseInt(percentInt);
+    console.log(Math.round(percentInt * (relative / 100)));
+    return Math.round(percentInt * (relative / 100));
+};

@@ -423,6 +423,14 @@ function sync_server_time(responseText){
 	}
 }
 
+Ti.App.addEventListener("callbypost", function(e){
+	API.callByPost({
+			url: e.url,
+			new: e.new,
+			params: e.params,
+		}, {onload: e.onload});
+});
+
 // call API by post method
 exports.callByPost = function(e, handler){
 	
@@ -437,6 +445,7 @@ exports.callByPost = function(e, handler){
 				JSON.parse(this.responseText);
 			}
 			catch(e){
+				console.log(this.responseText);
 				console.log('callbypost JSON exception');
 				console.log(e);
 				COMMON.createAlert("Error", e.message, handler.onexception);
@@ -528,10 +537,12 @@ function contactServerByPost(url,records) {
 	var client = Ti.Network.createHTTPClient({
 		timeout : 6000
 	});
+	console.log(client);
 	if(OS_ANDROID){
 	 	client.setRequestHeader('ContentType', 'application/x-www-form-urlencoded'); 
 	 }
 	console.log(records);
+	
 	client.open("POST", url);
 	client.send(records);
 	return client;

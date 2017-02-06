@@ -21,6 +21,14 @@ function navTo(e){
 			COMMON.openWindow(win); 
 		} 
 	}else if(target != ""){
+		if(target=="reward"){
+			var u_id = Ti.App.Properties.getString('u_id') || "";
+			if(u_id == ""){
+				var win = Alloy.createController("login").getView(); 
+				COMMON.openWindow(win);
+				return;
+			}
+		}
 		var win = Alloy.createController(target).getView();  
 		COMMON.openWindow(win);
 	}

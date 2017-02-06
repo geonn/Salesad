@@ -3,26 +3,16 @@ exports.definition = {
 		columns: {
 		    "id": "INTEGER PRIMARY KEY",
 		    "u_id": "INTEGER",
-		    "category": "INTEGER",
-		    "status": "INTEGER",	//1 - publish, 2 - unpublish, 3 - deleted
-		    "name": "TEXT",
-		    "description": "TEXT",
-		    "store_name": "TEXT",
-		    "address": "TEXT",
-		    "latitude": "TEXT",
-		    "longitude": "TEXT",
-		    "img_path": "TEXT",
-		    "owner_img_path": "TEXT",
-		    "owner_name": "TEXT",
-		    "expired_date" : "DATE",
-		    "sales_from" : "DATE",
-		    "sales_to" : "DATE",
+		    "points": "INTEGER",
+		    "purpose": "INTEGER",
+		    "balance": "INTEGER",
+		    "type": "TEXT", 	//add or minus
 		    "created" : "DATE",
 		    "updated" : "DATE"
 		},
 		adapter: {
 			type: "sql",
-			collection_name: "xpress",
+			collection_name: "points",
 			idAttribute: "id"
 		}
 	},
@@ -64,22 +54,9 @@ exports.definition = {
 				for (var k in columns) {
 	                names.push(k);
 	            }
-	            
-	            if(e.latest){
-					var start_limit = "";
-					var sql_lastupdate = " AND created > '"+e.anchor+"'";
-				}else{
-					var start_limit = " limit "+e.start+", 8";
-					var sql_lastupdate = " AND created <= '"+e.anchor+"'";
-				}
-				var sql_uid = "";
-				console.log(e);
-				if(typeof e.u_id != "undefined"){
-					sql_uid = " AND u_id = "+e.u_id;
-				}
-	            var sql_keyword = (typeof e.keyword != "undefined" && e.keyword != "")?" AND description like '%"+e.keyword+"%'":"";
-	            var sql_category = (typeof e.category_id != "undefined")?" AND category = '"+e.category_id+"'":"";
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" order by `updated` DESC "+start_limit;
+	            var sql_u_id = (typeof e.u_id != "undefined")?" AND u_id = "+e.u_id:"";
+	            var sql_daily = (typeof e.daily != "undefined")?" AND created >= datetime('now', '-24 hours')":"";
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE 1=1 "+sql_u_id+sql_daily;
                 console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){

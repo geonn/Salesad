@@ -170,11 +170,22 @@ function popCamera(e){
 	        		} 
 	        		 
 					image = image.imageAsResized(newWidth, newHeight); 
-	                if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
-	                   //var nativePath = event.media.nativePath;  
-					  var win = Alloy.createController("preview", {image: image}).getView(); 
-					  COMMON.openWindow(win);
-	                }
+					var filename = Math.floor(Date.now() /1000);
+		            	console.log(filename+" check");
+	                if(event.media.nativePath == null){
+		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+		            		if(writeFile.exists()){
+		            			writeFile.deleteFile();
+		            		}
+		            		writeFile.write(image);
+		            		console.log(writeFile.nativePath);
+		            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+					    	COMMON.openWindow(win);
+		            	}else{
+		            		console.log(event.media.nativePath+" yes");
+		            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
+					    	COMMON.openWindow(win);
+		            	}
 	            },
 	            cancel:function(){
 	                //do somehting if user cancels operation
@@ -198,30 +209,43 @@ function popCamera(e){
 	        });
 	    } else if(e.index == 1){
 	    		//obtain an image from the gallery
-	        Ti.Media.openPhotoGallery({
-	            success:function(event){
-	            	// set image view
-	            	var image = event.media;
-            		if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
-            			console.log(JSON.stringify(event));
-		            	console.log(event.media.nativePath+" whyyyy!");
-		            	if(event.media.nativePath == null){
-		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, 'default.png');
+	        Titanium.Media.openPhotoGallery({
+	            
+	            success:function(event) {
+					// called when media returned from the camera
+					console.log(JSON.stringify(event.media));
+					if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
+						var filename = Math.floor(Date.now() /1000);
+		            	console.log(filename+" check");
+	                	if(event.media.nativePath == null){
+		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename+'.png');
 		            		if(writeFile.exists()){
 		            			writeFile.deleteFile();
 		            		}
-		            		writeFile.write(image);
-		            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-					    	COMMON.openWindow(win);
-		            	}else{
-		            		 var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
-					    	COMMON.openWindow(win);
-		            	}
+		            		writeFile.write(event.media);
+							console.log(writeFile.nativePath+" this is media");
+						//var img = $.UI.create("ImageView", {image: event.media});
+						$.photoLoad.image = event.media;
+						var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+				    	COMMON.openWindow(win);
+				    	}
 				    }
-	            },
-	            cancel:function() {
-	               
-	            },
+				},
+				cancel:function() {
+					// called when user cancels taking a picture
+				},
+				error:function(error) {
+					// called when there's an error
+					var a = Titanium.UI.createAlertDialog({title:'Camera'});
+					if (error.code == Titanium.Media.NO_CAMERA) {
+						a.setMessage('Please run this test on device');
+					} else {
+						a.setMessage('Unexpected error: ' + error.code);
+					}
+					a.show();
+				},
+			    // allowEditing and mediaTypes are iOS-only settings
+				allowEditing: true,
 	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
 	        });
 	    	

@@ -46,7 +46,6 @@ function getScanMerchant(){
 	}
 	console.log('sales'+ads.m_id);
 	console.log(isScan+" why got value one");
-	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);	
 }
 
 function checkFavorite(){

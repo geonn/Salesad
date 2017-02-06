@@ -43,7 +43,7 @@ function centerMap(e){
 
 function render_map(){
 	if(showCurLoc == true){
-	 	
+	 	console.log(adsList);
 	 	adsList.forEach(function(entry) {
 	 		console.log(entry);
 			var detBtn =Ti.UI.createButton({
@@ -51,22 +51,25 @@ function render_map(){
 			    color: "red",
 			    height: 20,
 				width: 20,
-				m_id: entry.m_id
+				a_id: entry.a_id
 			});
 			detBtn.addEventListener('click', function(ex){ 
-				var win = Alloy.createController("ad", {m_id: e.source.m_id}).getView(); 
+				console.log(ex.source);
+				console.log(ex.source.a_id);
+				var win = Alloy.createController("ad", {a_id: ex.source.a_id}).getView(); 
 				COMMON.openWindow(win,{animated:true}); 
 				return false;
 			});       
 			var merchantLoc = Alloy.Globals.Map.createAnnotation({
 			    latitude:entry.latitude,
-			    longitude:entry.longitude, 
-			    title: entry.merchant,
+			    longitude:entry.longitude,
+			    a_id: entry.a_id,
+			    title: entry.merchant_name,
 			    image: '/images/sales-ad-loc_small.png',
 			    animate : true, 
 			    subtitle: entry.ads_name,
 			   // pincolor: Alloy.Globals.Map.ANNOTATION_RED,
-			   // rightView: detBtn,
+			    rightView: detBtn,
 			    myid: entry.INFO// Custom property to uniquely identify this annotation.
 			});
 			 
@@ -82,6 +85,10 @@ function render_map(){
 		                    latitudeDelta:0.05, longitudeDelta:0.05};
 	} 
 }
+
+$.locationView.mapview.addEventListener('click', function(evt) {
+    console.log("Clicked " + evt.clicksource + " on " + evt.latitude + "," + evt.longitude);
+});
 
 $.location.addEventListener("close", function(){
 	//Ti.Geolocation.removeEventListener('location',saveCurLoc);

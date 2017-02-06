@@ -1,16 +1,17 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<meta name="viewport" content="initial-scale=1.0, width=device-width, minimum-scale=1.0, maximum-scale=5.0" />
+	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes, minimum-scale=0 , maximum-scale=5.0 " />
 </head>
 <script src="jquery-3.1.1.min.js"></script>
+<body>
+	<img id="img" width="100%"/>
+</body>
 <script>
 	Ti.App.addEventListener("html:loadImage", function(e){
-		$("#img").attr("src", e.image);
+		//$("#img").attr("src", e.image);
+		document.getElementById('img').src = e.image;
 	});
 	Ti.App.fireEvent("image_preview:loadImage");
 </script>
-<body>
-	<img id="img"/>
-</body>
 </html>

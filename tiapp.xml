@@ -27,6 +27,8 @@
     <!--b86xvjABSob7NahzKYMtEtAVWXhOd06w -->
     <property name="ti.ui.defaultunit" type="string">dip</property>
     <ios>
+        <enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
+        <use-app-thinning>true</use-app-thinning>
         <plist>
             <dict>
                 <key>NSContactsUsageDescription</key>
