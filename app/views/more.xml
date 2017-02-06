@@ -49,12 +49,13 @@
 		 				<Label left="10" class="wsize hsize">About</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
 		 			</TableViewRow>
-		 			<TableViewRow height="50" target="">
+		 			<TableViewRow height="50" target="webview" url="http://salesad.my/advertise">
 		 				<Label left="10" class="wsize hsize">Advertise in SalesAd</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
 		 				<Label left="10" class="wsize hsize">Version</Label>
+		 				<Label right="10" class="wsize hsize">1.0.4</Label>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
 		 				<Label class="wfill hsize" textAlign="center">2017 All rights reserved.</Label>

@@ -8,6 +8,7 @@ function render_page(){
 
 function navTo(e){
 	var target = parent({name: "target"}, e.source);
+	
 	if(target == "profile"){
 		var user = Ti.App.Properties.getString('session');
 		if(user === null){
@@ -20,6 +21,10 @@ function navTo(e){
 			var win = Alloy.createController("profile").getView(); 
 			COMMON.openWindow(win); 
 		} 
+	}else if(target == "webview"){
+		var url = parent({name: "url"}, e.source);
+		var win = Alloy.createController("webview", {url:url}).getView(); 
+		COMMON.openWindow(win);
 	}else if(target != ""){
 		if(target=="reward"){
 			var u_id = Ti.App.Properties.getString('u_id') || "";
