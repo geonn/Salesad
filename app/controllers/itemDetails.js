@@ -58,7 +58,7 @@ var getAdsImages = function(){
 		var label_caption = $.UI.create("Label", { 
 			top: 0,
 			text: items[i].caption,
-			height: 60,
+			height: 40,
 			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
 		});
 		

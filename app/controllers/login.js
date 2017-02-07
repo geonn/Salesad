@@ -99,6 +99,7 @@ function doLogin() {
 	         	Ti.App.Properties.setString('u_id', res.data.u_id);
 	         	Ti.App.Properties.setString('firstname', res.data.firstname);
 	         	Ti.App.Properties.setString('lastname', res.data.lastname);
+	         	Ti.App.Properties.setString('img_path', res.data.img_path);
 	         	Ti.App.Properties.setString('email', res.data.email);
 	         	Ti.App.Properties.setString('gender', res.data.gender);
 				Ti.App.Properties.setString('session', res.data.session);

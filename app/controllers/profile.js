@@ -21,18 +21,6 @@ if(OS_IOS){
     }); 
 	Alloy.Globals.tracker.addScreenView('Member Profile');
 }
-/**Set Custom title**/
-var custom = $.UI.create("Label", {  
-    text: 'MY PROFILE', 
-    color: '#ED1C24', 
-    width: Ti.UI.SIZE 
- });
- 
-if(Ti.Platform.osname == "android"){ 
-	$.pageTitle.add(custom);   
-}else{
-	$.profile.titleControl = custom; 
-}
 
 /** User session**/
 var session = Ti.App.Properties.getString('session');
@@ -71,6 +59,8 @@ function loadTable(){
  	var email = Ti.App.Properties.getString('email');
  	var gender = Ti.App.Properties.getString('gender');
 	var session = Ti.App.Properties.getString('session');
+	var img_path = Ti.App.Properties.getString('img_path');
+	$.photoLoad.image = img_path;
 	console.log(firstname+"firstname");
 	var RegArr = [
 	{ title:'Firstname', value:firstname, mod: "firstname",  hasChild:true  },
@@ -138,7 +128,7 @@ function loadTable(){
  
 	RegTable.setData(regData);
 	addRegClickEvent(RegTable);
-	$.profileView.table1Container.add(RegTable); 
+	$.table1Container.add(RegTable); 
 	
 	//PASSWORD TABLE
 	var passData=[];
@@ -190,7 +180,7 @@ function loadTable(){
 		passRow.add(rightRegBtn);
 		passData.push(passRow);
 		PassTable.setData(passData);
-		$.profileView.table2Container.add(PassTable); 
+		$.table2Container.add(PassTable); 
 	
 	
 	//PASSWORD TABLE
@@ -243,7 +233,7 @@ function loadTable(){
 	stateRow.add(rightRegBtn);
 	stateData.push(stateRow);
 	stateTable.setData(stateData);
-	//$.profileView.table3Container.add(stateTable); 
+	//$.table3Container.add(stateTable); 
 	
 }
 
@@ -277,7 +267,7 @@ var doLogout = function (e) {
 		         	Ti.App.Properties.removeProperty('email');
 		         	Ti.App.Properties.removeProperty('gender');
 					Ti.App.Properties.removeProperty('session');
-			     	COMMON.closeWindow($.profile);
+			     	COMMON.closeWindow($.win);
 			     },
 			     // function called when an error occurs, including a timeout
 			     onerror : function(e) {
@@ -307,13 +297,160 @@ Ti.App.addEventListener('updateProfile', updateProfile);
 loadTable();
 
 $.btnBack.addEventListener('click', function(){ 
-	COMMON.closeWindow($.profile); 
+	COMMON.closeWindow($.win); 
 }); 
 
-/** close all profile eventListener when close the page**/
-$.profile.addEventListener("close", function(){
-	$.destroy();
-    Ti.App.removeEventListener('updateProfile',updateProfile);
+
+function popCamera(e){
+	var dialog = Titanium.UI.createOptionDialog({ 
+	    title: 'Choose an image source...', 
+	    options: ['Camera','Photo Gallery', 'Cancel'], 
+	    cancel:2 //index of cancel button
+	});
+	var pWidth = Ti.Platform.displayCaps.platformWidth;
+    var pHeight = Ti.Platform.displayCaps.platformHeight;
+     
+	dialog.addEventListener('click', function(e) { 
+	    
+	    if(e.index == 0) { //if first option was selected
+	        //then we are getting image from camera
+	        Titanium.Media.showCamera({ 
+	            success:function(event) { 
+	               var image = event.media;
+        		   if(image.width > image.height){
+	        			var newWidth = 640;
+	        			var ratio =   640 / image.width;
+	        			var newHeight = image.height * ratio;
+	        		}else{
+	        			var newHeight = 640;
+	        			var ratio =   640 / image.height;
+	        			var newWidth = image.width * ratio;
+	        		} 
+	        		 
+					image = image.imageAsResized(newWidth, newHeight); 
+					var filename = Math.floor(Date.now() /1000);
+		            	console.log(filename+" check");
+	                if(event.media.nativePath == null){
+		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+		            		if(writeFile.exists()){
+		            			writeFile.deleteFile();
+		            		}
+		            		writeFile.write(image);
+		            		console.log(writeFile.nativePath);
+		            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+					    	COMMON.openWindow(win);
+		            	}else{
+		            		console.log(event.media.nativePath+" yes");
+		            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
+					    	COMMON.openWindow(win);
+		            	}
+	            },
+	            cancel:function(){
+	                //do somehting if user cancels operation
+	            },
+	            error:function(error) {
+	                //error happend, create alert
+	                var a = Titanium.UI.createAlertDialog({title:'Camera'});
+	                //set message
+	                if (error.code == Titanium.Media.NO_CAMERA){
+	                    a.setMessage('Device does not have camera');
+	                }else{
+	                    a.setMessage('Unexpected error: ' + error.code);
+	                }
+	 
+	                // show alert
+	                a.show();
+	            },
+	            allowImageEditing:true,
+	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+	            saveToPhotoGallery:true
+	        });
+	    } else if(e.index == 1){
+	    		//obtain an image from the gallery
+	        Titanium.Media.openPhotoGallery({
+	            
+	            success:function(event) {
+					// called when media returned from the camera
+					console.log(JSON.stringify(event.media));
+					if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
+						var filename = Math.floor(Date.now() /1000);
+		            	console.log(filename+" check");
+	                	if(event.media.nativePath == null){
+		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename+'.png');
+		            		if(writeFile.exists()){
+		            			writeFile.deleteFile();
+		            		}
+		            		writeFile.write(event.media);
+							console.log(writeFile.nativePath+" this is media");
+						//var img = $.UI.create("ImageView", {image: event.media});
+						$.photoLoad.image = event.media;
+						var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+				    	COMMON.openWindow(win);
+				    	}
+				    }
+				},
+				cancel:function() {
+					// called when user cancels taking a picture
+				},
+				error:function(error) {
+					// called when there's an error
+					var a = Titanium.UI.createAlertDialog({title:'Camera'});
+					if (error.code == Titanium.Media.NO_CAMERA) {
+						a.setMessage('Please run this test on device');
+					} else {
+						a.setMessage('Unexpected error: ' + error.code);
+					}
+					a.show();
+				},
+			    // allowEditing and mediaTypes are iOS-only settings
+				allowEditing: true,
+	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+	        });
+	    	
+	    } else {
+	        
+	    }
+	});
+	 
+	//show dialog
+	dialog.show();
+}
+
+function cropped_image(e){
+	$.photoLoad.image = Titanium.Utils.base64decode(e.image_callback);
+	$.photoLoad.blob_submit = Titanium.Utils.base64decode(e.image_callback);
+	$.photoLoad.value = 1;
+	doSubmit();
+}
+
+function doSubmit(){
+	var img_blob = $.photoLoad.blob_submit.imageAsResized(640, 640); 
+	var u_id = Ti.App.Properties.getString('u_id');
+	var params = {photoLoad: $.photoLoad.value, u_id: u_id};
+	_.extend(params, {Filedata: img_blob});
+	API.callByPost({
+		url: "addUserThumb",
+		new: true,
+		params: params
+	},
+	{
+		onload: function(responseText){
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			console.log(arr.img_path+" img_path");
+			Ti.App.Properties.setString('img_path', arr.img_path);
+		},
+		onerror: function(err){
+			
+		}
+	});
+}
+
+Ti.App.addEventListener("cropped_image", cropped_image);
+
+$.win.addEventListener("close", function(e){
+	Ti.App.removeEventListener("cropped_image", cropped_image);
+	Ti.App.removeEventListener('updateProfile',updateProfile);
     
     /* release function memory */
     doLogout    = null;

@@ -1,3 +1,4 @@
 <Alloy>
-	<TableView separatorColor="transparent" minRowHeight="50" id="ads_listing" width="Ti.UI.FILL" backgroundColor="#d3d3d3" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></TableView>
+	<TableView separatorColor="transparent" minRowHeight="50" id="ads_listing" width="Ti.UI.FILL" backgroundColor="#d3d3d3" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE">
+	</TableView>
 </Alloy>

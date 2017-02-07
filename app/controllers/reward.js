@@ -186,7 +186,8 @@ function navTo(e){
 				onload: function(responseText){
 					var res = JSON.parse(responseText);
 					var encrypt_code = res.data || null;
-					var share_url = "http://salesad.my//users/member_register?referral="+encrypt_code;
+
+					var share_url = "http://salesad.my/users/member_referral?referral="+encrypt_code;
 					if(OS_IOS){
 						if(Social.isActivityViewSupported()){ //min iOS6 required
 					    	Social.activityView({
