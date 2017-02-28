@@ -1,25 +1,5 @@
 var args = arguments[0] || {};
 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "settings",
-		action: "view",
-		label: "text size setting",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Text Size Settings"
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "settings",
-		action: "view",
-		label: "text size setting",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Text Size Settings');
-}
 var textsize = Ti.App.Properties.getString("fontSizeClasses");
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 

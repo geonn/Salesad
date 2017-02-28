@@ -67,7 +67,7 @@ function render_search_list(){
 	
 	console.log(search_data.length);
 	for (var i=0; i < search_data.length; i++) {
-		var row = $.UI.create("TableViewRow", {classes:['vert'], record: search_data[i]});
+		var row = $.UI.create("TableViewRow", {classes:['vert'], backgroundColor:"#FFFFFF", record: search_data[i]});
 		var view = $.UI.create("View", {classes:['vert','wfill','hsize','padding']});
 		var label = $.UI.create("Label", {classes:['wfill','hsize','h5'], text: search_data[i].name});
 		var sublabel = $.UI.create("Label", {classes:['wfill','hsize','h6'], text: search_data[i].address});

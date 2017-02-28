@@ -39,6 +39,28 @@ function doSubmit(){
 	var params = {u_id: u_id};
 	var error = "";
 	loading.start();
+	var alert_msg = "";
+	
+	for (var a=0; a < forms_array.length; a++) {
+		if(typeof forms_array[a].require != "undefined" && forms_array[a].require){
+			if(typeof forms_array[a].model != "undefined"){
+				console.log(typeof forms_array[a].record+" hahaha");
+				if(typeof forms_array[a].record == "undefined"){
+					alert_msg = alert_msg+forms_array[a].hintText+"\n";
+				}
+			}else{
+				console.log(typeof forms_array[a].value+" forms_array[a].value "+forms_array[a].value);
+				if(forms_array[a].value == "" || typeof forms_array[a].value == "undefined" || forms_array[a].value == "Store Name / Address"){
+					alert_msg = alert_msg+forms_array[a].hintText+"\n";
+				}
+			}
+		}
+	};
+	if(alert_msg != ""){
+		alert(alert_msg);
+		loading.finish();
+		return;
+	}
 	for (var i=0; i < forms_array.length; i++) {
 		var form_value = (typeof forms_array[i].model != "undefined")?eval("forms_array[i].record."+forms_array[i].submitColumn):forms_array[i].value;
 		eval("_.extend(params, {"+forms_array[i].id+": form_value})");
@@ -48,6 +70,11 @@ function doSubmit(){
 			}
 		}
 		if(forms_array[i].form_type == "image"){
+			console.log(forms_array[i].blob_submit);
+			if(typeof forms_array[i].blob_submit == "undefined"){
+				alert("Please upload photo");
+				return;
+			}
 			var img_blob = forms_array[i].blob_submit.imageAsResized(640, 640); 
 			_.extend(params, {Filedata: img_blob});
 		}
@@ -66,7 +93,10 @@ function doSubmit(){
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
+			console.log(res);
 			loading.finish();
+			Ti.App.fireEvent("home:refresh");
+			COMMON.closeWindow($.win);
 		},
 		onerror: function(err){
 			
@@ -212,23 +242,21 @@ function popCamera(e){
 	        Titanium.Media.openPhotoGallery({
 	            
 	            success:function(event) {
+	            	console.log('a');
+	            	//console.log(event.media);
 					// called when media returned from the camera
-					console.log(JSON.stringify(event.media));
 					if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
 						var filename = Math.floor(Date.now() /1000);
-		            	console.log(filename+" check");
-	                	if(event.media.nativePath == null){
-		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename+'.png');
-		            		if(writeFile.exists()){
-		            			writeFile.deleteFile();
-		            		}
-		            		writeFile.write(event.media);
-							console.log(writeFile.nativePath+" this is media");
+	            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+	            		if(writeFile.exists()){
+	            			writeFile.deleteFile();
+	            		}
+	            		writeFile.write(event.media);
+						console.log(writeFile.nativePath+" this is media");
 						//var img = $.UI.create("ImageView", {image: event.media});
 						$.photoLoad.image = event.media;
 						var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
 				    	COMMON.openWindow(win);
-				    	}
 				    }
 				},
 				cancel:function() {
@@ -261,6 +289,7 @@ function popCamera(e){
 function cropped_image(e){
 	$.photoLoad.image = Titanium.Utils.base64decode(e.image_callback);
 	$.photoLoad.blob_submit = Titanium.Utils.base64decode(e.image_callback);
+	console.log("cropped_image");
 	$.photoLoad.value = 1;
 }
 
@@ -278,6 +307,16 @@ $.win.addEventListener("close", function(e){
 	Ti.App.removeEventListener("set_location", set_location);
 });
 
+$.win.addEventListener("android:back", function(e){
+	e.cancelBubble = true;
+	COMMON.createAlert("Alert", "Are you sure  you want to leave this page? Your post will be discarded.", function(e){
+		COMMON.closeWindow($.win);
+	});
+});
+
 $.btnBack.addEventListener('click', function(){ 
-	COMMON.closeWindow($.win);
+	COMMON.createAlert("Alert", "Are you sure  you want to leave this page? Your post will be discarded.", function(e){
+		COMMON.closeWindow($.win);
+	});
+	
 }); 

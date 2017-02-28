@@ -1,25 +1,6 @@
 var args = arguments[0] || {};
 COMMON.construct($); 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "account",
-		action: "view",
-		label: "login",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Member Login"
-	}); 
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-       	category: "account",
-		action: "view",
-		label: "login",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView("Member Login");
-}
+
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'LOGIN', 
@@ -173,8 +154,15 @@ $.btnBack.addEventListener('click', function(){
 	COMMON.closeWindow($.login); 
 }); 
 
+function closeWindow(){
+	COMMON.closeWindow($.login); 
+}
+
+Ti.App.addEventListener("login:close", closeWindow);
+
 /** close all login eventListener when close the page**/
 $.login.addEventListener("close", function(){
+	Ti.App.removeEventListener("login:close", closeWindow);
     $.destroy();
     $.username = null;
     /* release function memory */
@@ -182,6 +170,7 @@ $.login.addEventListener("close", function(){
    // goCreateAccount = null;
    doLogin         = null;
 });
+
 
 /*** Facebook login***/ 
 

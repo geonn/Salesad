@@ -13,7 +13,14 @@
 			fontSize: 15,
 			fontFamily: 'FrutigerLT-Light'
 		}
-   }
+   },
+   orientationModes :[
+        Ti.UI.PORTRAIT
+    ]
+},
+"Window[platform=android]":{
+	fullscreen : true,
+	windowSoftInputMode: Ti.UI.Android.SOFT_INPUT_STATE_HIDDEN
 },
 "TextField" : {
 	 font:{
@@ -95,7 +102,7 @@
 	width:60, 
 },
 ".container": {
-	backgroundColor: '#FFFFF6',
+	backgroundColor: '#FFFFFF',
 	fullscreen: true,
 	layout: "vertical",
 	width: Ti.UI.FILL,

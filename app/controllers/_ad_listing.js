@@ -108,6 +108,7 @@ function buildListing(){
 	if(data.length <= 0){
 		activityIndicator.hide();
 		$.ads_listing.remove(activityIndicator);
+		$.ads_listing.setData($.UI.create("TableViewRow", {title: "This store is not having any sales right now."}));
 		return;	
 	}
 	ads_counter += 3;
@@ -118,7 +119,6 @@ function buildListing(){
 			height: Ti.UI.SIZE,
 			backgroundSelectedColor: "#FFE1E1"
 		});
-		
 		var view_ad = $.UI.create("View",{
 			bottom: 10,
 			left: 10,

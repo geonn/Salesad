@@ -143,9 +143,20 @@ exports.CheckboxwithText = function(text,highlightText, checkboxspecs, urlLink){
 			fontSize: 12
 		}
 	});
+	var label_service = Titanium.UI.createLabel({
+		text: "Terms of Service and",
+		width: Ti.UI.SIZE,
+		height: Ti.UI.SIZE,
+		color: "#ED1C24",
+		font:{
+			fontWeight: "bold",
+			fontSize: 12
+		}
+	});
 	var label_privacy = Titanium.UI.createLabel({
-		text: highlightText,
-		width: "auto",
+		text: "Privacy Policy",
+		left: 20,
+		width:  Ti.UI.SIZE,
 		height: Ti.UI.SIZE,
 		color: "#ED1C24",
 		font:{
@@ -160,10 +171,15 @@ exports.CheckboxwithText = function(text,highlightText, checkboxspecs, urlLink){
 	});
 	view_sms_box.add(checkbox);
 	view_sms_box.add(label_sms);
+	view_sms_box.add(label_service);
 	view_sms_box.add(label_privacy);
 	label_privacy.addEventListener('touchend',function(){  
-		var win = Alloy.createController(urlLink).getView();  
-		win.open(); 
+		var win = Alloy.createController("webview", {url: "http://salesad.my/privacyPolicy"}).getView();  
+		COMMON.openWindow(win);
+	});
+	label_service.addEventListener('touchend',function(){  
+		var win = Alloy.createController("webview", {url: "http://salesad.my/termsOfService"}).getView();  
+		COMMON.openWindow(win);
 	});
 	return view_sms_box;
 };
@@ -177,8 +193,9 @@ exports.createCheckbox = function(specs,checkboxspecs,image) {
     checkboxspecs.height = checkboxspecs.height || 25;
     checkboxspecs.border = checkboxspecs.border || 1;
     checkboxspecs.borderColor = checkboxspecs.borderColor || "silver";
+    checkboxspecs.checked = false;
     var imageView = Ti.UI.createImageView({
-        image:image || "images/checkbox.gif",
+        image:"/images/checkbox.gif",
         height:checkboxspecs.height * 1.5,
         bottom:3 + checkboxspecs.height * 0.5,
         left:3 + checkboxspecs.width * 0.5,

@@ -16,23 +16,23 @@
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
 		 	<ScrollView id="inner_box" bottom="40" class="wfill hfill conthsize contwfill vert">
-		 		<ImageView id="photoLoad" image="/images/icon_my-profile.png" onClick="popCamera" form_type="image" width="80" height="80" value="0"></ImageView>
+		 		<ImageView hintText="Photo" id="photoLoad" top="40" bottom="40"  image="/images/Icon_add_photo.png" onClick="popCamera" form_type="image" width="80" height="80" value="0"></ImageView>
 		 		<TextArea hintText="Sales Description" form_type="textarea" require="true" id="title"></TextArea>
-		 		<View class="textfield" master="1" form_type="date_picker" require="true" id="sales_from" onClick="popDatePicker">
+		 		<View class="textfield" hintText="Sales Start Date" master="1" form_type="date_picker" require="true" id="sales_from" onClick="popDatePicker">
 		 			<Label class="wsize hsize padding" color="#cccccc">Sale Start Date</Label>
 		 		</View>
-		 		<View class="textfield" master="1" form_type="date_picker" require="true" id="sales_to" onClick="popDatePicker">
+		 		<View class="textfield" hintText="Sales End Date" master="1" form_type="date_picker" require="true" id="sales_to" onClick="popDatePicker">
 		 			<Label class="wsize hsize padding" color="#cccccc">Sale End Date</Label>
 		 		</View>
-		 		<View class="textfield" master="1" form_type="text" require="true" id="category" model="category" submitColumn="id" optionColumn="categoryName" onClick="popDialogOption">
+		 		<View class="textfield" hintText="Sale Category" master="1" form_type="text" require="true" id="category" model="category" submitColumn="id" optionColumn="categoryName" onClick="popDialogOption">
 		 			<Label class="wsize hsize padding" color="#cccccc">Sale Category</Label>
 		 		</View>
-		 		<View class="textfield" master="1" form_type="text" require="true" id="location" onClick="popMap">
+		 		<View class="textfield" hintText="Map Location" master="1" form_type="text" require="true" id="location" onClick="popMap">
 		 			<Label class="wsize hsize padding" color="#cccccc">Map Location</Label>
 		 		</View>
 		 		<TextArea hintText="Store Name / Address" form_type="textarea" require="true" id="address"></TextArea>
 		 		
-		 		<Button class="button" onClick="doSubmit" width="90%">Submit</Button>
+		 		<Button class="button" onClick="doSubmit" width="90%">Post</Button>
 		 	</ScrollView>
 	 	</View>
 	</Window>

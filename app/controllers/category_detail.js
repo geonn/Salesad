@@ -4,25 +4,7 @@ var nav = Alloy.Globals.navMenu;
 var loading = Alloy.createController("loading");
 Alloy.Globals.naviPath.push($.category_details);
 /** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "category",
-		action: "view",
-		label: "category details",
-		value: 1
-	});
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Category Details"
-	}); 
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "category",
-		action: "view",
-		label: "category details",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Category Details');
-}
+
 /** load category from Model**/
 var library = Alloy.createCollection("category"); 
 var category_data = library.getCategoryById(cate_id);

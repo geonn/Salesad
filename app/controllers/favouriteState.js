@@ -3,26 +3,6 @@ var user = Ti.App.Properties.getString('u_id');
 var library = Alloy.createCollection('userState'); 
 var details = library.getUserState(user);
 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "account",
-		action: "view",
-		label: "favourite state",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Favourite State"
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-       	category: "account",
-		action: "view",
-		label: "favourite state",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Favourite State');
-}
 var geo =[];
 details.forEach(function(entry) {
 	geo.push(entry.state);

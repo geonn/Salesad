@@ -13,26 +13,6 @@ var custom = $.UI.create("Label", {
   
 $.nearbyWin.titleControl = custom;
 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "merchants",
-		action: "view",
-		label: "nearby list",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Nearby List"
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "merchants",
-		action: "view",
-		label: "nearby list",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Nearby List');
-}
 var goAd = function(res){
 	 
 	var win = Alloy.createController("ad", {m_id: res.source.source}).getView(); 

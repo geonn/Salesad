@@ -35,12 +35,28 @@ if(isFeed == 1){
 }
 
 function getScanMerchant(){
-	var expire = Ti.App.Properties.getString('sales'+ads.m_id);
-	var currentDate = new Date();
-	console.log(expire);
-	console.log(typeof expire);
-	if(expire != null && currentDate > expire){
-		isScan = 1;
+	var expire = Ti.App.Properties.getString('sales'+ads.m_id) || "";
+	console.log('sales'+ads.m_id);
+	console.log(expire+" got or not");
+	if(expire != ""){
+		var currentDate = new Date();
+		if(OS_ANDROID){
+			
+		}
+		var dat = expire.split(" ");
+		var d = dat[0].split("-");
+		var t = dat[1].split(":");
+		console.log(d);
+		console.log(t);
+		var new_expire = (OS_ANDROID)? new Date(expire): new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
+		//var new_expire = new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
+		console.log(new_expire+" >= "+currentDate);
+		console.log(typeof new_expire);
+		if(expire != null && currentDate <= new_expire){
+			isScan = 1;
+		}else{
+			isScan = 0;
+		}
 	}else{
 		isScan = 0;
 	}
@@ -51,8 +67,8 @@ function getScanMerchant(){
 function checkFavorite(){
 	var model_favorites = Alloy.createCollection('favorites');
 	console.log(m_id+" m_id");
-	var exist = model_favorites.checkFavoriteExist(m_id);
-	 //console.log("m_id : "+m_id);
+	var exist = model_favorites.checkFavoriteExist(m_id, u_id);
+	console.log("m_id : "+m_id);
 	var fav_img = (exist)?"/images/SalesAd_Favorited.png":"/images/SalesAd_Favorite.png";
 	$.favorites.image = fav_img;
 }
@@ -106,6 +122,8 @@ var getAdDetails = function(){
 				height: Ti.UI.SIZE,
 				width: Ti.UI.SIZE
 			});
+			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 30, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
+			
 			adImage = Ti.UI.createImageView({
 				defaultImage: "/images/warm-grey-bg.png",
 				image: imagepath,
@@ -120,6 +138,9 @@ var getAdDetails = function(){
 			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].description, items[i].isExclusive);
 			
 			cell.add(itemImageView);
+			if(items[i].isExclusive == 1){
+				cell.add(exclusive_icon);
+			}
 			row.add(cell);
 			
 			if(counter%2 == 1 || last == counter){
@@ -127,7 +148,8 @@ var getAdDetails = function(){
 			}
 			counter++;
 		} 
-		
+		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','padding'], text: ads.tnc+"\n"+ads.description});
+		$.ads_details.add(tnc);
 		isAdsAvailable = true;
 	}else{
 		var noAvailableLabel = $.UI.create("Label", { 
@@ -161,13 +183,18 @@ var getAdDetails = function(){
 	loading.finish();
 };
 
+function addAdsClick(){
+	API.callByPost({url: "addAdsClick", new:true, params:{a_id: a_id}}, {onload: function(responseText){
+		console.log(responseText);
+	}});
+}
+
 function init(){
 	$.win.add(loading.getView());
 	getAdData();
 	var merchant = m_library.getMerchantsById(ads.m_id);
-	
+	addAdsClick();
 	m_id = (merchant.parent != 0 && merchant.parent != null)?merchant.parent:ads.m_id;
-	
 	getScanMerchant();
 	checkFavorite();
 	refresh();
@@ -185,7 +212,7 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{a_id:a_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView(); 
+	    var page = Alloy.createController("itemDetails",{m_id: m_id, a_id:a_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -208,8 +235,8 @@ $.location.addEventListener('click', function(e){
 //Add your favorite event
 $.favorites.addEventListener("click", function(){ 
 	var model_favorites = Alloy.createCollection('favorites');
-	var exist = model_favorites.checkFavoriteExist(m_id);
- 
+	var exist = model_favorites.checkFavoriteExist(m_id, u_id);
+ console.log(exist+" exist");
 	if(exist){
 		var message = "Are you sure want to remove from favorite";
 		var dialog = Ti.UI.createAlertDialog({
@@ -221,13 +248,12 @@ $.favorites.addEventListener("click", function(){
 		  dialog.addEventListener('click', function(ex){
 		  	if (ex.index == 1){
 		     	var model_favorites = Alloy.createCollection('favorites');
-				model_favorites.deleteFavorite(exist); 
+				model_favorites.deleteFavorite(exist, u_id); 
 				$.favorites.image = "/images/SalesAd_Favorite.png";
 				//$.favorites.visible = false;
 				
 				API.updateUserFavourite({
-					m_id   : m_id,
-					a_id     : a_id,
+					m_id   : exist,
 					u_id	 : u_id,
 					status : 2
 				});
@@ -248,7 +274,6 @@ $.favorites.addEventListener("click", function(){
 		
 		API.updateUserFavourite({
 			m_id   : m_id,
-			a_id     : a_id,
 			u_id	 : u_id,
 			status : 1
 		});
@@ -271,6 +296,19 @@ function refresh(e){
 	}});
 }
 
+function afterScan(e){
+	console.log(e.m_id+"!="+ m_id);
+	if(e.m_id != m_id){
+		console.log(e.m_id+"!="+ m_id);
+		var win = Alloy.createController("branch_ad", {m_id: e.m_id}).getView(); 
+		COMMON.openWindow(win);
+		Ti.App.removeEventListener('afterScan', afterScan);
+	}else{
+		console.log('should be here');
+		getScanMerchant();
+	}
+}
+
 function closeWindow(){
 	COMMON.closeWindow($.win); 
 }
@@ -280,13 +318,13 @@ $.btnBack.addEventListener('click', closeWindow);
 $.win.addEventListener("close", function(){
 	Ti.App.fireEvent('removeNav');
 	Ti.App.removeEventListener('app:loadAdsDetails', refresh);
-	Ti.App.removeEventListener('getScanMerchant', getScanMerchant);
+	Ti.App.removeEventListener('afterScan', afterScan);
     $.destroy();
 });
 
 
 Ti.App.addEventListener('app:loadAdsDetails', refresh);
-Ti.App.addEventListener('getScanMerchant', getScanMerchant);	
+Ti.App.addEventListener('afterScan', afterScan);	
 
 /*** GEO experiment***/  
 if (Titanium.Platform.name == 'iPhone OS'){

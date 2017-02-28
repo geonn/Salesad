@@ -2,6 +2,7 @@ var args = arguments[0] || {};
 var a_id = args.a_id;
 var position = args.position || 0;
 var isScan = args.isScan;
+var m_id = args.m_id;
 //$.item_Details.title= args.title;
 var BARCODE = require('barcode');
 var showBarcode = 1;
@@ -11,26 +12,6 @@ var SCANNER = require("scanner");
 // Create a window to add the picker to and display it. 
 var window = SCANNER.createScannerWindow();
 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "ads",
-		action: "view",
-		label: "ads items",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Item Details"
-	}); 
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "ads",
-		action: "view",
-		label: "ads items",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Item Details');
-}
 //console.log("position : "+position);
 //load model 
 var i_library = Alloy.createCollection('items'); 
@@ -100,7 +81,7 @@ var getAdsImages = function(){
 				var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','padding','grey'], textAlign: "center", text: "Please present this voucher at payment counter to redeem"});
 				view_voucher.add(label_subtitle);
 			}else{
-				var image_button = $.UI.create("ImageView", {classes:['wfill', 'hsize','padding'], image: "/images/Button_ScanQRCode.png"});
+				var image_button = $.UI.create("ImageView", {classes:['wfill', 'hsize'], top:10, right:10, left:10, image: "/images/Button_ScanQRCode.png"});
 				var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','padding','grey'], textAlign: "center", text: "in participating stores to get Exclusive deals"});
 				view_voucher.add(image_button);
 				view_voucher.add(label_subtitle);
@@ -115,7 +96,7 @@ var getAdsImages = function(){
 		row.add(label_description);
 		console.log(items[i]);
 		if(items[i].isExclusive == 1){
-			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 40, right: 10, top:0, image:"/images/SalesAd Exclusive_Logo(Smaller).png"});
+			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 40, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
 			itemImageView.add(exclusive_icon);
 			row.add(view_voucher);
 		}
@@ -134,6 +115,16 @@ var getAdsImages = function(){
 	},250);
 };
 
+function afterScan(e){
+	if(e.m_id != m_id){
+		var win = Alloy.createController("branch_ad", {m_id: e.m_id}).getView(); 
+		COMMON.openWindow(win);
+		Ti.App.removeEventListener('afterScan', afterScan);
+	}else{
+		getAdsImages();
+	}
+}
+
 function QrScan(){
 	SCANNER.openScanner("1");
 }
@@ -142,7 +133,12 @@ function closeWindow(){
 	$.item_Details.close();
 }
 
- 
+Ti.App.addEventListener('afterScan', afterScan);
+
+$.item_Details.addEventListener("close", function(e){
+	Ti.App.removeEventListener('afterScan', afterScan);
+});
+
 /************************
 *******APP RUNNING*******
 *************************/

@@ -18,11 +18,11 @@
 	     		<Label color='#ED1C24' >My Posted SalesXpress</Label>
 	     	</View>
 	     	<View right="0" onClick="popMore" width="30" height="45">
-	         	<Button left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
+	         	<ImageView left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
 	        </View>
 	 	</View>
 	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
-	 		<SearchBar id="searchbar" class="hsize wfill" onReturn="doSearch"></SearchBar>
+	 		<SearchBar id="searchbar" class="hsize wfill" height="43" onReturn="doSearch"></SearchBar>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
 	 	</ScrollView>
 	</Window>

@@ -105,6 +105,7 @@ exports.openScanner = function(scanType) {
 	// Set callback functions for when scanning succeedes and for when the 
 	// scanning is canceled.
 	picker.setSuccessCallback(function(e) { 
+		
 		// 1 - scan and assigned resources and finish goods 
 		var currentDate = new Date();
 		currentDate.setDate(currentDate.getDate() + 1);
@@ -124,7 +125,7 @@ exports.openScanner = function(scanType) {
 			console.log(barRes[0]);
 			checkReward(barRes[0]);
 			Ti.App.Properties.setString(barStr, currentDate);
-			Ti.App.fireEvent('getScanMerchant');
+			Ti.App.fireEvent('afterScan', {m_id: barRes[0]});
 		}else if(scanType == "2"){
 			var barcode = e.barcode; 
 			var barRes = barcode.split('?');
@@ -141,19 +142,23 @@ exports.openScanner = function(scanType) {
 				checkReward(barRes[0]);
 				Ti.App.Properties.setString(barStr, currentDate); 
 			}
+			console.log("here is type 4! dont get in");
 			setTimeout(function(ex){
 				var win = Alloy.createController("branch_ad", {m_id: barRes[0], from : "home"}).getView(); 
 				COMMON.openWindow(win);
 			}, 500);
 		}
-		//closeScanner();
-		
+		console.log("why ~!");
 		picker.stopScanning();
+		window.close();
+		//window.removeEventListener('open', openScannerWindow);
+		//window.removeEventListener('open', openScannerWindow);
+		//closeScanner();
+		/*
+		
 		window.close(); 
 		window.remove(picker);
-		window.removeEventListener('open', openScannerWindow);
- 
-		
+		window.removeEventListener('open', openScannerWindow);*/
 	});
 	picker.setCancelCallback(function(e) { 
 		picker.stopScanning();

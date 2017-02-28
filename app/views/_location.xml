@@ -1,13 +1,14 @@
 <Alloy>
-	 
-        <View bottom='0' class="hr"></View>
-    	<View id="info" class="wfill hsize vert padding">
-    		<Label id="name" class="h5 bold wfill hsize padding" bottom="0" textAlign="left"></Label>
-    		<Label id="address" class="h5 wfill hsize padding" textAlign="left"></Label>
-    	</View>
-		<View height="220" class="wfill" id="mapview" ns="Alloy.Globals.Map" userLocation="true" />
-		<ListView id="listing" class="wfill hfill conthsize contwfill">
-			<ListSection headerTitle="Also Available At:">
-			</ListSection>
-		</ListView>
+	<ScrollView class="wfill hfill vert conthsize">
+    <View bottom='0' class="hr"></View>
+	<View id="info" class="wfill hsize vert padding">
+		<Label id="name" class="h5 bold wfill hsize padding" bottom="0" textAlign="left"></Label>
+		<Label id="address" class="h5 wfill hsize padding" textAlign="left"></Label>
+		<Label id="mobile" class="h5 wfill hsize padding" textAlign="left"></Label>
+		<Button class="button" id="button_direction">Get Direction</Button>
+	</View>
+	<View id="mapview" height="220" module="ti.map" userLocation="true" />
+	<ListView id="listing" height="150" class="wfill hfill conthsize contwfill">
+	</ListView>
+	</ScrollView>
 </Alloy>

@@ -91,10 +91,12 @@ function createShareOptions(adsName, adsImage){
 /* 0 1 2 3 4 5 6
  * Function
  * */
+var a_id_submit = [];
 function buildListing(){
 	if(isAd){
 		var c_ads_library = Alloy.createCollection('categoryAds'); 
 		var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);
+		a_id_submit = _.union(_.pluck(ads, "a_id"), a_id_submit);
 	}else{
 		var contest = Alloy.createCollection('contest'); 
 		var ads = contest.getData(ads_counter, 3); 
@@ -106,6 +108,9 @@ function buildListing(){
 	}
 	ads_counter += 3;
 	for(var a = 0; ads.length > a; a++){
+		var item_model = Alloy.createCollection('items'); 
+		var isExclusive = item_model.getExclusiveByAid(ads[a].a_id);
+		
 		var tbr = Ti.UI.createTableViewRow({
 			height: Ti.UI.SIZE,
 			backgroundSelectedColor: "#FFE1E1"
@@ -152,7 +157,9 @@ function buildListing(){
 			  id: ads[a].id,
 			  height: Ti.UI.SIZE,//ads_height,
 			});
-		}
+			var image_view = $.UI.create("View", {classes:['wfill','hsize']});
+			image_view.add(bannerImage);
+		}	
 		
 		console.log(ads[a].merchant_name+" merchant name");
 		var label_merchant = $.UI.create("Label", {
@@ -160,7 +167,7 @@ function buildListing(){
 			text: ads[a].ads_name,
 			top: 10,
 			left: 10,
-			right: 10,
+			right: 35,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
@@ -171,6 +178,8 @@ function buildListing(){
 			text: ads[a].merchant_name,
 			left: 10,
 			right: 10,
+			top: 5,
+			bottom:5,
 			font: {fontSize: 14},
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 			width: Ti.UI.FILL,
@@ -179,13 +188,13 @@ function buildListing(){
 		});
 		
 		if(isAd){
-			var dateDescription =ads[a].active_date+" - "+ads[a].expired_date;
+			var dateDescription = convertToHumanFormat(ads[a].active_date)+" - "+convertToHumanFormat(ads[a].expired_date);
 			if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
 				dateDescription = "Start from now!";
 			}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
-				dateDescription = "Until "+ads[a].expired_date+"!";
+				dateDescription = "Until "+convertToHumanFormat(ads[a].expired_date)+"!";
 			}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
-				dateDescription = "Start from "+ads[a].active_date+"!";
+				dateDescription = "Start from "+convertToHumanFormat(ads[a].active_date)+"!";
 			}
 		}else{
 			var dateDescription = ads[a].description;
@@ -215,8 +224,7 @@ function buildListing(){
 			width: Ti.UI.FILL
 		});
 		var view_buttonBar = $.UI.create("View", {
-			classes: ['horz', 'wfill'],
-			height: 30
+			classes: ['wfill','hsize']
 		});
 		var line3 = $.UI.create("View",{
 			backgroundColor: "#C6C8CA",
@@ -224,18 +232,25 @@ function buildListing(){
 			width: 0.5
 		});
 		
-		var btn_reminder = $.UI.create("Button", {
-			width: "50%",
-			height: 30,
+		/*var btn_reminder = $.UI,create("ImageView", {classes: ['small-padding'],active_date: ads[a].active_date,
+			expired_date: ads[a].expired_date,
+			ads_name: ads[a].ads_name,
+			description: ads[a].description, width: 30, height: 30, image: "/images/Icon_AddToCalendar.png"});
+		*/
+		
+		var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 30, zIndex: 100, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
+		
+		var btn_reminder = $.UI.create("ImageView", {
+			classes: ['small-padding'],
+			right:10,
+			bottom:0,
+			width: 25,
+			height: 25,
 			active_date: ads[a].active_date,
 			expired_date: ads[a].expired_date,
 			ads_name: ads[a].ads_name,
 			description: ads[a].description,
-			backgroundColor:"#ededed",
-			backgroundFocusedColor: "#ffffff",
-			selectedColor: "#ffffff",
-			title: "Add To Calendar",
-			color: "#ED1C24"
+			image: "/images/Icon_AddToCalendar.png"
 		});
 		
 		btn_reminder.addEventListener('click', function(e){
@@ -257,16 +272,18 @@ function buildListing(){
 			}
 		});
 		
-		var btn_share = $.UI.create("Button", {
-			width: Ti.UI.FILL,
-			height: 30,
-			backgroundFocusedColor: "#ffffff",
-			selectedColor: "#ffffff",
-			backgroundColor:"#ededed",
-			title: "Share",
-			color: "#ED1C24",
+		var btn_share = $.UI.create("ImageView", {
+			classes: ['small-padding'],
+			right:0,
+			bottom:0,
+			width: 25,
+			height: 25,
+			active_date: ads[a].active_date,
+			expired_date: ads[a].expired_date,
 			adsName: ads[a].ads_name,
-			adsImage: ads[a].img_path
+			adsImage: ads[a].img_path,
+			description: ads[a].description,
+			image: "/images/Icon_Share.png"
 		});
 		
 		btn_share.addEventListener('click', function(e){ 
@@ -286,20 +303,25 @@ function buildListing(){
 			}
 			
 		});
-		
-		view_ad.add(bannerImage);
+		var view_left = $.UI.create("View", {classes:['hsize', 'vert'], left:0, width: "50%"});
+		var view_right = $.UI.create("View", {classes:['hsize','wsize','horz'], right:10, bottom:10});
+		var label_and_flag = $.UI.create("View", {classes:['wfill','hsize']});
+		view_ad.add(image_view);
 		view_ad.add(line);
-		view_ad.add(label_merchant);
-		view_ad.add(label_ads_name);
-		view_ad.add(label_date_period);
-		
-		if(isAd){
-			view_ad.add(line2);
-			view_buttonBar.add(btn_reminder);
-			view_buttonBar.add(line3);
-			view_buttonBar.add(btn_share);
-			view_ad.add(view_buttonBar);
+		label_and_flag.add(label_merchant);
+		if(isExclusive > 0){
+			label_and_flag.add(exclusive_icon);
 		}
+		view_ad.add(label_and_flag);
+		view_left.add(label_ads_name);
+		view_left.add(label_date_period);
+			
+		view_right.add(btn_reminder);
+		view_right.add(btn_share);
+		view_buttonBar.add(view_left);
+		view_buttonBar.add(view_right);
+		view_ad.add(view_buttonBar);
+		
 		tbr.add(view_ad);
 		$.adsCategory.ads_listing.appendRow(tbr);
 		
@@ -483,6 +505,14 @@ $.adsCategory.ads_listing.addEventListener("scroll", function(e){
 			buildListing();
 		}
 	}
+});
+
+$.adsCategoryWin.addEventListener("close", function(e){
+	console.log('window close');
+	console.log(a_id_submit);
+	API.callByPost({url: "addAdsImpression", new:true, params:{a_id: JSON.stringify(a_id_submit)}}, {onload: function(responseText){
+		console.log(responseText);
+	}});
 });
 
 $.btnBack.addEventListener('touchend', function(){ 

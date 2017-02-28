@@ -110,9 +110,9 @@ function refresh(){
 
 function render_current_point(){
 	if(data.length > 0){
-		$.current_point.text = data[data.length - 1].balance+" POINTS";
+		$.current_point.text = data[data.length - 1].balance;
 	}else{
-		$.current_point.text = "0 POINTS";
+		$.current_point.text = "0";
 	}
 }
 
@@ -126,17 +126,21 @@ function render_point_list(){
 		}else{
 			found = _.where(data, {purpose: point_list[i].id});
 		}
-		var task_yes_no_path = (found.length>0)?task_yes = "/images/task-yes.png":"/images/task-no.png";
+		var task_yes_no_path = (found.length>0)?task_yes = "/images/Icon_Reward_Unlocked.png":"/images/Icon_Reward_Locked.png";
 		var checked = (found.length>0)?true:false;
 		_.extend(point_list[i], {checked: checked});
 		var row = $.UI.create("TableViewRow", {classes:['horz','hsize'], record: point_list[i]});
-		var task_yes_no = $.UI.create("ImageView", {image: task_yes_no_path, classes:['hsize','padding'], width: 30});
-		var view_mid = $.UI.create("View", {classes:['vert','hsize'], width: c_percent("63%", pwidth)});
+		var task_yes_no = $.UI.create("ImageView", {image: task_yes_no_path, classes:['hsize'], top:10, left:20, right:20, width: 15});
+		var view_mid = $.UI.create("View", {classes:['vert','hsize'], bottom:10, width: c_percent("63%", pwidth)});
 		var label_title = $.UI.create("Label", {classes:['wfill','hsize','h5'], text: point_list[i].title});
 		var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','h6'], text: point_list[i].subtitle});
-		var view_last = $.UI.create("View", {classes:['hsize'], width: "auto"});
-		var label_point = $.UI.create("Label", {classes: ['wfill','hsize','h5'],  text: point_list[i].points+" PTS"});
-		view_last.add(label_point);
+		var view_last = $.UI.create("View", {classes:['hsize','wsize'], left:10});
+		var view_container_point = $.UI.create("View", {classes:['wsize','hsize','horz']});
+		var img_icon = $.UI.create("ImageView", {width: 15, top: 5, height: 15, image: "/images/Icon_CashPoint_Flat_Medium.png"});
+		var label_point = $.UI.create("Label", {classes: ['wsize','hsize','h5'], top:3,  text: point_list[i].points});
+		view_container_point.add(img_icon);
+		view_container_point.add(label_point);
+		view_last.add(view_container_point);
 		view_mid.add(label_title);
 		view_mid.add(label_subtitle);
 		row.add(task_yes_no);
@@ -147,13 +151,14 @@ function render_point_list(){
 	$.point_list.setData(arr);
 	$.point_list.addEventListener("click", navTo);
 }
-
+var api_loading = false;
 function navTo(e){
 	var row = e.row;
 	console.log(row.record);
 	loading.start();
 	if(row.record.id == 2){
-		if(!row.record.checked){
+		if(!row.record.checked && !api_loading){
+			api_loading = true;
 			API.callByPost({
 				url: "doPointAction",
 				new: true,
@@ -163,14 +168,17 @@ function navTo(e){
 				onload: function(responseText){
 					refresh();
 					loading.finish();
+					api_loading = false;
 				},
 				onerror: function(err){
 					_.isString(err.message) && alert(err.message);
 					loading.finish();
+					api_loading = false;
 				},
 				onexception: function(){
 					COMMON.closeWindow($.win);
 					loading.finish();
+					api_loading = false;
 				}
 			});
 		}
@@ -228,6 +236,16 @@ function navTo(e){
 		loading.finish();
 	}else if(row.record.id == 1){
 		loading.finish();
+	}else if(row.record.id == 6){
+		if(!row.record.checked){
+			var favor_pop_up = $.UI.create("ImageView", {classes:['hsize','wfill','padding'], image: "/images/Popup_Rewards_Favorite.png"});
+			$.win.add(favor_pop_up);
+			favor_pop_up.addEventListener("click", function(e){
+				$.win.remove(e.source);
+			});
+			loading.finish();
+		}
+		loading.finish();
 	}
 }
 
@@ -252,5 +270,9 @@ function c_percent(percent, relative) {
     var percentInt = percent.replace("%", "");
     var percentInt = parseInt(percentInt);
     console.log(Math.round(percentInt * (relative / 100)));
-    return Math.round(percentInt * (relative / 100));
+    return (OS_ANDROID)?pixelToDp(Math.round(percentInt * (relative / 100))):Math.round(percentInt * (relative / 100));
 };
+
+function pixelToDp(px) {
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
+}

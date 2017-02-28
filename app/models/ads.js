@@ -15,6 +15,8 @@ exports.definition = {
 		    "expired_date" : "TEXT",
 		    "recommended": "INTEGER",	//1 - recommended, 2 - normal
 		    "created" : "TEXT",
+		    "express_date": "DATE",
+		    "tnc": "TEXT",
 		    "updated" : "TEXT"
 		},
 		adapter: {
@@ -74,6 +76,7 @@ exports.definition = {
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
+					    tnc: res.fieldByName('tnc'),
 					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName("latitude"),
@@ -81,6 +84,49 @@ exports.definition = {
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),
 					    expired_date: res.fieldByName('expired_date'),
+					    updated: res.fieldByName('updated'),
+					    img_path: res.fieldByName('img_path'),
+					    description: res.fieldByName('description'),
+					    status: res.fieldByName('status'),
+					};
+                	res.next();
+					count++;
+                }
+                res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			getExpressData: function(unlimit){
+				var sql_limit = (unlimit)?"":"limit 0,6";
+				var collection = this;
+				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ads.m_id is not null AND express_date is not null AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' "+sql_limit;
+				db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+				console.log(sql);
+                var res = db.execute(sql);
+                var arr = [];
+				var count = 0;
+                
+                while (res.isValidRow()){
+                	 var row_count = res.fieldCount;
+                	 for(var a = 0; a < row_count; a++){
+                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+                	 }
+                	
+                	arr[count] = {
+                		a_id: res.fieldByName('a_id'),
+					    m_id: res.fieldByName('m_id'),
+					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    longitude: res.fieldByName('longitude'),
+					    latitude: res.fieldByName("latitude"),
+					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
+					    active_date: res.fieldByName('active_date'),
+					    youtube: res.fieldByName('youtube'),
+					    expired_date: res.fieldByName('expired_date'),
+					    express_date: res.fieldByName('express_date'),
 					    updated: res.fieldByName('updated'),
 					    img_path: res.fieldByName('img_path'),
 					    description: res.fieldByName('description'),
@@ -291,6 +337,7 @@ exports.definition = {
 					arr = {
 					    a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
+					    tnc: res.fieldByName("tnc"),
 					    name: res.fieldByName('name'),
 					    app_background: res.fieldByName('app_background'),
 					    youtube: res.fieldByName('youtube'),
@@ -343,46 +390,6 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			saveAds : function(a_id,m_id,name,template_id,description,app_background,youtube, img_path, status, active_date, expired_date, created, updated){
-			//console.log("start save ad"); 
-				name = name.replace(/["']/g, "&quot;");
-					
-				var needRefresh = false;
-				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+"'" ;
-                //console.log(sql);
-                var sql_query =  "";
-                db = Ti.Database.open(collection.config.adapter.db_name);
-                if(Ti.Platform.osname != "android"){
-                	db.file.setRemoteBackup(false);
-                }
-                
-                var res = db.execute(sql);
-                 
-                if (res.isValidRow()){ 
-                	//console.log(res.fieldByName('updated')+" "+updated+" "+name);
-                	if(res.fieldByName('name') != name || res.fieldByName('template_id') != template_id || res.fieldByName('description') != description || res.fieldByName('app_background') != app_background || res.fieldByName('img_path') != img_path || res.fieldByName('youtube') != youtube || res.fieldByName('status') != status || res.fieldByName('active_date') != active_date || res.fieldByName('expired_date') != expired_date || res.fieldByName('created') != created || res.fieldByName('updated') != updated){
-                		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id='"+a_id+"', name='"+name+"', template_id='"+template_id+"', description='"+description+"', img_path='"+img_path+"', app_background='"+app_background+"', youtube='"+youtube+"', status='"+status+"', active_date='"+active_date+"', expired_date='"+expired_date+"', created='"+created+"', updated='"+updated+"' WHERE m_id="+ m_id ;
-                		needRefresh = true;
-                		db.execute(sql_query); 
-                		 
-                	}
-                }else{ 
-                	needRefresh = true;
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (a_id, m_id ,name ,template_id , description, app_background, youtube, img_path, status, active_date, expired_date, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                	db.execute(sql_query, a_id, m_id, name, template_id, description, app_background, youtube, img_path, status,  active_date, expired_date, created, updated); 
-				} 
-	           
-	            db.close();
-	            
-	            // mdb = Ti.Database.open("merchants");
-	            // msql_query = "UPDATE merchants set updated = CURRENT_TIMESTAMP where m_id = "+m_id;
-// 	            
-	            // mdb.execute(msql_query);
-	            // mdb.close();
-	            collection.trigger('sync');
-	            return needRefresh;
-			},
 			saveArray : function(arr){
 				var collection = this;
 				
@@ -392,10 +399,10 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch);
-					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET m_id=?, app_background=?,name=?,youtube=?,template_id=?,description=?,img_path=?,status=?,active_date=?,expired_date=?,created=?,updated=?, recommended=?, branch=? WHERE a_id=?";
-					db.execute(sql_query, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.a_id);
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc);
+					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET m_id=?, app_background=?,name=?,youtube=?,template_id=?,description=?,img_path=?,status=?,active_date=?,expired_date=?,created=?,updated=?, recommended=?, branch=?, express_date=?, tnc=? WHERE a_id=?";
+					db.execute(sql_query, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.a_id);
 				});
 				db.execute("COMMIT");
 	            db.close();

@@ -11,15 +11,7 @@
 // Alloy.Globals.someGlobalFunction = function(){};
 var _ = require('underscore')._;
 Alloy.Globals.Map =  (OS_IOS || OS_ANDROID) ? require('ti.map') : Ti.Map;
-if(OS_IOS){
-	var GA = require('analytics.google');
-	Alloy.Globals.tracker = GA.getTracker("UA-53651461-1");
-}else{
-	var GA =  require('ti.ga');
-	Alloy.Globals.tracker = GA.createTracker({
-	   trackingId:"UA-53651461-1" 
-	});
-}
+
  
 Alloy.Globals.naviPath = [];
 /** include required file**/
@@ -69,22 +61,34 @@ function receivePush(e) {
 function deviceTokenSuccess(e) {
     deviceToken = e.deviceToken;
     Cloud.PushNotifications.subscribe({
-			    channel: 'sales',
-			    type:'ios',
-			    device_token: deviceToken
-			}, function (e) {
-				 
-			    if (e.success) {
-			    	//alert('Success : ' + deviceToken);
-			    	/** User device token**/
-	         		Ti.App.Properties.setString('deviceToken', deviceToken);
-			     	
-					API.updateNotificationToken();
-			    } else {
-			    //	alert('Success Error: ' + deviceToken);
-			        registerPush();
-			    }
-			});
+	    channel: 'sales',
+	    type:'ios',
+	    device_token: deviceToken
+	}, function (e) {
+		 
+	    if (e.success) {
+	    	//alert('Success : ' + deviceToken);
+	    	/** User device token**/
+     		Ti.App.Properties.setString('deviceToken', deviceToken);
+	     	
+			API.updateNotificationToken();
+	    } else {
+	    //	alert('Success Error: ' + deviceToken);
+	        registerPush();
+	    }
+	});
+	
+	Cloud.PushNotifications.subscribeToken({
+        device_token: e.deviceToken,
+        channel: 'featured',
+        type: Ti.Platform.name == 'android' ? 'android' : 'ios'
+    }, function (e) {
+        if (e.success) {
+            console.log('Subscribed');
+        } else {
+            console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
+        }
+    });
 }
 function deviceTokenError(e) {
     alert('Failed to register for push notifications! ' + e.error);
@@ -365,6 +369,11 @@ function children(key, e){
     }else{
 		return e;
     }
+}
+
+function convertToHumanFormat(datetime){
+	var timeStamp = datetime.split("-");
+	return timeStamp[2]+"-"+timeStamp[1]+"-"+timeStamp[0];
 }
 
 function convertToDBDateFormat(datetime){

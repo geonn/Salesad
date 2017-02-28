@@ -5,11 +5,6 @@
 	         	<Button left='0' width="25" height="25" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <RightNavButton>
-	        <View id="btnBack" right="0"  width="30" height="45" onClick="doSave">
-	         	<Label class='wsize hsize red'>Save</Label>
-	        </View>
-        </RightNavButton>
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
 				<View left="0" width="10%">
@@ -18,20 +13,14 @@
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title">Map Location</Label>
 		     	</View>
-		     	<View width="10%" onClick="doSave">
-		     		<Label class='wsize hsize red'>Save</Label>
-		     	</View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
-		 	<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
-		 	<View id="mapview" module="ti.map">
-		 		<View class="wsize hsize box" top="10" left="10">
-		 			<Label class="wsize hsize padding h5">Hold and drag the market to pin location</Label>
-	 			</View>
-	            <!-- Starting with Alloy 1.4.0, use the Annotation tag to define an annotation -->
-	            <!-- Prior to Alloy 1.4.0, create annotations in the controller -->
-	          
-	        </View>
+			<View id="info" class="wfill hsize vert padding">
+				<Label id="name" class="h5 bold wfill hsize padding" bottom="0" textAlign="left"></Label>
+				<Label id="address" class="h5 wfill hsize padding" textAlign="left"></Label>
+				<Button class="button" id="button_direction">Get Direction</Button>
+			</View>
+			<View height="220" class="wfill" id="mapview" module="ti.map" userLocation="true" />
 	 	</View>
 	</Window>
 </Alloy>

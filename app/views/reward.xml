@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="MY REWARDS" navTintColor="#ED1C24" backgroundColor="#fff">
+	<Window id="win" title="My Rewards" navTintColor="#ED1C24" backgroundColor="#fff">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
@@ -10,21 +10,24 @@
 				<View left="0" width="10%">
 			         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 			    </View>
-		     	<View id="pageTitle" width="70%">
-		     		<Label color="#ED1C24">MY REWARDS</Label>
+		     	<View id="pageTitle" width="80%">
+		     		<Label color="#ED1C24">My Rewards</Label>
 		     	</View>
 		 	</View>
 		 	<View class="wfill hfill vert">
 	 			<View class="wfill hfill">
 			 		<ScrollView class="wfill hfill contwfill conthsize vert" id="point">
-			 			<Label class="wsize hsize bold h1" top="20" bottom="15" id="current_point">0 POINTS</Label>
+			 			<View class="wsize hsize horz">
+			 				<ImageView class="hsize" top="10" left="10" right="10" width="70" image="/images/Icon_CashPoint_Gold@0,25x.png"/>
+			 				<Label class="wsize hsize bold h1" top="20" bottom="15" id="current_point">0</Label>
+		 				</View>
 			 			<Label class="wsize hsize bold h4">You're off to a great start</Label>
-			 			<Label class="wsize hsize h6">Get a free gift card in a few easy steps.</Label>
+			 			
 			 			<TableView class="wfill hfill contwfill conthsize" id="point_list">
 			 			</TableView>
 			 		</ScrollView>
 		 		</View>
-		 	</View>	
+		 	</View>
 	 	</View>
 	</Window>
 </Alloy>

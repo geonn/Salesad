@@ -82,21 +82,21 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			checkFavoriteExist : function(m_id){
+			checkFavoriteExist : function(m_id, u_id){
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+m_id+"'" ;
-                
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE u_id=? AND m_id='"+m_id+"'" ;
+                console.log(sql+" "+u_id);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
-                var res = db.execute(sql);
+                var res = db.execute(sql, u_id);
                 
                 if(res.isValidRow()){
-                	var id = res.fieldByName('id');
+                	var m_id = res.fieldByName('m_id');
                 	res.close();
                 	db.close();
-                	return id;
+                	return m_id;
                 }else{
                 	res.close();
                 	db.close();
@@ -105,27 +105,27 @@ exports.definition = {
                 res.close();
                 db.close();
 			},
-			deleteFavorite : function(id){
+			deleteFavorite : function(m_id, u_id){
 				var collection = this;
-		        var sql = "DELETE FROM " + collection.config.adapter.collection_name+" where id="+id;
+		        var sql = "DELETE FROM " + collection.config.adapter.collection_name+" where u_id=? AND m_id=?";
 		       
 		        var db2 = Ti.Database.open(collection.config.adapter.db_name);
 		        if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
-		        db2.execute(sql);
+		        db2.execute(sql, u_id, m_id);
 		        db2.close();
 		        collection.trigger('sync');
 			},
-			deleteFavoriteByMid : function(m_id){
+			deleteFavoriteByMid : function(m_id, u_id){
 				var collection = this;
-		        var sql = "DELETE FROM " + collection.config.adapter.collection_name+" where m_id="+m_id;
+		        var sql = "DELETE FROM " + collection.config.adapter.collection_name+" where u_id=? AND m_id="+m_id;
 		       
 		        var db2 = Ti.Database.open(collection.config.adapter.db_name);
 		        if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
-		        db2.execute(sql);
+		        db2.execute(sql, u_id);
 		        db2.close();
 		        collection.trigger('sync');
 			},

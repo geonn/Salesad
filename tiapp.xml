@@ -12,7 +12,7 @@
     <navbar-hidden>false</navbar-hidden>
     <statusbar-hidden>false</statusbar-hidden>
     <analytics>true</analytics>
-    <guid>254f579d-1452-4389-9ddd-9c270646c49f</guid>
+    <guid>5e4570e3-e254-4c7f-9888-98ec7f80f592</guid>
     <property name="acs-oauth-secret-development" type="string">Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF</property>
     <!-- Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF-->
     <property name="acs-oauth-key-development" type="string">PkZ7J8IJ29OvM3gZdYiMDm2csn2LbFAc</property>
@@ -126,7 +126,8 @@
                 <activity
                     android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
                     android:label="plux"
-                    android:name="com.facebook.FacebookActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+                    android:name="com.facebook.FacebookActivity"
+                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
                 <activity android:label="@string/app_name"
                     android:name="com.facebook.LoginActivity"
                     android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
@@ -148,14 +149,13 @@
     <modules>
         <module platform="iphone">dk.napp.social</module>
         <module platform="android">com.mirasense.scanditsdk</module>
-        <module platform="android" version="3.0.0">ti.map</module>
-        <module platform="android" version="3.0.0">ti.ga</module>
         <module platform="commonjs">ti.cloud</module>
         <module platform="android">facebook</module>
-        <module platform="iphone">ti.map</module>
         <module platform="iphone">com.mirasense.scanditsdk</module>
         <module platform="iphone">analytics.google</module>
         <module platform="iphone">facebook</module>
+        <module platform="iphone">ti.map</module>
+        <module platform="android">ti.map</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

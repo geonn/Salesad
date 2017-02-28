@@ -18,26 +18,6 @@ var custom = $.UI.create("Label", {
   
 $.feedWin.titleControl = custom;
 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "merchants",
-		action: "view",
-		label: "feed list",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Feed List"
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "merchants",
-		action: "view",
-		label: "feed list",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Feed List');
-}
 var goAd = function(res){
 	 
 	var win = Alloy.createController("ad", {m_id: res.source.source}).getView(); 

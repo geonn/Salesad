@@ -22,6 +22,14 @@ function render_favourite_merchant(){
 		var cell_width = Math.floor(pwidth / 2) - 15;
 	}
 	
+	if(data.length <=0){
+		var img = $.UI.create("ImageView", {image:"/images/Popup_Rewards_Favorite.png", classes:['wfill','hsize','padding']});
+		$.inner_box.add(img);
+		img.addEventListener("click", function(e){
+			COMMON.closeWindow($.win);
+		});
+	}
+	
 	for (var i=0; i < data.length; i++) {
 		console.log("m_id: "+data[i].m_id);
 		var cell = $.UI.create("View", {
@@ -75,6 +83,10 @@ function init(){
 	$.win.add(loading.getView());
 	loading.start();
 	refresh();
+}
+
+function windowClose(){
+	COMMON.closeWindow($.win);
 }
 
 init();

@@ -1,25 +1,7 @@
 var args = arguments[0] || {};
 COMMON.construct($); 
 /** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "account",
-		action: "view",
-		label: "login",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Advertiser Login"
-	}); 
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-       	category: "account",
-		action: "view",
-		label: "login",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView("Advertiser Login");
-}
+
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'Advertiser Login', 

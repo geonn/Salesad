@@ -22,7 +22,7 @@
 		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target='category'>
-		 				<Label left="10" class="wsize hsize">My Category</Label>
+		 				<Label left="10" class="wsize hsize">Categories</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="favourite">
@@ -39,8 +39,8 @@
 		 				<Label left="10" class="wsize hsize">My Profile</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
 		 			</TableViewRow>
-		 			<TableViewRow height="50" target="notification">
-		 				<Label left="10" class="wsize hsize">Notification</Label>
+		 			<TableViewRow height="50" target="pushNotificationSettings">
+		 				<Label left="10" class="wsize hsize">Notifications</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>

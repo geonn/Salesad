@@ -27,6 +27,11 @@ function init(){
 
 init();
 
+function getDirection(){
+	var win = Alloy.createController("express_direction", args).getView(); 
+	COMMON.openWindow(win); 
+}
+
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
 }

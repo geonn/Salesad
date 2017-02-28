@@ -136,7 +136,8 @@ exports.updateUserFavourite = function(e){
 	/** User session**/
 	var deviceToken = Ti.App.Properties.getString('deviceToken');
 	 
-	var url = updateUserFavourite+"&token="+deviceToken+"&m_id="+e.m_id+"&a_id="+e.a_id+"&status="+e.status;   
+	var url = updateUserFavourite+"&token="+deviceToken+"&m_id="+e.m_id+"&u_id="+e.u_id+"&status="+e.status;   
+	console.log(url);
 	var client = Ti.Network.createHTTPClient({
 	    // function called when the response data is available
 	    onload : function(e) {

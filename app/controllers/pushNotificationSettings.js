@@ -1,25 +1,7 @@
 var args = arguments[0] || {}; 
+var deviceToken = Ti.App.Properties.getString('deviceToken');
+var u_id = Ti.App.Properties.getString('u_id');
 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "settings",
-		action: "view",
-		label: "push notification settings",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Push Notification Settings"
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "settings",
-		action: "view",
-		label: "push notification settings",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Push Notification Settings');
-}
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'Push Notification', 
@@ -35,8 +17,16 @@ if(Ti.Platform.osname == "android"){
 
 //load user settings
 var isNotification = Ti.App.Properties.getString('notification');
+var isNotificationFeatured = Ti.App.Properties.getString('notification_featured');
+console.log(isNotificationFeatured+" notification_featured");
 if(isNotification != "1"){
-	$.notiSwitch.value = "false";
+	console.log($.pushNotificationSettingsView.notiSwitch);
+	$.pushNotificationSettingsView.notiSwitch.value = false;
+}
+
+if(isNotificationFeatured != "1"){
+	console.log("isNotificationFeatured off");
+	$.pushNotificationSettingsView.notiSwitch_featured.value = false;
 }
 
 $.btnBack.addEventListener('click', function(){  
@@ -53,19 +43,71 @@ var changeStatus = function(e){
 		    title: 'Push Notification'
 		  });
 		  dialog.addEventListener('click', function(ex){
-		    if (ex.index == 0){
-		    	$.notiSwitch.value = "true";
-		    	Ti.App.Properties.setString('notification',"1");
+		  	console.log(ex.index+" index here!");
+		    if (ex.index == 1){
+		    	e.source.value = false;
+		    	console.log(e.source.notification_title+" 0");
+		    	Ti.App.Properties.setString(e.source.notification_title,"0");
+		    	if(e.source.notification_title == "notification_featued"){
+					unsubcribe_feature();
+				}
 				return;
 		    }
 		 });
 	
 		dialog.show();
 	}
-	
+	if(e.source.notification_title == "notification_featued"){
+		subcribe_feature();
+	}
+	console.log(e.source.notification_title+" what value");
 	//update push notification to server
-	Ti.App.Properties.setString('notification',e.source.value);
-	API.updateNotificationToken();
-	
+	Ti.App.Properties.setString(e.source.notification_title, "1");
+	API.callByPost({
+		url: "updateNotificationStatus",
+		new: true,
+		params: {deviceToken:deviceToken, u_id: u_id, notification_favourite: Ti.App.Properties.getString('notification'), notification_featured: Ti.App.Properties.getString('notification_featured')}
+	}, 
+	{
+		onload: function(responseText){
+			console.log(responseText);
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+		},
+		onexception: function(){
+			COMMON.closeWindow($.win);
+		}
+	});
+	//API.updateNotificationToken();
 }; 
+
+function unsubcribe_feature(){
+	Cloud.PushNotifications.unsubscribeToken({
+        device_token: deviceToken,
+        channel: 'featured',
+        type: Ti.Platform.name == 'android' ? 'android' : 'ios'
+    }, function (e) {
+        if (e.success) {
+            console.log('Subscribed');
+        } else {
+            console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
+        }
+    });
+}
+
+function subcribe_feature(){
+	Cloud.PushNotifications.subscribeToken({
+        device_token: deviceToken,
+        channel: 'featured',
+        type: Ti.Platform.name == 'android' ? 'android' : 'ios'
+    }, function (e) {
+        if (e.success) {
+            console.log('Subscribed');
+        } else {
+            console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
+        }
+    });
+}
 $.pushNotificationSettingsView.notiSwitch.addEventListener('change',changeStatus);
+$.pushNotificationSettingsView.notiSwitch_featured.addEventListener('change',changeStatus);

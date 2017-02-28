@@ -18,8 +18,8 @@
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title">Profile</Label>
 		     	</View>
-		     	<View id="button" right="0"  width="30" height="45">
-		         	<Label color="#ED1C24" right="10">Logout</Label>
+		     	<View id="button" right="0" class="wsize" height="45">
+		         	<Label class="wsize hsize" color="#ED1C24" right="10">Logout</Label>
 		        </View>
 		 	</View>
 			<View id="main" layout="vertical" height="95%">

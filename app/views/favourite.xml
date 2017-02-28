@@ -10,7 +10,7 @@
 		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
 		    </View>
 	     	<View id="pageTitle" width="70%">
-	     		<Label color="#ED1C24" id="title"></Label>
+	     		<Label color="#ED1C24" id="title">Favorites</Label>
 	     	</View>
 	 	</View>
 	 	<View bottom='0' class="hr"></View>

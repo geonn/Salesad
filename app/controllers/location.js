@@ -14,7 +14,10 @@ var a_library = Alloy.createCollection('ads');
 var m_library = Alloy.createCollection('merchants');
 
 var ads = a_library.getAdsById(a_id);
-var all_branches = m_library.getBranchesById(ads.branch+", "+m_id);
+console.log(typeof ads);
+var id_sql = (typeof ads == "undefined")?m_id:ads.branch+", "+m_id;
+console.log(id_sql);
+var all_branches = m_library.getBranchesById(id_sql);
 var merchants = m_library.getMerchantsById(m_id);
 
 console.log(m_id+" mid here");
@@ -35,6 +38,7 @@ function init(){
 				longitude: all_branches[k].longitude,
 				latitude: all_branches[k].latitude,
 				address: all_branches[k].address,
+				mobile: all_branches[k].mobile,
 				mer_loc: all_branches[k].area + ", "+all_branches[k].state_name
 			};
 			branch.push(obj);
@@ -50,12 +54,13 @@ function render_also_available(data){
 			properties: {
         		m_id: data[i].m_id,	
         		title: data[i].name,
+        		//color: ""
         	}
        	});
 	};
-	var section = $.UI.create("ListSection", {headerTitle: "Also Available At:"});
-	section.setItems(dat);
-	$.locationView.listing.sections = [section];
+	var fishSection = Ti.UI.createListSection({ headerTitle: 'Also Available At:'});
+	fishSection.setItems(dat);
+	$.locationView.listing.appendSection(fishSection);
 }
 
  //console.log(name);
@@ -72,7 +77,7 @@ function setCustomTitle(title){
 	 });
 		   
 	if(Ti.Platform.osname == "android"){ 
-		$.pageTitle.add(custom);   
+		$.pageTitle.text = title;   
 	}else{
 		$.location.titleControl = custom; 
 	} 
@@ -164,10 +169,9 @@ function setCurrentLocation(){
 	console.log(cur);
 	$.locationView.mapview.region = {latitude: cur.latitude, longitude: cur.longitude, latitudeDelta:0.01, longitudeDelta:0.01};
 	setCustomTitle(cur.name);
-	console.log(cur.name+" name text");
-	console.log(cur.address+" address text");
 	$.locationView.name.text = cur.name;
-	$.locationView.address.text = "[Address] "+cur.address;
+	$.locationView.address.text = cur.address;
+	$.locationView.mobile.text = cur.mobile;
 }
 
 
@@ -195,55 +199,67 @@ if(merchants.longitude == ""){
 
 }
 
-/***
+$.locationView.button_direction.addEventListener("click", direction2here);
 
-if(a_id != ""){
-	for(var i=0; i < name.length; i++){
-		//if((l_id[i] == a_id)){
-			var merchantLoc = Alloy.Globals.Map.createAnnotation({
-			    latitude:latitude[i],
-			    longitude:longitude[i],
-			    title: name[i],
-			    subtitle:mer_loc[i],
-			    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
-			    image: '/images/sales-ad-loc_small.png',
-			    myid:i // Custom property to uniquely identify this annotation.
-			});
-			$.locationView.mapview.region = {latitude: latitude[i], longitude:longitude[i],
-			                    latitudeDelta:delta, longitudeDelta:delta};
-			merchantLoc.addEventListener('click', function(evt){
-			       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
-					COMMON.openWindow(win);   
-			    
-			});
-			//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
-			$.locationView.mapview.addAnnotation(merchantLoc); 
-		//}
-	}
+function direction2here(){
+	 
+	if(m_id != ""){
+		var cur = _.where(branch, {m_id: m_id});
+		details = cur[0];
+	}else{
+		var after_sort = _.sortBy(branch, 'dist');
+		var details = after_sort[0];
+	} 
+	 
+	var locationCallback = function(e) {
+	    if(!e.success || e.error) {
+	    	alert("Please enable location services");
+	        Ti.API.info('error:' + JSON.stringify(e.error));
+	        return;
+	    } 
+	    var longitude = e.coords.longitude;
+	    var latitude = e.coords.latitude; 
+	 	 console.log('http://maps.google.com/maps?saddr='+latitude+','+longitude+'&daddr='+details.latitude+','+details.longitude);
+	    var add2 =details.add2;
+		if(add2!= ""){
+			add2 = add2  +"\r\n";
+		} 
+		var url = 'geo:'+latitude+','+longitude+"?q="+details.clinicName+" (" + details.add1 + "\r\n"+ add2 +  details.postcode +", " + details.city +"\r\n"+  details.state + ")";
+		  if (Ti.Android){
+				try {
+				   	var waze_url = 'waze://?ll='+details.latitude+','+details.longitude+'&navigate=yes';
+				   	var intent = Ti.Android.createIntent({
+						action: Ti.Android.ACTION_VIEW,
+						data: waze_url
+					});
+					Ti.Android.currentActivity.startActivity(intent); 
+				} catch (ex) { 
+				  	try {
+						Ti.API.info('Trying to Launch via Intent');
+						var intent = Ti.Android.createIntent({
+							action: Ti.Android.ACTION_VIEW,
+							data: url
+						});
+						Ti.Android.currentActivity.startActivity(intent);
+					} catch (e){
+						Ti.API.info('Caught Error launching intent: '+e);
+						exports.Install();
+					}
+				} 
+			}else{
+
+				Titanium.Platform.openURL('Maps://http://maps.google.com/maps?ie=UTF8&t=h&z=16&saddr='+latitude+','+longitude+'&daddr='+details.latitude+','+details.longitude);
+				
+	   	 	}
+				
+				
+	    
+	   	Titanium.Geolocation.removeEventListener('location', locationCallback); 
+	};
 	
-}else{
-	for(var i=0; i < name.length; i++){
-		 
-		var merchantLoc = Alloy.Globals.Map.createAnnotation({
-		    latitude:latitude[i],
-		    longitude:longitude[i],
-		    title: name[i],
-		    subtitle:mer_loc[i],
-		    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
-		    image: '/images/sales-ad-loc_small.png',
-		    myid:i // Custom property to uniquely identify this annotation.
-		});
-		$.locationView.mapview.region = {latitude: latitude[i], longitude:longitude[i],
-		                    latitudeDelta:delta, longitudeDelta:delta};
-		merchantLoc.addEventListener('click', function(evt){
-			var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
-			COMMON.openWindow(win);   
-		});
-	          
-		$.locationView.mapview.addAnnotation(merchantLoc); 
-	}
+	console.log("geo location");
+	Titanium.Geolocation.addEventListener('location', locationCallback); 
 }
-***/
 
 var countDistanceByKM = function(lat1,lon1,lat2,lon2) {
     var R = 6371; // km (change this constant to get miles)

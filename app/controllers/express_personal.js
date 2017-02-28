@@ -90,6 +90,9 @@ function render(e){
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
 	if(typeof e.clear != "undefined"){
 		$.content.removeAllChildren();
+		if(data.length <= 0){
+			$.content.add($.UI.create("Label", {classes:['wfill','hsize','padding'], textAlign:"center", text: "No Result"}));
+		}
 	}
 	if(OS_ANDROID){
 		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
@@ -191,6 +194,10 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	}
 	lastDistance = distance;
 	//
+});
+
+$.win.addEventListener("close", function(e){
+	Ti.App.fireEvent("home:refresh");
 });
 
 $.btnBack.addEventListener('click', function(){ 

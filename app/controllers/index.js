@@ -8,27 +8,6 @@ loadingView.start();
 
 var model_category = Alloy.createCollection('category');
 
-/** Google Analytic**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "main",
-		action: "view",
-		label: "home",
-		value: 1
-	});
-	Alloy.Globals.tracker.trackScreen({
-	    screenName: "Home"
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "main",
-		action: "view",
-		label: "home",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Home');
-}
-
 Alloy.Globals.navMenu = $.navMenu;
  
 /*********************
@@ -130,7 +109,7 @@ function buildCateogryList(e){
 			width: Ti.UI.FILL,                           
 		});
 		
-		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundImage:  "images/transparent-bg.png", zIndex: 10});
+		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundImage:  "/images/transparent-bg.png", zIndex: 10});
 		var categoryLabel = $.UI.create("Label", {
 			text: category_list[i].categoryName,
 			width: Ti.UI.FILL,

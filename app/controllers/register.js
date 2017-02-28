@@ -1,25 +1,5 @@
 var args = arguments[0] || {};
 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "account",
-		action: "view",
-		label: "register",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Member Register"
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "account",
-		action: "view",
-		label: "register",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Member Register');
-}
 /** include required file**/
 var api = require('api');
 
@@ -97,13 +77,14 @@ var goSignUp = function(){
 		       	
 		       	
 				common.createAlert('Successfully register', "Thank you sign up with Salesad. Please login to continue.");
+				Ti.App.fireEvent("login:close");
 				closeWindow();
 				isSubmit = 0;
 	         }else{
 	         	isSubmit = 0;
-	         	common.createAlert('Authentication warning',res.data.error_msg);
+	         	alert(res.data.join("\r\n"));
 	         }
-			loading.finish();
+			
 		},
 		onerror: function(err){
 			$.activityIndicator.hide();
@@ -176,8 +157,8 @@ function popDatePicker(e){
 	});
 	var view_container = $.UI.create("View", {classes:['wfill', 'hfill'], zIndex: 30,});
 	var img_mask = $.UI.create("ImageView", {classes:['wfill','hfill'], image: "/images/warm-grey-bg.png"});
-	var ok_button = $.UI.create("Button", {classes:['button'], left: 10, right:10, title: "Done"});
-	var cancel_button = $.UI.create("Button", {classes:['button'], left: 10, right:10, title: "Cancel"});
+	var ok_button = $.UI.create("Button", {classes:['button', 'wfill'], left: 10, right:10, title: "Done"});
+	var cancel_button = $.UI.create("Button", {classes:['button',  'wfill'], left: 10, right:10, title: "Cancel"});
 	var view_vert = $.UI.create("View", {classes:['wsize','hsize','vert']});
 	cancel_button.addEventListener("click", function(){ 
 		$.register.remove(view_container);

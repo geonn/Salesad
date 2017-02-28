@@ -26,26 +26,7 @@ var custom = $.UI.create("Label", {
     width: Ti.UI.SIZE 
  });
 
-/** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "merchants",
-		action: "view",
-		label: "branches",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Brancehes - " +merchants.merchant_name
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "merchants",
-		action: "view",
-		label: "branches",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView("Brancehes - " +merchants.merchant_name);
-}
+
 if(Ti.Platform.osname == "android"){ 
 	$.pageTitle.add(custom);   
 }else{

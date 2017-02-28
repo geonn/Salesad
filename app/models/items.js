@@ -48,9 +48,29 @@ exports.definition = {
 				}
 				db.close();
 			},
+			getExclusiveByAid: function(a_id){
+				var collection = this;
+				var sql = "SELECT count(*) as total FROM " + collection.config.adapter.collection_name + " WHERE isExclusive = 1 AND a_id='"+ a_id+ "' group by a_id";
+              // console.log(sql);
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr = []; 
+                var total = 0;
+                if (res.isValidRow()){
+                 	total = res.fieldByName('total');
+				} 
+				 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return total;
+			},
 			getItemByAds : function(a_id){
 				var collection = this;
-				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "'" ;
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "' order by position " ;
               // console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){

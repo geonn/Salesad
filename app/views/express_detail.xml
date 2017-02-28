@@ -23,7 +23,7 @@
 		 					<ImageView class="hsize" width="20" right="10" image="/images/Icon_Date.png"></ImageView>
 		 					<Label class="wfill hsize h5 grey" id="xpress_date" textAlign="left"/>
 		 				</View>
-		 				<View class="wfill hsize horz">
+		 				<View class="wfill hsize horz" onClick="getDirection">
 		 					<ImageView class="hsize" width="20" top="5" right="10" image="/images/Icon_Location.png"></ImageView>
 		 					<Label class="wfill hsize h5 grey" id="xpress_location" top="5" textAlign="left"/>
 		 				</View>

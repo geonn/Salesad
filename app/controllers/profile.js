@@ -1,27 +1,6 @@
 var args = arguments[0] || {};
 /** google analytics**/ 
 
-
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "account",
-		action: "view",
-		label: "profile",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Member Profile"
-	});
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "account",
-		action: "view",
-		label: "profile",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Member Profile');
-}
-
 /** User session**/
 var session = Ti.App.Properties.getString('session');
 

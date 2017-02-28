@@ -10,25 +10,7 @@ var RegArr = [
 var clickTime = null;
 Alloy.Globals.naviPath.push($.category);
 /** google analytics**/ 
-if(OS_IOS){
-	Alloy.Globals.tracker.trackEvent({
-		category: "category",
-		action: "view",
-		label: "category listing",
-		value: 1
-	}); 
-	Alloy.Globals.tracker.trackScreen({
-		screenName: "Category Main"
-	}); 
-}else{ 
-	Alloy.Globals.tracker.addEvent({
-        category: "category",
-		action: "view",
-		label: "category listing",
-		value: 1
-    }); 
-	Alloy.Globals.tracker.addScreenView('Category Main');
-}
+
 /*********************
 *******FUNCTION*******
 **********************/
