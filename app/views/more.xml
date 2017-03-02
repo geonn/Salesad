@@ -55,7 +55,7 @@
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
 		 				<Label left="10" class="wsize hsize">Version</Label>
-		 				<Label right="10" class="wsize hsize">1.0.4</Label>
+		 				<Label right="10" class="wsize hsize">1.1.0</Label>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
 		 				<Label class="wfill hsize" textAlign="center">2017 All rights reserved.</Label>
