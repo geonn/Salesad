@@ -15,7 +15,7 @@
 		     	</View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
-		 	<ScrollView id="inner_box" bottom="40" class="wfill hfill conthsize contwfill vert">
+		 	<ScrollView id="inner_box" bottom="110" class="wfill hfill conthsize contwfill vert">
 		 		<View class="wfill hsize padding vert">
 		 			<ImageView id="img" class="wfill hsize"></ImageView>
 		 			<View class="wfill hsize vert small-padding">
@@ -29,12 +29,12 @@
 		 				</View>
 	 				</View>
 	 			</View>
-	 			<View class="hr"/>
+	 			<View class="hr" backgroundColor="#404041"></View>
 	 			<Label class="wfill hsize h5 padding" id="desc"></Label>
 		 	</ScrollView>
 	 	</View>
 	 	<View class="wfill vert" height="60" backgroundColor="#ffffff" bottom="0" zIndex="10">
-	 		<View class="hr"></View>
+	 		<View class="hr" backgroundColor="#404041"></View>
 	 		<View class="wfill hfill horz padding">
 	 			<ImageView id="owner_img_path" width="40" height="40" right="10" defaultImage="/images/logo_small.png" class="" />
 	 			<View class="hfill vert" width="40%">

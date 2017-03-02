@@ -14,9 +14,7 @@ var a_library = Alloy.createCollection('ads');
 var m_library = Alloy.createCollection('merchants');
 
 var ads = a_library.getAdsById(a_id);
-console.log(typeof ads);
-var id_sql = (typeof ads == "undefined")?m_id:ads.branch+", "+m_id;
-console.log(id_sql);
+var id_sql = (typeof ads == "undefined" || ads.branch == "")?m_id:ads.branch+", "+m_id;
 var all_branches = m_library.getBranchesById(id_sql);
 var merchants = m_library.getMerchantsById(m_id);
 
@@ -55,7 +53,7 @@ function render_also_available(data){
         		m_id: data[i].m_id,	
         		title: data[i].name,
         		color: "#000000",
-        		top: 5,
+        		top:5,
         		bottom: 5
         	}
        	});
@@ -126,7 +124,6 @@ function render_map(){
 				m_id = ex.source.m_id;
 				setCurrentLocation();
 			});
-			
 			var merchantLoc = Alloy.Globals.Map.createAnnotation({
 			    latitude:branch[i].latitude,
 			    longitude:branch[i].longitude,
