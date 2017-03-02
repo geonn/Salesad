@@ -121,11 +121,14 @@ function render(e){
 		cell_width = Math.floor(pwidth / 2) - 15;
 	}
 	for (var i=0; i < data.length; i++) {
-		if(counter % 5 == 4){
+		if(counter % 4 == 0 && counter > 0){
 			if(typeof ads_data[ads_counter] != "undefined"){
-				var img = $.UI.create("ImageView", {classes: ['wfill','hsize','padding'], image: ads_data[ads_counter].img_path, type: 3, record: ads_data[ads_counter]});
+				var cw = Math.floor(pixelToDp(pwidth)-10);
+				var img = $.UI.create("ImageView", {classes: ["padding"], right:0, bottom:0, image: ads_data[ads_counter].img_path, type: 3, record: ads_data[ads_counter]});
 				img.addEventListener("click", navTo);
-				$.content.add(img);
+				var v = $.UI.create("View", {width: cw, height: cw});
+				v.add(img);
+				$.content.add(v);
 				ads_counter++;
 			}
 		}

@@ -104,28 +104,33 @@ function getData(){
 /* 0 1 2 3 4 5 6
  * Function
  * */
+var a_id_submit = [];
 function buildListing(){
-	if(data.length <= 0){
+	var c_ads_library = Alloy.createCollection('categoryAds'); 
+	var ads = data;
+	a_id_submit = _.union(_.pluck(ads, "a_id"), a_id_submit);
+	
+	if(ads.length <= 0){
 		activityIndicator.hide();
 		$.ads_listing.remove(activityIndicator);
-		$.ads_listing.setData($.UI.create("TableViewRow", {title: "This store is not having any sales right now."}));
 		return;	
 	}
 	ads_counter += 3;
-	console.log('check data');
-	console.log(data);
-	for(var a = 0; data.length > a; a++){
+	for(var a = 0; ads.length > a; a++){
+		var item_model = Alloy.createCollection('items'); 
+		var isExclusive = item_model.getExclusiveByAid(ads[a].a_id);
+		
 		var tbr = Ti.UI.createTableViewRow({
 			height: Ti.UI.SIZE,
 			backgroundSelectedColor: "#FFE1E1"
 		});
+		
 		var view_ad = $.UI.create("View",{
 			bottom: 10,
 			left: 10,
 			right: 10,
 			layout: "vertical",
-			m_id: data[a].m_id,
-		  	a_id: data[a].a_id,
+		  	a_id: ads[a].a_id,
 		  	width : Ti.UI.FILL,
 		  	height: Ti.UI.SIZE,
 			backgroundColor: "#ffffff",
@@ -133,7 +138,7 @@ function buildListing(){
 			borderRadius:4,
 		});
 		
-		if(data[a].youtube != "" && data[a].youtube != null){
+		if(ads[a].youtube != "" && ads[a].youtube != null){
 			var bannerImage = Ti.UI.createView({
 				width : Ti.UI.FILL,
 				height: 200,
@@ -142,7 +147,7 @@ function buildListing(){
 				borderRadius:4,
 			});
 			var webView = Ti.UI.createWebView({
-			    url: 'http://www.youtube.com/embed/'+data[a].youtube+'?autoplay=1&autohide=1&cc_load_policy=0&color=white&controls=0&fs=0&iv_load_policy=3&modestbranding=1&rel=0&showinfo=0',
+			    url: 'http://www.youtube.com/embed/'+ads[a].youtube+'?autoplay=1&autohide=1&cc_load_policy=0&color=white&controls=0&fs=0&iv_load_policy=3&modestbranding=1&rel=0&showinfo=0',
 			    enableZoomControls: false,
 			    scalesPageToFit: false,
 			    scrollsToTop: false,
@@ -154,23 +159,24 @@ function buildListing(){
 		}else{
 			var bannerImage = Ti.UI.createImageView({
 		 	  defaultImage: "/images/warm-grey-bg.png",
-			  image :data[a].img_path,
+			  image :ads[a].img_path,
 			  width : Ti.UI.FILL,
-			  m_id: data[a].m_id,
-			  name: data[a].name,
-			  a_id: data[a].a_id,
-			  id: data[a].id,
+			  name: ads[a].name,
+			  a_id: ads[a].a_id,
+			  id: ads[a].id,
 			  height: Ti.UI.SIZE,//ads_height,
 			});
-		}
+			var image_view = $.UI.create("View", {classes:['wfill','hsize']});
+			image_view.add(bannerImage);
+		}	
 		
-		
+		console.log(ads[a].merchant_name+" merchant name");
 		var label_merchant = $.UI.create("Label", {
 			font: { fontWeight: 'bold', fontSize: 16},
-			text: data[a].merchant,
+			text: ads[a].ads_name,
 			top: 10,
 			left: 10,
-			right: 10,
+			right: 35,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
@@ -178,9 +184,11 @@ function buildListing(){
 		});
 		
 		var label_ads_name = $.UI.create("Label", {
-			text: data[a].ads_name,
+			text: ads[a].merchant_name,
 			left: 10,
 			right: 10,
+			top: 5,
+			bottom:5,
 			font: {fontSize: 14},
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 			width: Ti.UI.FILL,
@@ -188,13 +196,13 @@ function buildListing(){
 			color: "#626366"
 		});
 		
-		var dateDescription =data[a].active_date+" - "+data[a].expired_date;
-		if(data[a].active_date == "0000-00-00" && data[a].expired_date =="0000-00-00"){
+		var dateDescription = convertToHumanFormat(ads[a].active_date)+" - "+convertToHumanFormat(ads[a].expired_date);
+		if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
 			dateDescription = "Start from now!";
-		}else if(data[a].active_date == "0000-00-00" && data[a].expired_date !="0000-00-00"){
-			dateDescription = "Until "+data[a].expired_date+"!";
-		}else if(data[a].active_date != "0000-00-00" && data[a].expired_date =="0000-00-00"){
-			dateDescription = "Start from "+data[a].active_date+"!";
+		}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
+			dateDescription = "Until "+convertToHumanFormat(ads[a].expired_date)+"!";
+		}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
+			dateDescription = "Start from "+convertToHumanFormat(ads[a].active_date)+"!";
 		}
 		
 		var label_date_period = $.UI.create("Label", {
@@ -221,8 +229,7 @@ function buildListing(){
 			width: Ti.UI.FILL
 		});
 		var view_buttonBar = $.UI.create("View", {
-			classes: ['horz', 'wfill'],
-			height: 30
+			classes: ['wfill','hsize']
 		});
 		var line3 = $.UI.create("View",{
 			backgroundColor: "#C6C8CA",
@@ -230,49 +237,60 @@ function buildListing(){
 			width: 0.5
 		});
 		
-		var btn_reminder = $.UI.create("Button", {
-			width: "50%",
-			height: 30,
-			active_date: data[a].active_date,
-			expired_date: data[a].expired_date,
-			ads_name: data[a].ads_name,
-			description: data[a].description,
-			backgroundColor:"#ededed",
-			backgroundFocusedColor: "#ffffff",
-			selectedColor: "#ffffff",
-			title: "Add To Calendar",
-			color: "#ED1C24"
+		/*var btn_reminder = $.UI,create("ImageView", {classes: ['small-padding'],active_date: ads[a].active_date,
+			expired_date: ads[a].expired_date,
+			ads_name: ads[a].ads_name,
+			description: ads[a].description, width: 30, height: 30, image: "/images/Icon_AddToCalendar.png"});
+		*/
+		
+		var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 30, zIndex: 100, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
+		
+		var btn_reminder = $.UI.create("ImageView", {
+			classes: ['small-padding'],
+			right:10,
+			bottom:0,
+			width: 25,
+			height: 25,
+			active_date: ads[a].active_date,
+			expired_date: ads[a].expired_date,
+			ads_name: ads[a].ads_name,
+			description: ads[a].description,
+			image: "/images/Icon_AddToCalendar.png"
 		});
 		
 		btn_reminder.addEventListener('click', function(e){
-			if(Ti.Platform.osname == "android"){
-				setAndroidCalendarEvent(e);
-				
-			}else{
-				if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
-				    setCalendarEvent(e);
-				} else {
-				    Ti.Calendar.requestEventsAuthorization(function(e){
-			            if (e.success) {
-			                setCalendarEvent(e);
-			            } else {
-			                alert('Access to calendar is not allowed');
-			            }
-			        });
+			COMMON.createAlert("Alert", "Do you want to add this sales to your calendar?", function(ex){
+				if(Ti.Platform.osname == "android"){
+					setAndroidCalendarEvent(e);
+				}else{
+					if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
+					    setCalendarEvent(e);
+					} else {
+					    Ti.Calendar.requestEventsAuthorization(function(ex1){
+				            if (ex1.success) {
+				                setCalendarEvent(e);
+				            } else {
+				                alert('Access to calendar is not allowed');
+				            }
+				        });
+					}
 				}
-			}
+			});
+			
 		});
 		
-		var btn_share = $.UI.create("Button", {
-			width: Ti.UI.FILL,
-			height: 30,
-			backgroundFocusedColor: "#ffffff",
-			selectedColor: "#ffffff",
-			backgroundColor:"#ededed",
-			title: "Share",
-			color: "#ED1C24",
-			adsName: data[a].ads_name,
-			adsImage: data[a].img_path
+		var btn_share = $.UI.create("ImageView", {
+			classes: ['small-padding'],
+			right:0,
+			bottom:0,
+			width: 25,
+			height: 25,
+			active_date: ads[a].active_date,
+			expired_date: ads[a].expired_date,
+			adsName: ads[a].ads_name,
+			adsImage: ads[a].img_path,
+			description: ads[a].description,
+			image: "/images/Icon_Share.png"
 		});
 		
 		btn_share.addEventListener('click', function(e){ 
@@ -292,17 +310,23 @@ function buildListing(){
 			}
 			
 		});
-		
-		view_ad.add(bannerImage);
+		var view_left = $.UI.create("View", {classes:['hsize', 'vert'], left:0, width: "50%"});
+		var view_right = $.UI.create("View", {classes:['hsize','wsize','horz'], right:10, bottom:10});
+		var label_and_flag = $.UI.create("View", {classes:['wfill','hsize']});
+		view_ad.add(image_view);
 		view_ad.add(line);
-		view_ad.add(label_merchant);
-		view_ad.add(label_ads_name);
-		view_ad.add(label_date_period);
-		
-		view_ad.add(line2);
-		view_buttonBar.add(btn_reminder);
-		view_buttonBar.add(line3);
-		view_buttonBar.add(btn_share);
+		label_and_flag.add(label_merchant);
+		if(isExclusive > 0){
+			label_and_flag.add(exclusive_icon);
+		}
+		view_ad.add(label_and_flag);
+		view_left.add(label_ads_name);
+		view_left.add(label_date_period);
+			
+		view_right.add(btn_reminder);
+		view_right.add(btn_share);
+		view_buttonBar.add(view_left);
+		view_buttonBar.add(view_right);
 		view_ad.add(view_buttonBar);
 		
 		tbr.add(view_ad);
@@ -317,7 +341,7 @@ function buildListing(){
 			loading = false;
 		}, 1000);
 		
-		if(data[a].youtube == ""){ 
+		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
 			 	goAd(e.source.a_id);
 			});

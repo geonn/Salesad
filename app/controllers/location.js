@@ -54,7 +54,9 @@ function render_also_available(data){
 			properties: {
         		m_id: data[i].m_id,	
         		title: data[i].name,
-        		//color: ""
+        		color: "#000000",
+        		top: 5,
+        		bottom: 5
         	}
        	});
 	};

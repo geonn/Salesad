@@ -254,22 +254,24 @@ function buildListing(){
 		});
 		
 		btn_reminder.addEventListener('click', function(e){
-			if(Ti.Platform.osname == "android"){
-				setAndroidCalendarEvent(e);
-				
-			}else{
-				if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
-				    setCalendarEvent(e);
-				} else {
-				    Ti.Calendar.requestEventsAuthorization(function(e){
-			            if (e.success) {
-			                setCalendarEvent(e);
-			            } else {
-			                alert('Access to calendar is not allowed');
-			            }
-			        });
+			COMMON.createAlert("Alert", "Do you want to add this sales to your calendar?", function(ex){
+				if(Ti.Platform.osname == "android"){
+					setAndroidCalendarEvent(e);
+				}else{
+					if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
+					    setCalendarEvent(e);
+					} else {
+					    Ti.Calendar.requestEventsAuthorization(function(ex1){
+				            if (ex1.success) {
+				                setCalendarEvent(e);
+				            } else {
+				                alert('Access to calendar is not allowed');
+				            }
+				        });
+					}
 				}
-			}
+			});
+			
 		});
 		
 		var btn_share = $.UI.create("ImageView", {
@@ -359,8 +361,10 @@ function setAndroidCalendarEvent(e){
 		var CALENDAR_TO_USE = 3;
 		var calendar = Ti.Calendar.getCalendarById(CALENDAR_TO_USE);
 		var active_date = e.source.active_date.split("-");
+		var expired_date =  e.source.expired_date.split("-");
 		var eventBegins = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
-		var eventEnds = new Date(active_date[0], active_date[1]-1, active_date[2], 23, 59, 59);
+		var eventEnds = new Date(expired_date[0], expired_date[1]-1, expired_date[2], 23, 59, 59);
+		console.log(eventBegins+" "+eventEnds);
 		// Create the event
 		var details = {
 		    title: e.source.ads_name,
@@ -388,8 +392,11 @@ function setCalendarEvent(e){
 	if(e.source.active_date != "0000-00-00"){
 		var cal = Ti.Calendar.defaultCalendar;
 		var active_date = e.source.active_date.split("/");
+		var expired_date = e.source.expired_date.split("/");
 		var start_date = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
-		var end_date = new Date(active_date[0], active_date[1]-1, active_date[2], 23, 59, 59);
+		var end_date = new Date(expired_date[0], expired_date[1]-1, expired_date[2], 23, 59, 59);
+		
+		console.log(start_date+" event to "+end_date);
 		/*
 		if(e.source.expired_date != "0000-00-00"){
 			var expired_date = e.source.expired_date.split("/");
@@ -415,9 +422,9 @@ function setCalendarEvent(e){
 		
 		 event.alerts = [alert1];
 		 event.save(Ti.Calendar.SPAN_FUTUREEVENTS);
-		 COMMON.createAlert("Message", "Sales reminder added into your calendar.");
+		 alert("Sales reminder added into your calendar.");
 	}else{
-		COMMON.createAlert("Message", "Sales started.");
+		alert("Sales started.");
 	}
 }
 
