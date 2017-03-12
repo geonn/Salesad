@@ -10,7 +10,6 @@ var clickTime = null;
 var isAdsAvailable  = false; 
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var items;
-
 Alloy.Globals.naviPath.push($.win);
 var BARCODE = require('barcode');
 
@@ -194,7 +193,11 @@ function init(){
 	getAdData();
 	var merchant = m_library.getMerchantsById(ads.m_id);
 	addAdsClick();
+	console.log("check here ad");
+	console.log(merchant.parent);
+	console.log(ads.m_id);
 	m_id = (merchant.parent != 0 && merchant.parent != null)?merchant.parent:ads.m_id;
+	console.log(m_id+" here mid");
 	getScanMerchant();
 	checkFavorite();
 	refresh();
@@ -426,7 +429,7 @@ function createShareOptions(){
  
     var subject = pageTitle;
     var text = ads.name + ". For more detail : http://salesad.my/main/adsDetails/"+args.a_id;
-   // var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";
+   	// var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";
   
     var intent = Ti.Android.createIntent({
         action: Ti.Android.ACTION_SEND,
@@ -443,11 +446,8 @@ function createShareOptions(){
 var SCANNER = require("scanner");
 
 // Create a window to add the picker to and display it. 
-var window = SCANNER.createScannerWindow();
-
 $.scanner.addEventListener('click', QrScan);
 	 
-SCANNER.init(window); 
 //$.scanner.add(button);
 function QrScan(){
 	SCANNER.openScanner("1");

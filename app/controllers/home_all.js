@@ -29,7 +29,7 @@ function getPreviousData(param){
 	data = model.getData({anchor: anchor, last_updated: last_updated, start: start, latest: false, keyword: keyword, category_id: category_id});
 	start = start + data.length;
 	console.log(data.length+" "+start);
-}	
+}
 
 function doSearch(){
 	start = 0;
@@ -123,7 +123,8 @@ function render(e){
 	for (var i=0; i < data.length; i++) {
 		if(counter % 4 == 0 && counter > 0){
 			if(typeof ads_data[ads_counter] != "undefined"){
-				var cw = Math.floor(pixelToDp(pwidth)-10);
+				
+				var cw = (OS_ANDROID)?Math.floor(pixelToDp(pwidth)-10):pwidth-10;
 				var img = $.UI.create("ImageView", {classes: ["padding"], right:0, bottom:0, image: ads_data[ads_counter].img_path, type: 3, record: ads_data[ads_counter]});
 				img.addEventListener("click", navTo);
 				var v = $.UI.create("View", {width: cw, height: cw});

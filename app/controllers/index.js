@@ -333,8 +333,6 @@ $.indexView.root.addEventListener("close", function(){
 });
 
 var SCANNER = require("scanner");
-var window = SCANNER.createScannerWindow();
-SCANNER.init(window); 
 
 $.indexView.scanner.addEventListener('click', QrScan);
 

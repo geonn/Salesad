@@ -12,22 +12,25 @@ var branch	= [];
 //load model
 var a_library = Alloy.createCollection('ads'); 
 var m_library = Alloy.createCollection('merchants');
-
+console.log(m_id+" mid here");
 var ads = a_library.getAdsById(a_id);
 var id_sql = (typeof ads == "undefined" || ads.branch == "")?m_id:ads.branch+", "+m_id;
 var all_branches = m_library.getBranchesById(id_sql);
 var merchants = m_library.getMerchantsById(m_id);
 
-console.log(m_id+" mid here");
+
 
 //load merchant & branches list 
 function init(){
+	render_marker();
 	var lat = Ti.App.Properties.getString('latitude');
     var lot = Ti.App.Properties.getString('longitude');
-    console.log("init");
+    console.log("init"+lat+" "+lot);
 	if(all_branches.length > 0){
 		for(var k=0; k < all_branches.length; k++){
 			var dist = countDistanceByKM(all_branches[k].latitude, all_branches[k].longitude, lat, lot);
+			var dist = 10;
+			console.log(all_branches[k]);
 			var obj = {
 				dist: dist,
 				dist_text: (dist>1)? Math.round(dist)+"km":Math.round(dist*1000)+"m",
@@ -41,6 +44,7 @@ function init(){
 			};
 			branch.push(obj);
 		}
+		console.log("before render also available");
 		render_also_available(branch);
 	}
 }
@@ -86,9 +90,10 @@ function setCustomTitle(title){
 var saveCurLoc = function(e) {
 	//console.log(e);
     if (e.error) {
-        alert('Location service is disabled. '+e.error);
+        console.log('Location service is disabled. '+e.error);
     } else {
-    	//console.log(e);
+    	console.log("work or not why");
+    	console.log(e.coords);
     	showCurLoc = true;
     	Ti.App.Properties.setString('latitude', e.coords.latitude);
     	Ti.App.Properties.setString('longitude', e.coords.longitude);
@@ -110,7 +115,7 @@ if (Ti.Geolocation.locationServicesEnabled) {
 function render_map(){
 	console.log("render_map");
 	for(var i=0; i < branch.length; i++){
-		
+		console.log(branch[i]);
 		//if((l_id[i] == a_id)){
 			var ad_arrow = $.UI.create("Button", {
 			    backgroundImage: '/images/btn-forward.png',
@@ -173,29 +178,29 @@ function setCurrentLocation(){
 	$.locationView.mobile.text = cur.mobile;
 }
 
-
-if(merchants.longitude == ""){
-	alert("No location found");
-	COMMON.closeWindow($.location);
-}else{
-	var merchantLoc = Alloy.Globals.Map.createAnnotation({
-	    latitude:merchants.latitude,
-	    longitude:merchants.longitude,
-	    title: merchants.merchant_name,
-	    subtitle:merchants.mobile,
-	    image: "/images/sales-ad-loc_small.png",
-	    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
-	    myid:merchants.m_id // Custom property to uniquely identify this annotation.
-	});
-	$.locationView.mapview.region =  {latitude: merchants.latitude, longitude:merchants.longitude,
-	                    latitudeDelta:0.01, longitudeDelta:0.01};
-	merchantLoc.addEventListener('click', function(evt){
-	       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
-			COMMON.openWindow(win);
-	});
-	//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
-	$.locationView.mapview.addAnnotation(merchantLoc); 
-
+function render_marker(){
+	if(merchants.longitude == ""){
+		alert("No location found");
+		COMMON.closeWindow($.location);
+	}else{
+		var merchantLoc = Alloy.Globals.Map.createAnnotation({
+		    latitude:merchants.latitude,
+		    longitude:merchants.longitude,
+		    title: merchants.merchant_name,
+		    subtitle:merchants.mobile,
+		    image: "/images/sales-ad-loc_small.png",
+		    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
+		    myid:merchants.m_id // Custom property to uniquely identify this annotation.
+		});
+		$.locationView.mapview.region =  {latitude: merchants.latitude, longitude:merchants.longitude,
+		                    latitudeDelta:0.01, longitudeDelta:0.01};
+		merchantLoc.addEventListener('click', function(evt){
+		       var win = Alloy.createController("ad", {m_id: m_id, a_id: a_id}).getView(); 
+				COMMON.openWindow(win);
+		});
+		//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
+		$.locationView.mapview.addAnnotation(merchantLoc); 
+	}
 }
 
 $.locationView.button_direction.addEventListener("click", direction2here);
@@ -216,14 +221,14 @@ function direction2here(){
 	        Ti.API.info('error:' + JSON.stringify(e.error));
 	        return;
 	    } 
-	    var longitude = e.coords.longitude;
-	    var latitude = e.coords.latitude; 
-	 	 console.log('http://maps.google.com/maps?saddr='+latitude+','+longitude+'&daddr='+details.latitude+','+details.longitude);
+	    var longitudee = e.coords.longitude;
+	    var latitudee = e.coords.latitude; 
+	 	 console.log('http://maps.google.com/maps?saddr='+latitudee+','+longitudee+'&daddr='+details.latitude+','+details.longitude);
 	    var add2 =details.add2;
 		if(add2!= ""){
 			add2 = add2  +"\r\n";
 		} 
-		var url = 'geo:'+latitude+','+longitude+"?q="+details.clinicName+" (" + details.add1 + "\r\n"+ add2 +  details.postcode +", " + details.city +"\r\n"+  details.state + ")";
+		var url = 'geo:'+latitudee+','+longitudee+"?q="+details.clinicName+" (" + details.add1 + "\r\n"+ add2 +  details.postcode +", " + details.city +"\r\n"+  details.state + ")";
 		  if (Ti.Android){
 				try {
 				   	var waze_url = 'waze://?ll='+details.latitude+','+details.longitude+'&navigate=yes';
@@ -247,7 +252,7 @@ function direction2here(){
 				} 
 			}else{
 
-				Titanium.Platform.openURL('Maps://http://maps.google.com/maps?ie=UTF8&t=h&z=16&saddr='+latitude+','+longitude+'&daddr='+details.latitude+','+details.longitude);
+				Titanium.Platform.openURL('Maps://http://maps.google.com/maps?ie=UTF8&t=h&z=16&saddr='+latitudee+','+longitudee+'&daddr='+details.latitude+','+details.longitude);
 				
 	   	 	}
 				

@@ -9,8 +9,6 @@ var showBarcode = 1;
 
 var SCANNER = require("scanner");
 
-// Create a window to add the picker to and display it. 
-var window = SCANNER.createScannerWindow();
 
 //console.log("position : "+position);
 //load model 

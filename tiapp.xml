@@ -154,8 +154,8 @@
         <module platform="iphone">com.mirasense.scanditsdk</module>
         <module platform="iphone">analytics.google</module>
         <module platform="iphone">facebook</module>
+        <module platform="android" version="3.0.1">ti.map</module>
         <module platform="iphone">ti.map</module>
-        <module platform="android">ti.map</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>
