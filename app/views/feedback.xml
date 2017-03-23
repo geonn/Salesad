@@ -1,16 +1,16 @@
 <Alloy>
-	<Window id="win" title="Feedback & Support" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
+	<Window id="win" title="Help & Feedback" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
 		<LeftNavButton>
-	        <View id="btnBack" left="0"  width="30" height="45">
-	         	<Button left='0'  width="25" height="25" image="/images/btn-back.png" />
+	        <View id="btnBack" left="0"  width="30" height="30" height="45">
+	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
 			<View left="0" width="10%">
-		         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+		         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 		    </View>
 	     	<View id="pageTitle" width="70%">
-	     		<Label color="#ED1C24">Feedback & Support</Label>
+	     		<Label color="#ED1C24">Help & Feedback</Label>
 	     	</View>
 	 	</View>
 	 	<View class="wfill hfill vert" id="inner_box" top=20>

@@ -13,12 +13,21 @@ exports.checkAndUpdate = function(e){
 		panelList.addColumn("preview_url", "TEXT");
 		dbVersion = '1.1';
 	}
-	dbVersion = '1.1';
+	dbVersion = '1.2';
 	if (dbVersion == '1.1') {
 	  	var panelList = Alloy.createCollection('ads'); 
-		panelList.addColumn("express_date", "DATE");
+		panelList.addColumn("express_date", "TEXT");
 		panelList.addColumn("tnc", "TEXT");
 		dbVersion = '1.2';
+	}
+	
+	if(dbVersion == "1.2"){
+		var model = Alloy.createCollection('ads'); 
+		model.addColumn("sales_from", "TEXT");
+		model.addColumn("sales_to", "TEXT");
+		model.changeColumnType("express_date", "TEXT");
+		model.addColumn("featured_date", "TEXT");
+		dbVersion = '1.3';
 	}
 	Ti.App.Properties.setString("dbVersion", dbVersion);
 };

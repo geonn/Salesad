@@ -12,7 +12,8 @@
     <navbar-hidden>false</navbar-hidden>
     <statusbar-hidden>false</statusbar-hidden>
     <analytics>true</analytics>
-    <guid>254f579d-1452-4389-9ddd-9c270646c49f</guid>
+    <guid>d8bb687e-0a0f-43f8-9555-baca21a8b1c8</guid>
+    <property name="run-on-main-thread" type="bool">true</property>
     <property name="acs-oauth-secret-development" type="string">Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF</property>
     <!-- Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF-->
     <property name="acs-oauth-key-development" type="string">PkZ7J8IJ29OvM3gZdYiMDm2csn2LbFAc</property>
@@ -97,7 +98,7 @@
     </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <tool-api-level>16</tool-api-level>
-        <manifest android:versionCode="2" android:versionName="1.1.0.1001">
+        <manifest android:versionCode="3" android:versionName="1.1.0.1002">
             <application android:debuggable="false" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
                 <activity
                     android:configChanges="keyboardHidden|orientation"

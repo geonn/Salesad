@@ -2,7 +2,7 @@
 	<Window  backButtonTitle="" class="container" id="notification"  navTintColor="#ED1C24">
 		 <LeftNavButton>
 	        <View left="0">
-	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+	         	<Button left='0' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <Require type="view" src="_pushNotificationSettings" id="pushNotificationSettingsView"/> 

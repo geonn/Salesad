@@ -81,9 +81,11 @@ function popCategory(){
 }	
 	
 function refresh(){
+	anchor = COMMON.todayDateTime();
+	last_updated = COMMON.todayDateTime();
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById("11");
-	
+	console.log(isUpdate.updated+" isUpdate");
 	API.callByPost({
 		url: "getSXItem",
 		new: true,
@@ -95,6 +97,8 @@ function refresh(){
 			var arr = res.data || null;
 			console.log(arr);
 			ads_counter = 0, counter = 0, start=0;
+			var model = Alloy.createCollection("xpress");
+			model.saveArray(arr);
 			getPreviousData({});
 			render({clear:true});
 		},
@@ -180,6 +184,7 @@ init();
 
 var load = false;
 var lastDistance = 0;
+var refreshing = false;
 $.content_scrollview.addEventListener("scroll", function(e){
 	var theEnd = $.content.rect.height;
 	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
@@ -196,6 +201,15 @@ $.content_scrollview.addEventListener("scroll", function(e){
 		}
 	}
 	lastDistance = distance;
+	
+	if (e.y <= -50 && !refreshing) {
+		refreshing = true;
+		loading.start();
+		refresh();
+        console.log("refresh!");
+        setTimeout(function(){refreshing = false;loading.finish();}, 1000);
+        
+    }
 	//
 });
 

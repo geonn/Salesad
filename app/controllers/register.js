@@ -21,7 +21,13 @@ var goSignUp = function(){
 	}
 	isSubmit = 1;
 	//$.registerButton.hide();
-	
+	var tc_child = $.tc_area.getChildren();
+	var tc = tc_child[0].children[0].children[0].checked;
+	if(!tc){
+		alert("Please agree the terms and condition.");
+		loading.finish();
+		return;
+	}
 	var common = require('common');
 	var firstname 		 = $.firstname.value;
 	var lastname 		 = $.lastname.value;

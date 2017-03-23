@@ -4,9 +4,6 @@ var loading = Alloy.createController("loading");
 var data = [], daily_data = [], point_list=[];
 var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var SCANNER = require("scanner");
-var window = SCANNER.createScannerWindow();
-SCANNER.init(window); 
-
 if (OS_IOS){
 //iOS only module
 	

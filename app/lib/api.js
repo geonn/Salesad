@@ -391,6 +391,7 @@ exports.loadAPIBySequence = function (e){ //counter,
 	
 	var url = api['url'];
 	console.log(url);
+	console.log(params.last_updated);
 	API.callByPost({
 		url: url,
 		params: params

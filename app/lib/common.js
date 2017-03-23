@@ -11,6 +11,7 @@ exports.deconstruct = function(){
 function openWindow(win){
 	if(Ti.Platform.osname == "android"){
 	  	win.open(); //{fullscreen:false, navBarHidden: false}
+	  	Alloy.Globals.naviPath.push(win);
 	}else{ 
 		var nav = Alloy.Globals.navMenu;
 		nav.openWindow(win,{animated:true});  
@@ -21,7 +22,9 @@ function openWindow(win){
 //function closeWindow(win){
 exports.closeWindow = function(win){
 	if(Ti.Platform.osname == "android"){ 
+		console.log('a');
 	  	win.close(); 
+	  	console.log('b');
 	}else{ 
 		var nav = Alloy.Globals.navMenu;
 		nav.closeWindow(win,{animated:true});  
@@ -37,11 +40,12 @@ function removeAllChildren (viewObject){
     }
 };
 
-function createAlert (tt,msg, callback){
+function createAlert (tt,msg, callback, yes){
 	console.log('a');
+	var y = (typeof yes != "undefined")?yes:"ok";
 	var box = Titanium.UI.createAlertDialog({
 		title: tt,
-		ok: "Ok",
+		ok: y,
 		cancel: 1,
 		buttonNames: ['Ok','Cancel'],
 		message: msg
@@ -96,13 +100,12 @@ exports.sync_time = function(time){
 	var now = new Date();
 	var s = Date.parse(s_date.toUTCString());
 	var l = Date.parse(now.toUTCString());
-	 
+	
 	time_offset = s-l; 
 };
 
 exports.todayDateTime = function(){
-	var today = new Date();
-	today.setTime(today.getTime() + time_offset);
+	var today = new Date(Date.now()+time_offset);
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; 
 	var yyyy = today.getFullYear();
@@ -188,6 +191,7 @@ exports.createCheckbox = function(specs,checkboxspecs,image) {
 
     if(typeof checkboxspecs != "object")
         checkboxspecs = {};
+    checkboxspecs.id = "checkbox";
     checkboxspecs.width = checkboxspecs.width || 25;
     checkboxspecs.backgroundColor = checkboxspecs.unCheckedColor || "white";
     checkboxspecs.height = checkboxspecs.height || 25;

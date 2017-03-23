@@ -152,6 +152,8 @@ function buildListing(){
 			    scalesPageToFit: false,
 			    scrollsToTop: false,
 			    scalesPageToFit :true,
+			    a_id: ads[a].a_id,
+			  	m_id: ads[a].m_id,
 			    disableBounce: true,
 			    showScrollbars: false
 			});
@@ -163,6 +165,7 @@ function buildListing(){
 			  width : Ti.UI.FILL,
 			  name: ads[a].name,
 			  a_id: ads[a].a_id,
+			  m_id: ads[a].m_id,
 			  id: ads[a].id,
 			  height: Ti.UI.SIZE,//ads_height,
 			});
@@ -343,7 +346,8 @@ function buildListing(){
 		
 		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
-			 	goAd(e.source.a_id);
+				console.log(e.source.m_id+" e.source.m_id");
+			 	goAd(e.source.a_id, e.source.m_id);
 			});
 		}
 	}
@@ -426,15 +430,15 @@ function setCalendarEvent(e){
 //$.adsCategory.ads_listing.add(videoView);
 
 /** navigate to Ad **/
-var goAd = function(a_id){
+var goAd = function(a_id, m_id){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
 	clickTime = currentTime;
-	    
-	var win = Alloy.createController("ad", {a_id: a_id, from : "home"}).getView(); 
+	console.log(args.m_id+" args.m_id");
+	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "home"}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*

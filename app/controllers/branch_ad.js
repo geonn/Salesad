@@ -13,6 +13,14 @@ init();
 
 
 function init(){
+	var m_library = Alloy.createCollection('merchants');
+	var merchant = m_library.getMerchantsById(args.m_id);
+	if(OS_IOS){
+		$.win.title = merchant.merchant_name;
+	}else{
+		$.pageTitle.text = merchant.merchant_name;
+	}
+	
 	var win = Alloy.createController("_ad_listing", {m_id: args.m_id, type: "branch"}).getView(); 
 	$.content.add(win);
 }

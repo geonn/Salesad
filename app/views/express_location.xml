@@ -2,7 +2,7 @@
 	<Window title="Map Location" backButtonTitle="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45" onClick="closeWindow">
-	         	<Button left='0' width="25" height="25" image="/images/btn-back.png" />
+	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <RightNavButton>
@@ -12,8 +12,8 @@
         </RightNavButton>
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
-				<View left="0" width="10%">
-			         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+				<View left="0" width="10%" onClick="closeWindow">
+			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title">Map Location</Label>
@@ -25,8 +25,8 @@
 		 	<View bottom='0' class="hr"></View>
 		 	<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
 		 	<View id="mapview" module="ti.map">
-		 		<View class="wsize hsize box" top="10" left="10">
-		 			<Label class="wsize hsize padding h5">Hold and drag the market to pin location</Label>
+		 		<View class="wsize hsize box" top="10" left="10" zIndex="100">
+		 			<Label class="wsize hsize padding h5">Hold and drag the marker to pin location</Label>
 	 			</View>
 	            <!-- Starting with Alloy 1.4.0, use the Annotation tag to define an annotation -->
 	            <!-- Prior to Alloy 1.4.0, create annotations in the controller -->

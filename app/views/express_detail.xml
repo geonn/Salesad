@@ -1,14 +1,14 @@
 <Alloy>
 	<Window title="SalesXpress" backButtonTitle="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
-	        <View id="btnBack" left="0"  width="30" height="45">
-	         	<Button left='0' width="25" height="25" image="/images/btn-back.png" />
+	        <View id="btnBack" left="0"  width="30" height="30" height="45">
+	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
 				<View left="0" width="10%">
-			         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title"></Label>
@@ -41,6 +41,9 @@
 	 				<Label id="owner_name" class="bold h5 hsize wfill" ellipsize="true" wordWrap="false" ></Label>
 	 				<Label id="category" class="h5 hsize wfill" ellipsize="true" wordWrap="false"></Label>
  				</View>
+ 				<View class="wfill hsize">
+ 					<ImageView onClick="popMoreMenu" id="more" class="wsize hsize" top="10" bottom="10" right="0" image="/images/Icon_More_Grey.png" />
+				</View>
 	 		</View>
 	 	</View>
 	</Window>

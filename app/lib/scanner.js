@@ -48,7 +48,7 @@ exports.openScanner = function(scanType) {
 				});
 			} 
 			var barStr = 'sales'+barRes[0];
-			console.log(barRes[0]);
+			console.log(barRes[0]+" scanner mid");
 			checkReward(barRes[0]);
 			Ti.App.Properties.setString(barStr, currentDate);
 			Ti.App.fireEvent('afterScan', {m_id: barRes[0]});
@@ -70,6 +70,7 @@ exports.openScanner = function(scanType) {
 			}
 			console.log("here is type 4! dont get in");
 			setTimeout(function(ex){
+				console.log(barRes[0]+" barRes[0]");
 				var win = Alloy.createController("branch_ad", {m_id: barRes[0], from : "home"}).getView(); 
 				COMMON.openWindow(win);
 			}, 500);

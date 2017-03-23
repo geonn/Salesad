@@ -34,8 +34,8 @@ if(isFeed == 1){
 }
 
 function getScanMerchant(){
-	var expire = Ti.App.Properties.getString('sales'+ads.m_id) || "";
-	console.log('sales'+ads.m_id);
+	var expire = Ti.App.Properties.getString('sales'+args.target_m_id) || "";
+	console.log('sales'+args.target_m_id);
 	console.log(expire+" got or not");
 	if(expire != ""){
 		var currentDate = new Date();
@@ -52,14 +52,16 @@ function getScanMerchant(){
 		console.log(new_expire+" >= "+currentDate);
 		console.log(typeof new_expire);
 		if(expire != null && currentDate <= new_expire){
+			console.log("should be here!!!");
 			isScan = 1;
 		}else{
+			console.log("not here!!!");
 			isScan = 0;
 		}
 	}else{
 		isScan = 0;
 	}
-	console.log('sales'+ads.m_id);
+	console.log('sales'+args.target_m_id);
 	console.log(isScan+" why got value one");
 }
 
@@ -215,7 +217,7 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{m_id: m_id, a_id:a_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView(); 
+	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -227,7 +229,7 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 
  
 $.location.addEventListener('click', function(e){ 
-	var win = Alloy.createController("location",{m_id:m_id,a_id:a_id}).getView(); 
+	var win = Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView(); 
 	COMMON.openWindow(win); 
 });
 
@@ -312,6 +314,66 @@ function afterScan(e){
 	}
 }
 
+function popMoreMenu(){
+	var picker_list = [{text: 'Report This Ad'}];
+	var options = _.pluck(picker_list, "text");
+	options.push("Cancel");
+	var dialog = Ti.UI.createOptionDialog({
+	  cancel: options.length - 1,
+	  options: options,
+	  title: 'Report'
+	});
+	dialog.show();
+	dialog.addEventListener("click", function(ex){   
+		if(ex.index == 0){
+			popReport();
+		}
+	});
+}
+
+function popReport(){
+	var view = $.UI.create("View", {classes:['wfill','hsize','vert', 'padding', "rounded","box"], backgroundColor:"#ffffff"});
+	var label = $.UI.create("Label", {classes: ['wsize','hsize', 'padding', 'h4'], color: "#000000", text: "Report"});
+	var hr = $.UI.create("View", {classes:['hr'], backgroundColor:"#cccccc"});
+	var picker_list = [{title: 'This is not a SalesAd'}, {title: 'This Ad is seriously offensive (Sexually explicit, violent, dangerous, hate speech, harassment or bullying)'}, {title: 'This Ad contains incorrect or misleading information'}, {title: 'Others (Please specify)'},  {title:  'Cancel'}];
+	var arr = [];
+	for (var i=0; i < picker_list.length; i++) {
+		var row = $.UI.create("TableViewRow", {error_msg: picker_list[i].title});
+		var l = $.UI.create("Label", {classes:['wfill','hsize','padding'], text: picker_list[i].title});
+	  	row.add(l);
+	  	arr.push(row);
+	};
+	var table = $.UI.create("TableView", {
+	  classes:['wfill', "rounded", "hsize", "conthsize"],
+	  data: arr,
+	  zIndex: 50
+	});
+	view.add(label);
+	view.add(hr);
+	view.add(table);
+	$.win.add(view);
+	table.addEventListener("click", function(e){
+		if(e.index != arr.length - 1){
+			COMMON.createAlert("Confirmation", "Are you sure you want to report this Ad for the reason below? \n\n"+e.rowData.error_msg, function(){
+				submit_report({report_msg: e.rowData.error_msg});
+			}, "Yes");
+		}
+		$.win.remove(view);
+	});
+}
+
+function submit_report(e){
+	loading.start();
+	var report_msg = (typeof e.report_msg != "undefined")?e.report_msg:"";
+	API.callByPost({url: "submitReportAds", new:true, params:{u_id: u_id, remark: report_msg, category: 1, item_id: a_id}}, {onload: function(responseText){
+		var res = JSON.parse(responseText);
+		if(res.status == "success"){
+			alert("Report Submitted");
+		}
+		loading.finish();
+	}});
+}
+
 function closeWindow(){
 	COMMON.closeWindow($.win); 
 }
@@ -351,7 +413,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
     	 
 		if(Social.isActivityViewSupported()){ //min iOS6 required
 	    	Social.activityView({
-	        	//text: ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4",
+	        	//title: ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4",
 	        	text: ads.name + ". For more detail : http://salesad.my/main/adsDetails/"+args.a_id,
 	        	//url: "http://apple.co/1RtrCZ4",",
 	        
@@ -410,12 +472,17 @@ if (Titanium.Platform.name == 'iPhone OS'){
 
 $.home.addEventListener("click", function(e){
 	var naviPath = Alloy.Globals.naviPath;
+	console.log("naviPath here");
+	console.log(naviPath.length);
+	console.log(typeof naviPath+"naviPath here");
 	if(naviPath == ""){
 		
 		closeWindow();
 	}else{
 		
 		for (var i=0; i< naviPath.length; i++) { 
+			console.log(typeof naviPath[i]);
+			console.log(naviPath[i]);
 			COMMON.closeWindow(naviPath[i]);  
 		} 
 	}
@@ -441,14 +508,4 @@ function createShareOptions(){
     var share = Ti.Android.createIntentChooser(intent,'Share');
  
     return share;
-}
-
-var SCANNER = require("scanner");
-
-// Create a window to add the picker to and display it. 
-$.scanner.addEventListener('click', QrScan);
-	 
-//$.scanner.add(button);
-function QrScan(){
-	SCANNER.openScanner("1");
 }

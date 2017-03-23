@@ -7,6 +7,8 @@ function render_page(){
 }
 
 function init(){
+	var view_agreement_box = COMMON.CheckboxwithText("I accept the ","Terms of Service and Privacy Policy", {name: "agreets"},"tnc");
+	$.tc_area.add(view_agreement_box);
 	textarea_hintext();
 	$.win.add(loading.getView());
 }
@@ -32,6 +34,11 @@ function textarea_hintext(){
 	}
 }
 
+function hidesoftkeyboard(){
+	$.title.blur();
+	$.address.blur();
+}
+
 init();
 
 function doSubmit(){
@@ -40,7 +47,14 @@ function doSubmit(){
 	var error = "";
 	loading.start();
 	var alert_msg = "";
-	
+	var tc_child = $.tc_area.getChildren();
+	var tc = tc_child[0].children[0].children[0].checked;
+	console.log(tc_child);
+	if(!tc){
+		alert("Please agree the terms and condition.");
+		loading.finish();
+		return;
+	}
 	for (var a=0; a < forms_array.length; a++) {
 		if(typeof forms_array[a].require != "undefined" && forms_array[a].require){
 			if(typeof forms_array[a].model != "undefined"){
@@ -106,11 +120,13 @@ function doSubmit(){
 }
 
 function popMap(e){
+	hidesoftkeyboard();
 	var win = Alloy.createController("express_location").getView(); 
 	COMMON.openWindow(win);
 }
 
 function popDatePicker(e){
+	hidesoftkeyboard();
 	var source = parent({name: "master", value: "1"}, e.source);
 	var val_date = (typeof source.date != "undefined")?source.date:new Date();
 	var picker = $.UI.create("Picker", {
@@ -153,6 +169,7 @@ function popDatePicker(e){
 }
 
 function popDialogOption(e){
+	hidesoftkeyboard();
 	var source = parent({name: "master", value: "1"}, e.source);
 	eval("var model = Alloy.createCollection('"+source.model+"')");
 	var picker_list = model.getPickerList();

@@ -1,5 +1,5 @@
 <Alloy>
-	<ScrollView class="wfill hfill vert conthsize">
+	<View class="wfill hfill vert">
     <View bottom='0' class="hr"></View>
 	<View id="info" class="wfill hsize vert padding">
 		<Label id="name" class="h5 bold wfill hsize padding" bottom="0" textAlign="left"></Label>
@@ -8,7 +8,7 @@
 		<Button class="button" id="button_direction">Get Direction</Button>
 	</View>
 	<View id="mapview" height="220" module="ti.map" userLocation="true" />
-	<ListView id="listing" height="150" class="wfill hfill conthsize contwfill">
+	<ListView id="listing" class="wfill hfill conthsize contwfill">
 	</ListView>
-	</ScrollView>
+	</View>
 </Alloy>

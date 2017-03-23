@@ -16,6 +16,7 @@ function init(){
 }
 
 function doSave(){
+	console.log("doSave");
 	var encode = Titanium.Utils.base64encode($.cropped.toImage());
 	Ti.App.fireEvent("cropped_image", {image_callback: String(encode), abc: "asd"});
 	closeWindow();

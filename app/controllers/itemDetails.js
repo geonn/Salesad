@@ -15,6 +15,36 @@ var SCANNER = require("scanner");
 var i_library = Alloy.createCollection('items'); 
 
 var items  = i_library.getItemByAds(a_id);
+
+function getScanMerchant(){
+	console.log(m_id+" scanMerchant");
+	var expire = Ti.App.Properties.getString('sales'+m_id) || "";
+	console.log(expire+" got or not");
+	if(expire != ""){
+		var currentDate = new Date();
+		if(OS_ANDROID){
+			
+		}
+		var dat = expire.split(" ");
+		var d = dat[0].split("-");
+		var t = dat[1].split(":");
+		console.log(d);
+		console.log(t);
+		var new_expire = (OS_ANDROID)? new Date(expire): new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
+		//var new_expire = new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
+		console.log(new_expire+" >= "+currentDate);
+		console.log(typeof new_expire);
+		if(expire != null && currentDate <= new_expire){
+			console.log("should be here!!!");
+			isScan = 1;
+		}else{
+			console.log("not here!!!");
+			isScan = 0;
+		}
+	}else{
+		isScan = 0;
+	}
+}
  
 var getAdsImages = function(){
 	
@@ -119,7 +149,9 @@ function afterScan(e){
 		COMMON.openWindow(win);
 		Ti.App.removeEventListener('afterScan', afterScan);
 	}else{
+		getScanMerchant();
 		getAdsImages();
+		Ti.App.removeEventListener('afterScan', afterScan);
 	}
 }
 

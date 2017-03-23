@@ -2,13 +2,13 @@
 	<Window title="LOGIN" class="container" backButtonTitle="" id="login" barColor="#ED1C24" navTintColor="#FFFFFF">
 		<LeftNavButton>
 	        <View left="0">
-	         	<Button left='0' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+	         	<Button left='0' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <View height="95%">
 			<View id="main" layout="vertical" height="auto">
 				<View layout="vertical" id="loginScrollView" height="260" width="100%">
-					<ImageView  width='Ti.UI.FILL' image="/images/logo.png" id="loginLogo" width="150" />
+					<ImageView  width='Ti.UI.FILL' image="/DefaultIcons.png" id="loginLogo" width="150" />
 					<TextField backgroundColor="white" borderRadius="3" id="username" hintText="Enter Email" />
 					<TextField backgroundColor="white" borderRadius="3" id="password" hintText="Enter Password" />
 				</View>

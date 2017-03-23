@@ -11,11 +11,14 @@ exports.definition = {
 		    "img_path": "TEXT",
 		    "status" : "INTEGER",
 		    "branch": "TEXT",
+		    "sales_from":"TEXT",
+		    "sales_to":"TEXT",
+		    "featured_date":"TEXT",
 		    "active_date" : "TEXT",
 		    "expired_date" : "TEXT",
 		    "recommended": "INTEGER",	//1 - recommended, 2 - normal
 		    "created" : "TEXT",
-		    "express_date": "DATE",
+		    "express_date": "TEXT",
 		    "tnc": "TEXT",
 		    "updated" : "TEXT"
 		},
@@ -52,6 +55,25 @@ exports.definition = {
 				}  
 			 	if(!fieldExists) { 
 					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' ADD COLUMN '+newFieldName + ' ' + colSpec);
+				}
+				db.close();
+			},
+			changeColumnType : function( newFieldName, colSpec) {
+				var collection = this;
+				var db = Ti.Database.open(collection.config.adapter.db_name);
+				if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				var fieldExists = false;
+				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
+				while (resultSet.isValidRow()) {
+					if(resultSet.field(1)==newFieldName) {
+						fieldExists = true;
+					}
+					resultSet.next();
+				}  
+			 	if(fieldExists) { 
+					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' MODIFY COLUMN '+newFieldName + ' ' + colSpec);
 				}
 				db.close();
 			},

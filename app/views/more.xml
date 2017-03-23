@@ -1,57 +1,65 @@
 <Alloy>
 	<Window title="More" backButtonTitle="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
-	        <View id="btnBack" left="0"  width="30" height="45">
-	         	<Button left='0' width="25" height="25" image="/images/btn-back.png" />
+	        <View id="btnBack" left="0"  width="30" height="30" height="45">
+	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
+        <RightNavButton>
+	        <View id="button" left="0" class="wsize" height="45">
+	         	<Label color="#ED1C24" right="10">Logout</Label>
+	        </View>
+        </RightNavButton>
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
 				<View left="0" width="10%">
-			         	<ImageView left='10' id="btnBack" width="25" height="25" image="/images/btn-back.png" />
+			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title">More</Label>
 		     	</View>
+		     	<View id="button" right="0" class="wsize" height="45">
+		         	<Label class="wsize hsize" color="#ED1C24" right="10">Logout</Label>
+		        </View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
 		 	<TableView onClick="navTo">
 		 		<TableViewSection>
 		 			<TableViewRow target="reward" height="50">
 		 				<Label left="10" class="wsize hsize">My Rewards</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target='category'>
 		 				<Label left="10" class="wsize hsize">Categories</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="favourite">
 		 				<Label left="10" class="wsize hsize">Manage Favorites</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 		<TableViewSection headerTitle=" ">
 		 			<TableViewRow height="50" target="feedback">
 		 				<Label left="10" class="wsize hsize">Help & Feedback</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="profile">
 		 				<Label left="10" class="wsize hsize">My Profile</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="pushNotificationSettings">
 		 				<Label left="10" class="wsize hsize">Notifications</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 		<TableViewSection headerTitle=" ">
 		 			<TableViewRow height="50" target="about">
 		 				<Label left="10" class="wsize hsize">About</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="webview" url="http://salesad.my/advertise">
 		 				<Label left="10" class="wsize hsize">Advertise in SalesAd</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" right="10"></ImageView>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
 		 				<Label left="10" class="wsize hsize">Version</Label>

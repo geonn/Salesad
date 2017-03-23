@@ -64,7 +64,10 @@ function init(){
 }
 var tbl = $.UI.create("TableView", {classes:['wfill','hfill','conthsize','contwfill'], zIndex: 100});
 function render_search_list(){
-	
+	if(search_data.length <= 0){
+		alert("no result found");
+		return;
+	}
 	console.log(search_data.length);
 	for (var i=0; i < search_data.length; i++) {
 		var row = $.UI.create("TableViewRow", {classes:['vert'], backgroundColor:"#FFFFFF", record: search_data[i]});
