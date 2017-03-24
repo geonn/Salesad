@@ -12,22 +12,22 @@ if(Ti.Platform.osname == "android"){
 }else{
 	$.editProfile.titleControl = custom; 
 } 
-//$.editProfile.hintText = args.title;
-$.description.text  = "Edit your "+ args.module + " below:";
+//$.editProfileView.editProfile.hintText = args.title;
+$.editProfileView.description.text  = "Edit your "+ args.module + " below:";
 
 if(args.title == "Fullname"){
-	$.editField.value = args.fullname;
+	$.editProfileView.editField.value = args.fullname;
 }else{
-	$.editField.value = args.email;
+	$.editProfileView.editField.value = args.email;
 }
 
 
-function doSave(){ 
+var doSave = function (){  
 	/** User session**/
 	var session = Ti.App.Properties.getString('session');
 	
 	var field = args.module;
-	var value = $.editField.value;
+	var value = $.editProfileView.editField.value;
 	
 	var url = API.updateUserProfile +"&session="+session+"&field="+field+"&value="+value;
 
@@ -56,15 +56,19 @@ function doSave(){
 	 client.send(); 
 };
 
-function closeWindow() {
-	COMMON.closeWindow($.editProfile);
-}
-
+$.saveButton.addEventListener('click', doSave); 
 $.editProfile.addEventListener('open', function(e) {
-	$.editField.focus();
+	$.editProfileView.editField.focus();
 });
+
+$.btnBack.addEventListener('click', function(){  
+	COMMON.closeWindow($.editProfile); 
+}); 
 
 /** close all editProfile eventListener when close the page**/
 $.editProfile.addEventListener("close", function(){
 	$.destroy();
+    
+    /* release function memory */
+    doSave    = null;
 });

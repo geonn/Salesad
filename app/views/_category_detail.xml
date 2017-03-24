@@ -1,0 +1,9 @@
+<Alloy>
+ 	<View class="wfill hfill" id="container">
+		<View id="main" layout="vertical">
+			<View bottom='0' class="hr"></View>
+			<View id="category_banner" width="Ti.UI.FILL" height="Ti.UI.SIZE"></View>
+			<TableView id="category_tv" height="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></TableView>
+		</View>
+	</View>
+</Alloy>

@@ -1,0 +1,25 @@
+<Alloy>
+
+        <View bottom='0' class="hr"></View>
+        <View m_id="" a_id="" id="merchantView" class="merchantView" height="100" width="100%">
+        	<View id="merchantImageView" m_id="" a_id=""  top="5" left="5" >
+        		<ImageView id="merchantThumb" m_id="" a_id="" width="80" height="80" left="5" image="" />
+        	</View>
+		 	<View layout="vertical" class="wfill" right="30" top="15" height="100" >
+		 		<Label id="merchantName" m_id="" a_id="" text=""></Label>
+		 		<Label class="merchantInfo" m_id="" a_id="" id="merchantLocation" text="" >area, state</Label>
+		 		<Label class="merchantInfo" m_id="" a_id=""  id="merchantMobile" text="">mobile</Label>
+			</View>
+			<ImageView image="/images/sales-ad-loc.png" width="20" right="10"></ImageView>
+		</View>
+		
+		<View height="40" backgroundColor="#FCFBFB">
+			<Label id="branchLabel" >Branches</Label>
+			<View  height="1" width="100%" backgroundColor="#ccc" bottom="0" left="0" ></View>
+		</View>
+		
+		<View layout="vertical" class="branchesView">
+		 	<ScrollView id="branchesView" layout="horizontal" height="100%" width="100%" scrollType="vertical" /> 
+		</View>
+	 
+</Alloy>

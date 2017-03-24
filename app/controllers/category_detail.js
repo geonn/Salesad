@@ -24,7 +24,7 @@ var category_banner = Ti.UI.createImageView({
 	zIndex: 10,
 });
 
-$.category_banner.add(category_banner);
+$.categoryDetailsView.category_banner.add(category_banner);
 
 if(Ti.Platform.osname == "android"){ 
 	$.pageTitle.add(custom);  
@@ -79,7 +79,7 @@ var createGridListing = function(res){
  	var last = details.length-1;
    	var tableData = [];
    	//hide loading bar
-   	$.category_tv.removeAllChildren();
+   	$.categoryDetailsView.category_tv.removeAllChildren();
    	
    	if(details.length < 1){
    		var noRecord = $.UI.create("Label", { 
@@ -90,7 +90,7 @@ var createGridListing = function(res){
 		    top: 15,
 		    width: Ti.UI.SIZE 
 		 });
-		$.category_tv.add(noRecord);
+		$.categoryDetailsView.category_tv.add(noRecord);
    	}else{
    		 
    		for(var i=0; i< details.length; i++) {
@@ -100,12 +100,12 @@ var createGridListing = function(res){
 	   		//console.log(info);
 	   		
 	   			 
-		   		var row = $.UI.create("TableViewRow",{
+		   		var row = $.categoryDetailsView.UI.create("TableViewRow",{
 		   			height: Ti.UI.SIZE,
 		   			width: Ti.UI.FILL,
 		   			backgroundSelectedColor: "#FFE1E1",
 		   		});
-		   		var view  = $.UI.create("View",{
+		   		var view  = $.categoryDetailsView.UI.create("View",{
 		   			//layout: "horizontal",
 		   			width: Ti.UI.FILL,
 		   			height: Ti.UI.SIZE,
@@ -131,7 +131,7 @@ var createGridListing = function(res){
 				
 				var mn =details[i].merchant_name;
 				mn = mn.replace(/&quot;/g, "'"); 
-		   		var category_label = $.UI.create("Label",{
+		   		var category_label = $.categoryDetailsView.UI.create("Label",{
 		   			height: Ti.UI.SIZE,
 		   			text: mn,
 		   			left: 70,
@@ -145,7 +145,7 @@ var createGridListing = function(res){
 		   		createAdImageEvent(row, m_id);
 				tableData.push(row);
 			}
-	     $.category_tv.setData(tableData);
+	     $.categoryDetailsView.category_tv.setData(tableData);
    	}
    	loading.finish();
 };
@@ -154,7 +154,7 @@ var createGridListing = function(res){
 /************************
 *******APP RUNNING*******
 *************************/
-$.container.add(loading.getView());
+$.categoryDetailsView.container.add(loading.getView());
 loading.start();
 API.getMerchantListByCategory(cate_id, createGridListing);
 
@@ -165,16 +165,16 @@ API.getMerchantListByCategory(cate_id, createGridListing);
 
 //Ti.App.addEventListener('app:category_detailCreateGridListing', createGridListing);
 
-function closeWindow() {
-	COMMON.closeWindow($.category_details);
-}
+$.btnBack.addEventListener('click', function(){ 
+	COMMON.closeWindow($.category_details); 
+}); 
 
 //release memory when close
 $.category_details.addEventListener("close", function(){
-    $.destroy();
+    $.categoryDetailsView.destroy();
     //Ti.App.removeEventListener('app:category_detailCreateGridListing', createGridListing);
     /* release function memory */
     createGridListing = null;
     goAd =null;
-    goBranch = null;
+    goBranch = null;  
 });

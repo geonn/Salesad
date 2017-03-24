@@ -1,0 +1,10 @@
+<Alloy>
+	<Window title="" class="container"  id="category" backButtonTitle="" navTintColor="#ED1C24">
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="30" height="45">
+	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <Require type="view" src="_category" id="categoryView"/> 
+	</Window>
+</Alloy>

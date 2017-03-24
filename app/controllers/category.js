@@ -34,7 +34,7 @@ var createCustomView = function(title) {
     view.add(line);
     view.add(text);
     view.add(line);
-    $.headerView.add(view);
+    $.categoryView.headerView.add(view);
 };
 
 function addClickEvent(table){
@@ -79,7 +79,7 @@ function generateMyProfileTable(RegArr){
 			left:10 
 		});	
 		
-		var title = $.UI.create('Label', {
+		var title = $.categoryView.UI.create('Label', {
 			text: RegArr[j].title,
 			classes: [fontSizeClasses],
 			color: "#88919D",
@@ -103,7 +103,7 @@ function generateMyProfileTable(RegArr){
 	
 	RegTable.setData(regData);
 	addRegClickEvent(RegTable);
-	$.table1Container.add(RegTable); 
+	$.categoryView.table1Container.add(RegTable); 
 }
  
 function generateCategoryTable(details){
@@ -132,7 +132,7 @@ function generateCategoryTable(details){
 			left:10 
 		});	
 		
-		var category_name = $.UI.create('Label', {
+		var category_name = $.categoryView.UI.create('Label', {
 			text: details[i].categoryName , 
 			id: details[i].id,
 			classes: [fontSizeClasses],
@@ -158,7 +158,7 @@ function generateCategoryTable(details){
 	TheTable.setData(data);
 	addClickEvent(TheTable);
 	
-	$.table2Container.add(TheTable); 
+	$.categoryView.table2Container.add(TheTable); 
 }
 
 /************************
@@ -178,7 +178,7 @@ var custom = $.UI.create("Label", {
 
 if(Ti.Platform.osname == "android"){ 
 	$.pageTitle.add(custom);   
-	//$.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
+	//$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
 }else{
 	$.category.titleControl = custom;
 } 
@@ -221,38 +221,38 @@ function addRegClickEvent(table){
 	});
 }
 
-$.searchItem.addEventListener('focus', function f(e){
-	$.searchItem.showCancel =  true; 
+$.categoryView.searchItem.addEventListener('focus', function f(e){
+	$.categoryView.searchItem.showCancel =  true; 
 	if(Ti.Platform.osname == "android"){
-		$.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS;
+		$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_SHOW_ON_FOCUS;
 	}
-	//$.searchContainer.opacity = 1;
-	//$.searchContainer.height = "auto";
-	//$.searchItem.blur();
-	$.searchItem.removeEventListener('focus', f);
+	//$.categoryView.searchContainer.opacity = 1;
+	//$.categoryView.searchContainer.height = "auto";
+	//$.categoryView.searchItem.blur();
+	$.categoryView.searchItem.removeEventListener('focus', f);
 });
 
-$.searchItem.addEventListener('blur', function(e){
-	$.searchItem.showCancel =  false;
+$.categoryView.searchItem.addEventListener('blur', function(e){
+	$.categoryView.searchItem.showCancel =  false;
 });
 
-$.searchItem.addEventListener('cancel', function(e){
-	$.searchItem.blur();
-	$.searchContainer.removeAllChildren();
-	$.searchContainer.opacity = 0;
-	$.searchContainer.height = 0;
+$.categoryView.searchItem.addEventListener('cancel', function(e){
+	$.categoryView.searchItem.blur();
+	$.categoryView.searchContainer.removeAllChildren();
+	$.categoryView.searchContainer.opacity = 0;
+	$.categoryView.searchContainer.height = 0;
 });
 
 var searchResult = function(){
 	
-	$.activityIndicator.show();
-	$.loadingBar.opacity = "1";
-	$.loadingBar.height = "120";
-	$.loadingBar.top = "100";
-	$.searchItem.blur();
-	var str = $.searchItem.getValue(); 
-	$.searchContainer.opacity = 1;
-	$.searchContainer.height = "auto";
+	$.categoryView.activityIndicator.show();
+	$.categoryView.loadingBar.opacity = "1";
+	$.categoryView.loadingBar.height = "120";
+	$.categoryView.loadingBar.top = "100";
+	$.categoryView.searchItem.blur();
+	var str = $.categoryView.searchItem.getValue(); 
+	$.categoryView.searchContainer.opacity = 1;
+	$.categoryView.searchContainer.height = "auto";
 	API.searchAdsItems(str);		
 };
 
@@ -277,11 +277,11 @@ var searchRes = function(res){
 	var arr = res.result;
 	console.log(arr);
 	//hide loading bar
-	$.loadingBar.height = "0";
-	$.loadingBar.top = "0";
-	$.loadingBar.opacity = "0";
+	$.categoryView.loadingBar.height = "0";
+	$.categoryView.loadingBar.top = "0";
+	$.categoryView.loadingBar.opacity = "0";
 	if(arr.length < 1){
-		$.searchContainer.removeAllChildren();
+		$.categoryView.searchContainer.removeAllChildren();
 		var noRecord = $.UI.create("Label", { 
 		    text: "No record found", 
 		    color: '#ED1C24', 
@@ -290,7 +290,7 @@ var searchRes = function(res){
 		    top: 15,
 		    width: Ti.UI.SIZE 
 		 });
-		$.searchContainer.add(noRecord);
+		$.categoryView.searchContainer.add(noRecord);
 	}else{
 
 		var TheTable = Titanium.UI.createTableView({
@@ -364,39 +364,39 @@ var searchRes = function(res){
 		});
 		
 		TheTable.setData(data);
-		$.searchContainer.add(TheTable);
-		$.searchContainer.height = "auto";
+		$.categoryView.searchContainer.add(TheTable);
+		$.categoryView.searchContainer.height = "auto";
 	}
 };
 
-$.searchItem.addEventListener("return", searchResult);
+$.categoryView.searchItem.addEventListener("return", searchResult);
 
-$.searchContainer.addEventListener('click',function(e){
-	$.searchItem.blur();
-	$.searchContainer.removeAllChildren();
-	$.searchContainer.opacity = 0;
-	$.searchContainer.height = 0;
+$.categoryView.searchContainer.addEventListener('click',function(e){
+	$.categoryView.searchItem.blur();
+	$.categoryView.searchContainer.removeAllChildren();
+	$.categoryView.searchContainer.opacity = 0;
+	$.categoryView.searchContainer.height = 0;
 });
 
-function closeWindow() {
-	COMMON.closeWindow($.category);
-}
+$.btnBack.addEventListener('click', function(){  
+	COMMON.closeWindow($.category); 
+}); 
 
 setTimeout(function(){
 	if(Ti.Platform.osname == "android"){  
 		Ti.UI.Android.hideSoftKeyboard();  
-		$.searchItem.blur();
-		$.searchItem.hide();
-        $.searchItem.show();
+		$.categoryView.searchItem.blur();
+		$.categoryView.searchItem.hide();
+        $.categoryView.searchItem.show();
         if(Ti.Platform.osname == "android"){
-			$.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
+			$.categoryView.searchItem.softKeyboardOnFocus = Ti.UI.Android.SOFT_KEYBOARD_HIDE_ON_FOCUS;
 		}
 	}
 },100);
  
 $.category.addEventListener("close", function(){
 	
-    $.destroy();
+    $.categoryView.destroy();
     Ti.App.removeEventListener('app:searchRes', searchRes);
 	Ti.App.removeEventListener('app:fontReset', fontReset);
     /* release function memory */

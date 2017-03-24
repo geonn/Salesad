@@ -103,7 +103,7 @@ function buildListing(){
 	}
 	if(ads.length <= 0){
 		activityIndicator.hide();
-		$.ads_listing.remove(activityIndicator);
+		$.adsCategory.ads_listing.remove(activityIndicator);
 		return;	
 	}
 	ads_counter += 3;
@@ -325,11 +325,11 @@ function buildListing(){
 		view_ad.add(view_buttonBar);
 		
 		tbr.add(view_ad);
-		$.ads_listing.appendRow(tbr);
+		$.adsCategory.ads_listing.appendRow(tbr);
 		
 		bannerImage.addEventListener('load', function(e){
 			activityIndicator.hide();
-			$.ads_listing.remove(activityIndicator);
+			$.adsCategory.ads_listing.remove(activityIndicator);
 		});
 		
 		setTimeout(function(e){
@@ -349,7 +349,7 @@ function buildListing(){
 	}
 	setTimeout(function(e){
 		activityIndicator.hide();
-		$.ads_listing.remove(activityIndicator);
+		$.adsCategory.ads_listing.remove(activityIndicator);
 		loading = false;
 	}, 1000);
 	
@@ -428,7 +428,7 @@ function setCalendarEvent(e){
 	}
 }
 
-//$.ads_listing.add(videoView);
+//$.adsCategory.ads_listing.add(videoView);
 
 /** navigate to Ad **/
 var goAd = function(a_id){
@@ -454,7 +454,7 @@ var dummy = $.UI.create("View",{
 	backgroundColor: "#F1F1F2",
 });
 
-$.ads_listing.add(dummy);
+$.adsCategory.ads_listing.add(dummy);
 buildListing();
 render_header();
 
@@ -488,7 +488,7 @@ function render_header(){
  * */
 
 var lastDistance = 0;
-$.ads_listing.addEventListener("scroll", function(e){
+$.adsCategory.ads_listing.addEventListener("scroll", function(e){
 	if(Ti.Platform.osname == 'iphone'){
 		var offset = e.contentOffset.y;
 		var height = e.size.height;
@@ -522,6 +522,6 @@ $.adsCategoryWin.addEventListener("close", function(e){
 	}});
 });
 
-function closeWindow() {
-	COMMON.closeWindow($.adsCategoryWin);
-}
+$.btnBack.addEventListener('touchend', function(){ 
+	COMMON.closeWindow($.adsCategoryWin);  
+}); 

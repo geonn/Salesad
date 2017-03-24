@@ -1,0 +1,11 @@
+<Alloy>
+	<Window title="" class="container" id="favouriteState" backButtonTitle="" navTintColor="#ED1C24">
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <Require type="view" src="_favouriteState" id="favouriteStateView"/> 
+	</Window>
+</Alloy>
+
