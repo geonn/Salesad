@@ -70,9 +70,9 @@ function setCurrentValue(){
 
 setCurrentValue();
 $.textSizeSettingView.slider.addEventListener('change',updateLabel);
-$.btnBack.addEventListener('click', function(){  
+function closeWindow(){
 	COMMON.closeWindow($.textSizeSetting); 
-}); 
+} 
 
 $.textSizeSetting.addEventListener("close", function(){
 	Ti.App.fireEvent('app:fontReset');

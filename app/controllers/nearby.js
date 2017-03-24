@@ -37,7 +37,7 @@ if (Ti.Geolocation.locationServicesEnabled) {
 function centerMap(e){
 	var lat = Ti.App.Properties.getString('latitude');
 	var lot = Ti.App.Properties.getString('longitude');
-	$.locationView.mapview.region =  {latitude: lat, longitude:lot, latitudeDelta:0.005, longitudeDelta:0.005};
+	$.mapview.region =  {latitude: lat, longitude:lot, latitudeDelta:0.005, longitudeDelta:0.005};
 	Ti.Geolocation.removeEventListener('location', centerMap);
 }
 
@@ -76,17 +76,17 @@ function render_map(){
 			//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]); 
 			console.log("entry latitude"+entry.latitude);  
 			if(entry.latitude != ""){
-				$.locationView.mapview.addAnnotation(merchantLoc); 
+				$.mapview.addAnnotation(merchantLoc); 
 			}
 		});
 		var lat = Ti.App.Properties.getString('latitude');
 		var lot = Ti.App.Properties.getString('longitude');
-		$.locationView.mapview.region =  {latitude: lat, longitude:lot,
+		$.mapview.region =  {latitude: lat, longitude:lot,
 		                    latitudeDelta:0.05, longitudeDelta:0.05};
 	} 
 }
 
-$.locationView.mapview.addEventListener('click', function(evt) {
+$.mapview.addEventListener('click', function(evt) {
     console.log("Clicked " + evt.clicksource + " on " + evt.latitude + "," + evt.longitude);
 });
 
@@ -96,6 +96,6 @@ $.location.addEventListener("close", function(){
 });
 
  //console.log(name);
-$.btnBack.addEventListener('click', function(){ 
+function closeWindow(){
 	COMMON.closeWindow($.location); 
-}); 
+}
