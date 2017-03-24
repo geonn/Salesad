@@ -1,5 +1,0 @@
-<Alloy> 
-        <View bottom='0' class="hr"></View>
-		<View id="main" layout="vertical" /> 
-</Alloy>
-

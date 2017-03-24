@@ -58,25 +58,6 @@ exports.definition = {
 				}
 				db.close();
 			},
-			changeColumnType : function( newFieldName, colSpec) {
-				var collection = this;
-				var db = Ti.Database.open(collection.config.adapter.db_name);
-				if(Ti.Platform.osname != "android"){
-                	db.file.setRemoteBackup(false);
-                }
-				var fieldExists = false;
-				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
-				while (resultSet.isValidRow()) {
-					if(resultSet.field(1)==newFieldName) {
-						fieldExists = true;
-					}
-					resultSet.next();
-				}  
-			 	if(fieldExists) { 
-					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' MODIFY COLUMN '+newFieldName + ' ' + colSpec);
-				}
-				db.close();
-			},
 			getData: function(unlimit){
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;

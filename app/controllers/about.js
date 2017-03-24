@@ -13,6 +13,11 @@ if(Ti.Platform.osname == "android"){
 }else{
 	$.description.titleControl = custom; 
 } 
-$.btnBack.addEventListener('click', function(){  
+
+function closeWindow(){
 	COMMON.closeWindow($.description); 
-}); 
+}
+
+$.description.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.description); 
+});
