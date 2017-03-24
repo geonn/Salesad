@@ -142,10 +142,9 @@ var fontReset = function(){
 	$.settingView.settingTable.removeAllChildren();
 	generateSettingTable();
 };
-
-$.btnBack.addEventListener('click', function(){ 
+function closeWindow(){
 	COMMON.closeWindow($.setting); 
-}); 
+}
 
 Ti.App.addEventListener('app:fontReset', fontReset);
 /* App Running */

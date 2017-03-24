@@ -468,9 +468,9 @@ var switch_position = function(cell, e){
 	
 };
 
-$.btnBack.addEventListener('click', function(){ 
+function closeWindow(){
 	COMMON.closeWindow($.custom); 
-}); 
+} 
 
 /* App Running */
 //createGridListing();

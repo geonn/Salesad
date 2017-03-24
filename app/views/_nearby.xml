@@ -1,4 +1,0 @@
-<Alloy>
-    <View bottom='0' class="hr"></View>
-	<View id="mapview" module="ti.map" userLocation="true" />
-</Alloy>

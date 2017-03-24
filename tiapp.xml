@@ -12,7 +12,7 @@
     <navbar-hidden>false</navbar-hidden>
     <statusbar-hidden>false</statusbar-hidden>
     <analytics>true</analytics>
-    <guid>d8bb687e-0a0f-43f8-9555-baca21a8b1c8</guid>
+    <guid>62ae9f06-13cf-424e-9ccc-283ca9cee18d</guid>
     <property name="run-on-main-thread" type="bool">true</property>
     <property name="acs-oauth-secret-development" type="string">Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF</property>
     <!-- Sac75YaY9x7OcI5lBI4aHLv6w8KWS7SF-->
@@ -165,7 +165,7 @@
         <target device="iphone">true</target>
         <target device="mobileweb">true</target>
     </deployment-targets>
-    <sdk-version>6.0.1.GA</sdk-version>
+    <sdk-version>6.0.2.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
