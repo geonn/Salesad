@@ -1,6 +1,0 @@
-<Alloy>
-	<View bottom='0' class="hr"></View>
-	<View id="favTableView" height="auto" /> 
-	<TableView separatorColor="transparent" minRowHeight="50" id="category_tv" width="Ti.UI.FILL" backgroundColor="#EDEDED" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE" />
-	<!--<TableView id="category_tv" moving="true"></TableView>-->
-</Alloy>

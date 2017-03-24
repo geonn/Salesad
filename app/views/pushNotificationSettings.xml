@@ -1,5 +1,18 @@
 <Alloy>
-	 
+	<Window  backButtonTitle="" class="container" id="notification"  navTintColor="#ED1C24">
+		<View layout="horizontal" height="50" width="100%" platform="android">
+			<View left="0" width="10%">
+		         	<ImageView left='10' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" />
+		    </View>
+	     	<View id="pageTitle" width="70%" />
+		    
+	 	</View>
+		 <LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+
         <View bottom='0' class="hr"></View>
 		<View id="main" layout="vertical" height="95%">
 			<View class="line" top="50" />
@@ -16,4 +29,5 @@
 	       <Label class="label" top="5">Recommendation : ON</Label>
 	    	
 		</View>
+	</Window>
 </Alloy>

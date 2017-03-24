@@ -29,9 +29,9 @@ if(isNotificationFeatured != "1"){
 	$.pushNotificationSettingsView.notiSwitch_featured.value = false;
 }
 
-$.btnBack.addEventListener('click', function(){  
+function closeWindow(){
 	COMMON.closeWindow($.notification); 
-}); 
+}
 
 var changeStatus = function(e){
 	

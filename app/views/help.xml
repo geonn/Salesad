@@ -1,5 +1,18 @@
 <Alloy>
-	 
+	 <Window class="container" id="help" backButtonTitle="" navTintColor="#ED1C24">
+	 	<View layout="horizontal" height="50" width="100%" platform="android">
+			<View left="0" width="10%">
+		         	<ImageView left='10' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" />
+		    </View>
+	     	<View id="pageTitle" width="70%" />
+		    
+	 	</View>
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+	
         <View bottom='0' class="hr"></View>
 		<ScrollView id="main" layout="vertical" scrollType="vertical">
 			<Label class="title_header" bottom="5">Description</Label>
@@ -13,5 +26,6 @@
 			<Label class="description_content" bottom="3">- Register as member and be the first to know the best sales in your city or great deals near you</Label>	
 			<Label class="description_content" bottom="3">- As member, you will also received with your ID barcode to earn rewards points every time you purchase</Label>	
 				
-		</ScrollView> 
+		</ScrollView>
+		</Window>
 </Alloy>
