@@ -1,0 +1,29 @@
+<Alloy>
+	<Window title="" backButtonTitle="" class="container" id="location" navTintColor="#ED1C24">
+		<View layout="horizontal" height="50" width="100%" platform="android">
+			<View left="0" width="10%">
+		         	<ImageView left='10' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" />
+		    </View>
+	     	<View width="80%">
+	     		<Label id="pageTitle" color="#ED1C24"></Label>
+	     	</View>
+	 	</View>
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+	<View class="wfill hfill vert">
+    <View bottom='0' class="hr"></View>
+	<View id="info" class="wfill hsize vert padding">
+		<Label id="name" class="h5 bold wfill hsize padding" bottom="0" textAlign="left"></Label>
+		<Label id="address" class="h5 wfill hsize padding" textAlign="left"></Label>
+		<Label id="mobile" class="h5 wfill hsize padding" textAlign="left"></Label>
+		<Button class="button" id="button_direction">Get Direction</Button>
+	</View>
+	<View id="mapview" height="220" module="ti.map" userLocation="true" />
+	<ListView id="listing" class="wfill hfill conthsize contwfill">
+	</ListView>
+	</View>
+	</Window>
+</Alloy>

@@ -66,13 +66,13 @@ function render_also_available(data){
 	};
 	var fishSection = Ti.UI.createListSection({ headerTitle: 'Also Available At:'});
 	fishSection.setItems(dat);
-	$.locationView.listing.appendSection(fishSection);
+	$.listing.appendSection(fishSection);
 }
 
  //console.log(name);
-$.btnBack.addEventListener('click', function(){ 
+function closeWindow(){
 	COMMON.closeWindow($.location); 
-}); 
+}
 
 function setCustomTitle(title){
 	console.log(title+" set custom title");
@@ -141,7 +141,7 @@ function render_map(){
 			    myid:i // Custom property to uniquely identify this annotation.
 			});
 			            
-			$.locationView.mapview.addAnnotation(merchantLoc); 
+			$.mapview.addAnnotation(merchantLoc); 
 		//}
 	}
 	setCurrentLocation();
@@ -149,7 +149,7 @@ function render_map(){
 
 function switchLocation(e){
 	if(typeof e.sectionIndex != "undefined"){
-		var section = $.locationView.listing.sections[e.sectionIndex];
+		var section = $.listing.sections[e.sectionIndex];
 		// get the clicked item from that section
 		var item = section.getItemAt(e.itemIndex);
 		m_id = item.properties.m_id;
@@ -175,11 +175,11 @@ function setCurrentLocation(){
 	}
 	console.log(m_id+" here m_id");
 	console.log(cur);
-	$.locationView.mapview.region = {latitude: cur.latitude, longitude: cur.longitude, latitudeDelta:0.01, longitudeDelta:0.01};
+	$.mapview.region = {latitude: cur.latitude, longitude: cur.longitude, latitudeDelta:0.01, longitudeDelta:0.01};
 	setCustomTitle(cur.name);
-	$.locationView.name.text = cur.name;
-	$.locationView.address.text = cur.address;
-	$.locationView.mobile.text = cur.mobile;
+	$.name.text = cur.name;
+	$.address.text = cur.address;
+	$.mobile.text = cur.mobile;
 }
 
 function render_marker(){
@@ -196,18 +196,18 @@ function render_marker(){
 		    pincolor:Alloy.Globals.Map.ANNOTATION_RED,
 		    myid:merchants.m_id // Custom property to uniquely identify this annotation.
 		});
-		$.locationView.mapview.region =  {latitude: merchants.latitude, longitude:merchants.longitude,
+		$.mapview.region =  {latitude: merchants.latitude, longitude:merchants.longitude,
 		                    latitudeDelta:0.01, longitudeDelta:0.01};
 		merchantLoc.addEventListener('click', function(evt){
 		       var win = Alloy.createController("ad", {target_m_id: m_id, a_id: a_id}).getView(); 
 				COMMON.openWindow(win);
 		});
 		//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
-		$.locationView.mapview.addAnnotation(merchantLoc); 
+		$.mapview.addAnnotation(merchantLoc); 
 	}
 }
 
-$.locationView.button_direction.addEventListener("click", direction2here);
+$.button_direction.addEventListener("click", direction2here);
 
 function direction2here(){
 	 
@@ -282,7 +282,7 @@ var countDistanceByKM = function(lat1,lon1,lat2,lon2) {
     return d;
 };
 
-$.locationView.listing.addEventListener("itemclick", switchLocation);
+$.listing.addEventListener("itemclick", switchLocation);
 
 $.location.addEventListener("close", function(){
     $.destroy();

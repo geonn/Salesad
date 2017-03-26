@@ -13,6 +13,6 @@ if(Ti.Platform.osname == "android"){
 	$.help.titleControl = custom;
 }    
 
-$.btnBack.addEventListener('click', function(){ 
-	COMMON.closeWindow($.help); 
-}); 
+function closeWindow(){
+	COMMON.closeWindow($.help);
+}
