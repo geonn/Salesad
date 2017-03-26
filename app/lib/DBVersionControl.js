@@ -25,7 +25,6 @@ exports.checkAndUpdate = function(e){
 		var model = Alloy.createCollection('ads'); 
 		model.addColumn("sales_from", "TEXT");
 		model.addColumn("sales_to", "TEXT");
-		model.changeColumnType("express_date", "TEXT");
 		model.addColumn("featured_date", "TEXT");
 		dbVersion = '1.3';
 		last_update_on = false;
