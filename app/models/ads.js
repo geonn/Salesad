@@ -102,6 +102,8 @@ exports.definition = {
 					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName("latitude"),
+					    sales_from: res.fieldByName("sales_from"),
+					    sales_to: res.fieldByName("sales_to"),
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),
@@ -147,6 +149,8 @@ exports.definition = {
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),
+					    sales_from: res.fieldByName("sales_from"),
+					    sales_to: res.fieldByName("sales_to"),
 					    expired_date: res.fieldByName('expired_date'),
 					    express_date: res.fieldByName('express_date'),
 					    updated: res.fieldByName('updated'),
@@ -224,6 +228,8 @@ exports.definition = {
 					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName("latitude"),
+					    sales_from: res.fieldByName("sales_from"),
+					    sales_to: res.fieldByName("sales_to"),
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),
@@ -264,6 +270,8 @@ exports.definition = {
 					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName("latitude"),
+					    sales_from: res.fieldByName("sales_from"),
+					    sales_to: res.fieldByName("sales_to"),
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    branch: res.fieldByName("branch"),
@@ -364,6 +372,8 @@ exports.definition = {
 					    app_background: res.fieldByName('app_background'),
 					    youtube: res.fieldByName('youtube'),
 					    branch: res.fieldByName('branch'),
+					    sales_from: res.fieldByName("sales_from"),
+					    sales_to: res.fieldByName("sales_to"),
 					    description: res.fieldByName('description'),
 					    template_id: res.fieldByName('template_id'),
 					    img_path: res.fieldByName('img_path')
@@ -421,10 +431,8 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc);
-					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET m_id=?, app_background=?,name=?,youtube=?,template_id=?,description=?,img_path=?,status=?,active_date=?,expired_date=?,created=?,updated=?, recommended=?, branch=?, express_date=?, tnc=? WHERE a_id=?";
-					db.execute(sql_query, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.a_id);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc, sales_to, sales_from) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.sales_to, entry.sales_from);
 				});
 				db.execute("COMMIT");
 	            db.close();

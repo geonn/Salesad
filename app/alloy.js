@@ -19,7 +19,7 @@ var API = require('api');
 var COMMON = require('common'); 
 var DBVersionControl = require('DBVersionControl');
 DBVersionControl.checkAndUpdate();
-
+var last_update_on = true;
 var isNotification = Ti.App.Properties.getString('notification'); 
 if(isNotification === null){
 	Ti.App.Properties.setString('notification', "1");

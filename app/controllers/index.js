@@ -111,6 +111,7 @@ function buildCateogryList(e){
 		
 		var pad_categoryLabel = $.indexView.UI.create('View', {top:0, width: Ti.UI.FILL, height:Ti.UI.SIZE, backgroundImage:  "/images/transparent-bg.png", zIndex: 10});
 		var categoryLabel = $.UI.create("Label", {
+			classes:['bold'],
 			text: category_list[i].categoryName,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,

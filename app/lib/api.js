@@ -385,7 +385,7 @@ exports.loadAPIBySequence = function (e){ //counter,
 	var isUpdate = checker.getCheckerById(api['checkId']);
 	var params ="";
 	
-	if(isUpdate != "" ){
+	if(isUpdate != "" && last_update_on){
 		params = {last_updated: isUpdate.updated};
 	}
 	

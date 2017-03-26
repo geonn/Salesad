@@ -87,6 +87,8 @@ exports.definition = {
 					    ads_name: res.fieldByName('name').replace(/&quot;/g, "'"),
 					    active_date: res.fieldByName('active_date'),
 					    youtube: res.fieldByName('youtube'),
+					    sales_from: res.fieldByName("sales_from"),
+					    sales_to: res.fieldByName("sales_to"),
 					    expired_date: res.fieldByName('expired_date'),
 					    updated: res.fieldByName('updated'),
 					    //updated: res.field(1),

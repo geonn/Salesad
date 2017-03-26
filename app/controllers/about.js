@@ -16,3 +16,7 @@ if(Ti.Platform.osname == "android"){
 $.btnBack.addEventListener('click', function(){  
 	COMMON.closeWindow($.description); 
 }); 
+
+$.description.addEventListener('android:back', function (e) {
+	COMMON.closeWindow($.description); 
+});

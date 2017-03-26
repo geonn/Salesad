@@ -28,6 +28,7 @@ exports.checkAndUpdate = function(e){
 		model.changeColumnType("express_date", "TEXT");
 		model.addColumn("featured_date", "TEXT");
 		dbVersion = '1.3';
+		last_update_on = false;
 	}
 	Ti.App.Properties.setString("dbVersion", dbVersion);
 };

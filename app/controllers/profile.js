@@ -271,7 +271,6 @@ var updateProfile = function(e) {
 	loadTable();
 };
 
-$.button.addEventListener('click', doLogout);
 Ti.App.addEventListener('updateProfile', updateProfile);
 loadTable();
 

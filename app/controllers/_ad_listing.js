@@ -207,7 +207,7 @@ function buildListing(){
 		}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
 			dateDescription = "Start from "+convertToHumanFormat(ads[a].active_date)+"!";
 		}
-		
+		dateDescription = convertToHumanFormat(ads[a].sales_from)+" till "+convertToHumanFormat(ads[a].sales_to);
 		var label_date_period = $.UI.create("Label", {
 			text: dateDescription,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
@@ -215,7 +215,7 @@ function buildListing(){
 			left: 10,
 			right: 10,
 			bottom: 10,
-			width: Ti.UI.FILL,
+			width: Ti.UI.SIZE,
 			height: Ti.UI.SIZE,
 			color: "#ED1C24"
 		});
@@ -313,7 +313,7 @@ function buildListing(){
 			}
 			
 		});
-		var view_left = $.UI.create("View", {classes:['hsize', 'vert'], left:0, width: "50%"});
+		var view_left = $.UI.create("View", {classes:['hsize', 'vert','wsize'], left:0,});
 		var view_right = $.UI.create("View", {classes:['hsize','wsize','horz'], right:10, bottom:10});
 		var label_and_flag = $.UI.create("View", {classes:['wfill','hsize']});
 		view_ad.add(image_view);
