@@ -149,3 +149,7 @@ $.favouriteState.addEventListener("close", function(){
     attribute         = null;
     loadSelectedState = null;
 });
+
+$.favouriteState.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.favouriteState); 
+});

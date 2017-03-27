@@ -1,0 +1,24 @@
+<Alloy>
+	<Window title="" backButtonTitle="" class="container" id="adsCategoryWin" navTintColor="#ED1C24">
+		
+		<LeftNavButton>
+	        <View onClick="closeWindow" left="0"  width="30" height="30" height="45">
+	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        
+        <View layout="horizontal" height="50" width="100%" platform="android">
+			<View left="0" width="Ti.UI.SIZE"> 
+		        <ImageView left='10' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" /> 
+		    </View>
+		    <View id="pageTitle" width="auto" />
+	 	</View>
+	 	
+    	<View bottom='0' class="hr"></View>
+		<TableView separatorColor="transparent" minRowHeight="50" id="ads_listing" width="Ti.UI.FILL" backgroundColor="#d3d3d3" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE"></TableView>
+		<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#F1F1F2" >
+        	<ActivityIndicator  id="activityIndicator" />
+    		<Label top="5" text="Loading" color="#ffffff" />
+    	</View>
+    </Window>
+</Alloy>

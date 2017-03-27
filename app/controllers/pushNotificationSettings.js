@@ -20,13 +20,13 @@ var isNotification = Ti.App.Properties.getString('notification');
 var isNotificationFeatured = Ti.App.Properties.getString('notification_featured');
 console.log(isNotificationFeatured+" notification_featured");
 if(isNotification != "1"){
-	console.log($.pushNotificationSettingsView.notiSwitch);
-	$.pushNotificationSettingsView.notiSwitch.value = false;
+	console.log($.notiSwitch);
+	$.notiSwitch.value = false;
 }
 
 if(isNotificationFeatured != "1"){
 	console.log("isNotificationFeatured off");
-	$.pushNotificationSettingsView.notiSwitch_featured.value = false;
+	$.notiSwitch_featured.value = false;
 }
 
 function closeWindow(){
@@ -109,5 +109,5 @@ function subcribe_feature(){
         }
     });
 }
-$.pushNotificationSettingsView.notiSwitch.addEventListener('change',changeStatus);
-$.pushNotificationSettingsView.notiSwitch_featured.addEventListener('change',changeStatus);
+$.notiSwitch.addEventListener('change',changeStatus);
+$.notiSwitch_featured.addEventListener('change',changeStatus);
