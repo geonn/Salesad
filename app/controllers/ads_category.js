@@ -103,7 +103,7 @@ function buildListing(){
 	}
 	if(ads.length <= 0){
 		activityIndicator.hide();
-		$.adsCategory.ads_listing.remove(activityIndicator);
+		$.ads_listing.remove(activityIndicator);
 		return;	
 	}
 	ads_counter += 3;
@@ -196,7 +196,6 @@ function buildListing(){
 			}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
 				dateDescription = "Start from "+convertToHumanFormat(ads[a].active_date)+"!";
 			}
-			dateDescription = convertToHumanFormat(ads[a].sales_from)+" till "+convertToHumanFormat(ads[a].sales_to);
 		}else{
 			var dateDescription = ads[a].description;
 		}
@@ -208,7 +207,7 @@ function buildListing(){
 			left: 10,
 			right: 10,
 			bottom: 10,
-			width: Ti.UI.SIZE,
+			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
 			color: "#ED1C24"
 		});
@@ -306,7 +305,7 @@ function buildListing(){
 			}
 			
 		});
-		var view_left = $.UI.create("View", {classes:['hsize', 'vert','wsize'], left:0});
+		var view_left = $.UI.create("View", {classes:['hsize', 'vert'], left:0, width: "50%"});
 		var view_right = $.UI.create("View", {classes:['hsize','wsize','horz'], right:10, bottom:10});
 		var label_and_flag = $.UI.create("View", {classes:['wfill','hsize']});
 		view_ad.add(image_view);
@@ -326,11 +325,11 @@ function buildListing(){
 		view_ad.add(view_buttonBar);
 		
 		tbr.add(view_ad);
-		$.adsCategory.ads_listing.appendRow(tbr);
+		$.ads_listing.appendRow(tbr);
 		
 		bannerImage.addEventListener('load', function(e){
 			activityIndicator.hide();
-			$.adsCategory.ads_listing.remove(activityIndicator);
+			$.ads_listing.remove(activityIndicator);
 		});
 		
 		setTimeout(function(e){
@@ -350,7 +349,7 @@ function buildListing(){
 	}
 	setTimeout(function(e){
 		activityIndicator.hide();
-		$.adsCategory.ads_listing.remove(activityIndicator);
+		$.ads_listing.remove(activityIndicator);
 		loading = false;
 	}, 1000);
 	
@@ -429,7 +428,7 @@ function setCalendarEvent(e){
 	}
 }
 
-//$.adsCategory.ads_listing.add(videoView);
+//$.ads_listing.add(videoView);
 
 /** navigate to Ad **/
 var goAd = function(a_id){
@@ -455,7 +454,7 @@ var dummy = $.UI.create("View",{
 	backgroundColor: "#F1F1F2",
 });
 
-$.adsCategory.ads_listing.add(dummy);
+$.ads_listing.add(dummy);
 buildListing();
 render_header();
 
@@ -489,7 +488,7 @@ function render_header(){
  * */
 
 var lastDistance = 0;
-$.adsCategory.ads_listing.addEventListener("scroll", function(e){
+$.ads_listing.addEventListener("scroll", function(e){
 	if(Ti.Platform.osname == 'iphone'){
 		var offset = e.contentOffset.y;
 		var height = e.size.height;
@@ -523,6 +522,6 @@ $.adsCategoryWin.addEventListener("close", function(e){
 	}});
 });
 
-$.btnBack.addEventListener('touchend', function(){ 
-	COMMON.closeWindow($.adsCategoryWin);  
-}); 
+function closeWindow() {
+	COMMON.closeWindow($.adsCategoryWin);
+}
