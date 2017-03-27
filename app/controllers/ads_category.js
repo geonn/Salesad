@@ -526,3 +526,7 @@ $.adsCategoryWin.addEventListener("close", function(e){
 $.btnBack.addEventListener('touchend', function(){ 
 	COMMON.closeWindow($.adsCategoryWin);  
 }); 
+
+$.adsCategoryWin.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.adsCategoryWin); 
+});

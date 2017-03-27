@@ -111,3 +111,7 @@ function subcribe_feature(){
 }
 $.pushNotificationSettingsView.notiSwitch.addEventListener('change',changeStatus);
 $.pushNotificationSettingsView.notiSwitch_featured.addEventListener('change',changeStatus);
+
+$.notification.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.notification); 
+});

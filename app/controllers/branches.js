@@ -168,3 +168,7 @@ $.branchesWin.addEventListener("close", function(){
     merchants          = null;
     branches         = null;
 });
+
+$.branchesWin.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.branchesWin); 
+});

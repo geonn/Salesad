@@ -64,3 +64,7 @@ $.win.addEventListener("close", function (e){
 	Ti.App.removeEventListener("updatePharmacy_code", updatePharmacy_code);
 	Ti.App.removeEventListener("scanner_cancel", scanner_cancel);
 });
+
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});

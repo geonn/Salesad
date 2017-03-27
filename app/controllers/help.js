@@ -16,3 +16,7 @@ if(Ti.Platform.osname == "android"){
 function closeWindow(){
 	COMMON.closeWindow($.help);
 }
+
+$.help.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.help); 
+});

@@ -174,3 +174,8 @@ $.item_Details.addEventListener("close", function(e){
 *************************/
 getAdsImages();
 $.item_Details.open();
+
+$.item_Details.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.item_Details); 
+});
+

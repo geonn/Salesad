@@ -99,3 +99,7 @@ $.location.addEventListener("close", function(){
 function closeWindow(){
 	COMMON.closeWindow($.location); 
 }
+
+$.location.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.location); 
+});

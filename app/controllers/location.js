@@ -288,3 +288,6 @@ $.location.addEventListener("close", function(){
     $.destroy();
 });
 	
+$.location.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.location); 
+});

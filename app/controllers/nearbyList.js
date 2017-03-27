@@ -145,3 +145,7 @@ $.nearbyWin.addEventListener("close", function(){
 });
 
 Ti.App.addEventListener('app:nearbyMerchantResult', nearbyMerchantResult);
+
+$.nearbyWin.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.nearbyWin); 
+});

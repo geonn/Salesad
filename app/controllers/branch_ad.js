@@ -28,3 +28,7 @@ function init(){
 $.btnBack.addEventListener('touchend', function(){ 
 	COMMON.closeWindow($.win);  
 }); 
+
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});
