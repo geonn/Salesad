@@ -1,10 +1,10 @@
 <Alloy>
 	<Window title="" backButtonTitle="" class="container" id="location" navTintColor="#ED1C24">
 		<View layout="horizontal" height="50" width="100%" platform="android">
-			<View left="0" width="10%">
+			<View left="0" width="15%">
 		         	<ImageView left='10' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" />
 		    </View>
-	     	<View width="80%">
+	     	<View width="70%">
 	     		<Label id="pageTitle" color="#ED1C24"></Label>
 	     	</View>
 	 	</View>
