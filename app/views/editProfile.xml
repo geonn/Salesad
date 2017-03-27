@@ -1,0 +1,35 @@
+<Alloy>
+	<Window title="" class="container" id="editProfile" backButtonTitle="" navTintColor="#ED1C24">
+		
+		<LeftNavButton>
+	        <View left="0">
+	         	<Button left='0' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png"/>
+	        </View>
+        </LeftNavButton>
+		<RightNavButton>
+	        <View>
+	         	<Button onClick="doSave" onTouchend="doSave" color="#ED1C24" title="Save" right="0"/>
+	        </View>
+        </RightNavButton>
+        
+        <View layout="horizontal" height="50" width="100%" platform="android">
+			<View left="0" width="10%">
+		    	<ImageView left='10' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png"/>
+		    </View>
+		    <View id="pageTitle" width="70%"/>
+		    <View width="auto">
+	         	<Label onClick="doSave" color="#ED1C24" right="10">Save</Label>
+	        </View>
+		</View>
+        
+    	<View bottom='0' class="hr"></View>
+    	<View  layout="vertical" height="30" top="10"  >
+    		<Label text="" class="description_content" id="description"/>
+		</View>
+    
+		<View id="main" layout="vertical" height="50" top="15">
+			<TextField id="editField" backgroundColor="#FFFCFC" value="" hintText=""/>
+			<ActivityIndicator id="activityIndicator" color="#ffffff" message="Updating Info..."/>
+		</View>
+	</Window>
+</Alloy>
