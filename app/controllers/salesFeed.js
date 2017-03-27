@@ -140,3 +140,7 @@ $.feedWin.addEventListener("close", function(){
 });
 feedResult();
 Ti.App.addEventListener('app:feedResult', feedResult);
+
+$.feedWin.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.feedWin); 
+});

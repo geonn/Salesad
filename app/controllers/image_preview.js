@@ -34,3 +34,8 @@ function pixelToDp(px) {
 }
 
 Ti.App.addEventListener("image_preview:loadImage", init);
+
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});
+

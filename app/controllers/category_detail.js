@@ -178,3 +178,8 @@ $.category_details.addEventListener("close", function(){
     goAd =null;
     goBranch = null;  
 });
+
+
+$.category_details.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.category_details); 
+});

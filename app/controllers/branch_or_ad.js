@@ -131,3 +131,7 @@ $.branch_table.addEventListener("click", nav_ad_listing);
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
 }); 
+
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});

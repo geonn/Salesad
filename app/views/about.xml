@@ -19,5 +19,6 @@
 			<Label class="title_header" bottom="10">SalesAd - The best in-store sales you'll never miss</Label>
 			<Label class="description_content" bottom="20">Tired of looking for sales scattered all over town? Forgot to bring your vouchers and coupons when you shop? Now, you can browse for every in-store sales and deals all in one place! The SalesAd mobile app is the ultimate solution for smart shoppers like you. It features an incredible range of brands, stores, products and services - all on sale! We'll make sure youre always informed about the best stuff that's selling at the best price.</Label>	
 		</ScrollView>
-	</Window>
+	</Window>	
+	
 </Alloy>

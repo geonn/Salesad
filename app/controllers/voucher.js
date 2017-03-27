@@ -33,3 +33,7 @@ $.item_Details.addEventListener('click', function(e){
 		duration: 200
 	});
 });
+
+$.item_Details.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.item_Details); 
+});

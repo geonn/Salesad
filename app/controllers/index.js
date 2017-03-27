@@ -340,3 +340,7 @@ $.indexView.scanner.addEventListener('click', QrScan);
 function QrScan(){
 	SCANNER.openScanner("4");
 }
+
+$.root.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.root); 
+});

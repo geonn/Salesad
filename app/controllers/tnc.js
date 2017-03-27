@@ -12,3 +12,7 @@ $.pageTitle.add(custom);
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.tnc); 
 }); 
+
+$.tnc.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.tnc); 
+});

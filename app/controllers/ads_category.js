@@ -525,3 +525,7 @@ $.adsCategoryWin.addEventListener("close", function(e){
 function closeWindow() {
 	COMMON.closeWindow($.adsCategoryWin);
 }
+
+$.adsCategoryWin.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.adsCategoryWin); 
+});

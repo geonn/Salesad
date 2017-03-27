@@ -577,3 +577,7 @@ $.btnBack.addEventListener('click', function(){
 
 /* App Running */
 //createGridListing();
+
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});

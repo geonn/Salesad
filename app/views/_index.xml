@@ -1,6 +1,6 @@
 <Alloy>
 	<Window id="root" title="" navBarHidden="true" class="container" layout="composite" fullscreen="true">
-		<View id="header" zIndex="12">
+		<View id="header" zIndex="12" height="50">
 			<ImageView left='0' width='157' height='45' image="/images/salesad_logo.png" id="salesad_logo" />
 			<ImageView id="scanner" right='10' height='30' image="/images/scan.png" />
 			 

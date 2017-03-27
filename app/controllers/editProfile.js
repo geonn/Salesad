@@ -71,3 +71,7 @@ $.editProfile.addEventListener("close", function(){
     /* release function memory */
     doSave    = null;
 });
+
+$.editProfile.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.editProfile); 
+});

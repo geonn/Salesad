@@ -380,3 +380,7 @@ function createShareOptions(){
  
     return share;
 }
+
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});

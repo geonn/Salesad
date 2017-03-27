@@ -77,3 +77,6 @@ $.win.addEventListener("close", function(){
     $.destroy();
 });
 	
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});

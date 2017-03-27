@@ -435,3 +435,7 @@ $.win.addEventListener("close", function(e){
     editProfile = null;
     editPassword = null;
 });
+
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});

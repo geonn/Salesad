@@ -152,3 +152,7 @@ Ti.App.addEventListener('app:fontReset', fontReset);
 generateSettingTable();
 tbl_data = null;
 table = null;
+
+$.setting.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.setting); 
+});

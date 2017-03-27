@@ -213,3 +213,7 @@ function loginFacebook(e){
 } 
 	 
 FACEBOOK.addEventListener('login', loginFacebook); 
+
+$.login.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.login); 
+});

@@ -167,7 +167,7 @@ function generateCategoryTable(details){
 
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
-    text: 'CONTENTS', 
+    text: 'Categories', 
     color: '#ED1C24',
     font:{
     	fontSize: 15,
@@ -407,3 +407,7 @@ $.category.addEventListener("close", function(){
 
 Ti.App.addEventListener('app:searchRes', searchRes);
 Ti.App.addEventListener('app:fontReset', fontReset);
+
+$.category.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.category); 
+});

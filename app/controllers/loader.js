@@ -76,4 +76,7 @@ $.rocket.addEventListener("close", function(e){
 	Ti.App.removeEventListener('app:update_loading_text', update_loading_text);
 });
 
+$.rocket.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.rocket); 
+});
 

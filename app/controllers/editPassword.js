@@ -72,3 +72,7 @@ $.editPasswordWin.addEventListener("close", function(){
     /* release function memory */
     doSave    = null;
 });
+
+$.editPasswordWin.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.editPasswordWin); 
+});

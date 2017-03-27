@@ -18,3 +18,6 @@ $.finish = function(_callback) {
 	_callback && _callback();
 };
 
+$.loadingBar.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.loadingBar); 
+});

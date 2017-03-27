@@ -109,5 +109,10 @@ function subcribe_feature(){
         }
     });
 }
+
 $.notiSwitch.addEventListener('change',changeStatus);
 $.notiSwitch_featured.addEventListener('change',changeStatus);
+
+$.notification.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.notification); 
+});
