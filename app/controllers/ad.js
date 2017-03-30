@@ -149,10 +149,13 @@ var getAdDetails = function(){
 			}
 			counter++;
 		} 
-		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','padding'], text: ads.tnc+"\n"+ads.description});
+		console.log("ads data");
+		console.log(ads.description);
+		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','padding','bold'], text :ads.description+"\n\nTerms and Conditions\n\n"+ ads.tnc+"\n"});
 		$.ads_details.add(tnc);
 		isAdsAvailable = true;
 	}else{
+		/*
 		var noAvailableLabel = $.UI.create("Label", { 
 			text : "No ads available",
 			height: Ti.UI.SIZE,
@@ -165,7 +168,7 @@ var getAdDetails = function(){
 			height: Ti.UI.FILL,
 			width: Ti.UI.FILL
 		});
-		$.ads_details.add(default_image);
+		$.ads_details.add(default_image);*/
 	}
 
 	var custom = $.UI.create("Label", { 

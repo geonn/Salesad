@@ -61,7 +61,7 @@ exports.definition = {
 			getData: function(unlimit){
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
-				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' "+sql_limit;
+				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date < date('now') OR active_date = '0000-00-00') AND ads.img_path != '' "+sql_limit;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -105,7 +105,7 @@ exports.definition = {
 			getExpressData: function(unlimit){
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
-				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ads.m_id is not null AND express_date is not null AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' "+sql_limit;
+				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ads.m_id is not null AND express_date is not null AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND ads.img_path != '' "+sql_limit;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -157,7 +157,7 @@ exports.definition = {
 	                names.push(k);
 	            }
 	            
-				var sql = "select * from ads where recommended = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND status = 1 ORDER BY updated DESC";
+				var sql = "select * from ads where recommended = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND status = 1 ORDER BY updated DESC";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -188,7 +188,7 @@ exports.definition = {
 			},
 			getDataByBranch: function(m_id, start, end){
 				var collection = this;
-				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where (',' || ads.branch || ',') LIKE '%,"+m_id+",%' AND ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' limit "+start+", "+end;
+				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where (',' || ads.branch || ',') LIKE '%,"+m_id+",%' AND ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND ads.img_path != '' limit "+start+", "+end;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -230,7 +230,7 @@ exports.definition = {
 			},
 			getDataByStore: function(m_id, start, end){
 				var collection = this;
-				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads, merchants where merchants.m_id = ads.m_id AND (ads.m_id = ? OR merchants.parent = ?) AND ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND ads.img_path != '' limit "+start+", "+end;
+				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads, merchants where merchants.m_id = ads.m_id AND (ads.m_id = ? OR merchants.parent = ?) AND ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND ads.img_path != '' limit "+start+", "+end;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -370,7 +370,7 @@ exports.definition = {
 			getAdsByMid : function(m_id){
 				console.log(m_id);
 				var collection = this;
-				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' AND status=1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') order by updated desc" ;
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' AND status=1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') order by updated desc" ;
                 //console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
