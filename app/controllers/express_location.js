@@ -125,3 +125,7 @@ function pixelToDp(px) {
 }
 
 $.mapview.addEventListener("pinchangedragstate", pinchangedragstate);
+
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
+});

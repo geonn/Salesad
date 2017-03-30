@@ -56,14 +56,13 @@ var doSave = function (){
 	 client.send(); 
 };
 
-$.saveButton.addEventListener('click', doSave); 
 $.editProfile.addEventListener('open', function(e) {
 	$.editProfileView.editField.focus();
 });
 
-$.btnBack.addEventListener('click', function(){  
-	COMMON.closeWindow($.editProfile); 
-}); 
+function closeWindow() {
+	COMMON.closeWindow($.editProfile);
+}
 
 /** close all editProfile eventListener when close the page**/
 $.editProfile.addEventListener("close", function(){
@@ -71,4 +70,8 @@ $.editProfile.addEventListener("close", function(){
     
     /* release function memory */
     doSave    = null;
+});
+
+$.editProfile.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.editProfile); 
 });

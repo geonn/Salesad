@@ -108,3 +108,6 @@ $.forgotPassword.addEventListener("close", function(){
     closeWindow = null;
 });
 
+$.forgotPassword.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.forgotPassword); 
+});

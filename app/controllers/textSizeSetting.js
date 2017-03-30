@@ -82,3 +82,7 @@ $.textSizeSetting.addEventListener("close", function(){
     library          = null;
     details          = null;
 });
+
+$.textSizeSetting.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.textSizeSetting); 
+});

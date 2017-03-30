@@ -11,8 +11,8 @@
 	        </View>
         </RightNavButton>
         <View class="wfill hfill vert">
-	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
-				<View left="0" width="10%">
+	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#fff">
+				<View left="0" width="15%">
 			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
 		     	<View id="pageTitle" width="70%">

@@ -252,3 +252,7 @@ $.register.addEventListener("close", function(){
     goSignUp    = null;
     closeWindow = null;
 });
+
+$.register.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.register); 
+});

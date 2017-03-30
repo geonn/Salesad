@@ -474,3 +474,7 @@ function closeWindow(){
 
 /* App Running */
 //createGridListing();
+
+$.custom.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.custom); 
+});
