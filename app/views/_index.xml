@@ -11,7 +11,7 @@
 			<ImageView id="arrow_link" left='65%' height='30' image="/images/icon-recent.png" />-->
 			<View bottom='0' class="hr"></View>
 		</View>
-		<View width="Ti.UI.FILL" top="45" bottom="61" height="Ti.UI.FILL">
+		<View width="Ti.UI.FILL" top="50" bottom="61" height="Ti.UI.FILL">
 			<ScrollView layout="vertical" id="scrollview" height="Ti.UI.FILL" width="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE">
 				<View id="bannerListing" class="hsize wfill" backgroundColor="black"></View>
 				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>

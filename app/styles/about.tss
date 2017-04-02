@@ -5,17 +5,19 @@
 },
 ".title_header":{
 	font: {
-        fontSize: '22'
+        fontSize: '15'
     },
-    
+    textAlign: "left",
     color: '#CC2228',
-    left: '10',
+    top: '20',
+    left: '10', 
     right: '10'
 },
 ".description_content":{
 	font: {
-        fontSize: '18'
+        fontSize: '14'
     },
+    top: '20', 
     left: '10',
     textAlign: "left",
     right: '10'

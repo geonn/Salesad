@@ -241,7 +241,7 @@
 ".h7":{
 	font:{
 		fontSize: 10,
-		fontFamily: 'FrutigerLT-Light'
+		fontFamily: 'Frutiger-Bold'
 	}
 },
 

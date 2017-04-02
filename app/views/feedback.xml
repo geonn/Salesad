@@ -13,6 +13,7 @@
 	     		<Label color="#ED1C24">Help & Feedback</Label>
 	     	</View>
 	 	</View>
+	 	<View bottom='0' class="hr"></View>
 	 	<View class="wfill hfill vert" id="inner_box" top=20>
 	 		<TextField backgroundColor="white" required="true" class="textfield" id="name" hintText="Name" />
 	    	<TextField backgroundColor="white" required="true" class="textfield" id="email" hintText="Email Address" />

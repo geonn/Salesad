@@ -41,7 +41,7 @@ function generateSettingTable(){
 		    height: 50, 
 		    id: "profile",
 		    selectedBackgroundColor: "#FFE1E1",
-			backgroundColor: "#FFFFF6",
+			backgroundColor: "#fff",
 		  });
 
 		var title = $.UI.create('label', {
@@ -72,7 +72,7 @@ function generateSettingTable(){
 		    height: 50, 
 		    id: "profile",
 		    selectedBackgroundColor: "#FFE1E1",
-			backgroundColor: "#FFFFF6",
+			backgroundColor: "#fff",
 		  });
 
 	var title = $.UI.create('label', {

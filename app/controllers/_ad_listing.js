@@ -13,7 +13,7 @@ var style = Ti.UI.ActivityIndicatorStyle.DARK;
 
 var activityIndicator = Ti.UI.createActivityIndicator({
   color: '#404041',
-  font: {fontFamily:'Helvetica Neue', fontSize:16, fontWeight:'bold'},
+  font: {fontFamily:'Helvetica Neue', fontSize:16},
   message: 'Loading...',
   style:style,
   bottom: 10,
@@ -175,7 +175,7 @@ function buildListing(){
 		
 		console.log(ads[a].merchant_name+" merchant name");
 		var label_merchant = $.UI.create("Label", {
-			font: { fontWeight: 'bold', fontSize: 16},
+			font: {fontSize: 16},
 			text: ads[a].ads_name,
 			top: 10,
 			left: 10,
