@@ -71,8 +71,9 @@ var getAdsImages = function(){
 			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
 		});
 		
-		var header = $.UI.create("View", {classes:['wfill','hsize']});
-		var img_back = $.UI.create("ImageView", {width: 20, height: 20, left: 10, zIndex: 100, image: "/images/btn-back.png"});
+		var header = $.UI.create("View", {classes:['wfill'],height: 50});
+		var redline = $.UI.create("View", {classes:['hr']});
+		var img_back = $.UI.create("ImageView", {width: 30, height: 30, left: 10, zIndex: 100, image: "/images/btn-back.png"});
 		header.add(img_back);
 		header.add(label_caption);
 		img_back.addEventListener("click", closeWindow);
@@ -120,6 +121,7 @@ var getAdsImages = function(){
 		itemImageView.add(adImage); 
 	 	
 		row.add(header);
+		row.add(redline);
 		row.add(itemImageView);
 		row.add(label_description);
 		console.log(items[i]);

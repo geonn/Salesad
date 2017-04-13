@@ -110,7 +110,7 @@ function generateCategoryTable(details){
 	var data=[];
 	var TheTable = Titanium.UI.createTableView({
 		width:'100%', 
-		backgroundColor: '#fffff6',
+		backgroundColor: '#fff',
 		//headerView: createCustomView('Categories'),
 	});
 	var fontSizeClasses = (Ti.App.Properties.getString("fontSizeClasses"))?Ti.App.Properties.getString("fontSizeClasses"):"normal_font";
@@ -171,7 +171,6 @@ var custom = $.UI.create("Label", {
     color: '#ED1C24',
     font:{
     	fontSize: 15,
-    	fontWeight: "bold"
     },
     width: Ti.UI.SIZE 
  });
@@ -331,7 +330,7 @@ var searchRes = function(res){
 				var category =  $.UI.create("Label", {
 					text:entry.category,
 					source: entry.a_id,
-					font:{fontSize:12,fontWeight:'bold'},
+					font:{fontSize:12},
 					width:'auto',
 					color: "#88919D",
 					textAlign:'left',

@@ -4,7 +4,7 @@ var u_id = Ti.App.Properties.getString('u_id');
 
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
-    text: 'Push Notification', 
+    text: 'Notification', 
     color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });

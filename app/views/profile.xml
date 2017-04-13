@@ -1,5 +1,5 @@
 <Alloy>
-	<Window title="Profile" backButtonTitle="" id="win" navTintColor="#ED1C24">
+	<Window title="My Profile" backButtonTitle="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="30" height="30" height="45">
 	         	<ImageView left='0' width="30" height="30" height="30" image="/images/btn-back.png" />
@@ -16,13 +16,14 @@
 		         	<ImageView left='10' id="btnBack" width="30" height="30" height="30" image="/images/btn-back.png" />
 			    </View>
 		     	<View id="pageTitle" width="70%">
-		     		<Label color="#ED1C24" id="title">Profile</Label>
+		     		<Label color="#ED1C24" id="title">My Profile</Label>
 		     	</View>
 		     	
 		     	<View id="button" right="0" width="15%" height="45" onClick="doLogout">
 		         	<Label class="wsize hsize" color="#ED1C24" right="5" touchEnabled="false">Logout</Label>
 		        </View>
 		 	</View>
+		 	<View bottom='0' class="hr"></View>
 			<View id="main" layout="vertical" height="95%">
 				<View backgroundColor="#fcfbfb" height="40">
 			        <Label class="label">Account Info</Label>

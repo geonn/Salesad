@@ -14,7 +14,7 @@ if(isFeed == 1){
  
 
 //Default ads background
-$.ad.backgroundColor = "#FFFFF6";
+$.ad.backgroundColor = "#FFF";
 var gBannerImg;
 /*********************
 *******FUNCTION*******
@@ -68,7 +68,7 @@ var getAdDetails = function(a_id){
  	if( ads.app_background !== undefined){
 	 	$.ad.backgroundColor = "#"+ads.app_background;
 	 }else{
-	 	 $.ad.backgroundColor = "#fffff6";
+	 	 $.ad.backgroundColor = "#fff";
 	 }
 	 
 	adspage.addEventListener('click', function(e) {
@@ -199,7 +199,7 @@ var model_favorites = Alloy.createCollection('favorites');
 if( currentAds[0].ads_backgroun !== undefined){
  	$.ad.backgroundColor = "#"+currentAds[0].app_background;
  }else{
- 	 $.ad.backgroundColor = "#fffff6";
+ 	 $.ad.backgroundColor = "#fff";
  }
 
 $.btnBack.addEventListener('click', function(){ 

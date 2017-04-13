@@ -92,7 +92,7 @@ function render_banner(){
 		height: Ti.UI.SIZE,//ads_height,
 	});
 	
-	var app_background = (ads.app_background !== undefined)?"#"+ads.app_background:"#fffff6";
+	var app_background = (ads.app_background !== undefined)?"#"+ads.app_background:"#fff";
 	$.win.backgroundColor = app_background;
 	console.log(bannerImage);
 	$.banner.add(bannerImage);
@@ -173,7 +173,6 @@ var getAdDetails = function(){
 
 	var custom = $.UI.create("Label", { 
 		    text: pageTitle, 
-		    font: { fontWeight: 'bold'},
 		    color: '#ED1C24' 
 	});
 	

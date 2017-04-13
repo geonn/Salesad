@@ -470,8 +470,7 @@ function render_header(){
 	
 	var custom = $.UI.create("Label", { 
 	    text: customeTitle, 
-	    color: '#ED1C24',
-	    font: { fontWeight: 'bold'},
+	    color: '#ED1C24'
 	});
 	
 	if(Ti.Platform.osname == "android"){ 

@@ -21,6 +21,7 @@
 	         	<ImageView left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
 	        </View>
 	 	</View>
+	 	<View bottom='0' class="hr"></View>
 	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
 	 		<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
