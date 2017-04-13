@@ -104,8 +104,10 @@ exports.sync_time = function(time){
 	time_offset = s-l; 
 };
 
-exports.todayDateTime = function(){
-	var today = new Date(Date.now()+time_offset);
+exports.todayDateTime = function(time){
+	var today = (typeof time != "undefined")?time:new Date(Date.now()+time_offset);
+	console.log(time);
+	console.log(today);
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; 
 	var yyyy = today.getFullYear();
@@ -147,7 +149,7 @@ exports.CheckboxwithText = function(text,highlightText, checkboxspecs, urlLink){
 		}
 	});
 	var label_service = Titanium.UI.createLabel({
-		text: "Terms of Service and",
+		text: "Terms of Service",
 		width: Ti.UI.SIZE,
 		height: Ti.UI.SIZE,
 		color: "#ED1C24",
@@ -156,10 +158,18 @@ exports.CheckboxwithText = function(text,highlightText, checkboxspecs, urlLink){
 			fontSize: 12
 		}
 	});
+	var label_and = Titanium.UI.createLabel({
+		text: " and ",
+		width: Ti.UI.SIZE,
+		height: Ti.UI.SIZE,
+		font:{
+			fontWeight: "bold",
+			fontSize: 12
+		}
+	});
 	var label_privacy = Titanium.UI.createLabel({
 		text: "Privacy Policy",
-		left: 20,
-		width:  Ti.UI.SIZE,
+		width:  100,
 		height: Ti.UI.SIZE,
 		color: "#ED1C24",
 		font:{
@@ -170,12 +180,19 @@ exports.CheckboxwithText = function(text,highlightText, checkboxspecs, urlLink){
 	var view_sms_box =  Titanium.UI.createView({
 		width: Ti.UI.FILL,
 		height: Ti.UI.SIZE,
+		left: 50,
 		layout: "horizontal"
 	});
-	view_sms_box.add(checkbox);
+	var outer_view_sms_box =  Titanium.UI.createView({
+		width: Ti.UI.FILL,
+		height: Ti.UI.SIZE
+	});
+	outer_view_sms_box.add(checkbox);
 	view_sms_box.add(label_sms);
 	view_sms_box.add(label_service);
+	view_sms_box.add(label_and);
 	view_sms_box.add(label_privacy);
+	outer_view_sms_box.add(view_sms_box);
 	label_privacy.addEventListener('touchend',function(){  
 		var win = Alloy.createController("webview", {url: "http://salesad.my/privacyPolicy"}).getView();  
 		COMMON.openWindow(win);
@@ -184,7 +201,7 @@ exports.CheckboxwithText = function(text,highlightText, checkboxspecs, urlLink){
 		var win = Alloy.createController("webview", {url: "http://salesad.my/termsOfService"}).getView();  
 		COMMON.openWindow(win);
 	});
-	return view_sms_box;
+	return outer_view_sms_box;
 };
 
 exports.createCheckbox = function(specs,checkboxspecs,image) {
@@ -213,6 +230,8 @@ exports.createCheckbox = function(specs,checkboxspecs,image) {
     var outerview = Ti.UI.createView({
         width: specs.width * 1.5,
         height: specs.height * 1.5,
+        left: 0,
+        zIndex: 100
     });
     var clickview = Ti.UI.createView({
         width:checkboxspecs.width,

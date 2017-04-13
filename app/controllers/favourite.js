@@ -9,6 +9,7 @@ function unfavourite(){
 }
 
 function nav_to_merchant(e){
+	console.log('a');
 	var m_id = parent({name: "m_id"}, e.source);
 	var win = Alloy.createController("branch_or_ad", {m_id: m_id, from : "favourite"}).getView(); 
 	COMMON.openWindow(win); 
@@ -39,29 +40,36 @@ function render_favourite_merchant(){
 			m_id: data[i].m_id,
 			classes:['hsize']
 		});
+		
 		var view_container = $.UI.create("View", {
 			classes: ['wfill', 'hsize', 'vert'],
 			m_id: data[i].m_id,
-			backgroundColor: "#ffffff"
+			backgroundColor: "#ffffff",
+			touchEnabled: false,
 		});
 		var view_backgroundColor = $.UI.create("View", {
 			backgroundColor: random_color[Math.round(Math.random() * 5)],
-			classes: ['wfill', 'hsize']
+			classes: ['wfill', 'hsize'],
+			touchEnabled: false,
 		});
 		var image_thumb = $.UI.create("ImageView",{
 			width: cell_width,
 			classes: ['hsize'],
-			image: data[i].img_path
+			image: data[i].img_path,
+			touchEnabled: false,
 		});
 		var text_padd = $.UI.create("View", {
-			classes:['wfill','hsize']
+			classes:['wfill','hsize'],
+			touchEnabled: false,
 		});
 		var text_ads = $.UI.create("Label", {
 			text: data[i].name,
 			classes:['wfill', 'hsize', 'h6'],
 			color: "#525152",
+			touchEnabled: false,
 			top: 10, right:4, left:4, bottom:10,
 		});
+		
 		cell.add(view_container);
 		text_padd.add(text_ads);
 		view_backgroundColor.add(image_thumb);

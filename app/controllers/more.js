@@ -11,6 +11,7 @@ function navTo(e){
 	
 	if(target == "profile"){
 		var user = Ti.App.Properties.getString('session');
+		console.log(user+" user");
 		if(user === null){
 			var win = Alloy.createController("login").getView();
 			if(Ti.Platform.osname == "android"){
@@ -91,8 +92,6 @@ var doLogout = function (e) {
 
 	dialog.show();
 };
-
-$.button.addEventListener('click', doLogout);
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);

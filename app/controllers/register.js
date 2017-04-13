@@ -36,6 +36,7 @@ var goSignUp = function(){
 	var mobile = $.mobile.value;
 	var gender 		 = (typeof $.gender.record != "undefined")?$.gender.record.id:"";
 	var email 		     = $.email.value;
+	var salesman_code 		     = $.salesman_code.value;
 	var password 		 = $.password.value;
 	var password2 		 = $.confirm_password.value;
 	console.log(gender+" $.gender.record.id");
@@ -46,6 +47,7 @@ var goSignUp = function(){
 			dob: dob,
 			state: state,
 			mobile: mobile,
+			salesman_code: salesman_code,
 			gender: gender,
 			email: email,
 			password: password,
@@ -60,6 +62,7 @@ var goSignUp = function(){
 			dob: dob,
 			state: state,
 			mobile: mobile,
+			salesman_code: salesman_code,
 			gender: gender,
 			email: email,
 			password: password,
@@ -71,11 +74,12 @@ var goSignUp = function(){
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
 			if(res.status == "success"){
-	         	 
+	         	console.log(res.data);
 	         	//save session
 	         	Ti.App.Properties.setString('u_id', res.data.u_id);
 	         	Ti.App.Properties.setString('firstname', res.data.firstname);
 	         	Ti.App.Properties.setString('lastname', res.data.lastname);
+	         	Ti.App.Properties.setString('salesman_code', res.data.salesman_code);
 	         	Ti.App.Properties.setString('email', res.data.email);
 	         	Ti.App.Properties.setString('gender', res.data.gender);
 				Ti.App.Properties.setString('session', res.data.session);

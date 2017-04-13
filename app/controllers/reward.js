@@ -127,8 +127,8 @@ function render_point_list(){
 		var checked = (found.length>0)?true:false;
 		_.extend(point_list[i], {checked: checked});
 		var row = $.UI.create("TableViewRow", {classes:['horz','hsize'], record: point_list[i]});
-		var task_yes_no = $.UI.create("ImageView", {image: task_yes_no_path, classes:['hsize'], top:10, left:20, right:20, width: 15});
-		var view_mid = $.UI.create("View", {classes:['vert','hsize'], bottom:10, width: c_percent("63%", pwidth)});
+		var task_yes_no = $.UI.create("ImageView", {image: task_yes_no_path, classes:['hsize'], top:20, left:20, right:20, width: 15});
+		var view_mid = $.UI.create("View", {classes:['vert','hsize'], top:10, bottom:10, width: c_percent("63%", pwidth)});
 		var label_title = $.UI.create("Label", {classes:['wfill','hsize','h5'], text: point_list[i].title});
 		var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','h6'], text: point_list[i].subtitle});
 		var view_last = $.UI.create("View", {classes:['hsize','wsize'], left:10});

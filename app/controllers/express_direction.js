@@ -69,10 +69,6 @@ function closeWindow(){
 	COMMON.closeWindow($.win); 
 }
 
-$.btnBack.addEventListener('click', function(){ 
-	COMMON.closeWindow($.win); 
-});
-
 $.win.addEventListener("close", function(){
     $.destroy();
 });

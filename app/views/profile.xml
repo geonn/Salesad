@@ -4,12 +4,12 @@
 	        <View id="btnBack" left="0"  width="30" height="30" height="30" height="45">
 	         	<ImageView left='0' width="30" height="30" height="30" image="/images/btn-back.png" />
 	        </View>
-        </LeftNavButton><!--
+        </LeftNavButton>
         <RightNavButton>
-	        <View id="button" left="0" class="wsize" height="45">
+	        <View id="button" left="0" class="wsize" onClick="doLogout" height="45">
 	         	<Label color="#ED1C24" right="10">Logout</Label>
 	        </View>
-        </RightNavButton>-->
+        </RightNavButton>
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
 				<View left="0" width="15%">
@@ -18,17 +18,17 @@
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title">Profile</Label>
 		     	</View>
-		     	<!--
-		     	<View id="button" right="0" class="wsize" height="45">
-		         	<Label class="wsize hsize" color="#ED1C24" right="10">Logout</Label>
-		      </View>-->
+		     	
+		     	<View id="button" right="0" width="15%" height="45" onClick="doLogout">
+		         	<Label class="wsize hsize" color="#ED1C24" right="5" touchEnabled="false">Logout</Label>
+		        </View>
 		 	</View>
 			<View id="main" layout="vertical" height="95%">
 				<View backgroundColor="#fcfbfb" height="40">
 			        <Label class="label">Account Info</Label>
 			        <View class="line" />
 			    </View>
-			    <ImageView id="photoLoad" image="/images/icon_my-profile.png" onClick="popCamera" top="30" bottom="30" form_type="image" width="80" height="80" value="0"></ImageView>
+			    <ImageView id="photoLoad" image="/images/Icon_add_photo.png" onClick="popCamera" top="30" bottom="30" form_type="image" width="80" height="80" value="0"></ImageView>
 				<View id="table1Container" height="150"></View>
 				
 		      	<View backgroundColor="#fcfbfb" height="40">

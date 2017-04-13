@@ -83,6 +83,7 @@ function doLogin() {
 	         	Ti.App.Properties.setString('img_path', res.data.img_path);
 	         	Ti.App.Properties.setString('email', res.data.email);
 	         	Ti.App.Properties.setString('gender', res.data.gender);
+	         	Ti.App.Properties.setString('salesman_code', res.data.salesman_code);
 				Ti.App.Properties.setString('session', res.data.session);
 	         	
 	         	var isForgotPassword = Ti.App.Properties.getString('isForgotPassword');

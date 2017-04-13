@@ -74,8 +74,8 @@ exports.definition = {
                 	 var row_count = res.fieldCount;
                 	 /*for(var a = 0; a < row_count; a++){
                 		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }*/
-                	
+                	 }
+                	*/
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),

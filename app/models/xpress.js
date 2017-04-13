@@ -77,9 +77,14 @@ exports.definition = {
 				if(typeof e.u_id != "undefined"){
 					sql_uid = " AND u_id = "+e.u_id;
 				}
+				var now=new Date();
+				var temp = now.getTime() - 1000*60*60*24*30; // Offset by one day;
+				console.log(temp);
+				now.setTime(temp);
+				var lastMonth = COMMON.todayDateTime(now);
 	            var sql_keyword = (typeof e.keyword != "undefined" && e.keyword != "")?" AND description like '%"+e.keyword+"%'":"";
 	            var sql_category = (typeof e.category_id != "undefined")?" AND category = '"+e.category_id+"'":"";
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" order by `updated` DESC "+start_limit;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND created >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC "+start_limit;
                 console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){

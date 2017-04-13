@@ -12,7 +12,7 @@ var saveCurLoc = function(e) {
 	console.log("saveCurLoc");
     if (e.error) {
         alert('Location service is disabled. ');
-        COMMON.closeWindow($.location);
+        //COMMON.closeWindow($.location);
     } else {
     	//console.log(e);
     	showCurLoc = true;
@@ -31,7 +31,10 @@ if (Ti.Geolocation.locationServicesEnabled) {
     Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
     Ti.Geolocation.addEventListener('location', saveCurLoc);
 } else {
-    alert('Please enable location services');
+    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+    	Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
+   	 	Ti.Geolocation.addEventListener('location', saveCurLoc);
+  	});
 } 
 
 function centerMap(e){

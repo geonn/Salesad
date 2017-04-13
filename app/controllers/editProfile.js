@@ -12,13 +12,13 @@ if(Ti.Platform.osname == "android"){
 }else{
 	$.editProfile.titleControl = custom; 
 } 
-//$.editProfileView.editProfile.hintText = args.title;
-$.editProfileView.description.text  = "Edit your "+ args.module + " below:";
+//$.editProfile.hintText = args.title;
+$.description.text  = "Edit your "+ args.module + " below:";
 
 if(args.title == "Fullname"){
-	$.editProfileView.editField.value = args.fullname;
+	$.editField.value = args.fullname;
 }else{
-	$.editProfileView.editField.value = args.email;
+	$.editField.value = args.email;
 }
 
 
@@ -27,7 +27,7 @@ var doSave = function (){
 	var session = Ti.App.Properties.getString('session');
 	
 	var field = args.module;
-	var value = $.editProfileView.editField.value;
+	var value = $.editField.value;
 	
 	var url = API.updateUserProfile +"&session="+session+"&field="+field+"&value="+value;
 
@@ -57,7 +57,7 @@ var doSave = function (){
 };
 
 $.editProfile.addEventListener('open', function(e) {
-	$.editProfileView.editField.focus();
+	$.editField.focus();
 });
 
 function closeWindow() {

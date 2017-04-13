@@ -165,8 +165,8 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
 	}
-	
-	if(typeof latestc[0] == 'object'){
+	console.log(latestc.length+" latestc");
+	if(latestc.length > 0){
 		var adImage = Ti.UI.createImageView({
    			defaultImage: "/images/warm-grey-bg.png",
 			image: latestc[0].img_path,
@@ -175,6 +175,14 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 			height: Ti.UI.SIZE
 		});
 		adImage.addEventListener("click", goAds);
+   		cell.add(adImage);
+   	}else{
+   		var adImage = Ti.UI.createImageView({
+   			image: "/images/ComingSoon_2.png",
+			cate_id: cate_id,
+			width: Ti.UI.FILL,
+			height: Ti.UI.SIZE
+		});
    		cell.add(adImage);
    	}
 }

@@ -5,11 +5,7 @@
 	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <RightNavButton>
-	        <View id="button" left="0" class="wsize" height="45">
-	         	<Label color="#ED1C24" right="10">Logout</Label>
-	        </View>
-        </RightNavButton>
+       
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#fff">
 				<View left="0" width="15%">
@@ -18,9 +14,7 @@
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title">More</Label>
 		     	</View>
-		     	<View id="button" right="0" class="wsize" height="45">
-		         	<Label class="wsize hsize" color="#ED1C24" right="10">Logout</Label>
-		        </View>
+		     
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
 		 	<TableView onClick="navTo">

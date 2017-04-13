@@ -215,7 +215,7 @@ function popCamera(e){
 	        			var ratio =   640 / image.height;
 	        			var newWidth = image.width * ratio;
 	        		} 
-	        		 
+	        		
 					image = image.imageAsResized(newWidth, newHeight); 
 					var filename = Math.floor(Date.now() /1000);
 		            	console.log(filename+" check");
@@ -259,7 +259,18 @@ function popCamera(e){
 	        Titanium.Media.openPhotoGallery({
 	            
 	            success:function(event) {
-	            	console.log('a');
+	               var image = event.media;
+        		   if(image.width > image.height){
+	        			var newWidth = 640;
+	        			var ratio =   640 / image.width;
+	        			var newHeight = image.height * ratio;
+	        		}else{
+	        			var newHeight = 640;
+	        			var ratio =   640 / image.height;
+	        			var newWidth = image.width * ratio;
+	        		} 
+	        		 
+					image = image.imageAsResized(newWidth, newHeight); 
 	            	//console.log(event.media);
 					// called when media returned from the camera
 					if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
@@ -268,10 +279,10 @@ function popCamera(e){
 	            		if(writeFile.exists()){
 	            			writeFile.deleteFile();
 	            		}
-	            		writeFile.write(event.media);
+	            		writeFile.write(image);
 						console.log(writeFile.nativePath+" this is media");
 						//var img = $.UI.create("ImageView", {image: event.media});
-						$.photoLoad.image = event.media;
+						$.photoLoad.image = image;
 						var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
 				    	COMMON.openWindow(win);
 				    }
@@ -305,6 +316,10 @@ function popCamera(e){
 
 function cropped_image(e){
 	$.photoLoad.image = Titanium.Utils.base64decode(e.image_callback);
+	$.photoLoad.width = Ti.UI.FILL;
+	$.photoLoad.height = Ti.UI.SIZE;
+	$.photoLoad.left = 40;
+	$.photoLoad.right = 40;
 	$.photoLoad.blob_submit = Titanium.Utils.base64decode(e.image_callback);
 	console.log("cropped_image");
 	$.photoLoad.value = 1;
