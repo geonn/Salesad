@@ -4,7 +4,7 @@ COMMON.construct($);
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
     text: 'LOGIN', 
-    color: '#ffffff', 
+    color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
   
@@ -115,14 +115,14 @@ function doLogin() {
 
 /** To fixed keyboard hide/show when textfield is activate**/
 
-$.showTnC.addEventListener('touchend', function(e){
-	var win = Alloy.createController("tnc").getView();  
-	COMMON.openWindow(win,{animated:true});
-});
-$.help.addEventListener('touchend', function(e){
-	var win = Alloy.createController("help").getView();  
+$.policy.addEventListener('touchend', function(e){
+	var win = Alloy.createController("webview", {url: "http://salesad.my/privacyPolicy"}).getView();  
 	COMMON.openWindow(win);
 });
+$.tou.addEventListener('touchend', function(e){
+	var win = Alloy.createController("webview", {url: "http://salesad.my/termsOfService"}).getView();  
+	COMMON.openWindow(win);
+}); 
 $.login.addEventListener('touchend', function(e){
 	if(isKeyboardFocus == 1){
 		isKeyboardFocus = 0;

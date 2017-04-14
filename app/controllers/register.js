@@ -8,7 +8,7 @@ var api = require('api');
 var isKeyboardFocus = 0;
 var isSubmit        = 0;
 
-var view_agreement_box = COMMON.CheckboxwithText("I accept the ","Terms of Service and Privacy Policy", {name: "agreets"},"tnc");
+var view_agreement_box = COMMON.CheckboxwithText("I accept the ","Terms of Use and Privacy Policy", {name: "agreets"},"tnc");
 $.tc_area.add(view_agreement_box);
 
 /*********************
