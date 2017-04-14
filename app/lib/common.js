@@ -149,7 +149,7 @@ exports.CheckboxwithText = function(text,highlightText, checkboxspecs, urlLink){
 		}
 	});
 	var label_service = Titanium.UI.createLabel({
-		text: "Terms of Service",
+		text: "Terms of Use",
 		width: Ti.UI.SIZE,
 		height: Ti.UI.SIZE,
 		color: "#ED1C24",

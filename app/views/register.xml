@@ -5,7 +5,17 @@
 	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-		<ScrollView layout="vertical" showVerticalScrollIndicator="true" id="registerScrollView" showHorizontalScrollIndicator="true" width="100%">
+	<View top="0" class="wfill hsize vert">
+		<View top="0" layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#fff">
+				<View left="0" width="15%">
+			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
+			    </View>
+		     	<View id="pageTitle" width="70%">
+		     		<Label color="#ED1C24" id="title">Register</Label>
+		     	</View>	     
+		</View>
+		<View bottom='0' class="hr"></View>      
+		<ScrollView top="0" class="vert hsize wfill" showVerticalScrollIndicator="true" id="registerScrollView" showHorizontalScrollIndicator="true">
 			<TextField backgroundColor="white" top="10" class="textfield" id="email" hintText="Enter Email" />
 			<TextField backgroundColor="white" class="password" id="password" hintText="Enter Password" />
 			<TextField backgroundColor="white" class="password" id="confirm_password" hintText="Enter Confirm Password" />
@@ -21,9 +31,10 @@
 	 			<Label class="wsize hsize padding" color="#cccccc">State</Label>
 	 		</View>
 	 		<TextField backgroundColor="white" class="textfield" id="mobile" hintText="Enter Mobile Phone Number" />
-	 		<TextField backgroundColor="white" class="textfield" id="salesman_code" hintText="Salesman Code" />
+	 		<TextField backgroundColor="white" class="textfield" id="salesman_code" hintText="Referral Code (Optional)" />
 			<View id="tc_area" layout="vertical" height="Ti.UI.SIZE" width="Ti.UI.FILL"></View>
 			<Button id="registerButton" onTouchend="goSignUp" bottom="10" borderRadius="3" backgroundColor="#ffffff" title="Create Account"  width="90%" top="10" height="40" color="#ED1C24" />
 		</ScrollView>
+	</View>	
 	</Window>
 </Alloy>

@@ -297,7 +297,7 @@ function popCamera(e){
 	            		writeFile.write(image);
 						console.log(writeFile.nativePath+" this is media");
 						//var img = $.UI.create("ImageView", {image: event.media});
-						$.photoLoad.image = image;
+						//$.photoLoad.image = image;
 						var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
 				    	COMMON.openWindow(win);
 				    }
