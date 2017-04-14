@@ -21,9 +21,10 @@
 	         	<ImageView left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
 	        </View>
 	 	</View>
-	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
+	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize vert">
 	 		<SearchBar id="searchbar" class="hsize wfill" height="43" onReturn="doSearch"></SearchBar>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
+	 		<View id="history" class="wfill hsize horz" top="50"></View>
 	 	</ScrollView>
 	</Window>
 </Alloy>
