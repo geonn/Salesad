@@ -28,7 +28,7 @@
 		 			<Label class="wsize hsize padding" color="#cccccc">Sale Category</Label>
 		 		</View>
 		 		<View class="textfield" hintText="Map Location" master="1" form_type="text" require="true" id="location" onClick="popMap">
-		 			<Label class="wsize hsize padding" color="#cccccc">Map Location</Label>
+		 			<Label class="wsize hsize padding" color="#cccccc" touchEnabled="false">Map Location</Label>
 		 		</View>
 		 		<TextArea hintText="Store Name / Address" form_type="textarea" require="true" id="address"></TextArea>
 		 		<View id="tc_area" layout="vertical" height="Ti.UI.SIZE" width="Ti.UI.FILL"></View>
