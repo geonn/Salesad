@@ -69,7 +69,7 @@ exports.definition = {
 					var start_limit = "";
 					var sql_lastupdate = " AND created > '"+e.anchor+"'";
 				}else{
-					var start_limit = " limit "+e.start+", 8";
+					var start_limit = " limit "+e.start+", 11";
 					var sql_lastupdate = " AND created <= '"+e.anchor+"'";
 				}
 				var sql_uid = "";
