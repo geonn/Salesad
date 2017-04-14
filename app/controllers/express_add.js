@@ -120,9 +120,19 @@ function doSubmit(){
 }
 
 function popMap(e){
-	hidesoftkeyboard();
-	var win = Alloy.createController("express_location").getView(); 
-	COMMON.openWindow(win);
+	var v = e.source.children[0].text;
+	console.log(e.source);
+	console.log(e.source.children[0].text);
+	var location = v.split(",");
+	if(v != "Map Location"){
+		var win = Alloy.createController("express_location", {lat: location[0], lot: location[1]}).getView(); 
+		hidesoftkeyboard();
+		COMMON.openWindow(win);
+	}else{
+		var win = Alloy.createController("express_location").getView(); 
+		hidesoftkeyboard();
+		COMMON.openWindow(win);
+	}
 }
 
 function popDatePicker(e){
@@ -220,19 +230,19 @@ function popCamera(e){
 					var filename = Math.floor(Date.now() /1000);
 		            	console.log(filename+" check");
 	                if(event.media.nativePath == null){
-		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
-		            		if(writeFile.exists()){
-		            			writeFile.deleteFile();
-		            		}
-		            		writeFile.write(image);
-		            		console.log(writeFile.nativePath);
-		            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-					    	COMMON.openWindow(win);
-		            	}else{
-		            		console.log(event.media.nativePath+" yes");
-		            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
-					    	COMMON.openWindow(win);
-		            	}
+	            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+	            		if(writeFile.exists()){
+	            			writeFile.deleteFile();
+	            		}
+	            		writeFile.write(image);
+	            		console.log(writeFile.nativePath);
+	            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+				    	COMMON.openWindow(win);
+	            	}else{
+	            		console.log(event.media.nativePath+" yes");
+	            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
+				    	COMMON.openWindow(win);
+	            	}
 	            },
 	            cancel:function(){
 	                //do somehting if user cancels operation
@@ -260,6 +270,8 @@ function popCamera(e){
 	            
 	            success:function(event) {
 	               var image = event.media;
+	               console.log(typeof image);
+	               console.log(image);
         		   if(image.width > image.height){
 	        			var newWidth = 640;
 	        			var ratio =   640 / image.width;
@@ -269,8 +281,11 @@ function popCamera(e){
 	        			var ratio =   640 / image.height;
 	        			var newWidth = image.width * ratio;
 	        		} 
-	        		 
-					image = image.imageAsResized(newWidth, newHeight); 
+	        		try{ 
+						image = image.imageAsResized(newWidth, newHeight); 
+					}catch(e){
+						console.log(e);
+					}
 	            	//console.log(event.media);
 					// called when media returned from the camera
 					if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
@@ -351,9 +366,4 @@ $.btnBack.addEventListener('click', function(){
 		COMMON.closeWindow($.win);
 	});
 	
-}); 
-
-$.win.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.win); 
 });
-

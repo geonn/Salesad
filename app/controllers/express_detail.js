@@ -91,7 +91,7 @@ function submit_report(e){
 
 function getDirection(){
 	var win = Alloy.createController("express_direction", args).getView(); 
-	COMMON.openWindow(win); 
+	COMMON.openWindow(win);
 }
 
 function pixelToDp(px) {

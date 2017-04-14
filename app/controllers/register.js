@@ -1,5 +1,6 @@
 var args = arguments[0] || {};
-
+var loading = Alloy.createController("loading");
+$.register.add(loading.getView());
 /** include required file**/
 var api = require('api');
 
@@ -15,7 +16,7 @@ $.tc_area.add(view_agreement_box);
 *******FUNCTION*******
 **********************/
 var goSignUp = function(){
-	
+	loading.start();
 	if(isSubmit == 1){
 		return;
 	}
@@ -103,6 +104,7 @@ var goSignUp = function(){
 	        common.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
 		}
 	});
+	loading.finish();
 };
 	/*
 	var url = api.registerUser +"&firstname="+firstname+"&lastname="+lastname+"&gender="+gender+"&email="+email+"&password="+password+"&password2="+password2;
