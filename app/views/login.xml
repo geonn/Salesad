@@ -24,7 +24,7 @@
 		    	<Label top="5" text="Loading" color="#ffffff" />
 		    </View>
 		</View>
-		<View id="footer" height="auto">
+		<View id="footer" class="hsize">
 				 <Label class="ftText" left="5" id="tou">Term of Use</Label>
 				 <Label class="ftText" left="60">|</Label>
 				 <Label class="ftText" left="65" id="policy">Privacy Policy</Label>
