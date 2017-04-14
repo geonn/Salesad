@@ -2,7 +2,7 @@
 	<Window title="" backButtonTitle="" class="container" id="adsCategoryWin" navTintColor="#ED1C24">
 		
 		<LeftNavButton>
-	        <View onClick="closeWindow" left="0"  width="30" height="30" height="45">
+	        <View onClick="closeWindow" left="0"  width="30" height="45">
 	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>

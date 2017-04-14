@@ -1,7 +1,7 @@
 <Alloy>
 	<Window title="SalesXpress" backButtonTitle="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
-	        <View id="btnBack" left="0"  width="30" height="30" height="45">
+	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
@@ -16,7 +16,7 @@
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
 		 	<ScrollView id="inner_box" bottom="110" class="wfill hfill conthsize contwfill vert">
-		 		<View class="wfill hsize padding vert">
+		 		<View class="wfill hsize padding vert" bottom="0">
 		 			<ImageView id="img" class="wfill hsize"></ImageView>
 		 			<View class="wfill hsize vert small-padding">
 		 				<View class="wfill hsize horz">

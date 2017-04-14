@@ -1,7 +1,7 @@
 <Alloy>
 	<Window title="Map Location" backButtonTitle="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
-	        <View id="btnBack" left="0"  width="30" height="30" height="45" onClick="closeWindow">
+	        <View id="btnBack" left="0"  width="30" height="45" onClick="closeWindow">
 	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>

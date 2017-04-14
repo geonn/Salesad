@@ -29,8 +29,8 @@
 	},
 	 color: '#404041', 
 	 width:'90%',
-	 height: '35dp',
-	 bottom:5,
+	 height: '38dp',
+	 bottom:3,
 	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
      returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
 	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
@@ -146,7 +146,7 @@
 }
 
 '.hsize':{
-	height: Ti.UI.SIZE
+	height: Ti.UI.SIZE,
 }
 
 '.conthsize':{

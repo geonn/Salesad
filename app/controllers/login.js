@@ -15,7 +15,7 @@ var isKeyboardFocus = 0;
 
 if(Titanium.Platform.displayCaps.platformHeight > 480){
 	$.loginLogo.width = 200;
-	$.loginScrollView.height = 320;
+	$.loginScrollView.height = Ti.UI.SIZE;
 }
 
 var goCreateAccount = function(){
@@ -182,8 +182,9 @@ if (Ti.Platform.name === 'android') {
 $.fbloginView.add(FACEBOOK.createLoginButton({
 	    top : 10,
 	    readPermissions: ['email','public_profile','user_friends'],
-	    style : FACEBOOK.BUTTON_STYLE_WIDE
-}));  
+	    style : FACEBOOK.BUTTON_STYLE_WIDE,
+	    width: Ti.UI.FILL
+}));
 
 function loginFacebook(e){
 	if (e.success) {

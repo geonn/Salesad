@@ -1,7 +1,7 @@
 <Alloy>
 	<Window id="win" title="Help & Feedback" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
 		<LeftNavButton>
-	        <View id="btnBack" left="0"  width="30" height="30" height="45">
+	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
