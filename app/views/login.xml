@@ -1,5 +1,5 @@
 <Alloy>
-	<Window title="LOGIN" class="container" backButtonTitle="" id="login" barColor="#ED1C24" navTintColor="#FFFFFF">
+	<Window title="LOGIN" class="container" backButtonTitle="" id="login" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View left="0">
 	         	<Button left='0' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
@@ -25,12 +25,10 @@
 		    </View>
 		</View>
 		<View id="footer" height="auto">
-			<Label class="ftText" left="5">SaleAd</Label>
-			<Label class="ftText" left="45">|</Label>
-			<Label class="ftText" left="50" id="showTnC">Privacy & Terms</Label>
-			<Label class="ftText" left="130">|</Label>
-			<Label class="ftText" left="135" id="help">Help</Label>
-			<Label class="ftText" right="5" textAlign="right" >&#169; freejini</Label>
-		</View>
+				 <Label class="ftText" left="5" id="tou">Term of Use</Label>
+				 <Label class="ftText" left="60">|</Label>
+				 <Label class="ftText" left="65" id="policy">Privacy Policy</Label>
+				 <Label class="ftText" right="5" textAlign="right" >&#169; freejini</Label>
+			</View>
 	</Window>
 </Alloy>
