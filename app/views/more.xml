@@ -17,7 +17,7 @@
 		     
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
-		 	<TableView onClick="navTo">
+		 	<TableView  onClick="navTo">
 		 		<TableViewSection>
 		 			<TableViewRow target="reward" height="50">
 		 				<Label left="10" class="wsize hsize">My Rewards</Label>

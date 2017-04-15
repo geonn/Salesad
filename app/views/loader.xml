@@ -1,6 +1,6 @@
 <Alloy>
 	<Window id="rocket" class="container">
-		<View id="overlay" />
+		<View id="overlay"></View>
 		<ImageView id="rocketSmoke"/>
 		<ImageView id="rocketFlight" />
 		<Label id="loading_text" class="wsize hsize" bottom="50" color="#ffffff"></Label>

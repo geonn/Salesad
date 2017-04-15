@@ -6,34 +6,34 @@
 	        </View>
         </LeftNavButton>
         <View class="wfill hfill vert">
-	        <View layout="horizontal" id="adHeader" height="50" width="100%" platform="android" >
-				<View left="0" width="15%" zIndex="10">
+	        <View layout="horizontal" id="adHeader" height="50" width="100%" platform="android" backgroundColor="#fff">
+				<View left="0" width="15%" zIndex="10" class="hsize">
 			         <ImageView id="btnBack" left='10' width="30" height="30" image="/images/btn-back.png" />
 			    </View>
-		     	<View id="pageTitle" width="70%"  />
+		     	<View id="pageTitle" width="70%"></View>
 		 	</View>
 		    <View class="hr" top="0"></View>
 		    <View class="wfill hfill">
-				<ScrollView contentWidth="Ti.UI.FILL" top="1" bottom="60" layout="vertical">
+				<ScrollView contentWidth="Ti.UI.FILL" top="1" bottom="60" layout="vertical" top="0">
 					<View class="wfill hsize" id="banner"></View>
 					<View class="wfill hsize vert" id="ads_details"></View>
 				</ScrollView>
 			    <View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
 			    	<View class="grey_line"></View>
 			    	<View width="20%" height="60">
-			    		<ImageView id="home" height="Ti.UI.FILL" image="/images/SalesAd_Home.png" />
+			    		<ImageView id="home" height="Ti.UI.FILL" backgroundColor="#fff" image="/images/SalesAd_Home.png" />
 			    	</View>
 					<View width="20%" height="60">
-						<ImageView id="location" height="Ti.UI.FILL" image="/images/SalesAd_Location.png" />
+						<ImageView id="location" height="Ti.UI.FILL" backgroundColor="#fff" image="/images/SalesAd_Location.png" />
 					</View>
 			        <View width="20%" height="60">
-			        	<ImageView id="favorites" height="Ti.UI.FILL" image="/images/SalesAd_Favorite.png" />
+			        	<ImageView id="favorites" height="Ti.UI.FILL" backgroundColor="#fff" image="/images/SalesAd_Favorite.png" />
 			        </View>	
 			        <View width="20%" height="60">
-						<ImageView id="share" height="Ti.UI.FILL" image="/images/SalesAd_Share.png" />
+						<ImageView id="share" height="Ti.UI.FILL" backgroundColor="#fff" image="/images/SalesAd_Share.png" />
 					</View>
 					<View width="19%" height="60">
-						<ImageView onClick="popMoreMenu" id="more" height="Ti.UI.FILL" image="/images/SalesAd_More.png" />
+						<ImageView onClick="popMoreMenu" id="more" backgroundColor="#fff" height="Ti.UI.FILL" image="/images/SalesAd_More.png" />
 					</View>
 				</View>
 			</View>

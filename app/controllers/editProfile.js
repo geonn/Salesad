@@ -14,9 +14,11 @@ if(Ti.Platform.osname == "android"){
 } 
 //$.editProfile.hintText = args.title;
 $.description.text  = "Edit your "+ args.module + " below:";
-
-if(args.title == "Fullname"){
-	$.editField.value = args.fullname;
+if(args.title == "Firstname"){
+	$.editField.value = args.firstname;
+}
+else if(args.title == "Lastname"){
+	$.editField.value = args.lastname;
 }else{
 	$.editField.value = args.email;
 }

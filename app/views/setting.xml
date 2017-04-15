@@ -4,7 +4,7 @@
 			<View left="0" width="15%">
 		         	<ImageView left='10' onClick="closeWindow" width="30" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="70%" />
+	     	<View id="pageTitle" width="70%"></View>
 		    
 	 	</View>
 		<LeftNavButton>

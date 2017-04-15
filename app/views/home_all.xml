@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="SalesXpress" navTintColor="#ED1C24" backgroundColor="#cccccc" class="container" >
+	<Window id="win" title="SalesXpress" navTintColor="#ED1C24" class="container" backgroundColor="#f6f6f6">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
@@ -10,7 +10,7 @@
 	         	<Button left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
 	        </View>
         </RightNavButton>
-        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFF">
 			<View left="0" width="15%">
 		    	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 		    </View>

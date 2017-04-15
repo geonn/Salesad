@@ -6,7 +6,7 @@
 	        </View>
         </LeftNavButton>
         <View class="wfill hfill vert">
-	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFF">
 				<View left="0" width="15%" onClick="closeWindow">
 			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
@@ -20,7 +20,7 @@
 				<Label id="address" class="h5 wfill hsize padding" textAlign="left"></Label>
 				<Button class="button" id="button_direction">Get Direction</Button>
 			</View>
-			<View height="220" class="wfill" id="mapview" module="ti.map" userLocation="true" />
+			<View height="220" class="wfill" id="mapview" module="ti.map" userLocation="true"></View>
 	 	</View>
 	</Window>
 </Alloy>

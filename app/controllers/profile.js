@@ -16,15 +16,20 @@ function addRegClickEvent(table){
 	table.addEventListener('click', function(e){
 		/** User session**/
 		var user = Ti.App.Properties.getString('session');
-		
-		if(e.index > 0){
+		console.log("hi");
+		if(e.index >= 0){
 			var selectedSection = e.source;
 			var args = {
 				'title'  : selectedSection.titles,
 				'module' : selectedSection.mod,
-				'fullname'  :details.fullname,
-				'email'  :details.email
+				'firstname'  :Ti.App.Properties.getString('firstname'),
+				'lastname' :Ti.App.Properties.getString('lastname'),
+				'email'  :Ti.App.Properties.getString('email')
 			};
+console.log(args.title);
+console.log(args.firstname);
+console.log(args.lastname);
+console.log(args.email);
 			var win = Alloy.createController("editProfile",args).getView(); 
 			COMMON.openWindow(win); 
 		} 

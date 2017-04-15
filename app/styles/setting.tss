@@ -1,5 +1,5 @@
 ".container": {
-	backgroundColor:"#FFFFF6",
+	backgroundColor:"#F6F6F6",
 	layout: 'vertical',
 	width: Ti.UI.FILL,
 	fullscreen: true,
