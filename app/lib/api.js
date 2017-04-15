@@ -384,7 +384,7 @@ exports.loadAPIBySequence = function (e){ //counter,
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById(api['checkId']);
 	var params ="";
-	
+	var total_item = APILoadingList.length;
 	if(isUpdate != "" && last_update_on){
 		params = {last_updated: isUpdate.updated};
 	}
@@ -406,12 +406,12 @@ exports.loadAPIBySequence = function (e){ //counter,
 		        model.saveArray(arr);
 		        checker.updateModule(APILoadingList[counter]['checkId'],APILoadingList[counter]['model'],currentDateTime());
 			}
-			Ti.App.fireEvent('app:update_loading_text', {text: APILoadingList[counter]['model']+" loading..."});
+			Ti.App.fireEvent('app:update_loading_text', {text: ((counter+1)/total_item*100).toFixed()+"% loading..."});
 			counter++;
 			API.loadAPIBySequence({counter: counter});
 		},
 		onerror: function(err){
-			Ti.App.fireEvent('app:update_loading_text', {text: APILoadingList[counter]['model']+" loading..."});
+			Ti.App.fireEvent('app:update_loading_text', {text: ((counter+1)/total_item*100).toFixed()+"% loading..."});
 			counter++;
 			API.loadAPIBySequence({counter: counter});
 		}
