@@ -18,7 +18,7 @@
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title">Preview</Label>
 		     	</View>
-		     	<View width="10%" onClick="doSave">
+		     	<View width="15%" onClick="doSave">
 		     		<Label class='wsize hsize red'>Save</Label>
 		     	</View>
 		 	</View>

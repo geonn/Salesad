@@ -56,7 +56,6 @@ var doSave = function(){
 	 // Send the request.
 	 client.send(); 
 };
-$.button.addEventListener('click', doSave); 
 $.editPasswordWin.addEventListener('open', function(e) {
 	$.currentPasswordField.focus();
 });
