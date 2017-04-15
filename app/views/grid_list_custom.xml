@@ -4,7 +4,7 @@
 			<View left="0" width="15%">
 		         	<ImageView left='10' onClick="closeWindow" width="25" height="25" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="70%" />
+	     	<View id="pageTitle" width="70%"></View>
 		     
 	 	</View>
 		<LeftNavButton>
@@ -14,7 +14,7 @@
         </LeftNavButton>
 	
 	<View bottom='0' class="hr"></View>
-	<View id="favTableView" height="auto" /> 
+	<View id="favTableView" height="auto"></View>
 	<TableView separatorColor="transparent" minRowHeight="50" id="category_tv" width="Ti.UI.FILL" backgroundColor="#EDEDED" height="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE" />
 	<!--<TableView id="category_tv" moving="true"></TableView>-->
 	</Window>

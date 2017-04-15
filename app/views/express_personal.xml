@@ -10,7 +10,7 @@
 	         	<Button left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
 	        </View>
         </RightNavButton>
-        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFF">
 			<View left="0" width="15%">
 		         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 		    </View>
@@ -21,9 +21,10 @@
 	         	<ImageView left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
 	        </View>
 	 	</View>
-	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
+	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize vert">
 	 		<SearchBar id="searchbar" class="hsize wfill" height="43" onReturn="doSearch"></SearchBar>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
+	 		<View id="history" class="wfill hsize horz" top="50"></View>
 	 	</ScrollView>
 	</Window>
 </Alloy>

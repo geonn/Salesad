@@ -4,7 +4,7 @@
 			<View left="0" width="15%">
 		         	<ImageView left='10' onClick="closeWindow" width="30" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="70%" /> 
+	     	<View id="pageTitle" width="70%"></View>
 	 	</View>
 		<LeftNavButton>
 	        <View left="0">
@@ -18,11 +18,11 @@
 		</View>
 		<View id="main" layout="vertical" height="95%">
 			 
-			<View class="line" top="10" />
+			<View class="line" top="10"></View>
 			<View id="notificationSlider" height="40" backgroundColor="#ffffff">
 				<Slider id="slider"  min="0" max="2" width="80%" value="1"  />
 			</View>
-			<View class="line" />
+			<View class="line"></View>
 	       <Label class="contentInfo">SalesAd support Dynamic Type will adjust to your preferred reading size above</Label>
 	       <Label class="label" top="5">Recommendation : NORMAL</Label>
 	    	

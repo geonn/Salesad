@@ -15,7 +15,7 @@
 				<Label class="ftText wsize hsize" onTouchend="doForgotPassword" left="15">Forgot your password?</Label>
 				<Button id="loginAccountButton" borderRadius="3" backgroundColor="#ffffff" onTouchend="doLogin" title="Sign In"  width="90%" top="20" height="40" color="#807C7C" />
 	           	
-	           	<View height="60" id="fbloginView" width="90%"/>
+	           	<View height="60" id="fbloginView" width="90%"></View>
 	            <Button id="createAccountButton" onTouchend="goCreateAccount" title="Create an account" width="90%"  height="50" color="#000" />
 	        	
 			</View>
@@ -25,9 +25,9 @@
 		    </View>
 		</View>
 		<View id="footer" class="hsize">
-				 <Label class="ftText" left="5" id="tou">Term of Use</Label>
-				 <Label class="ftText" left="60">|</Label>
-				 <Label class="ftText" left="65" id="policy">Privacy Policy</Label>
+				 <Label class="ftText" left="5" id="tou">Terms of Use</Label>
+				 <Label class="ftText" left="63">|</Label>
+				 <Label class="ftText" left="68" id="policy">Privacy Policy</Label>
 				 <Label class="ftText" right="5" textAlign="right" >&#169; freejini</Label>
 			</View>
 	</Window>

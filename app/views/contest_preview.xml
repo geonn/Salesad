@@ -14,7 +14,7 @@
 			<View left="0" width="15%" zIndex="10">
 		         <ImageView onClick="windowClose" left='10' width="30" height="30" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="70%"/>
+	     	<View id="pageTitle" width="70%"></View>
 	     	<View width="auto"  >
 		    	<ImageView onClick="navToWeb" right='10'  width='30' image="/images/scan.png" />
 		    </View>

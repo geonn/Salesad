@@ -110,6 +110,44 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getAllData : function(e) {
+				var collection = this;
+				var columns = collection.config.columns;
+				var names = [];
+				for (var k in columns) {
+	                names.push(k);
+	            }
+	            var sql_uid = "";
+				console.log(e);
+				if(typeof e.u_id != "undefined"){
+					sql_uid = " AND u_id = "+e.u_id;
+				}
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" order by `updated` DESC ";
+                console.log(sql);
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                console.log(sql);
+                var res = db.execute(sql);
+                var arr = []; 
+                var count = 0;
+                
+                var eval_column = "";
+            	for (var i=0; i < names.length; i++) {
+					eval_column = eval_column+names[i]+": res.fieldByName('"+names[i]+"'),";
+				};
+                while (res.isValidRow()){
+                	eval("arr[count] = {"+eval_column+"}");
+                	res.next();
+					count++;
+                }
+				res.close();
+                db.close();
+                
+                collection.trigger('sync');
+                return arr;
+			},
 			getDataById : function(id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 AND id=? order by `updated`";

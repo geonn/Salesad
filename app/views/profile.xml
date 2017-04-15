@@ -11,7 +11,7 @@
 	        </View>
         </RightNavButton>
         <View class="wfill hfill vert">
-	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFFFF6">
+	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFF">
 				<View left="0" width="15%">
 		         	<ImageView left='10' id="btnBack" width="30" height="30" height="30" image="/images/btn-back.png" />
 			    </View>
@@ -27,14 +27,14 @@
 			<View id="main" layout="vertical" height="95%">
 				<View backgroundColor="#fcfbfb" height="40">
 			        <Label class="label">Account Info</Label>
-			        <View class="line" />
+			        <View class="line"></View>
 			    </View>
 			    <ImageView id="photoLoad" image="/images/Icon_add_photo.png" onClick="popCamera" top="30" bottom="30" form_type="image" width="80" height="80" value="0"></ImageView>
 				<View id="table1Container" height="150"></View>
 				
 		      	<View backgroundColor="#fcfbfb" height="40">
 			        <Label class="label">Password</Label>
-			        <View class="line" />
+			        <View class="line"></View>
 			    </View>
 				<View id="table2Container" height="50"></View>
 			</View>
