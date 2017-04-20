@@ -5,20 +5,49 @@
 },
 ".title_header":{
 	font: {
-        fontSize: '15'
+        fontSize: '18'
     },
-    textAlign: "left",
-    color: '#CC2228',
-    top: '20',
+    textAlign: "center",
+    color: '#ED1C24',
+    top: '10',
     left: '10', 
     right: '10'
 },
 ".description_content":{
 	font: {
+        fontSize: '16'
+    },
+    top: '10', 
+    left: '20',
+    textAlign: "left",
+    right: '15'
+}
+".description_content_":{
+	font: {
         fontSize: '14'
     },
-    top: '20', 
-    left: '10',
+    top: '50', 
+    left: '20',
     textAlign: "left",
-    right: '10'
+    right: '15'
 }
+".description_content__":{
+	font: {
+        fontSize: '14'
+    },
+    top: '10', 
+    left: '20',
+    textAlign: "left",
+    right: '15'
+}
+".description_content___":{
+	font: {
+        fontSize: '14'
+    },
+    top: '10', 
+    left: '20',
+    textAlign: "left",
+    right: '15',
+    color: '#ED1C24'
+}
+
