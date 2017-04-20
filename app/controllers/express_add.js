@@ -270,6 +270,7 @@ function popCamera(e){
 	        Titanium.Media.openPhotoGallery({
 	            
 	            success:function(event) {
+	            try{	
 	               var image = event.media;
 	               console.log(typeof image);
 	               console.log(image);
@@ -290,17 +291,23 @@ function popCamera(e){
 	            	//console.log(event.media);
 					// called when media returned from the camera
 					if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
-						var filename = Math.floor(Date.now() /1000);
-	            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
-	            		if(writeFile.exists()){
-	            			writeFile.deleteFile();
+						
+							var filename = Math.floor(Date.now() /1000);
+	            			var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+	            			if(writeFile.exists()){
+	            				writeFile.deleteFile();
 	            		}
-	            		writeFile.write(image);
-						console.log(writeFile.nativePath+" this is media");
+	            			writeFile.write(image);
+							console.log(writeFile.nativePath+" this is media");
 						//var img = $.UI.create("ImageView", {image: event.media});
 						//$.photoLoad.image = image;
-						var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-				    	COMMON.openWindow(win);
+							var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+				    		COMMON.openWindow(win);
+				    	
+				    	
+				    }
+				    }catch(e){
+				    	alert("Can't use the image from this album. Please select an image from another album.");
 				    }
 				},
 				cancel:function() {
@@ -322,7 +329,7 @@ function popCamera(e){
 	        });
 	    	
 	    } else {
-	        
+	    
 	    }
 	});
 	 
