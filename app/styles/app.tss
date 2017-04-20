@@ -37,7 +37,7 @@
 },
 ".textfield":{
 	width:'90%',
-	 height: '35dp',
+	 height: '40dp',
 	 bottom:10,
 	 borderRadius: 4,
 	 backgroundColor: "#ffffff",
