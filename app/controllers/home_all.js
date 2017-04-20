@@ -26,7 +26,7 @@ var keyword = "";
 
 function getPreviousData(param){
 	var model = Alloy.createCollection("xpress");
-	data = model.getData({anchor: anchor, last_updated: last_updated, start: start, latest: false, keyword: keyword, category_id: category_id});
+	data = model.getData({anchor: anchor, last_updated: last_updated, start: start, offset:8, latest: false, keyword: keyword, category_id: category_id});
 	start = start + data.length;
 	console.log(data.length+" "+start);
 }
