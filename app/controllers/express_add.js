@@ -87,6 +87,7 @@ function doSubmit(){
 			console.log(forms_array[i].blob_submit);
 			if(typeof forms_array[i].blob_submit == "undefined"){
 				alert("Please upload photo");
+				loading.finish();
 				return;
 			}
 			var img_blob = forms_array[i].blob_submit.imageAsResized(640, 640); 
