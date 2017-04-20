@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="My Posted SalesXpress" navTintColor="#ED1C24" backgroundColor="#cccccc" class="container" >
+	<Window id="win" title="My Posted SalesXpress" navTintColor="#ED1C24" class="container" >
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
@@ -21,6 +21,7 @@
 	         	<ImageView left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
 	        </View>
 	 	</View>
+	 	<View class="hr"></View>
 	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize vert">
 	 		<SearchBar id="searchbar" class="hsize wfill" height="43" onReturn="doSearch"></SearchBar>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
