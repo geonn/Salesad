@@ -70,7 +70,7 @@ exports.definition = {
 			},
 			getItemByAds : function(a_id){
 				var collection = this;
-				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "' order by position " ;
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "' AND status = 1 order by position " ;
               // console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){

@@ -1,7 +1,7 @@
 var args = {};
 var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
-
+console.log(last_update_on+" last_update_on index");
 var loadingView = Alloy.createController("loader");
 loadingView.getView().open();
 loadingView.start();
@@ -19,6 +19,10 @@ var bannerListing = function(){
 	
 	var ads_model = Alloy.createCollection('ads'); 
  	var banners = ads_model.getBannerList();
+ 	if(banners.length <=0 ){
+ 		$.indexView.bannerListing.height = 0;
+ 		return;
+ 	}
 	var the_view = [];
    	var counter = 0;
 	var imagepath, adImage, row = '';

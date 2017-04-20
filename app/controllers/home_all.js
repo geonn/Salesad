@@ -192,8 +192,7 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	
 	if (distance < lastDistance){
 		var nearEnd = theEnd * 0.8;
-		console.log(nearEnd+" "+total);
-		if (!load && (total >= nearEnd)){
+		if (!load && (total >= nearEnd) && data.length){
 			load = true;
 			getPreviousData({});
 			render({});

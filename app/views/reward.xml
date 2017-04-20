@@ -24,20 +24,20 @@
 		 				</View>
 			 			<Label class="wsize hsize bold h4">You're off to a great start</Label>
 			 			<ScrollView id="horz_reward_list" backgroundColor="#d0d0d0" top="20" class="wfill hsize conthsize horz" contentWidth="auto" showHorizontalScrollIndicator="true" scrollType="horizontal" disableBounce="true">
-			 				<View class="wsize hsize">
+			 				<View class="wsize hsize padding">
 			 					<!--<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24">
 				 					<Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label>
 				 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
 			 				</View>-->
-			 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="/images/GiftCard_RM10.png" />
+			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM10.png" />
 			 				</View>
-			 				<View class="wsize hsize">
+			 				<View class="wsize hsize padding">
 			 					
-			 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="/images/GiftCard_RM50.png" />
+			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM50.png" />
 			 				</View>
-			 				<View class="wsize hsize">
+			 				<View class="wsize hsize padding">
 			 					
-			 					<ImageView zIndex="1" class=" hsize rounded padding box" width="140" image="/images/GiftCard_RM100.png" />
+			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM100.png" />
 			 				</View>
 			 				
 			 			</ScrollView>

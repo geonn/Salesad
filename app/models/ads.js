@@ -156,8 +156,10 @@ exports.definition = {
 				for (var k in columns) {
 	                names.push(k);
 	            }
-	            
-				var sql = "select * from ads where recommended = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND status = 1 ORDER BY updated DESC";
+	            var d = COMMON.todayDateTime();
+	            d = d.split(" ")[0];
+				var sql = "select * from ads where (','||featured_date||',') LIKE '%,"+d+",%' AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND status = 1 ORDER BY updated DESC";
+				console.log(sql);
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -170,11 +172,11 @@ exports.definition = {
             	for (var i=0; i < names.length; i++) {
 					eval_column = eval_column+names[i]+": res.fieldByName('"+names[i]+"'),";
 				};
-                
+                /*
                 var row_count = res.fieldCount;
             	for(var a = 0; a < row_count; a++){
             		console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-            	}
+            	}*/
                 
                 while (res.isValidRow()){
                 	eval("arr[count] = {"+eval_column+"}");
@@ -412,8 +414,8 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc, sales_to, sales_from) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.sales_to, entry.sales_from);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc, sales_to, sales_from,featured_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.sales_to, entry.sales_from, entry.featured_date);
 				});
 				db.execute("COMMIT");
 	            db.close();
