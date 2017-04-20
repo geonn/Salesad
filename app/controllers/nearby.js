@@ -13,7 +13,7 @@ var anchor = COMMON.todayDateTime();
 var last_updated = COMMON.todayDateTime();
 var keyword = "";
 var model = Alloy.createCollection("xpress");
-var xpress_data = model.getData({anchor: anchor, last_updated: last_updated, start: start, latest: false, keyword: keyword});
+var xpress_data = model.getData({anchor: anchor, offset:100, last_updated: last_updated, start: start, latest: false, keyword: keyword});
 console.log(xpress_data.length);
 if(args.id){
 	var clinic = library.getPanelListById(args.id);
@@ -70,6 +70,7 @@ function render_map(){
 			});
 			detBtn.addEventListener('click', function(ex){ 
 				console.log(ex.source);
+				console.log("xpress");
 				console.log(ex.source.a_id);
 				var win = Alloy.createController("ad", {a_id: ex.source.a_id}).getView(); 
 				COMMON.openWindow(win,{animated:true}); 
@@ -103,7 +104,15 @@ function render_map(){
 						    height: 20,
 							width: 20,
 							a_id: entry1.a_id
-						});						
+						});	
+						detBtn1.addEventListener('click', function(ex){ 
+							console.log(ex.source);
+							console.log("AdsList");
+							console.log(ex.source.a_id);
+							var win = Alloy.createController("ad", {a_id: ex.source.a_id}).getView(); 
+							COMMON.openWindow(win,{animated:true}); 
+							return false;
+						});  											
 						var merchantLoc1 = Alloy.Globals.Map.createAnnotation({
 						    latitude:entry1.latitude,
 						    longitude:entry1.longitude,

@@ -92,13 +92,13 @@ function render(e){
 	$.history.removeAllChildren();
 	var view1 = $.UI.create("View", {classes:['wfill','hsize','vert']});
 	var view2 = $.UI.create("View", {classes:['wfill','hsize','vert']});
-	view1.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Posted", textAlign: "center"}));
+	view1.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Posts", textAlign: "center"}));
 	view1.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
-	view1.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T1", top: 90, bottom: 90, textAlign: "center", text: "There Is No Ongoing Posted"}));
+	view1.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T1", top: 90, bottom: 90, textAlign: "center", text: "You have no expired posts at this moment."}));
 	$.content.add(view1);
-	view2.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Posted", textAlign: "center"}));
+	view2.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Posts", textAlign: "center"}));
 	view2.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
-	view2.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T2", top: 90, bottom: 90, textAlign: "center", text: "There Is No Expired Posted"}));
+	view2.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T2", top: 90, bottom: 90, textAlign: "center", text: "You have no expired posts at this moment."}));
 	$.history.add(view2);
 	
 	if(OS_ANDROID){
@@ -120,7 +120,7 @@ function render(e){
 		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});
 		var title = $.UI.create("Label", {classes: ['h6', 'bold','wfill', 'hsize'], left: 5, right: 5, bottom: 3, ellipsize: true,wordWrap:false,  textAlign:"left",  text: data[i].description});
 		var subtitle = $.UI.create("Label", {classes: ['h7','wfill','hsize'], left: 5, right: 5, bottom: 3, textAlign:"left",  text: data[i].sales_from+" - "+data[i].sales_to});
-		var hr = $.UI.create("View", {classes:['hr']});
+		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: "#E3E5E8"});
 		var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding']});
 		var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 45});
 		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/logo_small.png",height:30, width: 30, left:0, borderRadius: 20});

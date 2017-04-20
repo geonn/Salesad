@@ -64,12 +64,12 @@ exports.definition = {
 				for (var k in columns) {
 	                names.push(k);
 	            }
-	            
+	            var os=(e.offse="")?8:e.offset;
 	            if(e.latest){
 					var start_limit = "";
 					var sql_lastupdate = " AND created > '"+e.anchor+"'";
 				}else{
-					var start_limit = " limit "+e.start+", 11";
+					var start_limit = " limit "+e.start+","+os;
 					var sql_lastupdate = " AND created <= '"+e.anchor+"'";
 				}
 				var sql_uid = "";
