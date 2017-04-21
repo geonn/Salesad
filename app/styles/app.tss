@@ -248,6 +248,7 @@
 ".bold":{
 	font: {
 		fontFamily: 'Lato-Regular',
+		fontWeight: "bold",
 	},
 	color: "#404041"
 },
