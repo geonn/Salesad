@@ -30,14 +30,15 @@
 				 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
 			 				</View>-->
 			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM10.png" />
+			 					<Label zIndex="2" class="hsize h4" width="140" textAlign="center">Great rewards coming soon!</Label>
 			 				</View>
 			 				<View class="wsize hsize padding">
-			 					
 			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM50.png" />
+			 					<Label zIndex="2" class="hsize h4" width="140" textAlign="center">Great rewards coming soon!</Label>
 			 				</View>
 			 				<View class="wsize hsize padding">
-			 					
 			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM100.png" />
+			 					<Label zIndex="2" class="hsize h4" width="140" textAlign="center">Great rewards coming soon!</Label>
 			 				</View>
 			 				
 			 			</ScrollView>

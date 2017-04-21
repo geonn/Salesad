@@ -15,17 +15,18 @@
 		     	</View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
-		 	<ScrollView id="inner_box" bottom="110" class="wfill hfill conthsize contwfill vert">
-		 		<View class="wfill hsize padding vert" bottom="0">
+		 	<ScrollView id="inner_box" class="wfill hfill conthsize contwfill vert">
+		 		<View class="wfill hsize vert" bottom="0">
 		 			<ImageView id="img" class="wfill hsize"></ImageView>
-		 			<View class="wfill hsize vert small-padding">
+		 			<View class="wfill hsize vert padding">
 		 				<View class="wfill hsize horz">
 		 					<ImageView class="hsize" width="20" right="10" image="/images/Icon_Date.png"></ImageView>
 		 					<Label class="wfill hsize h5 grey" id="xpress_date" textAlign="left"/>
 		 				</View>
 		 				<View class="wfill hsize horz" onClick="getDirection">
 		 					<ImageView class="hsize" width="20" top="5" right="10" image="/images/Icon_Location.png"></ImageView>
-		 					<Label class="wfill hsize h5 grey" id="xpress_location" top="5" textAlign="left"/>
+		 					<Label class="wfill hsize h5 grey" id="xpress_location" top="5" textAlign="left" platform="android" ellipsize="true" wordWrap="false"/>
+		 					<Label class="h5 grey" width="90%" height="15" id="xpress_location" top="5" textAlign="left" platform="ios"/>
 		 				</View>
 	 				</View>
 	 			</View>
@@ -36,10 +37,12 @@
 	 	<View class="wfill vert" height="60" backgroundColor="#ffffff" bottom="0" zIndex="10">
 	 		<View class="hr" backgroundColor="#E8E8E8"></View>
 	 		<View class="wfill hfill horz padding">
-	 			<ImageView id="owner_img_path" width="40" height="40" right="10" defaultImage="/images/logo_small.png" class="" />
+	 			<ImageView id="owner_img_path" width="40" height="40" right="10" borderRadius="20" defaultImage="/images/logo_small.png" class="" />
 	 			<View class="hfill vert" width="40%">
-	 				<Label id="owner_name" class="bold h5 hsize wfill" ellipsize="true" wordWrap="false" ></Label>
-	 				<Label id="category" class="h5 hsize wfill" ellipsize="true" wordWrap="false"></Label>
+	 				<Label id="owner_name" class="bold h5 hsize wfill" ellipsize="true" wordWrap="false" platform="android"></Label>
+	 				<Label id="category" class="h5 hsize wfill" ellipsize="true" wordWrap="false" platform="android"></Label>
+	 				<Label id="owner_name" class="bold h5 wfill" height="15" platform="ios"></Label>
+	 				<Label id="category" class="h5 wfill" height="15" platform="ios"></Label>
  				</View>
  				<View class="wfill hsize">
  					<ImageView onClick="popMoreMenu" id="more" class="wsize hsize" top="10" bottom="10" right="0" image="/images/Icon_More_Grey.png" />
