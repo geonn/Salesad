@@ -38,14 +38,14 @@
 	 		<View class="hr" backgroundColor="#E8E8E8"></View>
 	 		<View class="wfill hfill horz padding">
 	 			<ImageView id="owner_img_path" width="40" height="40" right="10" borderRadius="20" defaultImage="/images/logo_small.png" class="" />
-	 			<View class="hfill vert" width="40%">
+	 			<View class="hfill vert" width="70%">
 	 				<Label id="owner_name" class="bold h5 hsize wfill" ellipsize="true" wordWrap="false" platform="android"></Label>
 	 				<Label id="category" class="h5 hsize wfill" ellipsize="true" wordWrap="false" platform="android"></Label>
 	 				<Label id="owner_name" class="bold h5 wfill" height="15" platform="ios"></Label>
 	 				<Label id="category" class="h5 wfill" height="15" platform="ios"></Label>
  				</View>
  				<View class="wfill hsize">
- 					<ImageView onClick="popMoreMenu" id="more" class="wsize hsize" top="10" bottom="10" right="0" image="/images/Icon_More_Grey.png" />
+ 					<ImageView onClick="popMoreMenu" id="more" width="20" height="25" top="5" bottom="10" right="0" image="/images/Icon_More_Grey.png" />
 				</View>
 	 		</View>
 	 	</View>
