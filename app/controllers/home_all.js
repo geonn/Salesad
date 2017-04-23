@@ -165,14 +165,14 @@ function render(e){
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
 		var container = $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ffffff", width: cell_width, left: 9, top:9, record: data[i]});
 		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});
-		var title = $.UI.create("Label", {classes: ['h6', 'bold', 'wfill', 'hsize'], left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: data[i].description});
+		var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'], height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: data[i].description,}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'], height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: data[i].description,});
 		var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5, right: 5, bottom: 3, textAlign:"left",  text: convertToHumanFormat(data[i].sales_from)+" - "+convertToHumanFormat(data[i].sales_to)});
 		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#E3E5E8'});
 		var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding']});
-		var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 45});
-		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/logo_small.png", borderRadius: 20, height:30, width: 30, left:0});
-		var owner_name = $.UI.create("Label", {classes: ['h6', 'bold','wfill', 'hsize'], top:0, ellipsize: true, wordWrap:false, textAlign:"left", text: data[i].owner_name});
-		var label_category = $.UI.create("Label", {classes: ['h6','wfill', 'hsize'], ellipsize: true, wordWrap:false,  textAlign:"left",  text: obj_category[0].categoryName});
+		var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36});
+		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/logo_small.png", borderRadius: 15, height:30, width: 30, left:0});
+		var owner_name = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold','wfill'], height:14, top:0, textAlign:"left", text: data[i].owner_name}) : $.UI.create("Label", {classes: ['h6', 'bold','wfill'], height:14, top:0, ellipsize: true, wordWrap: false, textAlign:"left", text: data[i].owner_name});
+		var label_category = (OS_IOS) ? $.UI.create("Label", {classes: ['h6','wfill', 'hsize'], textAlign:"left",  text: obj_category[0].categoryName}) : $.UI.create("Label", {classes: ['h6','wfill', 'hsize'], ellipsize: true, wordWrap: false, textAlign:"left",  text: obj_category[0].categoryName});
 		
 		container.add(img);
 		container.add(title);
@@ -227,8 +227,7 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	
 	if (distance < lastDistance){
 		var nearEnd = theEnd * 0.8;
-		console.log(nearEnd+" "+total);
-		if (!load && (total >= nearEnd)){
+		if (!load && (total >= nearEnd) && data.length){
 			load = true;
 			getPreviousData({});
 			render({});

@@ -102,7 +102,7 @@
 	width:60, 
 },
 ".container": {
-	backgroundColor: '#FFFFFF',
+	backgroundColor: '#F6F6F6',
 	fullscreen: true,
 	layout: "vertical",
 	width: Ti.UI.FILL,
@@ -248,6 +248,7 @@
 ".bold":{
 	font: {
 		fontFamily: 'Lato-Regular',
+		fontWeight: "bold",
 	},
 	color: "#404041"
 },

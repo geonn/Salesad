@@ -16,8 +16,15 @@
 	 	
         <View bottom='0' class="hr"></View>
 		<ScrollView id="main" layout="vertical">
-			<Label class="title_header bold">SalesAd - The best in-store sales you'll never miss</Label>
-			<Label class="description_content">Tired of looking for sales scattered all over town? Forgot to bring your vouchers and coupons when you shop? Now, you can browse for every in-store sales and deals all in one place! The SalesAd mobile app is the ultimate solution for smart shoppers like you. It features an incredible range of brands, stores, products and services - all on sale! We'll make sure youre always informed about the best stuff that's selling at the best price.</Label>	
+			<Label class="title_header bold">SalesAd</Label>
+			<Label class="title_header bold">The best in-store sales you'll never miss</Label>
+			<Label class="description_content">Tired of looking for sales scattered all over town? Forgot to bring your vouchers and coupons when you shop? Now, you can browse for every in-store sales and deals all in one place! The SalesAd mobile app is the ultimate solution for smart shoppers like you. It features an incredible range of brands, stores, products and services on sale! We'll make sure you’re always informed about the best stuff that&#39;s selling at the best price.</Label>
+			<Label class="description_content_">By downloading or using the SalesAd App (the “App”), the Terms of Use, Privacy Policy and Cancellation and Refund Policy (“the Policies”) which appear on www.SalesAd.my will automatically apply to you.</Label>	
+			<Label class="description_content___" id="sale">www.SalesAd.my</Label>
+			<Label class="description_content___" id="tou">Terms of Use</Label>
+			<Label class="description_content___" id="policy">Privacy Policy</Label>	
+			<Label class="description_content___" id="pay">Payment, Cancellation &amp; Refund Policy</Label>	
+			<Label class="description_content__">Please ensure that you read them carefully before using this App.</Label>
 		</ScrollView>
 	</Window>	
 	

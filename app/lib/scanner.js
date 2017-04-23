@@ -94,6 +94,10 @@ exports.openScanner = function(scanType) {
 		picker.startScanning();		// startScanning() has to be called after the window is opened. 
 	});
 	window.open();
+	
+	window.addEventListener('android:back', function (e) {
+		COMMON.closeWindow(window);
+	});
 };
 
 function checkExpired(m_id){

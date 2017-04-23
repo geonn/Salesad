@@ -13,17 +13,20 @@
 	         	<Button left='0' onClick="closeWindow" width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-	<View class="wfill hfill vert">
-    <View bottom='0' class="hr"></View>
-	<View id="info" class="wfill hsize vert padding">
-		<Label id="name" class="h5 bold wfill hsize padding" bottom="0" textAlign="left"></Label>
-		<Label id="address" class="h5 wfill hsize padding" textAlign="left"></Label>
-		<Label id="mobile" class="h5 wfill hsize padding" textAlign="left"></Label>
-		<Button class="button" id="button_direction">Get Direction</Button>
-	</View>
-	<View id="mapview" height="220" module="ti.map" userLocation="true"></View>
-	<ListView id="listing" class="wfill hfill conthsize contwfill">
-	</ListView>
+    <View class="wfill hfill vert">
+	    <View bottom='0' class="hr"></View>
+		<ScrollView class="wfill hfill vert conthsize contwfill">
+		    
+			<View id="info" class="wfill hsize vert padding">
+				<Label id="name" class="h5 bold wfill hsize padding" bottom="0" textAlign="left"></Label>
+				<Label id="address" class="h5 wfill hsize padding" textAlign="left"></Label>
+				<Label id="mobile" class="h5 wfill hsize padding" top="0" bottom="0" textAlign="left"></Label>
+				<Button class="button" id="button_direction">Get Direction</Button>
+			</View>
+			<View id="mapview" height="220" module="ti.map" userLocation="true"></View>
+			<ListView id="listing" class="wfill hsize conthsize contwfill">
+			</ListView>
+		</ScrollView>
 	</View>
 	</Window>
 </Alloy>

@@ -19,7 +19,7 @@
 		     		<Label color="#ED1C24" id="title">My Profile</Label>
 		     	</View>
 		     	
-		     	<View id="button" right="0" width="20%" height="45" onClick="doLogout">
+		     	<View right="0" width="20%" height="45" onClick="doLogout">
 		         	<Label class="wsize hsize" color="#ED1C24" right="10" touchEnabled="false">Logout</Label>
 		        </View>
 		 	</View>
@@ -29,7 +29,7 @@
 			        <Label class="label">Account Info</Label>
 			        <View class="line"></View>
 			    </View>
-			    <ImageView id="photoLoad" image="/images/Icon_add_photo.png" onClick="popCamera" top="30" bottom="30" form_type="image" width="80" height="80" value="0"></ImageView>
+			    <ImageView id="photoLoad" image="/images/Icon_add_photo.png" onClick="popCamera" top="30" bottom="30" form_type="image" width="200" height="200" borderRadius="100" value="0"></ImageView>
 				<View id="table1Container" height="150"></View>
 				
 		      	<View backgroundColor="#fcfbfb" height="40">
