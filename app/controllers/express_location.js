@@ -35,9 +35,8 @@ if (Ti.Geolocation.locationServicesEnabled) {
     Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
     console.log('1');
     Ti.Geolocation.addEventListener('location', saveCurLoc);
-} else {
-    alert('Please enable location services');
-}
+} 
+
 
 function centerMap(e){
 	var lat = (typeof args.lat != "undefined")?args.lat:Ti.App.Properties.getString('latitude');

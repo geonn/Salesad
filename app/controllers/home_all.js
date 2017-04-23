@@ -6,17 +6,18 @@ var model = Alloy.createCollection("category");
 var category = model.getCategoryList();
 var ads_data = [];
 var ads_counter = 0, counter = 0;
+var empty;
 
 function navTo(e){
 	var record = parent({name: "record"}, e.source);
 	var type = (typeof e.source.type !="undefined")?e.source.type : 1;
 	if(type == 3){
-		var win = Alloy.createController("ad", {a_id: record.a_id}).getView(); 
-		COMMON.openWindow(win); 
+		COMMON.openWindow(Alloy.createController("ad", {a_id: record.a_id}).getView()); 
 	}else{
-		var win = Alloy.createController("express_detail", record).getView(); 
-		COMMON.openWindow(win); 
+		COMMON.openWindow(Alloy.createController("express_detail", record).getView()); 
 	}
+	record=null;
+	type=null;
 }
 
 var start = 0;
@@ -29,6 +30,7 @@ function getPreviousData(param){
 	data = model.getData({anchor: anchor, last_updated: last_updated, start: start, offset:8, latest: false, keyword: keyword, category_id: category_id});
 	start = start + data.length;
 	console.log(data.length+" "+start);
+	model=null;
 }
 
 function doSearch(){
@@ -58,10 +60,12 @@ function popMore(){
 			COMMON.openWindow(win); 
 		}
 	});
+	dialog=null;
 }
 	
 function popCategory(){
 	var options = _.pluck(category, "categoryName");
+	options.push("All");
 	options.push("Cancel");
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: options.length - 1,
@@ -69,8 +73,15 @@ function popCategory(){
 	  title: 'Category'
 	});
 	dialog.show();
-	dialog.addEventListener("click", function(e){   
-		if(e.index != options.length - 1){
+	dialog.addEventListener("click", function(e){
+		if(e.index ==options.length -2){
+			category_id = empty;
+			start = 0;
+			anchor = COMMON.todayDateTime();
+			getPreviousData({keyword:$.searchbar.value});
+			render({clear: true});			
+		}		   
+		else if(e.index != options.length - 1){
 			category_id = category[e.index].id;
 			start = 0;
 			anchor = COMMON.todayDateTime();
@@ -78,6 +89,8 @@ function popCategory(){
 			render({clear: true});
 		}
 	});
+	options=null;
+	dialog=null;
 }	
 	
 function refresh(){
@@ -101,6 +114,9 @@ function refresh(){
 			model.saveArray(arr);
 			getPreviousData({});
 			render({clear:true});
+			res=null;
+			arr=null;
+			model=null;
 		},
 		onerror: function(err){
 			_.isString(err.message) && alert(err.message);
@@ -109,6 +125,8 @@ function refresh(){
 			COMMON.closeWindow($.win);
 		}
 	});
+	checker=null;
+	isUpdate=null;
 }	
 
 function render(e){
@@ -135,10 +153,15 @@ function render(e){
 				v.add(img);
 				$.content.add(v);
 				ads_counter++;
+				cw=null;
+				img=null;
+				v=null;
 			}
 		}
+		Ti.API.warn("This is our Memory" +Ti.Platform.availableMemory);			
 		var obj_category = _.where(category, {id: data[i].category});
 		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/logo_small.png":data[i].owner_img_path;
+//		data[i].img_path = "/images/Icon_add_photo.png";		
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
 		var container = $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ffffff", width: cell_width, left: 9, top:9, record: data[i]});
 		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});
@@ -163,6 +186,17 @@ function render(e){
 		container.addEventListener("click", navTo);
 		$.content.add(container);
 		counter++;
+		obj_category=null;
+		container=null;
+		img=null;
+		title=null;
+		subtitle=null;
+		hr=null;
+		view_bottom=null;
+		view_bottom_right=null;
+		owner_img=null;
+		owner_name=null;
+		label_category=null;
 	};
 }
 
@@ -173,6 +207,7 @@ function init(){
 	console.log(ads_data);
 	loading.start();
 	refresh();
+	ads_model=null;
 }
 
 // convert pixel to dp.
@@ -199,6 +234,7 @@ $.content_scrollview.addEventListener("scroll", function(e){
 			render({});
 			load = false;
 		}
+		nearEnd=null
 	}
 	lastDistance = distance;
 	
@@ -207,18 +243,27 @@ $.content_scrollview.addEventListener("scroll", function(e){
 		loading.start();
 		refresh();
         console.log("refresh!");
-        setTimeout(function(){refreshing = false;loading.finish();}, 1000);
-        
+        setTimeout(function(){refreshing = false;loading.finish();}, 1000);   
     }
-	//
+	theEnd=null;
+	total=null;
+	distance=null;
 });
 
 Ti.App.addEventListener("home:refresh", refresh);
 
 $.btnBack.addEventListener('click', function(){ 
+ 	load=null;
+ 	lastDistance=null;
+ 	refreshing=null;
+ 	Ti.App.removeEventListener('home:refresh', refresh);		
 	COMMON.closeWindow($.win);
 }); 
 
 $.win.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.win); 
+ 	load=null;
+ 	lastDistance=null;
+ 	refreshing=null;
+ 	Ti.App.removeEventListener('home:refresh', refresh);
+ 	COMMON.closeWindow($.win); 	
 });

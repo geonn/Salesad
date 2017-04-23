@@ -123,15 +123,40 @@ function popMap(e){
 	var v = e.source.children[0].text;
 	console.log(e.source);
 	console.log(e.source.children[0].text);
-	var location = v.split(",");
+	var location = v.split(",");		
 	if(v != "Map Location"){
 		var win = Alloy.createController("express_location", {lat: location[0], lot: location[1]}).getView(); 
 		hidesoftkeyboard();
-		COMMON.openWindow(win);
+		if (Ti.Geolocation.locationServicesEnabled) {
+			COMMON.openWindow(win);	
+		}			
+		else{
+		    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+				if(e.success){
+					COMMON.openWindow(win);						
+				}
+				else{
+		        	alert("You denied permission.");
+				}
+		  	});			
+		}
 	}else{
+		
 		var win = Alloy.createController("express_location").getView(); 
 		hidesoftkeyboard();
-		COMMON.openWindow(win);
+		if (Ti.Geolocation.locationServicesEnabled) {
+			COMMON.openWindow(win);	
+		}			
+		else{
+		    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+				if(e.success){
+					COMMON.openWindow(win);						
+				}
+				else{
+		        	alert("You denied permission.");
+				}
+		  	});			
+		}	
 	}
 }
 
@@ -212,58 +237,122 @@ function popCamera(e){
 	dialog.addEventListener('click', function(e) { 
 	    
 	    if(e.index == 0) { //if first option was selected
-	        //then we are getting image from camera
-	        Titanium.Media.showCamera({ 
-	            success:function(event) { 
-	               var image = event.media;
-        		   if(image.width > image.height){
-	        			var newWidth = 640;
-	        			var ratio =   640 / image.width;
-	        			var newHeight = image.height * ratio;
-	        		}else{
-	        			var newHeight = 640;
-	        			var ratio =   640 / image.height;
-	        			var newWidth = image.width * ratio;
-	        		} 
-	        		
-					image = image.imageAsResized(newWidth, newHeight); 
-					var filename = Math.floor(Date.now() /1000);
-		            	console.log(filename+" check");
-	                if(event.media.nativePath == null){
-	            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
-	            		if(writeFile.exists()){
-	            			writeFile.deleteFile();
-	            		}
-	            		writeFile.write(image);
-	            		console.log(writeFile.nativePath);
-	            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-				    	COMMON.openWindow(win);
-	            	}else{
-	            		console.log(event.media.nativePath+" yes");
-	            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
-				    	COMMON.openWindow(win);
-	            	}
-	            },
-	            cancel:function(){
-	                //do somehting if user cancels operation
-	            },
-	            error:function(error) {
-	                //error happend, create alert
-	                var a = Titanium.UI.createAlertDialog({title:'Camera'});
-	                //set message
-	                if (error.code == Titanium.Media.NO_CAMERA){
-	                    a.setMessage('Device does not have camera');
-	                }else{
-	                    a.setMessage('Unexpected error: ' + error.code);
-	                }
-	 
-	                // show alert
-	                a.show();
-	            },
-	            allowImageEditing:true,
-	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
-	            saveToPhotoGallery:true
-	        });
+	        //then we are getting image from camera]
+	        if(Ti.Media.hasCameraPermissions()){
+        		console.log("Success to open camera");
+		        Titanium.Media.showCamera({ 
+		            success:function(event) { 
+		               var image = event.media;
+	        		   if(image.width > image.height){
+		        			var newWidth = 640;
+		        			var ratio =   640 / image.width;
+		        			var newHeight = image.height * ratio;
+		        		}else{
+		        			var newHeight = 640;
+		        			var ratio =   640 / image.height;
+		        			var newWidth = image.width * ratio;
+		        		} 
+		        		
+						image = image.imageAsResized(newWidth, newHeight); 
+						var filename = Math.floor(Date.now() /1000);
+			            	console.log(filename+" check");
+		                if(event.media.nativePath == null){
+		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+		            		if(writeFile.exists()){
+		            			writeFile.deleteFile();
+		            		}
+		            		writeFile.write(image);
+		            		console.log(writeFile.nativePath);
+		            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+					    	COMMON.openWindow(win);
+		            	}else{
+		            		console.log(event.media.nativePath+" yes");
+		            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
+					    	COMMON.openWindow(win);
+		            	}
+		            },
+		            cancel:function(){
+		                //do somehting if user cancels operation
+		            },
+		            error:function(error) {
+		                //error happend, create alert
+		                var a = Titanium.UI.createAlertDialog({title:'Camera'});
+		                //set message
+		                if (error.code == Titanium.Media.NO_CAMERA){
+		                    a.setMessage('Device does not have camera');
+		                }else{
+		                    a.setMessage('Unexpected error: ' + error.code);
+		                }
+		 
+		                // show alert
+		                a.show();
+		            },
+		            allowImageEditing:true,
+		            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+		            saveToPhotoGallery:true
+		        });	        			        	
+	        }else{
+		        Ti.Media.requestCameraPermissions(function(e){
+		        	
+		        	if(e.success){
+		        		console.log("Success to open camera");
+				        Titanium.Media.showCamera({ 
+				            success:function(event) { 
+				               var image = event.media;
+			        		   if(image.width > image.height){
+				        			var newWidth = 640;
+				        			var ratio =   640 / image.width;
+				        			var newHeight = image.height * ratio;
+				        		}else{
+				        			var newHeight = 640;
+				        			var ratio =   640 / image.height;
+				        			var newWidth = image.width * ratio;
+				        		} 
+				        		
+								image = image.imageAsResized(newWidth, newHeight); 
+								var filename = Math.floor(Date.now() /1000);
+					            	console.log(filename+" check");
+				                if(event.media.nativePath == null){
+				            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+				            		if(writeFile.exists()){
+				            			writeFile.deleteFile();
+				            		}
+				            		writeFile.write(image);
+				            		console.log(writeFile.nativePath);
+				            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+							    	COMMON.openWindow(win);
+				            	}else{
+				            		console.log(event.media.nativePath+" yes");
+				            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
+							    	COMMON.openWindow(win);
+				            	}
+				            },
+				            cancel:function(){
+				                //do somehting if user cancels operation
+				            },
+				            error:function(error) {
+				                //error happend, create alert
+				                var a = Titanium.UI.createAlertDialog({title:'Camera'});
+				                //set message
+				                if (error.code == Titanium.Media.NO_CAMERA){
+				                    a.setMessage('Device does not have camera');
+				                }else{
+				                    a.setMessage('Unexpected error: ' + error.code);
+				                }
+				 
+				                // show alert
+				                a.show();
+				            },
+				            allowImageEditing:true,
+				            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+				            saveToPhotoGallery:true
+				        });	        		
+		        	}
+		        	else{
+		        		alert("You denied permission.");
+		        	}
+		        });
+	        }
 	    } else if(e.index == 1){
 	    		//obtain an image from the gallery
 	        Titanium.Media.openPhotoGallery({

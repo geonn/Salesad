@@ -270,8 +270,21 @@ $.indexView.more.addEventListener("click", function(e){
 });
 
 $.indexView.nearby.addEventListener("click", function(e){
+	
 	var win = Alloy.createController("nearby").getView();  
-	COMMON.openWindow(win);
+	if (Ti.Geolocation.locationServicesEnabled) {
+		COMMON.openWindow(win);	
+	}			
+	else{
+	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+			if(e.success){
+				COMMON.openWindow(win);						
+			}
+			else{
+	        	alert("You denied permission.");
+			}
+	  	});			
+	}	
 });
 
 function goToAds(e){
@@ -346,5 +359,16 @@ var SCANNER = require("scanner");
 $.indexView.scanner.addEventListener('click', QrScan);
 
 function QrScan(){
-	SCANNER.openScanner("4");
+    if(Ti.Media.hasCameraPermissions()){
+		SCANNER.openScanner("4");
+    }else{
+        Ti.Media.requestCameraPermissions(function(e) {
+        	if(e.success){
+				SCANNER.openScanner("4");				       
+	        }
+        	else{
+        		alert("You denied permission.");
+        	}			        
+        });	        	
+    }	
 }
