@@ -4,8 +4,6 @@ var ad_model = Alloy.createCollection("ads");
 var adsList = ad_model.getData(true); 
 var showCurLoc = false;
 var cell_width, category_id;
-var model = Alloy.createCollection("category");
-var category = model.getCategoryList();
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var start = 0;
 var anchor = COMMON.todayDateTime();
@@ -153,7 +151,7 @@ $.mapview.addEventListener('click', function(evt) {
     console.log(evt.a_id);
     if(evt.clicksource=="rightPane"){
 		var win = Alloy.createController("ad", {a_id: evt.a_id}).getView(); 
-		COMMON.openWindow(win,{animated:true});    	
+	//	COMMON.openWindow(win,{animated:true});    	
     }     
 });
 
