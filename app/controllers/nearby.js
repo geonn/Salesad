@@ -52,6 +52,7 @@ function render_map(){
 	 	xpress_data.push({longitude:"asdf",latitude:"asdf"});
 	 	adsList.push({longitude:"asdf",latitude:"asdf"});
 	 	console.log(xpress_data);
+	 	var ML=[];
 	 	xpress_data.forEach(function(entry) {
 	 		var longitude1=parseFloat(entry.longitude);
 	 		var latitude1=parseFloat(entry.latitude); 		
@@ -59,6 +60,7 @@ function render_map(){
 	 			entry.longitude="";
 	 			entry.latitude="";
 	 		}
+	 		ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.name,subtitle:entry.description,myid:entry.store_name});
 	 	});
 	 	adsList.forEach(function(entry) {
 	 		var longitude1=parseFloat(entry.longitude);
@@ -67,8 +69,9 @@ function render_map(){
 	 			entry.longitude="";
 	 			entry.latitude="";
 	 		}
-	 	});	 	
-	 	xpress_data.forEach(function(entry) {
+	 		ML.push({id:entry.a_id,longitude:entry.longitude,latitude:entry.latitude,name:entry.merchant_name,subtitle:entry.ads_name,myid:entry.store_INFO});
+	 	});		
+	 	ML.forEach(function(entry) {
 	 		console.log(entry);
 	 		console.log("end");
 			var detBtn =Ti.UI.createButton({
@@ -89,70 +92,38 @@ function render_map(){
 			var merchantLoc = Alloy.Globals.Map.createAnnotation({
 			    latitude:entry.latitude,
 			    longitude:entry.longitude,
-			    a_id: entry.id,
 			    title: entry.name,
 			    image: '/images/sales-ad-loc_small.png',
 			    animate : true, 
 			    subtitle: entry.description,
 			    pincolor: Alloy.Globals.Map.ANNOTATION_RED,
 			    rightButton: detBtn,
-			    myid: entry.store_name// Custom property to uniquely identify this annotation.
+			    myid: entry.id// Custom property to uniquely identify this annotation.
 			});
 			 
 			//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]); 
 			console.log("entry latitude"+entry.latitude);  
 			if(entry.latitude != "" &&entry.longitude !=""){
 				$.mapview.addAnnotation(merchantLoc); 
-			}
-//-----------------------------------------------------------------------------			
-			adsList.forEach(function(entry1){
-				var detBtn1 =Ti.UI.createButton({
-				    backgroundImage: '/images/btn-forward.png',
-				    color: "red",
-				    height: 20,
-					width: 20,
-					a_id: entry1.a_id
-				});	
-				detBtn1.addEventListener('click', function(ex){ 
-					console.log(ex.source);
-					console.log("AdsList");
-					console.log(ex.source.a_id);
-					var win = Alloy.createController("ad", {a_id: ex.source.a_id}).getView(); 
-					COMMON.openWindow(win,{animated:true}); 
-					return true;
-				});  											
-				var merchantLoc1 = Alloy.Globals.Map.createAnnotation({
-				    latitude:entry1.latitude,
-				    longitude:entry1.longitude,
-				    a_id: entry1.a_id,
-				    title: entry1.merchant_name,
-				    image: '/images/sales-ad-loc_small.png',
-				    animate : true, 
-				    subtitle: entry1.ads_name,
-				    pincolor: Alloy.Globals.Map.ANNOTATION_RED,
-				    rightButton: detBtn1,
-				    myid: entry1.store_INFO// Custom property to uniquely identify this annotation.
-				});	
-				if(entry1.latitude != "" && entry1.longitude !=""){
-					$.mapview.addAnnotation(merchantLoc1); 		
-				}
-			});			
+			}			
 		});	
 		var lat = Ti.App.Properties.getString('latitude');
 		var lot = Ti.App.Properties.getString('longitude');
 		$.mapview.region =  {latitude: lat, longitude:lot,
-		                    latitudeDelta:0.05, longitudeDelta:0.05};
+	                    latitudeDelta:0.05, longitudeDelta:0.05};
 	} 
 }
 
 $.mapview.addEventListener('click', function(evt) {
 	
     console.log("Clicked " + evt.clicksource + " on " + evt.latitude + "," + evt.longitude);
-    console.log(evt.a_id);
-    if(evt.clicksource=="rightPane"){
-		var win = Alloy.createController("ad", {a_id: evt.a_id}).getView(); 
-	//	COMMON.openWindow(win,{animated:true});    	
-    }     
+    if(OS_ANDROID){
+	    if(evt.clicksource=="rightPane"){
+			var win = Alloy.createController("ad", {a_id:evt.annotation.myid}).getView(); 
+			COMMON.openWindow(win,{animated:true}); 
+			win=null;   	
+	    }     	
+    }    
 });
 
 $.location.addEventListener("close", function(){
