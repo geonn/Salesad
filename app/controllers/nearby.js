@@ -95,9 +95,9 @@ function render_map(){
 			    title: entry.name,
 			    image: '/images/sales-ad-loc_small.png',
 			    animate : true, 
-			    subtitle: entry.description,
+			    subtitle: entry.subtitle,
 			    pincolor: Alloy.Globals.Map.ANNOTATION_RED,
-			    rightButton: detBtn,
+			    rightView: detBtn,
 			    myid: entry.id// Custom property to uniquely identify this annotation.
 			});
 			 
@@ -117,13 +117,13 @@ function render_map(){
 $.mapview.addEventListener('click', function(evt) {
 	
     console.log("Clicked " + evt.clicksource + " on " + evt.latitude + "," + evt.longitude);
-    if(OS_ANDROID){
+    
 	    if(evt.clicksource=="rightPane"){
 			var win = Alloy.createController("ad", {a_id:evt.annotation.myid}).getView(); 
 			COMMON.openWindow(win,{animated:true}); 
 			win=null;   	
 	    }     	
-    }    
+       
 });
 
 $.location.addEventListener("close", function(){
