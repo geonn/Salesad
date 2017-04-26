@@ -173,7 +173,7 @@ function render(e){
 		var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36});
 		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/logo_small.png", borderRadius: 15, height:30, width: 30, left:0});
 		var owner_name = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold','wfill'], height:14, top:0, textAlign:"left", text: data[i].owner_name}) : $.UI.create("Label", {classes: ['h6', 'bold','wfill'], height:14, top:0, ellipsize: true, wordWrap: false, textAlign:"left", text: data[i].owner_name});
-		var label_category = (OS_IOS) ? $.UI.create("Label", {classes: ['h6','wfill', 'hsize'], textAlign:"left",  text: obj_category[0].categoryName}) : $.UI.create("Label", {classes: ['h6','wfill', 'hsize'], ellipsize: true, wordWrap: false, textAlign:"left",  text: obj_category[0].categoryName});
+		var label_category = (OS_IOS) ? $.UI.create("Label", {classes: ['h6','wfill'], height:14, textAlign:"left",  text: obj_category[0].categoryName}) : $.UI.create("Label", {classes: ['h6','wfill'], height:14,  ellipsize: true, wordWrap: false, textAlign:"left",  text: obj_category[0].categoryName});
 		
 		container.add(img);
 		container.add(title);
