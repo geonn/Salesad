@@ -5,8 +5,9 @@ var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 
 function render_page(){
+	alert(args.sales_from);
 	$.img.image = args.img_path;
-	$.xpress_date.text = args.sales_from+" - "+args.sales_to;
+	$.xpress_date.text = convertToHumanFormat(args.sales_from)+" - "+convertToHumanFormat(args.sales_to);
 	$.xpress_location.text = args.address;
 	$.desc.text = args.description;
 	$.owner_name.text = args.owner_name;

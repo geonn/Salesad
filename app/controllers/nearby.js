@@ -60,8 +60,9 @@ function render_map(){
 	 			entry.longitude="";
 	 			entry.latitude="";
 	 		}
-	 		ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.name,subtitle:entry.description,myid:entry.store_name});
+	 		ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.description,subtitle:entry.owner_name,myid:entry.store_name});
 	 	});
+	 	//test
 	 	adsList.forEach(function(entry) {
 	 		var longitude1=parseFloat(entry.longitude);
 	 		var latitude1=parseFloat(entry.latitude); 		
