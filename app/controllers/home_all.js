@@ -91,6 +91,7 @@ function popCategory(){
 	});
 //	options=null;
 //	dialog=null;
+// null
 }	
 	
 function refresh(){
