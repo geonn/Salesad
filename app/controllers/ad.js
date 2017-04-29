@@ -1,5 +1,7 @@
 var args = arguments[0] || {};
 var a_id = args.a_id || "";
+var name = args.name || "";
+var date = args.date || "";
 var m_id = args.m_id || "";
 var ads;
 var from = args.from || "";
@@ -151,7 +153,12 @@ var getAdDetails = function(){
 		} 
 		console.log("ads data");
 		console.log(ads.description);
-		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','padding','bold'], text :ads.description+"\n\nTerms and Conditions\n\n"+ ads.tnc+"\n"});
+		var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
+		var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], text : name});
+		var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], text : date});
+		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding','bold'], text :ads.description+"\n\nTerms and Conditions\n\n"+ ads_tnc});
+		$.ads_details.add(ad_name);
+		$.ads_details.add(ad_date);
 		$.ads_details.add(tnc);
 		isAdsAvailable = true;
 	}else{
@@ -219,7 +226,7 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView(); 
+	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id, position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -472,7 +479,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
     });
 } 
 
-$.home.addEventListener("click", function(e){
+/*$.home.addEventListener("click", function(e){
 	var naviPath = Alloy.Globals.naviPath;
 	console.log("naviPath here");
 	console.log(naviPath.length);
@@ -488,7 +495,7 @@ $.home.addEventListener("click", function(e){
 			COMMON.closeWindow(naviPath[i]);  
 		} 
 	}
-});
+});*/
     
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));

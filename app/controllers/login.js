@@ -94,6 +94,9 @@ function doLogin() {
 	         	API.updateNotificationToken();
 	         	$.login.close();
 	         	
+	         	var win = Alloy.createController("profile").getView(); 
+				COMMON.openWindow(win);
+				
 	         }else{
 	         	common.createAlert('Authentication warning',res.data.error_msg);
 	         }
@@ -151,7 +154,7 @@ $.password.addEventListener("return", function(){
 });
 
 $.btnBack.addEventListener('click', function(){ 
-	FACEBOOK.removeEventListener('login', loginFacebook); 
+	//FACEBOOK.removeEventListener('login', loginFacebook); 
 	COMMON.closeWindow($.login); 
 }); 
 
@@ -174,7 +177,7 @@ $.login.addEventListener("close", function(){
 
 
 /*** Facebook login***/ 
-
+/*
 if (Ti.Platform.name === 'android') {
     $.login.fbProxy = FACEBOOK.createActivityWorker({lifecycleContainer: $.login});
 }
@@ -184,7 +187,7 @@ $.fbloginView.add(FACEBOOK.createLoginButton({
 	    readPermissions: ['email','public_profile','user_friends'],
 	    style : FACEBOOK.BUTTON_STYLE_WIDE,
 	    width: Ti.UI.FILL
-}));
+}))
 
 function loginFacebook(e){
 	if (e.success) {
@@ -193,7 +196,6 @@ function loginFacebook(e){
 	    FACEBOOK.requestWithGraphPath('me', {'fields': 'id, email,name,link'}, 'GET', function(e) {
 		    if (e.success) { 
 		    	var fbRes = JSON.parse(e.result);
-		    	console.log(fbRes);
 		     	API.updateUserFromFB({
 			       	email: fbRes.email,
 			       	fbid: fbRes.id,
@@ -203,18 +205,18 @@ function loginFacebook(e){
 			    }, $);
 			   
 		    }
-		});  
+		});
 
-		//FACEBOOK.removeEventListener('login', loginFacebook); 
+		FACEBOOK.removeEventListener('login', loginFacebook); 
 	}  else if (e.error) {
 		       
 	} else if (e.cancelled) {
 	 
 	}  	
 	 
-} 
-	 
-FACEBOOK.addEventListener('login', loginFacebook); 
+}
+
+FACEBOOK.addEventListener('login', loginFacebook);*/
 
 $.login.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.login); 

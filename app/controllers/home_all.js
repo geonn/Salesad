@@ -70,7 +70,7 @@ function popCategory(){
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: options.length - 1,
 	  options: options,
-	  title: 'Category'
+	  title: 'Categories'
 	});
 	dialog.show();
 	dialog.addEventListener("click", function(e){
@@ -160,7 +160,7 @@ function render(e){
 		}
 		Ti.API.warn("This is our Memory" +Ti.Platform.availableMemory);			
 		var obj_category = _.where(category, {id: data[i].category});
-		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/logo_small.png":data[i].owner_img_path;
+		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].owner_img_path;
 //		data[i].img_path = "/images/Icon_add_photo.png";		
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
 		var container = $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ffffff", width: cell_width, left: 9, top:9, record: data[i]});
@@ -170,7 +170,7 @@ function render(e){
 		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#E3E5E8'});
 		var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding']});
 		var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 45});
-		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/logo_small.png", borderRadius: 20, height:30, width: 30, left:0});
+		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/SalesAd_Profile Pic.png", borderRadius: 20, height:30, width: 30, left:0});
 		var owner_name = $.UI.create("Label", {classes: ['h6', 'bold','wfill', 'hsize'], top:0, ellipsize: true, wordWrap:false, textAlign:"left", text: data[i].owner_name});
 		var label_category = $.UI.create("Label", {classes: ['h6','wfill', 'hsize'], ellipsize: true, wordWrap:false,  textAlign:"left",  text: obj_category[0].categoryName});
 		

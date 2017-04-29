@@ -32,8 +32,4 @@ $.tou.addEventListener('touchend', function(e){
 $.pay.addEventListener('touchend', function(e){
 	var win = Alloy.createController("webview", {url: "http://salesad.my/paymentPolicy"}).getView();  
 	COMMON.openWindow(win);
-}); 
-$.sale.addEventListener('touchend', function(e){
-	var win = Alloy.createController("webview", {url: "http://salesad.my"}).getView();  
-	COMMON.openWindow(win);
-}); 
+});
