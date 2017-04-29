@@ -92,9 +92,20 @@ var saveCurLoc = function(e) {
     if (e.error) {
         console.log('Location service is disabled. '+e.error);
     } else {
+    	console.log(merchants.longitude+merchants.latitude+"haii");
+    	if(merchants.longitude == "" || merchants.latitude == ""){
+    	alert("No location found");
+		}else{
     	console.log("work or not why");
     	console.log(e.coords);
+    	showCurLoc = true;	
     	init();
+      	//console.log(Ti.App.Properties.getString('latitude') + "=="+ Ti.App.Properties.getString('longitude'));
+      	render_map();
+      }
+      	Ti.App.Properties.setString('latitude', e.coords.latitude);
+    	Ti.App.Properties.setString('longitude', e.coords.longitude);
+       	Ti.Geolocation.removeEventListener('location',saveCurLoc );
     }
 };
 
@@ -175,6 +186,7 @@ function setCurrentLocation(){
 }
 
 function render_marker(){
+	if(merchants.longitude == "" || merchants.latitude == ""){
 		alert("No location found");
 		COMMON.closeWindow($.location);
 	}else{
