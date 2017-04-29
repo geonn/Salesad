@@ -18,8 +18,6 @@ var id_sql = (typeof ads == "undefined" || ads.branch == "")?m_id:ads.branch;
 var all_branches = m_library.getBranchesById(id_sql);
 var merchants = m_library.getMerchantsById(m_id);
 
-
-
 //load merchant & branches list 
 function init(){
 	m_id = (typeof args.target_m_id != "undefined")?args.target_m_id:0;
@@ -73,7 +71,7 @@ function render_also_available(data){
 function closeWindow(){
 	COMMON.closeWindow($.location); 
 }
-
+ 
 function setCustomTitle(title){
 	console.log(title+" set custom title");
 	var custom = $.UI.create("Label", { 
@@ -96,13 +94,7 @@ var saveCurLoc = function(e) {
     } else {
     	console.log("work or not why");
     	console.log(e.coords);
-    	showCurLoc = true;
-    	Ti.App.Properties.setString('latitude', e.coords.latitude);
-    	Ti.App.Properties.setString('longitude', e.coords.longitude);
     	init();
-       //console.log(Ti.App.Properties.getString('latitude') + "=="+ Ti.App.Properties.getString('longitude'));
-       render_map();
-       Ti.Geolocation.removeEventListener('location',saveCurLoc );
     }
 };
 
@@ -183,7 +175,6 @@ function setCurrentLocation(){
 }
 
 function render_marker(){
-	if(merchants.longitude == ""){
 		alert("No location found");
 		COMMON.closeWindow($.location);
 	}else{

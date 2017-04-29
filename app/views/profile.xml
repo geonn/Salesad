@@ -24,12 +24,20 @@
 		        </View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
-			<View id="main" layout="vertical" height="95%">
+			<ScrollView id="main" class="vert hfill wfill">
 				<View backgroundColor="#fcfbfb" height="40">
 			        <Label class="label">Account Info</Label>
 			        <View class="line"></View>
 			    </View>
-			    <ImageView id="photoLoad" image="/images/Icon_add_photo.png" onClick="popCamera" top="30" bottom="30" form_type="image" width="200" height="200" borderRadius="100" value="0"></ImageView>
+			    <ImageView id="photoLoad" image="/images/Icon_add_photo.png" onClick="popCamera" top="10" bottom="10" form_type="image" width="170" height="170" borderRadius="85" value="0"></ImageView>
+				<View height="50" class="wfill">
+					<TableView class="wfill hsize" separatorColor="#ffffff" scrollable="false">
+						<TableViewRow touchEnabled="true" height="50" selectedBackgroundColor="#FFE1E1" backgroundColor="#ffffff">
+							<Label text="User ID" class="wsize hsize uid"></Label>
+							<Label class="wsize hsize uiid" id="uid"></Label>
+						</TableViewRow>
+					</TableView>
+				</View>
 				<View id="table1Container" height="150"></View>
 				
 		      	<View backgroundColor="#fcfbfb" height="40">
@@ -37,7 +45,7 @@
 			        <View class="line"></View>
 			    </View>
 				<View id="table2Container" height="50"></View>
-			</View>
+			</ScrollView>
 		</View>
 	</Window>
 </Alloy>
