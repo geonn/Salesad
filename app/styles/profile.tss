@@ -17,3 +17,17 @@
 	color:"#ED1C24",
 	font:{fontSize:'18dp'}
 }
+
+".uid" :{
+	color:"#848484",
+	left:"10",
+	textAlign:"left",
+	font:{fontSize:16}
+}
+
+".uiid" :{
+	color:"#848484",
+	right:"50",
+	textAlign:"left",
+	font:{fontSize:12}
+}

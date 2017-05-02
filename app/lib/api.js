@@ -69,19 +69,21 @@ exports.updateUserFromFB = function(e, mainView){
 		// function called when the response data is available
 		onload : function(e) {
 			var res = JSON.parse(this.responseText);
-	
+			console.log(res);
 		    if(res.status == "success"){ 
 		       	//var member = Alloy.createCollection('member'); 
 				//member.updateUserSession(res.data.u_id, res.data.username, res.data.fullname, res.data.email, res.data.session);
-	          
+				
 	         	/** User session**/
 	         	Ti.App.Properties.setString('u_id', res.data.u_id);
 				Ti.App.Properties.setString('session', res.data.session);
 	         	Ti.App.Properties.setString('facebooklogin', 1);
-	         	 
+	         	Ti.App.Properties.setString('firstname', res.data.firstname);
+	         	Ti.App.Properties.setString('lastname', res.data.lastname);
+	         	Ti.App.Properties.setString('email', res.data.email);
 	         	//API.updateNotificationToken(); 
-				COMMON.closeWindow(mainView.login); 
-	         	 
+				COMMON.closeWindow(mainView.login);
+				
 	         	var win = Alloy.createController("profile").getView(); 
 				COMMON.openWindow(win); 
 				COMMON.hideLoading();

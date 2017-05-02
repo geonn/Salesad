@@ -3,7 +3,7 @@ var args = arguments[0] || {};
 
 /** User session**/
 var session = Ti.App.Properties.getString('session');
-
+var userid = Ti.App.Properties.getString('u_id');
 /** load category from Model**/
 var library = Alloy.createCollection('member'); 
 var details = library.getUserBySession(session);
@@ -16,7 +16,6 @@ function addRegClickEvent(table){
 	table.addEventListener('click', function(e){
 		/** User session**/
 		var user = Ti.App.Properties.getString('session');
-		console.log("hi");
 		if(e.index >= 0){
 			var selectedSection = e.source;
 			var args = {
@@ -24,9 +23,11 @@ function addRegClickEvent(table){
 				'module' : selectedSection.mod,
 				'firstname'  :Ti.App.Properties.getString('firstname'),
 				'lastname' :Ti.App.Properties.getString('lastname'),
-				'email'  :Ti.App.Properties.getString('email')
+				'email'  :Ti.App.Properties.getString('email'),
+				'u_id' :Ti.App.Properties.getString('u_id')
 			};
 console.log(args.title);
+console.log(args.u_id);
 console.log(args.firstname);
 console.log(args.lastname);
 console.log(args.email);
@@ -44,13 +45,18 @@ function loadTable(){
  	var gender = Ti.App.Properties.getString('gender');
 	var session = Ti.App.Properties.getString('session');
 	var img_path = Ti.App.Properties.getString('img_path');
+	console.log("image path:  "+img_path);
 	$.photoLoad.image = img_path;
 	console.log(firstname+"firstname");
 	var RegArr = [
-	{ title:'Firstname', value:firstname, mod: "firstname",  hasChild:true  },
+	{ title:'Firstname', value:firstname, mod:"firstname",  hasChild:true  },
 	{ title:'Lastname', value:lastname, mod:"lastname", hasChild:true },
 	{ title:'Email',  value:email, mod:"email",hasChild:true },
 	];
+	
+	$.uid.setText(userid);
+	console.log(userid+"here");
+	console.log(Ti.App.Properties);
 	
 	var RegTable = Titanium.UI.createTableView({
 		width:'100%',
@@ -273,6 +279,7 @@ var doLogout = function (e) {
 
 /**update the details from editProfile**/
 var updateProfile = function(e) {
+	console.log("call load table!!!");
 	loadTable();
 };
 
@@ -294,15 +301,14 @@ function popCamera(e){
     var pHeight = Ti.Platform.displayCaps.platformHeight;
      
 	dialog.addEventListener('click', function(e) { 
-	    console.log(e.index);
+	    console.log("e index   " + e.index);
 	    if(e.index === 0) { //if first option was selected
 	        //then we are getting image from camera
-	        console.log("here");
 	        if(Ti.Media.hasCameraPermissions()){
-		        	console.log("got Permission");
+		        console.log("Permission");
 		        Titanium.Media.showCamera({ 
 		            success:function(event) { 
-		            	console.log("success");
+		            console.log("success");
 		               var image = event.media;
 	        		   if(image.width > image.height){
 		        			var newWidth = 640;
@@ -433,7 +439,6 @@ function popCamera(e){
 		            			writeFile.deleteFile();
 		            		}
 		            		writeFile.write(event.media);
-		            		console.log("here");
 							console.log(writeFile.nativePath+" this is media");
 						//var img = $.UI.create("ImageView", {image: event.media});
 						$.photoLoad.image = event.media;

@@ -71,7 +71,7 @@ function popCategory(){
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: options.length - 1,
 	  options: options,
-	  title: 'Category'
+	  title: 'Categories'
 	});
 	dialog.show();
 	dialog.addEventListener("click", function(e){
@@ -232,8 +232,9 @@ function render(e){
 		}
 		Ti.API.warn("This is our Memory" +Ti.Platform.availableMemory);			
 		var obj_category = _.where(category, {id: data[i].category});
-		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/logo_small.png":data[i].owner_img_path;
-		//data[i].img_path = "/images/Icon_add_photo.png";		
+	
+		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].owner_img_path;
+//		data[i].img_path = "/images/Icon_add_photo.png";		
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
 		var container = $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ffffff", width: cell_width, left: 9, top:9, record: data[i]});
 		var img = $.UI.create("ImageView",{image: data[i].img_path, defaultImage:'/images/Icon_add_photo.png', classes:['hsize', 'wfill']});
@@ -241,8 +242,9 @@ function render(e){
 		var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5, right: 5, bottom: 3, textAlign:"left",  text: convertToHumanFormat(data[i].sales_from)+" - "+convertToHumanFormat(data[i].sales_to)});
 		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#E3E5E8'});
 		var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding']});
+
 		var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36});
-		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/logo_small.png", borderRadius: 15, height:30, width: 30, left:0});
+		var owner_img = $.UI.create("ImageView", {image: data[i].owner_img_path, defaultImage: "/images/SalesAd_Profile Pic.png", borderRadius: 15, height:30, width: 30, left:0});
 		var owner_name = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold','wfill'], height:14, top:0, textAlign:"left", text: data[i].owner_name}) : $.UI.create("Label", {classes: ['h6', 'bold','wfill'], height:14, top:0, ellipsize: true, wordWrap: false, textAlign:"left", text: data[i].owner_name});
 		var label_category = (OS_IOS) ? $.UI.create("Label", {classes: ['h6','wfill'], height:14, textAlign:"left",  text: obj_category[0].categoryName}) : $.UI.create("Label", {classes: ['h6','wfill'], height:14,  ellipsize: true, wordWrap: false, textAlign:"left",  text: obj_category[0].categoryName});
 		

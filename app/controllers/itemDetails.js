@@ -77,9 +77,21 @@ var getAdsImages = function(){
 		header.add(img_back);
 		header.add(label_caption);
 		img_back.addEventListener("click", closeWindow);
+		
 		var label_description = $.UI.create("Label",{
 			classes:['wfill','hsize','h5','padding'],
 			text: items[i].description
+		});
+		console.log("items description   " + items[i].description);
+		var duration = args.date;
+		if (items[i].description == null || items[i].description == "") {
+			duration = "";
+		}
+		
+		var label_duration = $.UI.create("Label", {
+			classes:['wfill', 'hsize', 'h5'],
+			left: 10,
+			text: duration
 		});
 		
 		var scrollView = Ti.UI.createScrollView({
@@ -124,7 +136,8 @@ var getAdsImages = function(){
 		row.add(redline);
 		row.add(itemImageView);
 		row.add(label_description);
-		console.log(items[i]);
+		row.add(label_duration);
+		console.log("items " + items[i]);
 		if(items[i].isExclusive == 1){
 			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 40, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
 			itemImageView.add(exclusive_icon);
@@ -180,4 +193,3 @@ $.item_Details.open();
 $.item_Details.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.item_Details); 
 });
-

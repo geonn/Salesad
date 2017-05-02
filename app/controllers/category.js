@@ -167,7 +167,7 @@ function generateCategoryTable(details){
 
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
-    text: 'Categories', 
+    text: 'Search',
     color: '#ED1C24',
     font:{
     	fontSize: 15,

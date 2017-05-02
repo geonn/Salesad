@@ -10,7 +10,7 @@
 		         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 		    </View>
 	     	<View id="pageTitle" width="70%">
-	     		<Label color="#ED1C24">Help & Feedback</Label>
+	     		<Label color="#ED1C24">Feedback & Support</Label>
 	     	</View>
 	 	</View>
 	 	<View bottom='0' class="hr"></View>

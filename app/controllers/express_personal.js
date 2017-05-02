@@ -84,7 +84,7 @@ function refresh(){
 	getPreviousData({});
 	$.content.removeAllChildren();
 	render({});
-}	
+}
 
 function render(e){
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
@@ -112,7 +112,7 @@ function render(e){
 	var lastMonth = COMMON.todayDateTime(now);
 	for (var i=0; i < data.length; i++) {
 		var obj_category = _.where(category, {id: data[i].category});
-		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/logo_small.png":data[i].owner_img_path;
+		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].owner_img_path;
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
 		var container = $.UI.create("View", {classes:['hsize'], master:1, backgroundColor: "#ffffff", width: cell_width, left: 10, top:10, record: data[i]});
 		var inner_view = $.UI.create("View", {classes:['wfill','hsize','vert']});
@@ -228,5 +228,5 @@ $.btnBack.addEventListener('click', function(){
 }); 
 
 $.win.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.win); 
+	COMMON.closeWindow($.win); 
 });
