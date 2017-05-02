@@ -53,6 +53,9 @@ var changeStatus = function(e){
 				}
 				return;
 		    }
+		    else{
+		    	e.source.value = true;
+		    }
 		 });
 	
 		dialog.show();
