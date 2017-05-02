@@ -26,10 +26,10 @@
 	font: {
         fontSize: '14'
     },
-    top: '20', 
     left: '20',
     textAlign: "left",
-    right: '15'
+    right: '15',
+    top: '10'
 }
 ".description_content__":{
 	font: {
@@ -38,8 +38,7 @@
     top: '10', 
     left: '20',
     textAlign: "left",
-    right: '15',
-    bottom: '10'
+    right: '15'
 }
 ".description_content___":{
 	font: {
