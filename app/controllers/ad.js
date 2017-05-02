@@ -231,8 +231,19 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 
  
 $.location.addEventListener('click', function(e){ 
-	var win = Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView(); 
-	COMMON.openWindow(win); 
+	if(Ti.Geolocation.locationServicesEnabled){
+		COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());
+	}
+	else{
+	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+			if(e.success){
+				COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());				
+			}
+			else{
+	        	alert("You denied permission.");
+			}
+	  	});	
+	} 
 });
 
 /*********************
@@ -477,16 +488,16 @@ $.home.addEventListener("click", function(e){
 	console.log("naviPath here");
 	console.log(naviPath.length);
 	console.log(typeof naviPath+"naviPath here");
-	if(naviPath == ""){
-		
+	if(naviPath == ""){		
 		closeWindow();
-	}else{
-		
-		for (var i=0; i< naviPath.length; i++) { 
+	}else{		
+		/*for (var i=0; i< naviPath.length; i++) { 
 			console.log(typeof naviPath[i]);
 			console.log(naviPath[i]);
 			COMMON.closeWindow(naviPath[i]);  
-		} 
+		}*/
+		Ti.App.fireEvent("ads:close"); 
+ 		COMMON.closeWindow($.win); 		
 	}
 });
     

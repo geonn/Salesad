@@ -525,6 +525,8 @@ function closeWindow() {
 	COMMON.closeWindow($.adsCategoryWin);
 }
 
+Ti.App.addEventListener("ads:close",closeWindow);
+
 $.adsCategoryWin.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.adsCategoryWin); 
 });

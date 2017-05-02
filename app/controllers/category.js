@@ -380,7 +380,7 @@ $.searchContainer.addEventListener('click',function(e){
 function closeWindow() {
 	COMMON.closeWindow($.category);
 }
-
+Ti.App.addEventListener("ads:close",closeWindow);
 setTimeout(function(){
 	if(Ti.Platform.osname == "android"){  
 		Ti.UI.Android.hideSoftKeyboard();  

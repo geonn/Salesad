@@ -5,7 +5,6 @@ var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 
 function render_page(){
-	alert(args.sales_from);
 	$.img.image = args.img_path;
 	$.xpress_date.text = convertToHumanFormat(args.sales_from)+" - "+convertToHumanFormat(args.sales_to);
 	$.xpress_location.text = args.address;
@@ -91,8 +90,19 @@ function submit_report(e){
 }
 
 function getDirection(){
-	var win = Alloy.createController("express_direction", args).getView(); 
-	COMMON.openWindow(win);
+	if (Ti.Geolocation.locationServicesEnabled) {
+		COMMON.openWindow(Alloy.createController("express_direction", args).getView());
+	}			
+	else{
+	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+			if(e.success){
+				COMMON.openWindow(Alloy.createController("express_direction", args).getView());					
+			}
+			else{
+	        	alert("You denied permission.");
+			}
+	  	});			
+	}	
 }
 
 function pixelToDp(px) {

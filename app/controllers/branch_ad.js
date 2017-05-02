@@ -24,7 +24,11 @@ function init(){
 	var win = Alloy.createController("_ad_listing", {m_id: args.m_id, type: "branch"}).getView(); 
 	$.content.add(win);
 }
+function closeWindow(){
+	COMMON.closeWindow($.location); 
 
+}
+Ti.App.addEventListener("ads:close",closeWindow);
 $.btnBack.addEventListener('touchend', function(){ 
 	COMMON.closeWindow($.win);  
 }); 

@@ -380,7 +380,10 @@ function createShareOptions(){
  
     return share;
 }
-
+function windowClose(){
+	COMMON.closeWindow($.win);
+}
+Ti.App.addEventListener("ads:close",windowClose);
 $.win.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.win); 
 });

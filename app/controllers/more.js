@@ -92,7 +92,10 @@ var doLogout = function (e) {
 
 	dialog.show();
 };
-
+function windowClose(){
+	COMMON.closeWindow($.win);
+}
+Ti.App.addEventListener("ads:close",windowClose);
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
 }); 

@@ -53,25 +53,25 @@ function render_map(){
 	 	adsList.push({longitude:"asdf",latitude:"asdf"});
 	 	console.log(xpress_data);
 	 	var ML=[];
-	 	xpress_data.forEach(function(entry) {
-	 		var longitude1=parseFloat(entry.longitude);
-	 		var latitude1=parseFloat(entry.latitude); 		
-	 		if(isNaN(longitude1)||isNaN(latitude1)){
-	 			entry.longitude="";
-	 			entry.latitude="";
-	 		}
-	 		ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.description,subtitle:entry.owner_name,myid:entry.store_name});
-	 	});
-	 	//test
-	 	adsList.forEach(function(entry) {
-	 		var longitude1=parseFloat(entry.longitude);
-	 		var latitude1=parseFloat(entry.latitude); 		
-	 		if(isNaN(longitude1)||isNaN(latitude1)){
-	 			entry.longitude="";
-	 			entry.latitude="";
-	 		}
-	 		ML.push({id:entry.a_id,longitude:entry.longitude,latitude:entry.latitude,name:entry.merchant_name,subtitle:entry.ads_name,myid:entry.store_INFO});
-	 	});		
+		xpress_data.forEach(function(entry) {
+		    var longitude1=parseFloat(entry.longitude);
+		    var latitude1=parseFloat(entry.latitude);   
+		    if(isNaN(longitude1)||isNaN(latitude1)){
+		     entry.longitude="";
+		     entry.latitude="";
+		    }
+		    ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.description,subtitle:entry.owner_name,myid:entry.store_name});
+		   });
+		   //test
+		   adsList.forEach(function(entry) {
+		    var longitude1=parseFloat(entry.longitude);
+		    var latitude1=parseFloat(entry.latitude);   
+		    if(isNaN(longitude1)||isNaN(latitude1)){
+		     entry.longitude="";
+		     entry.latitude="";
+		    }
+		    ML.push({id:entry.a_id,longitude:entry.longitude,latitude:entry.latitude,name:entry.merchant_name,subtitle:entry.ads_name,myid:entry.store_INFO});
+		});	
 	 	ML.forEach(function(entry) {
 	 		console.log(entry);
 	 		console.log("end");
@@ -137,6 +137,7 @@ function closeWindow(){
 	COMMON.closeWindow($.location); 
 
 }
+Ti.App.addEventListener("ads:close",closeWindow);
 
 $.location.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.location); 

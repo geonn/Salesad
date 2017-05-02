@@ -96,7 +96,7 @@ function init(){
 function windowClose(){
 	COMMON.closeWindow($.win);
 }
-
+Ti.App.addEventListener("ads:close",windowClose);
 init();
 
 function pixelToDp(px) {
