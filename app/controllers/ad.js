@@ -490,7 +490,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
     });
 } 
 
-/*$.home.addEventListener("click", function(e){
+$.home.addEventListener("click", function(e){
 	var naviPath = Alloy.Globals.naviPath;
 	console.log("naviPath here");
 	console.log(naviPath.length);
@@ -506,7 +506,7 @@ if (Titanium.Platform.name == 'iPhone OS'){
 		Ti.App.fireEvent("ads:close"); 
  		COMMON.closeWindow($.win); 		
 	}
-});*/
+});
     
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
