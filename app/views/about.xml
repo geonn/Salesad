@@ -15,7 +15,7 @@
 	 	</View>
 	 	
         <View bottom='0' class="hr"></View>
-		<ScrollView class="wfill hsize" id="main" layout="vertical">
+		<ScrollView class="wfill hfill" id="main" layout="vertical">
 			<Label class="title_header bold">SalesAd</Label>
 			<Label class="title_header bold">The best in-store sales you'll never miss</Label>
 			<Label class="description_content">Tired of looking for sales scattered all over town? Forgot to bring your vouchers and coupons when you shop? Now, you can browse for every in-store sales and deals all in one place! The SalesAd mobile app is the ultimate solution for smart shoppers like you. It features an incredible range of brands, stores, products and services on sale! We'll make sure you’re always informed about the best stuff that&#39;s selling at the best price.</Label>
