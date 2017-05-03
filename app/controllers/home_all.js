@@ -132,7 +132,6 @@ function refresh(){
 }	
 
 function render(e){
-	var clickevent=true;
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;	
 	if(typeof e.clear != "undefined"){
 		$.content.removeAllChildren();
@@ -147,6 +146,7 @@ function render(e){
 	}
 	for (var i=0; i < data.length; i++) {
 		//Small pay ads
+		var clickevent=true;
 		if(counter % 2 == 0 && counter > 0){
 			var latestC;
 			if(typeof e != "undefined" && typeof e != "null"){
@@ -159,8 +159,8 @@ function render(e){
 				latestC[0]={
 					m_id:"undefined",
 					img_path:"/images/ComingSoon_2.png",
-					sales_from:"00-00-0000",
-					sales_to:"00-00-0000",
+					sales_from:"0000-00-00",
+					sales_to:"0000-00-00",
 					ads_name:"Coming Soon"
 				};
 			}
