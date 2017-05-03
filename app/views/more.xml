@@ -32,7 +32,10 @@
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
-		 		<TableViewSection headerTitle=" ">
+		 		<TableViewSection>
+		 			<HeaderView>
+                		<View backgroundColor="#fff" height="20"/>
+            		</HeaderView>
 		 			<TableViewRow height="50" target="feedback">
 		 				<Label left="10" class="wsize hsize">Feedback & Support</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
@@ -46,7 +49,10 @@
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
-		 		<TableViewSection headerTitle=" ">
+		 		<TableViewSection>
+		 			<HeaderView>
+                		<View backgroundColor="#fff" height="20"/>
+            		</HeaderView>
 		 			<TableViewRow height="50" target="about">
 		 				<Label left="10" class="wsize hsize">About</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
