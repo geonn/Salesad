@@ -33,7 +33,10 @@
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 		<TableViewSection>
-		 			<HeaderView>
+		 			<HeaderView platform="ios">
+                		<View backgroundColor="#f6f6f6" height="20"/>
+            		</HeaderView>
+		 			<HeaderView platform="android">
                 		<View backgroundColor="#fff" height="20"/>
             		</HeaderView>
 		 			<TableViewRow height="50" target="feedback">
@@ -50,7 +53,10 @@
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 		<TableViewSection>
-		 			<HeaderView>
+		 			<HeaderView platform="ios">
+                		<View backgroundColor="#f6f6f6" height="20"/>
+            		</HeaderView>
+		 			<HeaderView platform="android">
                 		<View backgroundColor="#fff" height="20"/>
             		</HeaderView>
 		 			<TableViewRow height="50" target="about">
