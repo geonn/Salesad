@@ -5,6 +5,11 @@
 	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
+        <RightNavButton>
+	        <View right="0" width="30" height="45">
+	         	<Button id="textlogin_out" left='0'  width="25" height="25" title="Login" />
+	        </View>
+        </RightNavButton>
        
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#fff">
@@ -14,7 +19,9 @@
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24" id="title">More</Label>
 		     	</View>
-		     
+		     	<View left="3" class="wsize hsize">
+	         		<Label id="textlogin_out" class="wsize hsize" left='0' color="#ED1C24" text="Login"></Label>
+	        	</View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
 		 	<TableView  onClick="navTo">
@@ -63,10 +70,22 @@
 		 				<Label left="10" class="wsize hsize">About</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
+		 			<TableViewRow height="50" target="" id="invitefriend">
+		 				<Label left="10" class="wsize hsize">Invite Friend</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 			</TableViewRow>
 		 			<TableViewRow height="50" target="webview" url="http://salesad.my/advertise">
 		 				<Label left="10" class="wsize hsize">Advertise in SalesAd</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
+		 		</TableViewSection>
+		 		<TableViewSection>
+		 			<HeaderView platform="ios">
+                		<View backgroundColor="#f6f6f6" height="20"/>
+            		</HeaderView>
+		 			<HeaderView platform="android">
+                		<View backgroundColor="#fff" height="20"/>
+            		</HeaderView>
 		 			<TableViewRow height="50" target="">
 		 				<Label left="10" class="wsize hsize">Version</Label>
 		 				<Label right="10" class="wsize hsize">1.1.0</Label>

@@ -97,6 +97,8 @@ function doLogin() {
 	         	var win = Alloy.createController("profile").getView(); 
 				COMMON.openWindow(win);
 				
+				Ti.App.fireEvent("more:refresh");
+				
 	         }else{
 	         	common.createAlert('Authentication warning',res.data.error_msg);
 	         }

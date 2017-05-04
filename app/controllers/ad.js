@@ -159,7 +159,9 @@ var getAdDetails = function(){
 		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding','bold'], text :ads.description+"\n\nTerms and Conditions\n\n"+ ads_tnc});
 		$.ads_details.add(ad_name);
 		$.ads_details.add(ad_date);
-		$.ads_details.add(tnc);
+		if(ads.description != "" || ads_tnc != "") {
+			$.ads_details.add(tnc);
+		}
 		isAdsAvailable = true;
 	}else{
 		/*
