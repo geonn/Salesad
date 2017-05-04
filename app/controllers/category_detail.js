@@ -168,7 +168,7 @@ API.getMerchantListByCategory(cate_id, createGridListing);
 function closeWindow() {
 	COMMON.closeWindow($.category_details);
 }
-
+Ti.App.addEventListener("ads:close",closeWindow);
 //release memory when close
 $.category_details.addEventListener("close", function(){
     $.destroy();

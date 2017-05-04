@@ -1,5 +1,7 @@
 var args = arguments[0] || {};
 var a_id = args.a_id || "";
+var name = args.name || "";
+var date = args.date || "";
 var m_id = args.m_id || "";
 var ads;
 var from = args.from || "";
@@ -151,7 +153,12 @@ var getAdDetails = function(){
 		} 
 		console.log("ads data");
 		console.log(ads.description);
-		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','padding','bold'], text :ads.description+"\n\nTerms and Conditions\n\n"+ ads.tnc+"\n"});
+		var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
+		var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], text : name});
+		var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], text : date});
+		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding','bold'], text :ads.description+"\n\nTerms and Conditions\n\n"+ ads_tnc});
+		$.ads_details.add(ad_name);
+		$.ads_details.add(ad_date);
 		$.ads_details.add(tnc);
 		isAdsAvailable = true;
 	}else{
@@ -219,7 +226,7 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView(); 
+	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id, position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -231,8 +238,19 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 
  
 $.location.addEventListener('click', function(e){ 
-	var win = Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView(); 
-	COMMON.openWindow(win); 
+	if(Ti.Geolocation.locationServicesEnabled){
+		COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());
+	}
+	else{
+	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+			if(e.success){
+				COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());				
+			}
+			else{
+	        	alert("You denied permission.");
+			}
+	  	});	
+	} 
 });
 
 /*********************
@@ -477,16 +495,16 @@ $.home.addEventListener("click", function(e){
 	console.log("naviPath here");
 	console.log(naviPath.length);
 	console.log(typeof naviPath+"naviPath here");
-	if(naviPath == ""){
-		
+	if(naviPath == ""){		
 		closeWindow();
-	}else{
-		
-		for (var i=0; i< naviPath.length; i++) { 
+	}else{		
+		/*for (var i=0; i< naviPath.length; i++) { 
 			console.log(typeof naviPath[i]);
 			console.log(naviPath[i]);
 			COMMON.closeWindow(naviPath[i]);  
-		} 
+		}*/
+		Ti.App.fireEvent("ads:close"); 
+ 		COMMON.closeWindow($.win); 		
 	}
 });
     

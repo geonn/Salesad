@@ -24,7 +24,7 @@
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target='category'>
-		 				<Label left="10" class="wsize hsize">Categories</Label>
+		 				<Label left="10" class="wsize hsize">Search</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="favourite">
@@ -32,9 +32,15 @@
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
-		 		<TableViewSection headerTitle=" ">
+		 		<TableViewSection>
+		 			<HeaderView platform="ios">
+                		<View backgroundColor="#f6f6f6" height="20"/>
+            		</HeaderView>
+		 			<HeaderView platform="android">
+                		<View backgroundColor="#fff" height="20"/>
+            		</HeaderView>
 		 			<TableViewRow height="50" target="feedback">
-		 				<Label left="10" class="wsize hsize">Help & Feedback</Label>
+		 				<Label left="10" class="wsize hsize">Feedback & Support</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="profile">
@@ -46,7 +52,13 @@
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
-		 		<TableViewSection headerTitle=" ">
+		 		<TableViewSection>
+		 			<HeaderView platform="ios">
+                		<View backgroundColor="#f6f6f6" height="20"/>
+            		</HeaderView>
+		 			<HeaderView platform="android">
+                		<View backgroundColor="#fff" height="20"/>
+            		</HeaderView>
 		 			<TableViewRow height="50" target="about">
 		 				<Label left="10" class="wsize hsize">About</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
@@ -60,7 +72,7 @@
 		 				<Label right="10" class="wsize hsize">1.1.0</Label>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
-		 				<Label class="wfill hsize" textAlign="center">2017 All rights reserved.</Label>
+		 				<Label class="wfill hsize" textAlign="center">© Salesad 2017. All rights reserved.</Label>
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 	</TableView>

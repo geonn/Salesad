@@ -10,8 +10,8 @@ if(OS_ANDROID){
 	$.cropped.height = pwidth-60;
 }
 function init(){
-	console.log('yes! init');
 	$.win.add(loading.getView());
+	console.log("args image   " + args.image);
 	Ti.App.fireEvent("html:loadImage", {image: args.image});
 }
 

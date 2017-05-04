@@ -123,7 +123,10 @@ var countDistanceByKM = function(lat1,lon1,lat2,lon2) {
     else if (d<=1) return Math.round(d*1000)+"m";
     return d;
 };
-
+function closeWindow(){
+	COMMON.closeWindow($.win); 
+}
+Ti.App.addEventListener("ads:close",closeWindow);
 init();
 
 $.branch_table.addEventListener("click", nav_ad_listing);

@@ -17,7 +17,7 @@ function render_webview(e){
 function windowClose(){
 	$.win.close();
 }
-
+Ti.App.addEventListener("ads:close",windowClose);
 function init(){
 	$.win.add(loading.getView());
 	loading.start();

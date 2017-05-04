@@ -131,7 +131,10 @@ var nearbyMerchantResult = function(res){
 		}
    	}
 };
-
+function windowClose(){
+	COMMON.closeWindow($.nearbyWin);
+}
+Ti.App.addEventListener("ads:close",windowClose);
 $.btnBack.addEventListener('click', function(){ 
 	var nav = Alloy.Globals.navMenu; 
 	nav.closeWindow($.nearbyWin); 

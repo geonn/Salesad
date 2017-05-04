@@ -24,8 +24,10 @@ function render_favourite_merchant(){
 	}
 	
 	if(data.length <=0){
-		var img = $.UI.create("ImageView", {image:"/images/Popup_Rewards_Favorite.png", classes:['wfill','hsize','padding']});
-		$.inner_box.add(img);
+		var img = $.UI.create("ImageView", {image:"/images/Popup_Rewards_Favorite.png", classes:['wfill']});
+		var view = $.UI.create("View", {classes:['wfill', 'hsize', 'padding']});
+		view.add(img);
+		$.inner_box.add(view);
 		img.addEventListener("click", function(e){
 			COMMON.closeWindow($.win);
 		});
@@ -96,7 +98,7 @@ function init(){
 function windowClose(){
 	COMMON.closeWindow($.win);
 }
-
+Ti.App.addEventListener("ads:close",windowClose);
 init();
 
 function pixelToDp(px) {

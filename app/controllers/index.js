@@ -277,6 +277,7 @@ $.indexView.nearby.addEventListener("click", function(e){
 	
 	var win = Alloy.createController("nearby").getView();  
 	if (Ti.Geolocation.locationServicesEnabled) {
+		console.log("HERE");
 		COMMON.openWindow(win);	
 	}			
 	else{

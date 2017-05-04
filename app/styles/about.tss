@@ -9,7 +9,7 @@
     },
     textAlign: "center",
     color: '#ED1C24',
-    top: '10',
+    top: '5',
     left: '10', 
     right: '10'
 },
@@ -26,10 +26,10 @@
 	font: {
         fontSize: '14'
     },
-    top: '50', 
     left: '20',
     textAlign: "left",
-    right: '15'
+    right: '15',
+    top: '10'
 }
 ".description_content__":{
 	font: {

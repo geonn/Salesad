@@ -32,7 +32,7 @@
 			        <View width="20%" height="60">
 						<ImageView id="share" height="Ti.UI.FILL" backgroundColor="#fff" image="/images/SalesAd_Share.png" />
 					</View>
-					<View width="19%" height="60">
+					<View width="20%" height="60">
 						<ImageView onClick="popMoreMenu" id="more" backgroundColor="#fff" height="Ti.UI.FILL" image="/images/SalesAd_More.png" />
 					</View>
 				</View>

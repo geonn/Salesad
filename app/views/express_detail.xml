@@ -5,7 +5,7 @@
 	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <View class="wfill hfill vert">
+        <View class="wfill hfill vert" bottom="60">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFF">
 				<View left="0" width="15%">
 			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
@@ -45,7 +45,7 @@
 	 				<Label id="category" class="h5 wfill" height="15" platform="ios"></Label>
  				</View>
  				<View class="wfill hsize">
- 					<ImageView onClick="popMoreMenu" id="more" width="20" height="25" top="5" bottom="10" right="0" image="/images/Icon_More_Grey.png" />
+ 					<ImageView onClick="popMoreMenu" id="more" width="25" height="25" top="5" bottom="10" right="0" image="/images/Icon_More_Grey.png" />
 				</View>
 	 		</View>
 	 	</View>

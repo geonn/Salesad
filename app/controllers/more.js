@@ -46,7 +46,7 @@ function init(){
 
 init();
 
-
+/*
 var doLogout = function (e) { 
 	var dialog = Ti.UI.createAlertDialog({
 	    cancel: 1,
@@ -93,6 +93,12 @@ var doLogout = function (e) {
 	dialog.show();
 };
 
+};*/
+
+function windowClose(){
+	COMMON.closeWindow($.win);
+}
+Ti.App.addEventListener("ads:close",windowClose);
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
 }); 

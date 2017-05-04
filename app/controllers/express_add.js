@@ -58,13 +58,11 @@ function doSubmit(){
 	for (var a=0; a < forms_array.length; a++) {
 		if(typeof forms_array[a].require != "undefined" && forms_array[a].require){
 			if(typeof forms_array[a].model != "undefined"){
-				console.log(typeof forms_array[a].record+" hahaha");
 				if(typeof forms_array[a].record == "undefined"){
 					alert_msg = alert_msg+forms_array[a].hintText+"\n";
 				}
 			}else{
-				console.log(typeof forms_array[a].value+" forms_array[a].value "+forms_array[a].value);
-				if(forms_array[a].value == "" || typeof forms_array[a].value == "undefined" || forms_array[a].value == "Store Name / Address"){
+				if(forms_array[a].value == "" || typeof forms_array[a].value == "undefined" || forms_array[a].value == "undefined,undefined" || forms_array[a].value == "Store Name / Address"){
 					alert_msg = alert_msg+forms_array[a].hintText+"\n";
 				}
 			}
@@ -126,15 +124,14 @@ function popMap(e){
 	console.log(e.source.children[0].text);
 	var location = v.split(",");		
 	if(v != "Map Location"){
-		var win = Alloy.createController("express_location", {lat: location[0], lot: location[1]}).getView(); 
 		hidesoftkeyboard();
 		if (Ti.Geolocation.locationServicesEnabled) {
-			COMMON.openWindow(win);	
+			COMMON.openWindow(Alloy.createController("express_location", {lat: location[0], lot: location[1]}).getView());	
 		}			
 		else{
 		    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
 				if(e.success){
-					COMMON.openWindow(win);						
+					COMMON.openWindow(Alloy.createController("express_location", {lat: location[0], lot: location[1]}).getView());						
 				}
 				else{
 		        	alert("You denied permission.");

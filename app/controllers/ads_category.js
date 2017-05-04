@@ -92,6 +92,7 @@ function createShareOptions(adsName, adsImage){
  * Function
  * */
 var a_id_submit = [];
+var name = "", date = "";
 function buildListing(){
 	if(isAd){
 		var c_ads_library = Alloy.createCollection('categoryAds'); 
@@ -159,9 +160,8 @@ function buildListing(){
 			});
 			var image_view = $.UI.create("View", {classes:['wfill','hsize']});
 			image_view.add(bannerImage);
-		}	
+		}
 		
-		console.log(ads[a].merchant_name+" merchant name");
 		var label_merchant = $.UI.create("Label", {
 			font: { fontWeight: 'bold', fontSize: 16},
 			text: ads[a].ads_name,
@@ -186,6 +186,7 @@ function buildListing(){
 			height: Ti.UI.SIZE,
 			color: "#626366"
 		});
+		name = ads[a].merchant_name;
 		
 		if(isAd){
 			var dateDescription = convertToHumanFormat(ads[a].active_date)+" - "+convertToHumanFormat(ads[a].expired_date);
@@ -199,6 +200,7 @@ function buildListing(){
 		}else{
 			var dateDescription = ads[a].description;
 		}
+		date = dateDescription;
 		
 		var label_date_period = $.UI.create("Label", {
 			text: dateDescription,
@@ -341,7 +343,7 @@ function buildListing(){
 				if(isAd){
 				 	goAd(e.source.a_id);
 				 }else{
-				  	var win = Alloy.createController("webview", {id: e.source.id, title: e.source.name}).getView(); 
+				  	var win = Alloy.createController("webview", {id: e.source.id, title: e.source.name}).getView();
 					COMMON.openWindow(win); 
 				 }
 			});
@@ -438,8 +440,8 @@ var goAd = function(a_id){
 	    return;
 	};
 	clickTime = currentTime;
-	    
-	var win = Alloy.createController("ad", {a_id: a_id, from : "home"}).getView(); 
+	console.log("a id     " + a_id);
+	var win = Alloy.createController("ad", {a_id: a_id, from: "home", name: name, date: date}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*
@@ -524,6 +526,8 @@ $.adsCategoryWin.addEventListener("close", function(e){
 function closeWindow() {
 	COMMON.closeWindow($.adsCategoryWin);
 }
+
+Ti.App.addEventListener("ads:close",closeWindow);
 
 $.adsCategoryWin.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.adsCategoryWin); 

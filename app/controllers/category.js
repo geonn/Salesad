@@ -167,7 +167,7 @@ function generateCategoryTable(details){
 
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
-    text: 'Categories', 
+    text: 'Search',
     color: '#ED1C24',
     font:{
     	fontSize: 15,
@@ -380,7 +380,7 @@ $.searchContainer.addEventListener('click',function(e){
 function closeWindow() {
 	COMMON.closeWindow($.category);
 }
-
+Ti.App.addEventListener("ads:close",closeWindow);
 setTimeout(function(){
 	if(Ti.Platform.osname == "android"){  
 		Ti.UI.Android.hideSoftKeyboard();  
