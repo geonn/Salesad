@@ -156,6 +156,8 @@ function buildListing(){
 			  name: ads[a].name,
 			  a_id: ads[a].a_id,
 			  id: ads[a].id,
+			  passname: ads[a].merchant_name,
+			  passdate: date = datedescription(),
 			  height: Ti.UI.SIZE,//ads_height,
 			});
 			var image_view = $.UI.create("View", {classes:['wfill','hsize']});
@@ -186,24 +188,27 @@ function buildListing(){
 			height: Ti.UI.SIZE,
 			color: "#626366"
 		});
-		name = ads[a].merchant_name;
 		
-		if(isAd){
-			var dateDescription = convertToHumanFormat(ads[a].active_date)+" - "+convertToHumanFormat(ads[a].expired_date);
-			if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
-				dateDescription = "Start from now!";
-			}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
-				dateDescription = "Until "+convertToHumanFormat(ads[a].expired_date)+"!";
-			}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
-				dateDescription = "Start from "+convertToHumanFormat(ads[a].active_date)+"!";
+		
+		function datedescription(e) {
+			if(isAd){
+				var dateDescription = convertToHumanFormat(ads[a].active_date)+" - "+convertToHumanFormat(ads[a].expired_date);
+				if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
+					dateDescription = "Start from now!";
+				}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
+					dateDescription = "Until "+convertToHumanFormat(ads[a].expired_date)+"!";
+				}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
+					dateDescription = "Start from "+convertToHumanFormat(ads[a].active_date)+"!";
+				}
+				return dateDescription;
+			}else{
+				var dateDescription = ads[a].description;
+				return dateDescription;
 			}
-		}else{
-			var dateDescription = ads[a].description;
 		}
-		date = dateDescription;
-		
+		console.log("dateeeeeeeeeeeeeeeeeeeeeeeeeee   "+date);
 		var label_date_period = $.UI.create("Label", {
-			text: dateDescription,
+			text: date,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
 			font:{fontSize: 12},
 			left: 10,
@@ -341,7 +346,7 @@ function buildListing(){
 		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
 				if(isAd){
-				 	goAd(e.source.a_id);
+				 	goAd(e.source.a_id, e.source.passname, e.source.passdate);
 				 }else{
 				  	var win = Alloy.createController("webview", {id: e.source.id, title: e.source.name}).getView();
 					COMMON.openWindow(win); 
@@ -433,15 +438,15 @@ function setCalendarEvent(e){
 //$.ads_listing.add(videoView);
 
 /** navigate to Ad **/
-var goAd = function(a_id){
+var goAd = function(a_id, a_name, a_date){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
 	clickTime = currentTime;
-	console.log("a id     " + a_id);
-	var win = Alloy.createController("ad", {a_id: a_id, from: "home", name: name, date: date}).getView(); 
+	console.log("a id     " + a_id + " " + a_name + " " + a_date);
+	var win = Alloy.createController("ad", {a_id: a_id, from: "home", name: a_name, date: a_date}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*

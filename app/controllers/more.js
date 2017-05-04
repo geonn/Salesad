@@ -8,7 +8,6 @@ function render_page(){
 
 function navTo(e){
 	var target = parent({name: "target"}, e.source);
-	
 	if(target == "profile"){
 		var user = Ti.App.Properties.getString('session');
 		console.log(user+" user");
@@ -40,14 +39,23 @@ function navTo(e){
 	}
 }
 
+function refresh() {
+	var user = Ti.App.Properties.getString('session');
+	if(user === null) {
+		$.textlogin_out.text = "Login";
+	}else{
+		$.textlogin_out.text = "Logout";
+	}
+}
+
 function init(){
 	$.win.add(loading.getView());
+	refresh();
 }
 
 init();
 
-/*
-var doLogout = function (e) { 
+function doLogout(e) { 
 	var dialog = Ti.UI.createAlertDialog({
 	    cancel: 1,
 	    buttonNames: ['Cancel','Confirm'],
@@ -91,18 +99,72 @@ var doLogout = function (e) {
 	 });
 
 	dialog.show();
+	refresh();
 };
 
-};*/
+$.invitefriend.addEventListener("click", function(e) {
+	loading.start();
+	API.callByPost({
+		url: "encrypt_uid",
+		new: true,
+		params: {u_id: u_id}
+	},{
+		onload: function(responseText){
+			var res = JSON.parse(responseText);
+			var encrypt_code = res.data || null;
+		
+			var share_url = "http://salesad.my/users/member_referral?referral="+encrypt_code;
+			if(OS_IOS){
+				if(Social.isActivityViewSupported()){ //min iOS6 required
+					Social.activityView({
+						text: "SalesAd. Please signup via the link : "+share_url,
+					});
+				} else {
+				}
+			}else{
+				var text = "SalesAd. Please signup via the link : "+share_url;
+				
+				var intent = Ti.Android.createIntent({
+					action: Ti.Android.ACTION_SEND,
+					type: "text/plain",
+				});
+				intent.putExtra(Ti.Android.EXTRA_TEXT,text);
+				intent.putExtra(Ti.Android.EXTRA_SUBJECT, "Salesad Invite Friend");
+				var share = Ti.Android.createIntentChooser(intent,'Share');
+				Ti.Android.currentActivity.startActivity(share);
+			}
+			loading.finish();
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+			loading.finish();
+		},
+		onexception: function(){
+			loading.finish();
+		}
+	});
+});
 
 function windowClose(){
 	COMMON.closeWindow($.win);
 }
+
 Ti.App.addEventListener("ads:close",windowClose);
+Ti.App.addEventListener("more:refresh", refresh);
+
+$.textlogin_out.addEventListener('click', function(e){
+	if(e.source.text == "Login") {
+		var win = Alloy.createController("login").getView();
+		COMMON.openWindow(win);
+	}else if(e.source.text == "Logout") {
+		doLogout();
+	}
+});
+
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
 }); 
 
 $.win.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.win); 
+	COMMON.closeWindow($.win); 
 });
