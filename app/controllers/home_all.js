@@ -1,5 +1,4 @@
 var args = arguments[0] || {};
-var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 var cell_width, category_id;
 var model= Alloy.createCollection("category");
@@ -341,14 +340,18 @@ console.log("here is renderads");
 }
 
 function init(){
-	$.win.add(loading.getView());
-	var ads_model = Alloy.createCollection("ads");
-	ads_data = ads_model.getExpressData();
-	console.log(ads_data.length);
-	console.log("here is init");
-	loading.start();
-	refresh();
-	ads_model=null;
+	$.activityIndicator.show();
+	$.loadingBar.opacity = "1";
+	$.loadingBar.height = "120";
+	$.loadingBar.top = "100";		
+	setTimeout(function(){
+		$.activityIndicator.hide();
+		$.loadingBar.opacity = "0";
+		var ads_model = Alloy.createCollection("ads");
+		ads_data = ads_model.getExpressData();
+		refresh();
+		ads_model=null;				
+	},1000);
 }
 
 // convert pixel to dp.
@@ -365,10 +368,9 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	var theEnd = $.content.rect.height;
 	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
 	var distance = theEnd - total;
-	
+	var svtop = (OS_ANDROID)?1:-50;
 	if (distance < lastDistance){
 		var nearEnd = theEnd * 1;
-		console.log(nearEnd+" "+total);
 		if (!load && (total >= nearEnd)){
 			load = true;
 			getPreviousData({});
@@ -379,12 +381,25 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	}
 	lastDistance = distance;
 	
-	if (e.y <= -50 && !refreshing) {
-		refreshing = true;
-		loading.start();
-		refresh();
-        console.log("refresh!");
-        setTimeout(function(){refreshing = false;loading.finish();}, 500);   
+	if (e.y <= svtop && !refreshing) {
+		$.content.removeAllChildren();		
+		$.activityIndicator.show();
+		$.loadingBar.opacity = "1";
+		$.loadingBar.height = "120";
+		$.loadingBar.top = "100";			
+        setTimeout(function(){
+			$.activityIndicator.hide();
+			$.loadingBar.opacity = "0";
+			ads_counter = 0;
+			pass=true;
+			xpresscount1=0;			
+			counter = 0;
+			count1=0;
+			count2=0;
+			refreshing = true;
+			refresh();					        	
+        	refreshing = false;
+        }, 1000);   
     }
 	theEnd=null;
 	total=null;
@@ -418,7 +433,6 @@ $.win.addEventListener('android:back', function (e) {
  	lastDistance=null;
  	refreshing=null;
 	args = null;
-	loading = null;
 	random_color = null;
     cell_width=null;
     category_id=null;
@@ -435,7 +449,6 @@ function windowClose(){
  	lastDistance=null;
  	refreshing=null;
 	args = null;
-	loading = null;
 	random_color = null;
     cell_width=null;
     category_id=null;
