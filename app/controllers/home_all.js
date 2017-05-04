@@ -1,3 +1,4 @@
+try{
 var args = arguments[0] || {};
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 var cell_width, category_id;
@@ -382,12 +383,14 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	lastDistance = distance;
 	
 	if (e.y <= svtop && !refreshing) {
-		$.content.removeAllChildren();		
+		$.content.removeAllChildren();	
+		$.content_scrollview.scrollingEnabled=false;	
 		$.activityIndicator.show();
 		$.loadingBar.opacity = "1";
 		$.loadingBar.height = "120";
 		$.loadingBar.top = "100";			
         setTimeout(function(){
+        	$.content_scrollview.scrollingEnabled=true;
 			$.activityIndicator.hide();
 			$.loadingBar.opacity = "0";
 			ads_counter = 0;
@@ -460,3 +463,7 @@ function windowClose(){
 	COMMON.closeWindow($.win);
 }
 Ti.App.addEventListener("ads:close",windowClose);
+}
+catch(e){
+	//do nothing avoid error message popup
+}
