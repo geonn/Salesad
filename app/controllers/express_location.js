@@ -30,13 +30,10 @@ var saveCurLoc = function(e) {
     Ti.Geolocation.removeEventListener('location',saveCurLoc);
 };
 
-if (Ti.Geolocation.locationServicesEnabled) {
-	console.log('2');
-    Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
-    console.log('1');
-    Ti.Geolocation.addEventListener('location', saveCurLoc);
-} 
-
+console.log('2');
+Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
+console.log('1');
+Ti.Geolocation.addEventListener('location', saveCurLoc);
 
 function centerMap(e){
 	var lat = (typeof args.lat != "undefined")?args.lat:Ti.App.Properties.getString('latitude');
@@ -129,4 +126,8 @@ $.mapview.addEventListener("pinchangedragstate", pinchangedragstate);
 
 $.win.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.win); 
+});
+$.win.addEventListener("close", function(){
+	//Ti.Geolocation.removeEventListener('location',saveCurLoc);
+    $.destroy();
 });

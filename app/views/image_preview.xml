@@ -23,9 +23,10 @@
 		     	</View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
-		 	<View class="wfill" id="cropped">
+		 	<View class="wfill" id="cropped" top="30" borderColor="black" borderWidth="2">
 		 		<WebView class="wfill hfill"  id="html" url="/html/preview.html"></WebView>
 		 	</View>
+		 	<Label class="wsize hsize h6">Drag to reposition</Label>
 	 	</View>
 	</Window>
 </Alloy>

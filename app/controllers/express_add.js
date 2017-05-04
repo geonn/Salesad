@@ -124,15 +124,14 @@ function popMap(e){
 	console.log(e.source.children[0].text);
 	var location = v.split(",");		
 	if(v != "Map Location"){
-		var win = Alloy.createController("express_location", {lat: location[0], lot: location[1]}).getView(); 
 		hidesoftkeyboard();
 		if (Ti.Geolocation.locationServicesEnabled) {
-			COMMON.openWindow(win);	
+			COMMON.openWindow(Alloy.createController("express_location", {lat: location[0], lot: location[1]}).getView());	
 		}			
 		else{
 		    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
 				if(e.success){
-					COMMON.openWindow(win);						
+					COMMON.openWindow(Alloy.createController("express_location", {lat: location[0], lot: location[1]}).getView());						
 				}
 				else{
 		        	alert("You denied permission.");

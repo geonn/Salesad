@@ -26,9 +26,9 @@
 		</View>
 		<View id="footer" class="hsize">
 			<View class="wsize hsize horz" left="5">
-				<Label class="ftText" id="tou">Terms of Use</Label>
-				<Label class="ftText" left="10" right="10">|</Label>
-				<Label class="ftText" id="policy">Privacy Policy</Label>
+				<Label class="ftText wsize" id="tou">Terms of Use</Label>
+				<Label class="ftText wsize" left="10" right="10">|</Label>
+				<Label class="ftText wsize" id="policy">Privacy Policy</Label>
 			</View>
 			<Label class="ftText" right="5" textAlign="right" >&#169; freejini</Label>
 		</View>
