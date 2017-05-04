@@ -1,11 +1,26 @@
 var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
-var data;
 var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
+loading.start();
 
-function unfavourite(){
-	
+function unfavourite(e){
+		var message = "Are you sure want to remove from favorite";
+		var dialog = Ti.UI.createAlertDialog({
+		    cancel: 1,
+		    buttonNames: ['Cancel','Confirm'],
+		    message: message,
+		    title: 'Remove from favorite'
+		  });
+		  dialog.addEventListener('click', function(ex){
+		  	if (ex.index == 1){
+		  		var favoritesLibrary = Alloy.createCollection('favorites');
+		  		var m_id = e.source.m_id;
+		     	favoritesLibrary.deleteFavoriteByMid(m_id,u_id);
+		     	refresh();
+		  	}
+		 });
+		 dialog.show();
 }
 
 function nav_to_merchant(e){
@@ -34,7 +49,28 @@ function render_favourite_merchant(){
 	}
 	
 	for (var i=0; i < data.length; i++) {
+		console.log(data[i].img_path+"here images!");
 		console.log("m_id: "+data[i].m_id);
+		var container = $.UI.create("View", {
+			classes:['hsize'],
+			 master:1, 
+			 backgroundColor: "#ffffff",
+			 width: cell_width, 
+			 left: 10,
+			 top:10, 
+			 record: data[i]
+	    });
+			   
+		var img_close = $.UI.create("ImageView", {
+			image: "/images/Icon_Delete_Round.png", 
+			m_id: data[i].m_id,
+			width: 30, 
+			height: 30, 
+			right:3, 
+			top:3, 
+			zIndex: 100
+		});
+		
 		var cell = $.UI.create("View", {
 			left: 10,
 			bottom: 10,
@@ -77,14 +113,18 @@ function render_favourite_merchant(){
 		view_backgroundColor.add(image_thumb);
 		view_container.add(view_backgroundColor);
 		view_container.add(text_padd);
-		$.inner_box.add(cell);
+		container.add(cell);
+		container.add(img_close);
+		$.inner_box.add(container);
 		cell.addEventListener("click", nav_to_merchant);
+		img_close.addEventListener("click", unfavourite);
 	};
 }
 
 function refresh(){
+	$.inner_box.removeAllChildren();
 	var favoritesLibrary = Alloy.createCollection('favorites'); 
-	data = favoritesLibrary.getFavoritesByUid(u_id); 
+	data = favoritesLibrary.getFavoritesByUid(u_id); 	
 	render_favourite_merchant();
 	loading.finish();
 }
