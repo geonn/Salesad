@@ -57,7 +57,7 @@ function buildBigBlock(data){
 		width : Ti.UI.FILL
 	});
 	var adImage = Ti.UI.createImageView({
-		defaultImage: "/images/warm-grey-bg.png",
+		defaultImage: "/images/image_loader_640x640.png",
 		image: data.image,
 		height: Ti.UI.FILL,
 		width: "auto",
@@ -140,7 +140,7 @@ function buildSmallBlock(data, category_name){
 			
 		if(lastLabel > i){
 			var adImage = Ti.UI.createImageView({
-				defaultImage: "/images/warm-grey-bg.png",
+				defaultImage: "/images/image_loader_640x640.png",
 				image: data[i]['img_path'],
 				height: "auto",
 				width: Ti.UI.FILL,
@@ -174,7 +174,7 @@ function buildSmallBlock(data, category_name){
 			});
 		}else{
 			var adImage = Ti.UI.createImageView({
-				defaultImage: "/images/warm-grey-bg.png",
+				defaultImage: "/images/image_loader_640x640.png",
 				image: data[i]['img_path'],
 				height: Ti.UI.FILL,
 				width: "auto",
@@ -402,7 +402,7 @@ var createGridListing = function(res){
 			
 			adImage = Ti.UI.createImageView({
 				image: imagepath,
-				defaultImage: "/images/warm-grey-bg.png",
+				defaultImage: "/images/image_loader_640x640.png",
 				height: 50,
 				width: 50,
 				objName: 'disabledWarpperView',

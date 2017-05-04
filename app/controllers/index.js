@@ -39,13 +39,13 @@ var bannerListing = function(){
 			a_id: banners[i].a_id,
 			width: cell_width,
 			height: cell_width,
-			defaultImage: "/images/warm-grey-bg.png",
+			defaultImage: "/images/image_loader_640x640.png",
 		});
 
 		row = $.indexView.UI.create('View', {
 			classes: ["row"],layout:"", 
 			height: cell_width, 
-			backgroundImage: "/images/warm-grey-bg.png",
+			backgroundImage: "/images/image_loader_640x640.png",
 			width: cell_width,
 		});
 		
@@ -108,7 +108,7 @@ function buildCateogryList(e){
 		var cell = $.indexView.UI.create('View', {classes:['hsize'], width: cell_width, id: category_list[i].id});
 		var pad_cell = $.indexView.UI.create('View', {top: 4, right:4, width: Ti.UI.FILL, height:Ti.UI.SIZE}); 
 		var temp_image = $.indexView.UI.create('ImageView',{
-			image: "/images/warm-grey-bg.png",
+			image: "/images/image_loader_640x640.png",
 			height: "auto",
 			width: Ti.UI.FILL,                           
 		});
@@ -138,7 +138,7 @@ function buildCateogryList(e){
 			var contests = contest.getData(0,1);
 			if(contests.length){
 				var adImage = Ti.UI.createImageView({
-		   			defaultImage: "/images/warm-grey-bg.png",
+		   			defaultImage: "/images/image_loader_640x640.png",
 					image: contests[0].img_path,
 					width: Ti.UI.FILL,
 					height: Ti.UI.SIZE,
@@ -172,7 +172,7 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 	console.log(latestc.length+" latestc");
 	if(latestc.length > 0){
 		var adImage = Ti.UI.createImageView({
-   			defaultImage: "/images/warm-grey-bg.png",
+   			defaultImage: "/images/image_loader_640x640.png",
 			image: latestc[0].img_path,
 			cate_id: cate_id,
 			width: Ti.UI.FILL,
