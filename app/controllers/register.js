@@ -27,7 +27,7 @@ var goSignUp = function(){
 	if(!tc){
 		alert("Please agree the terms and condition.");
 		loading.finish();
-		return;
+		//return;
 	}
 	var common = require('common');
 	var firstname 		 = $.firstname.value;
@@ -102,7 +102,8 @@ var goSignUp = function(){
 	     	$.loadingBar.opacity = "0";
 	     	isSubmit = 0;
 	        common.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
-		}
+		},
+		timeout : 10000
 	});
 	loading.finish();
 };
