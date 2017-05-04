@@ -17,7 +17,7 @@ var custom = $.UI.create("Label", {
  });
 
 var category_banner = Ti.UI.createImageView({
-	defaultImage: "/images/warm-grey-bg.png",
+	defaultImage: "/images/image_loader_640x640.png",
 	image: category_data.image,
 	height: "auto",
 	width: Ti.UI.FILL,
@@ -123,7 +123,7 @@ var createGridListing = function(res){
 		   		}
 				adImage = Ti.UI.createImageView({
 					image: imagepath,
-					defaultImage: "/images/warm-grey-bg.png",
+					defaultImage: "/images/image_loader_640x640.png",
 					height: 50,
 					width: 50,
 					left: 10,

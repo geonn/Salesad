@@ -94,6 +94,7 @@ function render_favourite_merchant(){
 			width: cell_width,
 			classes: ['hsize'],
 			image: data[i].img_path,
+			defaultImage: "/images/image_loader_640x640.png",
 			touchEnabled: false,
 		});
 		var text_padd = $.UI.create("View", {
