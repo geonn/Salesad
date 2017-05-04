@@ -3,11 +3,11 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
 var pwidth = Titanium.Platform.displayCaps.platformWidth;
 if(OS_ANDROID){
-	$.cropped.width = pixelToDp(pwidth);
-	$.cropped.height = pixelToDp(pwidth);
+	$.cropped.width = pixelToDp(pwidth)-60;
+	$.cropped.height = pixelToDp(pwidth)-60;
 }else{
-	$.cropped.width = pwidth;
-	$.cropped.height = pwidth;
+	$.cropped.width = pwidth-60;
+	$.cropped.height = pwidth-60;
 }
 function init(){
 	console.log('yes! init');

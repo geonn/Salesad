@@ -3,15 +3,32 @@
 <head>
 	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes, minimum-scale=0 , maximum-scale=5.0 " />
 </head>
+<style>
+html, body {
+   height: 100%;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+}
+</style>
 <script src="jquery-3.1.1.min.js"></script>
 <body>
-	<img id="img" width="100%"/>
+	<img id="img" style="display: block"/>
 </body>
 <script>
 	Ti.App.addEventListener("html:loadImage", function(e){
 		//$("#img").attr("src", e.image);
+		
 		document.getElementById('img').src = e.image;
 	});
 	Ti.App.fireEvent("image_preview:loadImage");
+	$("#img").onload = function() {
+	  alert(this.width + 'x' + this.height);
+	  	if(this.width > this.height){
+			$("#img").attr("height", "100%");
+		}else{
+			$("#img").attr("width", "100%");
+		}
+	};
 </script>
 </html>
