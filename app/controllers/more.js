@@ -103,6 +103,7 @@ function doLogout(e) {
 };
 
 $.invitefriend.addEventListener("click", function(e) {
+try{
 	loading.start();
 	API.callByPost({
 		url: "encrypt_uid",
@@ -143,6 +144,9 @@ $.invitefriend.addEventListener("click", function(e) {
 			loading.finish();
 		}
 	});
+}catch(e) {
+	
+}
 });
 
 function windowClose(){
