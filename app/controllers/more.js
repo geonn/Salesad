@@ -42,9 +42,9 @@ function navTo(e){
 function refresh() {
 	var user = Ti.App.Properties.getString('session');
 	if(user === null) {
-		$.textlogin_out.text = "Login";
+		(OS_IOS)?$.textlogin_out.title = "Login":$.textlogin_out.text = "Login";
 	}else{
-		$.textlogin_out.text = "Logout";
+		(OS_IOS)?$.textlogin_out.title = "Logout":$.textlogin_out.text = "Logout";
 	}
 }
 
@@ -157,10 +157,10 @@ Ti.App.addEventListener("ads:close",windowClose);
 Ti.App.addEventListener("more:refresh", refresh);
 
 $.textlogin_out.addEventListener('click', function(e){
-	if(e.source.text == "Login") {
+	if(e.source.text == "Login" || e.source.title == "Login") {
 		var win = Alloy.createController("login").getView();
 		COMMON.openWindow(win);
-	}else if(e.source.text == "Logout") {
+	}else if(e.source.text == "Logout" || e.source.title == "Logout") {
 		doLogout();
 	}
 });
