@@ -53,7 +53,7 @@ function render_favourite_merchant(){
 		var container = $.UI.create("View", {
 			classes:['hsize'],
 			 master:1, 
-			 backgroundColor: "#ffffff",
+			 backgroundColor: "black",
 			 width: cell_width, 
 			 left: 10,
 			 top:10, 
@@ -71,8 +71,6 @@ function render_favourite_merchant(){
 		});
 		
 		var cell = $.UI.create("View", {
-			left: 10,
-			bottom: 10,
 			width: cell_width,
 			m_id: data[i].m_id,
 			classes:['hsize']
@@ -85,15 +83,17 @@ function render_favourite_merchant(){
 			touchEnabled: false,
 		});
 		var view_backgroundColor = $.UI.create("View", {
+			left:0,
 			backgroundColor: random_color[Math.round(Math.random() * 5)],
 			classes: ['wfill', 'hsize'],
 			touchEnabled: false,
 		});
+		console.log(data[i].img_path);
 		var image_thumb = $.UI.create("ImageView",{
 			width: cell_width,
 			classes: ['hsize'],
-			image: data[i].img_path,
-			defaultImage: "/images/image_loader_640x640.png",
+			left: 0,
+			image: (data[i].img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].img_path,
 			touchEnabled: false,
 		});
 		var text_padd = $.UI.create("View", {
