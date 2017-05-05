@@ -57,7 +57,7 @@ var getAdsImages = function(){
 	for (var i=0; i< items.length; i++) { 
 		var itemImageView = $.UI.create("View", {classes:['wfill','hsize']});
 		adImage = Ti.UI.createImageView({
-			defaultImage: "/images/warm-grey-bg.png",
+			defaultImage: "/images/image_loader_600x800.png",
 			image: items[i].img_path,
 			width:"100%",
 			enableZoomControls: true,

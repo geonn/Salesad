@@ -14,6 +14,12 @@
 	     	</View>
 	 	</View>
 	 	<View bottom='0' class="hr"></View>
-	 	<ScrollView id="inner_box" class="wfill hfill conthsize contwfill horz"></ScrollView>
+	 	<ScrollView id="inner_box1" class="wfill hfill conthsize contwfill vert">
+	 		<View id="inner_box" class="wfill hsize horz" top="0"></View>
+			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
+		        <ActivityIndicator  id="activityIndicator" />
+		    	<Label top="5" text="Loading" color="#ffffff" />
+		    </View>		 		
+	 	</ScrollView>
 	</Window>
 </Alloy>

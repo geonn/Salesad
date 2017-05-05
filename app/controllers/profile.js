@@ -250,6 +250,7 @@ var doLogout = function (e) {
 		         	Ti.App.Properties.removeProperty('gender');
 					Ti.App.Properties.removeProperty('session');
 			     	COMMON.closeWindow($.win);
+			     	Ti.App.fireEvent("more:refresh");
 			     },
 			     // function called when an error occurs, including a timeout
 			     onerror : function(e) {

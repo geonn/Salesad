@@ -57,7 +57,7 @@ var getAdDetails = function(a_id){
  	 
  	/***Add ads banner***/
  	var bannerImage = Ti.UI.createImageView({
- 	  defaultImage: "/images/warm-grey-bg.png",
+ 	  defaultImage: "/images/image_loader_640x640.png",
 	  image :ads.img_path,
 	  width : "100%",
 	  height: Ti.UI.SIZE,//ads_height,
@@ -94,7 +94,7 @@ var getAdDetails = function(a_id){
 			
 			imagepath = items[i].img_path;
 			adImage = Ti.UI.createImageView({
-				defaultImage: "/images/warm-grey-bg.png",
+				defaultImage: "/images/image_loader_640x640.png",
 				image: imagepath,
 				left: 4,
 				width: Ti.UI.FILL,

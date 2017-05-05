@@ -1,5 +1,5 @@
+try{
 var args = arguments[0] || {};
-var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 var cell_width, category_id;
 var model= Alloy.createCollection("category");
@@ -168,13 +168,13 @@ function render(e){
 			try{
 			var merchantdata=merchant.getMerchantsById(adsdata[count1].m_id);					
 			merchantdata.img_path = (merchantdata.img_path == "")?"/images/SalesAd_Profile Pic.png":merchantdata.img_path;						
-		    var container= $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ED1C24", width: cell_width, left: 9, top:9});			
+		    var container= $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#4d4d4d", width: cell_width, left: 9, top:9});			
 		    var img = $.UI.create("ImageView",{image:adsdata[count1].img_path,defaultImage:'/images/Icon_add_photo.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: 3, record: adsdata[count1]});			
 		    var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:'#ffffff', height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: adsdata[count1].ads_name}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:'#fff', height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: adsdata[count1].ads_name});
 		    var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5,color:'#ffffff', right: 5, bottom: 3, textAlign:"left",  text: convertToHumanFormat(adsdata[count1].sales_from)+" - "+convertToHumanFormat(adsdata[count1].sales_to)});
 		    var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#E3E5E8'});
-		    var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding'], backgroundColor: '#ED1C24'});
-		    var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36, backgroundColor: '#ED1C24'});
+		    var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding'], backgroundColor: '#4d4d4d'});
+		    var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36, backgroundColor: '#4d4d4d'});
 		    var owner_img = $.UI.create("ImageView", {image:merchantdata.img_path, borderRadius: 15, height:30, width: 30, left:0});
 		    var owner_name = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold','wfill'],color:'#ffffff',  height:14, top:0, textAlign:"left", text: adsdata[count1].merchant_name}) : $.UI.create("Label", {classes: ['h6', 'bold','wfill'],color:'#ffffff',  height:14, top:0, ellipsize: true, wordWrap: false, textAlign:"left", text: adsdata[count1].merchant_name});
 		 //   var label_category = (OS_IOS) ? $.UI.create("Label", {classes: ['h6','wfill'],color:'#ffffff', height:14, textAlign:"left"}) : $.UI.create("Label", {classes: ['h6','wfill'],color:'#ffffff', height:14,  ellipsize: true, wordWrap: false, textAlign:"left"});			
@@ -235,7 +235,7 @@ function render(e){
 		var img = $.UI.create("ImageView",{image: data[i].img_path, defaultImage:'/images/Icon_add_photo.png', classes:['hsize', 'wfill']});
 		var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'], height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: data[i].description,}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'], height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: data[i].description,});
 		var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5, right: 5, bottom: 3, textAlign:"left",  text: convertToHumanFormat(data[i].sales_from)+" - "+convertToHumanFormat(data[i].sales_to)});
-		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#E3E5E8'});
+		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#fff'});
 		var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding']});
 
 		var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36});
@@ -298,14 +298,14 @@ console.log("here is renderads");
 			for(var i1=count1;i1<adsdata.length;i1++){
 				var merchantdata=merchant.getMerchantsById(adsdata[i1].m_id);
 				merchantdata.img_path = (merchantdata.img_path == "")?"/images/SalesAd_Profile Pic.png":merchantdata.img_path;					
-			    var container= $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ED1C24", width: cell_width, left: 9, top:9});			
+			    var container= $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#4d4d4d", width: cell_width, left: 9, top:9});			
 			    var img = $.UI.create("ImageView",{image:adsdata[i1].img_path,defaultImage:'/images/Icon_add_photo.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: 3, record: adsdata[i1]});			
 			    var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:'#ffffff', height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: adsdata[i1].ads_name}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:'#fff', height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: adsdata[i1].ads_name});
 			    var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5,color:'#ffffff', right: 5, bottom: 3, textAlign:"left",  text: convertToHumanFormat(adsdata[i1].sales_from)+" - "+convertToHumanFormat(adsdata[i1].sales_to)});
-			    var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#E3E5E8'});
-			    var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding'], backgroundColor: '#ED1C24'});
-			    var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36, backgroundColor: '#ED1C24'});
-			    var owner_img = $.UI.create("ImageView", {image:merchantdata.img_path, borderRadius: 15, height:30, width: 30, left:0});
+			    var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#fff'});
+			    var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding'], backgroundColor: '#4d4d4d'});
+			    var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36, backgroundColor: '#4d4d4d'});
+			    var owner_img = $.UI.create("Im                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ageView", {image:merchantdata.img_path, borderRadius: 15, height:30, width: 30, left:0});
 			    var owner_name = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold','wfill'],color:'#ffffff',  height:14, top:0, textAlign:"left", text: adsdata[i1].merchant_name}) : $.UI.create("Label", {classes: ['h6', 'bold','wfill'],color:'#ffffff',  height:14, top:0, ellipsize: true, wordWrap: false, textAlign:"left", text: adsdata[i1].merchant_name});
 			  //  var label_category = (OS_IOS) ? $.UI.create("Label", {classes: ['h6','wfill'],color:'#ffffff', height:14, textAlign:"left"}) : $.UI.create("Label", {classes: ['h6','wfill'],color:'#ffffff', height:14,  ellipsize: true, wordWrap: false, textAlign:"left"});			
 			    container.add(img);
@@ -341,14 +341,18 @@ console.log("here is renderads");
 }
 
 function init(){
-	$.win.add(loading.getView());
-	var ads_model = Alloy.createCollection("ads");
-	ads_data = ads_model.getExpressData();
-	console.log(ads_data.length);
-	console.log("here is init");
-	loading.start();
-	refresh();
-	ads_model=null;
+	$.activityIndicator.show();
+	$.loadingBar.opacity = "1";
+	$.loadingBar.height = "120";
+	$.loadingBar.top = "100";		
+	setTimeout(function(){
+		$.activityIndicator.hide();
+		$.loadingBar.opacity = "0";
+		var ads_model = Alloy.createCollection("ads");
+		ads_data = ads_model.getExpressData();
+		refresh();
+		ads_model=null;				
+	},1000);
 }
 
 // convert pixel to dp.
@@ -365,10 +369,9 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	var theEnd = $.content.rect.height;
 	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
 	var distance = theEnd - total;
-	
+	var svtop = (OS_ANDROID)?1:-50;
 	if (distance < lastDistance){
 		var nearEnd = theEnd * 1;
-		console.log(nearEnd+" "+total);
 		if (!load && (total >= nearEnd)){
 			load = true;
 			getPreviousData({});
@@ -379,12 +382,27 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	}
 	lastDistance = distance;
 	
-	if (e.y <= -50 && !refreshing) {
-		refreshing = true;
-		loading.start();
-		refresh();
-        console.log("refresh!");
-        setTimeout(function(){refreshing = false;loading.finish();}, 500);   
+	if (e.y <= svtop && !refreshing) {
+		$.content.removeAllChildren();	
+		$.content_scrollview.scrollingEnabled=false;	
+		$.activityIndicator.show();
+		$.loadingBar.opacity = "1";
+		$.loadingBar.height = "120";
+		$.loadingBar.top = "100";			
+        setTimeout(function(){
+        	$.content_scrollview.scrollingEnabled=true;
+			$.activityIndicator.hide();
+			$.loadingBar.opacity = "0";
+			ads_counter = 0;
+			pass=true;
+			xpresscount1=0;			
+			counter = 0;
+			count1=0;
+			count2=0;
+			refreshing = true;
+			refresh();					        	
+        	refreshing = false;
+        }, 1000);   
     }
 	theEnd=null;
 	total=null;
@@ -418,7 +436,6 @@ $.win.addEventListener('android:back', function (e) {
  	lastDistance=null;
  	refreshing=null;
 	args = null;
-	loading = null;
 	random_color = null;
     cell_width=null;
     category_id=null;
@@ -435,7 +452,6 @@ function windowClose(){
  	lastDistance=null;
  	refreshing=null;
 	args = null;
-	loading = null;
 	random_color = null;
     cell_width=null;
     category_id=null;
@@ -447,3 +463,7 @@ function windowClose(){
 	COMMON.closeWindow($.win);
 }
 Ti.App.addEventListener("ads:close",windowClose);
+}
+catch(e){
+	//do nothing avoid error message popup
+}

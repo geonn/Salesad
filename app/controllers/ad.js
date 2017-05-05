@@ -88,7 +88,7 @@ function render_banner(){
  	
  	/***Add ads banner***/
  	var bannerImage = Ti.UI.createImageView({
- 		defaultImage: "/images/warm-grey-bg.png",
+ 		defaultImage: "/images/image_loader_640x640.png",
 		image :ads.img_path,
 		width : "100%",
 		height: Ti.UI.SIZE,//ads_height,
@@ -128,7 +128,7 @@ var getAdDetails = function(){
 			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 30, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
 			
 			adImage = Ti.UI.createImageView({
-				defaultImage: "/images/warm-grey-bg.png",
+				defaultImage: "/images/image_loader_600x800.png",
 				image: imagepath,
 				left: 4,
 				width: Ti.UI.FILL,
@@ -159,7 +159,9 @@ var getAdDetails = function(){
 		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding','bold'], text :ads.description+"\n\nTerms and Conditions\n\n"+ ads_tnc});
 		$.ads_details.add(ad_name);
 		$.ads_details.add(ad_date);
-		$.ads_details.add(tnc);
+		if(ads.description != "" || ads_tnc != "") {
+			$.ads_details.add(tnc);
+		}
 		isAdsAvailable = true;
 	}else{
 		/*
