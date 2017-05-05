@@ -150,7 +150,7 @@ function buildListing(){
 			bannerImage.add(webView);
 		}else{
 			var bannerImage = Ti.UI.createImageView({
-		 	  defaultImage: "/images/warm-grey-bg.png",
+		 	  defaultImage: "/images/image_loader_640x640.png",
 			  image :ads[a].img_path,
 			  width : Ti.UI.FILL,
 			  name: ads[a].name,
@@ -206,7 +206,7 @@ function buildListing(){
 				return dateDescription;
 			}
 		}
-		console.log("dateeeeeeeeeeeeeeeeeeeeeeeeeee   "+date);
+
 		var label_date_period = $.UI.create("Label", {
 			text: date,
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,

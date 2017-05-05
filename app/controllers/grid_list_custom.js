@@ -72,7 +72,7 @@ function buildSmallBlock(data){
 		favourite_checked = true;
 		
 		var adImage = Ti.UI.createImageView({
-			defaultImage: "/images/warm-grey-bg.png",
+			defaultImage: "/images/image_loader_640x640.png",
 			image: data[i]['img_path'],
 			height: "auto",
 			source: data[i]['m_id'],
@@ -287,7 +287,7 @@ var createGridListing = function(res){
 		});
 		
 		var bannerImage = Ti.UI.createImageView({
-		 	  defaultImage: "/images/warm-grey-bg.png",
+		 	  defaultImage: "/images/image_loader_640x640.png",
 			  image :info.img_path,
 			  width : Ti.UI.FILL,
 			  m_id: info.m_id, 

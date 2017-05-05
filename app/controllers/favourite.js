@@ -2,7 +2,6 @@ var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
-loading.start();
 
 function unfavourite(e){
 		var message = "Are you sure want to remove from favorite";
@@ -93,9 +92,14 @@ function render_favourite_merchant(){
 		var image_thumb = $.UI.create("ImageView",{
 			width: cell_width,
 			classes: ['hsize'],
+<<<<<<< HEAD
 			left: 0,
 			image: (data[i].img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].img_path,
 			//image: data[i].img_path,
+=======
+			image: data[i].img_path,
+			defaultImage: "/images/image_loader_640x640.png",
+>>>>>>> origin/master
 			touchEnabled: false,
 		});
 		var text_padd = $.UI.create("View", {
@@ -132,9 +136,15 @@ function refresh(){
 }
 
 function init(){
-	$.win.add(loading.getView());
-	loading.start();
-	refresh();
+	$.activityIndicator.show();
+	$.loadingBar.opacity = "1";
+	$.loadingBar.height = "120";
+	$.loadingBar.top = "100";	
+	setTimeout(function(){
+		$.activityIndicator.hide();
+		$.loadingBar.opacity = "0";		
+		refresh();	
+	},1000);
 }
 
 function windowClose(){

@@ -6,7 +6,12 @@ var ads_counter = 0;
 var loading = false;
 var type = args.type;
 var data;
-
+if(typeof args.m_id == "undefined" || args.m_id ==""){
+	alert("There is no sales from this store right now");
+}
+else{
+	console.log("here is _ad_listing");
+}
 Alloy.Globals.naviPath.push($.win);
 
 var style = Ti.UI.ActivityIndicatorStyle.DARK;
@@ -110,11 +115,6 @@ function buildListing(){
 	var ads = data;
 	a_id_submit = _.union(_.pluck(ads, "a_id"), a_id_submit);
 	
-	if(ads.length <= 0){
-		activityIndicator.hide();
-		$.ads_listing.remove(activityIndicator);
-		return;	
-	}
 	ads_counter += 3;
 	for(var a = 0; ads.length > a; a++){
 		var item_model = Alloy.createCollection('items'); 
@@ -160,7 +160,7 @@ function buildListing(){
 			bannerImage.add(webView);
 		}else{
 			var bannerImage = Ti.UI.createImageView({
-		 	  defaultImage: "/images/warm-grey-bg.png",
+		 	  defaultImage: "/images/image_loader_640x640.png",
 			  image :ads[a].img_path,
 			  width : Ti.UI.FILL,
 			  name: ads[a].name,
@@ -357,7 +357,15 @@ function buildListing(){
 		loading = false;
 	}, 1000);
 	
-	
+	if(ads.length <= 0){
+		activityIndicator.hide();
+		$.ads_listing.remove(activityIndicator);
+		setTimeout(function(){
+			alert("There is no sales from this store right now");
+			console.log("ads length:"+ads.length);	
+			return;				
+		},2000);	
+	}	
 }
 
 function setAndroidCalendarEvent(e){
@@ -436,6 +444,7 @@ var goAd = function(a_id, m_id){
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
+	console.log("id"+a_id+m_id);
 	clickTime = currentTime;
 	console.log(args.m_id+" args.m_id");
 	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "home"}).getView(); 
