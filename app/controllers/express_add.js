@@ -240,34 +240,7 @@ function popCamera(e){
         		console.log("Success to open camera");
 		        Titanium.Media.showCamera({ 
 		            success:function(event) { 
-		               var image = event.media;
-	        		   if(image.width > image.height){
-		        			var newWidth = 640;
-		        			var ratio =   640 / image.width;
-		        			var newHeight = image.height * ratio;
-		        		}else{
-		        			var newHeight = 640;
-		        			var ratio =   640 / image.height;
-		        			var newWidth = image.width * ratio;
-		        		} 
-		        		
-						image = image.imageAsResized(newWidth, newHeight); 
-						var filename = Math.floor(Date.now() /1000);
-			            	console.log(filename+" check");
-		                if(event.media.nativePath == null){
-		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
-		            		if(writeFile.exists()){
-		            			writeFile.deleteFile();
-		            		}
-		            		writeFile.write(image);
-		            		console.log(writeFile.nativePath);
-		            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-					    	COMMON.openWindow(win);
-		            	}else{
-		            		console.log(event.media.nativePath+" yes");
-		            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
-					    	COMMON.openWindow(win);
-		            	}
+		               image_preview(event);
 		            },
 		            cancel:function(){
 		                //do somehting if user cancels operation
@@ -296,34 +269,7 @@ function popCamera(e){
 		        		console.log("Success to open camera");
 				        Titanium.Media.showCamera({ 
 				            success:function(event) { 
-				               var image = event.media;
-			        		   if(image.width > image.height){
-				        			var newWidth = 640;
-				        			var ratio =   640 / image.width;
-				        			var newHeight = image.height * ratio;
-				        		}else{
-				        			var newHeight = 640;
-				        			var ratio =   640 / image.height;
-				        			var newWidth = image.width * ratio;
-				        		} 
-				        		
-								image = image.imageAsResized(newWidth, newHeight); 
-								var filename = Math.floor(Date.now() /1000);
-					            	console.log(filename+" check");
-				                if(event.media.nativePath == null){
-				            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
-				            		if(writeFile.exists()){
-				            			writeFile.deleteFile();
-				            		}
-				            		writeFile.write(image);
-				            		console.log(writeFile.nativePath);
-				            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-							    	COMMON.openWindow(win);
-				            	}else{
-				            		console.log(event.media.nativePath+" yes");
-				            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
-							    	COMMON.openWindow(win);
-				            	}
+				               image_preview(event);
 				            },
 				            cancel:function(){
 				                //do somehting if user cancels operation
@@ -356,45 +302,7 @@ function popCamera(e){
 	        Titanium.Media.openPhotoGallery({
 	            
 	            success:function(event) {
-	            try{	
-	               var image = event.media;
-	               console.log(typeof image);
-	               console.log(image);
-        		   if(image.width > image.height){
-	        			var newWidth = 640;
-	        			var ratio =   640 / image.width;
-	        			var newHeight = image.height * ratio;
-	        		}else{
-	        			var newHeight = 640;
-	        			var ratio =   640 / image.height;
-	        			var newWidth = image.width * ratio;
-	        		} 
-	        		try{ 
-						image = image.imageAsResized(newWidth, newHeight); 
-					}catch(e){
-						console.log(e);
-					}
-	            	//console.log(event.media);
-					// called when media returned from the camera
-					if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
-						
-							var filename = Math.floor(Date.now() /1000);
-	            			var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
-	            			if(writeFile.exists()){
-	            				writeFile.deleteFile();
-	            		}
-	            			writeFile.write(image);
-							console.log(writeFile.nativePath+" this is media");
-						//var img = $.UI.create("ImageView", {image: event.media});
-						//$.photoLoad.image = image;
-							var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-				    		COMMON.openWindow(win);
-				    	
-				    	
-				    }
-				    }catch(e){
-				    	alert("Can't use the image from this album. Please select an image from another album.");
-				    }
+	           		image_preview(event);
 				},
 				cancel:function() {
 					// called when user cancels taking a picture
@@ -421,6 +329,33 @@ function popCamera(e){
 	 
 	//show dialog
 	dialog.show();
+}
+
+function image_preview(event){
+	if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
+		var image = event.media;
+		
+	   if(image.width > image.height){
+			var newWidth = 640;
+			var ratio =   640 / image.width;
+			var newHeight = image.height * ratio;
+		}else{
+			var newHeight = 640;
+			var ratio =   640 / image.height;
+			var newWidth = image.width * ratio;
+		} 
+	
+		image = image.imageAsResized(newWidth, newHeight); 
+		var filename = Math.floor(Date.now() /1000);
+		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+		if(writeFile.exists()){
+			writeFile.deleteFile();
+		}
+		writeFile.write(image);
+		console.log(writeFile.nativePath);
+		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+		COMMON.openWindow(win);	    	
+	}
 }
 
 function cropped_image(e){

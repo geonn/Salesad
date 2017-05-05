@@ -26,11 +26,6 @@ function addRegClickEvent(table){
 				'email'  :Ti.App.Properties.getString('email'),
 				'u_id' :Ti.App.Properties.getString('u_id')
 			};
-console.log(args.title);
-console.log(args.u_id);
-console.log(args.firstname);
-console.log(args.lastname);
-console.log(args.email);
 			var win = Alloy.createController("editProfile",args).getView(); 
 			COMMON.openWindow(win); 
 		} 
@@ -45,9 +40,8 @@ function loadTable(){
  	var gender = Ti.App.Properties.getString('gender');
 	var session = Ti.App.Properties.getString('session');
 	var img_path = Ti.App.Properties.getString('img_path');
-	console.log("image path:  "+img_path);
+	
 	$.photoLoad.image = img_path;
-	console.log(firstname+"firstname");
 	var RegArr = [
 	{ title:'Firstname', value:firstname, mod:"firstname",  hasChild:true  },
 	{ title:'Lastname', value:lastname, mod:"lastname", hasChild:true },
@@ -55,8 +49,6 @@ function loadTable(){
 	];
 	
 	$.uid.setText(userid);
-	console.log(userid+"here");
-	console.log(Ti.App.Properties);
 	
 	var RegTable = Titanium.UI.createTableView({
 		width:'100%',
@@ -279,7 +271,7 @@ var doLogout = function (e) {
 
 /**update the details from editProfile**/
 var updateProfile = function(e) {
-	console.log("call load table!!!");
+	
 	loadTable();
 };
 
@@ -301,42 +293,15 @@ function popCamera(e){
     var pHeight = Ti.Platform.displayCaps.platformHeight;
      
 	dialog.addEventListener('click', function(e) { 
-	    console.log("e index   " + e.index);
+	    
 	    if(e.index === 0) { //if first option was selected
 	        //then we are getting image from camera
 	        if(Ti.Media.hasCameraPermissions()){
 		        console.log("Permission");
 		        Titanium.Media.showCamera({ 
 		            success:function(event) { 
-		            console.log("success");
-		               var image = event.media;
-	        		   if(image.width > image.height){
-		        			var newWidth = 640;
-		        			var ratio =   640 / image.width;
-		        			var newHeight = image.height * ratio;
-		        		}else{
-		        			var newHeight = 640;
-		        			var ratio =   640 / image.height;
-		        			var newWidth = image.width * ratio;
-		        		} 
-		        		 
-						image = image.imageAsResized(newWidth, newHeight); 
-						var filename = Math.floor(Date.now() /1000);
-			            	console.log(filename+" check");
-		                if(event.media.nativePath == null){
-			            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
-			            		if(writeFile.exists()){
-			            			writeFile.deleteFile();
-			            		}
-			            		writeFile.write(image);
-			            		console.log(writeFile.nativePath);
-			            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-						    	COMMON.openWindow(win);
-			            	}else{
-			            		console.log(event.media.nativePath+" yes");
-			            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
-						    	COMMON.openWindow(win);
-			            	}
+		            	console.log("success");
+		               image_preview(event);
 		            },
 		            cancel:function(){
 		                //do somehting if user cancels operation
@@ -365,35 +330,7 @@ function popCamera(e){
 		        	if(e.success){
 				        Titanium.Media.showCamera({ 
 				            success:function(event) { 
-				            	console.log("success");
-				               var image = event.media;
-			        		   if(image.width > image.height){
-				        			var newWidth = 640;
-				        			var ratio =   640 / image.width;
-				        			var newHeight = image.height * ratio;
-				        		}else{
-				        			var newHeight = 640;
-				        			var ratio =   640 / image.height;
-				        			var newWidth = image.width * ratio;
-				        		} 
-				        		 
-								image = image.imageAsResized(newWidth, newHeight); 
-								var filename = Math.floor(Date.now() /1000);
-					            	console.log(filename+" check");
-				                if(event.media.nativePath == null){
-					            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
-					            		if(writeFile.exists()){
-					            			writeFile.deleteFile();
-					            		}
-					            		writeFile.write(image);
-					            		console.log(writeFile.nativePath);
-					            		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-								    	COMMON.openWindow(win);
-					            	}else{
-					            		console.log(event.media.nativePath+" yes");
-					            		var win = Alloy.createController("image_preview", {image: event.media.nativePath}).getView(); 
-								    	COMMON.openWindow(win);
-					            	}
+				            	image_preview(event);
 				            },
 				            cancel:function(){
 				                //do somehting if user cancels operation
@@ -417,8 +354,7 @@ function popCamera(e){
 				            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
 				            saveToPhotoGallery:true
 				        });
-			        }
-		        	else{
+			        }else{
 		        		alert("You denied permission.");
 		        	}			        
 		        });	        	
@@ -429,36 +365,7 @@ function popCamera(e){
 	            
 	            success:function(event) {
 					// called when media returned from the camera
-					console.log(JSON.stringify(event.media));
-					if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
-						var filename = Math.floor(Date.now() /1000);
-		            	console.log(filename+" check");
-	                	if(event.media.nativePath == null){
-		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename+'.jpg');
-		            		if(writeFile.exists()){
-		            			writeFile.deleteFile();
-		            		}
-		            		writeFile.write(event.media);
-							console.log(writeFile.nativePath+" this is media");
-						//var img = $.UI.create("ImageView", {image: event.media});
-						$.photoLoad.image = event.media;
-						var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-				    	COMMON.openWindow(win);
-				    	}
-					    else{
-		            		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, filename+'.jpg');
-		            		if(writeFile.exists()){
-		            			writeFile.deleteFile();
-		            		}
-		            		writeFile.write(event.media);
-		            		console.log("here");
-							console.log(writeFile.nativePath+" this is media");
-							//var img = $.UI.create("ImageView", {image: event.media});
-							$.photoLoad.image = event.media;
-							var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
-					    	COMMON.openWindow(win);				    	
-					    }				    	
-				    }
+					image_preview(event);
 				},
 				cancel:function() {
 					// called when user cancels taking a picture
@@ -487,6 +394,33 @@ function popCamera(e){
 	dialog.show();
 }
 
+function image_preview(event){
+	if (event.mediaType==Ti.Media.MEDIA_TYPE_PHOTO){
+		var image = event.media;
+		
+	   if(image.width > image.height){
+			var newWidth = 640;
+			var ratio =   640 / image.width;
+			var newHeight = image.height * ratio;
+		}else{
+			var newHeight = 640;
+			var ratio =   640 / image.height;
+			var newWidth = image.width * ratio;
+		} 
+	
+		image = image.imageAsResized(newWidth, newHeight); 
+		var filename = Math.floor(Date.now() /1000);
+		var writeFile = Ti.Filesystem.getFile(Ti.Filesystem.tempDirectory, filename+'.png');
+		if(writeFile.exists()){
+			writeFile.deleteFile();
+		}
+		writeFile.write(image);
+		console.log(writeFile.nativePath);
+		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
+		COMMON.openWindow(win);	    	
+	}
+}
+
 function cropped_image(e){
 	$.photoLoad.image = Titanium.Utils.base64decode(e.image_callback);
 	$.photoLoad.blob_submit = Titanium.Utils.base64decode(e.image_callback);
@@ -499,6 +433,7 @@ function doSubmit(){
 	var u_id = Ti.App.Properties.getString('u_id');
 	var params = {photoLoad: $.photoLoad.value, u_id: u_id};
 	_.extend(params, {Filedata: img_blob});
+	
 	API.callByPost({
 		url: "addUserThumb",
 		new: true,
@@ -508,7 +443,7 @@ function doSubmit(){
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
-			console.log(arr.img_path+" img_path");
+			
 			Ti.App.Properties.setString('img_path', arr.img_path);
 		},
 		onerror: function(err){
