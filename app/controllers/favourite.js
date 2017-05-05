@@ -92,14 +92,8 @@ function render_favourite_merchant(){
 		var image_thumb = $.UI.create("ImageView",{
 			width: cell_width,
 			classes: ['hsize'],
-<<<<<<< HEAD
 			left: 0,
 			image: (data[i].img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].img_path,
-			//image: data[i].img_path,
-=======
-			image: data[i].img_path,
-			defaultImage: "/images/image_loader_640x640.png",
->>>>>>> origin/master
 			touchEnabled: false,
 		});
 		var text_padd = $.UI.create("View", {
