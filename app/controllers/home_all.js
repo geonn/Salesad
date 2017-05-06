@@ -267,9 +267,6 @@ function render(e){
 		owner_name=null;
 		label_category=null;
 	};
-	console.log("here is render");
-	console.log(xpresscount);
-	console.log(xpresscount1);
 	if(xpresscount==xpresscount1){
 		renderads();
 	}
@@ -305,7 +302,7 @@ console.log("here is renderads");
 			    var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#fff'});
 			    var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding'], backgroundColor: '#4d4d4d'});
 			    var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36, backgroundColor: '#4d4d4d'});
-			    var owner_img = $.UI.create("Im                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ageView", {image:merchantdata.img_path, borderRadius: 15, height:30, width: 30, left:0});
+			    var owner_img = $.UI.create("ImageView", {image:merchantdata.img_path, borderRadius: 15, height:30, width: 30, left:0});
 			    var owner_name = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold','wfill'],color:'#ffffff',  height:14, top:0, textAlign:"left", text: adsdata[i1].merchant_name}) : $.UI.create("Label", {classes: ['h6', 'bold','wfill'],color:'#ffffff',  height:14, top:0, ellipsize: true, wordWrap: false, textAlign:"left", text: adsdata[i1].merchant_name});
 			  //  var label_category = (OS_IOS) ? $.UI.create("Label", {classes: ['h6','wfill'],color:'#ffffff', height:14, textAlign:"left"}) : $.UI.create("Label", {classes: ['h6','wfill'],color:'#ffffff', height:14,  ellipsize: true, wordWrap: false, textAlign:"left"});			
 			    container.add(img);
@@ -365,11 +362,15 @@ init();
 var load = false;
 var lastDistance = 0;
 var refreshing = false;
+if(OS_ANDROID){
+	$.content_scrollview.setOverScrollMode(Titanium.UI.Android.OVER_SCROLL_ALWAYS);
+	console.log("Call me android");
+}
 $.content_scrollview.addEventListener("scroll", function(e){
 	var theEnd = $.content.rect.height;
 	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
 	var distance = theEnd - total;
-	var svtop = (OS_ANDROID)?1:-50;
+	var svtop = (OS_ANDROID)?-10:-50;
 	if (distance < lastDistance){
 		var nearEnd = theEnd * 1;
 		if (!load && (total >= nearEnd)){
@@ -393,6 +394,8 @@ $.content_scrollview.addEventListener("scroll", function(e){
         	$.content_scrollview.scrollingEnabled=true;
 			$.activityIndicator.hide();
 			$.loadingBar.opacity = "0";
+			$.loadingBar.height = "0";
+			$.loadingBar.top = "0";			
 			ads_counter = 0;
 			pass=true;
 			xpresscount1=0;			

@@ -49,9 +49,8 @@ function centerMap(e){
 
 function render_map(){
 	if(showCurLoc == true){	
-	 	xpress_data.push({longitude:"asdf",latitude:"asdf"});
-	 	adsList.push({longitude:"asdf",latitude:"asdf"});
-	 	console.log(xpress_data);
+	 	xpress_data.push({longitude:"testing for longitude",latitude:"testing for latitude"});
+	 	adsList.push({longitude:"testing for longitude",latitude:"testing for latitude"});
 	 	var ML=[];
 		xpress_data.forEach(function(entry) {
 		    var longitude1=parseFloat(entry.longitude);
@@ -63,7 +62,7 @@ function render_map(){
 		    ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.description,subtitle:entry.owner_name,myid:entry.store_name});
 		   });
 		   //test
-		   adsList.forEach(function(entry) {
+		adsList.forEach(function(entry) {
 		    var longitude1=parseFloat(entry.longitude);
 		    var latitude1=parseFloat(entry.latitude);   
 		    if(isNaN(longitude1)||isNaN(latitude1)){
@@ -74,7 +73,6 @@ function render_map(){
 		});	
 	 	ML.forEach(function(entry) {
 	 		console.log(entry);
-	 		console.log("end");
 			var detBtn =Ti.UI.createButton({
 			    backgroundImage: '/images/btn-forward.png',
 			    color: "red",

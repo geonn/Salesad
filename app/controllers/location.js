@@ -1,5 +1,12 @@
 var args = arguments[0] || {};
 var m_id = args.m_id;
+if(typeof m_id== "undefined"){
+	setTimeout(function(){
+		COMMON.closeWindow($.location);			
+		alert("No merchants id found");		
+	},1000);
+}
+else{
 var a_id = args.a_id; 
 var showAll = args.showAll || true;
 var showCurLoc = false;
@@ -16,8 +23,10 @@ console.log(m_id+" mid here");
 var ads = a_library.getAdsById(a_id);
 var id_sql = (typeof ads == "undefined" || ads.branch == "")?m_id:ads.branch;
 var all_branches = m_library.getBranchesById(id_sql);
-var merchants = m_library.getMerchantsById(m_id);
-
+var merchants;
+merchants = m_library.getMerchantsById(m_id);
+COMMON.closeWindow($.location);
+console.log(merchants);
 //load merchant & branches list 
 function init(){
 	m_id = (typeof args.target_m_id != "undefined")?args.target_m_id:0;
@@ -41,7 +50,9 @@ function init(){
 				mobile: all_branches[k].mobile,
 				mer_loc: all_branches[k].area + ", "+all_branches[k].state_name
 			};
-			branch.push(obj);
+			if(all_branches[k].longitude!="" || all_branches[k].latitude!=""){
+				branch.push(obj);			
+			}
 		}
 		console.log("before render also available");
 		render_also_available(branch);
@@ -92,7 +103,6 @@ var saveCurLoc = function(e) {
     if (e.error) {
         console.log('Location service is disabled. '+e.error);
     } else {
-    	console.log(merchants.longitude+merchants.latitude+"haii");
     	if(merchants.longitude == "" || merchants.latitude == ""){
     	alert("No location found");
 		}else{
@@ -143,8 +153,9 @@ function render_map(){
 			    image: '/images/sales-ad-loc_small.png',
 			    myid:i // Custom property to uniquely identify this annotation.
 			});
-			            
-			$.mapview.addAnnotation(merchantLoc); 
+			if(branch[i].latitude!="" || branch[i].longitude!=""){            
+				$.mapview.addAnnotation(merchantLoc); 
+			}	
 		//}
 	}
 	setCurrentLocation();
@@ -294,3 +305,4 @@ $.location.addEventListener("close", function(){
 $.location.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.location); 
 });
+}

@@ -85,7 +85,7 @@ var bannerListing = function(){
 		    }
 		    
 		    scrollableView.scrollToView(page);
-		}, 5000);
+		}, 5000);	
 };
 
 /** create category grid **/
@@ -149,15 +149,25 @@ function buildCateogryList(e){
 		   			var win = Alloy.createController("contest_preview").getView(); 
 					COMMON.openWindow(win); 
 		   		});
+		   		adImage=null;
 	   		}else{
 	   			$.indexView.adListing.remove(cell); 
 	   		}
+	   		contest=null;
+	   		contests=null;
 		}else if(typeof e != "undefined" && typeof e != "null"){
 			loadLatestImageByCategoryId(pad_cell, category_list[i].id, e.types);
 		}else{
 			loadLatestImageByCategoryId(pad_cell, category_list[i].id);
 		}
 	}
+	cell=null;
+	pad_cell=null;
+	temp_image=null;
+ 	pad_categoryLabel=null;
+ 	categoryLabel=null;
+ 	pwidth =null;
+ 	category_list=null;	
 }
 
 /** Load Latest Ads by Category **/
@@ -166,8 +176,10 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 	 
 	if(types == "popular"){
 		var latestc = c_ads_library.getPopularAdsByCategory(cate_id, 1);
+		c_ads_library=null;
 	}else{
 		var latestc = c_ads_library.getLatestAdsByCategory(cate_id, 0, 1);
+		c_ads_library=null;
 	}
 	console.log(latestc.length+" latestc");
 	if(latestc.length > 0){
@@ -180,6 +192,7 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 		});
 		adImage.addEventListener("click", goAds);
    		cell.add(adImage);
+   		adImage=null;
    	}else{
    		var adImage = Ti.UI.createImageView({
    			image: "/images/ComingSoon_2.png",
@@ -188,6 +201,7 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 			height: Ti.UI.SIZE
 		});
    		cell.add(adImage);
+   		adImage=null;
    	}
 }
 
@@ -213,11 +227,12 @@ function goAds(e){
 	};
 	clickTime = currentTime;
 	if(typeof contest_id != "undefined"){
-		var win = Alloy.createController("ads_category", {contest_id: contest_id}).getView();
+		COMMON.openWindow(Alloy.createController("ads_category", {contest_id: contest_id}).getView());
 	}else{
-		var win = Alloy.createController("ads_category", {cate_id: cate_id}).getView(); 
+		COMMON.openWindow(Alloy.createController("ads_category", {cate_id: cate_id}).getView()); 
 	}
-	COMMON.openWindow(win); 
+	cate_id=null;
+	currentTime=null;
 };
 
 function loadingViewFinish(){
@@ -362,7 +377,42 @@ $.indexView.root.addEventListener("close", function(){
 var SCANNER = require("scanner");
 
 $.indexView.scanner.addEventListener('click', QrScan);
+var load = false;
+var lastDistance = 0;
+var refreshing = false;
 
+if(OS_ANDROID){
+	$.indexView.homescrollview.setOverScrollMode(Titanium.UI.Android.OVER_SCROLL_ALWAYS);
+	console.log("Call me android");
+}
+
+$.indexView.homescrollview.addEventListener("scroll", function(e){
+	console.log("You are scroll at index page:"+e.y);
+	var svtop = (OS_ANDROID)?-10:-50;
+	if (e.y <= svtop && !refreshing) {
+		$.indexView.adListing.removeAllChildren();
+		$.indexView.bannerListing.removeAllChildren();
+		$.indexView.homescrollview.scrollingEnabled=false;	
+		$.indexView.activityIndicator.show();
+		$.indexView.loadingBar.opacity = "1";
+		$.indexView.loadingBar.height = "120";
+		$.indexView.loadingBar.top = "100";			
+        setTimeout(function(){
+        	$.indexView.homescrollview.scrollingEnabled=true;
+			$.indexView.activityIndicator.hide();
+			$.indexView.loadingBar.opacity = "0";
+			$.indexView.loadingBar.height = "0";
+			$.indexView.loadingBar.top = "0";				
+			refreshing = true;
+			bannerListing();
+			buildCateogryList();			        	
+        	refreshing = false;
+        }, 1000);   
+    }
+	theEnd=null;
+	total=null;
+	distance=null;
+});
 function QrScan(){
     if(Ti.Media.hasCameraPermissions()){
 		SCANNER.openScanner("4");

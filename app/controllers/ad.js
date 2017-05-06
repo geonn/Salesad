@@ -241,6 +241,8 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
  
 $.location.addEventListener('click', function(e){ 
 	if(Ti.Geolocation.locationServicesEnabled){
+		console.log("Here is locaiton eventlistener");
+		console.log(args.target_m_id+" "+m_id+" "+a_id);		
 		COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());
 	}
 	else{
