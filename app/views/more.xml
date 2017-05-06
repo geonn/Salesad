@@ -6,8 +6,8 @@
 	        </View>
         </LeftNavButton>
         <RightNavButton>
-	        <View right="0" width="30" height="45">
-	         	<Button id="textlogin_out" left='0'  width="25" height="25" title="Login" />
+	        <View right="0" class="wsize hsize">
+	         	<Button id="textlogin_out" left='0' class="wsize hsize" title="Login" />
 	        </View>
         </RightNavButton>
        

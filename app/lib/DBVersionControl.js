@@ -7,7 +7,7 @@
 
 // update user device token
 exports.checkAndUpdate = function(e){
-	var dbVersion = Ti.App.Properties.getString("dbVersion") || 1.2; 
+	var dbVersion = Ti.App.Properties.getString("dbVersion") || 1.3; 
 	if (dbVersion == '1.0') {
 	  	var panelList = Alloy.createCollection('contest'); 
 		panelList.addColumn("preview_url", "TEXT");

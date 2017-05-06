@@ -16,7 +16,7 @@
 				<Button id="loginAccountButton" borderRadius="3" backgroundColor="#ffffff" onTouchend="doLogin" title="Sign In"  width="90%" top="20" height="40" color="#807C7C" />
 	           	
 	           	<!--<View height="60" id="fbloginView" width="90%"></View>-->
-	            <Button id="createAccountButton" onTouchend="goCreateAccount" title="Create an account" width="90%"  height="50" color="#000" />
+	            <Button id="createAccountButton" onTouchend="goCreateAccount" title="Create an account" width="91.5%"  height="50" color="#000" />
 	        	
 			</View>
 			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >

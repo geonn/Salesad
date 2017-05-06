@@ -21,9 +21,9 @@ html, body {
 		
 		document.getElementById('img').src = e.image;
 	});
+	var image = document.getElementById('img');
 	Ti.App.fireEvent("image_preview:loadImage");
-	$("#img").onload = function() {
-	  alert(this.width + 'x' + this.height);
+	image.onload = function() {
 	  	if(this.width > this.height){
 			$("#img").attr("height", "100%");
 		}else{
