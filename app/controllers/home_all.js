@@ -163,8 +163,8 @@ function render(e){
 		xpresscount1++;
 		if(counter % 3 == 0 && counter > 0){
 			
-			if(typeof adsdata[count1] != "undefined"){
-				
+			if(typeof adsdata[count1] != "undefined" && adsdata[count1].sales_from != null){
+				console.log(adsdata[count1].sales_from);
 				var merchantdata=merchant.getMerchantsById(adsdata[count1].m_id);					
 				merchantdata.img_path = (merchantdata.img_path == "")?"/images/SalesAd_Profile Pic.png":merchantdata.img_path;	
 				sales_from= (adsdata[count1].sales_from != "0000-00-00")?convertToHumanFormat(adsdata[count1].sales_from).toString():"Start from now !";
@@ -214,6 +214,8 @@ function render(e){
 				v=null;
 			}
 		}		
+		console.log(category);
+		console.log(data[i]);
 		var obj_category = _.where(category, {id: data[i].category});
 		data[i].sales_from=convertToHumanFormat(data[i].sales_from).toString();	
 		data[i].sales_to=convertToHumanFormat(data[i].sales_to).toString();		
@@ -456,7 +458,6 @@ $.btnBack.addEventListener('click', function(){
     category_id=null;
 	model = null;
     category =null;
-	ads_data =null;
     ads_counter = null;
     counter = null; 
  	Ti.App.removeEventListener('home:refresh', refresh);		
@@ -474,7 +475,6 @@ $.win.addEventListener('android:back', function (e) {
     category_id=null;
 	model = null;
     category =null;
-	ads_data =null;
     ads_counter = null;
     counter = null;  	
  	Ti.App.removeEventListener('home:refresh', refresh);
@@ -490,7 +490,6 @@ function windowClose(){
     category_id=null;
 	model = null;
     category =null;
-	ads_data =null;
     ads_counter = null;
     counter = null;  	
 	COMMON.closeWindow($.win);

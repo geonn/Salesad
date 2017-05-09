@@ -373,6 +373,8 @@ function children(key, e){
 }
 
 function convertToHumanFormat(datetime){
+	console.log(datetime);
+	if(datetime == null){return "";}
 	var timeStamp = datetime.split("-");
 	return timeStamp[2]+"-"+timeStamp[1]+"-"+timeStamp[0];
 }
