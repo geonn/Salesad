@@ -14,6 +14,7 @@ exports.definition = {
 		    "img_path": "TEXT",
 		    "owner_img_path": "TEXT",
 		    "owner_name": "TEXT",
+		    "contact": "TEXT",
 		    "expired_date" : "DATE",
 		    "sales_from" : "DATE",
 		    "sales_to" : "DATE",

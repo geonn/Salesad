@@ -8,15 +8,15 @@ function init(){
 	    subtitle: args.address,
 	    image: "/images/sales-ad-loc_small.png"
 	});
-	console.log(args);
+	console.log(args.contact);
 	$.mapview.addAnnotation(merchantLoc);
 	$.mapview.region = {latitude: args.latitude, longitude: args.longitude, latitudeDelta:0.01, longitudeDelta:0.01};
 	$.name.text = args.owner_name;
 	$.address.text = args.address;
+	$.contact.text = args.contact;
 }
 
 init();
-
 $.button_direction.addEventListener("click", direction2here);
 
 function direction2here(){

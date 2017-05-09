@@ -31,7 +31,7 @@
 		 			<Label class="wsize hsize padding" color="#cccccc" touchEnabled="false">Map Location</Label>
 		 		</View>
 		 		<TextArea hintText="Store Name / Address" form_type="textarea" require="true" id="address"></TextArea>
-		 		<TextField hintText="Contact Number" id="contactnum" class="TextField" require="true"></TextField>
+		 		<TextField hintText="Contact Number" id="contact" class="TextField" require="true"></TextField>
 		 		<View id="tc_area" layout="vertical" height="Ti.UI.SIZE" width="Ti.UI.FILL"></View>
 		 		<Button class="button" onClick="doSubmit" width="90%" bottom="10">Post</Button>
 		 	</ScrollView>

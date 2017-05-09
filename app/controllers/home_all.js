@@ -200,7 +200,7 @@ function render(e){
 		if(counter % 4 == 0 && counter > 0){
 			if(typeof ads_data[ads_counter] != "undefined"){
 				var cw = (OS_ANDROID)?Math.floor(pixelToDp(pwidth)-10):pwidth-10;
-				var img = (ads_data[ads_counter].img_path != "")? ads_data[ads_counter].img_path:'/images/Icon_add_photo.png';
+				var img = (ads_data[ads_counter].img_path != "")? ads_data[ads_counter].img_path:'/images/image_loader_640x640.png';
 				var Aarr={
 					cw:cw,
 					record:ads_data[ads_counter],
@@ -247,7 +247,7 @@ function render(e){
 			for(var i=ads_counter; i < ads_data.length; i++){
 				if(typeof ads_data[i] != "undefined"){
 					var cw = (OS_ANDROID)?Math.floor(pixelToDp(pwidth)-10):pwidth-10;
-					var img = (ads_data[i].img_path == "")? ads_data[i].img_path:'/images/Icon_add_photo.png';
+					var img = (ads_data[i].img_path == "")? ads_data[i].img_path:'/images/image_loader_640x640.png';
 					var Aarr={
 						cw:cw,
 						record:ads_data[i],
@@ -311,7 +311,7 @@ function renderBig(param){
 
 function renderSmall(param){				
     var container= $.UI.create("View", {classes:['hsize','vert'], backgroundColor: param.bg_color, width: cell_width, left: 9, top:9});			
-    var img = $.UI.create("ImageView",{image:param.img_path,defaultImage:'/images/Icon_add_photo.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: param.type, record: param.record});			
+    var img = $.UI.create("ImageView",{image:param.img_path,defaultImage:'/images/image_loader_640x640.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: param.type, record: param.record});			
     var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:param.fg_color, height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: param.title}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:param.fg_color, height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: param.title});
     var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5,color:param.fg_color, right: 5, bottom: 3, textAlign:"left",  text: param.sales_from+" "+param.minus+" "+param.sales_to});
     var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#fff'});
