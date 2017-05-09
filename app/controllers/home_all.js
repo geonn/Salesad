@@ -167,9 +167,9 @@ function render(e){
 		if(counter % 3 == 0 && counter > 0){
 			try{
 			var merchantdata=merchant.getMerchantsById(adsdata[count1].m_id);					
-			merchantdata.img_path = (merchantdata.img_path == "")?"/images/SalesAd_Profile Pic.png":merchantdata.img_path;						
+			merchantdata.img_path = (merchantdata.img_path == "")?"/images/image_loader_640x640.png":merchantdata.img_path;						
 		    var container= $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#4d4d4d", width: cell_width, left: 9, top:9});			
-		    var img = $.UI.create("ImageView",{image:adsdata[count1].img_path,defaultImage:'/images/Icon_add_photo.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: 3, record: adsdata[count1]});			
+		    var img = $.UI.create("ImageView",{image:adsdata[count1].img_path,defaultImage:'/images/image_loader_640x640.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: 3, record: adsdata[count1]});			
 		    var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:'#ffffff', height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: adsdata[count1].ads_name}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:'#fff', height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: adsdata[count1].ads_name});
 		    var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5,color:'#ffffff', right: 5, bottom: 3, textAlign:"left",  text: convertToHumanFormat(adsdata[count1].sales_from)+" - "+convertToHumanFormat(adsdata[count1].sales_to)});
 		    var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#E3E5E8'});
@@ -213,7 +213,7 @@ function render(e){
 			if(typeof ads_data[ads_counter] != "undefined"){
 				console.log("COUNTER "+counter);
 				var cw = (OS_ANDROID)?Math.floor(pixelToDp(pwidth)-10):pwidth-10;
-				var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0, image: ads_data[ads_counter].img_path, defaultImage:'/images/Icon_add_photo.png',type: 3, record: ads_data[ads_counter]});
+				var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0, image: ads_data[ads_counter].img_path, defaultImage:'/images/image_loader_640x640.png',type: 3, record: ads_data[ads_counter]});
 				img.addEventListener("click", navTo);
 				var v = $.UI.create("View", {width: cw, height: cw});
 				v.add(img);
@@ -232,7 +232,7 @@ function render(e){
 //		data[i].img_path = "/images/Icon_add_photo.png";		
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
 		var container = $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#ffffff", width: cell_width, left: 9, top:9, type:1, record: data[i]});
-		var img = $.UI.create("ImageView",{image: data[i].img_path, defaultImage:'/images/Icon_add_photo.png', classes:['hsize', 'wfill']});
+		var img = $.UI.create("ImageView",{image: data[i].img_path, defaultImage:'/images/image_loader_640x640.png', classes:['hsize', 'wfill']});
 		var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'], height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: data[i].description,}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'], height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: data[i].description,});
 		var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5, right: 5, bottom: 3, textAlign:"left",  text: convertToHumanFormat(data[i].sales_from)+" - "+convertToHumanFormat(data[i].sales_to)});
 		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#fff'});
@@ -280,7 +280,7 @@ console.log("here is renderads");
 			for(var i1=count2;i1<ads_data.length;i1++){			
 				console.log("COUNTER "+counter);
 				var cw = (OS_ANDROID)?Math.floor(pixelToDp(pwidth)-10):pwidth-10;
-				var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0, image: ads_data[i1].img_path, defaultImage:'/images/Icon_add_photo.png',type: 3, record: ads_data[i1]});
+				var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0, image: ads_data[i1].img_path, defaultImage:'/images/image_loader_640x640.png',type: 3, record: ads_data[i1]});
 				img.addEventListener("click", navTo);
 				var v = $.UI.create("View", {width: cw, height: cw});
 				v.add(img);
@@ -296,7 +296,7 @@ console.log("here is renderads");
 				var merchantdata=merchant.getMerchantsById(adsdata[i1].m_id);
 				merchantdata.img_path = (merchantdata.img_path == "")?"/images/SalesAd_Profile Pic.png":merchantdata.img_path;					
 			    var container= $.UI.create("View", {classes:['hsize','vert'], backgroundColor: "#4d4d4d", width: cell_width, left: 9, top:9});			
-			    var img = $.UI.create("ImageView",{image:adsdata[i1].img_path,defaultImage:'/images/Icon_add_photo.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: 3, record: adsdata[i1]});			
+			    var img = $.UI.create("ImageView",{image:adsdata[i1].img_path,defaultImage:'/images/image_loader_640x640.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: 3, record: adsdata[i1]});			
 			    var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:'#ffffff', height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: adsdata[i1].ads_name}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:'#fff', height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: adsdata[i1].ads_name});
 			    var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5,color:'#ffffff', right: 5, bottom: 3, textAlign:"left",  text: convertToHumanFormat(adsdata[i1].sales_from)+" - "+convertToHumanFormat(adsdata[i1].sales_to)});
 			    var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#fff'});
