@@ -59,7 +59,7 @@ function render_map(){
 		     entry.longitude="";
 		     entry.latitude="";
 		    }
-		    ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.description,subtitle:entry.owner_name,myid:entry.store_name});
+		    ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.description,subtitle:entry.owner_name,myid:entry.store_name,type:1,record:entry});
 		   });
 		   //test
 		adsList.forEach(function(entry) {
@@ -69,7 +69,7 @@ function render_map(){
 		     entry.longitude="";
 		     entry.latitude="";
 		    }
-		    ML.push({id:entry.a_id,longitude:entry.longitude,latitude:entry.latitude,name:entry.merchant_name,subtitle:entry.ads_name,myid:entry.store_INFO});
+		    ML.push({id:entry.a_id,longitude:entry.longitude,latitude:entry.latitude,name:entry.merchant_name,subtitle:entry.ads_name,myid:entry.store_INFO,type:2});
 		});	
 	 	ML.forEach(function(entry) {
 	 		console.log(entry);
@@ -78,14 +78,21 @@ function render_map(){
 			    color: "red",
 			    height: 20,
 				width: 20,
-				a_id: entry.id
+				a_id: entry.id,
+				type: entry.type,
+				record:entry.record
 			});
 			detBtn.addEventListener('click', function(ex){ 
-				console.log(ex.source);
 				console.log("xpress");
+				console.log(JSON.stringify(ex.source.record));
 				console.log(ex.source.a_id);
-				var win = Alloy.createController("ad", {a_id: ex.source.a_id}).getView(); 
-				COMMON.openWindow(win,{animated:true}); 
+				if(ex.source.type==2){
+					var win = Alloy.createController("ad", {a_id: ex.source.a_id}).getView(); 
+					COMMON.openWindow(win,{animated:true});					
+				} 
+				if(ex.source.type==1){
+					COMMON.openWindow(Alloy.createController("express_detail", ex.source.record).getView()); 					
+				}
 				return true;
 			});       
 			var merchantLoc = Alloy.Globals.Map.createAnnotation({
@@ -97,7 +104,9 @@ function render_map(){
 			    subtitle: entry.subtitle,
 			    pincolor: Alloy.Globals.Map.ANNOTATION_RED,
 			    rightView: detBtn,
-			    myid: entry.id// Custom property to uniquely identify this annotation.
+			    myid: entry.id,// Custom property to uniquely identify this annotation.
+			    type: entry.type,
+			    record: entry.record
 			});
 			 
 			//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]); 
@@ -116,13 +125,19 @@ function render_map(){
 $.mapview.addEventListener('click', function(evt) {
 	
     console.log("Clicked " + evt.clicksource + " on " + evt.latitude + "," + evt.longitude);
-    
-	    if(evt.clicksource=="rightPane"){
-			var win = Alloy.createController("ad", {a_id:evt.annotation.myid}).getView(); 
-			COMMON.openWindow(win,{animated:true}); 
+    if(OS_ANDROID){
+	    if(evt.clicksource=="infoWindow"||evt.clicksource=="subtitle"||evt.clicksource=="rightPane"){
+	    	console.log("myid:"+evt.annotation.myid);
+			if(evt.annotation.type==2){
+				var win = Alloy.createController("ad", {a_id: evt.annotation.myid}).getView(); 
+				COMMON.openWindow(win,{animated:true});					
+			} 
+			if(evt.annotation.type==1){
+				COMMON.openWindow(Alloy.createController("express_detail", evt.annotation.record).getView()); 					
+			}			
 			win=null;   	
-	    }     	
-       
+	    }        	
+    } 	  
 });
 
 $.location.addEventListener("close", function(){
