@@ -16,11 +16,11 @@
 				<View left="0" width="15%">
 			    	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
-		     	<View id="pageTitle" width="70%">
+		     	<View id="pageTitle" width="65%">
 		     		<Label color="#ED1C24" id="title">More</Label>
 		     	</View>
-		     	<View left="3" class="wsize hsize">
-	         		<Label id="textlogin_out" class="wsize hsize" left='0' color="#ED1C24" text="Login"></Label>
+		     	<View right="0" width="20%" height="45" class="wsize hsize">
+	         		<Label id="textlogin_out" class="wsize hsize" right="10" color="#ED1C24" text="Login"></Label>
 	        	</View>
 		 	</View>
 		 	<View bottom='0' class="hr"></View>

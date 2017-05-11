@@ -17,8 +17,8 @@
 	     	<View id="pageTitle" width="70%">
 	     		<Label color='#ED1C24' >My Posted SalesXpress</Label>
 	     	</View>
-	     	<View left="20" onClick="popMore" width="30" height="45">
-	         	<ImageView left='0'  width="25" height="25" image="/images/Icon_More_Red.png" />
+	     	<View left="0" onClick="popMore" width="15%" height="45">
+	         	<ImageView right='10' width="25" height="25" image="/images/Icon_More_Red.png" />
 	        </View>
 	 	</View>
 	 	<View class="hr"></View>
