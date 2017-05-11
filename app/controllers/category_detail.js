@@ -117,7 +117,7 @@ var createGridListing = function(res){
 		   		
 		   		var imagepath='';
 		   		if(!details[i].img_path){
-		   			imagepath = "icon_mySalesAd.png";
+		   			imagepath = "/images/SalesAd_Profile Pic.png";
 		   		}else{
 		   			imagepath = details[i].img_path;
 		   		}
