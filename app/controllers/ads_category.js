@@ -312,7 +312,7 @@ function buildListing(){
 			}
 			
 		});
-		var view_left = $.UI.create("View", {classes:['hsize', 'vert'], left:0, width: "50%"});
+		var view_left = $.UI.create("View", {classes:['hsize', 'vert'], left:0, width: "65%"});
 		var view_right = $.UI.create("View", {classes:['hsize','wsize','horz'], right:10, bottom:10});
 		var label_and_flag = $.UI.create("View", {classes:['wfill','hsize']});
 		view_ad.add(image_view);
