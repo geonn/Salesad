@@ -8,7 +8,9 @@
         <View height="95%">
 			<View id="main" layout="vertical" height="auto">
 				<View layout="vertical" id="loginScrollView" class="wfill hsize">
-					<ImageView  width='Ti.UI.FILL' image="/SalesAd_Logo_v2_RoundCornerswShadow.png" id="loginLogo" width="150" />
+					<View class="wfill hsize" top="150" bottom="60" >
+						<ImageView class="wfill" left="150" right="150" image="/SalesAd_Logo_v2_RoundCornerswShadow.png" id="loginLogo" />
+					</View>
 					<TextField backgroundColor="white" borderRadius="3" id="username" hintText="Enter Email" />
 					<TextField backgroundColor="white" borderRadius="3" id="password" hintText="Enter Password" />
 				</View>
