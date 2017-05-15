@@ -17,7 +17,7 @@
 		 	<View bottom='0' class="hr"></View>
 		 	<ScrollView id="inner_box" bottom="10" class="wfill hfill conthsize contwfill vert">
 		 		<View class="wfill hsize" top="30" bottom="30">
-		 			<ImageView hintText="Photo" id="photoLoad" class="wfill hsize" left="180" right="180" image="/images/Icon_add_photo.png" onClick="popCamera" form_type="image" value="0"></ImageView>
+		 			<ImageView hintText="Photo" id="photoLoad" class="wfill hsize" width='180' image="/images/Icon_add_photo.png" onClick="popCamera" form_type="image" value="0"></ImageView>
 		 		</View>
 		 		<TextArea hintText="Sales Description" form_type="textarea" require="true" id="title"></TextArea>
 		 		<View class="textfield" hintText="Sales Start Date" master="1" form_type="date_picker" require="true" id="sales_from" onClick="popDatePicker">
