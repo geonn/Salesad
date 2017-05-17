@@ -383,10 +383,13 @@ var refreshing = false;
 
 if(OS_ANDROID){
 	$.indexView.homescrollview.setOverScrollMode(Titanium.UI.Android.OVER_SCROLL_ALWAYS);
-	console.log("Call me android");
-}
-
-$.indexView.homescrollview.addEventListener("scroll", function(e){
+	$.indexView.swipeRefresh.addEventListener('refreshing', function(e) {
+		bannerListing();
+		buildCateogryList();
+		e.source.setRefreshing(false);
+	});
+}else{
+	$.indexView.homescrollview.addEventListener("scroll", function(e){
 	console.log("You are scroll at index page:"+e.y);
 	var svtop = (OS_ANDROID)?-10:-50;
 	if (e.y <= svtop && !refreshing) {
@@ -413,6 +416,8 @@ $.indexView.homescrollview.addEventListener("scroll", function(e){
 	total=null;
 	distance=null;
 });
+}
+
 function QrScan(){
     if(Ti.Media.hasCameraPermissions()){
 		SCANNER.openScanner("4");

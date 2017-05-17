@@ -400,50 +400,55 @@ init();
 var load = false;
 var lastDistance = 0;
 var refreshing = false;
-$.content_scrollview.addEventListener("scroll", function(e){
-	var theEnd = $.content.rect.height;
-	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
-	var distance = theEnd - total;
-	var svtop = (OS_ANDROID)?0:-50;
-	if (distance < lastDistance){
-		var nearEnd = theEnd * 1;
-		if (!load && (total >= nearEnd)){
-			load = true;
-			getPreviousData({});
-			render({});
-			load = false;
+if(OS_IOS){
+	$.content_scrollview.addEventListener("scroll", function(e){
+		var theEnd = $.content.rect.height;
+		var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
+		var distance = theEnd - total;
+		var svtop = (OS_ANDROID)?0:-50;
+		if (distance < lastDistance){
+			var nearEnd = theEnd * 1;
+			if (!load && (total >= nearEnd)){
+				load = true;
+				getPreviousData({});
+				render({});
+				load = false;
+			}
+			nearEnd=null;
 		}
-		nearEnd=null;
-	}
-	lastDistance = distance;
-	
-	if (e.y <= svtop && !refreshing) {
-		$.content.removeAllChildren();	
-		$.content_scrollview.scrollingEnabled=false;	
-		$.activityIndicator.show();
-		$.loadingBar.opacity = "1";
-		$.loadingBar.height = "120";
-		$.loadingBar.top = "100";	
-		ads_counter = 0;
-		xpresscount1=0;
-		counter = 0;
-		count1=0;				
-        setTimeout(function(){
-        	$.content_scrollview.scrollingEnabled=true;
-			$.activityIndicator.hide();
-			$.loadingBar.opacity = "0";
-			$.loadingBar.height = "0";
-			$.loadingBar.top = "0";			
-			refreshing = true;
-			refresh();					        	
-        	refreshing = false;
-        }, 1000);   
-    }
-	theEnd=null;
-	total=null;
-	distance=null;
-});
-
+		lastDistance = distance;
+		
+		if (e.y <= svtop && !refreshing) {
+			$.content.removeAllChildren();	
+			$.content_scrollview.scrollingEnabled=false;	
+			$.activityIndicator.show();
+			$.loadingBar.opacity = "1";
+			$.loadingBar.height = "120";
+			$.loadingBar.top = "100";	
+			ads_counter = 0;
+			xpresscount1=0;
+			counter = 0;
+			count1=0;				
+	        setTimeout(function(){
+	        	$.content_scrollview.scrollingEnabled=true;
+				$.activityIndicator.hide();
+				$.loadingBar.opacity = "0";
+				$.loadingBar.height = "0";
+				$.loadingBar.top = "0";			
+				refreshing = true;
+				refresh();					        	
+	        	refreshing = false;
+	        }, 1000);   
+	    }
+		theEnd=null;
+		total=null;
+		distance=null;
+	});
+}else{
+	$.swipeRefresh.addEventListener('refreshing', function(e) {
+		refresh();
+	});
+}
 Ti.App.addEventListener("home:refresh", refresh);
 
 $.btnBack.addEventListener('click', function(){ 

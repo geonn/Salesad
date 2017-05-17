@@ -22,7 +22,17 @@
 	        </View>
 	 	</View>
 	 	<View bottom='0' class="hr"></View>
+	 	<SwipeRefresh module="com.rkam.swiperefreshlayout" id="swipeRefresh" platform="android">
 	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
+	 		<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
+	 		<View id="content" class="wfill hsize horz" top="0"></View>
+			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
+		        <ActivityIndicator  id="activityIndicator" />
+		    	<Label top="5" text="Loading" color="#ffffff" />
+		    </View>	 		
+	 	</ScrollView>
+	 	</SwipeRefresh>
+	 	<ScrollView platform="ios" id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
 	 		<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
 			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >

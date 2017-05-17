@@ -461,7 +461,7 @@ exports.callByPost = function(e, handler){
 		_result.onerror = function(ex) {
 			//-1001	The request timed out.
 			if(ex.code == "-1009"){		//The Internet connection appears to be offline.
-				COMMON.createAlert("Error", ex.error, handler.onerror);
+				//COMMON.createAlert("Error", ex.error, handler.onerror);
 				return;
 			}
 			if(_.isNumber(e.retry_times)){
@@ -472,7 +472,7 @@ exports.callByPost = function(e, handler){
 				}else{
 					console.log('onerror msg');
 					console.log(ex);
-					COMMON.createAlert("Error", ex.error, handler.onerror);
+					//COMMON.createAlert("Error", ex.error, handler.onerror);
 				}
 			}else{
 				console.log('onerror msg without no');
@@ -539,7 +539,7 @@ function contactServerByGet(url) {
 
 function contactServerByPost(url,records) { 
 	var client = Ti.Network.createHTTPClient({
-		timeout : 6000
+		timeout : 10000
 	});
 	console.log(client);
 	if(OS_ANDROID){
