@@ -353,6 +353,22 @@ function buildListing(){
 				 }
 			});
 		}
+		
+		var params = {
+			a_id: ads[a].a_id,
+			type: 1,
+			from: "ads_catagory",
+			u_id: Ti.App.Properties.getString("u_id") || ""
+		};
+		
+		API.callByPost({url:"addAdsClick",
+						new:true,
+						params:params},
+						{onload: function(responseText){
+							console.log("Impression ads category: " + responseText);
+						},onerror: function(responseerror) {
+							console.logg("Impression ads category: error " + responseerror);
+						}});
 	}
 	setTimeout(function(e){
 		activityIndicator.hide();
