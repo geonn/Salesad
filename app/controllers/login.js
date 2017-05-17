@@ -14,7 +14,6 @@ $.login.titleControl = custom;
 var isKeyboardFocus = 0;
 
 if(Titanium.Platform.displayCaps.platformHeight > 480){
-	$.loginLogo.width = 200;
 	$.loginScrollView.height = Ti.UI.SIZE;
 }
 

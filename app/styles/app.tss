@@ -27,10 +27,13 @@
 		fontSize: '14dp',
 		fontFamily: 'FrutigerLT-Light'
 	},
-	 color: '#404041', 
+	 color: '#cccccc', 
 	 width:'90%',
 	 height: '38dp',
 	 bottom:3,
+	 borderWidth : 1,
+	 borderColor: "#ccc",
+	 borderRadius : 5,
 	 keyboardType: Titanium.UI.KEYBOARD_DEFAULT,
      returnKeyType: Titanium.UI.RETURNKEY_NEXT ,
 	 borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
