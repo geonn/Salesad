@@ -1,4 +1,5 @@
 var args = arguments[0] || {};
+var u_id = Ti.App.Properties.getString('u_id') || "";
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 var cell_width, category_id;
 var model= Alloy.createCollection("category");
@@ -185,6 +186,19 @@ function render(e){
 					type:3,
 					minus:minus			
 				};	
+				var params={
+					a_id:adsdata[count1].a_id,
+					type:1,
+					from:"home_all",
+					u_id:u_id
+				};
+				API.callByPost({url:"addAdsClick",new:true,params:params},{
+				onload:function(res){
+					var re=JSON.parse(res);
+					console.log("Impression home:"+JSON.stringify(re));
+				},onerror:function(err){
+					console.log("Impression home:error");
+				}});
 				console.log("arr:"+arr.sales_from+" "+arr.sales_to);							
 				renderSmall(arr);
 				count1++;
@@ -207,6 +221,20 @@ function render(e){
 					img_path:img,
 					type:3
 				};
+				var params={
+					a_id:ads_data[ads_counter].a_id,
+					type:1,
+					from:"home_all",
+					u_id:u_id
+				};
+				API.callByPost({url:"addAdsClick",new:true,params:params},{
+				onload:function(res){
+					var re=JSON.parse(res);
+					console.log("Impression home:"+JSON.stringify(re));
+				},onerror:function(err){
+					console.log("Impression home:error");
+				}});
+				
 				renderBig(Aarr);
 				ads_counter++;
 				cw=null;
@@ -254,6 +282,20 @@ function render(e){
 						img_path:img,
 						type:3
 					};
+					var params={
+						a_id:ads_data[i].a_id,
+						type:1,
+						from:"home_all",
+						u_id:u_id
+					};
+					API.callByPost({url:"addAdsClick",new:true,params:params},{
+					onload:function(res){
+						var re=JSON.parse(res);
+						console.log("Impression home:"+JSON.stringify(re));
+					},onerror:function(err){
+						console.log("Impression home:error");
+					}});
+					
 					renderBig(Aarr);
 					ads_counter++;
 					cw=null;
@@ -284,6 +326,19 @@ function render(e){
 						type:3,
 						minus:minus	
 					};	
+					var params={
+						a_id:adsdata[i].a_id,
+						type:1,
+						from:"home_all",
+						u_id:u_id
+					};
+					API.callByPost({url:"addAdsClick",new:true,params:params},{
+					onload:function(res){
+						var re=JSON.parse(res);
+						console.log("Impression home:"+JSON.stringify(re));
+					},onerror:function(err){
+						console.log("Impression home:error");
+					}});					
 					console.log("arr:"+arr);							
 					renderSmall(arr);
 					count1++;
@@ -400,50 +455,55 @@ init();
 var load = false;
 var lastDistance = 0;
 var refreshing = false;
-$.content_scrollview.addEventListener("scroll", function(e){
-	var theEnd = $.content.rect.height;
-	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
-	var distance = theEnd - total;
-	var svtop = (OS_ANDROID)?0:-50;
-	if (distance < lastDistance){
-		var nearEnd = theEnd * 1;
-		if (!load && (total >= nearEnd)){
-			load = true;
-			getPreviousData({});
-			render({});
-			load = false;
+if(OS_IOS){
+	$.content_scrollview.addEventListener("scroll", function(e){
+		var theEnd = $.content.rect.height;
+		var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
+		var distance = theEnd - total;
+		var svtop = (OS_ANDROID)?0:-50;
+		if (distance < lastDistance){
+			var nearEnd = theEnd * 1;
+			if (!load && (total >= nearEnd)){
+				load = true;
+				getPreviousData({});
+				render({});
+				load = false;
+			}
+			nearEnd=null;
 		}
-		nearEnd=null;
-	}
-	lastDistance = distance;
-	
-	if (e.y <= svtop && !refreshing) {
-		$.content.removeAllChildren();	
-		$.content_scrollview.scrollingEnabled=false;	
-		$.activityIndicator.show();
-		$.loadingBar.opacity = "1";
-		$.loadingBar.height = "120";
-		$.loadingBar.top = "100";	
-		ads_counter = 0;
-		xpresscount1=0;
-		counter = 0;
-		count1=0;				
-        setTimeout(function(){
-        	$.content_scrollview.scrollingEnabled=true;
-			$.activityIndicator.hide();
-			$.loadingBar.opacity = "0";
-			$.loadingBar.height = "0";
-			$.loadingBar.top = "0";			
-			refreshing = true;
-			refresh();					        	
-        	refreshing = false;
-        }, 1000);   
-    }
-	theEnd=null;
-	total=null;
-	distance=null;
-});
-
+		lastDistance = distance;
+		
+		if (e.y <= svtop && !refreshing) {
+			$.content.removeAllChildren();	
+			$.content_scrollview.scrollingEnabled=false;	
+			$.activityIndicator.show();
+			$.loadingBar.opacity = "1";
+			$.loadingBar.height = "120";
+			$.loadingBar.top = "100";	
+			ads_counter = 0;
+			xpresscount1=0;
+			counter = 0;
+			count1=0;				
+	        setTimeout(function(){
+	        	$.content_scrollview.scrollingEnabled=true;
+				$.activityIndicator.hide();
+				$.loadingBar.opacity = "0";
+				$.loadingBar.height = "0";
+				$.loadingBar.top = "0";			
+				refreshing = true;
+				refresh();					        	
+	        	refreshing = false;
+	        }, 1000);   
+	    }
+		theEnd=null;
+		total=null;
+		distance=null;
+	});
+}else{
+	$.swipeRefresh.addEventListener('refreshing', function(e) {
+		refresh();
+	});
+}
 Ti.App.addEventListener("home:refresh", refresh);
 
 $.btnBack.addEventListener('click', function(){ 
