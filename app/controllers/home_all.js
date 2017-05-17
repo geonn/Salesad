@@ -21,7 +21,7 @@ function navTo(e){
 	console.log(type);
 	console.log("here is navTo");
 	if(type == 3){
-		COMMON.openWindow(Alloy.createController("ad", {a_id: record.a_id}).getView()); 
+		COMMON.openWindow(Alloy.createController("ad", {a_id: record.a_id,from:"home_all"}).getView()); 
 	}else{
 		COMMON.openWindow(Alloy.createController("express_detail", record).getView()); 
 	}

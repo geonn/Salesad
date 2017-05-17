@@ -462,7 +462,7 @@ var goAd = function(a_id, a_name, a_date){
 	};
 	clickTime = currentTime;
 	console.log("a id     " + a_id + " " + a_name + " " + a_date);
-	var win = Alloy.createController("ad", {a_id: a_id, from: "home", name: a_name, date: a_date}).getView(); 
+	var win = Alloy.createController("ad", {a_id: a_id, from: "ads_caregory", name: a_name, date: a_date}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*
