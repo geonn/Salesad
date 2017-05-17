@@ -21,6 +21,19 @@ var a_library = Alloy.createCollection('ads');
 var i_library = Alloy.createCollection('items');
 var loading = Alloy.createController("loading");
 
+var params = {
+		a_id:a_id,
+		type:2,
+		from:"ad",
+		u_id:u_id
+	} ;
+	API.callByPost({url:"addAdsClick",new:true,params:params},{
+		onload:function(res){
+			console.log("View ad "+JSON.stringify(res));
+		},onerror:function(err){
+			console.log("View ad error");
+		}});	
+
 function getAdData(){
 	ads = a_library.getAdsById(a_id);
 }
@@ -215,6 +228,7 @@ function init(){
 	checkFavorite();
 	refresh();
 	pageTitle = ads.name;	// set Page Title
+	
 }
 
 init();
