@@ -13,7 +13,7 @@ var empty;
 var clickTime;
 var xpresscount;
 var xpresscount1=0;
-
+var adsdata2=[];
 function navTo(e){
 	var record = parent({name: "record"}, e.source);
 	console.log(e.source.type);
@@ -58,7 +58,8 @@ function doSearch(){
 }
 
 function filteradsname(key){
-	var adsdata1=adsdata;
+	
+	var adsdata1=adsdata2;
 	adsdata=[];
 	var ii = 0;
 	for(var i = 0; i<adsdata1.length;i++){
@@ -93,16 +94,15 @@ function popMore(){
 	dialog=null;
 }
 function showAll(e){
+	keyword="";
 	$.categoryButton.setTitle("Category");
 	ads_counter = 0;
+	xpresscount1=0;
 	counter = 0;
-	count1=0;
-	xpresscount1=0;		
+	count1=0;		
 	category_id = empty;
 	start = 0;
 	getAdsData();	
-	anchor = COMMON.todayDateTime();
-	getPreviousData({keyword:$.searchbar.value});
 	$.content.removeAllChildren();	
 	$.content_scrollview.scrollingEnabled=false;	
 	$.activityIndicator.show();
@@ -115,10 +115,7 @@ function showAll(e){
 		$.loadingBar.opacity = "0";
 		$.loadingBar.height = "0";
 		$.loadingBar.top = "0";			
-		refreshing = true;
-		refresh();		
-		render({clear: true});			        	
-    	refreshing = false;
+		refresh();					        	
     }, 1000); 			
 }	
 function popCategory(e){
@@ -224,6 +221,7 @@ function render(e){
 							merchant_name:adsdata[count1].merchant_name,
 							bg_color:"#4d4d4d",
 							fg_color:"#fff",
+							hr_color:"#fff",
 							category:adsdata[count1].categoryName,
 							type:3,
 							minus:minus			
@@ -296,6 +294,7 @@ function render(e){
 				var Xarr={
 					bg_color:"#ffffff",
 					fg_color:"#000000",
+					hr_color:"#4d4d4d",
 					m_img_path:data[i].owner_img_path,
 					img_path:data[i].img_path,
 					category:obj_category[0].categoryName,
@@ -366,6 +365,7 @@ function render(e){
 								merchant_name:adsdata[i].merchant_name,
 								bg_color:"#4d4d4d",
 								fg_color:"#fff",
+								hr_color:"#fff",
 								category:adsdata[i].categoryName,
 								type:3,
 								minus:minus	
@@ -415,7 +415,7 @@ function renderSmall(param){
     var img = $.UI.create("ImageView",{image:param.img_path,defaultImage:'/images/image_loader_640x640.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: param.type, record: param.record});			
     var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:param.fg_color, height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: param.title}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:param.fg_color, height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: param.title});
     var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5,color:param.fg_color, right: 5, bottom: 3, textAlign:"left",  text: param.sales_from+" "+param.minus+" "+param.sales_to});
-    var hr = $.UI.create("View", {classes:['hr'], backgroundColor: '#fff'});
+    var hr = $.UI.create("View", {classes:['hr'], backgroundColor: param.hr_color});
     var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding'], backgroundColor: param.bg_color});
     var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36, backgroundColor: param.bg_color});
     var owner_img = $.UI.create("ImageView", {image:param.m_img_path, borderRadius: 15, height:30, width: 30, left:0});
@@ -464,6 +464,7 @@ function init(){
 function getAdsByCategory(c_id){
 	var adsdata1;
 	var adscount= 0;	
+	adsdata2=[];	
 	var c_ads_library = Alloy.createCollection("categoryAds");
 	var c=c_model.getCategoryById(c_id);	
 	adsdata1 = c_ads_library.getLatestAdsByCategory(c_id,0,100);
@@ -480,13 +481,15 @@ function getAdsByCategory(c_id){
 			a_id:param.a_id,
 			categoryName:c.categoryName,
 			c_id:c_id	
-		};		
+		};	
+		adsdata2[adscount]=adsdata[adscount];		
 		adscount++;
 	});
 }
 function getAdsData(){
 	var adsdata1;
 	var adscount= 0;
+	adsdata2=[];
 	var c_ads_library = Alloy.createCollection('categoryAds');
 	if(category != null){ 	
 		for(var i=0;i<category.length;i++){
@@ -512,6 +515,7 @@ function getAdsData(){
 					categoryName:catename,
 					c_id:category[i].id	
 				};
+				adsdata2[adscount]=adsdata[adscount];
 				adscount++;				
 			});		
 		}
