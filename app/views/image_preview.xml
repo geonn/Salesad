@@ -1,8 +1,8 @@
 <Alloy>
 	<Window title="Preview" backButtonTitle="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
-	        <View id="btnBack" left="0"  width="30" height="45" onClick="closeWindow">
-	         	<Button left='0' width="30" height="45" image="/images/btn-back.png" />
+	        <View id="btnBack" left="0"  width="30" height="30" onClick="closeWindow">
+	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <RightNavButton>

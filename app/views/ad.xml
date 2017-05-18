@@ -2,7 +2,7 @@
 	<Window title="" backButtonTitle="" class="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
-	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
+	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <View class="wfill hfill vert">
