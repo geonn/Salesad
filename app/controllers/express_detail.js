@@ -124,8 +124,8 @@ function popReport(){
 			}, "Yes");
 		}else if(e.index == 3) {
 			var ViewAlert = $.UI.create("View", {classes:['vert', 'hsize', 'wfill', 'padding', 'rounded', 'box'], zIndex: 60, backgroundColor: 'white'});
-			var LabelTitle = $.UI.create("Label", {classes:['hsize', 'wfill', 'padding'], bottom: 0, text: 'Confirmation\n\nAre you sure you want to report this Ad for the reason below?\n'+e.rowData.error_msg});
-			var TextField = $.UI.create("TextField", {classes:['hsize', 'wfill', 'padding', 'textfield']});
+			var LabelTitle = $.UI.create("Label", {classes:['hsize', 'wfill', 'padding'], bottom: 0, text: 'Confirmation\n\nAre you sure you want to report this Ad for the reason below?'});
+			var TextField = $.UI.create("TextField", {classes:['hsize', 'wfill', 'padding', 'textfield'], color: "#000", hintText: e.rowData.error_msg});
 			var viewbutton = $.UI.create("View", {classes:['wfill', 'hsize', 'padding'], top: 0});
 			var ButtonCancel = $.UI.create("Button", {classes:['hsize', 'wsize'], left: 0, title: 'Cancel'});
 			var ButtonYes = $.UI.create("Button", {classes:['wsize', 'hsize'], right: 0, title: 'Ok'});
@@ -146,6 +146,7 @@ function popReport(){
 				}else if(e.source.title == "Ok") {
 					if(TextField.value != "") {
 						submit_report({report_msg: TextField.value});
+						$.win.remove(ViewAlert);
 					}else {
 						alert("Please insert your report message!");
 					}
