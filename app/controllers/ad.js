@@ -111,6 +111,56 @@ function render_banner(){
 	$.win.backgroundColor = app_background;
 	console.log(bannerImage);
 	$.banner.add(bannerImage);
+	
+	bannerImage.addEventListener('click',function(e){
+		var Zv = Ti.UI.createView({
+			width :Ti.UI.FILL,
+			height :Ti.UI.FILL, 
+			backgroundColor: "#ccffffff",
+			zIndex :100
+		});
+		var Z = Ti.UI.createView({
+			width :"95%",
+			height :Ti.UI.SIZE,
+			backgroundColor :"transparent",
+			zIndex :100
+		});
+		var Ziv = Ti.UI.createScrollView({
+			width :Ti.UI.SIZE, 
+			height :Ti.UI.SIZE,        
+            showHorizontalScrollIndicator:false,
+            showVerticalScrollIndicator:false,
+            maxZoomScale:10,
+            minZoomScale:1.0,
+            borderWidth :1, 
+      		backgroundColor :"transparent",
+      		zIndex :100
+		});
+		var Zimage = Ti.UI.createImageView({
+			image :ads.img_path,
+			width :"100%",
+			height :Ti.UI.SIZE,
+			zIndex :101,
+			enableZoomControls :"true"
+		});
+		var close = Ti.UI.createImageView({
+			image :"/images/Icon_Delete_Round.png",
+			width : 30, 
+			height : 30, 
+			top : 3,
+			right : 3,  
+			zIndex : 102
+		});
+		Ziv.add(Zimage);
+		Z.add(Ziv);
+		Z.add(close);
+		Zv.add(Z);
+		$.win.add(Zv);
+		close.addEventListener('click',function(e){
+			Zv.removeAllChildren();
+			Zv.height = 0;
+		});
+});
 }
 
 var getAdDetails = function(){
@@ -242,7 +292,7 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id, position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date}).getView(); 
+	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id, position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -598,4 +648,5 @@ function createShareOptions(){
 $.win.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.win); 
 });
+
 

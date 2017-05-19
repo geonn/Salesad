@@ -460,7 +460,7 @@ var goAd = function(a_id, m_id){
 	console.log("id"+a_id+m_id);
 	clickTime = currentTime;
 	console.log(args.m_id+" args.m_id");
-	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "home"}).getView(); 
+	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "_ad_listing"}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*
