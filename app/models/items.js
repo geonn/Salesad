@@ -163,6 +163,34 @@ exports.definition = {
                 db.close();
                 collection.trigger('sync');
 			},
+			searchItems: function(data) {
+				var sql = "select merchants.merchant_name, ads.name, items.i_id, items.a_id, items.img_path from ((merchants inner join ads on merchants.m_id = ads.m_id and ads.status = 1 and ads.sales_to >= date('now') and ads.name like '%" + data + "%') inner join items on ads.a_id = items.a_id and items.status = 1)";
+				db = Ti.Database.open(this.config.adapter.db_name);
+				
+				if(Ti.Platform.osname != "android") {
+					db.file.setRemoteBackup(false);
+				}
+				
+				var res = db.execute(sql);
+				var arr = [];
+				var count = 0;
+				
+				while (res.isValidRow()) {
+					arr[count] = {
+						i_id: res.fieldByName('i_id'),
+						a_id: res.fieldByName('a_id'),
+						img_path: res.fieldByName('img_path'),
+						name: res.fieldByName('name'),
+						merchants_name: res.fieldByName('merchant_name'),
+					};
+					res.next();
+					count++;
+				}
+				
+				res.close();
+				db.close();
+				return arr;
+			}
 		});
 
 		return Collection;

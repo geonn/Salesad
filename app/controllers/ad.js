@@ -322,6 +322,24 @@ $.favorites.addEventListener("click", function(){
 		});
 		Ti.App.fireEvent("app:refreshAdsListing");
 		return;
+		
+		var params = {
+			a_id: a_id,
+			type: 5,
+			from: "ad",
+			u_id: u_id
+		};
+		
+		API.callByPost({
+			url: "addAdsClick",
+			new: true,
+			params: params
+		},{onload: function(responseText) {
+			console.log("Save Favourite ad " + responseText);
+		}, onerror: function(responseerroe) {
+			console.log("Save Favourite ad error " + responseerror);
+		}});
+		
 	}
 });
 
