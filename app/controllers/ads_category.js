@@ -353,6 +353,22 @@ function buildListing(){
 				 }
 			});
 		}
+		
+		var params = {
+			a_id: ads[a].a_id,
+			type: 1,
+			from: "ads_catagory",
+			u_id: Ti.App.Properties.getString("u_id") || ""
+		};
+		
+		API.callByPost({url:"addAdsClick",
+						new:true,
+						params:params},
+						{onload: function(responseText){
+							console.log("Impression ads category: " + responseText);
+						},onerror: function(responseerror) {
+							console.logg("Impression ads category: error " + responseerror);
+						}});
 	}
 	setTimeout(function(e){
 		activityIndicator.hide();
@@ -446,7 +462,7 @@ var goAd = function(a_id, a_name, a_date){
 	};
 	clickTime = currentTime;
 	console.log("a id     " + a_id + " " + a_name + " " + a_date);
-	var win = Alloy.createController("ad", {a_id: a_id, from: "home", name: a_name, date: a_date}).getView(); 
+	var win = Alloy.createController("ad", {a_id: a_id, from: "ads_caregory", name: a_name, date: a_date}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*

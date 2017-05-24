@@ -1,4 +1,6 @@
 var args = arguments[0] || {};
+var Ads = Alloy.createCollection("ads");
+var Items = Alloy.createCollection("items");
 
 /**Set mysalesad and my account table**/
 var RegArr = [
@@ -252,7 +254,9 @@ var searchResult = function(){
 	var str = $.searchItem.getValue(); 
 	$.searchContainer.opacity = 1;
 	$.searchContainer.height = "auto";
-	API.searchAdsItems(str);		
+	var arrAds = Ads.searchAds(str);
+	var arrItems = Items.searchItems(str);
+	Ti.App.fireEvent('app:searchRes', {result1: arrAds, result2: arrItems});
 };
 
 var goAd = function(a_id){
@@ -271,15 +275,14 @@ var fontReset = function(){
 	generateCategoryTable(details);
 };
 
-var searchRes = function(res){
+var searchRes = function(res1){
 	
-	var arr = res.result;
-	console.log(arr);
-	//hide loading bar
+	var arr1 = res1.result1;
+	var arr2 = res1.result2;
 	$.loadingBar.height = "0";
 	$.loadingBar.top = "0";
 	$.loadingBar.opacity = "0";
-	if(arr.length < 1){
+	if(arr1.length < 1 && arr2.length < 1){
 		$.searchContainer.removeAllChildren();
 		var noRecord = $.UI.create("Label", { 
 		    text: "No record found", 
@@ -291,16 +294,16 @@ var searchRes = function(res){
 		 });
 		$.searchContainer.add(noRecord);
 	}else{
-
 		var TheTable = Titanium.UI.createTableView({
 			width:'100%' 
 		});
 		
 		var data=[];
-		arr.forEach(function(entry) {
+		
+		arr1.forEach(function(entry) {
 		      var row = Titanium.UI.createTableViewRow({
 			    touchEnabled: true,
-			    height: 70,
+			    height: 80,
 			    source: entry.a_id,
 			    backgroundSelectedColor: "#FFE1E1",
 				backgroundColor: "#ffffff",
@@ -309,45 +312,46 @@ var searchRes = function(res){
 				var leftImage =  Titanium.UI.createImageView({
 					image:entry.img_path,
 					source: entry.a_id,
-					width:50,
-					height:50,
+					width:60,
+					height:60,
 					left:10,
 					top:10
-				});	
+				});
+				
+				var viewlabel = $.UI.create("View", {
+					source: entry.a_id,
+					width: '65%',
+					height: '100%',
+					classes: ['vert']
+				});
 		 
 				var popUpTitle = $.UI.create("Label", {
-					text:entry.merchant_name,
+					text:entry.name,
 					font:{fontSize:16},
 					source: entry.a_id,
 					color: "#88919D",
-					width:'65%',
 					textAlign:'left',
 					top:8,
-					left:80,
-					height:25
+					left:15
 				});
 				
-				var category =  $.UI.create("Label", {
-					text:entry.category,
+				var merchant_name =  $.UI.create("Label", {
+					text:entry.merchant_name,
 					source: entry.a_id,
 					font:{fontSize:12},
-					width:'auto',
 					color: "#88919D",
 					textAlign:'left',
-					width:'65%',
-					bottom:15,
-					left:80,
-					height:18
+					left:15,
+					backgroundColor: "000"
 				});
-				
 				
 				var rightForwardBtn =  Titanium.UI.createImageView({
 					image:"/images/btn-forward.png",
 					source: entry.a_id,
-					width:15,
-					height:15,
-					right:20,
-					top:20
+					width:40,
+					height:40,
+					right:10,
+					top:15
 				});		
 				
 				row.addEventListener('touchend', function(e) {
@@ -356,10 +360,80 @@ var searchRes = function(res){
 				});
 			 
 				row.add(leftImage);
-				row.add(popUpTitle);
-				row.add(category);
+				viewlabel.add(popUpTitle);
+				viewlabel.add(merchant_name);
+				row.add(viewlabel);
 			 	row.add(rightForwardBtn);
 				data.push(row);
+		});
+		
+		arr2.forEach(function (entry) {
+			var row = Titanium.UI.createTableViewRow({
+				touchEnabled: true,
+				height: 80,
+				source: entry.a_id,
+				backgroundSelectedColor: "#FFE1E1",
+				backgroundColor: "#FFF"
+			});
+			
+			var leftImage = Titanium.UI.createImageView({
+				image: entry.img_path,
+				source: entry.a_id,
+				width: 60, 
+				height: 60,
+				left: 10,
+				top: 10
+			});
+			
+			var viewlabel = $.UI.create("View", {
+				source: entry.a_id,
+				width: '65%',
+				height: '100%',
+				classes: ['vert']
+			});
+			
+			var popUpTitle = $.UI.create('Label', {
+				text: entry.name,
+				font: {
+					fontSize: 16
+				},
+				source: entry.a_id,
+				color: "#88919D",
+				textAlign: 'left',
+				top: 8,
+				left: 15,
+			});
+			
+			var merchant_name = $.UI.create('Label', {
+				text: entry.merchant_name,
+				source: entry.a_id,
+				font: {
+					fontSize: 12
+				},
+				color: "88919D",
+				textAlign: 'left',
+				left: 15,
+			});
+			
+			var rightForwardBtn = Titanium.UI.createImageView({
+				image: "/images/btn-forward.png",
+				source: entry.a_id,
+				width: 40,
+				height: 40,
+				right: 10,
+				top: 15
+			});
+			
+			row.addEventListener('touchend', function(e) {
+				goAd(e.source.source);
+			});
+			
+			row.add(leftImage);
+			viewlabel.add(popUpTitle);
+			viewlabel.add(merchant_name);
+			row.add(viewlabel);
+			row.add(rightForwardBtn);
+			data.push(row);
 		});
 		
 		TheTable.setData(data);

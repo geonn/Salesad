@@ -25,6 +25,10 @@
 	 	<SwipeRefresh module="com.rkam.swiperefreshlayout" id="swipeRefresh" platform="android">
 	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
 	 		<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
+	 		<View id="categoryMother" class="wfill hsize horz" >
+	 			<Button width="60" height="40" color="#000" onClick="showAll" id="allButton">All</Button>
+				<Button class="wfill" height="40" color="#000" id="categoryButton" onClick="popCategory">Category</Button>
+	 		</View>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
 			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
 		        <ActivityIndicator  id="activityIndicator" />

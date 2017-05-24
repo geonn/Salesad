@@ -1,11 +1,13 @@
 var args = arguments[0] || {};
 var a_id = args.a_id;
+var from = args.from;
 var position = args.position || 0;
 var isScan = args.isScan;
 var m_id = args.m_id;
 //$.item_Details.title= args.title;
 var BARCODE = require('barcode');
 var showBarcode = 1;
+var u_id = Ti.App.Properties.getString('u_id') || "";
 
 var SCANNER = require("scanner");
 
@@ -15,6 +17,19 @@ var SCANNER = require("scanner");
 var i_library = Alloy.createCollection('items'); 
 
 var items  = i_library.getItemByAds(a_id);
+
+		var params = {
+		a_id:a_id,
+		type:3,
+		from:"itemDetails",
+		u_id:u_id
+	} ;
+	API.callByPost({url:"addAdsClick",new:true,params:params},{
+		onload:function(res){
+			console.log("Item View ad "+JSON.stringify(res));
+		},onerror:function(err){
+			console.log("Item View ad error");
+		}});	
 
 function getScanMerchant(){
 	console.log(m_id+" scanMerchant");
@@ -192,4 +207,19 @@ $.item_Details.open();
 
 $.item_Details.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.item_Details); 
+});
+
+$.scrollableView.addEventListener('scrollend',function(e){
+	var params = {
+		a_id:a_id,
+		type:3,
+		from:"itemDetails",
+		u_id:u_id
+	} ;
+	API.callByPost({url:"addAdsClick",new:true,params:params},{
+		onload:function(res){
+			console.log("Item View ad "+JSON.stringify(res));
+		},onerror:function(err){
+			console.log("Item View ad error");
+		}});	
 });

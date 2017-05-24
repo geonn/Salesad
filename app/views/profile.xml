@@ -2,7 +2,7 @@
 	<Window title="My Profile" backButtonTitle="" id="win" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="30" height="45">
-	         	<ImageView left='0' width="30" height="30" height="30" image="/images/btn-back.png" />
+	         	<ImageView left='0' width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <RightNavButton>

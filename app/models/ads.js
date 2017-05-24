@@ -58,10 +58,12 @@ exports.definition = {
 				}
 				db.close();
 			},
-			getData: function(unlimit){
+			getData: function(unlimit,keyword){
+				console.log("ads model keyword:"+keyword);	
+				var sql_keyword = (typeof keyword != "undefined" && keyword != "")?" AND name like '%"+keyword+"%'":"";
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
-				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date < date('now') OR active_date = '0000-00-00') AND ads.img_path != '' "+sql_limit;
+				var sql = "select ads.*, merchants.longitude, merchants.latitude, merchants.merchant_name as merchant_name from ads LEFT OUTER JOIN merchants ON merchants.m_id = ads.m_id where ads.status = 1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date < date('now') OR active_date = '0000-00-00') AND ads.img_path != '' "+sql_limit+sql_keyword;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -420,6 +422,33 @@ exports.definition = {
 				db.execute("COMMIT");
 	            db.close();
 	            collection.trigger('sync');
+			},
+			searchAds: function(data) {
+				var sql = "SELECT merchants.merchant_name, ads.a_id, ads.name, ads.img_path, ads.sales_to FROM merchants INNER JOIN ads ON merchants.m_id = ads.m_id AND ads.sales_to >= date('now') AND ads.status = 1 AND ads.name LIKE '%" + data + "%'";
+				db = Ti.Database.open(this.config.adapter.db_name);
+				
+				if(Ti.Platform.osname != "android"){
+					db.file.setRemoteBackup(false);
+				}
+				
+				var res = db.execute(sql);
+				var arr = [];
+				var count = 0;
+				
+				while (res.isValidRow()){
+					arr[count] = {
+						a_id: res.fieldByName('a_id'),
+						img_path: res.fieldByName('img_path'),
+						name: res.fieldByName('name'),
+						merchants_name: res.fieldByName('merchant_name')
+					};
+					res.next();
+					count++;
+				}
+				
+				res.close();
+				db.close();
+				return arr;
 			},
 		});
 

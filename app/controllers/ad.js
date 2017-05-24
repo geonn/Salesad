@@ -21,6 +21,19 @@ var a_library = Alloy.createCollection('ads');
 var i_library = Alloy.createCollection('items');
 var loading = Alloy.createController("loading");
 
+var params = {
+		a_id:a_id,
+		type:2,
+		from:"ad",
+		u_id:u_id
+	} ;
+	API.callByPost({url:"addAdsClick",new:true,params:params},{
+		onload:function(res){
+			console.log("View ad "+JSON.stringify(res));
+		},onerror:function(err){
+			console.log("View ad error");
+		}});	
+
 function getAdData(){
 	ads = a_library.getAdsById(a_id);
 }
@@ -98,6 +111,56 @@ function render_banner(){
 	$.win.backgroundColor = app_background;
 	console.log(bannerImage);
 	$.banner.add(bannerImage);
+	
+	bannerImage.addEventListener('click',function(e){
+		var Zv = Ti.UI.createView({
+			width :Ti.UI.FILL,
+			height :Ti.UI.FILL, 
+			backgroundColor: "#ccffffff",
+			zIndex :100
+		});
+		var Z = Ti.UI.createView({
+			width :"95%",
+			height :Ti.UI.SIZE,
+			backgroundColor :"transparent",
+			zIndex :100
+		});
+		var Ziv = Ti.UI.createScrollView({
+			width :Ti.UI.SIZE, 
+			height :Ti.UI.SIZE,        
+            showHorizontalScrollIndicator:false,
+            showVerticalScrollIndicator:false,
+            maxZoomScale:10,
+            minZoomScale:1.0,
+            borderWidth :1, 
+      		backgroundColor :"transparent",
+      		zIndex :100
+		});
+		var Zimage = Ti.UI.createImageView({
+			image :ads.img_path,
+			width :"100%",
+			height :Ti.UI.SIZE,
+			zIndex :101,
+			enableZoomControls :"true"
+		});
+		var close = Ti.UI.createImageView({
+			image :"/images/Icon_Delete_Round.png",
+			width : 30, 
+			height : 30, 
+			top : 3,
+			right : 3,  
+			zIndex : 102
+		});
+		Ziv.add(Zimage);
+		Z.add(Ziv);
+		Z.add(close);
+		Zv.add(Z);
+		$.win.add(Zv);
+		close.addEventListener('click',function(e){
+			Zv.removeAllChildren();
+			Zv.height = 0;
+		});
+});
 }
 
 var getAdDetails = function(){
@@ -215,6 +278,7 @@ function init(){
 	checkFavorite();
 	refresh();
 	pageTitle = ads.name;	// set Page Title
+	
 }
 
 init();
@@ -228,7 +292,7 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id, position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date}).getView(); 
+	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id, position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -308,6 +372,24 @@ $.favorites.addEventListener("click", function(){
 		});
 		Ti.App.fireEvent("app:refreshAdsListing");
 		return;
+		
+		var params = {
+			a_id: a_id,
+			type: 5,
+			from: "ad",
+			u_id: u_id
+		};
+		
+		API.callByPost({
+			url: "addAdsClick",
+			new: true,
+			params: params
+		},{onload: function(responseText) {
+			console.log("Save Favourite ad " + responseText);
+		}, onerror: function(responseerroe) {
+			console.log("Save Favourite ad error " + responseerror);
+		}});
+		
 	}
 });
 
@@ -383,8 +465,8 @@ function popReport(){
 			}, "Yes");
 		}else if(e.index == 3) {
 			var ViewAlert = $.UI.create("View", {classes:['vert', 'hsize', 'wfill', 'padding', 'rounded', 'box'], zIndex: 60, backgroundColor: 'white'});
-			var LabelTitle = $.UI.create("Label", {classes:['hsize', 'wfill', 'padding'], bottom: 0, text: 'Confirmation\n\nAre you sure you want to report this Ad for the reason below?\n'+e.rowData.error_msg});
-			var TextField = $.UI.create("TextField", {classes:['hsize', 'wfill', 'padding', 'textfield']});
+			var LabelTitle = $.UI.create("Label", {classes:['hsize', 'wfill', 'padding'], bottom: 0, text: 'Confirmation\n\nAre you sure you want to report this Ad for the reason below?\n'});
+			var TextField = $.UI.create("TextField", {classes:['hsize', 'wfill', 'padding', 'textfield'], color: "#000", hintText: e.rowData.error_msg});
 			var viewbutton = $.UI.create("View", {classes:['wfill', 'hsize', 'padding'], top: 0});
 			var ButtonCancel = $.UI.create("Button", {classes:['hsize', 'wsize'], left: 0, title: 'Cancel'});
 			var ButtonYes = $.UI.create("Button", {classes:['wsize', 'hsize'], right: 0, title: 'Ok'});
@@ -405,6 +487,7 @@ function popReport(){
 				}else if(e.source.title == "Ok") {
 					if(TextField.value != "") {
 						submit_report({report_msg: TextField.value});
+						$.win.remove(ViewAlert);
 					}else {
 						alert("Please insert your report message!");
 					}
@@ -566,4 +649,5 @@ function createShareOptions(){
 $.win.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.win); 
 });
+
 

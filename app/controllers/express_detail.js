@@ -14,6 +14,56 @@ function render_page(){
 	$.owner_img_path.image = args.owner_img_path;
 }
 
+	$.img.addEventListener('click',function(e){
+		var Zv = Ti.UI.createView({
+			width :Ti.UI.FILL,
+			height :Ti.UI.FILL, 
+			backgroundColor: "#ccffffff",
+			zIndex :100
+		});
+		var Z = Ti.UI.createView({
+			width :"95%",
+			height :Ti.UI.SIZE,
+			backgroundColor :"transparent",
+			zindex :101
+		});
+		var Ziv = Ti.UI.createScrollView({
+			width :Ti.UI.SIZE, 
+			height :Ti.UI.SIZE,        
+            showHorizontalScrollIndicator:false,
+            showVerticalScrollIndicator:false,
+            maxZoomScale:10,
+            minZoomScale:1.0,
+            borderWidth :1, 
+      		backgroundColor :"transparent",
+      		zindex :101
+		});
+		var Zimage = Ti.UI.createImageView({
+			image :args.img_path,
+			width :"100%",
+			height :Ti.UI.SIZE,
+			zIndex :101,
+			enableZoomControls :"true"
+		});
+		var close = Ti.UI.createImageView({
+			image :"/images/Icon_Delete_Round.png",
+			width : 30, 
+			height : 30, 
+			top : 3,
+			right : 3,  
+			zIndex : 102
+		});
+		Ziv.add(Zimage);
+		Z.add(Ziv);
+		Z.add(close);
+		Zv.add(Z);
+		$.win.add(Zv);
+		close.addEventListener('click',function(e){
+			Zv.removeAllChildren();
+			Zv.height = 0;
+		});
+});
+
 function refresh(){
 	render_page();
 	loading.finish();
@@ -74,8 +124,8 @@ function popReport(){
 			}, "Yes");
 		}else if(e.index == 3) {
 			var ViewAlert = $.UI.create("View", {classes:['vert', 'hsize', 'wfill', 'padding', 'rounded', 'box'], zIndex: 60, backgroundColor: 'white'});
-			var LabelTitle = $.UI.create("Label", {classes:['hsize', 'wfill', 'padding'], bottom: 0, text: 'Confirmation\n\nAre you sure you want to report this Ad for the reason below?\n'+e.rowData.error_msg});
-			var TextField = $.UI.create("TextField", {classes:['hsize', 'wfill', 'padding', 'textfield']});
+			var LabelTitle = $.UI.create("Label", {classes:['hsize', 'wfill', 'padding'], bottom: 0, text: 'Confirmation\n\nAre you sure you want to report this Ad for the reason below?'});
+			var TextField = $.UI.create("TextField", {classes:['hsize', 'wfill', 'padding', 'textfield'], color: "#000", hintText: e.rowData.error_msg});
 			var viewbutton = $.UI.create("View", {classes:['wfill', 'hsize', 'padding'], top: 0});
 			var ButtonCancel = $.UI.create("Button", {classes:['hsize', 'wsize'], left: 0, title: 'Cancel'});
 			var ButtonYes = $.UI.create("Button", {classes:['wsize', 'hsize'], right: 0, title: 'Ok'});
@@ -96,6 +146,7 @@ function popReport(){
 				}else if(e.source.title == "Ok") {
 					if(TextField.value != "") {
 						submit_report({report_msg: TextField.value});
+						$.win.remove(ViewAlert);
 					}else {
 						alert("Please insert your report message!");
 					}

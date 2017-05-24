@@ -6,6 +6,7 @@ var ads_counter = 0;
 var loading = false;
 var type = args.type;
 var data;
+var u_id = Ti.App.Properties.getString('u_id') || "";
 if(typeof args.m_id == "undefined" || args.m_id ==""){
 	alert("There is no sales from this store right now");
 }
@@ -350,6 +351,18 @@ function buildListing(){
 			 	goAd(e.source.a_id, e.source.m_id);
 			});
 		}
+	var params = {
+		a_id:ads[a].a_id,
+		type:1,
+		from:"_ad_listing",
+		u_id:u_id
+	} ;
+	API.callByPost({url:"addAdsClick",new:true,params:params},{
+		onload:function(res){
+			console.log("Impression search "+JSON.stringify(res));
+		},onerror:function(err){
+			console.log("Impression search error");
+		}});	
 	}
 	setTimeout(function(e){
 		activityIndicator.hide();
@@ -365,7 +378,7 @@ function buildListing(){
 			console.log("ads length:"+ads.length);	
 			return;				
 		},2000);	
-	}	
+	}
 }
 
 function setAndroidCalendarEvent(e){
@@ -447,7 +460,7 @@ var goAd = function(a_id, m_id){
 	console.log("id"+a_id+m_id);
 	clickTime = currentTime;
 	console.log(args.m_id+" args.m_id");
-	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "home"}).getView(); 
+	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "_ad_listing"}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*

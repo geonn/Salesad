@@ -275,38 +275,6 @@ exports.searchNearbyMerchant = function(lat,long){
 	 client.send(); 
 };
 
-
-//load ads & item search
-exports.searchAdsItems = function(str){
-	var url = searchResult+"&search="+str;
-	
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	    
-	       var res = JSON.parse(this.responseText);
-	       var arr = res.data;
-	       var search = [];
-	       if(res.status == "success"){
-	       	
-			/**load new set of category from API**/
-	       	var arr = res.data;
-	       
-			Ti.App.fireEvent('app:searchRes', {result : arr});
-	       }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     },
-	     timeout : 7000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
-	
-};
-
 //load Ads details and items
 exports.loadAdsDetails = function(m_id, a_id){
     var checker = Alloy.createCollection('updateChecker'); 
