@@ -28,6 +28,10 @@
 		 					<Label class="wfill hsize h5 grey" id="xpress_location" top="5" textAlign="left" platform="android" ellipsize="true" wordWrap="false"/>
 		 					<Label class="h5 grey" width="90%" height="15" id="xpress_location" top="5" textAlign="left" platform="ios"/>
 		 				</View>
+		 				<View class="wfill hsize horz" top="5" onClick="callContact">
+		 					<ImageView class="hsize" width="20" right="10" image="/images/Icon_Contact.png"></ImageView>
+		 					<Label class="wfill hsize h5 grey" id="xpress_contact" textAlign="left"/>
+		 				</View>
 	 				</View>
 	 			</View>
 	 			<View class="hr" backgroundColor="#E8E8E8"></View>

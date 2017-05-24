@@ -6,8 +6,9 @@ var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18
 
 function render_page(){
 	$.img.image = args.img_path;
-	$.xpress_date.text = convertToHumanFormat(args.sales_from)+" - "+convertToHumanFormat(args.sales_to);
+	$.xpress_date.text = args.sales_from+" - "+args.sales_to;
 	$.xpress_location.text = args.address;
+	$.xpress_contact.text = args.contact;
 	$.desc.text = args.description;
 	$.owner_name.text = args.owner_name;
 	$.category.text = args.categoryName;
@@ -174,6 +175,7 @@ function getDirection(){
 		COMMON.openWindow(Alloy.createController("express_direction", args).getView());
 	}			
 	else{
+		alert("Please enable GPS on your phone.");
 	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
 			if(e.success){
 				COMMON.openWindow(Alloy.createController("express_direction", args).getView());					
@@ -187,6 +189,11 @@ function getDirection(){
 
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
+}
+
+function callContact(){
+		var the_number = args.contact;
+		Ti.Platform.openURL('tel:'+the_number);
 }
 
 $.btnBack.addEventListener('click', function(){ 

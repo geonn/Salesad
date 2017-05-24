@@ -413,7 +413,7 @@ function renderBig(param){
 function renderSmall(param){				
     var container= $.UI.create("View", {classes:['hsize','vert'], backgroundColor: param.bg_color, width: cell_width, left: 9, top:9});			
     var img = $.UI.create("ImageView",{image:param.img_path,defaultImage:'/images/image_loader_640x640.png',width: Ti.UI.FILL,height: Ti.UI.SIZE,type: param.type, record: param.record});			
-    var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:param.fg_color, height:14, left: 5, right: 5, bottom: 3, textAlign:"left", text: param.title}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:param.fg_color, height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: param.title});
+    var title = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:param.fg_color, height:14, top: 3, left: 5, right: 5, bottom: 3, textAlign:"left", text: param.title}) : $.UI.create("Label", {classes: ['h6', 'bold', 'wfill'],color:param.fg_color, height:14, left: 5, right: 5, bottom: 3, ellipsize: true, wordWrap:false, textAlign:"left", text: param.title});
     var subtitle = $.UI.create("Label", {classes: ['h7', 'wfill', 'hsize'], left: 5,color:param.fg_color, right: 5, bottom: 3, textAlign:"left",  text: param.sales_from+" "+param.minus+" "+param.sales_to});
     var hr = $.UI.create("View", {classes:['hr'], backgroundColor: param.hr_color});
     var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding'], backgroundColor: param.bg_color});
@@ -576,7 +576,8 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	}	
 });
 
-$.swipeRefresh.addEventListener('refreshing', function(e) {
+if (OS_ANDROID) {
+	$.swipeRefresh.addEventListener('refreshing', function(e) {
 	ads_counter = 0;
 	xpresscount1=0;
 	counter = 0;
@@ -584,6 +585,8 @@ $.swipeRefresh.addEventListener('refreshing', function(e) {
 	refresh();
 	e.source.setRefreshing(false);		
 });
+};
+
 Ti.App.addEventListener("home:refresh", refresh);
 
 $.btnBack.addEventListener('click', function(){ 
