@@ -38,6 +38,10 @@
 	 	</SwipeRefresh>
 	 	<ScrollView platform="ios" id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
 	 		<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
+	 		<View id="categoryMother" class="wfill hsize horz" >
+	 			<Button width="60" right="4" left="4" top="4" height="35" color="#000" backgroundColor="#ccc" onClick="showAll" id="allButton">All</Button>
+				<Button class="wfill" height="35" top="4" color="#000" backgroundColor="#ccc" id="categoryButton" onClick="popCategory">Category</Button>
+	 		</View>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
 			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
 		        <ActivityIndicator  id="activityIndicator" />
