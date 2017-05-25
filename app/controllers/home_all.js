@@ -1,7 +1,6 @@
 var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
-var cell_width, category_id;
 var c_model= Alloy.createCollection("category");
 var category = c_model.getCategoryList();
 var ads_data = [];
@@ -10,6 +9,8 @@ var merchant=Alloy.createCollection("merchants");
 var ads_counter = 0, counter = 0, count1=0;
 var adsdata=[];
 var empty;
+var cell_width;
+var category_id=empty;
 var clickTime;
 var xpresscount;
 var xpresscount1=0;
@@ -491,19 +492,29 @@ function getAdsData(){
 	var adscount= 0;
 	adsdata2=[];
 	var c_ads_library = Alloy.createCollection('categoryAds');
+	var b_ramdom = [];
+	var ramdom = [];
+	var ramdom_n;
+	for(var i = 0;i < category.length;i++){
+		b_ramdom.push(i);
+	}
+	ramdom=	shuffle(b_ramdom) ;
+	console.log("zzz:"+JSON.stringify(ramdom)+" "+ramdom[1]);
 	if(category != null){ 	
 		for(var i=0;i<category.length;i++){
 			do{
-				adsdata1=c_ads_library.getLatestAdsByCategory(category[i].id,0,100);
+				ramdom_n = ramdom[i];
+				console.log("cc"+ramdom_n);
+				adsdata1=c_ads_library.getLatestAdsByCategory(category[ramdom_n].id,0,100);
 				if(adsdata1.length == 0){
 					++i;
 				}		
 			}while(adsdata1.length == 0);
-			console.log("i number:"+i);
 			adsdata1.forEach(function(param){
 				console.log("ineach:"+i);
-				var catename=category[i].categoryName;
-				console.log("category id"+category[i].id+" "+category_id);		
+				var catename=category[ramdom_n].categoryName;
+				console.log("ramdom_n"+ramdom_n);
+				console.log("category id"+category[ramdom_n].id+" "+category_id);		
 				adsdata[adscount]={
 					m_id:param.m_id,
 					merchant_name:param.merchant_name,
@@ -513,13 +524,23 @@ function getAdsData(){
 					img_path:param.img_path,
 					a_id:param.a_id,
 					categoryName:catename,
-					c_id:category[i].id	
+					c_id:category[ramdom_n].id	
 				};
 				adsdata2[adscount]=adsdata[adscount];
 				adscount++;				
 			});		
 		}
 	}
+}
+function shuffle(array) {
+  var tmp, current, top = array.length;
+  if(top) while(--top) {
+    current = Math.floor(Math.random() * (top + 1));
+    tmp = array[current];
+    array[current] = array[top];
+    array[top] = tmp;
+  }
+  return array;
 }
 // convert pixel to dp.
 function pixelToDp(px) {
@@ -566,6 +587,14 @@ $.content_scrollview.addEventListener("scroll", function(e){
 				$.loadingBar.height = "0";
 				$.loadingBar.top = "0";			
 				refreshing = true;
+				if(category_id != empty){
+					console.log("category_id"+category_id);
+			 		getAdsByCategory(category_id);		
+				}
+				else{
+					console.log("ALL");
+					getAdsData();
+				}				
 				refresh();					        	
 	        	refreshing = false;
 	        }, 1000);   
@@ -581,6 +610,15 @@ $.swipeRefresh.addEventListener('refreshing', function(e) {
 	xpresscount1=0;
 	counter = 0;
 	count1=0;	
+	console.log(category_id);
+	if(typeof category_id != "undefined"){
+		console.log("category_id"+category_id);
+ 		getAdsByCategory(category_id);		
+	}
+	else{
+		console.log("ALL");
+		getAdsData();
+	}
 	refresh();
 	e.source.setRefreshing(false);		
 });
