@@ -2,6 +2,7 @@ var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var data;
 var loading = Alloy.createController("loading");
+var checking = true; 
 
 function render_page(){
 }
@@ -42,6 +43,8 @@ function hidesoftkeyboard(){
 init();
 
 function doSubmit(){
+if(checking){
+	
 	var forms_array = $.inner_box.getChildren();
 	var params = {u_id: u_id};
 	var error = "";
@@ -68,21 +71,28 @@ function doSubmit(){
 			}
 		}
 	};
+	var contact = Math.floor($.contact.value);
+	console.log(typeof contact+" "+contact);
+	if(isNaN(contact)){
+		alert_msg = alert_msg+"Invalid contact number\n";
+	}
 	if(alert_msg != ""){
 		alert(alert_msg);
 		loading.finish();
 		return;
 	}
 	for (var i=0; i < forms_array.length; i++) {
+		console.log("beng");
 		var form_value = (typeof forms_array[i].model != "undefined")?eval("forms_array[i].record."+forms_array[i].submitColumn):forms_array[i].value;
 		eval("_.extend(params, {"+forms_array[i].id+": form_value})");
+		console.log(form_value+" "+forms_array[i].id);
 		if(typeof forms_array[i].require != "undefined"){
 			if(forms_array[i].value == ""){
 				error = error + forms_array[i].hintText+" cannot be empty\n"; 
 			}
 		}
 		if(forms_array[i].form_type == "image"){
-			console.log(forms_array[i].blob_submit);
+			console.log(forms_array[i].blob_submit+"heree");
 			if(typeof forms_array[i].blob_submit == "undefined"){
 				alert("Please upload photo");
 				loading.finish();
@@ -116,6 +126,9 @@ function doSubmit(){
 		}
 	}
 	);
+	checking = false;	
+}
+
 }
 
 function popMap(e){
