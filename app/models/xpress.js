@@ -85,7 +85,7 @@ exports.definition = {
 				var lastMonth = COMMON.todayDateTime(now);
 	            var sql_keyword = (typeof e.keyword != "undefined" && e.keyword != "")?" AND description like '%"+e.keyword+"%'":"";
 	            var sql_category = (typeof e.category_id != "undefined")?" AND category = '"+e.category_id+"'":"";
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND created >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC ";
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND sales_from >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC ";
                 console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -145,7 +145,7 @@ exports.definition = {
 				var lastMonth = COMMON.todayDateTime(now);
 	            var sql_keyword = (typeof e.keyword != "undefined" && e.keyword != "")?" AND description like '%"+e.keyword+"%'":"";
 	            var sql_category = (typeof e.category_id != "undefined")?" AND category = '"+e.category_id+"'":"";
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND created >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC "+start_limit;
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND sales_from >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC "+start_limit;
                 console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -285,6 +285,98 @@ exports.definition = {
 				//console.log(db.getRowsAffected()+" affected row");
 	            db.close();
 	            collection.trigger('sync');
+			},
+			ongoingpost: function(e) {
+				var columns = this.config.columns;
+				var names = [];
+				
+				for (var k in columns) {
+	                names.push(k);
+	            }
+	            
+	            var sql_uid = "";
+				
+				if(typeof e.u_id != "undefined"){
+					sql_uid = " AND u_id = "+e.u_id;
+				}
+				
+				var now=new Date();
+				var temp = now.getTime() - 1000*60*60*24*30;
+				now.setTime(temp);
+				var lastMonth = COMMON.todayDateTime(now);
+				var sql = (e.keyword != "") ? "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and sales_from >= '"+lastMonth+"' and sales_to >= date('now') and name like '%" + e.keyword + "%' order by `updated` DESC " : "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and sales_from >= '"+lastMonth+"' and sales_to >= date('now') order by `updated` DESC ";
+				db = Ti.Database.open(this.config.adapter.db_name);
+				
+				if(Ti.Platform.osname != "android"){
+					db.file.setRemoteBackup(false);
+                }
+				
+				var res = db.execute(sql);
+				var arr = []; 
+				var count = 0;
+				var eval_column = "";
+				
+				for (var i=0; i < names.length; i++) {
+					eval_column = eval_column+names[i]+": res.fieldByName('"+names[i]+"'),";
+				}
+				
+				while (res.isValidRow()){
+					eval("arr[count] = {"+eval_column+"}");
+					res.next();
+					count++;
+				}
+                
+				res.close();
+				db.close();
+				
+				this.trigger('sync');
+				return arr;
+			},
+			expiredpost: function(e) {
+				var columns = this.config.columns;
+				var names = [];
+				
+				for (var k in columns) {
+	                names.push(k);
+	            }
+	            
+	            var sql_uid = "";
+				
+				if(typeof e.u_id != "undefined"){
+					sql_uid = " AND u_id = "+e.u_id;
+				}
+				
+				var now=new Date();
+				var temp = now.getTime() - 1000*60*60*24*30;
+				now.setTime(temp);
+				var lastMonth = COMMON.todayDateTime(now);
+				var sql = (e.keyword != "") ? "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and (sales_from + 30) < date('now') and sales_to < date('now') and name like '%" + e.keyword + "%' order by `updated` DESC " : "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and (sales_from + 30) < date('now') and sales_to < date('now') and name like '%" + e.keyword + "%' order by `updated` DESC ";
+                db = Ti.Database.open(this.config.adapter.db_name);
+                
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				
+				var res = db.execute(sql);
+				var arr = []; 
+				var count = 0;
+				var eval_column = "";
+				
+				for (var i=0; i < names.length; i++) {
+					eval_column = eval_column+names[i]+": res.fieldByName('"+names[i]+"'),";
+				}
+				
+				while (res.isValidRow()){
+					eval("arr[count] = {"+eval_column+"}");
+					res.next();
+					count++;
+				}
+                
+				res.close();
+				db.close();
+				
+				this.trigger('sync');
+				return arr;
 			},
 		});
 
