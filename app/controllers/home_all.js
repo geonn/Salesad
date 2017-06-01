@@ -495,8 +495,10 @@ function getAdsData(){
 	var b_ramdom = [];
 	var ramdom = [];
 	var ramdom_n;
-	for(var i = 0;i < category.length;i++){
-		b_ramdom.push(i);
+	if(category != null){
+		for(var i = 0;i < category.length;i++){
+			b_ramdom.push(i);
+		}
 	}
 	ramdom=	shuffle(b_ramdom) ;
 	console.log("zzz:"+JSON.stringify(ramdom)+" "+ramdom[1]);
