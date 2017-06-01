@@ -86,7 +86,7 @@ var changeStatus = function(e){
 }; 
 
 function unsubcribe_feature(){
-	Cloud.PushNotifications.unsubscribeToken({
+	/*Cloud.PushNotifications.unsubscribeToken({
         device_token: deviceToken,
         channel: 'featured',
         type: Ti.Platform.name == 'android' ? 'android' : 'ios'
@@ -96,11 +96,11 @@ function unsubcribe_feature(){
         } else {
             console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
         }
-    });
+    });*/
 }
 
 function subcribe_feature(){
-	Cloud.PushNotifications.subscribeToken({
+	/*Cloud.PushNotifications.subscribeToken({
         device_token: deviceToken,
         channel: 'featured',
         type: Ti.Platform.name == 'android' ? 'android' : 'ios'
@@ -110,7 +110,7 @@ function subcribe_feature(){
         } else {
             console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
         }
-    });
+    });*/
 }
 $.notiSwitch.addEventListener('change',changeStatus);
 $.notiSwitch_featured.addEventListener('change',changeStatus);
