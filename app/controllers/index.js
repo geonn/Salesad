@@ -5,7 +5,7 @@ console.log(last_update_on+" last_update_on index");
 var loadingView = Alloy.createController("loader");
 loadingView.getView().open();
 loadingView.start();
-
+PUSH.registerPush();
 var model_category = Alloy.createCollection('category');
 
 Alloy.Globals.navMenu = $.navMenu;
@@ -236,7 +236,9 @@ function goAds(e){
 };
 
 function loadingViewFinish(){
+	console.log("loadingViewFinish");
 	loadingView.finish(function(){
+		console.log("loadingViewFinish");
 		if(OS_IOS){
 			$.navMenu.open({fullscreen:true});
 			loadingView.getView().close();
@@ -272,6 +274,9 @@ function init(){
         Ti.API.info( 'Resumed with url = ' + Ti.App.launchURL );
 	     Ti.App.Properties.setString('global_url', "");
 	}
+	setTimeout(function(){
+		PUSH.setInApp();
+	},2000);
 }
 
 // convert pixel to dp.

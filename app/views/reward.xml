@@ -14,45 +14,69 @@
 		     		<Label color="#ED1C24">My Rewards</Label>
 		     	</View>
 		 	</View>
-		 	<View bottom='0' class="hr"></View>
-		 	<View class="wfill hfill vert">
-	 			<View class="wfill hfill">
-			 		<ScrollView class="wfill hfill contwfill conthsize vert" id="point">
-			 			<View class="wsize hsize horz" top="20" bottom="20">
-			 				<ImageView class="hsize" top="10" left="10" right="10" width="70" image="/images/Icon_CashPoint_Gold@0,25x.png"/>
-			 				<Label class="wsize hsize bold h1" top="20" bottom="15" id="current_point">0</Label>
-		 				</View>
-			 			<Label class="wsize hsize bold h4">You're off to a great start</Label>
-			 			<ScrollView id="horz_reward_list" backgroundColor="#F6F6F6" top="20" class="wfill hsize conthsize horz" contentWidth="auto" showHorizontalScrollIndicator="true" scrollType="horizontal" disableBounce="true">
-			 				<View class="wsize hsize padding">
-			 					<!--<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24">
-				 					<Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label>
-				 					<Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label>
-			 				</View>-->
-			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM10.png" />
-			 					<View class="rounded" zIndex="2" width="140" height="88" backgroundColor="#80000000">
-			 						<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
-			 					</View>
-			 				</View>
-			 				<View class="wsize hsize padding">
-			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM50.png" />
-			 					<View class="rounded" zIndex="2" width="140" height="88" backgroundColor="#80000000">
-			 						<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
-			 					</View>
-			 				</View>
-			 				<View class="wsize hsize padding">
-			 					<ImageView zIndex="1" class="rounded hsize" width="140" image="/images/GiftCard_RM100.png" />
-			 					<View class="rounded" zIndex="2" width="140" height="88" backgroundColor="#80000000">
-			 						<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
-			 					</View>
-			 				</View>
-			 				
-			 			</ScrollView>
-			 			<TableView class="wfill hfill contwfill conthsize" id="point_list">
-			 			</TableView>
-			 		</ScrollView>
-		 		</View>
-		 	</View>
-	 	</View>
+			<View bottom='0' class="hr"></View>
+			<View class="vert wfill hfill" backgroundColor="#f6f6f6">
+				<View class="horz wfill hsize" backgroundColor="#ED1C24">
+					<View class="tabview vert hsize" id="tabview0" onClick="Tab" num="0" backgroundColor="#ED1C24">
+						<Label class="LBTab wsize hsize" id="tab0" onClick="Tab" num="0" text="Vouchers" color="#fff"></Label>
+					</View>
+					<View class="tabview vert hsize" id="tabview1" onClick="Tab" num="1">
+						<Label class="LBTab wsize hsize" id="tab1" onClick="Tab" num="1" text="Saved Vouchers"></Label>
+					</View>
+					<View class="tabview vert hsize" id="tabview2" onClick="Tab" num="2">
+						<Label class="LBTab wsize hsize" id="tab2" onClick="Tab" num="2" text="CP Point"></Label>
+					</View>
+				</View>
+				<ScrollableView class="wfill hfill" id="scrollview">
+					<!--Vouchers(view 1)-->
+					<View class="wfill hfill" id="view1">
+						<ScrollView id="voucher_scrollview" class="wfill hfill contwfill conthsize horz" bottom="10">
+						</ScrollView>
+					</View>
+					<!--Saved Vouchers(view 2)-->
+					<View class="wfill hfill" id="view2">
+						<ScrollView id="savevoucher_scrollview" class="wfill hfill contwfill conthsize horz" bottom="10">
+						</ScrollView>
+					</View>
+					<!--CP Point(view 3)-->
+					<View class="wfill hfill" id="view3" backgroundColor="#fff">
+						<View class="wfill hfill vert">
+							<View class="wfill hfill">
+								<ScrollView id="point" class="wfill hfill contwfill conthsize vert">
+									<View class="wsize hsize horz" bottom="20" top="20">
+										<ImageView width="70" left="10" image="/images/Icon_CashPoint_Gold@0,25x.png" class="hsize" top="10" right="10"/>
+										<Label id="current_point" class="wsize hsize bold h1" bottom="15" top="20">0</Label>
+									</View>
+									<Label class="wsize hsize bold h4">You're off to a great start</Label>
+									<ScrollView backgroundColor="#F6F6F6" id="horz_reward_list" class="wfill hsize conthsize horz" top="20" disableBounce="true" scrollType="horizontal" showHorizontalScrollIndicator="true" contentWidth="auto">
+										<View class="wsize hsize padding">
+											<!--<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24"> <Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label> <Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label> </View>-->
+											<ImageView width="140" image="/images/GiftCard_RM10.png" class="rounded hsize" zIndex="1"/>
+											<View backgroundColor="#80000000" height="88" width="140" class="rounded" zIndex="2">
+												<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
+											</View>
+										</View>
+										<View class="wsize hsize padding">
+											<ImageView width="140" image="/images/GiftCard_RM50.png" class="rounded hsize" zIndex="1"/>
+											<View backgroundColor="#80000000" height="88" width="140" class="rounded" zIndex="2">
+												<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
+											</View>
+										</View>
+										<View class="wsize hsize padding">
+											<ImageView width="140" image="/images/GiftCard_RM100.png" class="rounded hsize" zIndex="1"/>
+											<View backgroundColor="#80000000" height="88" width="140" class="rounded" zIndex="2">
+												<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
+											</View>
+										</View>
+									</ScrollView>
+									<TableView id="point_list" class="wfill hfill contwfill conthsize">
+									</TableView>
+								</ScrollView>
+							</View>
+						</View>
+					</View>
+				</ScrollableView>
+			</View>
+		</View>
 	</Window>
 </Alloy>

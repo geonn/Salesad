@@ -1,0 +1,45 @@
+<Alloy>
+	<Window id="win" title="Voucher Detail" navTintColor="#ED1C24" backgroundColor="#fff">
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View class="wfill hfill vert">
+	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFF">
+				<View left="0" width="15%">
+			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
+			    </View>
+		     	<View id="pageTitle" width="70%">
+		     		<Label color="#ED1C24">Voucher Detail</Label>
+		     	</View>
+		 	</View>
+		 	<View bottom='0' class="hr"></View>
+		 	<ScrollView class="wfill hfill vert" scrollType="vertical" contentWidth="Ti.UI.FILL">
+		 		<ImageView class="wfill hsize" image="/images/ComingSoon_3.png"></ImageView>
+		 		<Label class="wfill hsize h5 padding bold" text="Voucher Title"></Label>
+		 		<View class="wfill hsize horz">
+		 			<Label class="wsize hsize h5 padding" top="0" text="88 vouchers left"></Label>
+		 			<ImageView width="15" height="15" top="0" image="images/Icon_CashPoint_Gold@0,25x.png"></ImageView>
+		 			<Label class="wsize hsize h5 padding" top="0" text="100 points"></Label>
+		 		</View>	
+		 		<Label class="wsize hsize h5 padding" top="0" text="Valid from 00-00-0000"></Label>
+		 		<Label class="wsize hsize h5 padding" top="0" text="(Voucher Description)"></Label>
+		 		<View class="hr1"></View>
+		 		<View class="wfill hsize vert" onClick="htr_extend">
+		 			<View class="wfill hsize horz">
+		 				<Label class="wsize hsize h5 padding" text="How to redeem"></Label>
+		 				<ImageView width="35" height="25" image="/images/btn-forward1.png" id="htr_image"></ImageView>
+		 			</View>
+		 			<View class="wfill hsize vert" id="htr"></View>
+		 		</View>
+		 		<View class="hr1"></View>
+		 		<View class="wfill hsize horz" bottom="50">
+		 			<Label class="wsize hsize h5 padding" text="Term & Condition"></Label>
+		 			<ImageView width="35" height="25" image="/images/btn-forward1.png"></ImageView>
+		 		</View>
+		 	</ScrollView>
+		 </View>	
+		 <Button class="wfill h4 save_button" height="40" title="Save Voucher" id="save"></Button>
+	</Window>	
+</Alloy>
