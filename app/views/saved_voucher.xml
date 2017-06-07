@@ -1,0 +1,57 @@
+<Alloy>
+	<Window title="" backButtonTitle="" class="" id="win" navTintColor="#ED1C24">
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View class="wfill hfill vert">
+	        <View layout="horizontal" id="adHeader" height="50" width="100%" platform="android" backgroundColor="#fff">
+				<View left="0" width="15%" zIndex="10" class="hsize">
+			         <ImageView id="btnBack" left='10' width="30" height="30" image="/images/btn-back.png" />
+			    </View>
+		     	<View id="pageTitle" width="70%"></View>
+		 	</View>
+		    <View class="hr" top="0"></View>
+		    <View class="wfill" height="82%">
+				<ScrollView contentWidth="Ti.UI.FILL" top="1" layout="vertical" top="0">
+					<View class="wfill hsize" id="banner"></View>
+					<View class="wfill hsize vert" id="ads_details">
+						<View class="wfill hsize vert">
+							<View class="padding vert wfill hsize">
+								<Label class="wsize hsize normal_font bold" bottom="5" color="#848688" left="0">(Voucher Title)</Label>
+								<Label class="wsize hsize normal_font" color="#848688" left="0">00-00-0000 - 00-00-0000</Label>
+							</View>		
+							<View class="hr" backgroundColor="#DFE0E1"></View>	
+							<View class="padding vert wfill hsize">							
+								<Label class="wsize hsize normal_font" color="#848688" left="0">(Voucher Description)</Label>	
+							</View>
+							<View class="hr" backgroundColor="#DFE0E1"></View>	
+							<View class="wfill hsize vert padding" left="10" right="10" onClick="showredeem" turn="0">
+								<View class="horz wfill hsize">
+									<Label class="wsize hsize normal_font" color="#848688" left="0">How to redeem</Label>
+									<ImageView width="35" height="25" id="bt1" left="10" image="/images/btn-forward1.png"></ImageView>
+								</View>
+								<View class="horz wfill hsize" id="redeem">
+									
+								</View>
+							</View>		
+							<View class="hr" backgroundColor="#DFE0E1"></View>	
+							<View class="wfill hsize vert padding" onClick="showtnc" turn="0">
+								<View class="horz wfill hsize">
+									<Label class="wsize hsize normal_font" color="#848688" left="0">Term & Conditions</Label>
+									<ImageView width="35" height="25" id="bt2" left="10" image="/images/btn-forward1.png"></ImageView>
+								</View>
+								<View class="horz wfill hsize" id="tnc"></View>
+							</View>		
+							<View class="hr" backgroundColor="#DFE0E1"></View>						
+						</View>
+					</View>
+				</ScrollView>			
+			</View>
+			<View class="padding vert wfill hfill">
+				<Button class="wfill hsize" color="#fff" backgroundColor="#ED1C24" bottom="0">Use Voucher</Button>																			
+			</View>					
+		</View>
+	</Window>
+</Alloy>

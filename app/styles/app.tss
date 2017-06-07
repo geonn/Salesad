@@ -3,6 +3,11 @@
 	height: '1',
 	backgroundColor: '#ED1C24',
 },
+".hr1" :{
+	width: Ti.UI.FILL,
+	height: '2',
+	backgroundColor: '#ED1C24',
+},
 'Window': {
 	backgroundColor: "#F6F6F6",
 	fullscreen: true,

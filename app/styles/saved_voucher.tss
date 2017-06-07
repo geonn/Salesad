@@ -1,0 +1,25 @@
+
+".container" : {
+	width: Ti.UI.FILL,
+	fullscreen: true,
+},
+".rowAd" :{
+	layout: 'horizontal',
+	right: 4,
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.FILL
+},
+".cellAd" :{
+	top: 4,
+	width: '50%',
+	height: Titanium.UI.SIZE,
+}
+".detail_padding":{
+	top:10,
+	left:30, 
+	right:30,
+	bottom:10,
+}
+".small_bottom":{
+	bottom:10
+}
