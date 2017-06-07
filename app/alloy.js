@@ -17,6 +17,7 @@ Alloy.Globals.naviPath = [];
 /** include required file**/
 var API = require('api');
 var COMMON = require('common'); 
+var PUSH = require('push');
 var DBVersionControl = require('DBVersionControl');
 
 var last_update_on = true;
@@ -32,111 +33,9 @@ FACEBOOK.appid = "1593197804284763";
 FACEBOOK.permissions = ['email','public_profile','user_friends']; // Permissions your app needs
 FACEBOOK.initialize(1000); 
 FACEBOOK.forceDialogAuth = true; 
- 
-var Cloud = require('ti.cloud');
- 
-Cloud.Users.login({
-    login: 'geomilano',
-    password: '123456'
-}, function (e) {
-	if (e.success) {
-		var user = e.users[0];
-		//console.log(e);
-    } else {
-    	// alert('B Error: ' + JSON.stringify(e));
-      //  alert("Error :"+e.message);
-    }
-});
-
-// Process incoming push notifications
-function receivePush(e) {
-	var params = e.data.extra; 
-	result = params.split("_"); 
-	if(result.length > 1){	
-		Ti.App.fireEvent('app:goToAds', {m_id: result[0],a_id: result[1], isFeed : 1 });
-	}else{ 
-		Ti.App.fireEvent('app:goToAds', {m_id: result[0], a_id: "", isFeed : 1});
-	}
-	return false;
-}
-function deviceTokenSuccess(e) {
-    deviceToken = e.deviceToken;
-    Cloud.PushNotifications.subscribe({
-	    channel: 'sales',
-	    type:'ios',
-	    device_token: deviceToken
-	}, function (e) {
-		 
-	    if (e.success) {
-	    	//alert('Success : ' + deviceToken);
-	    	/** User device token**/
-     		Ti.App.Properties.setString('deviceToken', deviceToken);
-	     	
-			API.updateNotificationToken();
-	    } else {
-	    //	alert('Success Error: ' + deviceToken);
-	        registerPush();
-	    }
-	});
-	
-	Cloud.PushNotifications.subscribeToken({
-        device_token: e.deviceToken,
-        channel: 'featured',
-        type: Ti.Platform.name == 'android' ? 'android' : 'ios'
-    }, function (e) {
-        if (e.success) {
-            console.log('Subscribed');
-        } else {
-            console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
-        }
-    });
-}
-function deviceTokenError(e) {
-    alert('Failed to register for push notifications! ' + e.error);
-}
-
-function registerPush(){
-	if (Ti.Platform.name == "iPhone OS" && parseInt(Ti.Platform.version.split(".")[0]) >= 8) {
- 
-	 // Wait for user settings to be registered before registering for push notifications
-	    Ti.App.iOS.addEventListener('usernotificationsettings', function registerForPush() {
-	 
-	 // Remove event listener once registered for push notifications
-	        Ti.App.iOS.removeEventListener('usernotificationsettings', registerForPush); 
-	 
-	        Ti.Network.registerForPushNotifications({
-	            success: deviceTokenSuccess,
-	            error: deviceTokenError,
-	            callback: receivePush
-	        });
-	    });
-	 
-	 // Register notification types to use
-	    Ti.App.iOS.registerUserNotificationSettings({
-		    types: [
-	            Ti.App.iOS.USER_NOTIFICATION_TYPE_ALERT,
-	            Ti.App.iOS.USER_NOTIFICATION_TYPE_SOUND,
-	            Ti.App.iOS.USER_NOTIFICATION_TYPE_BADGE
-	        ]
-	    });
-	}else{
-		Titanium.Network.registerForPushNotifications({
-		    types: [
-		        Titanium.Network.NOTIFICATION_TYPE_BADGE,
-		        Titanium.Network.NOTIFICATION_TYPE_ALERT,
-		        Titanium.Network.NOTIFICATION_TYPE_SOUND
-		    ],
-			success:deviceTokenSuccess,
-			error:deviceTokenError,
-			callback:receivePush
-		});
-		
-	}  
-}
 
 if(Ti.Platform.osname != "android"){
 	Titanium.UI.iPhone.setAppBadge("0");
-	registerPush();
 }
 
 var Utils = {
