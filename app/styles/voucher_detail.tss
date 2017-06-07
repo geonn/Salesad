@@ -1,0 +1,13 @@
+".save_button":{
+	left: 5,
+	right: 5,
+	bottom: 5,
+	backgroundColor: "#ED1C24",
+	color: "#fff"
+}
+
+".hr1":{
+	width: Ti.UI.FILL,
+	height: '1',
+	backgroundColor: '#E8E8E8',
+}

@@ -6,6 +6,7 @@ var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
+var v_id = "";
 
 if (OS_IOS){
 //iOS only module
@@ -320,7 +321,7 @@ function vouchers(e) {
 			bottom: "10"
 		});
 		
-		img.addEventListener("click", navTo);
+		img.addEventListener("click", toVoucher);
 		View1.add(img);
 		View1.add(View2);
 		View2.add(View3);
@@ -398,7 +399,7 @@ function savedvoucher(e) {
 			bottom: "10"
 		});
 		
-		img.addEventListener("click", navTo);
+		img.addEventListener("click", toSaveVoucher);
 		View1.add(img);
 		View1.add(View2);
 		View2.add(View3);
@@ -419,7 +420,10 @@ function savedvoucher(e) {
 	}
 }
 
-function navTo(e) {
+function toVoucher(e) {
+	COMMON.openWindow(Alloy.createController("voucher_detail",{v_id:v_id}).getView());
+}
+function toSaveVoucher(e) {
 	
 }
 
