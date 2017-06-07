@@ -34,7 +34,7 @@ var getContestListUrl 	= "http://"+API_DOMAIN+"/api/getContestList?user="+USER+"
 var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
 var getSXItem = "http://"+API_DOMAIN+"/api/getSXItem?user="+USER+"&key="+KEY;
 var sendFeedback = "http://"+API_DOMAIN+"/api/sendFeedback?user="+USER+"&key="+KEY;
-
+var getVoucherList = "http://"+API_DOMAIN+"/api/getVoucherList?user="+USER+"&key="+KEY;
 //API that call in sequence 
 var APILoadingList = [
 	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
@@ -46,6 +46,7 @@ var APILoadingList = [
 	{url: "getItemList", type: "api_model", model: "items", checkId: "9"},
 	{url: "getContestListUrl", type: "api_model", model: "contest", checkId: "10"},
 	{url: "getSXItem", type: "api_model", model: "xpress", checkId: "11"},
+	{url: "getVoucherList", type:"api_model", model: "voucher" ,checkId: "12"}
 ];
 
 exports.getUserList       = "http://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;

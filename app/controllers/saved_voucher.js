@@ -2,7 +2,10 @@ var pageTitle;
 Alloy.Globals.naviPath.push($.win);
 var loading = Alloy.createController("loading");
 
-
+function getVoucherData(){
+	var model = Alloy.createCollection("voucher");
+}
+getVoucherData();
 function render_banner(){
  	var bannerImage = Ti.UI.createImageView({
  		defaultImage: "/images/image_loader_640x640.png",
