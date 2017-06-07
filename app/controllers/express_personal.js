@@ -96,8 +96,8 @@ function render(e){
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
 	$.content.removeAllChildren();
 	$.history.removeAllChildren();
-	var view1 = $.UI.create("View", {classes:['wfill','hsize','vert'], bottom: "10"});
-	var view2 = $.UI.create("View", {classes:['wfill','hsize','vert'], bottom: "10"});
+	var view1 = $.UI.create("View", {classes:['wfill','hsize','horz'], bottom: "10"});
+	var view2 = $.UI.create("View", {classes:['wfill','hsize','horz'], bottom: "10"});
 	view1.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Posts", textAlign: "center"}));
 	view1.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
 	view1.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T1", top: 90, bottom: 90, textAlign: "center", text: "You have no expired posts at this moment."}));
@@ -117,7 +117,7 @@ function render(e){
 		var obj_category = _.where(category, {id: data[i].category});
 		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].owner_img_path;
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
-		var container = $.UI.create("View", {classes:['hsize'], master:1, backgroundColor: "#ffffff", width: cell_width, left: 10, top:10, record: data[i]});
+		var container = $.UI.create("View", {classes:['hsize'], master:1, backgroundColor: "#ffffff", width: cell_width, left: 9, top: 9, record: data[i]});
 		var inner_view = $.UI.create("View", {classes:['wfill','hsize','vert']});
 		var img_close = $.UI.create("ImageView", {image: "/images/Icon_Delete_Round.png", width: 30, height: 30, right:5, top:5, zIndex: 100});
 		var img = $.UI.create("ImageView", {image: data[i].img_path, classes:['hsize', 'wfill']});

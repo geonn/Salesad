@@ -4,10 +4,13 @@ var loading = Alloy.createController("loading");
 var data = [], daily_data = [], point_list=[];
 var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var SCANNER = require("scanner");
+var tabColor = $.tab0;
+var tabviewColor = $.tabview0;
+
 if (OS_IOS){
 //iOS only module
-	
-var Social = require('dk.napp.social'); 
+
+var Social = require('dk.napp.social');
 
 // find all Twitter accounts on this phone
 if(Social.isRequestTwitterSupported()){ //min iOS6 required
@@ -20,7 +23,8 @@ if(Social.isRequestTwitterSupported()){ //min iOS6 required
     
     Social.twitterAccountList();
 }
- Social.addEventListener("complete", function(e){
+
+Social.addEventListener("complete", function(e){
 		Ti.API.info("complete: " + e.success);
 
 		if (e.platform == "activityView" || e.platform == "activityPopover") {
@@ -52,7 +56,7 @@ if(Social.isRequestTwitterSupported()){ //min iOS6 required
 		Ti.API.info(e);	
 		
 	});
-} 
+}
 
 function refresh(){
 	loading.start();
@@ -148,6 +152,7 @@ function render_point_list(){
 	$.point_list.setData(arr);
 	$.point_list.addEventListener("click", navTo);
 }
+
 var api_loading = false;
 function navTo(e){
 	var row = e.row;
@@ -249,18 +254,176 @@ function navTo(e){
 function init(){
 	$.win.add(loading.getView());
 	refresh();
+	vouchers();
 }
 
 init();
 
-$.btnBack.addEventListener('click', function(){ 
-	COMMON.closeWindow($.win);
-}); 
+function Tab(e) {
+	$.scrollview.scrollToView(e.source.num);
+}
 
-$.win.addEventListener("close", function(){
-	Ti.App.removeEventListener('reward:refresh', refresh);
-});
+function vouchers(e) {
+	$.voucher_scrollview.removeAllChildren();
+	if(OS_ANDROID){
+		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
+	}else{
+		cell_width = Math.floor(pwidth / 2) - 15;
+	}
+	
+	for(var i = 0; i <= 3; i++) {
+		var View1 = $.UI.create("View", {
+			classes: ['hsize', 'vert'],
+			width: cell_width,
+			left: "9",
+			top: "9"
+		});
+		var img = $.UI.create("ImageView", {
+			classes: ['wfill', 'hsize'],
+			image: "/images/ComingSoon_1.png",
+			defaultImage: "/images/images_loader_640x640.png"
+		});
+		var View2 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'vert'],
+			backgroundColor: "#fff"
+		});
+		var View3 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'padding']
+		});
+		var VQuantity = $.UI.create("Label", {
+			classes: ['wsize', 'hsize', 'h5'],
+			text: " left",
+			color: "#ED1C24",
+			left: "0"
+		});
+		var VPoint = $.UI.create("Label", {
+			classes: ['wsize', 'hsize', 'h5'],
+			text: " points",
+			color: "#ED1C24",
+			right: "0"
+		});
+		var title = $.UI.create("Label", {
+			classes: ['wsize', 'hsize', 'h5'],
+			text: "SUBOpark",
+			color: "gray",
+			font: {
+				fontWeight: "bold"
+			},
+			left: "10",
+			right: "10"
+		});
+		var subtitle = $.UI.create("Label", {
+			classes: ['wsize', 'hsize', 'h5'],
+			text: "20% Discount Voucher",
+			left: "10",
+			right: "10",
+			bottom: "10"
+		});
+		
+		img.addEventListener("click", navTo);
+		View1.add(img);
+		View1.add(View2);
+		View2.add(View3);
+		View3.add(VQuantity);
+		View3.add(VPoint);
+		View2.add(title);
+		View2.add(subtitle);
+		$.voucher_scrollview.add(View1);
+		
+		View1 = null;
+		img = null;
+		View2 = null;
+		View3 = null;
+		VQuantity = null;
+		VPoint = null;
+		title = null;
+		subtitle = null;
+	}
+}
 
+function savedvoucher(e) {
+	$.savevoucher_scrollview.removeAllChildren();
+	if(OS_ANDROID){
+		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
+	}else{
+		cell_width = Math.floor(pwidth / 2) - 15;
+	}
+	
+	for(var i = 0; i <= 3; i++) {
+		var View1 = $.UI.create("View", {
+			classes: ['hsize', 'vert'],
+			width: cell_width,
+			left: "9",
+			top: "9"
+		});
+		var img = $.UI.create("ImageView", {
+			classes: ['wfill', 'hsize'],
+			image: "/images/ComingSoon_1.png",
+			defaultImage: "/images/images_loader_640x640.png"
+		});
+		var View2 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'vert'],
+			backgroundColor: "#fff"
+		});
+		var View3 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'padding']
+		});
+		var VQuantity = $.UI.create("Label", {
+			classes: ['wsize', 'hsize', 'h5'],
+			text: "0 left",
+			color: "#ED1C24",
+			left: "0"
+		});
+		var VPoint = $.UI.create("Label", {
+			classes: ['wsize', 'hsize', 'h5'],
+			text: "0 points",
+			color: "#ED1C24",
+			right: "0"
+		});
+		var title = $.UI.create("Label", {
+			classes: ['wsize', 'hsize', 'h5'],
+			text: "SUBOpark",
+			color: "gray",
+			font: {
+				fontWeight: "bold"
+			},
+			left: "10",
+			right: "10"
+		});
+		var subtitle = $.UI.create("Label", {
+			classes: ['wsize', 'hsize', 'h5'],
+			text: "20% Discount Voucher",
+			left: "10",
+			right: "10",
+			bottom: "10"
+		});
+		
+		img.addEventListener("click", navTo);
+		View1.add(img);
+		View1.add(View2);
+		View2.add(View3);
+		View3.add(VQuantity);
+		View3.add(VPoint);
+		View2.add(title);
+		View2.add(subtitle);
+		$.savevoucher_scrollview.add(View1);
+		
+		View1 = null;
+		img = null;
+		View2 = null;
+		View3 = null;
+		VQuantity = null;
+		VPoint = null;
+		title = null;
+		subtitle = null;
+	}
+}
+
+function navTo(e) {
+	
+}
+
+//event listener
 Ti.App.addEventListener('reward:refresh', refresh);
 
 function c_percent(percent, relative) {
@@ -273,6 +436,31 @@ function c_percent(percent, relative) {
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
 }
+
+$.scrollview.addEventListener("scrollend", function(e) {
+	tabColor.setColor("gray");
+	tabviewColor.setBackgroundColor("#fff");
+	var tabid = eval("$.tab" + e.currentPage);
+	var tabviewid = eval("$.tabview" + e.currentPage);
+	tabColor = tabid;
+	tabviewColor = tabviewid;
+	tabColor.setColor("#fff");
+	tabviewColor.setBackgroundColor("#ED1C24");
+	if(e.currentPage == 0) {
+		vouchers();
+	}
+	if(e.currentPage == 1) {
+		savedvoucher();
+	}
+});
+
+$.btnBack.addEventListener('click', function(){ 
+	COMMON.closeWindow($.win);
+}); 
+
+$.win.addEventListener("close", function(){
+	Ti.App.removeEventListener('reward:refresh', refresh);
+});
 
 $.win.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.win); 

@@ -1,0 +1,16 @@
+".LBTab": {
+	color: "gray",
+	textAlign: "center",
+	top: "15",
+	bottom: "15",
+	font: {
+		fontSize: "15",
+		fontWeight: "bold"
+	}
+}
+".tabview": {
+	width: "33%",
+	backgroundColor: "#fff",
+	left: "1",
+	bottom: "1"
+}
