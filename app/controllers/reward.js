@@ -7,6 +7,7 @@ var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
 var v_id = "";
+var vmodel = vmodel = Alloy.createCollection("voucher");
 
 if (OS_IOS){
 //iOS only module
@@ -256,6 +257,7 @@ function init(){
 	$.win.add(loading.getView());
 	refresh();
 	vouchers();
+	savedvoucher();
 }
 
 init();
@@ -265,7 +267,137 @@ function Tab(e) {
 }
 
 function vouchers(e) {
-	$.voucher_scrollview.removeAllChildren();
+	if(OS_ANDROID){
+		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
+	}else{
+		cell_width = Math.floor(pwidth / 2) - 15;
+	}
+	
+	var vdata = vmodel.getData(false);
+	
+	vdata.forEach(function(entry){
+		var View1 = $.UI.create("View", {
+			classes: ['hsize', 'vert'],
+			width: cell_width,
+			left: 9,
+			top: 9
+		});
+		var viewimg = $.UI.create("View", {
+			classes: ['wfill', 'vert'],
+			height: 165,
+			backgroundColor: "#fff"
+		});
+		var img = $.UI.create("ImageView", {
+			classes: ['wfill', 'hsize'],
+			image: entry.image,
+			defaultImage: "/images/images_loader_640x640.png",
+			v_id: entry.v_id,
+			m_id: entry.m_id
+		});
+		
+		console.log("height " + img.getHeight());
+		var View2 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'vert'],
+			backgroundColor: "#fff"
+		});
+		var View3 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'padding']
+		});
+		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: entry.quantity + " left",
+			color: "#ED1C24",
+			left: 0
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
+			text: entry.quantity + " left",
+			color: "#ED1C24",
+			left: 0
+		});
+		var VPoint = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: entry.point + " points",
+			color: "#ED1C24",
+			right: 0
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
+			text: entry.point + " points",
+			color: "#ED1C24",
+			right: 0
+		});
+		var title = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: entry.title,
+			color: "gray",
+			font: {
+				fontWeight: "bold"
+			},
+			left: 10,
+			right: 10
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
+			text: entry.title,
+			color: "gray",
+			font: {
+				fontWeight: "bold"
+			},
+			left: 10,
+			right: 10
+		});
+		var subtitle = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: (entry.discount != "") ? entry.discount + " Discount Voucher" : "",
+			left: 10,
+			right: 10,
+			bottom: 10
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
+			text: (entry.discount != "") ? entry.discount + " Discount Voucher" : "",
+			left: 10,
+			right: 10,
+			bottom: 10
+		});
+		
+		img.addEventListener("click", toVoucher);
+		viewimg.add(img);
+		View1.add(viewimg);
+		View1.add(View2);
+		View2.add(View3);
+		View3.add(VQuantity);
+		View3.add(VPoint);
+		View2.add(title);
+		View2.add(subtitle);
+		$.voucher_scrollview.add(View1);
+		
+		View1 = null;
+		img = null;
+		View2 = null;
+		View3 = null;
+		VQuantity = null;
+		VPoint = null;
+		title = null;
+		subtitle = null;
+	});
+}
+
+function savedvoucher(e) {
+	$.savevoucher_scrollview.removeAllChildren();
 	if(OS_ANDROID){
 		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
 	}else{
@@ -276,8 +408,8 @@ function vouchers(e) {
 		var View1 = $.UI.create("View", {
 			classes: ['hsize', 'vert'],
 			width: cell_width,
-			left: "9",
-			top: "9"
+			left: 9,
+			top: 9
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
@@ -295,13 +427,13 @@ function vouchers(e) {
 			classes: ['wsize', 'hsize', 'h5'],
 			text: " left",
 			color: "#ED1C24",
-			left: "0"
+			left: 0
 		});
 		var VPoint = $.UI.create("Label", {
 			classes: ['wsize', 'hsize', 'h5'],
 			text: " points",
 			color: "#ED1C24",
-			right: "0"
+			right: 0
 		});
 		var title = $.UI.create("Label", {
 			classes: ['wsize', 'hsize', 'h5'],
@@ -310,93 +442,15 @@ function vouchers(e) {
 			font: {
 				fontWeight: "bold"
 			},
-			left: "10",
-			right: "10"
+			left: 10,
+			right: 10
 		});
 		var subtitle = $.UI.create("Label", {
 			classes: ['wsize', 'hsize', 'h5'],
 			text: "20% Discount Voucher",
-			left: "10",
-			right: "10",
-			bottom: "10"
-		});
-		
-		img.addEventListener("click", toVoucher);
-		View1.add(img);
-		View1.add(View2);
-		View2.add(View3);
-		View3.add(VQuantity);
-		View3.add(VPoint);
-		View2.add(title);
-		View2.add(subtitle);
-		$.voucher_scrollview.add(View1);
-		
-		View1 = null;
-		img = null;
-		View2 = null;
-		View3 = null;
-		VQuantity = null;
-		VPoint = null;
-		title = null;
-		subtitle = null;
-	}
-}
-
-function savedvoucher(e) {
-	$.savevoucher_scrollview.removeAllChildren();
-	if(OS_ANDROID){
-		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
-	}else{
-		cell_width = Math.floor(pwidth / 2) - 15;
-	}
-	
-	for(var i = 0; i <= 3; i++) {
-		var View1 = $.UI.create("View", {
-			classes: ['hsize', 'vert'],
-			width: cell_width,
-			left: "9",
-			top: "9"
-		});
-		var img = $.UI.create("ImageView", {
-			classes: ['wfill', 'hsize'],
-			image: "/images/ComingSoon_1.png",
-			defaultImage: "/images/images_loader_640x640.png"
-		});
-		var View2 = $.UI.create("View", {
-			classes: ['wfill', 'hsize', 'vert'],
-			backgroundColor: "#fff"
-		});
-		var View3 = $.UI.create("View", {
-			classes: ['wfill', 'hsize', 'padding']
-		});
-		var VQuantity = $.UI.create("Label", {
-			classes: ['wsize', 'hsize', 'h5'],
-			text: "0 left",
-			color: "#ED1C24",
-			left: "0"
-		});
-		var VPoint = $.UI.create("Label", {
-			classes: ['wsize', 'hsize', 'h5'],
-			text: "0 points",
-			color: "#ED1C24",
-			right: "0"
-		});
-		var title = $.UI.create("Label", {
-			classes: ['wsize', 'hsize', 'h5'],
-			text: "SUBOpark",
-			color: "gray",
-			font: {
-				fontWeight: "bold"
-			},
-			left: "10",
-			right: "10"
-		});
-		var subtitle = $.UI.create("Label", {
-			classes: ['wsize', 'hsize', 'h5'],
-			text: "20% Discount Voucher",
-			left: "10",
-			right: "10",
-			bottom: "10"
+			left: 10,
+			right: 10,
+			bottom: 10
 		});
 		
 		img.addEventListener("click", toSaveVoucher);
@@ -421,7 +475,7 @@ function savedvoucher(e) {
 }
 
 function toVoucher(e) {
-	COMMON.openWindow(Alloy.createController("voucher_detail",{v_id:v_id}).getView());
+	COMMON.openWindow(Alloy.createController("voucher_detail",{v_id:v_id, checking: true}).getView());
 }
 function toSaveVoucher(e) {
 	COMMON.openWindow(Alloy.createController("saved_voucher",{v_id:v_id}).getView());	
@@ -450,12 +504,6 @@ $.scrollview.addEventListener("scrollend", function(e) {
 	tabviewColor = tabviewid;
 	tabColor.setColor("#fff");
 	tabviewColor.setBackgroundColor("#ED1C24");
-	if(e.currentPage == 0) {
-		vouchers();
-	}
-	if(e.currentPage == 1) {
-		savedvoucher();
-	}
 });
 
 $.btnBack.addEventListener('click', function(){ 
