@@ -424,7 +424,7 @@ function toVoucher(e) {
 	COMMON.openWindow(Alloy.createController("voucher_detail",{v_id:v_id}).getView());
 }
 function toSaveVoucher(e) {
-	
+	COMMON.openWindow(Alloy.createController("saved_voucher",{v_id:v_id}).getView());	
 }
 
 //event listener
