@@ -1,18 +1,21 @@
+var args = arguments[0] || {};
+var my_vid = args.My_vid || "";
 var pageTitle;
+var model = Alloy.createCollection("MyVoucher"); 
+var res = model.getVoucherByMy_vid(my_vid);
+console.log("res :"+JSON.stringify(res));
 Alloy.Globals.naviPath.push($.win);
 var loading = Alloy.createController("loading");
 
-function getVoucherData(){
-	var model = Alloy.createCollection("MyVoucher"); 
-	var res1 = model.getDataById(12);
-	var res = model.getData(false);
-	console.log("res:"+JSON.stringify(res));
-	console.log("res:"+JSON.stringify(res1));
+function setData(){
+	$.title.setText(res.title);
+	$.date.setText(res.use_from + " - " + res.use_to);
+	$.description.setText(res.description);
 }
-getVoucherData();
 function render_banner(){
  	var bannerImage = Ti.UI.createImageView({
  		defaultImage: "/images/image_loader_640x640.png",
+ 		image:res.image,
 		width : "100%",
 		height: Ti.UI.SIZE,//ads_height,
 	});
@@ -46,7 +49,8 @@ function render_banner(){
       		zIndex :100
 		});
 		var Zimage = Ti.UI.createImageView({
-			image :"/images/image_loader_640x640.png",
+			defaultImage :"/images/image_loader_640x640.png",
+			image: res.image,
 			width :"100%",
 			height :Ti.UI.SIZE,
 			zIndex :101,
@@ -71,11 +75,32 @@ function render_banner(){
 		});
 });
 }
-
+var checking = true;
+function useVoucher(e){
+	if(checking){
+		checking = false;
+		COMMON.createAlert("Use Voucher","Confirm to use this voucher now?\nThis action is not undoable.",function(ex){
+			API.callByPost({url:"updateUserVoucher",params:{id:my_vid,status:0}},{
+				onload:function(responseText){
+					COMMON.closeWindow($.win);
+					Ti.App.fireEvent('myvoucher:refresh');							
+					COMMON.openWindow(Alloy.createController("Voucher_Receipt",{barcode:res.barcode}).getView());
+				},
+				onerror: function(err){
+					_.isString(err.message) && alert(err.message);
+				},
+				onexception: function(){
+					COMMON.closeWindow($.win);
+				}
+			});
+		});
+		checking = true;		
+	}
+}
 function getAdDetails(){
 	console.log("asdf");
 	var custom = $.UI.create("Label", { 
-		    text: "TESTING", 
+		    text: "Saved Voucher", 
 		    color: '#ED1C24' 
 	});	
 	if(Ti.Platform.osname == "android"){ 
@@ -91,6 +116,7 @@ function init(){
 	loading.finish();
 	getAdDetails();
 	render_banner();
+	setData();
 }
 
 init();
@@ -112,7 +138,7 @@ var c1 = true;
 function showredeem(e){
 	if(c1){
 		$.bt1.image = "/images/btn-forward2.png";
-		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:"go shopping mall go shopping mall go shopping mall go shopping mall",left:0});
+		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.redeem,left:0});
 		$.redeem.add(title);
 		c1 = false;	
 	}
@@ -126,7 +152,7 @@ var c2 = true;
 function showtnc(e){
 	if(c2){
 		$.bt2.image = "/images/btn-forward2.png";		
-		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:"go shopping mall go shopping mall go shopping mall go shopping mall"});
+		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.tnc,left:0});
 		$.tnc.add(title);
 		c2 = false;
 	}
@@ -138,7 +164,7 @@ function showtnc(e){
 }
 
 $.win.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.win); 
+ 	COMMON.closeWindow($.win); 
 });
 
 

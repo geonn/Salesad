@@ -1,0 +1,29 @@
+<Alloy>
+	<Window title="" backButtonTitle="" class="" id="win" navTintColor="#ED1C24">
+		<LeftNavButton>
+	        <View id="btnBack" left="0"  width="30" height="45">
+	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
+	        </View>
+        </LeftNavButton>
+        <View class="wfill hfill vert">
+	        <View layout="horizontal" id="adHeader" height="50" width="100%" platform="android" backgroundColor="#fff">
+				<View left="0" width="15%" zIndex="10" class="hsize">
+			         <ImageView id="btnBack" left='10' width="30" height="30" image="/images/btn-back.png" />
+			    </View>
+		     	<View id="pageTitle" width="70%"></View>
+		 	</View>
+		    <View class="hr" top="0"></View>
+		    <View class="wfill hsize vert" backgroundColor="#fff" left="20" right="20" top="30">
+		    	<View class="wfill hsize vert padding">
+		    		<Label class="wsize hsize normal_font padding" color="#000" bottom="20">Please show this page at the cashier counter.</Label>
+		    		<Label class="wsize hsize normal_font padding" color="#ed1c24">Do not leave this page until the code is scanned.</Label>		    		
+					<View height="Ti.UI.SIZE" width="Ti.UI.FILL" layout="vertical" id="b_code"></View>	
+					<View height="Ti.UI.SIZE" width="Ti.UI.FILL" layout="vertical" id="qrCode"></View>							    					    		
+					<View class="wfill hsize padding">
+						<Label class="wsize hsize normal_font" right="0" color="#04988a" onClick="closeWindow">Done</Label>
+					</View>
+		    	</View>	    	
+		    </View>		    			
+		</View>
+	</Window>
+</Alloy>
