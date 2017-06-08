@@ -786,14 +786,18 @@ function pixelToDp(px) {
 }
 
 $.scrollview.addEventListener("scrollend", function(e) {
-	tabColor.setColor("gray");
-	tabviewColor.setBackgroundColor("#fff");
-	var tabid = eval("$.tab" + e.currentPage);
-	var tabviewid = eval("$.tabview" + e.currentPage);
-	tabColor = tabid;
-	tabviewColor = tabviewid;
-	tabColor.setColor("#fff");
-	tabviewColor.setBackgroundColor("#ED1C24");
+	try{
+		tabColor.setColor("gray");
+		tabviewColor.setBackgroundColor("#fff");
+		var tabid = eval("$.tab" + e.currentPage);
+		var tabviewid = eval("$.tabview" + e.currentPage);
+		tabColor = tabid;
+		tabviewColor = tabviewid;
+		tabColor.setColor("#fff");
+		tabviewColor.setBackgroundColor("#ED1C24");
+	}catch(e){
+		console.log("Error catched");
+	}
 });
 
 $.btnBack.addEventListener('click', function(){ 
