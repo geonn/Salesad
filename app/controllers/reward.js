@@ -6,7 +6,8 @@ var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
-var vmodel = vmodel = Alloy.createCollection("voucher");
+var vmodel = Alloy.createCollection("voucher");
+var myvmodel = Alloy.createCollection("MyVoucher");
 
 if (OS_IOS){
 //iOS only module
@@ -255,8 +256,8 @@ function navTo(e){
 function init(){
 	$.win.add(loading.getView());
 	refresh();
-	vouchers();
-	savedvoucher();
+	refreshVlist();
+	refreshSVlist();
 }
 
 init();
@@ -339,44 +340,38 @@ function vouchers(e) {
 			backgroundColor: "#E3E5E8"
 		});
 		var title = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
+			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			text: entry.title,
-			color: "gray",
-			font: {
-				fontWeight: "bold"
-			},
 			left: 10,
-			right: 10
+			right: 10,
+			top: 5
 		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
+			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
 			text: entry.title,
-			color: "gray",
-			font: {
-				fontWeight: "bold"
-			},
 			left: 10,
-			right: 10
+			right: 10,
+			top: 5
 		});
 		var subtitle = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: (entry.discount != "") ? entry.discount + " Discount Voucher" : "",
+			text: entry.discount,
 			left: 10,
 			right: 10,
-			bottom: 10
+			bottom: 5
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: (entry.discount != "") ? entry.discount + " Discount Voucher" : "",
+			text: entry.discount,
 			left: 10,
 			right: 10,
-			bottom: 10
+			bottom: 5
 		});
 		
 		img.addEventListener("click", toVoucher);
@@ -417,7 +412,11 @@ function savedvoucher(e) {
 	$.expiredV.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
 	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T2", top: 90, bottom: 90, textAlign: "center", text: "You have no expired vouchers at this moment."}));
 	
-	for(var i = 0; i <= 3; i++) {
+	var myvdata = myvmodel.getData(true);
+	var now=new Date();
+	var datenow = now.getTime();
+	console.log("datenow " + datenow);
+	myvdata.forEach(function (entry) {
 		var container = $.UI.create("View", {
 			classes: ['hsize',],
 			width: cell_width,
@@ -442,8 +441,11 @@ function savedvoucher(e) {
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
-			image: "/images/ComingSoon_1.png",
-			defaultImage: "/images/images_loader_640x640.png"
+			image: entry.image,
+			defaultImage: "/images/images_loader_640x640.png",
+			My_vid: entry.My_vid,
+			v_id: entry.v_id,
+			m_id: entry.m_id
 		});
 		var View2 = $.UI.create("View", {
 			classes: ['wfill', 'hsize', 'vert'],
@@ -456,25 +458,10 @@ function savedvoucher(e) {
 			top: 5,
 			bottom: 5
 		});
-		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: " left",
-			color: "#ED1C24",
-			left: 0
-		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			ellipsize: true,
-			wordWrap: false,
-			text: " left",
-			color: "#ED1C24",
-			left: 0
-		});
 		var VPoint = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: " points",
+			text: entry.point + " points",
 			color: "#ED1C24",
 			right: 0
 		}) : $.UI.create("Label", {
@@ -482,7 +469,7 @@ function savedvoucher(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: " points",
+			text: entry.point + " points",
 			color: "#ED1C24",
 			right: 0
 		});
@@ -491,44 +478,38 @@ function savedvoucher(e) {
 			backgroundColor: "#E3E5E8"
 		});
 		var title = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
+			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
-			text: "SUBOpark",
-			color: "gray",
-			font: {
-				fontWeight: "bold"
-			},
+			text: entry.title,
 			left: 10,
-			right: 10
+			right: 10,
+			top: 5
 		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
+			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: "SUBOpark",
-			color: "gray",
-			font: {
-				fontWeight: "bold"
-			},
+			text: entry.title,
 			left: 10,
-			right: 10
+			right: 10,
+			top: 5
 		});
 		var subtitle = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: "20% Discount Voucher",
+			text: entry.description,
 			left: 10,
 			right: 10,
-			bottom: 10
+			bottom: 5
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: "20% Discount Voucher",
+			text: entry.description,
 			left: 10,
 			right: 10,
-			bottom: 10
+			bottom: 5
 		});
 		
 		delBT.addEventListener("click", delvoucher);
@@ -539,7 +520,6 @@ function savedvoucher(e) {
 		viewimg.add(img);
 		View1.add(View2);
 		View2.add(View3);
-		View3.add(VQuantity);
 		View3.add(VPoint);
 		View2.add(hr);
 		View2.add(title);
@@ -554,7 +534,7 @@ function savedvoucher(e) {
 		VPoint = null;
 		title = null;
 		subtitle = null;
-	}
+	});
 	
 	if($.ongoingV.children.length > 3) {
 		$.ongoingV.remove($.ongoingV.children[2]);
@@ -569,15 +549,69 @@ function toVoucher(e) {
 }
 
 function toSaveVoucher(e) {
-	COMMON.openWindow(Alloy.createController("saved_voucher",{v_id:e.source.v_id}).getView());	
+	COMMON.openWindow(Alloy.createController("saved_voucher",{My_vid: e.source.My_vid}).getView());	
 }
 
 function delvoucher(e) {
 	
 }
 
+function refreshVlist(e) {
+	var checker = Alloy.createCollection('updateChecker');
+	var isUpdate = checker.getCheckerById("12");
+	
+	API.callByPost({
+		url: "getVoucherList",
+		new: true,
+		params: {last_updated: isUpdate.update}
+	},{
+		onload: function(responseText) {
+			var model = Alloy.createCollection("voucher");
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			model.saveArray(arr);
+			vouchers();
+			loading.finish();
+		},onerror: function(err) {
+			_.isString(err.message) && alert(err.message);
+			loading.finish();
+		},onexception: function() {
+			COMMON.closeWindow($.win);
+			loading.finish();
+		}
+	});
+}
+
+function refreshSVlist(e) {
+	var checker = Alloy.createCollection('updateChecker');
+	var isUpdate = checker.getCheckerById("13");
+	
+	API.callByPost({
+		url:"getUserVoucherList",
+		new: true,
+		params: {u_id: u_id,last_updated:isUpdate.update}
+	},{
+		onload:function(responseText){
+			var model = Alloy.createCollection("MyVoucher");
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			model.saveArray(arr);
+			savedvoucher();
+			loading.finish();
+		},onerror:function(err){
+			_.isString(err.message) && alert(err.message);
+			loading.finish();
+		},onexception:function(){
+			COMMON.closeWindow($.win);
+			loading.finish();
+		}
+	});
+}
+
 //event listener
 Ti.App.addEventListener('reward:refresh', refresh);
+Ti.App.addEventListener('voucher:refresh', refreshVlist);
+Ti.App.addEventListener('myvoucher:refresh', refreshSVlist);
 
 function c_percent(percent, relative) {
     var percentInt = percent.replace("%", "");
