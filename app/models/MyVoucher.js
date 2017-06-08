@@ -198,6 +198,43 @@ exports.definition = {
                 db.close();
                 collection.trigger('sync');
                 return arr;
+			},getVoucherByMy_vid:function(id){
+				var collection = this;
+				var sql = "select voucher.*,MyVoucher.My_vid from "+collection.config.adapter.collection_name+" left outer join voucher on voucher.v_id = MyVoucher.v_id where voucher.v_id = MyVoucher.v_id and MyVoucher.My_vid = "+id;
+				db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr;
+                if(res.isValidRow()){
+                	arr= {
+                		My_vid: res.fieldByName('My_vid'),
+                		v_id: res.fieldByName('v_id'),
+					    m_id: res.fieldByName('m_id'),
+					    discount: res.fieldByName('discount'),
+					    barcode: res.fieldByName('barcode'),
+					    description: res.fieldByName('description'),
+					    title: res.fieldByName("title"),
+					    image: res.fieldByName("image"),
+					    save_from: res.fieldByName("save_from"),
+					    save_to: res.fieldByName("save_to"),
+					    use_from: res.fieldByName('use_from'),
+					    use_to: res.fieldByName('use_to'),
+					    tnc: res.fieldByName('tnc'),
+					    redeem: res.fieldByName('redeem'),
+					    v_limit: res.fieldByName('v_limit'),
+					    point: res.fieldByName('point'),
+					    quantity: res.fieldByName('quantity'),
+					    created: res.fieldByName('created'),
+					    updated: res.fieldByName('updated'),
+					    status: res.fieldByName('status')
+					};
+                }
+                res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;				
 			},
 			expirevoucher: function(unlimit){
 				var sql_limit = (unlimit)?"":" limit 0,6";

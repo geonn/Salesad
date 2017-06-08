@@ -52,6 +52,7 @@ init();
 function closeWindow(){
 	COMMON.createAlert("Exit","Confirm to exit now?\nThis action is not undoable.",function(ex){
 		COMMON.closeWindow($.win); 
+		alert("Thanks for using our voucher.");
 	});	
 }
 $.btnBack.addEventListener('click', closeWindow); 
@@ -66,7 +67,7 @@ function pixelToDp(px) {
 }    
 
 $.win.addEventListener('android:back', function (e) {
- 	COMMON.closeWindow($.win); 
+ 	closeWindow();
 });
 
 
