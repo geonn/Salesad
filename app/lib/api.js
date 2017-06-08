@@ -35,6 +35,7 @@ var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCat
 var getSXItem = "http://"+API_DOMAIN+"/api/getSXItem?user="+USER+"&key="+KEY;
 var sendFeedback = "http://"+API_DOMAIN+"/api/sendFeedback?user="+USER+"&key="+KEY;
 var getVoucherList = "http://"+API_DOMAIN+"/api/getVoucherList?user="+USER+"&key="+KEY;
+var updateUserVoucher = "http://"+API_DOMAIN+"/api/updateUserVoucher";
 
 //API that call in sequence 
 var APILoadingList = [
