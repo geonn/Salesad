@@ -14,6 +14,7 @@ ID       type Name
 10		contest
 11		getSXItem
 12		getVoucherList
+13		getMyVouherList
 100++       getCategoryList
 200++		getAdsByCategoryList
 ************************************/

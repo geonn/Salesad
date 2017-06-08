@@ -3,9 +3,11 @@ Alloy.Globals.naviPath.push($.win);
 var loading = Alloy.createController("loading");
 
 function getVoucherData(){
-	var model = Alloy.createCollection("voucher"); 
+	var model = Alloy.createCollection("MyVoucher"); 
+	var res1 = model.getDataById(12);
 	var res = model.getData(false);
 	console.log("res:"+JSON.stringify(res));
+	console.log("res:"+JSON.stringify(res1));
 }
 getVoucherData();
 function render_banner(){

@@ -35,6 +35,9 @@ var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCat
 var getSXItem = "http://"+API_DOMAIN+"/api/getSXItem?user="+USER+"&key="+KEY;
 var sendFeedback = "http://"+API_DOMAIN+"/api/sendFeedback?user="+USER+"&key="+KEY;
 var getVoucherList = "http://"+API_DOMAIN+"/api/getVoucherList?user="+USER+"&key="+KEY;
+var getMyVoucherList = "";
+var u_id = Ti.App.Properties.getString("u_id") || "";
+
 //API that call in sequence 
 var APILoadingList = [
 	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
@@ -46,9 +49,12 @@ var APILoadingList = [
 	{url: "getItemList", type: "api_model", model: "items", checkId: "9"},
 	{url: "getContestListUrl", type: "api_model", model: "contest", checkId: "10"},
 	{url: "getSXItem", type: "api_model", model: "xpress", checkId: "11"},
-	{url: "getVoucherList", type:"api_model", model: "voucher" ,checkId: "12"}
+	{url: "getVoucherList", type:"api_model", model: "voucher" ,checkId: "12"},
 ];
-
+if(u_id != ""){
+	getMyVoucherList = "http://"+API_DOMAIN+"/api/getUserVoucherList?u_id="+218;
+	APILoadingList.push({url:"getMyVoucherList", type:"api_model",model:"MyVoucher", checkId: "13"});
+}
 exports.getUserList       = "http://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;
 exports.getCategoryList   = getCategoryList;
 //exports.getMerchantListByCategory      = "http://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY+"type=category";
