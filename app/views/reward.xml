@@ -35,7 +35,9 @@
 					</View>
 					<!--Saved Vouchers(view 2)-->
 					<View class="wfill hfill" id="view2">
-						<ScrollView id="savevoucher_scrollview" class="wfill hfill contwfill conthsize horz" bottom="10">
+						<ScrollView id="savevoucher_scrollview" class="wfill hfill contwfill conthsize vert">
+							<View class="wfill hsize horz" top="10" bottom="10" id="ongoingV"></View>
+							<View class="wfill hsize horz" top="50" bottom="10" id="expiredV"></View>
 						</ScrollView>
 					</View>
 					<!--CP Point(view 3)-->

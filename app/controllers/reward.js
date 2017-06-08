@@ -6,7 +6,6 @@ var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
-var v_id = "";
 var vmodel = vmodel = Alloy.createCollection("voucher");
 
 if (OS_IOS){
@@ -294,14 +293,16 @@ function vouchers(e) {
 			v_id: entry.v_id,
 			m_id: entry.m_id
 		});
-		
-		console.log("height " + img.getHeight());
 		var View2 = $.UI.create("View", {
 			classes: ['wfill', 'hsize', 'vert'],
 			backgroundColor: "#fff"
 		});
 		var View3 = $.UI.create("View", {
-			classes: ['wfill', 'hsize', 'padding']
+			classes: ['wfill', 'hsize'],
+			left: 10,
+			right: 10,
+			top: 5,
+			bottom: 5
 		});
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
@@ -332,6 +333,10 @@ function vouchers(e) {
 			text: entry.point + " points",
 			color: "#ED1C24",
 			right: 0
+		});
+		var hr = $.UI.create("View", {
+			classes:['hr'],
+			backgroundColor: "#E3E5E8"
 		});
 		var title = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
@@ -381,6 +386,7 @@ function vouchers(e) {
 		View2.add(View3);
 		View3.add(VQuantity);
 		View3.add(VPoint);
+		View2.add(hr);
 		View2.add(title);
 		View2.add(subtitle);
 		$.voucher_scrollview.add(View1);
@@ -397,19 +403,42 @@ function vouchers(e) {
 }
 
 function savedvoucher(e) {
-	$.savevoucher_scrollview.removeAllChildren();
 	if(OS_ANDROID){
 		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
 	}else{
 		cell_width = Math.floor(pwidth / 2) - 15;
 	}
 	
+	$.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Vouchers", textAlign: "center"}));
+	$.ongoingV.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
+	$.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T1", top: 90, bottom: 90, textAlign: "center", text: "You have no ongion vouchers at this moment."}));
+	
+	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Vouchers", textAlign: "center"}));
+	$.expiredV.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
+	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T2", top: 90, bottom: 90, textAlign: "center", text: "You have no expired vouchers at this moment."}));
+	
 	for(var i = 0; i <= 3; i++) {
-		var View1 = $.UI.create("View", {
-			classes: ['hsize', 'vert'],
+		var container = $.UI.create("View", {
+			classes: ['hsize',],
 			width: cell_width,
 			left: 9,
 			top: 9
+		});
+		var delBT = $.UI.create("ImageView", {
+			width: 30,
+			height: 30,
+			image: "/images/Icon_Delete_Round.png",
+			top: 2,
+			right: 2,
+			zIndex: 10
+		});
+		var View1 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'vert']
+		});
+		var viewimg = $.UI.create("View", {
+			classes: ['wfill', 'vert'],
+			height: 165,
+			backgroundColor: "#fff"
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
@@ -421,22 +450,61 @@ function savedvoucher(e) {
 			backgroundColor: "#fff"
 		});
 		var View3 = $.UI.create("View", {
-			classes: ['wfill', 'hsize', 'padding']
+			classes: ['wfill', 'hsize'],
+			left: 10,
+			right: 10,
+			top: 5,
+			bottom: 5
 		});
-		var VQuantity = $.UI.create("Label", {
-			classes: ['wsize', 'hsize', 'h5'],
+		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: " left",
+			color: "#ED1C24",
+			left: 0
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
 			text: " left",
 			color: "#ED1C24",
 			left: 0
 		});
-		var VPoint = $.UI.create("Label", {
-			classes: ['wsize', 'hsize', 'h5'],
+		var VPoint = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: " points",
+			color: "#ED1C24",
+			right: 0
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
 			text: " points",
 			color: "#ED1C24",
 			right: 0
 		});
-		var title = $.UI.create("Label", {
-			classes: ['wsize', 'hsize', 'h5'],
+		var hr = $.UI.create("View", {
+			classes:['hr'],
+			backgroundColor: "#E3E5E8"
+		});
+		var title = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: "SUBOpark",
+			color: "gray",
+			font: {
+				fontWeight: "bold"
+			},
+			left: 10,
+			right: 10
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
 			text: "SUBOpark",
 			color: "gray",
 			font: {
@@ -445,23 +513,38 @@ function savedvoucher(e) {
 			left: 10,
 			right: 10
 		});
-		var subtitle = $.UI.create("Label", {
-			classes: ['wsize', 'hsize', 'h5'],
+		var subtitle = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: "20% Discount Voucher",
+			left: 10,
+			right: 10,
+			bottom: 10
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
 			text: "20% Discount Voucher",
 			left: 10,
 			right: 10,
 			bottom: 10
 		});
 		
+		delBT.addEventListener("click", delvoucher);
 		img.addEventListener("click", toSaveVoucher);
-		View1.add(img);
+		container.add(View1);
+		container.add(delBT);
+		View1.add(viewimg);
+		viewimg.add(img);
 		View1.add(View2);
 		View2.add(View3);
 		View3.add(VQuantity);
 		View3.add(VPoint);
+		View2.add(hr);
 		View2.add(title);
 		View2.add(subtitle);
-		$.savevoucher_scrollview.add(View1);
+		$.ongoingV.add(container);
 		
 		View1 = null;
 		img = null;
@@ -472,13 +555,25 @@ function savedvoucher(e) {
 		title = null;
 		subtitle = null;
 	}
+	
+	if($.ongoingV.children.length > 3) {
+		$.ongoingV.remove($.ongoingV.children[2]);
+	}
+	if($.expiredV.children.length > 3) {
+		$.expiredV.remove($.expiredV.children[2]);
+	}
 }
 
 function toVoucher(e) {
-	COMMON.openWindow(Alloy.createController("voucher_detail",{v_id:v_id, checking: true}).getView());
+	COMMON.openWindow(Alloy.createController("voucher_detail",{v_id: e.source.v_id}).getView());
 }
+
 function toSaveVoucher(e) {
-	COMMON.openWindow(Alloy.createController("saved_voucher",{v_id:v_id}).getView());	
+	COMMON.openWindow(Alloy.createController("saved_voucher",{v_id:e.source.v_id}).getView());	
+}
+
+function delvoucher(e) {
+	
 }
 
 //event listener
