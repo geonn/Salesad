@@ -50,19 +50,13 @@ function init(){
 
 init();
 function closeWindow(){
-	Ti.App.fireEvent('myvoucher:refresh');			
-	COMMON.createAlert("Exit","Confirm to exit now?\nThis action is not undoable.",function(ex){	
+	COMMON.createAlert("Exit","Confirm to exit now?\nThis action is not undoable.",function(ex){
 		COMMON.closeWindow($.win); 
 	});	
-}
-function done(e){
-	Ti.App.fireEvent('myvoucher:refresh');	
-	COMMON.closeWindow($.win);
 }
 $.btnBack.addEventListener('click', closeWindow); 
 
 $.win.addEventListener("close", function(){
-	Ti.App.fireEvent('myvoucher:refresh');		
 	Ti.App.fireEvent('removeNav');
     $.destroy();
 });
