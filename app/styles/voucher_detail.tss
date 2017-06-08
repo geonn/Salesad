@@ -1,7 +1,7 @@
 ".save_button":{
-	left: 5,
-	right: 5,
-	bottom: 5,
+	left: 3,
+	right: 3,
+	bottom: 3,
 	backgroundColor: "#ED1C24",
 	color: "#fff",
 	borderRadius: 6
@@ -24,3 +24,17 @@
 	right: 10,
 	bottom: 2,
 }
+
+".padding3":{
+	top: 0,
+	left: 5,
+	right: 5,
+	bottom: 5
+}
+
+".vTitle":{
+	font:{
+			fontSize: 17
+		}
+}
+

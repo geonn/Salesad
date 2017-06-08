@@ -48,6 +48,17 @@ function getNowDate(){   //calculate the days between 2 dates
 
 if(data.point==0){
 	$.pointView.opacity = 0;
+	if(OS_IOS){
+		$.win.setTitle("Instant Voucher");
+	}else{
+		$.pageTitle.setText("Instant Voucher");
+	}
+}else{
+	if(OS_IOS){
+		$.win.setTitle("Gift Voucher");
+	}else{
+		$.pageTitle.setText("Gift Voucher");
+	}
 }
 
 function userCurrentPoint(){
