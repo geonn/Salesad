@@ -11,3 +11,8 @@
 	height: '1',
 	backgroundColor: '#E8E8E8',
 }
+
+".padding1":{
+	top: '0',
+	left: '10'
+}

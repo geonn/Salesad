@@ -16,15 +16,22 @@
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
 		 	<ScrollView class="wfill hfill vert" scrollType="vertical" contentWidth="Ti.UI.FILL">
-		 		<ImageView class="wfill hsize" image="/images/ComingSoon_3.png"></ImageView>
-		 		<Label class="wfill hsize h5 padding bold" text="Voucher Title"></Label>
+		 		<ImageView class="wfill hsize" id="image_voucher" image="/images/ComingSoon_3.png"></ImageView>
+		 		<Label class="wfill hsize h5 padding bold" id="title" text="Voucher Title"></Label>
 		 		<View class="wfill hsize horz">
-		 			<Label class="wsize hsize h5 padding" top="0" text="88 vouchers left"></Label>
-		 			<ImageView width="15" height="15" top="0" image="images/Icon_CashPoint_Gold@0,25x.png"></ImageView>
-		 			<Label class="wsize hsize h5 padding" top="0" text="100 points"></Label>
+		 			<Label class="wsize hsize h5 padding1" id="leftV" text="0"></Label>
+		 			<Label class="wsize hsize h5 padding" top="0" text="vouchers left"></Label>
+		 			<ImageView width="15" height="15" top="0" image="/images/Icon_CashPoint_Gold@0,25x.png"></ImageView>
+		 			<Label class="wsize hsize h5 padding1" id="point" text="0"></Label>
+		 			<Label class="wsize hsize h5 padding" top="0" text="points"></Label>
 		 		</View>	
-		 		<Label class="wsize hsize h5 padding" top="0" text="Valid from 00-00-0000"></Label>
-		 		<Label class="wsize hsize h5 padding" top="0" text="(Voucher Description)"></Label>
+		 		<View class="wfill hsize horz">
+		 			<Label class="wsize hsize h5 padding" top="0" text="Valid from"></Label>
+		 			<Label class="wsize hsize h5" id="valid_from" top="0" color="#ED1C24"></Label>
+		 			<Label class="wsize hsize h5 padding" top="0" text="to"></Label>
+		 			<Label class="wsize hsize h5" id="valid_to" top="0" color="#ED1C24"></Label>
+		 		</View>
+		 		<Label class="wsize hsize h5 padding" top="0" id="desc" text="(Voucher Description)"></Label>
 		 		<View class="hr1"></View>
 		 		<View class="wfill hsize vert" onClick="htr_extend">
 		 			<View class="wfill hsize horz">
@@ -34,12 +41,15 @@
 		 			<View class="wfill hsize vert" id="htr"></View>
 		 		</View>
 		 		<View class="hr1"></View>
-		 		<View class="wfill hsize horz" bottom="50">
-		 			<Label class="wsize hsize h5 padding" text="Term & Condition"></Label>
-		 			<ImageView width="35" height="25" image="/images/btn-forward1.png"></ImageView>
+		 		<View class="wfill hsize vert" onClick="tc_extend" bottom="50">
+		 			<View class="wfill hsize horz">
+			 			<Label class="wsize hsize h5 padding" text="Term & Condition"></Label>
+			 			<ImageView width="35" height="25" image="/images/btn-forward1.png" id="tc_image"></ImageView>
+			 		</View>
+			 		<View class="wfill hsize vert" id="tc"></View>
 		 		</View>
 		 	</ScrollView>
 		 </View>	
-		 <Button class="wfill h4 save_button" height="40" title="Save Voucher" id="save"></Button>
+		 <Button class="wfill h4 save_button" height="40" title="Save Voucher" id="save" onClick="doSave"></Button>
 	</Window>	
 </Alloy>
