@@ -3,7 +3,8 @@
 	right: 5,
 	bottom: 5,
 	backgroundColor: "#ED1C24",
-	color: "#fff"
+	color: "#fff",
+	borderRadius: 6
 }
 
 ".hr1":{
@@ -15,4 +16,11 @@
 ".padding1":{
 	top: '0',
 	left: '10'
+}
+
+".padding2":{
+	top: 0,
+	left: 10,
+	right: 10,
+	bottom: 2,
 }

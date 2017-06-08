@@ -273,6 +273,7 @@ function vouchers(e) {
 		cell_width = Math.floor(pwidth / 2) - 15;
 	}
 	
+	$.voucher_scrollview.removeAllChildren();
 	var vdata = vmodel.getData(false);
 	
 	vdata.forEach(function(entry){
@@ -284,13 +285,13 @@ function vouchers(e) {
 		});
 		var viewimg = $.UI.create("View", {
 			classes: ['wfill', 'vert'],
-			height: 165,
+			height: 230,
 			backgroundColor: "#fff"
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
 			image: entry.image,
-			defaultImage: "/images/images_loader_640x640.png",
+			defaultImage: "/images/image_loader_600x800.png",
 			v_id: entry.v_id,
 			m_id: entry.m_id
 		});
@@ -308,7 +309,7 @@ function vouchers(e) {
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.quantity + " left",
+			text: entry.quantity + " saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
@@ -316,14 +317,18 @@ function vouchers(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.quantity + " left",
+			text: entry.quantity + " saved",
 			color: "#ED1C24",
 			left: 0
+		});
+		var ViewPoint = $.UI.create("View", {
+			classes: ['wsize', 'hsize', 'horz'],
+			right: 0
 		});
 		var VPoint = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.point + " points",
+			text: (entry.point != 0) ? entry.point : "",
 			color: "#ED1C24",
 			right: 0
 		}) : $.UI.create("Label", {
@@ -331,47 +336,35 @@ function vouchers(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.point + " points",
+			text: (entry.point != 0) ? entry.point : "",
 			color: "#ED1C24",
 			right: 0
 		});
-		var hr = $.UI.create("View", {
-			classes:['hr'],
-			backgroundColor: "#E3E5E8"
+		var pointimg = (entry.point != 0) ? $.UI.create("ImageView", {
+			width: 15,
+			height: 15,
+			image: "/images/Icon_CashPoint_Flat_Medium.png"
+		}) : $.UI.create("ImageView", {
+			width: 15,
+			height: 15,
+			image: ""
 		});
 		var title = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
-			text: entry.title,
+			text: entry.title + " " + entry.discount,
 			left: 10,
 			right: 10,
-			top: 5
+			bottom: 10
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.title,
+			text: entry.title + " " + entry.discount,
 			left: 10,
 			right: 10,
-			top: 5
-		});
-		var subtitle = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: entry.discount,
-			left: 10,
-			right: 10,
-			bottom: 5
-		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			ellipsize: true,
-			wordWrap: false,
-			text: entry.discount,
-			left: 10,
-			right: 10,
-			bottom: 5
+			bottom: 10
 		});
 		
 		img.addEventListener("click", toVoucher);
@@ -380,20 +373,22 @@ function vouchers(e) {
 		View1.add(View2);
 		View2.add(View3);
 		View3.add(VQuantity);
-		View3.add(VPoint);
-		View2.add(hr);
+		ViewPoint.add(VPoint);
+		ViewPoint.add(pointimg);
+		View3.add(ViewPoint);
 		View2.add(title);
-		View2.add(subtitle);
 		$.voucher_scrollview.add(View1);
 		
 		View1 = null;
+		viewimg = null;
 		img = null;
 		View2 = null;
 		View3 = null;
 		VQuantity = null;
 		VPoint = null;
+		pointimg = null;
+		ViewPoint = null;
 		title = null;
-		subtitle = null;
 	});
 }
 
@@ -404,6 +399,9 @@ function savedvoucher(e) {
 		cell_width = Math.floor(pwidth / 2) - 15;
 	}
 	
+	$.ongoingV.removeAllChildren();
+	$.expiredV.removeAllChildren();
+	
 	$.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Vouchers", textAlign: "center"}));
 	$.ongoingV.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
 	$.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T1", top: 90, bottom: 90, textAlign: "center", text: "You have no ongion vouchers at this moment."}));
@@ -412,11 +410,10 @@ function savedvoucher(e) {
 	$.expiredV.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
 	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T2", top: 90, bottom: 90, textAlign: "center", text: "You have no expired vouchers at this moment."}));
 	
-	var myvdata = myvmodel.getData(true);
-	var now=new Date();
-	var datenow = now.getTime();
-	console.log("datenow " + datenow);
-	myvdata.forEach(function (entry) {
+	var ongiongVC = myvmodel.ongoingvoucher(true);
+	var expireVC = myvmodel.expirevoucher(true);
+	
+	ongiongVC.forEach(function (entry) {
 		var container = $.UI.create("View", {
 			classes: ['hsize',],
 			width: cell_width,
@@ -427,6 +424,7 @@ function savedvoucher(e) {
 			width: 30,
 			height: 30,
 			image: "/images/Icon_Delete_Round.png",
+			My_vid: entry.My_vid,
 			top: 2,
 			right: 2,
 			zIndex: 10
@@ -436,13 +434,13 @@ function savedvoucher(e) {
 		});
 		var viewimg = $.UI.create("View", {
 			classes: ['wfill', 'vert'],
-			height: 165,
+			height: 230,
 			backgroundColor: "#fff"
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
 			image: entry.image,
-			defaultImage: "/images/images_loader_640x640.png",
+			defaultImage: "/images/image_loader_600x800.png",
 			My_vid: entry.My_vid,
 			v_id: entry.v_id,
 			m_id: entry.m_id
@@ -458,10 +456,29 @@ function savedvoucher(e) {
 			top: 5,
 			bottom: 5
 		});
+		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: entry.quantity + " saved",
+			color: "#ED1C24",
+			left: 0
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
+			text: entry.quantity + " saved",
+			color: "#ED1C24",
+			left: 0
+		});
+		var ViewPoint = $.UI.create("View", {
+			classes: ['wsize', 'hsize', 'horz'],
+			right: 0
+		});
 		var VPoint = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.point + " points",
+			text: (entry.point != 0) ? entry.point : "",
 			color: "#ED1C24",
 			right: 0
 		}) : $.UI.create("Label", {
@@ -469,47 +486,35 @@ function savedvoucher(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.point + " points",
+			text: (entry.point != 0) ? entry.point : "",
 			color: "#ED1C24",
 			right: 0
 		});
-		var hr = $.UI.create("View", {
-			classes:['hr'],
-			backgroundColor: "#E3E5E8"
+		var pointimg = (entry.point != 0) ? $.UI.create("ImageView", {
+			width: 15,
+			height: 15,
+			image: "/images/Icon_CashPoint_Flat_Medium.png"
+		}) : $.UI.create("ImageView", {
+			width: 15,
+			height: 15,
+			image: ""
 		});
 		var title = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
-			text: entry.title,
+			text: entry.title + " " + entry.description,
 			left: 10,
 			right: 10,
-			top: 5
+			bottom: 10
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.title,
+			text: entry.title + " " + entry.description,
 			left: 10,
 			right: 10,
-			top: 5
-		});
-		var subtitle = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: entry.description,
-			left: 10,
-			right: 10,
-			bottom: 5
-		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			ellipsize: true,
-			wordWrap: false,
-			text: entry.description,
-			left: 10,
-			right: 10,
-			bottom: 5
+			bottom: 10
 		});
 		
 		delBT.addEventListener("click", delvoucher);
@@ -520,20 +525,154 @@ function savedvoucher(e) {
 		viewimg.add(img);
 		View1.add(View2);
 		View2.add(View3);
-		View3.add(VPoint);
-		View2.add(hr);
+		View3.add(VQuantity);
+		ViewPoint.add(VPoint);
+		ViewPoint.add(pointimg);
+		View3.add(ViewPoint);
 		View2.add(title);
-		View2.add(subtitle);
 		$.ongoingV.add(container);
 		
 		View1 = null;
+		viewimg = null;
 		img = null;
 		View2 = null;
 		View3 = null;
 		VQuantity = null;
 		VPoint = null;
+		pointimg = null;
+		ViewPoint = null;
 		title = null;
-		subtitle = null;
+	});
+	
+	expireVC.forEach(function (entry) {
+		var container = $.UI.create("View", {
+			classes: ['hsize',],
+			width: cell_width,
+			left: 9,
+			top: 9
+		});
+		var delBT = $.UI.create("ImageView", {
+			width: 30,
+			height: 30,
+			image: "/images/Icon_Delete_Round.png",
+			My_vid: entry.My_vid,
+			top: 2,
+			right: 2,
+			zIndex: 10
+		});
+		var View1 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'vert']
+		});
+		var viewimg = $.UI.create("View", {
+			classes: ['wfill', 'vert'],
+			height: 230,
+			backgroundColor: "#fff"
+		});
+		var img = $.UI.create("ImageView", {
+			classes: ['wfill', 'hsize'],
+			image: entry.image,
+			defaultImage: "/images/image_loader_600x800.png",
+			My_vid: entry.My_vid,
+			v_id: entry.v_id,
+			m_id: entry.m_id
+		});
+		var View2 = $.UI.create("View", {
+			classes: ['wfill', 'hsize', 'vert'],
+			backgroundColor: "#fff"
+		});
+		var View3 = $.UI.create("View", {
+			classes: ['wfill', 'hsize'],
+			left: 10,
+			right: 10,
+			top: 5,
+			bottom: 5
+		});
+		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: entry.quantity + " saved",
+			color: "#ED1C24",
+			left: 0
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
+			text: entry.quantity + " saved",
+			color: "#ED1C24",
+			left: 0
+		});
+		var ViewPoint = $.UI.create("View", {
+			classes: ['wsize', 'hsize', 'horz'],
+			right: 0
+		});
+		var VPoint = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			text: (entry.point != 0) ? entry.point : "",
+			color: "#ED1C24",
+			right: 0
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
+			text: (entry.point != 0) ? entry.point : "",
+			color: "#ED1C24",
+			right: 0
+		});
+		var pointimg = (entry.point != 0) ? $.UI.create("ImageView", {
+			width: 15,
+			height: 15,
+			image: "/images/Icon_CashPoint_Flat_Medium.png"
+		}) : $.UI.create("ImageView", {
+			width: 15,
+			height: 15,
+			image: ""
+		});
+		var title = (OS_IOS) ? $.UI.create("Label", {
+			classes: ['wsize', 'h5', 'bold'],
+			height: 19,
+			text: entry.title + " " + entry.description,
+			left: 10,
+			right: 10,
+			bottom: 10
+		}) : $.UI.create("Label", {
+			classes: ['wsize', 'h5', 'bold'],
+			height: 19,
+			ellipsize: true,
+			wordWrap: false,
+			text: entry.title + " " + entry.description,
+			left: 10,
+			right: 10,
+			bottom: 10
+		});
+		
+		delBT.addEventListener("click", delvoucher);
+		img.addEventListener("click", toSaveVoucher);
+		container.add(View1);
+		container.add(delBT);
+		View1.add(viewimg);
+		viewimg.add(img);
+		View1.add(View2);
+		View2.add(View3);
+		View3.add(VQuantity);
+		ViewPoint.add(VPoint);
+		ViewPoint.add(pointimg);
+		View3.add(ViewPoint);
+		View2.add(title);
+		$.expiredV.add(container);
+		
+		View1 = null;
+		viewimg = null;
+		img = null;
+		View2 = null;
+		View3 = null;
+		VQuantity = null;
+		VPoint = null;
+		pointimg = null;
+		ViewPoint = null;
+		title = null;
 	});
 	
 	if($.ongoingV.children.length > 3) {
@@ -553,7 +692,28 @@ function toSaveVoucher(e) {
 }
 
 function delvoucher(e) {
-	
+	COMMON.createAlert("Alert", "Are you sure want to delete it?", function(ex){
+		API.callByPost({
+			url: "updateUserVoucher",
+			new: true,
+			params: {
+				id: e.source.My_vid,
+				status: 0
+			}
+		}, {
+			onload: function(responseText) {
+				var model = Alloy.createCollection("MyVoucher");
+				var res = JSON.parse(responseText);
+				var arr = res.data || null;
+				model.resetRecord();
+				refreshSVlist();
+			},onerror: function(err) {
+				_.isString(err.message) && alert(err.message);
+			},onexception: function() {
+				COMMON.closeWindow($.win);
+			}
+		});
+	});
 }
 
 function refreshVlist(e) {
@@ -595,6 +755,7 @@ function refreshSVlist(e) {
 			var model = Alloy.createCollection("MyVoucher");
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
+			model.resetRecord();
 			model.saveArray(arr);
 			savedvoucher();
 			loading.finish();
@@ -625,14 +786,18 @@ function pixelToDp(px) {
 }
 
 $.scrollview.addEventListener("scrollend", function(e) {
-	tabColor.setColor("gray");
-	tabviewColor.setBackgroundColor("#fff");
-	var tabid = eval("$.tab" + e.currentPage);
-	var tabviewid = eval("$.tabview" + e.currentPage);
-	tabColor = tabid;
-	tabviewColor = tabviewid;
-	tabColor.setColor("#fff");
-	tabviewColor.setBackgroundColor("#ED1C24");
+	try{
+		tabColor.setColor("gray");
+		tabviewColor.setBackgroundColor("#fff");
+		var tabid = eval("$.tab" + e.currentPage);
+		var tabviewid = eval("$.tabview" + e.currentPage);
+		tabColor = tabid;
+		tabviewColor = tabviewid;
+		tabColor.setColor("#fff");
+		tabviewColor.setBackgroundColor("#ED1C24");
+	}catch(e){
+		console.log("Error catched");
+	}
 });
 
 $.btnBack.addEventListener('click', function(){ 
