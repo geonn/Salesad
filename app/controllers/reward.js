@@ -60,6 +60,13 @@ Social.addEventListener("complete", function(e){
 	});
 }
 
+//if(OS_ANDROID) {
+//	$.swiperefresh.addEventListener("refreshing", function (e) {
+//		refreshVlist();
+//		e.source.setRefreshing(false);
+//	});
+//}
+
 function refresh(){
 	loading.start();
 	API.callByPost({
@@ -139,7 +146,7 @@ function render_point_list(){
 		var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','h6'], text: point_list[i].subtitle});
 		var view_last = $.UI.create("View", {classes:['hsize','wsize'], left:10});
 		var view_container_point = $.UI.create("View", {classes:['wsize','hsize','horz']});
-		var img_icon = $.UI.create("ImageView", {width: 15, top: 5, height: 15, image: "/images/Icon_CashPoint_Flat_Medium.png"});
+		var img_icon = $.UI.create("ImageView", {width: 15, top: 5, right: 5, height: 15, image: "/images/Icon_CashPoint_Flat_Medium.png"});
 		var label_point = $.UI.create("Label", {classes: ['wsize','hsize','h5'], top:3,  text: point_list[i].points});
 		view_container_point.add(img_icon);
 		view_container_point.add(label_point);
@@ -273,7 +280,7 @@ function vouchers(e) {
 		cell_width = Math.floor(pwidth / 2) - 15;
 	}
 	
-	$.voucher_scrollview.removeAllChildren();
+	$.voucher_view.removeAllChildren();
 	var vdata = vmodel.getData(false);
 	
 	vdata.forEach(function(entry){
@@ -373,11 +380,11 @@ function vouchers(e) {
 		View1.add(View2);
 		View2.add(View3);
 		View3.add(VQuantity);
-		ViewPoint.add(VPoint);
 		ViewPoint.add(pointimg);
+		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
 		View2.add(title);
-		$.voucher_scrollview.add(View1);
+		$.voucher_view.add(View1);
 		
 		View1 = null;
 		viewimg = null;
@@ -526,8 +533,8 @@ function savedvoucher(e) {
 		View1.add(View2);
 		View2.add(View3);
 		View3.add(VQuantity);
-		ViewPoint.add(VPoint);
 		ViewPoint.add(pointimg);
+		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
 		View2.add(title);
 		$.ongoingV.add(container);
@@ -657,8 +664,8 @@ function savedvoucher(e) {
 		View1.add(View2);
 		View2.add(View3);
 		View3.add(VQuantity);
-		ViewPoint.add(VPoint);
 		ViewPoint.add(pointimg);
+		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
 		View2.add(title);
 		$.expiredV.add(container);
@@ -798,6 +805,13 @@ $.scrollview.addEventListener("scrollend", function(e) {
 	}catch(e){
 		console.log("Error catched");
 	}
+});
+
+$.voucher_scrollview.addEventListener("scroll", function(e) {
+	var scrollEnd = $.voucher_view.rect.height;console.log("scrollend " + scrollEnd);
+	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;console.log("total " + total);
+	var distance = scrollEnd - total;console.log("dstance " + distance);
+	
 });
 
 $.btnBack.addEventListener('click', function(){ 
