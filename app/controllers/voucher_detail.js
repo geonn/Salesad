@@ -89,7 +89,7 @@ function checkVoucherLimit(){
 }
 
 function set_data(){
-	//$.image_voucher.setImage(data.image);
+	$.image_voucher.setImage(data.image);
 	$.title.setText(data.title);
 	$.leftV.setText(quantity);
 	$.point.setText(data.point);
