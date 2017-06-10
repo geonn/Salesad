@@ -1,7 +1,7 @@
 ".save_button":{
-	left: 5,
-	right: 5,
-	bottom: 5,
+	left: 3,
+	right: 3,
+	bottom: 3,
 	backgroundColor: "#ED1C24",
 	color: "#fff",
 	borderRadius: 6
@@ -11,6 +11,8 @@
 	width: Ti.UI.FILL,
 	height: '1',
 	backgroundColor: '#E8E8E8',
+	left: '5',
+	right: '5'
 }
 
 ".padding1":{
@@ -24,3 +26,24 @@
 	right: 10,
 	bottom: 2,
 }
+
+".padding3":{
+	top: 2,
+	left: 2,
+	right: 2,
+	bottom: 2
+}
+
+".vTitle":{
+	font:{
+			fontSize: 17
+		}
+}
+
+".padding4":{
+	top: 5,
+	left: 5,
+	right: 5,
+	bottom: 5
+}
+
