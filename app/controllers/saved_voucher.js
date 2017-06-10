@@ -137,13 +137,13 @@ function pixelToDp(px) {
 var c1 = true;
 function showredeem(e){
 	if(c1){
-		$.bt1.image = "/images/btn-forward2.png";
+		$.bt1.image = "/images/Icon_Up.png";
 		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.redeem,left:0});
 		$.redeem.add(title);
 		c1 = false;	
 	}
 	else{
-		$.bt1.image = "/images/btn-forward1.png";		
+		$.bt1.image = "/images/Icon_Down.png";		
 		$.redeem.removeAllChildren();
 		c1 = true;
 	}
@@ -151,13 +151,13 @@ function showredeem(e){
 var c2 = true;
 function showtnc(e){
 	if(c2){
-		$.bt2.image = "/images/btn-forward2.png";		
+		$.bt2.image = "/images/Icon_Up.png";		
 		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.tnc,left:0});
 		$.tnc.add(title);
 		c2 = false;
 	}
 	else{
-		$.bt2.image = "/images/btn-forward1.png";			
+		$.bt2.image = "/images/Icon_Down.png";			
 		$.tnc.removeAllChildren();
 		c2 = true;
 	}

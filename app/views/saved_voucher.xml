@@ -13,43 +13,43 @@
 		     	<View id="pageTitle" width="70%"></View>
 		 	</View>
 		    <View class="hr" top="0"></View>
-		    <View class="wfill" height="82%">
-				<ScrollView contentWidth="Ti.UI.FILL" top="1" layout="vertical" top="0">
-					<View class="wfill hsize" id="banner"></View>
-					<View class="wfill hsize vert" id="ads_details">
-						<View class="wfill hsize vert">
-							<View class="padding vert wfill hsize">
-								<Label class="wsize hsize normal_font bold" bottom="5" color="#000" left="0" id="title" text="Title"></Label>
-								<View class="wfill hsize horz">
-									<Label class="wsize hsize normal_font" bottom="5" color="#000" left="0" text="Valid Date : "></Label>								
-									<Label class="wsize hsize normal_font" bottom="5" color="#ed1c24" left="0" id="date" text="Date"></Label>								
-								</View>
-								<Label class="wsize hsize normal_font" color="#000" left="0" id="description" text="desc"></Label>								
-							</View>								
-							<View class="hr" backgroundColor="#DFE0E1"></View>	
-							<View class="wfill hsize vert padding" left="10" right="10" onClick="showredeem" turn="0">
-								<View class="horz wfill hsize">
-									<Label class="wsize hsize normal_font" color="#000" left="0">How to redeem</Label>
-									<ImageView width="30" height="20" id="bt1" left="10" image="/images/btn-forward1.png"></ImageView>
-								</View>
-								<View class="horz wfill hsize" id="redeem"></View>
-							</View>		
-							<View class="hr" backgroundColor="#DFE0E1"></View>	
-							<View class="wfill hsize vert padding" onClick="showtnc" turn="0">
-								<View class="horz wfill hsize">
-									<Label class="wsize hsize normal_font" color="#000" left="0">Term & Conditions</Label>
-									<ImageView width="30" height="20" id="bt2" left="10" image="/images/btn-forward1.png"></ImageView>
-								</View>
-								<View class="horz wfill hsize" id="tnc"></View>
-							</View>		
+		    <View class="wfill hfill">
+				<ScrollView contentWidth="Ti.UI.FILL" top="1" layout="vertical" top="0" bottom="60">
+					<View class="wfill hsize vert padding4" borderWidth="5" borderColor="#66787878">					
+						<View class="wfill hsize" id="banner"></View>
+						<View class="wfill hsize vert" id="ads_details">
+								<View class="padding vert wfill hsize">
+									<Label class="wsize hsize normal_font bold" bottom="5" color="#000" left="0" id="title" text="Title"></Label>
+									<View class="wfill hsize horz">
+										<Label class="wsize hsize normal_font" bottom="5" color="#000" left="0" text="Valid Date : "></Label>								
+										<Label class="wsize hsize normal_font" bottom="5" color="#ed1c24" left="0" id="date" text="Date"></Label>								
+									</View>
+									<Label class="wsize hsize normal_font" color="#000" left="0" id="description" text="desc"></Label>								
+								</View>								
+								<View class="hr" backgroundColor="#DFE0E1"></View>	
+								<View class="wfill hsize vert padding" left="10" right="10" onClick="showredeem" turn="0">
+									<View class="horz wfill hsize">
+										<Label class="wsize hsize normal_font" color="#000" left="0">How to redeem</Label>
+										<ImageView id="bt1" left="10" width="25" height="25" image="/images/Icon_Down.png"></ImageView>
+									</View>
+									<View class="horz wfill hsize" id="redeem"></View>
+								</View>		
+								<View class="hr" backgroundColor="#DFE0E1"></View>	
+								<View class="wfill hsize vert padding" onClick="showtnc" turn="0">
+									<View class="horz wfill hsize">
+										<Label class="wsize hsize normal_font" color="#000" left="0">Term & Conditions</Label>
+										<ImageView id="bt2" left="10" width="25" height="25" image="/images/Icon_Down.png"></ImageView>
+									</View>
+									<View class="horz wfill hsize" id="tnc"></View>
+								</View>		
 							<View class="hr" backgroundColor="#DFE0E1"></View>						
 						</View>
-					</View>
+					</View>					
 				</ScrollView>			
-			</View>
-			<View class="padding vert wfill hfill">
-				<Button class="wfill hsize" onClick="useVoucher" borderRadius="6" color="#fff" backgroundColor="#ED1C24" bottom="0">Use Voucher</Button>																			
 			</View>					
 		</View>
+		<View class="vert wfill hsize" zIndex="10" bottom="0">
+			<Button class="wfill hsize padding" onClick="useVoucher" borderRadius="6" color="#fff" backgroundColor="#ED1C24">Use Voucher</Button>																			
+		</View>		
 	</Window>
 </Alloy>
