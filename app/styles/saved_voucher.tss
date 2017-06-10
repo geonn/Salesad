@@ -23,3 +23,16 @@
 ".small_bottom":{
 	bottom:10
 }
+
+".vTitle":{
+	font:{
+			fontSize: 17
+		}
+}
+
+".padding4":{
+	top: 5,
+	left: 5,
+	right: 5,
+	bottom: 5
+}

@@ -18,7 +18,7 @@
 			 	<ScrollView class="wfill hfill" scrollType="vertical" contentWidth="Ti.UI.FILL" backgroundColor="#fff">
 			 		<View class="wfill hsize vert padding4" borderWidth="5" borderColor="#66787878">
 			 		<ImageView class="wfill hsize padding4" id="image_voucher" image="/images/Testing.png"></ImageView>
-			 		<Label class="wfill hsize h5 padding bold vTitle" bottom="5" id="title" text="Voucher Title"></Label>
+			 		<Label class="wfill hsize padding bold vTitle" bottom="5" id="title" text="Voucher Title"></Label>
 			 		<View class="wfill hsize horz">
 			 			<Label class="wsize hsize h5 padding1 bold" top="5" id="saved" bottom="2" text="XX"></Label>
 			 			<Label class="wsize hsize h5 padding" top="5" bottom="2" left="5" text="saved"></Label>
@@ -62,6 +62,7 @@
 				 		</View>
 				 		<View class="wfill hsize vert" id="tc"></View>
 			 		</View>
+			 		<View class="hr1"></View>
 			 		</View>
 			 	</ScrollView>
 			 		 			 	
