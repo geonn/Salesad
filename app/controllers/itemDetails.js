@@ -1,6 +1,7 @@
 var args = arguments[0] || {};
 var a_id = args.a_id;
 var from = args.from;
+var i_id = args.i_id || "";
 var position = args.position || 0;
 var isScan = args.isScan;
 var m_id = args.m_id;
@@ -19,7 +20,7 @@ var i_library = Alloy.createCollection('items');
 var items  = i_library.getItemByAds(a_id);
 
 		var params = {
-		a_id:a_id,
+		item_id:i_id,
 		type:3,
 		from:"itemDetails",
 		u_id:u_id
@@ -29,7 +30,7 @@ var items  = i_library.getItemByAds(a_id);
 			console.log("Item View ad "+JSON.stringify(res));
 		},onerror:function(err){
 			console.log("Item View ad error");
-		}});	
+	}});	
 
 function getScanMerchant(){
 	console.log(m_id+" scanMerchant");
@@ -211,7 +212,7 @@ $.item_Details.addEventListener('android:back', function (e) {
 
 $.scrollableView.addEventListener('scrollend',function(e){
 	var params = {
-		a_id:a_id,
+		item_id:i_id,
 		type:3,
 		from:"itemDetails",
 		u_id:u_id

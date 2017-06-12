@@ -32,7 +32,7 @@ var params = {
 			console.log("View ad "+JSON.stringify(res));
 		},onerror:function(err){
 			console.log("View ad error");
-		}});	
+	}});	
 
 function getAdData(){
 	ads = a_library.getAdsById(a_id);
@@ -201,7 +201,7 @@ var getAdDetails = function(){
 			
 			//itemImageView.add(BARCODE.generateBarcode("686068606860")); 
 			
-			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].description, items[i].isExclusive);
+			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].i_id,items[i].description, items[i].isExclusive);
 			
 			cell.add(itemImageView);
 			if(items[i].isExclusive == 1){
@@ -284,7 +284,7 @@ function init(){
 init();
 
 //dynamic addEventListener for adImage
-function createAdImageEvent(adImage,a_id,position, title, description, isExclusive) {
+function createAdImageEvent(adImage,a_id,position, title, i_id,description, isExclusive) {
     adImage.addEventListener('click', function(e) {
     	// double click prevention
 	    var currentTime = new Date();
@@ -292,7 +292,7 @@ function createAdImageEvent(adImage,a_id,position, title, description, isExclusi
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id, position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
+	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
