@@ -25,7 +25,7 @@ function daydiff(first, second) {
     return Math.round((second-first)/(1000*60*60*24)+1);
 }
 
-function getNowDate(){   //calculate the days between 2 dates
+function getNowDate(){   //calculate the days between two dates
 	console.log("hi hai");
 	var fristDate = data.use_to;
 	var today = new Date();
@@ -89,12 +89,14 @@ function checkVoucherLimit(){
 }
 
 function set_data(){
+	var dateUseFrom = convertToHumanFormat(data.use_from);
+	var dateUseTo = convertToHumanFormat(data.use_to);
 	$.image_voucher.setImage(data.image);
 	$.title.setText(data.title);
 	$.leftV.setText(quantity);
 	$.point.setText(data.point);
-	$.valid_from.setText(data.use_from);
-	$.valid_to.setText(data.use_to);
+	$.valid_from.setText(dateUseFrom);
+	$.valid_to.setText(dateUseTo);
 	$.desc.setText(data.description);
 }
 
@@ -180,6 +182,7 @@ function doSave(){
 					checkingForSave = true;
 					alert("Voucher Saved!\nYou can view it under\nMy rewards > Saved Vouchers");
 					Ti.App.fireEvent("voucher:refresh");
+					Ti.App.fireEvent("myvoucher:refresh");
 					COMMON.closeWindow($.win); 
 				},
 				onerror: function(err){
