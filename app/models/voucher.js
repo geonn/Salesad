@@ -136,6 +136,43 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;				
 			},
+			getDataByI_id:function(id){
+				var collection = this;
+				var sql = "select * from "+collection.config.adapter.collection_name+" where item_id="+id+";";
+				db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr;
+                if(res.isValidRow()){
+	            	arr = {
+	            		v_id: res.fieldByName('v_id'),
+					    m_id: res.fieldByName('m_id'),
+					    discount: res.fieldByName('discount'),
+					    barcode: res.fieldByName('barcode'),
+					    description: res.fieldByName('description'),
+					    title: res.fieldByName('title'),
+					    image: res.fieldByName("image"),
+					    save_from: res.fieldByName("save_from"),
+					    save_to: res.fieldByName("save_to"),
+					    use_from: res.fieldByName('use_from'),
+					    use_to: res.fieldByName('use_to'),
+					    tnc: res.fieldByName('tnc'),
+					    redeem: res.fieldByName('redeem'),
+					    limit: res.fieldByName('v_limit'),
+					    point: res.fieldByName('point'),
+					    quantity: res.fieldByName('quantity'),
+					    created: res.fieldByName('created'),
+					    updated: res.fieldByName('updated'),
+					    status: res.fieldByName('status')
+					};                	
+                }
+                res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;				
+			},			
 			saveArray : function(arr){
 				var collection = this;
 				
