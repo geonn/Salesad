@@ -27,7 +27,7 @@
 						<Label class="LBTab wsize hsize" id="tab2" onClick="Tab" num="2" text="CP Points"></Label>
 					</View>
 				</View>
-				<ScrollableView class="wfill hfill" id="scrollview">
+				<ScrollableView class="wfill hfill" id="scrollview" scrollingEnabled="false">
 					<!--Vouchers(view 1)-->
 					<View class="wfill hfill" id="view1">
 						<!--<SwipeRefresh module="com.rkam.swiperefreshlayout" id="swiperefresh" platform="android">-->
