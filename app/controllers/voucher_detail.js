@@ -81,7 +81,7 @@ function checkVoucherLimit(){
 	var limit = voucherLimit.count;
 	console.log("Voucher limit is "+limit+" by v_id "+v_id);
 	console.log(data.limit);
-	if(limit>=data.limit){
+	if(limit>=1){
 		checkingLimit = false;
 	}
 	checkingVoucher();
@@ -179,7 +179,9 @@ function doSave(){
 					var arr = res.data || null;
 					console.log("Success to save "+JSON.stringify(arr));
 					checkingForSave = true;
-					alert("Voucher Saved!\nYou can view it under\nMy rewards > Saved Vouchers");
+					setTimeout(function(e){
+						alert("Voucher Saved!\nYou can view it under\nMy rewards > Saved Vouchers");
+					},1000);
 					Ti.App.fireEvent("voucher:refresh");
 					Ti.App.fireEvent("myvoucher:refresh");
 					COMMON.closeWindow($.win); 
