@@ -536,7 +536,7 @@ function savedvoucher(e) {
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
-		View2.add(title);
+		//View2.add(title);
 		$.ongoingV.add(container);
 		
 		View1 = null;
@@ -667,7 +667,7 @@ function savedvoucher(e) {
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
-		View2.add(title);
+		//View2.add(title);
 		$.expiredV.add(container);
 		
 		View1 = null;
@@ -793,17 +793,19 @@ function pixelToDp(px) {
 }
 
 $.scrollview.addEventListener("scrollend", function(e) {
-	try{
-		tabColor.setColor("gray");
-		tabviewColor.setBackgroundColor("#fff");
-		var tabid = eval("$.tab" + e.currentPage);
-		var tabviewid = eval("$.tabview" + e.currentPage);
-		tabColor = tabid;
-		tabviewColor = tabviewid;
-		tabColor.setColor("#fff");
-		tabviewColor.setBackgroundColor("#ED1C24");
-	}catch(e){
-		console.log("Error catched");
+	if(e.currentPage != undefined) {
+		try{
+			tabColor.setColor("gray");
+			tabviewColor.setBackgroundColor("#fff");
+			var tabid = eval("$.tab" + e.currentPage);
+			var tabviewid = eval("$.tabview" + e.currentPage);
+			tabColor = tabid;
+			tabviewColor = tabviewid;
+			tabColor.setColor("#fff");
+			tabviewColor.setBackgroundColor("#ED1C24");
+		}catch(e){
+			console.log("Error catched");
+		}
 	}
 });
 

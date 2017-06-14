@@ -32,7 +32,7 @@ var items  = i_library.getItemByAds(a_id);
 			console.log("Item View ad error");
 	}});	
 
-function getScanMerchant(){
+/*function getScanMerchant(){
 	console.log(m_id+" scanMerchant");
 	var expire = Ti.App.Properties.getString('sales'+m_id) || "";
 	console.log(expire+" got or not");
@@ -60,7 +60,7 @@ function getScanMerchant(){
 	}else{
 		isScan = 0;
 	}
-}
+}*/
  
 var getAdsImages = function(){
 	
@@ -94,7 +94,7 @@ var getAdsImages = function(){
 		header.add(label_caption);
 		img_back.addEventListener("click", closeWindow);
 		
-		var label_description = $.UI.create("Label",{
+		/*var label_description = $.UI.create("Label",{
 			classes:['wfill','hsize','h5','padding'],
 			text: items[i].description
 		});
@@ -108,7 +108,7 @@ var getAdsImages = function(){
 			classes:['wfill', 'hsize', 'h5'],
 			left: 10,
 			text: duration
-		});
+		});*/
 		
 		var scrollView = Ti.UI.createScrollView({
 			contentWidth: Ti.UI.FILL,
@@ -121,7 +121,7 @@ var getAdsImages = function(){
 		  	width: Ti.UI.FILL
 		});
 		
-		var view_voucher = $.UI.create("View", {classes:['wfill','hsize','vert', 'padding'], borderWidth: 2, borderColor: "#ED1C24"});
+		/*var view_voucher = $.UI.create("View", {classes:['wfill','hsize','vert', 'padding'], borderWidth: 2, borderColor: "#ED1C24"});
 		var label_voucher_title = $.UI.create("Label", {classes: ['wfill','hsize','padding'], textAlign: "center", text: "SalesAd Exclusive Voucher"});
 		var view_hr = $.UI.create("View", {classes:['hr']});
 		
@@ -143,7 +143,228 @@ var getAdsImages = function(){
 				view_voucher.add(image_button);
 				view_voucher.add(label_subtitle);
 				image_button.addEventListener("click", QrScan);
-			}
+			}*/
+			
+////////Voucher Detail////////
+function addVoucher(){
+	var voucher = $.UI.create('View',{
+			classes:['wfill','hsize','vert','padding4'],
+			top:'20',
+			borderWidth:'5',
+			borderColor:'#66787878'
+			});		
+		var v_image = $.UI.create('imageView',{
+			classes:['wfill','hsize','padding4'],
+			id:"image_voucher",
+			image: "/images/image_loader_600x800.png",
+			defaultImage: "/images/image_loader_600x800.png",
+		});	
+		var v_title = $.UI.create('Label',{
+			classes:['wfill','hsize','padding','bold','vTitle'],
+			bottom:'5',
+			id:'title',
+			text:'Voucher Title',
+		});
+		var view1 = $.UI.create('View',{
+			classes:['wfill','hsize','horz']
+		});
+		var saved = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding1','bold'],
+			top:'5',
+			id:'saved',
+			bottom:'2',
+			text:'XX'
+		});
+		var saved1 = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding'],
+			top:'5',
+			bottom:'2',
+			text:'saved'
+		});
+		var point_view = $.UI.create('View',{
+			classes:['wfill','hsize'],
+			id:'pointView'
+		});
+		var view2 = $.UI.create('View',{
+			classes:['wsize','hsize','horz'],
+			right:'10',
+			borderColor:'#ED1C24',
+			borderWidth:'1',
+			borderRadius:'10'
+		});
+		var coin = $.UI.create('imageView',{
+			height:'20',
+			width:'20',
+			left:'10',
+			image:"/images/Icon_CashPoint_Flat_Medium.png"
+		});
+		var point = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding1','bold'],
+			top:'3',
+			bottom:'2',
+			left:'5',
+			color:'#ED1C24',
+			id:'point',
+			text:'XX',
+		});
+		var point1 = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding','bold'],
+			top:'3',
+			bottom:'2',
+			left:'5',
+			color:'#ED1C24',
+			text:'Point',
+		});
+		var view3 = $.UI.create('View',{
+			classes:['wfill','hsize','horz'],
+			top:'0'
+		});
+		var left = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding1','bold'],
+			bottom:'2',
+			id:'leftV',
+			text:'0',
+		});
+		var left1 = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding2'],
+			left:'5',
+			text:'left',
+		});
+		var view4 = $.UI.create('View',{
+			classes:['wfill','hsize','horz'],
+		});
+		var end = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding2'],
+			right:'5',
+			text:'Ends in',
+		});
+		var end1 = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','bold'],
+			id:'days',
+			top:'0',
+			bottom:'2',
+			text:'0',
+		});
+		var end2 = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding2'],
+			left:'5',
+			text:'days',
+		});
+		var view5 = $.UI.create('View',{
+			classes:['wfill','hsize','horz'],
+		});
+		var valid = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding'],
+			right:'5',
+			top:'0',
+			text:'Valid from',
+		});
+		var valid1 = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','bold'],
+			id:'valid_from',
+			top:'0',
+		});
+		var valid2 = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding'],
+			top:'0',
+			left:'5',
+			right:'5',
+			text:'to',
+		});
+		var valid3 = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','bold'],
+			id:'valid_to',
+			top:'0',
+		});
+		var hr1 = $.UI.create('View',{
+			classes:['hr1']
+		});
+		var hr2 = $.UI.create('View',{
+			classes:['hr1']
+		});
+		var view6 = $.UI.create('View',{     //htr_extend add event!!!
+			classes:['wfill','hsize','vert']
+		});
+		var htr = $.UI.create('View',{
+			classes:['wfill','hsize','horz']
+		});
+		var label_htr = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding'],
+			text:'How to redeem'
+		});
+		var image_htr = $.UI.create('imageView',{
+			width:'15',
+			height:'15',
+			id:'htr_image',
+			image:"/images/Icon_Down.png"
+		});
+		var htr_data = $.UI.create('view',{
+			classes:['wfill','hsize','vert'],
+			id:'htr'
+		});
+		var view7 = $.UI.create('View',{     //tc_extend add event!!!
+			classes:['wfill','hsize','vert'],
+		});
+		var tc = $.UI.create('View',{
+			classes:['wfill','hsize','horz']
+		});
+		var label_tc = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding'],
+			text:'Terms & Conditions'
+		});
+		var image_tc = $.UI.create('imageView',{
+			width:'15',
+			height:'15',
+			id:'tc_image',
+			image:"/images/Icon_Down.png"
+		});
+		var tc_data = $.UI.create('view',{
+			classes:['wfill','hsize','vert'],
+			id:'tc'
+		});
+		var submit = $.UI.create('button',{   // submit add event
+			classes:['wfill','h4','save_button'],
+			height:'40',
+			title:"Save Voucher",
+			id:'save'
+		});
+		htr.add(label_htr);
+		htr.add(image_htr);
+		view6.add(htr);
+		view6.add(htr_data);
+		tc.add(label_tc);
+		tc.add(image_tc);
+		view7.add(tc);
+		view7.add(tc_data);	
+		view5.add(valid);
+		view5.add(valid1);
+		view5.add(valid2);
+		view5.add(valid3);
+		view4.add(end);
+		view4.add(end1);
+		view4.add(end2);
+		view3.add(left);
+		view3.add(left1);
+		view2.add(coin);
+		view2.add(point);
+		view2.add(point1);
+		point_view.add(view2);
+		view1.add(saved);
+		view1.add(saved1);
+		view1.add(point_view);
+		voucher.add(v_image);
+		voucher.add(v_title);
+		voucher.add(view1);
+		voucher.add(view3);
+		voucher.add(view4);
+		voucher.add(view5);
+		voucher.add(hr1);
+		voucher.add(view6);
+		voucher.add(hr2);
+		voucher.add(view7);
+		voucher.add(submit);
+		row.add(voucher);
+}			
 
 		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert']});
 		itemImageView.add(adImage); 
@@ -151,13 +372,14 @@ var getAdsImages = function(){
 		row.add(header);
 		row.add(redline);
 		row.add(itemImageView);
-		row.add(label_description);
-		row.add(label_duration);
+		//row.add(label_description);
+		//row.add(label_duration);
 		console.log("items " + items[i]);
 		if(items[i].isExclusive == 1){
 			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 40, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
 			itemImageView.add(exclusive_icon);
-			row.add(view_voucher);
+			addVoucher();
+			//row.add(view_voucher);
 		}
 		if(position == counter){
 			selectedView = row;
@@ -174,7 +396,7 @@ var getAdsImages = function(){
 	},250);
 };
 
-function afterScan(e){
+/*function afterScan(e){
 	if(e.m_id != m_id){
 		var win = Alloy.createController("branch_ad", {m_id: e.m_id}).getView(); 
 		COMMON.openWindow(win);
@@ -188,17 +410,17 @@ function afterScan(e){
 
 function QrScan(){
 	SCANNER.openScanner("1");
-}
+}*/
 
 function closeWindow(){
 	$.item_Details.close();
 }
 
-Ti.App.addEventListener('afterScan', afterScan);
+//Ti.App.addEventListener('afterScan', afterScan);
 
-$.item_Details.addEventListener("close", function(e){
+/*$.item_Details.addEventListener("close", function(e){
 	Ti.App.removeEventListener('afterScan', afterScan);
-});
+});*/
 
 /************************
 *******APP RUNNING*******
