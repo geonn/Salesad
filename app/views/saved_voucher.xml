@@ -16,7 +16,7 @@
 		    <View class="wfill hfill">
 				<ScrollView contentWidth="Ti.UI.FILL" top="1" layout="vertical" top="0" bottom="60">
 					<View class="wfill hsize vert padding4" borderWidth="5" borderColor="#66787878">					
-						<View class="wfill hsize" id="banner"></View>
+						<View class="wfill hsize" left="5" right="5" top="5" id="banner"></View>
 						<View class="wfill hsize vert" id="ads_details">
 								<View class="padding vert wfill hsize">
 									<Label class="wsize hsize vTitle bold" bottom="5" color="#000" left="0" id="title" text="Title"></Label>
@@ -49,7 +49,7 @@
 			</View>					
 		</View>
 		<View class="vert wfill hsize" zIndex="10" bottom="0">
-			<Button class="wfill padding h4" height="40" onClick="useVoucher" borderRadius="6" color="#fff" backgroundColor="#ED1C24">Use Voucher</Button>																			
+			<Button class="wfill h4 save_button" height="40" onClick="useVoucher">Use Voucher</Button>																			
 		</View>		
 	</Window>
 </Alloy>

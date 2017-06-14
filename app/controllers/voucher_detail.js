@@ -26,7 +26,6 @@ function daydiff(first, second) {
 }
 
 function getNowDate(){   //calculate the days between two dates
-	console.log("hi hai");
 	var fristDate = data.use_to;
 	var today = new Date();
 	var dd = today.getDate();

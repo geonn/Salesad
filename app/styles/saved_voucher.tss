@@ -36,3 +36,12 @@
 	right: 5,
 	bottom: 5
 }
+
+".save_button":{
+	left: 3,
+	right: 3,
+	bottom: 3,
+	backgroundColor: "#ED1C24",
+	color: "#fff",
+	borderRadius: 6
+}
