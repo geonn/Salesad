@@ -15,7 +15,11 @@ var secondDate = "";
 var endsDay = "";
 console.log("User id = "+u_id+" voucher id "+v_id);
 console.log(data.v_limit+"here");
-
+if(data.item_id != null){
+	var item = Alloy.createCollection("items");
+	var image = item.getImageByI_id(data.item_id);
+	data.image = image;
+}
 function parseDate(str) {
     var mdy = str.split('-');
     return new Date(mdy[0], mdy[1]-1, mdy[2]);

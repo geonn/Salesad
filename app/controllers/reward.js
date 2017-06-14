@@ -8,8 +8,6 @@ var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
 var vmodel = Alloy.createCollection("voucher");
 var myvmodel = Alloy.createCollection("MyVoucher");
-var data_test = vmodel.getDataByI_id(2549);
-console.log("items id:"+JSON.stringify(data_test));
 if (OS_IOS){
 //iOS only module
 
@@ -288,7 +286,7 @@ function vouchers(e) {
 		if(entry.item_id != null){
 			var item = Alloy.createCollection("items");
 			var image = item.getImageByI_id(entry.item_id);
-			entry.image = image.img_path;
+			entry.image = image;
 		}
 		var View1 = $.UI.create("View", {
 			classes: ['hsize', 'vert'],
@@ -429,7 +427,7 @@ function savedvoucher(e) {
 		if(entry.item_id != null){
 			var item = Alloy.createCollection("items");
 			var image = item.getImageByI_id(entry.item_id);
-			entry.image = image.img_path;
+			entry.image = image;
 		}
 		var container = $.UI.create("View", {
 			classes: ['hsize',],
@@ -460,7 +458,8 @@ function savedvoucher(e) {
 			defaultImage: "/images/image_loader_600x800.png",
 			My_vid: entry.My_vid,
 			v_id: entry.v_id,
-			m_id: entry.m_id
+			m_id: entry.m_id,
+			use: true
 		});
 		var View2 = $.UI.create("View", {
 			classes: ['wfill', 'hsize', 'vert'],
@@ -564,7 +563,7 @@ function savedvoucher(e) {
 		if(entry.item_id != null){
 			var item = Alloy.createCollection("items");
 			var image = item.getImageByI_id(entry.item_id);
-			entry.image = image.img_path;
+			entry.image = image;
 		}		
 		var container = $.UI.create("View", {
 			classes: ['hsize',],
@@ -595,7 +594,8 @@ function savedvoucher(e) {
 			defaultImage: "/images/image_loader_600x800.png",
 			My_vid: entry.My_vid,
 			v_id: entry.v_id,
-			m_id: entry.m_id
+			m_id: entry.m_id,
+			use: false
 		});
 		var View2 = $.UI.create("View", {
 			classes: ['wfill', 'hsize', 'vert'],
@@ -709,7 +709,7 @@ function toVoucher(e) {
 }
 
 function toSaveVoucher(e) {
-	COMMON.openWindow(Alloy.createController("saved_voucher",{My_vid: e.source.My_vid}).getView());	
+	COMMON.openWindow(Alloy.createController("saved_voucher",{My_vid: e.source.My_vid,use:e.source.use}).getView());	
 }
 
 function delvoucher(e) {

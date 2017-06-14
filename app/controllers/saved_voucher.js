@@ -1,12 +1,17 @@
 var args = arguments[0] || {};
 var my_vid = args.My_vid || "";
 var pageTitle;
+var use  = args.use || false;
 var model = Alloy.createCollection("MyVoucher"); 
 var res = model.getVoucherByMy_vid(my_vid);
 console.log("res :"+JSON.stringify(res));
 Alloy.Globals.naviPath.push($.win);
 var loading = Alloy.createController("loading");
-
+if(res.item_id != null){
+	var item = Alloy.createCollection("items");
+	var image = item.getImageByI_id(res.item_id);
+	res.image = image;
+}
 function setData(){
 	$.title.setText(res.title);
 	$.date.setText(res.use_from + " - " + res.use_to);
@@ -77,7 +82,7 @@ function render_banner(){
 }
 var checking = true;
 function useVoucher(e){
-	if(checking){
+	if(checking && use){
 		checking = false;
 		COMMON.createAlert("Use Voucher","Confirm to use this voucher now?\nThis action is not undoable.",function(ex){
 			API.callByPost({url:"updateUserVoucher",params:{id:my_vid,status:0}},{

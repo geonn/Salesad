@@ -20,7 +20,8 @@ function genCode(){
 		margin: 4, 
 		text: barcode
 	}); 
-	$.b_code.add(BARCODE.generateBarcode(barcode));
+	console.log(barcode);
+	$.b_code.add(BARCODE.generateBarcode(barcode));	
 	console.log("barcode"+barcode);
  	//removeAllChildren($.qrCode);
  	$.qrCode.removeAllChildren();
