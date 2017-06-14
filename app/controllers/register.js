@@ -17,18 +17,9 @@ $.tc_area.add(view_agreement_box);
 **********************/
 var goSignUp = function(){
 	loading.start();
-	if(isSubmit == 1){
-		return;
-	}
-	isSubmit = 1;
 	//$.registerButton.hide();
 	var tc_child = $.tc_area.getChildren();
 	var tc = tc_child[0].children[0].children[0].checked;
-	if(!tc){
-		alert("Please agree the terms and condition.");
-		loading.finish();
-		//return;
-	}
 	var common = require('common');
 	var firstname 		 = $.firstname.value;
 	var lastname 		 = $.lastname.value;
@@ -42,6 +33,69 @@ var goSignUp = function(){
 	var password2 		 = $.confirm_password.value;
 	console.log(gender+" $.gender.record.id");
 	console.log(state+"why empty");
+	var callapi = false;
+	if(email == ""){
+		alert("Email cannot be empty");
+		loading.finish();
+		return;				
+	}	
+	else if(password == ""){
+		alert("Password cannot be empty");
+		loading.finish();	
+		return;			
+	}	
+	else if(password2 == ""){
+		alert("Comfirm password cannot be empty");
+		loading.finish();
+		return;				
+	}
+	else if(password != password2){
+		alert("Password and comfirm password is not match");
+		loading.finish();	
+		return;			
+	}	
+	else if(firstname == ""){
+		alert("Firstname cannot be empty");
+		loading.finish();	
+		return;			
+	}
+	else if(lastname == ""){
+		alert("Lastname cannot be empty");
+		loading.finish();	
+		return;			
+	}
+	else if(gender == ""){
+		alert("Gender cannot be empty");
+		loading.finish();	
+		return;			
+	}
+	else if(dob == ""){
+		alert("Date of birth cannot be empty");
+		loading.finish();	
+		return;			
+	}
+	else if(state == ""){
+		alert("State cannot be empty");
+		loading.finish();	
+		return;			
+	}
+	else if(mobile == ""){
+		alert("Mobile cannot be empty");
+		loading.finish();	
+		return;			
+	}
+	else if(!tc){
+		alert("Please agree the terms and condition.");
+		loading.finish();
+		return;		
+	}	
+	else if(tc){
+		callapi = true;	
+	}
+	else if(isSubmit == 1){
+		return;
+	}
+    isSubmit = 1;		
 	console.log({
 			firstname: firstname,
 			lastname: lastname,
@@ -54,58 +108,60 @@ var goSignUp = function(){
 			password: password,
 			password2: password2
 		});
-	API.callByPost({
-		url: "registerUser",
-		new: true,
-		params: {
-			firstname: firstname,
-			lastname: lastname,
-			dob: dob,
-			state: state,
-			mobile: mobile,
-			salesman_code: salesman_code,
-			gender: gender,
-			email: email,
-			password: password,
-			password2: password2
-		}
-	},
-	{
-		onload: function(responseText){
-			var res = JSON.parse(responseText);
-			var arr = res.data || null;
-			if(res.status == "success"){
-	         	console.log(res.data);
-	         	//save session
-	         	Ti.App.Properties.setString('u_id', res.data.u_id);
-	         	Ti.App.Properties.setString('firstname', res.data.firstname);
-	         	Ti.App.Properties.setString('lastname', res.data.lastname);
-	         	Ti.App.Properties.setString('salesman_code', res.data.salesman_code);
-	         	Ti.App.Properties.setString('email', res.data.email);
-	         	Ti.App.Properties.setString('gender', res.data.gender);
-				Ti.App.Properties.setString('session', res.data.session);
-	         	/**load new set of category from API**/
-		       	
-		       	
-				common.createAlert('Successfully register', "Thank you sign up with Salesad. Please login to continue.");
-				Ti.App.fireEvent("login:close");
-				closeWindow();
-				isSubmit = 0;
-	         }else{
-	         	isSubmit = 0;
-	         	alert(res.data.join("\r\n"));
-	         }
-			
+	if(callapi){
+		API.callByPost({
+			url: "registerUser",
+			new: true,
+			params: {
+				firstname: firstname,
+				lastname: lastname,
+				dob: dob,
+				state: state,
+				mobile: mobile,
+				salesman_code: salesman_code,
+				gender: gender,
+				email: email,
+				password: password,
+				password2: password2
+			}
 		},
-		onerror: function(err){
-			$.activityIndicator.hide();
-	     	$.loadingBar.opacity = "0";
-	     	isSubmit = 0;
-	        common.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
-		},
-		timeout : 10000
-	});
-	loading.finish();
+		{
+			onload: function(responseText){
+				var res = JSON.parse(responseText);
+				var arr = res.data || null;
+				if(res.status == "success"){
+		         	console.log(res.data);
+		         	//save session
+		         	Ti.App.Properties.setString('u_id', res.data.u_id);
+		         	Ti.App.Properties.setString('firstname', res.data.firstname);
+		         	Ti.App.Properties.setString('lastname', res.data.lastname);
+		         	Ti.App.Properties.setString('salesman_code', res.data.salesman_code);
+		         	Ti.App.Properties.setString('email', res.data.email);
+		         	Ti.App.Properties.setString('gender', res.data.gender);
+					Ti.App.Properties.setString('session', res.data.session);
+		         	/**load new set of category from API**/
+			       	
+			       	
+					common.createAlert('Successfully register', "Thank you sign up with Salesad. Please login to continue.");
+					Ti.App.fireEvent("login:close");
+					closeWindow();
+					isSubmit = 0;
+		         }else{
+		         	isSubmit = 0;
+		         	alert(res.data.join("\r\n"));
+		         }
+				
+			},
+			onerror: function(err){
+				$.activityIndicator.hide();
+		     	$.loadingBar.opacity = "0";
+		     	isSubmit = 0;
+		        common.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
+			},
+			timeout : 10000
+		});
+		loading.finish();
+	}
 };
 	/*
 	var url = api.registerUser +"&firstname="+firstname+"&lastname="+lastname+"&gender="+gender+"&email="+email+"&password="+password+"&password2="+password2;
