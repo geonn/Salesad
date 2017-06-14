@@ -23,7 +23,7 @@
 			 			<Label class="wsize hsize h5 padding1 bold" top="5" id="saved" bottom="2" text="XX"></Label>
 			 			<Label class="wsize hsize h5 padding" top="5" bottom="2" left="5" text="saved"></Label>
 			 			<View class="wfill hsize" id="pointView">
-			 				<View class="wsize hsize horz" right="10" borderColor="#ED1C24" borderWidth="1" borderRadius="10">
+			 				<View class="wsize hsize horz" right="15" borderColor="#ED1C24" borderWidth="1" borderRadius="10">
 				 				<ImageView height="20" width="20" left="10" image="/images/Icon_CashPoint_Flat_Medium.png"></ImageView>
 				 				<Label class="wsize hsize h5 padding1 bold" top="3" bottom="2" left="5" color="#ED1C24" id="point" text="XX"></Label>
 				 				<Label class="wsize hsize h5 padding bold" top="3" bottom="2" left="5" color="#ED1C24" text="Points"></Label>

@@ -12,11 +12,20 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 
 var SCANNER = require("scanner");
 
+var htr_turn = true;
+var tc_turn = true;
+var checkingLimit = true;
+var checkingForSave = true; 
+var user_point = [];
+var current_point = "";
+var fristDate = "";
+var secondDate = "";
+var endsDay = "";
 
 //console.log("position : "+position);
 //load model 
 var i_library = Alloy.createCollection('items'); 
-
+var voucher = Alloy.createCollection('voucher');
 var items  = i_library.getItemByAds(a_id);
 
 		var params = {
@@ -70,7 +79,9 @@ var getAdsImages = function(){
 	var selectedView;   		
 	/***Set ads items***/
 	var the_view = []; 
-	for (var i=0; i< items.length; i++) { 
+	for (var i=0; i< items.length; i++) {
+		console.log("item id = "+items[i].i_id);
+		var voucher_item = voucher.getDataByI_id(items[i].i_id);  
 		var itemImageView = $.UI.create("View", {classes:['wfill','hsize']});
 		adImage = Ti.UI.createImageView({
 			defaultImage: "/images/image_loader_600x800.png",
@@ -145,25 +156,52 @@ var getAdsImages = function(){
 				image_button.addEventListener("click", QrScan);
 			}*/
 			
+function parseDate(str) {
+    var mdy = str.split('-');
+    return new Date(mdy[0], mdy[1]-1, mdy[2]);
+}
+
+function daydiff(first, second) {
+    return Math.round((second-first)/(1000*60*60*24)+1);
+}
+
+function getNowDate(){   //calculate the days between two dates
+	var fristDate = voucher.use_to;
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd<10) {
+	    dd='0'+dd;
+	} 
+	if(mm<10) {
+	    mm='0'+mm;
+	} 
+	today = yyyy+'-'+mm+'-'+dd;
+	secondDate = today;
+	console.log(fristDate+" today");
+	console.log(secondDate+" voucher date");
+	endsDay = daydiff(parseDate(secondDate), parseDate(fristDate));	
+	$.days.setText(endsDay);
+}		
 ////////Voucher Detail////////
 function addVoucher(){
 	var voucher = $.UI.create('View',{
 			classes:['wfill','hsize','vert','padding4'],
-			top:'20',
 			borderWidth:'5',
 			borderColor:'#66787878'
-			});		
+			});	
 		var v_image = $.UI.create('imageView',{
 			classes:['wfill','hsize','padding4'],
 			id:"image_voucher",
-			image: "/images/image_loader_600x800.png",
+			image: items[i].img_path,
 			defaultImage: "/images/image_loader_600x800.png",
 		});	
 		var v_title = $.UI.create('Label',{
 			classes:['wfill','hsize','padding','bold','vTitle'],
 			bottom:'5',
 			id:'title',
-			text:'Voucher Title',
+			text:voucher_item.title,
 		});
 		var view1 = $.UI.create('View',{
 			classes:['wfill','hsize','horz']
@@ -173,47 +211,13 @@ function addVoucher(){
 			top:'5',
 			id:'saved',
 			bottom:'2',
-			text:'XX'
+			text:voucher_item.total
 		});
 		var saved1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
 			top:'5',
 			bottom:'2',
 			text:'saved'
-		});
-		var point_view = $.UI.create('View',{
-			classes:['wfill','hsize'],
-			id:'pointView'
-		});
-		var view2 = $.UI.create('View',{
-			classes:['wsize','hsize','horz'],
-			right:'10',
-			borderColor:'#ED1C24',
-			borderWidth:'1',
-			borderRadius:'10'
-		});
-		var coin = $.UI.create('imageView',{
-			height:'20',
-			width:'20',
-			left:'10',
-			image:"/images/Icon_CashPoint_Flat_Medium.png"
-		});
-		var point = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding1','bold'],
-			top:'3',
-			bottom:'2',
-			left:'5',
-			color:'#ED1C24',
-			id:'point',
-			text:'XX',
-		});
-		var point1 = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding','bold'],
-			top:'3',
-			bottom:'2',
-			left:'5',
-			color:'#ED1C24',
-			text:'Point',
 		});
 		var view3 = $.UI.create('View',{
 			classes:['wfill','hsize','horz'],
@@ -223,7 +227,7 @@ function addVoucher(){
 			classes:['wsize','hsize','h5','padding1','bold'],
 			bottom:'2',
 			id:'leftV',
-			text:'0',
+			text:voucher_item.quantity,
 		});
 		var left1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding2'],
@@ -285,6 +289,7 @@ function addVoucher(){
 		var view6 = $.UI.create('View',{     //htr_extend add event!!!
 			classes:['wfill','hsize','vert']
 		});
+		
 		var htr = $.UI.create('View',{
 			classes:['wfill','hsize','horz']
 		});
@@ -305,6 +310,7 @@ function addVoucher(){
 		var view7 = $.UI.create('View',{     //tc_extend add event!!!
 			classes:['wfill','hsize','vert'],
 		});
+		
 		var tc = $.UI.create('View',{
 			classes:['wfill','hsize','horz']
 		});
@@ -345,13 +351,8 @@ function addVoucher(){
 		view4.add(end2);
 		view3.add(left);
 		view3.add(left1);
-		view2.add(coin);
-		view2.add(point);
-		view2.add(point1);
-		point_view.add(view2);
 		view1.add(saved);
 		view1.add(saved1);
-		view1.add(point_view);
 		voucher.add(v_image);
 		voucher.add(v_title);
 		voucher.add(view1);
@@ -365,21 +366,16 @@ function addVoucher(){
 		voucher.add(submit);
 		row.add(voucher);
 }			
-
 		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert']});
 		itemImageView.add(adImage); 
 	 	
 		row.add(header);
 		row.add(redline);
-		row.add(itemImageView);
-		//row.add(label_description);
-		//row.add(label_duration);
 		console.log("items " + items[i]);
 		if(items[i].isExclusive == 1){
-			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 40, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
-			itemImageView.add(exclusive_icon);
 			addVoucher();
-			//row.add(view_voucher);
+		}else{
+			row.add(itemImageView);
 		}
 		if(position == counter){
 			selectedView = row;
