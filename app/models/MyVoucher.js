@@ -115,7 +115,7 @@ exports.definition = {
 			},
 			getCountByVid:function(vid){
 				var collection = this;
-				var sql = "select count(v_id) as v_limit from "+collection.config.adapter.collection_name+" where v_id = "+vid;
+				var sql = "select count(v_id) as v_limit from "+collection.config.adapter.collection_name+" where v_id = "+vid+" and status = 1";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);

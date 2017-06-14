@@ -6,7 +6,7 @@
 	        </View>
         </LeftNavButton>
         <View class="wfill hfill vert">
-	        <View layout="horizontal" id="adHeader" height="50" width="100%" platform="android" backgroundColor="#fff">
+	        <View class="wfill horz" id="adHeader" height="50" platform="android" backgroundColor="#fff">
 				<View left="0" width="15%" zIndex="10" class="hsize">
 			         <ImageView id="btnBack" left='10' width="30" height="30" image="/images/btn-back.png" />
 			    </View>
@@ -48,7 +48,7 @@
 				</ScrollView>			
 			</View>					
 		</View>
-		<View class="vert wfill hsize" zIndex="10" bottom="0">
+		<View class="vert wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff">
 			<Button class="wfill h4 save_button" height="40" onClick="useVoucher">Use Voucher</Button>																			
 		</View>		
 	</Window>

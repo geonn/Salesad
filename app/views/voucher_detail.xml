@@ -25,12 +25,12 @@
 			 			<View class="wfill hsize" id="pointView">
 			 				<View class="wsize hsize horz" right="10" borderColor="#ED1C24" borderWidth="1" borderRadius="10">
 				 				<ImageView height="20" width="20" left="10" image="/images/Icon_CashPoint_Flat_Medium.png"></ImageView>
-				 				<Label class="wsize hsize h5 padding1 bold" top="5" bottom="2" left="5" color="#ED1C24" id="point" text="XX"></Label>
-				 				<Label class="wsize hsize h5 padding bold" top="5" bottom="2" left="5" color="#ED1C24" text="Points"></Label>
+				 				<Label class="wsize hsize h5 padding1 bold" top="3" bottom="2" left="5" color="#ED1C24" id="point" text="XX"></Label>
+				 				<Label class="wsize hsize h5 padding bold" top="3" bottom="2" left="5" color="#ED1C24" text="Points"></Label>
 			 				</View>
 			 			</View>
 			 		</View>
-			 		<View class="wfill hsize horz">
+			 		<View class="wfill hsize horz" top="0">
 			 			<Label class="wsize hsize h5 padding1 bold" bottom="2" id="leftV" text="0"></Label>
 			 			<Label class="wsize hsize h5 padding2" left="5" text="left"></Label>
 			 		</View>	
@@ -67,6 +67,8 @@
 			 	</ScrollView>
 			 		 			 	
 		 </View>	
-		 <Button class="wfill h4 save_button" height="40" title="Save Voucher" id="save" onClick="doSave"></Button>
+		 <View class="vert wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff">
+		 	<Button class="wfill h4 save_button" height="40" title="Save Voucher" id="save" onClick="doSave"></Button>
+		 </View>
 	</Window>	
 </Alloy>
