@@ -316,7 +316,6 @@ function vouchers(e) {
 			classes: ['wfill', 'hsize'],
 			left: 10,
 			right: 10,
-			top: 5,
 			bottom: 5
 		});
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
@@ -389,7 +388,7 @@ function vouchers(e) {
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
-		View2.add(title);
+		//View2.add(title);
 		$.voucher_view.add(View1);
 		
 		View1 = null;
@@ -471,7 +470,6 @@ function savedvoucher(e) {
 			classes: ['wfill', 'hsize'],
 			left: 10,
 			right: 10,
-			top: 5,
 			bottom: 5
 		});
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
