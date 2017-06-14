@@ -33,6 +33,14 @@ exports.checkAndUpdate = function(e){
 		dbVersion = '1.4';
 		last_update_on = false;
 	};
+	if (dbVersion == "1.4"){
+		console.log("Version 1.4!");
+		var model = Alloy.createCollection('Voucher');
+		model.addColumn("total", "INTEGER");
+		model.addColumn("item_id", "INTERGER");	
+		dbVersion = "1.5";
+		last_update_on = false;	
+	}
 	Ti.App.Properties.setString("dbVersion", dbVersion);
 };
 
