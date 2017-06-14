@@ -2,6 +2,7 @@ exports.definition = {
 	config: {
 		columns: {
 		    "v_id": "INTEGER PRIMARY KEY",
+		    "item_id": "INTERGER",
 		    "m_id": "INTEGER",
 		    "discount": "TEXT",
 		    "barcode": "TEXT",
@@ -19,7 +20,8 @@ exports.definition = {
 		    "quantity" : "INTEGER",
 		    "created" : "TEXT",
 		    "updated": "TEXT",	//1 - recommended, 2 - normal
-		    "status" : "INTEGER"
+		    "status" : "INTEGER",
+		    "total": "INTEGER"
 		},
 		adapter: {
 			type: "sql",
@@ -73,6 +75,8 @@ exports.definition = {
                 	arr[count] = {
                 		v_id: res.fieldByName('v_id'),
 					    m_id: res.fieldByName('m_id'),
+					    item_id: res.fieldByName('item_id'),
+					    total: res.fieldByName('total'),
 					    discount: res.fieldByName('discount'),
 					    barcode: res.fieldByName('barcode'),
 					    description: res.fieldByName('description'),
@@ -114,6 +118,8 @@ exports.definition = {
 					    m_id: res.fieldByName('m_id'),
 					    discount: res.fieldByName('discount'),
 					    barcode: res.fieldByName('barcode'),
+					   	item_id: res.fieldByName('item_id'),
+					    total: res.fieldByName('total'),
 					    description: res.fieldByName('description'),
 					    title: res.fieldByName('title'),
 					    image: res.fieldByName("image"),
@@ -151,6 +157,8 @@ exports.definition = {
 					    m_id: res.fieldByName('m_id'),
 					    discount: res.fieldByName('discount'),
 					    barcode: res.fieldByName('barcode'),
+					    item_id: res.fieldByName('item_id'),
+					    total: res.fieldByName('total'),					    
 					    description: res.fieldByName('description'),
 					    title: res.fieldByName('title'),
 					    image: res.fieldByName("image"),
@@ -182,8 +190,8 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (v_id,m_id,discount,barcode,description,title,image,save_from,save_to,use_from,use_to,tnc,redeem,v_limit,point,quantity,created,updated,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.v_id, entry.m_id, entry.discount,entry.barcode,entry.description,entry.title,entry.image,entry.save_from,entry.save_to,entry.use_from,entry.use_to,entry.tnc,entry.redeem, entry.limit, entry.point, entry.quantity, entry.created, entry.updated, entry.status);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (v_id,m_id,item_id,total,discount,barcode,description,title,image,save_from,save_to,use_from,use_to,tnc,redeem,v_limit,point,quantity,created,updated,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.v_id, entry.m_id,entry.item_id,entry.total, entry.discount,entry.barcode,entry.description,entry.title,entry.image,entry.save_from,entry.save_to,entry.use_from,entry.use_to,entry.tnc,entry.redeem, entry.limit, entry.point, entry.quantity, entry.created, entry.updated, entry.status);
 				});
 				db.execute("COMMIT");
 	            db.close();

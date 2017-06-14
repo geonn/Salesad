@@ -68,6 +68,23 @@ exports.definition = {
                 collection.trigger('sync');
                 return total;
 			},
+			getImageByI_id : function(i_id){
+				var collection = this;
+				var sql = "SELECT img_path FROM " + collection.config.adapter.collection_name + " WHERE i_id="+ i_id;
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr; 
+                if(res.isValidRow()){
+                	arr= res.fieldByName("img_path");
+				} 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},			
 			getItemByAds : function(a_id){
 				var collection = this;
 				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "' AND status = 1 order by position " ;
@@ -104,7 +121,7 @@ exports.definition = {
                 db.close();
                 collection.trigger('sync');
                 return arr;
-			},
+			},			
 			saveItem : function(i_id,a_id,price,barcode, caption, img_path){
 				
 				var collection = this;

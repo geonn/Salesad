@@ -8,7 +8,8 @@ var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
 var vmodel = Alloy.createCollection("voucher");
 var myvmodel = Alloy.createCollection("MyVoucher");
-
+var data_test = vmodel.getDataByI_id(2549);
+console.log("items id:"+JSON.stringify(data_test));
 if (OS_IOS){
 //iOS only module
 
@@ -284,6 +285,11 @@ function vouchers(e) {
 	var vdata = vmodel.getData(false);
 	
 	vdata.forEach(function(entry){
+		if(entry.item_id != null){
+			var item = Alloy.createCollection("items");
+			var image = item.getImageByI_id(entry.item_id);
+			entry.image = image.img_path;
+		}
 		var View1 = $.UI.create("View", {
 			classes: ['hsize', 'vert'],
 			width: cell_width,
@@ -421,6 +427,11 @@ function savedvoucher(e) {
 	var expireVC = myvmodel.expirevoucher(true);
 	
 	ongiongVC.forEach(function (entry) {
+		if(entry.item_id != null){
+			var item = Alloy.createCollection("items");
+			var image = item.getImageByI_id(entry.item_id);
+			entry.image = image.img_path;
+		}
 		var container = $.UI.create("View", {
 			classes: ['hsize',],
 			width: cell_width,
@@ -552,6 +563,11 @@ function savedvoucher(e) {
 	});
 	
 	expireVC.forEach(function (entry) {
+		if(entry.item_id != null){
+			var item = Alloy.createCollection("items");
+			var image = item.getImageByI_id(entry.item_id);
+			entry.image = image.img_path;
+		}		
 		var container = $.UI.create("View", {
 			classes: ['hsize',],
 			width: cell_width,
