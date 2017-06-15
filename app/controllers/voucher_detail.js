@@ -137,7 +137,7 @@ function tc_extend(){
 		tc_turn = false;
 	}else if(!tc_turn){
 		$.tc_image.image = "/images/Icon_Down.png";
-		$.tc.setHeight(65);	
+		$.tc.setHeight(52);	
 		$.hoverg.setOpacity(1);	
 		$.smallball.setText("Read More...");					
 		tc_turn = true;
