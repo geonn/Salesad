@@ -296,13 +296,13 @@ function vouchers(e) {
 		});
 		var viewimg = $.UI.create("View", {
 			classes: ['wfill', 'vert'],
-			height: 230,
+			height: cell_width,
 			backgroundColor: "#fff"
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
 			image: entry.image,
-			defaultImage: "/images/image_loader_600x800.png",
+			defaultImage: "/images/image_loader_640x640.png",
 			v_id: entry.v_id,
 			m_id: entry.m_id
 		});
@@ -316,10 +316,11 @@ function vouchers(e) {
 			right: 10,
 			bottom: 5
 		});
+		var saved = entry.total - entry.quantity;
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.quantity + " saved",
+			text: saved + " saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
@@ -327,7 +328,7 @@ function vouchers(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.quantity + " saved",
+			text: saved + " saved",
 			color: "#ED1C24",
 			left: 0
 		});
@@ -350,7 +351,7 @@ function vouchers(e) {
 			color: "#ED1C24",
 			right: 0
 		});
-		var pointimg = (entry.point != 0) ? $.UI.create("ImageView", {
+		var pointimg = (entry.point != 0 && entry.point != null) ? $.UI.create("ImageView", {
 			width: 15,
 			height: 15,
 			image: "/images/Icon_CashPoint_Flat_Medium.png"
@@ -449,13 +450,13 @@ function savedvoucher(e) {
 		});
 		var viewimg = $.UI.create("View", {
 			classes: ['wfill', 'vert'],
-			height: 230,
+			height: cell_width,
 			backgroundColor: "#fff"
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
 			image: entry.image,
-			defaultImage: "/images/image_loader_600x800.png",
+			defaultImage: "/images/image_loader_640x640.png",
 			My_vid: entry.My_vid,
 			v_id: entry.v_id,
 			m_id: entry.m_id,
@@ -471,10 +472,11 @@ function savedvoucher(e) {
 			right: 10,
 			bottom: 5
 		});
+		var saved = entry.total - entry.quantity;
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.quantity + " saved",
+			text: saved + " saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
@@ -482,7 +484,7 @@ function savedvoucher(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.quantity + " saved",
+			text: saved + " saved",
 			color: "#ED1C24",
 			left: 0
 		});
@@ -505,7 +507,7 @@ function savedvoucher(e) {
 			color: "#ED1C24",
 			right: 0
 		});
-		var pointimg = (entry.point != 0) ? $.UI.create("ImageView", {
+		var pointimg = (entry.point != 0 && entry.point != null) ? $.UI.create("ImageView", {
 			width: 15,
 			height: 15,
 			image: "/images/Icon_CashPoint_Flat_Medium.png"
@@ -611,7 +613,7 @@ function savedvoucher(e) {
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.quantity + " saved",
+			text: entry.total - entry.quantity + " saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
@@ -619,7 +621,7 @@ function savedvoucher(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.quantity + " saved",
+			text: entry.total - entry.quantity + " saved",
 			color: "#ED1C24",
 			left: 0
 		});
@@ -642,14 +644,14 @@ function savedvoucher(e) {
 			color: "#ED1C24",
 			right: 0
 		});
-		var pointimg = (entry.point != 0) ? $.UI.create("ImageView", {
-			width: 15,
-			height: 15,
-			image: "/images/Icon_CashPoint_Flat_Medium.png"
-		}) : $.UI.create("ImageView", {
+		var pointimg = (entry.point == 0 || entry.point == null) ? $.UI.create("ImageView", {
 			width: 15,
 			height: 15,
 			image: ""
+		}) : $.UI.create("ImageView", {
+			width: 15,
+			height: 15,
+			image: "/images/Icon_CashPoint_Flat_Medium.png"
 		});
 		var title = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
