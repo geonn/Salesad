@@ -500,7 +500,8 @@ function getAdsData(){
 			b_ramdom.push(i);
 		}
 	}
-	ramdom=	shuffle(b_ramdom) ;
+	ramdom=	shuffle(b_ramdom);
+	ads_data = shuffle(ads_data);
 	console.log("zzz:"+JSON.stringify(ramdom)+" "+ramdom[1]);
 	if(category != null){ 	
 		for(var i=0;i<category.length;i++){
