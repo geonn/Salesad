@@ -194,7 +194,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getCategoryAds : function(cate_id){
 				var collection = this;
-                var sql = "SELECT ca.*, m.img_path, m.merchant_name FROM categoryAds as ca LEFT OUTER JOIN merchants as m on m.m_id = ca.m_id WHERE ca.cate_id='"+cate_id+"' AND m.merchant_name is not null AND m.parent is null m.status = 1";
+                var sql = "SELECT ca.*, m.img_path, m.merchant_name FROM categoryAds as ca LEFT OUTER JOIN merchants as m on m.m_id = ca.m_id WHERE ca.cate_id='"+cate_id+"' AND m.merchant_name is not null AND m.parent is null AND m.status = 1";
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
