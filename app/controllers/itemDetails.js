@@ -5,7 +5,7 @@ var i_id = args.i_id || "";
 var position = args.position || 0;
 var isScan = args.isScan;
 var m_id = args.m_id;
-//$.item_Details.title= args.title;
+//$.win.title= args.title;
 var BARCODE = require('barcode');
 var showBarcode = 1;
 var u_id = Ti.App.Properties.getString('u_id') || "";
@@ -16,17 +16,14 @@ var htr_turn = true;
 var tc_turn = true;
 var checkingLimit = true;
 var checkingForSave = true; 
-var user_point = [];
-var current_point = "";
 var fristDate = "";
 var secondDate = "";
 var endsDay = "";
 
-//console.log("position : "+position);
-//load model 
 var i_library = Alloy.createCollection('items'); 
 var voucher = Alloy.createCollection('voucher');
 var items  = i_library.getItemByAds(a_id);
+
 
 		var params = {
 		item_id:i_id,
@@ -40,6 +37,104 @@ var items  = i_library.getItemByAds(a_id);
 		},onerror:function(err){
 			console.log("Item View ad error");
 	}});	
+
+function createWhoops(){
+	var box = Titanium.UI.createAlertDialog({
+		title: "Whoops!",
+		message: "Sorry, you don't have enough CP points to save this voucher."
+	});
+	box.show();
+};
+
+function set_title_button(){
+	var b_title = "";
+	var b_color = "";
+	var b_enable = true;
+	
+	var currentPage = $.scrollableView.getCurrentPage();
+	console.log(items[currentPage].isExclusive+" Exclusive type");
+	
+	if(items[currentPage].isExclusive==1){
+		
+		var model = Alloy.createCollection("MyVoucher");
+		var voucher_item = voucher.getDataByI_id(items[currentPage].i_id);
+		var voucherLimit = model.getCountByVid(voucher_item.v_id);
+		var limit = voucherLimit.count;
+		console.log("Voucher limit is "+limit+" by v_id "+voucher_item.v_id);
+		console.log(voucher_item.limit);
+		if(limit>=1){
+			checkingLimit = false;
+		}else{
+			checkingLimit = true;
+		}
+		
+		if(!checkingLimit){
+			b_title = "Voucher Saved";
+			b_color = "#a6a6a6";
+			b_enable = false;
+		}
+		if(checkingLimit || voucher_item.limit == -1){
+			b_title = "Save Voucher";
+			b_color = "#ED1C24";
+			b_enable = true;
+		}
+		if(voucher_item.quantity<=0){
+			b_title = "Out of Stock";
+			b_color = "#ED1C24";
+			b_enable = false;
+		}
+		
+		$.submit.removeAllChildren();
+		var buttonS = $.UI.create('Button',{
+			classes:['wfill','h4','save_button'],
+			height:'40',
+			title:b_title,
+			backgroundColor:b_color
+		});
+		$.pageTitle.setText("Instant Voucher");
+		$.submit.add(buttonS);
+		
+		if(b_enable){
+			buttonS.addEventListener('click',function(e){
+				if(checkingForSave){
+					checkingForSave = false;
+					var common = require('common');
+					common.createAlert('Instant Voucher','Confirm to save this voucher?',function(ee){
+						var params = {v_id:voucher_item.v_id, u_id:u_id, quantity:1};
+						API.callByPost({
+							url:"addUserVoucher",
+							new:true,
+							params:params
+						},{
+						onload:function(res){
+							var res = JSON.parse(res);
+							var arr = res.data || null;
+							console.log("Success to save "+JSON.stringify(arr));
+							checkingForSave = true;
+							setTimeout(function(e){
+								alert("Voucher Saved\nYou can view it under\nMy rewards > Saved Vouchers");
+							},1000);
+							Ti.App.fireEvent("voucher:refresh");
+							Ti.App.fireEvent("myvoucher:refresh");
+							COMMON.closeWindow($.win);
+						},
+						onerror:function(e){
+							console.log("Save voucher fail!");
+						}		
+						});
+					});
+				}
+			});
+		}else{
+			buttonS.removeEventListener();
+		}
+	
+	}else{
+		var title = items[currentPage].caption;
+		$.pageTitle.setText(title);
+		$.submit.removeAllChildren();
+	}
+}
 
 /*function getScanMerchant(){
 	console.log(m_id+" scanMerchant");
@@ -81,7 +176,7 @@ var getAdsImages = function(){
 	var the_view = []; 
 	for (var i=0; i< items.length; i++) {
 		console.log("item id = "+items[i].i_id);
-		var voucher_item = voucher.getDataByI_id(items[i].i_id);  
+		var voucher_item = voucher.getDataByI_id(items[i].i_id);
 		var itemImageView = $.UI.create("View", {classes:['wfill','hsize']});
 		adImage = Ti.UI.createImageView({
 			defaultImage: "/images/image_loader_600x800.png",
@@ -90,20 +185,6 @@ var getAdsImages = function(){
 			enableZoomControls: true,
 			height: Ti.UI.SIZE
 		});
-		
-		var label_caption = $.UI.create("Label", { 
-			top: 0,
-			text: items[i].caption,
-			height: 40,
-			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
-		});
-		
-		var header = $.UI.create("View", {classes:['wfill'],height: 50});
-		var redline = $.UI.create("View", {classes:['hr']});
-		var img_back = $.UI.create("ImageView", {width: 30, height: 30, left: 10, zIndex: 100, image: "/images/btn-back.png"});
-		header.add(img_back);
-		header.add(label_caption);
-		img_back.addEventListener("click", closeWindow);
 		
 		/*var label_description = $.UI.create("Label",{
 			classes:['wfill','hsize','h5','padding'],
@@ -166,7 +247,7 @@ function daydiff(first, second) {
 }
 
 function getNowDate(){   //calculate the days between two dates
-	var fristDate = voucher.use_to;
+	var fristDate = voucher_item.use_to;
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
@@ -182,8 +263,9 @@ function getNowDate(){   //calculate the days between two dates
 	console.log(fristDate+" today");
 	console.log(secondDate+" voucher date");
 	endsDay = daydiff(parseDate(secondDate), parseDate(fristDate));	
-	$.days.setText(endsDay);
-}		
+	return endsDay;
+}	
+	
 ////////Voucher Detail////////
 function addVoucher(){
 	var voucher = $.UI.create('View',{
@@ -211,12 +293,13 @@ function addVoucher(){
 			top:'5',
 			id:'saved',
 			bottom:'2',
-			text:voucher_item.total
+			text:voucher_item.total-voucher_item.quantity
 		});
 		var saved1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
 			top:'5',
 			bottom:'2',
+			left:'5',
 			text:'saved'
 		});
 		var view3 = $.UI.create('View',{
@@ -244,15 +327,19 @@ function addVoucher(){
 		});
 		var end1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','bold'],
-			id:'days',
 			top:'0',
 			bottom:'2',
-			text:'0',
+			text:getNowDate(),
 		});
 		var end2 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding2'],
 			left:'5',
 			text:'days',
+		});
+		var desc = $.UI.create('Label',{
+			classes:['wsize','hsize','h5','padding'],
+			top:'0',
+			text:voucher_item.description
 		});
 		var view5 = $.UI.create('View',{
 			classes:['wfill','hsize','horz'],
@@ -263,10 +350,12 @@ function addVoucher(){
 			top:'0',
 			text:'Valid from',
 		});
+		var dateUseFrom = convertToHumanFormat(voucher_item.use_from);  // parse date format
+		var dateUseTo = convertToHumanFormat(voucher_item.use_to);
 		var valid1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','bold'],
-			id:'valid_from',
 			top:'0',
+			text:dateUseFrom
 		});
 		var valid2 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
@@ -277,8 +366,8 @@ function addVoucher(){
 		});
 		var valid3 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','bold'],
-			id:'valid_to',
 			top:'0',
+			text:dateUseTo
 		});
 		var hr1 = $.UI.create('View',{
 			classes:['hr1']
@@ -309,6 +398,7 @@ function addVoucher(){
 		});
 		var view7 = $.UI.create('View',{     //tc_extend add event!!!
 			classes:['wfill','hsize','vert'],
+			bottom:'40'
 		});
 		
 		var tc = $.UI.create('View',{
@@ -328,12 +418,7 @@ function addVoucher(){
 			classes:['wfill','hsize','vert'],
 			id:'tc'
 		});
-		var submit = $.UI.create('button',{   // submit add event
-			classes:['wfill','h4','save_button'],
-			height:'40',
-			title:"Save Voucher",
-			id:'save'
-		});
+
 		htr.add(label_htr);
 		htr.add(image_htr);
 		view6.add(htr);
@@ -359,18 +444,16 @@ function addVoucher(){
 		voucher.add(view3);
 		voucher.add(view4);
 		voucher.add(view5);
+		voucher.add(desc);
 		voucher.add(hr1);
 		voucher.add(view6);
 		voucher.add(hr2);
 		voucher.add(view7);
-		voucher.add(submit);
 		row.add(voucher);
 }			
 		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert']});
 		itemImageView.add(adImage); 
-	 	
-		row.add(header);
-		row.add(redline);
+		
 		console.log("items " + items[i]);
 		if(items[i].isExclusive == 1){
 			addVoucher();
@@ -408,13 +491,13 @@ function QrScan(){
 	SCANNER.openScanner("1");
 }*/
 
-function closeWindow(){
-	$.item_Details.close();
-}
+$.btnBack.addEventListener('click', function(e) {
+    $.win.close();
+});
 
 //Ti.App.addEventListener('afterScan', afterScan);
 
-/*$.item_Details.addEventListener("close", function(e){
+/*$.win.addEventListener("close", function(e){
 	Ti.App.removeEventListener('afterScan', afterScan);
 });*/
 
@@ -422,10 +505,11 @@ function closeWindow(){
 *******APP RUNNING*******
 *************************/
 getAdsImages();
-$.item_Details.open();
+set_title_button();
+$.win.open();
 
-$.item_Details.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.item_Details); 
+$.win.addEventListener('android:back', function (e) {
+ COMMON.closeWindow($.win); 
 });
 
 $.scrollableView.addEventListener('scrollend',function(e){
@@ -440,5 +524,8 @@ $.scrollableView.addEventListener('scrollend',function(e){
 			console.log("Item View ad "+JSON.stringify(res));
 		},onerror:function(err){
 			console.log("Item View ad error");
-		}});	
+		}});
+	set_title_button();
 });
+
+
