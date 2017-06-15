@@ -1,5 +1,17 @@
 <Alloy>
-	<Window  id="item_Details" title="" fullscreen="true" navBarHidden="true" navTintColor="#ED1C24" >
-		 <ScrollableView id="scrollableView" />
+	<Window id="win" title="Item Detail" navTintColor="#ED1C24" backgroundColor="#fff">
+        <View class="wfill hfill vert">
+	        <View class="horz wfill" height="50" backgroundColor="#FFF">
+				<View left="0" width="15%">
+			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
+			    </View>
+		     	<View width="70%">
+		     		<Label id="pageTitle" color="#ED1C24">Item Detail</Label>
+		     	</View>
+		 	</View>
+		 	<View class="hr" top="0"></View>
+		 	<ScrollableView id="scrollableView" />
+		</View>
+		 <View id="submit" class="wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff"></View>
 	</Window>
 </Alloy>
