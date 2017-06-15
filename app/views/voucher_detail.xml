@@ -57,10 +57,15 @@
 			 		<View class="hr1"></View>
 			 		<View class="wfill hsize vert" onClick="tc_extend" bottom="40">
 			 			<View class="wfill hsize horz">
-				 			<Label class="wsize hsize h5 padding" text="Terms & Conditions"></Label>
+				 			<Label class="wsize hsize h5 padding" text="Terms & Conditions" bottom="0"></Label>
 				 			<ImageView width="15" height="15" image="/images/Icon_Down.png" id="tc_image"></ImageView>
 				 		</View>
-				 		<View class="wfill hsize vert" id="tc"></View>
+				 		<View class="wfill padding" height="65" id="tc" top="10">
+				 			<View class="myView wfill"height="40" zIndex="10" bottom="0" id="hoverg"></View>
+				 		</View>
+						<View class="vert wfill hsize">
+							<Label class="wfill hsize bold" left="10" id="smallball" text="Read More..."></Label>
+						</View>				 		
 			 		</View>
 			 		<View class="hr1"></View>
 			 		</View>

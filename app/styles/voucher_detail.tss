@@ -6,7 +6,12 @@
 	color: "#fff",
 	borderRadius: 6
 }
-
+".myView":{
+  backgroundGradient: {
+    type: 'linear',
+    colors: ['transparent', '#fff'],
+  },
+},
 ".hr1":{
 	width: Ti.UI.FILL,
 	height: '1',

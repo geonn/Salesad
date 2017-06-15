@@ -13,6 +13,7 @@ var current_point = "";
 var fristDate = "";
 var secondDate = "";
 var endsDay = "";
+var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
 console.log("User id = "+u_id+" voucher id "+v_id);
 console.log(data.v_limit+"here");
 if(data.item_id != null){
@@ -101,6 +102,13 @@ function set_data(){
 	$.valid_from.setText(dateUseFrom);
 	$.valid_to.setText(dateUseTo);
 	$.desc.setText(data.description);
+	$.saved.setText(eval(data.total-quantity));
+	var tc = $.UI.create("Label",{
+		classes:['wfill','hsize'],
+		top:0,
+		text:data.tnc,
+	});
+	$.tc.add(tc);	
 }
 
 function htr_extend(){
@@ -123,16 +131,15 @@ function htr_extend(){
 function tc_extend(){
 	if(tc_turn){
 		$.tc_image.image = "/images/Icon_Up.png";
-		var tc = $.UI.create("Label",{
-			classes:['wfill','hsize','padding'],
-			top:0,
-			text:data.tnc,
-		});
-		$.tc.add(tc);
+		$.tc.setHeight(Ti.UI.SIZE);
+		$.hoverg.setOpacity(0);
+		$.smallball.setText("Read Less");					
 		tc_turn = false;
 	}else if(!tc_turn){
-		$.tc.removeAllChildren();
 		$.tc_image.image = "/images/Icon_Down.png";
+		$.tc.setHeight(65);	
+		$.hoverg.setOpacity(1);	
+		$.smallball.setText("Read More...");					
 		tc_turn = true;
 	}	
 }

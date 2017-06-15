@@ -3,6 +3,12 @@
 	width: Ti.UI.FILL,
 	fullscreen: true,
 },
+".myView":{
+  backgroundGradient: {
+    type: 'linear',
+    colors: ['transparent', '#fff'],
+  },
+},
 ".rowAd" :{
 	layout: 'horizontal',
 	right: 4,

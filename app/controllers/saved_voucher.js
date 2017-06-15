@@ -7,6 +7,8 @@ var res = model.getVoucherByMy_vid(my_vid);
 console.log("res :"+JSON.stringify(res));
 Alloy.Globals.naviPath.push($.win);
 var loading = Alloy.createController("loading");
+var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
+
 if(res.item_id != null){
 	var item = Alloy.createCollection("items");
 	var image = item.getImageByI_id(res.item_id);
@@ -15,7 +17,9 @@ if(res.item_id != null){
 function setData(){
 	$.title.setText(res.title);
 	$.date.setText(res.use_from + " - " + res.use_to);
-	$.description.setText(res.description);
+	$.description.setText(res.description);	
+	var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.tnc,left:0,top:10});
+	$.tnc.add(title);	
 }
 function render_banner(){
  	var bannerImage = Ti.UI.createImageView({
@@ -122,6 +126,10 @@ function init(){
 	getAdDetails();
 	render_banner();
 	setData();
+	if(!use){
+		$.useV.setTitle("Voucher Expired");   //check voucher limit
+		$.useV.setBackgroundColor("#a6a6a6");		
+	}
 }
 
 init();
@@ -157,13 +165,16 @@ var c2 = true;
 function showtnc(e){
 	if(c2){
 		$.bt2.image = "/images/Icon_Up.png";		
-		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.tnc,left:0});
-		$.tnc.add(title);
+		$.tnc.setHeight(Titanium.UI.SIZE);
+		$.smallball.setText("Read Less");
+		$.hoverg.setOpacity(0);
 		c2 = false;
 	}
 	else{
-		$.bt2.image = "/images/Icon_Down.png";			
-		$.tnc.removeAllChildren();
+		$.bt2.image = "/images/Icon_Down.png";
+		$.smallball.setText("Read More...");					
+		$.tnc.setHeight(65);
+		$.hoverg.setOpacity(1);
 		c2 = true;
 	}
 }
