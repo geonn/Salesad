@@ -9,7 +9,7 @@ var m_id = args.m_id;
 var BARCODE = require('barcode');
 var showBarcode = 1;
 var u_id = Ti.App.Properties.getString('u_id') || "";
-
+var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
 var SCANNER = require("scanner");
 
 var htr_turn = true;
@@ -94,8 +94,8 @@ function set_title_button(){
 		$.pageTitle.setText("Instant Voucher");
 		$.submit.add(buttonS);
 		
-		if(b_enable){
-			buttonS.addEventListener('click',function(e){
+		buttonS.addEventListener('click',function(e){
+			if(b_enable){
 				if(checkingForSave){
 					checkingForSave = false;
 					var common = require('common');
@@ -124,11 +124,8 @@ function set_title_button(){
 						});
 					});
 				}
-			});
-		}else{
-			buttonS.removeEventListener();
-		}
-	
+			}
+		});
 	}else{
 		var title = items[currentPage].caption;
 		$.pageTitle.setText(title);
@@ -271,7 +268,8 @@ function addVoucher(){
 	var voucher = $.UI.create('View',{
 			classes:['wfill','hsize','vert','padding4'],
 			borderWidth:'5',
-			borderColor:'#66787878'
+			borderColor:'#66787878',
+			bottom:"40"
 			});	
 		var v_image = $.UI.create('imageView',{
 			classes:['wfill','hsize','padding4'],
@@ -397,8 +395,8 @@ function addVoucher(){
 			id:'htr'
 		});
 		var view7 = $.UI.create('View',{     //tc_extend add event!!!
-			classes:['wfill','hsize','vert'],
-			bottom:'40'
+			classes:['wfill','vert'],
+			height:"65",
 		});
 		
 		var tc = $.UI.create('View',{
@@ -415,10 +413,11 @@ function addVoucher(){
 			image:"/images/Icon_Down.png"
 		});
 		var tc_data = $.UI.create('view',{
-			classes:['wfill','hsize','vert'],
-			id:'tc'
+			classes:['wfill','hsize'],
 		});
-
+		var hoverg = $.UI.create("View",{classes:['myView','wfill'],height:"40",zIndex:"10",bottom:"0"});	
+		var title1 = $.UI.create("Label",{classes:['wsize','hsize'],text:voucher_item.redeem,left:0});		
+		var title2 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:tncrule,top:"0"});		
 		htr.add(label_htr);
 		htr.add(image_htr);
 		view6.add(htr);
@@ -426,6 +425,8 @@ function addVoucher(){
 		tc.add(label_tc);
 		tc.add(image_tc);
 		view7.add(tc);
+		tc_data.add(hoverg);
+		tc_data.add(title2);			
 		view7.add(tc_data);	
 		view5.add(valid);
 		view5.add(valid1);
@@ -450,10 +451,31 @@ function addVoucher(){
 		voucher.add(hr2);
 		voucher.add(view7);
 		row.add(voucher);
+		var click1 = true;
+		view6.addEventListener("click",function(e){
+			if(click1){
+				htr_data.add(title1);			
+				click1 = false;
+			}
+			else{
+				htr_data.removeAllChildren();
+				click1 = true;
+			}
+		});
+		var click2 = true;
+		view7.addEventListener("click",function(e){
+			if(click2){		
+				view7.height= Ti.UI.SIZE;
+				click2 = false;
+			}
+			else{
+				view7.height = 65;
+				click2 = true;
+			}
+		});			
 }			
 		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert']});
-		itemImageView.add(adImage); 
-		
+		itemImageView.add(adImage); 	
 		console.log("items " + items[i]);
 		if(items[i].isExclusive == 1){
 			addVoucher();

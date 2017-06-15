@@ -94,7 +94,8 @@ exports.definition = {
 					    quantity: res.fieldByName('quantity'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
-					    status: res.fieldByName('status')
+					    status: res.fieldByName('status'),
+					    display_type: res.fieldByName('display_type')
 					};
                 	res.next();
 					count++;
@@ -135,7 +136,8 @@ exports.definition = {
 					    quantity: res.fieldByName('quantity'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
-					    status: res.fieldByName('status')
+					    status: res.fieldByName('status'),
+					    display_type: res.fieldByName('display_type')
 					};                	
                 }
                 res.close();
@@ -174,7 +176,8 @@ exports.definition = {
 					    quantity: res.fieldByName('quantity'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
-					    status: res.fieldByName('status')
+					    status: res.fieldByName('status'),
+					    use_type: res.fieldByName('display_type')
 					};                	
                 }
                 res.close();

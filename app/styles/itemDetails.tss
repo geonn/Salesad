@@ -5,7 +5,12 @@
 	width: Ti.UI.FILL,
 	height: Ti.UI.SIZE,
 }
-
+".myView":{
+  backgroundGradient: {
+    type: 'linear',
+    colors: ['transparent', '#fff'],
+  },
+},
 ".save_button":{
 	left: 3,
 	right: 3,

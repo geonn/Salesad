@@ -1,6 +1,7 @@
 var args = arguments[0] || {};
 var pageTitle;
 var barcode = args.barcode || "";
+var display = args.display_type || "";
 var qrcode = require('qrcode');
 var BARCODE = require('barcode');
 Alloy.Globals.naviPath.push($.win);
@@ -20,12 +21,23 @@ function genCode(){
 		margin: 4, 
 		text: barcode
 	}); 
-	console.log(barcode);
-	$.b_code.add(BARCODE.generateBarcode(barcode));	
-	console.log("barcode"+barcode);
- 	//removeAllChildren($.qrCode);
- 	$.qrCode.removeAllChildren();
-	$.qrCode.add(qrcodeView);	
+	var title = $.UI.create("Label",{classes:['wsize','hsize','h1'],text:barcode});
+	console.log("barcode"+display);
+ 	if(display == "1"){
+ 		$.b_code.add(title);	
+ 	}
+ 	if(display == "2"){
+ 		$.b_code.add(BARCODE.generateBarcode(barcode));	
+ 	} 	
+ 	if(display == "3"){
+	  	$.qrCode.removeAllChildren();
+		$.qrCode.add(qrcodeView);			
+ 	}	
+ 	if(display == "2,3"){
+ 		$.b_code.add(BARCODE.generateBarcode(barcode));	
+ 	  	$.qrCode.removeAllChildren();
+		$.qrCode.add(qrcodeView);			
+ 	}
 }
 
 function getAdDetails(){

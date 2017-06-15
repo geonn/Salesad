@@ -78,7 +78,8 @@ function generateMyProfileTable(RegArr){
 			image:RegArr[j].leftImage,
 			width:30, 
 			height:30,
-			left:10 
+			left:10,
+			defaultImage: "/images/SalesAd_Profile Pic.png"
 		});	
 		
 		var title = $.UI.create('Label', {
