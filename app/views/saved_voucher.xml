@@ -44,7 +44,7 @@
 									<View class="myView wfill"height="40" zIndex="10" bottom="0" id="hoverg"></View>
 								</View>
 								<View class="vert wfill hsize">
-									<Label class="wfill hsize bold" id="smallball" text="Read More..."></Label>
+									<Label class="wfill hsize" id="smallball" text="Read More"></Label>
 								</View>
 							</View>		
 							<View class="hr" backgroundColor="#DFE0E1"></View>						

@@ -172,7 +172,7 @@ function showtnc(e){
 	}
 	else{
 		$.bt2.image = "/images/Icon_Down.png";
-		$.smallball.setText("Read More...");					
+		$.smallball.setText("Read More");					
 		$.tnc.setHeight(65);
 		$.hoverg.setOpacity(1);
 		c2 = true;

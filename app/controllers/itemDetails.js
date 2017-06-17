@@ -269,7 +269,7 @@ function addVoucher(){
 			classes:['wfill','hsize','vert','padding4'],
 			borderWidth:'5',
 			borderColor:'#66787878',
-			bottom:"40"
+			bottom:"55"
 			});	
 		var v_image = $.UI.create('imageView',{
 			classes:['wfill','hsize','padding4'],
@@ -395,8 +395,7 @@ function addVoucher(){
 			id:'htr'
 		});
 		var view7 = $.UI.create('View',{     //tc_extend add event!!!
-			classes:['wfill','vert'],
-			height:"65",
+			classes:['wfill','vert','hsize']
 		});
 		
 		var tc = $.UI.create('View',{
@@ -413,11 +412,15 @@ function addVoucher(){
 			image:"/images/Icon_Down.png"
 		});
 		var tc_data = $.UI.create('view',{
-			classes:['wfill','hsize'],
+			classes:['wfill'],
+			height:"65",
 		});
 		var hoverg = $.UI.create("View",{classes:['myView','wfill'],height:"40",zIndex:"10",bottom:"0"});	
 		var title1 = $.UI.create("Label",{classes:['wsize','hsize'],text:voucher_item.redeem,left:0});		
-		var title2 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:tncrule,top:"0"});		
+		var title2 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:tncrule,top:"0"});
+		var readmoreview = $.UI.create("View",{classes:['vert','wfill','hsize']});
+		var readmore = $.UI.create("Label",{classes:['wfill','hsize','padding'],top:"0",text:"Read More"});
+		readmoreview.add(readmore);		
 		htr.add(label_htr);
 		htr.add(image_htr);
 		view6.add(htr);
@@ -428,6 +431,7 @@ function addVoucher(){
 		tc_data.add(hoverg);
 		tc_data.add(title2);			
 		view7.add(tc_data);	
+		view7.add(readmoreview);
 		view5.add(valid);
 		view5.add(valid1);
 		view5.add(valid2);
@@ -465,12 +469,16 @@ function addVoucher(){
 		var click2 = true;
 		view7.addEventListener("click",function(e){
 			if(click2){		
-				view7.height= Ti.UI.SIZE;
+				readmore.text = "Read Less";
+				tc_data.height= Ti.UI.SIZE;
 				click2 = false;
+				hoverg.setOpacity(0);
 			}
 			else{
-				view7.height = 65;
+				readmore.text = "Read More";
+				tc_data.height = 100;
 				click2 = true;
+				hoverg.setOpacity(1);	
 			}
 		});			
 }			
