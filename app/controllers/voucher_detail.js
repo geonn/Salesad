@@ -104,8 +104,9 @@ function set_data(){
 	$.desc.setText(data.description);
 	$.saved.setText(eval(data.total-quantity));
 	var tc = $.UI.create("Label",{
-		classes:['wfill','hsize'],
+		classes:['wfill','hsize','padding'],
 		top:0,
+		left:20,
 		text:data.tnc,
 	});
 	$.tc.add(tc);	
@@ -117,6 +118,7 @@ function htr_extend(){
 		var htr = $.UI.create("Label",{
 			classes:['wfill','hsize','padding'],
 			top:0,
+			left:25,
 			text:data.redeem,
 		});
 		$.htr.add(htr);

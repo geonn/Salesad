@@ -38,14 +38,6 @@ var items  = i_library.getItemByAds(a_id);
 			console.log("Item View ad error");
 	}});	
 
-function createWhoops(){
-	var box = Titanium.UI.createAlertDialog({
-		title: "Whoops!",
-		message: "Sorry, you don't have enough CP points to save this voucher."
-	});
-	box.show();
-};
-
 function set_title_button(){
 	var b_title = "";
 	var b_color = "";
@@ -266,10 +258,11 @@ function getNowDate(){   //calculate the days between two dates
 ////////Voucher Detail////////
 function addVoucher(){
 	var voucher = $.UI.create('View',{
-			classes:['wfill','hsize','vert','padding4'],
+			classes:['wfill','hsize','vert','padding5'],
 			borderWidth:'5',
 			borderColor:'#66787878',
-			bottom:"55"
+			backgroundColor:'#fff',
+			bottom:"100"
 			});	
 		var v_image = $.UI.create('imageView',{
 			classes:['wfill','hsize','padding4'],
@@ -282,9 +275,11 @@ function addVoucher(){
 			bottom:'5',
 			id:'title',
 			text:voucher_item.title,
+			left:'25'
 		});
 		var view1 = $.UI.create('View',{
-			classes:['wfill','hsize','horz']
+			classes:['wfill','hsize','horz'],
+			backgroundColor:'#fff',
 		});
 		var saved = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding1','bold'],
@@ -302,6 +297,7 @@ function addVoucher(){
 		});
 		var view3 = $.UI.create('View',{
 			classes:['wfill','hsize','horz'],
+			backgroundColor:'#fff',
 			top:'0'
 		});
 		var left = $.UI.create('Label',{
@@ -317,6 +313,7 @@ function addVoucher(){
 		});
 		var view4 = $.UI.create('View',{
 			classes:['wfill','hsize','horz'],
+			backgroundColor:'#fff',
 		});
 		var end = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding2'],
@@ -337,16 +334,19 @@ function addVoucher(){
 		var desc = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
 			top:'0',
+			left:'25',
 			text:voucher_item.description
 		});
 		var view5 = $.UI.create('View',{
 			classes:['wfill','hsize','horz'],
+			backgroundColor:'#fff',
 		});
 		var valid = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
 			right:'5',
 			top:'0',
 			text:'Valid from',
+			left:'25'
 		});
 		var dateUseFrom = convertToHumanFormat(voucher_item.use_from);  // parse date format
 		var dateUseTo = convertToHumanFormat(voucher_item.use_to);
@@ -374,6 +374,7 @@ function addVoucher(){
 			classes:['hr1']
 		});
 		var view6 = $.UI.create('View',{     //htr_extend add event!!!
+			backgroundColor:'#fff',
 			classes:['wfill','hsize','vert']
 		});
 		
@@ -382,7 +383,8 @@ function addVoucher(){
 		});
 		var label_htr = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
-			text:'How to redeem'
+			text:'How to Redeem',
+			left:'25'
 		});
 		var image_htr = $.UI.create('imageView',{
 			width:'15',
@@ -395,6 +397,7 @@ function addVoucher(){
 			id:'htr'
 		});
 		var view7 = $.UI.create('View',{     //tc_extend add event!!!
+			backgroundColor:'#fff',
 			classes:['wfill','vert','hsize']
 		});
 		
@@ -403,7 +406,8 @@ function addVoucher(){
 		});
 		var label_tc = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
-			text:'Terms & Conditions'
+			text:'Terms & Conditions',
+			left:'25'
 		});
 		var image_tc = $.UI.create('imageView',{
 			width:'15',
@@ -416,10 +420,10 @@ function addVoucher(){
 			height:"65",
 		});
 		var hoverg = $.UI.create("View",{classes:['myView','wfill'],height:"40",zIndex:"10",bottom:"0"});	
-		var title1 = $.UI.create("Label",{classes:['wsize','hsize'],text:voucher_item.redeem,left:0});		
-		var title2 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:tncrule,top:"0"});
+		var title1 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:voucher_item.redeem,top:"0",left:"25"});		
+		var title2 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:voucher_item.tnc,top:"0",left:"25"});
 		var readmoreview = $.UI.create("View",{classes:['vert','wfill','hsize']});
-		var readmore = $.UI.create("Label",{classes:['wfill','hsize','padding'],top:"0",text:"Read More"});
+		var readmore = $.UI.create("Label",{classes:['wfill','hsize','padding'],top:"0",text:"Read More",left:25});
 		readmoreview.add(readmore);		
 		htr.add(label_htr);
 		htr.add(image_htr);
@@ -458,11 +462,13 @@ function addVoucher(){
 		var click1 = true;
 		view6.addEventListener("click",function(e){
 			if(click1){
-				htr_data.add(title1);			
+				htr_data.add(title1);
+				image_htr.image = "/images/Icon_Up.png";			
 				click1 = false;
 			}
 			else{
 				htr_data.removeAllChildren();
+				image_htr.image = "/images/Icon_Down.png";
 				click1 = true;
 			}
 		});
@@ -470,19 +476,21 @@ function addVoucher(){
 		view7.addEventListener("click",function(e){
 			if(click2){		
 				readmore.text = "Read Less";
+				image_tc.image = "/images/Icon_Up.png";
 				tc_data.height= Ti.UI.SIZE;
 				click2 = false;
 				hoverg.setOpacity(0);
 			}
 			else{
 				readmore.text = "Read More";
+				image_tc.image = "/images/Icon_Down.png";
 				tc_data.height = 100;
 				click2 = true;
 				hoverg.setOpacity(1);	
 			}
 		});			
 }			
-		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert']});
+		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert'],backgroundColor:"#e8e8e8"});
 		itemImageView.add(adImage); 	
 		console.log("items " + items[i]);
 		if(items[i].isExclusive == 1){

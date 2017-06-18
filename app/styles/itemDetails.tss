@@ -1,25 +1,18 @@
- 
-".container": {
-	backgroundColor: '#000000',
-	layout: 'vertical',
-	width: Ti.UI.FILL,
-	height: Ti.UI.SIZE,
-}
-".myView":{
-  backgroundGradient: {
-    type: 'linear',
-    colors: ['transparent', '#fff'],
-  },
-},
 ".save_button":{
 	left: 3,
 	right: 3,
 	bottom: 3,
+	top: 3,
 	backgroundColor: "#ED1C24",
 	color: "#fff",
 	borderRadius: 6
 }
-
+".myView":{
+  backgroundGradient: {
+    type: 'linear',
+    colors: ['00ffffff', '#fff'],
+  },
+},
 ".hr1":{
 	width: Ti.UI.FILL,
 	height: '1',
@@ -30,12 +23,12 @@
 
 ".padding1":{
 	top: '0',
-	left: '10'
+	left: '25'
 }
 
 ".padding2":{
 	top: 0,
-	left: 10,
+	left: 25,
 	right: 10,
 	bottom: 2,
 }
@@ -59,3 +52,11 @@
 	right: 5,
 	bottom: 5
 }
+
+".padding5":{
+	top: 10,
+	left: 15,
+	right: 15,
+	bottom: 10
+}
+

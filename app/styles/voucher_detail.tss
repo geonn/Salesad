@@ -2,6 +2,7 @@
 	left: 3,
 	right: 3,
 	bottom: 3,
+	top: 3,
 	backgroundColor: "#ED1C24",
 	color: "#fff",
 	borderRadius: 6
@@ -9,7 +10,7 @@
 ".myView":{
   backgroundGradient: {
     type: 'linear',
-    colors: ['transparent', '#fff'],
+    colors: ['00ffffff', '#fff'],
   },
 },
 ".hr1":{
@@ -22,12 +23,12 @@
 
 ".padding1":{
 	top: '0',
-	left: '10'
+	left: '25'
 }
 
 ".padding2":{
 	top: 0,
-	left: 10,
+	left: 25,
 	right: 10,
 	bottom: 2,
 }
@@ -50,5 +51,12 @@
 	left: 5,
 	right: 5,
 	bottom: 5
+}
+
+".padding5":{
+	top: 10,
+	left: 15,
+	right: 15,
+	bottom: 10
 }
 

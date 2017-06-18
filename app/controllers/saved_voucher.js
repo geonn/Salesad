@@ -16,9 +16,10 @@ if(res.item_id != null){
 }
 function setData(){
 	$.title.setText(res.title);
-	$.date.setText(res.use_from + " - " + res.use_to);
+	$.date.setText(res.use_from);
+	$.date1.setText(res.use_to);
 	$.description.setText(res.description);	
-	var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.tnc,left:0,top:10});
+	var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.tnc,left:20,top:10});
 	$.tnc.add(title);	
 }
 function render_banner(){
@@ -151,7 +152,7 @@ var c1 = true;
 function showredeem(e){
 	if(c1){
 		$.bt1.image = "/images/Icon_Up.png";
-		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.redeem,left:0});
+		var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.redeem,left:20});
 		$.redeem.add(title);
 		c1 = false;	
 	}

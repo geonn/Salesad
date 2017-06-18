@@ -1,33 +1,43 @@
-
-".container" : {
-	width: Ti.UI.FILL,
-	fullscreen: true,
-},
+".save_button":{
+	left: 3,
+	right: 3,
+	bottom: 3,
+	top: 3,
+	backgroundColor: "#ED1C24",
+	color: "#fff",
+	borderRadius: 6
+}
 ".myView":{
   backgroundGradient: {
     type: 'linear',
-    colors: ['transparent', '#fff'],
+    colors: ['00ffffff', '#fff'],
   },
 },
-".rowAd" :{
-	layout: 'horizontal',
-	right: 4,
-	height: Titanium.UI.SIZE,
-	width: Titanium.UI.FILL
-},
-".cellAd" :{
-	top: 4,
-	width: '50%',
-	height: Titanium.UI.SIZE,
+".hr1":{
+	width: Ti.UI.FILL,
+	height: '1',
+	backgroundColor: '#E8E8E8',
+	left: '5',
+	right: '5'
 }
-".detail_padding":{
-	top:10,
-	left:30, 
-	right:30,
-	bottom:10,
+
+".padding1":{
+	top: '0',
+	left: '25'
 }
-".small_bottom":{
-	bottom:10
+
+".padding2":{
+	top: 0,
+	left: 25,
+	right: 10,
+	bottom: 2,
+}
+
+".padding3":{
+	top: 2,
+	left: 2,
+	right: 2,
+	bottom: 2
 }
 
 ".vTitle":{
@@ -43,11 +53,10 @@
 	bottom: 5
 }
 
-".save_button":{
-	left: 3,
-	right: 3,
-	bottom: 3,
-	backgroundColor: "#ED1C24",
-	color: "#fff",
-	borderRadius: 6
+".padding5":{
+	top: 10,
+	left: 15,
+	right: 15,
+	bottom: 10
 }
+

@@ -1,5 +1,5 @@
 <Alloy>
-	<Window title="" backButtonTitle="" class="" id="win" navTintColor="#ED1C24">
+	<Window title="" backButtonTitle="" class="" id="win" navTintColor="#ED1C24" backgroundColor="#fff">
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0' width="30" height="30" image="/images/btn-back.png" />
@@ -14,37 +14,39 @@
 		 	</View>
 		    <View class="hr" top="0"></View>
 		    <View class="wfill hfill">
-				<ScrollView contentWidth="Ti.UI.FILL" top="1" layout="vertical" top="0" bottom="50">
-					<View class="wfill hsize vert padding4" borderWidth="5" borderColor="#66787878">					
-						<View class="wfill hsize" left="5" right="5" top="5" id="banner"></View>
-						<View class="wfill hsize vert" id="ads_details">
-							<View class="padding vert wfill hsize">
-								<Label class="wsize hsize vTitle bold" bottom="5" color="#000" left="0" id="title" text="Title"></Label>
+				<ScrollView contentWidth="Ti.UI.FILL" top="1" layout="vertical" top="0" bottom="50" backgroundColor="#e8e8e8">
+					<View class="wfill hsize vert padding5" borderWidth="5" borderColor="#66787878" backgroundColor="#fff">					
+						<View class="wfill hsize" left="5" right="5" top="5" id="banner" backgroundColor="#fff"></View>
+						<View class="wfill hsize vert" id="ads_details" backgroundColor="#fff">
+							<View class="padding vert wfill hsize" backgroundColor="#fff">
+								<Label class="wsize hsize vTitle bold" bottom="5" color="#000" left="20" id="title" text="Title"></Label>
 								<View class="wfill hsize horz">
-									<Label class="wsize hsize h5" bottom="5" color="#000" left="0" text="Valid Date : "></Label>								
-									<Label class="wsize hsize h5" bottom="5" color="#ed1c24" left="0" id="date" text="Date"></Label>								
+									<Label class="wsize hsize h5" bottom="5" color="#000" left="20" text="Valid from "></Label>								
+									<Label class="wsize hsize h5" bottom="5" color="#ed1c24" left="0" id="date" text="Date"></Label>	
+									<Label class="wsize hsize h5" bottom="5" color="#000" text=" to "></Label>	
+									<Label class="wsize hsize h5" bottom="5" color="#ed1c24" left="0" id="date1" text="Date1"></Label>								
 								</View>
-								<Label class="wsize hsize h5" color="#000" left="0" id="description" text="desc"></Label>								
+								<Label class="wsize hsize h5" color="#000" left="20" id="description" text="desc"></Label>								
 							</View>								
 							<View class="hr" backgroundColor="#DFE0E1" left="5" right="5"></View>	
-							<View class="wfill hsize vert padding" left="10" right="10" onClick="showredeem" turn="0">
+							<View class="wfill hsize vert padding" left="10" right="10" onClick="showredeem" turn="0" backgroundColor="#fff">
 								<View class="horz wfill hsize">
-									<Label class="wsize hsize h5" color="#000" left="0">How to redeem</Label>
+									<Label class="wsize hsize h5" color="#000" left="20">How to Redeem</Label>
 									<ImageView id="bt1" left="10" width="15" height="15" image="/images/Icon_Down.png"></ImageView>
 								</View>
 								<View class="horz wfill hsize" id="redeem"></View>
 							</View>		
 							<View class="hr" backgroundColor="#DFE0E1" left="5" right="5"></View>	
-							<View class="wfill hsize vert padding" onClick="showtnc" turn="0">
+							<View class="wfill hsize vert padding" onClick="showtnc" turn="0" backgroundColor="#fff">
 								<View class="horz wfill hsize">
-									<Label class="wsize hsize h5" color="#000" left="0">Term & Conditions</Label>
+									<Label class="wsize hsize h5" color="#000" left="20">Terms & Conditions</Label>
 									<ImageView id="bt2" left="10" width="15" height="15" image="/images/Icon_Down.png"></ImageView>
 								</View>
 								<View class="wfill" height="65" id="tnc">
 									<View class="myView wfill"height="40" zIndex="10" bottom="0" id="hoverg"></View>
 								</View>
 								<View class="vert wfill hsize">
-									<Label class="wfill hsize" id="smallball" text="Read More"></Label>
+									<Label class="wfill hsize" id="smallball" left="20" text="Read More"></Label>
 								</View>
 							</View>		
 							<View class="hr" backgroundColor="#DFE0E1"></View>						
