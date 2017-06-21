@@ -1,8 +1,8 @@
 ".save_button":{
 	left: 20,
 	right: 20,
-	bottom: 3,
-	top: 3,
+	bottom: 5,
+	top: 1,
 	backgroundColor: "#ED1C24",
 	color: "#fff",
 	borderRadius: 6
