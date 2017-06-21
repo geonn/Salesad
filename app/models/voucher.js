@@ -63,7 +63,7 @@ exports.definition = {
 			getData: function(unlimit){
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
-				var sql = "select * from "+collection.config.adapter.collection_name+";";
+				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1;";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);

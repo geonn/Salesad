@@ -345,8 +345,6 @@ function vouchers(e) {
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			ellipsize: true,
-			wordWrap: false,
 			text: (entry.point != 0) ? entry.point : "",
 			color: "#ED1C24",
 			right: 0
@@ -387,7 +385,7 @@ function vouchers(e) {
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
-		//View2.add(title);
+		View2.add(title);
 		$.voucher_view.add(View1);
 		
 		View1 = null;
@@ -431,7 +429,7 @@ function savedvoucher(e) {
 			entry.image = image;
 		}
 		var container = $.UI.create("View", {
-			classes: ['hsize',],
+			classes: ['hsize'],
 			width: cell_width,
 			left: 9,
 			top: 9
@@ -482,8 +480,6 @@ function savedvoucher(e) {
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			ellipsize: true,
-			wordWrap: false,
 			text: saved + " saved",
 			color: "#ED1C24",
 			left: 0
@@ -546,7 +542,7 @@ function savedvoucher(e) {
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
-		//View2.add(title);
+		View2.add(title);
 		$.ongoingV.add(container);
 		
 		View1 = null;
@@ -568,7 +564,7 @@ function savedvoucher(e) {
 			entry.image = image;
 		}		
 		var container = $.UI.create("View", {
-			classes: ['hsize',],
+			classes: ['hsize'],
 			width: cell_width,
 			left: 9,
 			top: 9
@@ -587,7 +583,7 @@ function savedvoucher(e) {
 		});
 		var viewimg = $.UI.create("View", {
 			classes: ['wfill', 'vert'],
-			height: 230,
+			height: cell_width,
 			backgroundColor: "#fff"
 		});
 		var img = $.UI.create("ImageView", {
@@ -638,8 +634,6 @@ function savedvoucher(e) {
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			ellipsize: true,
-			wordWrap: false,
 			text: (entry.point != 0) ? entry.point : "",
 			color: "#ED1C24",
 			right: 0
@@ -683,7 +677,7 @@ function savedvoucher(e) {
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
-		//View2.add(title);
+		View2.add(title);
 		$.expiredV.add(container);
 		
 		View1 = null;
