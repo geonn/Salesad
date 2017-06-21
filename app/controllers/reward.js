@@ -312,9 +312,9 @@ function vouchers(e) {
 		});
 		var View3 = $.UI.create("View", {
 			classes: ['wfill', 'hsize'],
-			left: 10,
-			right: 10,
-			bottom: 5
+			left: 5,
+			right: 5,
+			top: 5
 		});
 		var saved = entry.total - entry.quantity;
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
@@ -362,18 +362,18 @@ function vouchers(e) {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			text: entry.title + " " + entry.discount,
-			left: 10,
-			right: 10,
-			bottom: 10
+			left: 5,
+			right: 5,
+			bottom: 5
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
 			text: entry.title + " " + entry.discount,
-			left: 10,
-			right: 10,
-			bottom: 10
+			left: 5,
+			right: 5,
+			bottom: 5
 		});
 		
 		img.addEventListener("click", toVoucher);
@@ -466,9 +466,9 @@ function savedvoucher(e) {
 		});
 		var View3 = $.UI.create("View", {
 			classes: ['wfill', 'hsize'],
-			left: 10,
-			right: 10,
-			bottom: 5
+			left: 5,
+			right: 5,
+			top: 5
 		});
 		var saved = entry.total - entry.quantity;
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
@@ -516,18 +516,18 @@ function savedvoucher(e) {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			text: entry.title + " " + entry.description,
-			left: 10,
-			right: 10,
-			bottom: 10
+			left: 5,
+			right: 5,
+			bottom: 5
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
 			text: entry.title + " " + entry.description,
-			left: 10,
-			right: 10,
-			bottom: 10
+			left: 5,
+			right: 5,
+			bottom: 5
 		});
 		
 		delBT.addEventListener("click", delvoucher);
@@ -601,10 +601,9 @@ function savedvoucher(e) {
 		});
 		var View3 = $.UI.create("View", {
 			classes: ['wfill', 'hsize'],
-			left: 10,
-			right: 10,
-			top: 5,
-			bottom: 5
+			left: 5,
+			right: 5,
+			top: 5
 		});
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
@@ -651,18 +650,18 @@ function savedvoucher(e) {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			text: entry.title + " " + entry.description,
-			left: 10,
-			right: 10,
-			bottom: 10
+			left: 5,
+			right: 5,
+			bottom: 5
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
 			text: entry.title + " " + entry.description,
-			left: 10,
-			right: 10,
-			bottom: 10
+			left: 5,
+			right: 5,
+			bottom: 5
 		});
 		
 		delBT.addEventListener("click", delvoucher);
