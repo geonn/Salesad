@@ -1,6 +1,6 @@
 ".save_button":{
-	left: 3,
-	right: 3,
+	left: 20,
+	right: 20,
 	bottom: 3,
 	top: 3,
 	backgroundColor: "#ED1C24",

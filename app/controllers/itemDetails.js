@@ -72,7 +72,7 @@ function set_title_button(){
 		}
 		if(voucher_item.quantity<=0){
 			b_title = "Out of Stock";
-			b_color = "#ED1C24";
+			b_color = "#a6a6a6";
 			b_enable = false;
 		}
 		

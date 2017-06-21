@@ -13,6 +13,7 @@ var current_point = "";
 var fristDate = "";
 var secondDate = "";
 var endsDay = "";
+var loading = Alloy.createController("loading");
 var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
 console.log("User id = "+u_id+" voucher id "+v_id);
 console.log(data.v_limit+"here");
@@ -48,6 +49,70 @@ function getNowDate(){   //calculate the days between two dates
 	console.log(secondDate+" voucher date");
 	endsDay = daydiff(parseDate(secondDate), parseDate(fristDate));	
 	$.days.setText(endsDay);
+}
+
+function render_banner(){
+ 	var bannerImage = Ti.UI.createImageView({
+ 		defaultImage: "/images/image_loader_640x640.png",
+ 		image:data.image,
+		width : "100%",
+		height: Ti.UI.SIZE,//ads_height,
+	});
+	
+	var app_background = "#fff";
+	$.win.backgroundColor = app_background;
+	$.banner.add(bannerImage);
+	
+	bannerImage.addEventListener('click',function(e){
+		var Zv = Ti.UI.createView({
+			width :Ti.UI.FILL,
+			height :Ti.UI.FILL, 
+			backgroundColor: "#66000000",
+			zIndex :100
+		});
+		var Z = Ti.UI.createView({
+			width :"95%",
+			height :Ti.UI.SIZE,
+			backgroundColor :"transparent",
+			zIndex :100
+		});
+		var Ziv = Ti.UI.createScrollView({
+			width :Ti.UI.SIZE, 
+			height :Ti.UI.SIZE,        
+            showHorizontalScrollIndicator:false,
+            showVerticalScrollIndicator:false,
+            maxZoomScale:10,
+            minZoomScale:1.0,
+            borderWidth :1, 
+      		backgroundColor :"transparent",
+      		zIndex :100
+		});
+		var Zimage = Ti.UI.createImageView({
+			defaultImage :"/images/image_loader_640x640.png",
+			image: data.image,
+			width :"100%",
+			height :Ti.UI.SIZE,
+			zIndex :101,
+			enableZoomControls :"true"
+		});
+		var close = Ti.UI.createImageView({
+			image :"/images/Icon_Delete_Round.png",
+			width : 30, 
+			height : 30, 
+			top : 3,
+			right : 3,  
+			zIndex : 102
+		});
+		Ziv.add(Zimage);
+		Z.add(Ziv);
+		Z.add(close);
+		Zv.add(Z);
+		$.win.add(Zv);
+		close.addEventListener('click',function(e){
+			Zv.removeAllChildren();
+			Zv.height = 0;
+		});
+});
 }
 
 if(data.point==0){
@@ -95,7 +160,6 @@ function checkVoucherLimit(){
 function set_data(){
 	var dateUseFrom = convertToHumanFormat(data.use_from);
 	var dateUseTo = convertToHumanFormat(data.use_to);
-	$.image_voucher.setImage(data.image);
 	$.title.setText(data.title);
 	$.leftV.setText(quantity);
 	$.point.setText(data.point);
@@ -141,7 +205,7 @@ function tc_extend(){
 		$.tc_image.image = "/images/Icon_Down.png";
 		$.tc.setHeight(52);	
 		$.hoverg.setOpacity(1);	
-		$.smallball.setText("Read More...");					
+		$.smallball.setText("Read More");					
 		tc_turn = true;
 	}	
 }
@@ -164,13 +228,21 @@ function checkingVoucher(){
 	if(quantity<=0){
 		$.save.setTitle("Out of Stock");   //check voucher left
 		$.save.setEnabled(false);
+		$.save.setBackgroundColor("#a6a6a6");
 	}	
 }
 
-set_data();
-userCurrentPoint();
-checkVoucherLimit();
-getNowDate();
+function init(){
+	$.win.add(loading.getView());	
+	loading.finish();
+	set_data();
+	userCurrentPoint();
+	checkVoucherLimit();
+	getNowDate();
+	render_banner();
+}
+init();
+	
 
 function doSave(){
 	if(checkingForSave){   //avoid double click 

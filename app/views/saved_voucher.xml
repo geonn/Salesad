@@ -22,9 +22,9 @@
 								<Label class="wsize hsize vTitle bold" bottom="5" color="#000" left="20" id="title" text="Title"></Label>
 								<View class="wfill hsize horz">
 									<Label class="wsize hsize h5" bottom="5" color="#000" left="20" text="Valid from "></Label>								
-									<Label class="wsize hsize h5" bottom="5" color="#ed1c24" left="0" id="date" text="Date"></Label>	
+									<Label class="wsize hsize h5 bold" bottom="5" left="0" id="date" text="Date"></Label>	
 									<Label class="wsize hsize h5" bottom="5" color="#000" text=" to "></Label>	
-									<Label class="wsize hsize h5" bottom="5" color="#ed1c24" left="0" id="date1" text="Date1"></Label>								
+									<Label class="wsize hsize h5 bold" bottom="5" left="0" id="date1" text="Date1"></Label>								
 								</View>
 								<Label class="wsize hsize h5" color="#000" left="20" id="description" text="desc"></Label>								
 							</View>								
