@@ -81,7 +81,8 @@ exports.definition = {
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
-					    display_type: res.fieldByName('display_type')
+					    display_type: res.fieldByName('display_type'),
+					    left: res.fieldByName('left')
 					};
                 	res.next();
 					count++;
@@ -195,7 +196,8 @@ exports.definition = {
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
-					    display_type: res.fieldByName('display_type')
+					    display_type: res.fieldByName('display_type'),
+					    left: res.fieldByName('left')
 					};
                 	res.next();
 					count++;
@@ -239,7 +241,8 @@ exports.definition = {
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
-					    display_type: res.fieldByName('display_type')
+					    display_type: res.fieldByName('display_type'),
+					    left: res.fieldByName('left')
 					};
                 }
                 res.close();
@@ -283,7 +286,8 @@ exports.definition = {
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
-					    display_type: res.fieldByName('display_type')
+					    display_type: res.fieldByName('display_type'),
+					    left: res.fieldByName('left')
 					};
                 	res.next();
 					count++;

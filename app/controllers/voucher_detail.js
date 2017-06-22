@@ -7,7 +7,7 @@ var checkingForSave = true;
 var v_id = args.v_id;
 var voucher = Alloy.createCollection("voucher");
 var data = voucher.getDataById(v_id);
-var quantity = data.quantity;
+var left = data.left;
 var user_point = [];
 var current_point = "";
 var fristDate = "";
@@ -115,7 +115,7 @@ function render_banner(){
 });
 }
 
-if(data.point==0){
+if(data.point==0 || data.point==null){
 	$.pointView.opacity = 0;
 	if(OS_IOS){
 		$.win.setTitle("Instant Voucher");
@@ -161,12 +161,12 @@ function set_data(){
 	var dateUseFrom = convertToHumanFormat(data.use_from);
 	var dateUseTo = convertToHumanFormat(data.use_to);
 	$.title.setText(data.title);
-	$.leftV.setText(quantity);
+	$.leftV.setText(left);
 	$.point.setText(data.point);
 	$.valid_from.setText(dateUseFrom);
 	$.valid_to.setText(dateUseTo);
 	$.desc.setText(data.description);
-	$.saved.setText(eval(data.total-quantity));
+	$.saved.setText(eval(data.quantity));
 	var tc = $.UI.create("Label",{
 		classes:['wfill','hsize','padding'],
 		top:0,
@@ -225,8 +225,8 @@ function checkingVoucher(){
 		$.save.setEnabled(true);
 		$.save.setBackgroundColor("#ED1C24");
 	}
-	if(quantity<=0){
-		$.save.setTitle("Out of Stock");   //check voucher left
+	if(left==0){
+		$.save.setTitle("Voucher Fully Saved");   //check voucher left
 		$.save.setEnabled(false);
 		$.save.setBackgroundColor("#a6a6a6");
 	}	
