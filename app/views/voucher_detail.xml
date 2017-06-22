@@ -32,7 +32,7 @@
 			 		</View>
 			 		<View class="wfill hsize horz" top="0">
 			 			<Label class="wsize hsize h5 padding1 bold" bottom="2" id="leftV" text="0"></Label>
-			 			<Label class="wsize hsize h5 padding2" left="5" text="left"></Label>
+			 			<Label class="wsize hsize h5 padding2" left="5" id="leftV2" text="left"></Label>
 			 		</View>	
 			 		<View class="wfill hsize horz">
 			 			<Label class="wsize hsize h5 padding2" right="5" text="Ends in"></Label>

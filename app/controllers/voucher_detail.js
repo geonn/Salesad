@@ -4,6 +4,7 @@ var htr_turn = true;
 var tc_turn = true;
 var checkingLimit = true;
 var checkingForSave = true; 
+var checkingClaimLimit = true;
 var v_id = args.v_id;
 var voucher = Alloy.createCollection("voucher");
 var data = voucher.getDataById(v_id);
@@ -137,31 +138,48 @@ function userCurrentPoint(){
 	console.log("User current point = "+current_point);
 }
 
-function createWhoops(){
+function createWhoops(e){
 	var box = Titanium.UI.createAlertDialog({
 		title: "Whoops!",
-		message: "Sorry, you don't have enough CP points to save this voucher."
+		message: e
 	});
 	box.show();
 };
 
-function checkVoucherLimit(){
+function checkVoucherStatus(){
 	var model = Alloy.createCollection("MyVoucher");
-	var voucherLimit = model.getCountByVid(v_id);
-	var limit = voucherLimit.count;
-	console.log("Voucher limit is "+limit+" by v_id "+v_id);
-	console.log(data.limit);
+	var voucherStatus = model.getCountByVid(v_id);
+	var limit = voucherStatus.count;
+	console.log("Voucher status is "+limit+" by v_id "+v_id);
 	if(limit>=1){
 		checkingLimit = false;
 	}
 	checkingVoucher();
 }
 
+function checkVoucherLimit(){
+	var model = Alloy.createCollection("MyVoucher");
+	var voucherLimit = model.getCountLimitByVid(v_id);
+	var limit = voucherLimit.count;
+	console.log("Voucher limit is "+limit+" by v_id "+v_id);
+	console.log(data.limit);
+	if(data.limit==-1){
+		checkingClaimLimit = true;
+	}else if(limit>=data.limit){
+		checkingClaimLimit = false;
+	}
+}
+
 function set_data(){
 	var dateUseFrom = convertToHumanFormat(data.use_from);
 	var dateUseTo = convertToHumanFormat(data.use_to);
 	$.title.setText(data.title);
-	$.leftV.setText(left);
+	if(data.left==-1){
+		$.leftV2.setText(" ");
+		$.leftV.setText("While Stocks Last");
+	}else{
+		$.leftV.setText(left);
+	}
 	$.point.setText(data.point);
 	$.valid_from.setText(dateUseFrom);
 	$.valid_to.setText(dateUseTo);
@@ -215,16 +233,15 @@ function checkingVoucher(){
 		$.save.setTitle("Voucher Saved");   //check voucher limit
 		$.save.setBackgroundColor("#a6a6a6");
 		$.save.setEnabled(false);
-	}
-	if(checkingLimit){
+	}else if(checkingLimit){
 		$.save.setTitle("Save Voucher");   //check voucher limit
 		$.save.setEnabled(true);
 	}
-	if(data.limit == -1){
+	/*if(data.limit == -1){
 		$.save.setTitle("Save Voucher");   //unlimit voucher
 		$.save.setEnabled(true);
 		$.save.setBackgroundColor("#ED1C24");
-	}
+	}*/
 	if(left==0){
 		$.save.setTitle("Voucher Fully Saved");   //check voucher left
 		$.save.setEnabled(false);
@@ -237,6 +254,7 @@ function init(){
 	loading.finish();
 	set_data();
 	userCurrentPoint();
+	checkVoucherStatus();
 	checkVoucherLimit();
 	getNowDate();
 	render_banner();
@@ -246,7 +264,8 @@ init();
 
 function doSave(){
 	if(checkingForSave){   //avoid double click 
-		if(data.point<=current_point){   //check user point
+		if(checkingClaimLimit){
+			if(data.point<=current_point){   //check user point
 			console.log("voucher point "+data.point+" <= "+" user point "+current_point);
 			checkingForSave = false;
 			var common = require('common');
@@ -276,8 +295,11 @@ function doSave(){
 				}});				
 			});	
 		}else{
-			createWhoops();
+			createWhoops("Sorry, you don't have enough CP points to save this voucher.");
 		}	
+		}else{
+			createWhoops("You have exceeded the limit of this voucher");
+		}
 	}
 }
 $.win.addEventListener('android:back', function (e) {

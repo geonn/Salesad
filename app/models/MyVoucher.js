@@ -117,6 +117,25 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;				
 			},
+			getCountLimitByVid:function(vid){
+				var collection = this;
+				var sql = "select count(v_id) as v_limit from "+collection.config.adapter.collection_name+" where v_id = "+vid;
+				db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                var res = db.execute(sql);
+                var arr;
+                if(res.isValidRow()){
+	            	arr = {
+	            		count: res.fieldByName('v_limit'),
+					};                	
+                }
+                res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;		
+			},
 			getCountByVid:function(vid){
 				var collection = this;
 				var sql = "select count(v_id) as v_limit from "+collection.config.adapter.collection_name+" where v_id = "+vid+" and status = 1";
