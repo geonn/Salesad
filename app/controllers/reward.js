@@ -316,11 +316,10 @@ function vouchers(e) {
 			right: 5,
 			top: 5
 		});
-		var saved = entry.total - entry.quantity;
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: saved + " saved",
+			text: entry.left + " saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
@@ -328,7 +327,7 @@ function vouchers(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: saved + " saved",
+			text: entry.left + " saved",
 			color: "#ED1C24",
 			left: 0
 		});
@@ -470,17 +469,16 @@ function savedvoucher(e) {
 			right: 5,
 			top: 5
 		});
-		var saved = entry.total - entry.quantity;
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: saved + " saved",
+			text: entry.left + " saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: saved + " saved",
+			text: entry.left + " saved",
 			color: "#ED1C24",
 			left: 0
 		});
@@ -608,7 +606,7 @@ function savedvoucher(e) {
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.total - entry.quantity + " saved",
+			text: entry.left + " saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
@@ -616,7 +614,7 @@ function savedvoucher(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.total - entry.quantity + " saved",
+			text: entry.left + " saved",
 			color: "#ED1C24",
 			left: 0
 		});
