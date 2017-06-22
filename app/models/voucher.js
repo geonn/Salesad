@@ -194,8 +194,8 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (v_id,left,m_id,item_id,total,discount,barcode,description,title,image,save_from,save_to,use_from,use_to,tnc,redeem,v_limit,point,quantity,created,updated,status,display_type) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.v_id, entry.left,entry.m_id,entry.item_id,entry.total, entry.discount,entry.barcode,entry.description,entry.title,entry.image,entry.save_from,entry.save_to,entry.use_from,entry.use_to,entry.tnc,entry.redeem, entry.limit, entry.point, entry.quantity, entry.created, entry.updated, entry.status,entry.display_type);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (v_id,m_id,item_id,total,discount,barcode,description,title,image,save_from,save_to,use_from,use_to,tnc,redeem,v_limit,point,quantity,created,updated,status,display_type) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.v_id, entry.m_id,entry.item_id,entry.total, entry.discount,entry.barcode,entry.description,entry.title,entry.image,entry.save_from,entry.save_to,entry.use_from,entry.use_to,entry.tnc,entry.redeem, entry.limit, entry.point, entry.quantity, entry.created, entry.updated, entry.status,entry.display_type);
 				});
 				db.execute("COMMIT");
 	            db.close();
