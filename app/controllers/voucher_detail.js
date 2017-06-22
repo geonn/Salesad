@@ -115,7 +115,7 @@ function render_banner(){
 });
 }
 
-if(data.point==0){
+if(data.point==0 || data.point==null){
 	$.pointView.opacity = 0;
 	if(OS_IOS){
 		$.win.setTitle("Instant Voucher");
@@ -166,7 +166,7 @@ function set_data(){
 	$.valid_from.setText(dateUseFrom);
 	$.valid_to.setText(dateUseTo);
 	$.desc.setText(data.description);
-	$.saved.setText(eval(data.total-quantity));
+	$.saved.setText(eval(data.left));
 	var tc = $.UI.create("Label",{
 		classes:['wfill','hsize','padding'],
 		top:0,
@@ -269,6 +269,7 @@ function doSave(){
 					},1000);
 					Ti.App.fireEvent("voucher:refresh");
 					Ti.App.fireEvent("myvoucher:refresh");
+					Ti.App.fireEvent("reward:refresh");
 					COMMON.closeWindow($.win); 
 				},
 				onerror: function(err){
