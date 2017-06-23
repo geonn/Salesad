@@ -2,7 +2,7 @@
 	left: 20,
 	right: 20,
 	bottom: 5,
-	top: 1,
+	top: 5,
 	backgroundColor: "#ED1C24",
 	color: "#fff",
 	borderRadius: 6

@@ -250,6 +250,9 @@ function checkingVoucher(){
 }
 
 function init(){
+	if(OS_ANDROID){
+		$.scView.bottom = "100";
+	}
 	$.win.add(loading.getView());	
 	loading.finish();
 	set_data();
