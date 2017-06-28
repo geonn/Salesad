@@ -335,13 +335,7 @@ function vouchers(e) {
 			classes: ['wsize', 'hsize', 'horz'],
 			right: 0
 		});
-		var VPoint = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: (entry.point != 0) ? entry.point : "",
-			color: "#ED1C24",
-			right: 0
-		}) : $.UI.create("Label", {
+		var VPoint = $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
 			text: (entry.point != 0) ? entry.point : "",
@@ -486,17 +480,9 @@ function savedvoucher(e) {
 			classes: ['wsize', 'hsize', 'horz'],
 			right: 0
 		});
-		var VPoint = (OS_IOS) ? $.UI.create("Label", {
+		var VPoint = $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: (entry.point != 0) ? entry.point : "",
-			color: "#ED1C24",
-			right: 0
-		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			ellipsize: true,
-			wordWrap: false,
 			text: (entry.point != 0) ? entry.point : "",
 			color: "#ED1C24",
 			right: 0
@@ -622,13 +608,7 @@ function savedvoucher(e) {
 			classes: ['wsize', 'hsize', 'horz'],
 			right: 0
 		});
-		var VPoint = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: (entry.point != 0) ? entry.point : "",
-			color: "#ED1C24",
-			right: 0
-		}) : $.UI.create("Label", {
+		var VPoint = $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
 			text: (entry.point != 0) ? entry.point : "",
