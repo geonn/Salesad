@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 var pageTitle;
 var barcode = args.barcode || "";
-var display = args.display_type || "";
+var display = args.display_type || "1";
 var qrcode = require('qrcode');
 var BARCODE = require('barcode');
 Alloy.Globals.naviPath.push($.win);
@@ -22,19 +22,32 @@ function genCode(){
 		text: barcode
 	}); 
 	var title = $.UI.create("Label",{classes:['wsize','hsize','h1'],text:barcode});
+	var title1 = $.UI.create("Label",{classes:['wsize','hsize','h5'],text:barcode});
 	console.log("barcode"+display);
  	if(display == "1"){
  		$.b_code.add(title);	
  	}
  	if(display == "2"){
- 		$.b_code.add(BARCODE.generateBarcode(barcode));	
+ 		if(isNaN(barcode)){
+  			$.b_code.add(title);						
+ 		}
+ 		else{
+ 			$.b_code.add(title1);
+  			$.b_code.add(BARCODE.generateBarcode(barcode));	
+ 		}
  	} 	
  	if(display == "3"){
 	  	$.qrCode.removeAllChildren();
 		$.qrCode.add(qrcodeView);			
  	}	
- 	if(display == "2,3"){
- 		$.b_code.add(BARCODE.generateBarcode(barcode));	
+ 	if(display == "2,3"){	
+ 		if(isNaN(barcode)){		
+  			$.b_code.add(title);						
+ 		}
+ 		else{
+  			$.b_code.add(title1);			
+  			$.b_code.add(BARCODE.generateBarcode(barcode));	
+ 		}
  	  	$.qrCode.removeAllChildren();
 		$.qrCode.add(qrcodeView);			
  	}
