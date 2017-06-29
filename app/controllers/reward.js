@@ -66,7 +66,7 @@ Social.addEventListener("complete", function(e){
 //	});
 //}
 
-function refresh(){
+function refresh(){console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
 	loading.start();
 	API.callByPost({
 		url: "getMemberPointsRecords",
@@ -394,7 +394,7 @@ function vouchers(e) {
 	
 	var view_height = $.UI.create("View", {
 		width:"100%",
-		height: 45
+		height: 70
 	});
 	$.voucher_view.add(view_height);
 	
@@ -735,7 +735,7 @@ function delvoucher(e) {
 	});
 }
 
-function refreshVlist(e) {
+function refreshVlist(e) {console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("12");
 	
@@ -761,7 +761,7 @@ function refreshVlist(e) {
 	});
 }
 
-function refreshSVlist(e) {
+function refreshSVlist(e) {console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("13");
 	
