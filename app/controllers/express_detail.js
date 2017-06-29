@@ -3,6 +3,7 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var data;
 var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
+var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 
 function render_page(){
 	$.img.image = args.img_path;
@@ -39,12 +40,20 @@ function render_page(){
       		backgroundColor :"transparent",
       		zindex :101
 		});
-		var Zimage = Ti.UI.createImageView({
+		var Zimage = (OI_IOS)?Ti.UI.createImageView({
 			image :args.img_path,
 			width :"100%",
 			height :Ti.UI.SIZE,
 			zIndex :101,
-			enableZoomControls :"true"
+			//enableZoomControls :"true"
+		}):TiTouchImageView.createView({
+			image :args.img_path,
+			width :"100%",
+			height :Ti.UI.SIZE,
+			zIndex :101,
+			zoom:1,
+			maxZoom:3,
+			minZoom:1,
 		});
 		var close = Ti.UI.createImageView({
 			image :"/images/Icon_Delete_Round.png",

@@ -236,7 +236,7 @@ function daydiff(first, second) {
 }
 
 function getNowDate(){   //calculate the days between two dates
-	var fristDate = voucher_item.use_to;
+	var fristDate = voucher_item.save_to;
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
@@ -286,7 +286,7 @@ function addVoucher(){
 			top:'5',
 			id:'saved',
 			bottom:'2',
-			text:voucher_item.total-voucher_item.quantity
+			text:voucher_item.quantity
 		});
 		var saved1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
@@ -304,7 +304,7 @@ function addVoucher(){
 			classes:['wsize','hsize','h5','padding1','bold'],
 			bottom:'2',
 			id:'leftV',
-			text:voucher_item.quantity,
+			text:(voucher_item.left==-1)?"While Stocks Last":voucher_item.left,
 		});
 		var left1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding2'],
