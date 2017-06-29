@@ -393,7 +393,7 @@ function vouchers(e) {
 	});
 	
 	var view_height = $.UI.create("View", {
-		classes: ['wfill'],
+		width:"100%",
 		height: 45
 	});
 	$.voucher_view.add(view_height);

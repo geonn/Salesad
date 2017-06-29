@@ -15,7 +15,6 @@ var fristDate = "";
 var secondDate = "";
 var endsDay = "";
 var loading = Alloy.createController("loading");
-var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
 console.log("User id = "+u_id+" voucher id "+v_id);
 console.log(data.v_limit+"here");
@@ -89,22 +88,13 @@ function render_banner(){
       		backgroundColor :"transparent",
       		zIndex :100
 		});
-		var Zimage = (OS_IOS)?Ti.UI.createImageView({
+		var Zimage = Ti.UI.createImageView({
 			defaultImage :"/images/image_loader_640x640.png",
 			image: data.image,
 			width :"100%",
 			height :Ti.UI.SIZE,
 			zIndex :101,
 			//enableZoomControls :"true"
-		}):TiTouchImageView.createView({
-			defaultImage :"/images/image_loader_640x640.png",
-			image: data.image,
-			width :"100%",
-			height :Ti.UI.SIZE,
-			zIndex :101,
-			zoom:1,
-			maxZoom:3,
-			minZoom:1,
 		});
 		var close = Ti.UI.createImageView({
 			image :"/images/Icon_Delete_Round.png",
@@ -194,7 +184,7 @@ function set_data(){
 	$.valid_from.setText(dateUseFrom);
 	$.valid_to.setText(dateUseTo);
 	$.desc.setText(data.description);
-	$.saved.setText(eval(data.quantity));
+	$.saved.setText((data.quantity==null)?"0":data.quantity);
 	var tc = $.UI.create("Label",{
 		classes:['wfill','hsize','padding'],
 		top:0,
