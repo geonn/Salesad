@@ -18,7 +18,7 @@
 			<View class="vert wfill hfill" backgroundColor="#f6f6f6">
 				<View class="horz wfill hsize" backgroundColor="#ED1C24">
 					<View class="tabview vert hsize" id="tabview0" onClick="Tab" num="0" backgroundColor="#ED1C24">
-						<Label class="LBTab wsize hsize" id="tab0" onClick="Tab" num="0" text="Gift Vouchers" color="#fff"></Label>
+						<Label class="LBTab wsize hsize" id="tab0" onClick="Tab" num="0" text="Vouchers" color="#fff"></Label>
 					</View>
 					<View class="tabview vert hsize" id="tabview1" onClick="Tab" num="1">
 						<Label class="LBTab wsize hsize" id="tab1" onClick="Tab" num="1" text="Saved Vouchers"></Label>
@@ -30,11 +30,19 @@
 				<ScrollableView class="wfill hfill" id="scrollview" scrollingEnabled="false">
 					<!--Vouchers(view 1)-->
 					<View class="wfill hfill" id="view1">
-						<!--<SwipeRefresh module="com.rkam.swiperefreshlayout" id="swiperefresh" platform="android">-->
-							<ScrollView id="voucher_scrollview" class="wfill hfill contwfill conthsize vert" bottom="10">
-								<View class="wfill hsize horz" id="voucher_view"></View>
-							</ScrollView>
-					<!--</SwipeRefresh>-->
+						<ScrollView id="voucher_scrollview" class="wfill hfill contwfill conthsize vert">
+							<View class="wfill hsize horz" id="voucher_view"></View>
+						</ScrollView>
+						<View class="vert wfill hsize" bottom="5">
+							<View class="horz wsize hsize" borderWidth="1" borderColor="#ED1C24" borderRadius="5">
+								<View class="wsize hsize" onClick="ins_voucher" id="ins_view" backgroundColor="#ED1C24">
+									<Label class="hsize small-padding" id="ins_label" width="130" text="Instant" textAlign="center" color="#fff"></Label>
+								</View>
+								<View class="wsize hsize" onClick="gift_voucher" id="gift_view" backgroundColor="#fff">
+									<Label class="hsize small-padding" id="gift_label" width="130" text="Gift" textAlign="center" color="gray"></Label>
+								</View>
+							</View>
+						</View>
 					</View>
 					<!--Saved Vouchers(view 2)-->
 					<View class="wfill hfill" id="view2">

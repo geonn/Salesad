@@ -280,9 +280,8 @@ function vouchers(e) {
 	}
 	
 	$.voucher_view.removeAllChildren();
-	var vdata = vmodel.getData(false);
 	
-	vdata.forEach(function(entry){
+	e.forEach(function(entry){
 		if(entry.item_id != null){
 			var item = Alloy.createCollection("items");
 			var image = item.getImageByI_id(entry.item_id);
@@ -319,7 +318,7 @@ function vouchers(e) {
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.quantity + " saved",
+			text: (entry.quantity != null) ? entry.quantity + " saved" : "0 saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
@@ -327,7 +326,7 @@ function vouchers(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.quantity + " saved",
+			text: (entry.quantity != null) ? entry.quantity + " saved" : "0 saved",
 			color: "#ED1C24",
 			left: 0
 		});
@@ -354,7 +353,7 @@ function vouchers(e) {
 		var title = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
-			text: entry.title + " " + entry.discount,
+			text: entry.title,
 			left: 5,
 			right: 5,
 			bottom: 5
@@ -363,7 +362,7 @@ function vouchers(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.title + " " + entry.discount,
+			text: entry.title,
 			left: 5,
 			right: 5,
 			bottom: 5
@@ -392,6 +391,32 @@ function vouchers(e) {
 		ViewPoint = null;
 		title = null;
 	});
+	
+	var view_height = $.UI.create("View", {
+		classes: ['wfill'],
+		height: 45
+	});
+	$.voucher_view.add(view_height);
+	
+	view_height = null;
+}
+
+function ins_voucher(e) {
+	$.ins_view.setBackgroundColor("#ED1C24");
+	$.ins_label.setColor("#fff");
+	$.gift_view.setBackgroundColor("#fff");
+	$.gift_label.setColor("gray");
+	var vdata = vmodel.getInstant(false);
+	vouchers(vdata);
+}
+
+function gift_voucher(e) {
+	$.gift_view.setBackgroundColor("#ED1C24");
+	$.gift_label.setColor("#fff");
+	$.ins_view.setBackgroundColor("#fff");
+	$.ins_label.setColor("gray");
+	var vdata = vmodel.getGift(false);
+	vouchers(vdata);
 }
 
 function savedvoucher(e) {
@@ -499,7 +524,7 @@ function savedvoucher(e) {
 		var title = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
-			text: entry.title + " " + entry.description,
+			text: entry.title,
 			left: 5,
 			right: 5,
 			bottom: 5
@@ -508,7 +533,7 @@ function savedvoucher(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.title + " " + entry.description,
+			text: entry.title,
 			left: 5,
 			right: 5,
 			bottom: 5
@@ -521,7 +546,7 @@ function savedvoucher(e) {
 		View1.add(viewimg);
 		viewimg.add(img);
 		View1.add(View2);
-		View2.add(View3);
+		//View2.add(View3);
 		View3.add(VQuantity);
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
@@ -627,7 +652,7 @@ function savedvoucher(e) {
 		var title = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5', 'bold'],
 			height: 19,
-			text: entry.title + " " + entry.description,
+			text: entry.title,
 			left: 5,
 			right: 5,
 			bottom: 5
@@ -636,7 +661,7 @@ function savedvoucher(e) {
 			height: 19,
 			ellipsize: true,
 			wordWrap: false,
-			text: entry.title + " " + entry.description,
+			text: entry.title,
 			left: 5,
 			right: 5,
 			bottom: 5
@@ -649,7 +674,7 @@ function savedvoucher(e) {
 		View1.add(viewimg);
 		viewimg.add(img);
 		View1.add(View2);
-		View2.add(View3);
+		//View2.add(View3);
 		View3.add(VQuantity);
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
@@ -724,7 +749,7 @@ function refreshVlist(e) {
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
 			model.saveArray(arr);
-			vouchers();
+			ins_voucher();
 			loading.finish();
 		},onerror: function(err) {
 			_.isString(err.message) && alert(err.message);
