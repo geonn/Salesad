@@ -33,13 +33,14 @@
 						<ScrollView id="voucher_scrollview" class="wfill hfill contwfill conthsize vert">
 							<View class="wfill hsize horz" id="voucher_view"></View>
 						</ScrollView>
-						<View class="vert wfill hsize" bottom="5">
-							<View class="horz wsize hsize" borderWidth="1" borderColor="#ED1C24" borderRadius="5">
+						<View class="vert wfill hsize" bottom="0" backgroundColor="#fff">
+							<View class="hr" backgroundColor="#e8e8e8"></View>
+							<View class="horz wsize hsize" borderWidth="1" borderColor="#ED1C24" borderRadius="5" top="10" bottom="10">
 								<View class="wsize hsize" onClick="ins_voucher" id="ins_view" backgroundColor="#ED1C24">
-									<Label class="hsize small-padding" id="ins_label" width="130" text="Instant" textAlign="center" color="#fff"></Label>
+									<Label height="40" id="ins_label" width="130" text="Instant" textAlign="center" color="#fff"></Label>
 								</View>
 								<View class="wsize hsize" onClick="gift_voucher" id="gift_view" backgroundColor="#fff">
-									<Label class="hsize small-padding" id="gift_label" width="130" text="Gift" textAlign="center" color="gray"></Label>
+									<Label height="40" id="gift_label" width="130" text="Gift" textAlign="center" color="gray"></Label>
 								</View>
 							</View>
 						</View>
