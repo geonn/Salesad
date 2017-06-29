@@ -15,6 +15,7 @@ var fristDate = "";
 var secondDate = "";
 var endsDay = "";
 var loading = Alloy.createController("loading");
+var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
 console.log("User id = "+u_id+" voucher id "+v_id);
 console.log(data.v_limit+"here");
@@ -33,7 +34,7 @@ function daydiff(first, second) {
 }
 
 function getNowDate(){   //calculate the days between two dates
-	var fristDate = data.use_to;
+	var fristDate = data.save_to;
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
@@ -88,13 +89,22 @@ function render_banner(){
       		backgroundColor :"transparent",
       		zIndex :100
 		});
-		var Zimage = Ti.UI.createImageView({
+		var Zimage = (OS_IOS)?Ti.UI.createImageView({
 			defaultImage :"/images/image_loader_640x640.png",
 			image: data.image,
 			width :"100%",
 			height :Ti.UI.SIZE,
 			zIndex :101,
-			enableZoomControls :"true"
+			//enableZoomControls :"true"
+		}):TiTouchImageView.createView({
+			defaultImage :"/images/image_loader_640x640.png",
+			image: data.image,
+			width :"100%",
+			height :Ti.UI.SIZE,
+			zIndex :101,
+			zoom:1,
+			maxZoom:3,
+			minZoom:1,
 		});
 		var close = Ti.UI.createImageView({
 			image :"/images/Icon_Delete_Round.png",
@@ -174,7 +184,7 @@ function set_data(){
 	var dateUseFrom = convertToHumanFormat(data.use_from);
 	var dateUseTo = convertToHumanFormat(data.use_to);
 	$.title.setText(data.title);
-	if(data.left==-1){
+	if(left==-1){
 		$.leftV2.setText(" ");
 		$.leftV.setText("While Stocks Last");
 	}else{
@@ -251,7 +261,7 @@ function checkingVoucher(){
 
 function init(){
 	if(OS_ANDROID){
-		$.scView.bottom = "100";
+		$.scView.bottom = "110";
 	}
 	$.win.add(loading.getView());	
 	loading.finish();
@@ -291,6 +301,7 @@ function doSave(){
 					},1000);
 					Ti.App.fireEvent("voucher:refresh");
 					Ti.App.fireEvent("myvoucher:refresh");
+					Ti.App.fireEvent("remark:refresh");
 					COMMON.closeWindow($.win); 
 				},
 				onerror: function(err){
@@ -301,7 +312,7 @@ function doSave(){
 			createWhoops("Sorry, you don't have enough CP points to save this voucher.");
 		}	
 		}else{
-			createWhoops("You have exceeded the limit of this voucher");
+			createWhoops("You have exceeded the claim limit per user of this voucher");
 		}
 	}
 }

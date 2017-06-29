@@ -6,7 +6,7 @@
 	        </View>
         </LeftNavButton>
         <View class="wfill hfill vert">
-	        <View class="wfill horz" id="adHeader" height="50" platform="android" backgroundColor="#fff">
+	        <View class="wfill horz" id="adHeader" height="60" platform="android" backgroundColor="#fff">
 				<View left="0" width="15%" zIndex="10" class="hsize">
 			         <ImageView id="btnBack" left='10' width="30" height="30" image="/images/btn-back.png" />
 			    </View>
@@ -14,7 +14,7 @@
 		 	</View>
 		    <View class="hr" top="0"></View>
 		    <View class="wfill hfill">
-				<ScrollView contentWidth="Ti.UI.FILL" top="1" layout="vertical" top="0" bottom="50" backgroundColor="#e8e8e8">
+				<ScrollView contentWidth="Ti.UI.FILL" top="1" layout="vertical" top="0" bottom="60" backgroundColor="#e8e8e8">
 					<View class="wfill hsize vert padding5" borderWidth="5" borderColor="#66787878" backgroundColor="#fff">					
 						<View class="wfill hsize" left="5" right="5" top="5" id="banner" backgroundColor="#fff"></View>
 						<View class="wfill hsize vert" id="ads_details" backgroundColor="#fff">
@@ -55,8 +55,9 @@
 				</ScrollView>			
 			</View>					
 		</View>
-		<View class="vert wfill hsize" zIndex="10" bottom="0">
-			<Button class="wfill h4 save_button" height="40" onClick="useVoucher" id="useV">Use Voucher</Button>																			
-		</View>		
+		<View class="vert wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff">
+		 	<View class="hr" backgroundColor="#e8e8e8"></View>
+		 	<Button class="wfill h4 save_button" height="40" title="Use Voucher" id="useV" onClick="useVoucher"></Button>
+		 </View>	
 	</Window>
 </Alloy>

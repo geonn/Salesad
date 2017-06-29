@@ -14,6 +14,7 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var items;
 Alloy.Globals.naviPath.push($.win);
 var BARCODE = require('barcode');
+var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 
 //load model
 var m_library = Alloy.createCollection('merchants'); 
@@ -136,12 +137,20 @@ function render_banner(){
       		backgroundColor :"transparent",
       		zIndex :100
 		});
-		var Zimage = Ti.UI.createImageView({
+		var Zimage = (OS_IOS)?Ti.UI.createImageView({
 			image :ads.img_path,
 			width :"100%",
 			height :Ti.UI.SIZE,
 			zIndex :101,
-			enableZoomControls :"true"
+			//enableZoomControls :"true"
+		}):TiTouchImageView.createView({
+			image :ads.img_path,
+			width :"100%",
+			height :Ti.UI.SIZE,
+			zIndex :101,
+			zoom:1,
+			maxZoom:3,
+			minZoom:1,
 		});
 		var close = Ti.UI.createImageView({
 			image :"/images/Icon_Delete_Round.png",
