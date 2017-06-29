@@ -7,5 +7,7 @@
 	"os:blackberry": {},
 	"os:ios": {},
 	"os:mobileweb": {},
-	"dependencies": {}
+	"dependencies": {
+		"com.baboonmedia.remoteimage":"1.4"
+	}
 }
