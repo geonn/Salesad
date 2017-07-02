@@ -8,9 +8,19 @@
 		fontWeight: "bold"
 	}
 }
-".tabview": {
-	width: "33%",
+".tabview1": {
+	backgroundColor: "#ED1C24",
+	left: "1",
+	bottom: "1"
+}
+".tabview2": {
 	backgroundColor: "#fff",
 	left: "1",
+	right: "1",
+	bottom: "1"
+}
+".tabview3": {
+	backgroundColor: "#fff",
+	right: "1",
 	bottom: "1"
 }
