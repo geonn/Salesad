@@ -1,11 +1,11 @@
 "#RemoteImage": {
 	width: Ti.UI.FILL,
-	height: Ti.UI.FILL
+	height: Ti.UI.SIZE
 },
 
 "#ImageContainer": {
 	width: Ti.UI.FILL,
-	height: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
 	top: 0,
 	left: 0,
 	opacity: 1

@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 var c_model= Alloy.createCollection("category");
-var category = c_model.getCategoryList();
+var category;
 var ads_data = [];
 var ads=Alloy.createCollection("ads");
 var merchant=Alloy.createCollection("merchants");
@@ -255,6 +255,7 @@ function render(e){
 				if(counter % 4 == 0 && counter > 0){
 					if(typeof ads_data[ads_counter] != "undefined"){
 						var cw = (OS_ANDROID)?Math.floor(pixelToDp(pwidth)-10):pwidth-10;
+						console.log("here:"+ads_data[ads_counter].img_path);
 						var img = (ads_data[ads_counter].img_path != "")? ads_data[ads_counter].img_path:'/images/image_loader_640x640.png';
 						var Aarr={
 							cw:cw,
@@ -314,12 +315,11 @@ function render(e){
 			};	
 			console.log("xpresscount:"+xpresscount+" "+xpresscount1+" count1:"+count1);
 			if(xpresscount==xpresscount1){
-				console.log("you are the god hahaha");
 				if(ads_counter< ads_data.length){
 					for(var i=ads_counter; i < ads_data.length; i++){
 						if(typeof ads_data[i] != "undefined"){
 							var cw = (OS_ANDROID)?Math.floor(pixelToDp(pwidth)-10):pwidth-10;
-							var img = (ads_data[i].img_path == "")? ads_data[i].img_path:'/images/image_loader_640x640.png';
+							var img = (ads_data[i].img_path != "")? ads_data[i].img_path:'/images/image_loader_640x640.png';
 							var Aarr={
 								cw:cw,
 								record:ads_data[i],
@@ -401,6 +401,7 @@ function render(e){
 
 
 function renderBig(param){
+	console.log("param photo"+param.img_path);
 	var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0, image: param.img_path,type: param.type, record:param.record});
 	img.addEventListener("click", navTo);
 	var v = $.UI.create("View", {width: param.cw, height: param.cw});
@@ -450,17 +451,18 @@ function init(){
 	$.activityIndicator.show();
 	$.loadingBar.opacity = "1";
 	$.loadingBar.height = "120";
-	$.loadingBar.top = "100";		
-	setTimeout(function(){
-		$.activityIndicator.hide();
-		$.loadingBar.opacity = "0";
-		$.loadingBar.height = "0";
-		$.loadingBar.top = "0";			
+	$.loadingBar.top = "100";	
+	category = c_model.getCategoryList();	
+	setTimeout(function(){		
 		ads_data = ads.getExpressData();
 		refresh();
 		getAdsData();		
-		ads_model=null;				
-	},1000);
+		ads_model=null;		
+		$.activityIndicator.hide();
+		$.loadingBar.opacity = "0";
+		$.loadingBar.height = "0";
+		$.loadingBar.top = "0";					
+	},1000);	
 }
 function getAdsByCategory(c_id){
 	var adsdata1;
@@ -505,12 +507,15 @@ function getAdsData(){
 	console.log("zzz:"+JSON.stringify(ramdom)+" "+ramdom[1]);
 	if(category != null){ 	
 		for(var i=0;i<category.length;i++){
-			do{
+			loop2:do{
 				ramdom_n = ramdom[i];
-				console.log("cc"+ramdom_n);
+				console.log("cc:"+ramdom_n+" "+category[ramdom_n].id);
 				adsdata1=c_ads_library.getLatestAdsByCategory(category[ramdom_n].id,0,100);
 				if(adsdata1.length == 0){
 					++i;
+					if(i>=ramdom.length){
+						break loop2;
+					}
 				}		
 			}while(adsdata1.length == 0);
 			adsdata1.forEach(function(param){

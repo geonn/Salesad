@@ -17,7 +17,15 @@
 		 	<View bottom='0' class="hr"></View>
 		 	<ScrollView id="inner_box" class="wfill hfill conthsize contwfill vert">
 		 		<View class="wfill hsize vert" bottom="0">
-		 			<ImageView id="img" class="wfill hsize"></ImageView>
+		 			<ImageView id="img" class="wfill hsize" platform="ios"></ImageView>
+			 		<View class="wfill hsize" backgroundColor="#fff" platform="android">
+						<Widget src="com.baboonmedia.remoteimage" id="RemoteImage">
+							<ActivityIndicator id="activityIndicator" role="activityindicator" />
+						    <View role="loadingerror">
+						       <Label>Unable to load image. Tap to retry</Label>
+						    </View>
+						</Widget>			 			
+			 		</View>			 			
 		 			<View class="wfill hsize vert padding">
 		 				<View class="wfill hsize horz">
 		 					<ImageView class="hsize" width="20" right="10" image="/images/Icon_Date.png"></ImageView>

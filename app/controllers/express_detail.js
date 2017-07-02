@@ -4,8 +4,90 @@ var data;
 var loading = Alloy.createController("loading");
 var random_color = ['#9ccdce', "#8fd8a0", "#ccd993", "#dccf95", "#da94a1", "#d18fd9"];
 
+function zoom(e){	
+	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
+	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
+	var close = Ti.UI.createLabel({width:Ti.UI.SIZE,height:Ti.UI.SIZE,right:"10",top:"10",color:"#fff",text:"Close"});
+	console.log("here"+JSON.stringify(e.source.image));
+	var image = (typeof e.source.image != "undefined" && typeof e.source.image.nativePath != "undefined")?e.source.image.nativePath: "/images/image_loader_640x640.png";
+	var imageView = TiTouchImageView.createView({
+		image:image,
+		maxZoom:5,
+		minZoom:1,
+ 	}); 	
+ 	container.add(imageView);
+ 	container.add(close);
+ 	close.addEventListener("click",function(){
+  		$.win.remove(container);
+ 	}); 
+ 	$.win.add(container);
+}
 function render_page(){
-	$.img.image = args.img_path;
+	if(OS_IOS){
+		$.img.image = args.img_path;
+		$.img.addEventListener('click',function(e){
+			var Zv = Ti.UI.createView({
+				width :Ti.UI.FILL,
+				height :Ti.UI.FILL, 
+				backgroundColor: "#ccffffff",
+				zIndex :100
+			});
+			var Z = Ti.UI.createView({
+				width :"95%",
+				height :Ti.UI.SIZE,
+				backgroundColor :"transparent",
+				zindex :101
+			});
+			var Ziv = Ti.UI.createScrollView({
+				width :Ti.UI.SIZE, 
+				height :Ti.UI.SIZE,        
+	            showHorizontalScrollIndicator:false,
+	            showVerticalScrollIndicator:false,
+	            maxZoomScale:10,
+	            minZoomScale:1.0,
+	            borderWidth :1, 
+	      		backgroundColor :"transparent",
+	      		zindex :101
+			});
+			var Zimage = Ti.UI.createImageView({
+				image :args.img_path,
+				width :"100%",
+				height :Ti.UI.SIZE,
+				zIndex :101,
+				//enableZoomControls :"true"
+			});
+			var close = Ti.UI.createImageView({
+				image :"/images/Icon_Delete_Round.png",
+				width : 30, 
+				height : 30, 
+				top : 3,
+				right : 3,  
+				zIndex : 102
+			});
+			Ziv.add(Zimage);
+			Z.add(Ziv);
+			Z.add(close);
+			Zv.add(Z);
+			$.win.add(Zv);
+			close.addEventListener('click',function(e){
+				Zv.removeAllChildren();
+				Zv.height = 0;
+			});
+		});			
+	}
+	if(OS_ANDROID && args.img_path != null){
+		$.RemoteImage.applyProperties({
+		 	autoload: true,
+		    backgroundColor: 'black',
+		    image:args.img_path,
+		    default_img : "/images/image_loader_640x640.png"
+		});	
+		$.RemoteImage.addEventListener("click",zoom);				
+	}
+	else{
+		console.log("default image");
+		$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
+	}
 	$.xpress_date.text = args.sales_from+" - "+args.sales_to;
 	$.xpress_location.text = args.address;
 	$.xpress_contact.text = args.contact;
@@ -14,56 +96,6 @@ function render_page(){
 	$.category.text = args.categoryName;
 	$.owner_img_path.image = args.owner_img_path;
 }
-
-	$.img.addEventListener('click',function(e){
-		var Zv = Ti.UI.createView({
-			width :Ti.UI.FILL,
-			height :Ti.UI.FILL, 
-			backgroundColor: "#ccffffff",
-			zIndex :100
-		});
-		var Z = Ti.UI.createView({
-			width :"95%",
-			height :Ti.UI.SIZE,
-			backgroundColor :"transparent",
-			zindex :101
-		});
-		var Ziv = Ti.UI.createScrollView({
-			width :Ti.UI.SIZE, 
-			height :Ti.UI.SIZE,        
-            showHorizontalScrollIndicator:false,
-            showVerticalScrollIndicator:false,
-            maxZoomScale:10,
-            minZoomScale:1.0,
-            borderWidth :1, 
-      		backgroundColor :"transparent",
-      		zindex :101
-		});
-		var Zimage = Ti.UI.createImageView({
-			image :args.img_path,
-			width :"100%",
-			height :Ti.UI.SIZE,
-			zIndex :101,
-			//enableZoomControls :"true"
-		});
-		var close = Ti.UI.createImageView({
-			image :"/images/Icon_Delete_Round.png",
-			width : 30, 
-			height : 30, 
-			top : 3,
-			right : 3,  
-			zIndex : 102
-		});
-		Ziv.add(Zimage);
-		Z.add(Ziv);
-		Z.add(close);
-		Zv.add(Z);
-		$.win.add(Zv);
-		close.addEventListener('click',function(e){
-			Zv.removeAllChildren();
-			Zv.height = 0;
-		});
-});
 
 function refresh(){
 	render_page();

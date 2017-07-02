@@ -15,7 +15,15 @@
 		    <View class="hr" top="0"></View>
 		    <View class="wfill hfill">
 				<ScrollView contentWidth="Ti.UI.FILL" top="1" bottom="60" layout="vertical" top="0">
-					<View class="wfill hsize" id="banner"></View>
+					<View class="wfill hsize" id="banner" platform="ios"></View>
+			 		<View class="wfill hsize" backgroundColor="#fff" platform="android">
+						<Widget src="com.baboonmedia.remoteimage" id="RemoteImage">
+							<ActivityIndicator id="activityIndicator" role="activityindicator" />
+						    <View role="loadingerror">
+						       <Label>Unable to load image. Tap to retry</Label>
+						    </View>
+						</Widget>			 			
+			 		</View>						
 					<View class="wfill hsize vert" id="ads_details"></View>
 				</ScrollView>
 			    <View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
