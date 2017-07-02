@@ -17,7 +17,15 @@
 		 	<View bottom='0' class="hr"></View>
 			 	<ScrollView class="wfill hfill" scrollType="vertical" bottom="60" id="scView" contentWidth="Ti.UI.FILL" backgroundColor="#e8e8e8">
 			 		<View class="wfill hsize vert padding5" borderWidth="5" borderColor="#66787878" backgroundColor="#fff">
-			 		<View class="wfill hsize" left="5" right="5" top="5" id="banner" backgroundColor="#fff"></View>
+			 		<View class="wfill hsize" left="5" right="5" top="5" id="banner" backgroundColor="#fff" platform="ios"></View>
+			 		<View class="wfill hsize" left="5" right="5" top="5" backgroundColor="#fff" platform="android">
+						<Widget src="com.baboonmedia.remoteimage" id="RemoteImage">
+							<ActivityIndicator id="activityIndicator" role="activityindicator" />
+						    <View role="loadingerror">
+						       <Label>Unable to load image. Tap to retry</Label>
+						    </View>
+						</Widget>			 			
+			 		</View>			 					 		
 			 		<Label class="wfill hsize padding bold vTitle" left="25" bottom="5" id="title" text="Voucher Title"></Label>
 			 		<View class="horz wfill hsize">
 			 			<View class="vert hsize" width="60%">

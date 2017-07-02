@@ -14,6 +14,24 @@ if(res.item_id != null){
 	var image = item.getImageByI_id(res.item_id);
 	res.image = image;
 }
+function zoom(e){
+	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
+	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
+	var close = Ti.UI.createLabel({width:Ti.UI.SIZE,height:Ti.UI.SIZE,right:"10",top:"10",color:"#fff",text:"Close"});
+	console.log("here"+JSON.stringify(e.source.image));
+	var image = (typeof e.source.image.nativePath != undefined)?e.source.image.nativePath: "/images/image_loader_640x640.png";
+	var imageView = TiTouchImageView.createView({
+		image:image,
+		maxZoom:5,
+		minZoom:1,
+ 	}); 	
+ 	container.add(imageView);
+ 	container.add(close);
+ 	close.addEventListener("click",function(){
+  		$.win.remove(container);
+ 	}); 
+ 	$.win.add(container);
+}
 function setData(){
 	$.title.setText(res.title);
 	$.date.setText(res.use_from);
@@ -23,19 +41,33 @@ function setData(){
 	$.tnc.add(title);	
 }
 function render_banner(){
- 	var bannerImage = Ti.UI.createImageView({
- 		defaultImage: "/images/image_loader_640x640.png",
- 		image:res.image,
-		width : "100%",
-		height: Ti.UI.SIZE,//ads_height,
-	});
-	
-	var app_background = "#fff";
-	$.win.backgroundColor = app_background;
-	$.banner.add(bannerImage);
-	
-	bannerImage.addEventListener('click',function(e){
-		//if (OS_IOS) {
+	console.log("here"+res.image);
+	if(OS_ANDROID && res.image != null){
+		console.log("image defined");
+		$.RemoteImage.applyProperties({
+		 	autoload: true,
+		    backgroundColor: 'black',
+		    image: res.image,
+		    default_img : "/images/image_loader_640x640.png"
+		});		
+		$.RemoteImage.addEventListener("click",zoom);		
+	}else{
+		console.log("default image");
+		$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
+	}		
+	if(OS_IOS){
+	 	var bannerImage = Ti.UI.createImageView({
+	 		defaultImage: "/images/image_loader_640x640.png",
+	 		image:res.image,
+			width : "100%",
+			height: Ti.UI.SIZE,//ads_height,
+		});
+		
+		var app_background = "#fff";
+		$.win.backgroundColor = app_background;
+		$.banner.add(bannerImage);
+		
+		bannerImage.addEventListener('click',function(e){
 			var Zv = Ti.UI.createView({
 				width :Ti.UI.FILL,
 				height :Ti.UI.FILL, 
@@ -84,25 +116,8 @@ function render_banner(){
 				Zv.removeAllChildren();
 				Zv.height = 0;
 			});
-		/*}else{
-			var TiTouchImageView = require('org.iotashan.TiTouchImageView');
- 			var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
- 			var close = Ti.UI.createImageView({width:30,height:30,right:"3",top:"3",zIndex:"102",image:"/images/Icon_Delete_Round.png"});
- 			var image = res.image;
- 			var imageView = TiTouchImageView.createView({
-  				image:image,
-  				maxZoom:5,
-  				minZoom:1,
- 			}); 
-		 	container.add(imageView);
-		 	container.add(close);
-		 	close.addEventListener("click",function(){
-		  		$.win.remove(container);
-		 	}); 
-		 	$.win.add(container);
-
-		};*/
-});
+		});		
+	}
 }
 var checking = true;
 function useVoucher(e){
@@ -202,5 +217,4 @@ function showtnc(e){
 $.win.addEventListener('android:back', function (e) {
  	COMMON.closeWindow($.win); 
 });
-
 
