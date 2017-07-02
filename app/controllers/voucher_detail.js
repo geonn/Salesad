@@ -321,8 +321,8 @@ function doSave(){
 					},1000);
 					Ti.App.fireEvent("voucher:refresh");
 					Ti.App.fireEvent("myvoucher:refresh");
-					Ti.App.fireEvent("remark:refresh");
-					COMMON.closeWindow($.win); 
+					Ti.App.fireEvent("reward:refresh");
+					COMMON.closeWindow($.win);
 				},
 				onerror: function(err){
 					console.log("Save voucher fail!");
