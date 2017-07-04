@@ -397,7 +397,7 @@ if(OS_ANDROID){
 	});
 }else{
 	$.indexView.homescrollview.addEventListener("scroll", function(e){
-	console.log("You are scroll at index page:"+e.y);
+	//console.log("You are scroll at index page:"+e.y);
 	var svtop = (OS_ANDROID)?-10:-50;
 	if (e.y <= svtop && !refreshing) {
 		$.indexView.adListing.removeAllChildren();
