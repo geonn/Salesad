@@ -172,6 +172,41 @@ function buildCateogryList(e){
  	category_list=null;	
 }
 
+function refreshAds(){
+	console.log("Refreah ads!!!");
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("8");
+	console.log(isUpdate.updated+" isUpdate");
+	API.callByPost({
+		url: "getAdsList",
+		new: true,
+		params: {last_updated: isUpdate.updated}
+	},
+	{
+		onload: function(responseText){
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			console.log(arr);
+			var model = Alloy.createCollection("ads");
+			model.saveArray(arr);
+			bannerListing();
+			buildCateogryList();
+			res=null;
+			arr=null;
+			model=null;
+			console.log("Model of ads updated!!!");
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+		},
+		onexception: function(){
+			COMMON.closeWindow($.win);
+		}
+	});
+	checker=null;
+	isUpdate=null; 
+}
+
 /** Load Latest Ads by Category **/
 function loadLatestImageByCategoryId(cell, cate_id, types){
 	var c_ads_library = Alloy.createCollection('categoryAds');
@@ -391,8 +426,7 @@ var refreshing = false;
 if(OS_ANDROID){
 	$.indexView.homescrollview.setOverScrollMode(Titanium.UI.Android.OVER_SCROLL_ALWAYS);
 	$.indexView.swipeRefresh.addEventListener('refreshing', function(e) {
-		bannerListing();
-		buildCateogryList();
+		refreshAds();
 		e.source.setRefreshing(false);
 	});
 }else{
@@ -414,8 +448,7 @@ if(OS_ANDROID){
 			$.indexView.loadingBar.height = "0";
 			$.indexView.loadingBar.top = "0";				
 			refreshing = true;
-			bannerListing();
-			buildCateogryList();			        	
+			refreshAds();			        	
         	refreshing = false;
         }, 1000);   
     }
