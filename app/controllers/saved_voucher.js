@@ -52,8 +52,10 @@ function render_banner(){
 		});		
 		$.RemoteImage.addEventListener("click",zoom);		
 	}else{
-		console.log("default image");
-		$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
+		if (OS_ANDROID) {
+			console.log("default image");
+			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
+		};
 	}		
 	if(OS_IOS){
 	 	var bannerImage = Ti.UI.createImageView({

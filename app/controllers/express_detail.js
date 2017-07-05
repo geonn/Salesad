@@ -85,8 +85,10 @@ function render_page(){
 		$.RemoteImage.addEventListener("click",zoom);				
 	}
 	else{
-		console.log("default image");
-		$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
+		if (OS_ANDROID) {
+			console.log("default image");
+			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
+		};
 	}
 	$.xpress_date.text = args.sales_from+" - "+args.sales_to;
 	$.xpress_location.text = args.address;
