@@ -96,7 +96,7 @@ var name = "", date = "";
 function buildListing(){
 	if(isAd){
 		var c_ads_library = Alloy.createCollection('categoryAds'); 
-		var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);
+		var ads = c_ads_library.getLatestAdsByCategory(cate_id, ads_counter, 3);console.log("cate_iddddddddddddddddddddddddddddddd " + cate_id + "\n" + JSON.stringify(ads));
 		a_id_submit = _.union(_.pluck(ads, "a_id"), a_id_submit);
 	}else{
 		var contest = Alloy.createCollection('contest'); 

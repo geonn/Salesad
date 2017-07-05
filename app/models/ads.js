@@ -20,7 +20,8 @@ exports.definition = {
 		    "created" : "TEXT",
 		    "express_date": "TEXT",
 		    "tnc": "TEXT",
-		    "updated" : "TEXT"
+		    "updated" : "TEXT",
+		    "category" : "INTEGER"
 		},
 		adapter: {
 			type: "sql",
@@ -416,8 +417,8 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc, sales_to, sales_from,featured_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.sales_to, entry.sales_from, entry.featured_date);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc, sales_to, sales_from,featured_date,category) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.sales_to, entry.sales_from, entry.featured_date, entry.category);
 				});
 				db.execute("COMMIT");
 	            db.close();

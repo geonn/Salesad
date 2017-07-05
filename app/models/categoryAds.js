@@ -58,9 +58,10 @@ exports.definition = {
 				if(typeof(m_id) != "undefined"){
 					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND  b.expired_date > date('now') AND b.active_date <= date('now') order by b.updated desc limit "+start+", "+end+"";
 				}else{
-					var sql = "select a.m_id, a.merchant_name, b.updated, b.* from (SELECT categoryAds.m_id, merchants.merchant_name FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND b.expired_date > date('now') AND b.active_date <= date('now') order by b.updated desc limit "+start+", "+end;					
+					var sql = "select categoryAds.*, ads.m_id, ads.name, ads.active_date, ads.youtube, ads.category, ads.sales_from, ads.sales_to, ads.expired_date, ads.updated, ads.img_path, ads.a_id, merchants.merchant_name from (ads inner join merchants on ads.m_id = merchants.m_id) inner join categoryAds on categoryAds.m_id = merchants.m_id and (ads.category like '%," + cate_id + ",%' or ads.category like '%," + cate_id + "' or ads.category like '" + cate_id + ",%' or ads.category = " + cate_id + ") and ads.status = 1 and ads.expired_date > date('now') and ads.active_date <= date('now') order by ads.updated desc limit " + start + ", " + end;
                 }
-                //var sql = "SELECT * FROM " + collection.config.adapter.collection_name;
+                //sql = "select a.m_id, a.merchant_name, b.updated, b.* from (SELECT categoryAds.m_id, merchants.merchant_name FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND b.expired_date > date('now') AND b.active_date <= date('now') order by b.updated desc limit "+start+", "+end;
+                //sql = "SELECT * FROM " + collection.config.adapter.collection_name;
                 //sql = "SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";
                 //sql = "SELECT categoryAds.*, merchants.* FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc";	
                 //sql = "select * from merchants";
@@ -80,6 +81,7 @@ exports.definition = {
                 		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
                 	 }
                 	*/
+                	console.log("categoryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy " + res.fieldByName('category'));
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
 					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
