@@ -23,7 +23,8 @@ exports.definition = {
 		    "status" : "INTEGER",
 		    "total": "INTEGER",
 		    "display_type": "TEXT",
-		    "left": "INTEGER"
+		    "left": "INTEGER",
+		    "thumb_image": "TEXT"
 		},
 		adapter: {
 			type: "sql",
@@ -225,7 +226,8 @@ exports.definition = {
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
 					    display_type: res.fieldByName('display_type'),
-					    left: res.fieldByName('left')
+					    left: res.fieldByName('left'),
+					    thumb_image: res.fieldByName('thumb_image')
 					};
                 	res.next();
 					count++;
@@ -271,7 +273,8 @@ exports.definition = {
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
 					    display_type: res.fieldByName('display_type'),
-					    left: res.fieldByName('left')
+					    left: res.fieldByName('left'),
+					    thumb_image: res.fieldByName('thumb_image')
 					};
                 	res.next();
 					count++;
@@ -290,8 +293,8 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (v_id,m_id,item_id,total,discount,barcode,description,title,image,save_from,save_to,use_from,use_to,tnc,redeem,v_limit,point,quantity,created,updated,status,display_type,left) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.v_id, entry.m_id,entry.item_id,entry.total, entry.discount,entry.barcode,entry.description,entry.title,entry.image,entry.save_from,entry.save_to,entry.use_from,entry.use_to,entry.tnc,entry.redeem, entry.limit, entry.point, entry.quantity, entry.created, entry.updated, entry.status,entry.display_type,entry.left);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (v_id,m_id,item_id,total,discount,barcode,description,title,image,save_from,save_to,use_from,use_to,tnc,redeem,v_limit,point,quantity,created,updated,status,display_type,left,thumb_image) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.v_id, entry.m_id,entry.item_id,entry.total, entry.discount,entry.barcode,entry.description,entry.title,entry.image,entry.save_from,entry.save_to,entry.use_from,entry.use_to,entry.tnc,entry.redeem, entry.limit, entry.point, entry.quantity, entry.created, entry.updated, entry.status,entry.display_type,entry.left,entry.thumb_image);
 				});
 				db.execute("COMMIT");
 	            db.close();

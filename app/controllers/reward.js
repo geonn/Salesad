@@ -25,6 +25,13 @@ if(Social.isRequestTwitterSupported()){ //min iOS6 required
     Social.twitterAccountList();
 }
 
+console.log(pwidth);
+console.log(pixelToDp(pwidth)+"beng");
+
+if (OS_IOS) {
+	$.tab2Width.width = "33.5%";
+};
+
 Social.addEventListener("complete", function(e){
 		Ti.API.info("complete: " + e.success);
 
@@ -285,7 +292,7 @@ function vouchers(e) {
 		if(entry.item_id != null){
 			var item = Alloy.createCollection("items");
 			var image = item.getImageByI_id(entry.item_id);
-			entry.image = image;
+			entry.thumb_image = image;
 		}
 		var View1 = $.UI.create("View", {
 			classes: ['hsize', 'vert'],
@@ -300,7 +307,7 @@ function vouchers(e) {
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
-			image: entry.image,
+			image: entry.thumb_image,
 			defaultImage: "/images/image_loader_640x640.png",
 			v_id: entry.v_id,
 			m_id: entry.m_id

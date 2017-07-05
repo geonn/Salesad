@@ -35,6 +35,7 @@ exports.checkAndUpdate = function(e){
 		console.log("Version 1.4!");
 		var model = Alloy.createCollection('voucher');
 		model.addColumn("left", "INTEGER");
+		model.addColumn("thumb_image", "");
 		var model_ads = Alloy.createCollection('ads');
 		model_ads.addColumn("category", "INTEGER");
 		dbVersion = '1.5';

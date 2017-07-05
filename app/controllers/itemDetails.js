@@ -15,7 +15,8 @@ var SCANNER = require("scanner");
 var htr_turn = true;
 var tc_turn = true;
 var checkingLimit = true;
-var checkingForSave = true; 
+var checkingForSave = true;
+var checkingClaimLimit = true; 
 var fristDate = "";
 var secondDate = "";
 var endsDay = "";
@@ -60,20 +61,42 @@ function set_title_button(){
 			checkingLimit = true;
 		}
 		
-		if(!checkingLimit){
+		if(!checkingLimit){   // avoid double save
 			b_title = "Voucher Saved";
 			b_color = "#a6a6a6";
 			b_enable = false;
 		}
-		if(checkingLimit || voucher_item.limit == -1){
+		if(checkingLimit){   // available to save and unlimit save
 			b_title = "Save Voucher";
 			b_color = "#ED1C24";
 			b_enable = true;
+			
+			if(voucher_item.left<=0){   // check voucher stock
+				console.log("v_quan "+voucher_item.left);
+				b_title = "Voucher Fully Saved";
+				b_color = "#a6a6a6";
+				b_enable = false;
+			}
+			
+			if(voucher_item.left==-1){
+				console.log("unlimit save this voucher");
+				b_title = "Save Voucher";
+				b_color = "#ED1C24";
+				b_enable = true;
+			};
 		}
-		if(voucher_item.quantity<=0){
-			b_title = "Out of Stock";
-			b_color = "#a6a6a6";
-			b_enable = false;
+		
+		var v_id = voucher_item.v_id;
+		console.log("voucher id = "+v_id);
+		var model = Alloy.createCollection("MyVoucher");
+		var voucherLimit = model.getCountLimitByVid(v_id);
+		var limit = voucherLimit.count;
+		console.log("Voucher limit is "+limit+" by v_id "+v_id);
+		console.log(voucher_item.limit);
+		if(voucher_item.limit==-1){
+			checkingClaimLimit = true;
+		}else if(limit>=voucher_item.limit){
+			checkingClaimLimit = false;
 		}
 		
 		$.submit.removeAllChildren();
@@ -83,39 +106,54 @@ function set_title_button(){
 			title:b_title,
 			backgroundColor:b_color
 		});
+		var hr3 = $.UI.create('View',{
+			classes:['hr'],
+			backgroundColor:'#e8e8e8'
+		});
 		$.pageTitle.setText("Instant Voucher");
+		$.submit.add(hr3);
 		$.submit.add(buttonS);
 		
 		buttonS.addEventListener('click',function(e){
 			if(b_enable){
 				if(checkingForSave){
-					checkingForSave = false;
-					var common = require('common');
-					common.createAlert('Instant Voucher','Confirm to save this voucher?',function(ee){
-						var params = {v_id:voucher_item.v_id, u_id:u_id, quantity:1};
-						API.callByPost({
-							url:"addUserVoucher",
-							new:true,
-							params:params
-						},{
-						onload:function(res){
-							var res = JSON.parse(res);
-							var arr = res.data || null;
-							console.log("Success to save "+JSON.stringify(arr));
-							checkingForSave = true;
-							setTimeout(function(e){
-								alert("Voucher Saved\nYou can view it under\nMy rewards > Saved Vouchers");
-							},1000);
-							Ti.App.fireEvent("voucher:refresh");
-							Ti.App.fireEvent("myvoucher:refresh");
-							COMMON.closeWindow($.win);
-						},
-						onerror:function(e){
-							console.log("Save voucher fail!");
-						}		
+					if(checkingClaimLimit){
+						console.log("checkingClaimLimit = "+checkingClaimLimit);
+						checkingForSave = false;
+						var common = require('common');
+						common.createAlert('Instant Voucher','Confirm to save this voucher?',function(ee){
+							var params = {v_id:voucher_item.v_id, u_id:u_id, quantity:1};
+							API.callByPost({
+								url:"addUserVoucher",
+								new:true,
+								params:params
+							},{
+							onload:function(res){
+								var res = JSON.parse(res);
+								var arr = res.data || null;
+								console.log("Success to save "+JSON.stringify(arr));
+								checkingForSave = true;
+								setTimeout(function(e){
+									alert("Voucher Saved\nYou can view it under\nMy rewards > Saved Vouchers");
+								},1000);
+								Ti.App.fireEvent("voucher:refresh");
+								Ti.App.fireEvent("myvoucher:refresh");
+								Ti.App.fireEvent("reward:refresh");
+								COMMON.closeWindow($.win);
+							},
+							onerror:function(e){
+								console.log("Save voucher fail!");
+							}		
+							});
 						});
-					});
-				}
+					}else{	
+						var box = Titanium.UI.createAlertDialog({
+							title: "Whoops!",
+							message: "You have exceeded the claim limit per user of this voucher"
+						});
+						box.show();
+					};	
+				};
 			}
 		});
 	}else{
@@ -168,6 +206,7 @@ var getAdsImages = function(){
 		var voucher_item = voucher.getDataByI_id(items[i].i_id);
 		var itemImageView = $.UI.create("View", {classes:['wfill','hsize']});
 		adImage = Ti.UI.createImageView({
+			top: 0,
 			defaultImage: "/images/image_loader_600x800.png",
 			image: items[i].img_path,
 			width:"100%",
@@ -253,7 +292,7 @@ function getNowDate(){   //calculate the days between two dates
 	console.log(secondDate+" voucher date");
 	endsDay = daydiff(parseDate(secondDate), parseDate(fristDate));	
 	return endsDay;
-}	
+}
 	
 ////////Voucher Detail////////
 function addVoucher(){
@@ -281,12 +320,13 @@ function addVoucher(){
 			classes:['wfill','hsize','horz'],
 			backgroundColor:'#fff',
 		});
+		var saved_quan = (voucher_item.quantity==null)?"0":voucher_item.quantity;
 		var saved = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding1','bold'],
 			top:'5',
 			id:'saved',
 			bottom:'2',
-			text:voucher_item.quantity
+			text:saved_quan
 		});
 		var saved1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
@@ -309,7 +349,7 @@ function addVoucher(){
 		var left1 = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding2'],
 			left:'5',
-			text:'left',
+			text:(voucher_item.left==-1)?" ":"left",
 		});
 		var view4 = $.UI.create('View',{
 			classes:['wfill','hsize','horz'],

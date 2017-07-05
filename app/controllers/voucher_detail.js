@@ -157,9 +157,9 @@ if(data.point==0 || data.point==null){
 	}
 }else{
 	if(OS_IOS){
-		$.win.setTitle("Gift Voucher");
+		$.win.setTitle("CP Voucher");
 	}else{
-		$.pageTitle.setText("Gift Voucher");
+		$.pageTitle.setText("CP Voucher");
 	}
 }
 
@@ -304,7 +304,7 @@ function doSave(){
 			console.log("voucher point "+data.point+" <= "+" user point "+current_point);
 			checkingForSave = false;
 			var common = require('common');
-			var title_voucher = (data.point!=0)?"Gift Voucher":"Instant Voucher";
+			var title_voucher = (data.point!=0)?"CP Voucher":"Instant Voucher";
 			var cpPoint = (data.point!=0)?"\nfor "+data.point+" CP points?":"?";
 			common.createAlert(title_voucher,'Confirm to save this voucher'+cpPoint,function(ee){
 				var params = {v_id: v_id,u_id: u_id,quantity: 1};

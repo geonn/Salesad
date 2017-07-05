@@ -12,6 +12,6 @@
 		 	<View class="hr" top="0"></View>
 		 	<ScrollableView id="scrollableView" />
 		</View>
-		 <View id="submit" class="wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff"></View>
+		 <View id="submit" class="wfill hsize vert" zIndex="10" bottom="0" backgroundColor="#fff"></View>
 	</Window>
 </Alloy>
