@@ -225,7 +225,7 @@ function popDatePicker(e){
 	  zIndex: 50,
 	});
 	var view_container = $.UI.create("View", {classes:['wfill', 'hfill'], zIndex: 30,});
-	var img_mask = $.UI.create("ImageView", {classes:['wfill','hfill'], image: "/images/image_loader_640x640.png"});
+	var img_mask = $.UI.create("ImageView", {classes:['wfill','hfill'], image: "/images/warm-grey-bg.png"});
 	var ok_button = $.UI.create("Button", {classes:['button', 'wfill'], left: 10, right:10, title: "Done"});
 	var cancel_button = $.UI.create("Button", {classes:['button',  'wfill'], left: 10, right:10, title: "Cancel"});
 	var view_vert = $.UI.create("View", {classes:['wsize','hsize','vert']});

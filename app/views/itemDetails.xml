@@ -13,5 +13,11 @@
 		 	<ScrollableView id="scrollableView" />
 		</View>
 		 <View id="submit" class="wfill hsize vert" zIndex="10" bottom="0" backgroundColor="#fff"></View>
+		 <Widget src="com.baboonmedia.remoteimage" id="RemoteImage">
+			<ActivityIndicator id="activityIndicator" role="activityindicator" />
+			<View role="loadingerror">
+				<Label>Unable to load image. Tap to retry</Label>
+			</View>
+		</Widget>
 	</Window>
 </Alloy>
