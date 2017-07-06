@@ -742,7 +742,7 @@ function delvoucher(e) {
 	});
 }
 
-function refreshVlist(e) {
+function refreshVlist(e) {console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("12");
 	
@@ -768,7 +768,7 @@ function refreshVlist(e) {
 	});
 }
 
-function refreshSVlist(e) {
+function refreshSVlist(e) {console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("13");
 	
