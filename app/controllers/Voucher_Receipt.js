@@ -56,7 +56,7 @@ function genCode(){
 function getAdDetails(){
 	console.log("asdf");
 	var custom = $.UI.create("Label", { 
-		    text: "Voucher Receipt", 
+		    text: "Voucher Code", 
 		    color: '#ED1C24' 
 	});	
 	if(Ti.Platform.osname == "android"){ 

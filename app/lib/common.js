@@ -40,7 +40,7 @@ function removeAllChildren (viewObject){
     }
 };
 
-function createAlert (tt,msg, callback, yes){
+function createAlert (tt,msg, callback, yes,callback2){
 	console.log('a');
 	var y = (typeof yes != "undefined")?yes:"ok";
 	var box = Titanium.UI.createAlertDialog({
@@ -55,7 +55,7 @@ function createAlert (tt,msg, callback, yes){
 	_.isFunction(callback) && box.addEventListener('click', function(e){
 		console.log(e.index+" "+e.source.cancel);
 		if(e.index == e.source.cancel){
-			
+			callback2();
 		}else{
 			callback();
 		}

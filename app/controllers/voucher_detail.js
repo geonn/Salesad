@@ -329,6 +329,8 @@ function doSave(){
 				onerror: function(err){
 					console.log("Save voucher fail!");
 				}});				
+			},undefined,function(){
+				checkingForSave = true;
 			});	
 		}else{
 			createWhoops("Sorry, you don't have enough CP points to save this voucher.");
