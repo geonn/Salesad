@@ -28,10 +28,6 @@ if(Social.isRequestTwitterSupported()){ //min iOS6 required
 console.log(pwidth);
 console.log(pixelToDp(pwidth)+"beng");
 
-if (OS_IOS) {
-	$.tab2Width.width = "33.5%";
-};
-
 Social.addEventListener("complete", function(e){
 		Ti.API.info("complete: " + e.success);
 

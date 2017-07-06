@@ -22,7 +22,7 @@
 							<Label class="LBTab wsize hsize" id="tab0" onClick="Tab" num="0" text="Vouchers" color="#fff"></Label>
 						</View>
 					</View>
-					<View class="vert wfill hsize" backgroundColor="#ED1C24" id="tab2Width">
+					<View class="vert wfill hsize" backgroundColor="#ED1C24">
 						<View class="tabview2 vert wfill hsize" id="tabview1" onClick="Tab" num="1">
 							<Label class="LBTab wsize hsize" id="tab1" onClick="Tab" num="1" text="Saved Vouchers"></Label>
 						</View>
