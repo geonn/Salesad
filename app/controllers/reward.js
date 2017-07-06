@@ -73,7 +73,7 @@ Social.addEventListener("complete", function(e){
 //	});
 //}
 
-function refresh(){console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
+function refresh(){
 	loading.start();
 	API.callByPost({
 		url: "getMemberPointsRecords",
@@ -742,7 +742,7 @@ function delvoucher(e) {
 	});
 }
 
-function refreshVlist(e) {console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
+function refreshVlist(e) {
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("12");
 	
@@ -768,7 +768,7 @@ function refreshVlist(e) {console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhh
 	});
 }
 
-function refreshSVlist(e) {console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
+function refreshSVlist(e) {
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("13");
 	

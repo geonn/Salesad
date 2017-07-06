@@ -16,18 +16,18 @@
 		 	</View>
 			<View bottom='0' class="hr"></View>
 			<View class="vert wfill hfill" backgroundColor="#f6f6f6">
-				<View class="horz wfill hsize" backgroundColor="#ED1C24">
-					<View class="vert hsize" width="33%">
+				<View class="wfill hsize" backgroundColor="#ED1C24">
+					<View class="vert hsize" width="33%" left="0">
 						<View class="tabview1 vert wfill hsize" id="tabview0" onClick="Tab" num="0">
 							<Label class="LBTab wsize hsize" id="tab0" onClick="Tab" num="0" text="Vouchers" color="#fff"></Label>
 						</View>
 					</View>
-					<View class="vert hsize" width="34%" id="tab2Width">
+					<View class="vert hsize" width="34%" id="tab2Width" left="33%">
 						<View class="tabview2 vert wfill hsize" id="tabview1" onClick="Tab" num="1">
 							<Label class="LBTab wsize hsize" id="tab1" onClick="Tab" num="1" text="Saved Vouchers"></Label>
 						</View>
 					</View>
-					<View class="vert hsize" width="33%">
+					<View class="vert hsize" width="33%" right="0">
 						<View class="tabview3 vert wfill hsize" id="tabview2" onClick="Tab" num="2" right="1">
 							<Label class="LBTab wsize hsize" id="tab2" onClick="Tab" num="2" text="CP Points"></Label>
 						</View>

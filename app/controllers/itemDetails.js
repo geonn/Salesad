@@ -145,8 +145,10 @@ function set_title_button(){
 								console.log("Save voucher fail!");
 							}		
 							});
+						},undifined,function(e) {
+							checkingForSave = true;
 						});
-					}else{	
+					}else{
 						var box = Titanium.UI.createAlertDialog({
 							title: "Whoops!",
 							message: "You have exceeded the claim limit per user of this voucher"
