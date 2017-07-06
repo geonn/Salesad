@@ -116,6 +116,7 @@ try{
 		
 			var share_url = "http://salesad.my/users/member_referral?referral="+encrypt_code;
 			if(OS_IOS){
+				var Social = require('dk.napp.social');
 				if(Social.isActivityViewSupported()){ //min iOS6 required
 					Social.activityView({
 						text: "SalesAd. Please signup via the link : "+share_url,
