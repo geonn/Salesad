@@ -81,6 +81,7 @@ exports.definition = {
                 		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
                 	 }
                 	*/
+                	console.log("categoryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy " + res.fieldByName('category'));
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
 					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),

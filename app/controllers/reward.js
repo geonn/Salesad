@@ -73,7 +73,7 @@ Social.addEventListener("complete", function(e){
 //	});
 //}
 
-function refresh(){
+function refresh(){console.log("refreshhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh\nhhhhhhhhhhhhhhhhhhhh");
 	loading.start();
 	API.callByPost({
 		url: "getMemberPointsRecords",
