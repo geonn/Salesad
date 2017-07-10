@@ -139,6 +139,8 @@ function useVoucher(e){
 					COMMON.closeWindow($.win);
 				}
 			});
+		},undefined,function(){
+			checking = true;
 		});
 		checking = true;		
 	}

@@ -55,7 +55,9 @@ function createAlert (tt,msg, callback, yes,callback2){
 	_.isFunction(callback) && box.addEventListener('click', function(e){
 		console.log(e.index+" "+e.source.cancel);
 		if(e.index == e.source.cancel){
-			callback2();
+			if(typeof callback2 != "undefined"){
+				callback2();	
+			}
 		}else{
 			callback();
 		}
