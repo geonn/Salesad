@@ -247,18 +247,30 @@ var getAdDetails = function(){
 				$.ads_details.add(row);
 			}
 			counter++;
-		} 
-		console.log("ads data");
-		console.log(ads.description);
-		var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
-		var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], text : name});
-		var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], text : date});
-		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding','bold'], text :ads.description+"\n\nTerms and Conditions\n\n"+ ads_tnc});
-		$.ads_details.add(ad_name);
-		$.ads_details.add(ad_date);
-		if(ads.description != "" || ads_tnc != "") {
-			$.ads_details.add(tnc);
 		}
+		
+		var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
+		var details_text = $.UI.create("View", {classes:['vert', 'wfill', 'hsize', 'padding']});
+		var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text : name});
+		var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], top: 0, text : date});
+		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: "#000"});
+		var desc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding'], text :ads.description});
+		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text: "Terms and Conditions"});
+		var tnc_text = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding'], top: 0, text: ads_tnc});
+		
+		details_text.add(ad_name);
+		details_text.add(ad_date);
+		
+		if(ads.description != "") {
+			details_text.add(hr);
+			details_text.add(desc);
+		}
+		if(ads_tnc != "") {
+			details_text.add(tnc);
+			details_text.add(tnc_text);
+		}
+		$.ads_details.add(details_text);
+		
 		isAdsAvailable = true;
 	}else{
 		/*
