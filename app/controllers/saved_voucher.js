@@ -125,7 +125,7 @@ var checking = true;
 function useVoucher(e){
 	if(checking && use){
 		checking = false;
-		COMMON.createAlert("Use Voucher","Confirm to use this voucher now?\nThis action is not undoable.",function(ex){
+		COMMON.createAlert("Use Voucher","Confirm to use the voucher now?\nYou can undo this action.",function(ex){
 			API.callByPost({url:"updateUserVoucher",params:{id:my_vid,status:0}},{
 				onload:function(responseText){
 					COMMON.closeWindow($.win);

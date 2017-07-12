@@ -15,7 +15,6 @@ var fristDate = "";
 var secondDate = "";
 var endsDay = "";
 var loading = Alloy.createController("loading");
-var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
 console.log("User id = "+u_id+" voucher id "+v_id);
 console.log(data.v_limit+"here");
 if(data.item_id != null){
@@ -49,7 +48,7 @@ function getNowDate(){   //calculate the days between two dates
 	console.log(fristDate+" today");
 	console.log(secondDate+" voucher date");
 	endsDay = daydiff(parseDate(secondDate), parseDate(fristDate));	
-	$.days.setText(endsDay);
+	//$.days.setText(endsDay);
 }
 
 function zoom(e){	
@@ -149,7 +148,7 @@ function render_banner(){
 }
 
 if(data.point==0 || data.point==null){
-	$.pointView.opacity = 0;
+	//$.pointView.opacity = 0;
 	if(OS_IOS){
 		$.win.setTitle("Instant Voucher");
 	}else{
@@ -206,24 +205,190 @@ function set_data(){
 	var dateUseFrom = convertToHumanFormat(data.save_from);
 	var dateUseTo = convertToHumanFormat(data.save_to);
 	$.title.setText(data.title);
-	if(left==-1){
-		$.leftV2.setText(" ");
-		$.leftV.setText("While Stocks Last");
-	}else{
-		$.leftV.setText(left);
-	}
-	$.point.setText(data.point);
+	//if(left==-1){
+		//$.leftV2.setText(" ");
+		//$.leftV.setText("While Stocks Last");
+	//}else{
+		//$.leftV.setText(left);
+	//}
+	//$.point.setText(data.point);
 	$.valid_from.setText(dateUseFrom);
 	$.valid_to.setText(dateUseTo);
 	$.desc.setText(data.description);
-	$.saved.setText((data.quantity==null)?"0":data.quantity);
+	//$.saved.setText((data.quantity==null)?"0":data.quantity);
 	var tc = $.UI.create("Label",{
 		classes:['wfill','hsize','padding'],
 		top:0,
 		left:20,
 		text:data.tnc,
 	});
-	$.tc.add(tc);	
+	$.tc.add(tc);
+	
+	if (data.point==0) {
+		//$.info.removeAllChildren();
+		var ssaved = $.UI.create("View",{
+			width: "33%",
+			classes:["hsize","vert"],
+			left: 0,
+			zIndex: 1,
+		});
+		var saved_title = $.UI.create("Label",{
+			text: "Saved",
+			classes:["wsize","hsize","h5"],
+			top: 5
+		});
+		var saved_data = $.UI.create("Label",{
+			text: (data.quantity==null)?"0":data.quantity,
+			classes:["wsize","hsize","h3","bold"]
+		});
+		var leftt = $.UI.create("View",{
+			classes:["wfill","hsize","vert"],
+			top: 0
+		});
+		var left_title = $.UI.create("Label",{
+			text: "Left",
+			classes:["wsize","hsize","h5"],
+			top: 5
+		});
+		var left_data = $.UI.create("Label",{
+			text: (left==-1)?"While Stock\nLast":left,
+			textAlign: "center",
+			classes: (left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
+		});
+		var ends = $.UI.create("View",{
+			width: "33%",
+			classes:["hsize","vert"],
+			right: 0,
+			zIndex: 1,
+		});
+		var ends_title = $.UI.create("Label",{
+			text: "Ends in",
+			classes:["wsize","hsize","h5"],
+			top: 5
+		});
+		var ends_data = $.UI.create("Label",{
+			text: endsDay,
+			classes:["wsize","hsize","h3","bold"]
+		});
+		var info = $.UI.create("View",{
+			classes:["wfill","hsize"]
+		});
+		var space1 = $.UI.create("Label",{
+			text: " ",
+			classes:["wsize","hsize","h5","bold"]
+		});
+		var space2 = $.UI.create("Label",{
+			text: (endsDay==1?"Day":"Days"),
+			classes:["wsize","hsize","h5"]
+		});
+		ssaved.add(saved_title);	
+		ssaved.add(saved_data);
+		ssaved.add(space1);
+		leftt.add(left_title);
+		leftt.add(left_data);
+		//leftt.add(space1);
+		ends.add(ends_title);
+		ends.add(ends_data);
+		ends.add(space2);
+		info.add(ssaved);
+		info.add(leftt);
+		info.add(ends);
+		$.info.add(info);
+	}else{
+		var ssaved = $.UI.create("View",{
+			width: "25%",
+			classes:["hsize","vert"],
+			left: 0,
+			backgroundColor:"#fff"
+		});
+		var saved_title = $.UI.create("Label",{
+			text: "Saved",
+			classes:["wsize","hsize","h5"],
+			top: 5
+		});
+		var saved_data = $.UI.create("Label",{
+			text: (data.quantity==null)?"0":data.quantity,
+			classes:["wsize","hsize","h3","bold"]
+		});
+		var leftt = $.UI.create("View",{
+			width: "25%",
+			classes:["hsize","vert"],
+			left: "25%",
+			backgroundColor:"#fff"
+		});
+		var left_title = $.UI.create("Label",{
+			text: "Left",
+			classes:["wsize","hsize","h5"],
+			top: 5
+		});
+		var left_data = $.UI.create("Label",{
+			text: (left==-1)?"While Stock\nLast":left,
+			textAlign: "center",
+			classes: (left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
+		});
+		var ends = $.UI.create("View",{
+			width: "25%",
+			classes:["hsize","vert"],
+			right: "25%",
+			backgroundColor:"#fff"
+		});
+		var ends_title = $.UI.create("Label",{
+			text: "Ends in",
+			classes:["wsize","hsize","h5"],
+			top: 5
+		});
+		var ends_data = $.UI.create("Label",{
+			text: endsDay,
+			classes:["wsize","hsize","h3","bold"]
+		});
+		var point = $.UI.create("View",{
+			width: "25%",
+			classes:["hsize","vert"],
+			right: 0,
+			backgroundColor:"#fff"
+		});
+		var point_title = $.UI.create("Label",{
+			text: "CP",
+			classes:["wsize","hsize","h5"],
+			top: 5
+		});
+		var point_data = $.UI.create("Label",{
+			text: data.point,
+			classes:["wsize","hsize","h3","bold"]
+		});
+		var info = $.UI.create("View",{
+			classes:["wfill","hsize"]
+		});
+		var space1 = $.UI.create("Label",{
+			text: " ",
+			classes:["wsize","hsize","h5","bold"]
+		});
+		var space2 = $.UI.create("Label",{
+			text: (endsDay==1?"Day":"Days"),
+			classes:["wsize","hsize","h5"]
+		});
+		var space3 = $.UI.create("Label",{
+			text: "Points",
+			classes:["wsize","hsize","h5"]
+		});
+		point.add(point_title);
+		point.add(point_data);
+		point.add(space3);
+		ssaved.add(saved_title);	
+		ssaved.add(saved_data);
+		ssaved.add(space1);
+		leftt.add(left_title);
+		leftt.add(left_data);
+		leftt.add(space1);
+		ends.add(ends_title);
+		ends.add(ends_data);
+		ends.add(space2);
+		info.add(point);
+		info.add(ssaved);
+		info.add(leftt);
+		info.add(ends);
+		$.info.add(info);
+	};
 }
 
 function htr_extend(){
@@ -287,11 +452,11 @@ function init(){
 	}
 	$.win.add(loading.getView());	
 	loading.finish();
+	getNowDate();
 	set_data();
 	userCurrentPoint();
 	checkVoucherStatus();
 	checkVoucherLimit();
-	getNowDate();
 	render_banner();
 }
 init();
