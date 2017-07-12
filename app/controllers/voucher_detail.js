@@ -314,6 +314,7 @@ function set_data(){
 			width: "25%",
 			classes:["hsize","vert"],
 			left: "25%",
+			top: 0,
 			backgroundColor:"#fff"
 		});
 		var left_title = $.UI.create("Label",{
