@@ -192,13 +192,13 @@ function buildListing(){
 		
 		function datedescription(e) {
 			if(isAd){
-				var dateDescription = convertToHumanFormat(ads[a].active_date)+" - "+convertToHumanFormat(ads[a].expired_date);
-				if(ads[a].active_date == "0000-00-00" && ads[a].expired_date =="0000-00-00"){
+				var dateDescription = convertToHumanFormat(ads[a].sales_from)+" - "+convertToHumanFormat(ads[a].sales_to);
+				if(ads[a].sales_from == "0000-00-00" && ads[a].sales_to =="0000-00-00"){
 					dateDescription = "Start from now!";
-				}else if(ads[a].active_date == "0000-00-00" && ads[a].expired_date !="0000-00-00"){
-					dateDescription = "Until "+convertToHumanFormat(ads[a].expired_date)+"!";
-				}else if(ads[a].active_date != "0000-00-00" && ads[a].expired_date =="0000-00-00"){
-					dateDescription = "Start from "+convertToHumanFormat(ads[a].active_date)+"!";
+				}else if(ads[a].sales_from == "0000-00-00" && ads[a].sales_to !="0000-00-00"){
+					dateDescription = "Until "+convertToHumanFormat(ads[a].sales_to)+"!";
+				}else if(ads[a].sales_from != "0000-00-00" && ads[a].sales_to =="0000-00-00"){
+					dateDescription = "Start from "+convertToHumanFormat(ads[a].sales_from)+"!";
 				}
 				return dateDescription;
 			}else{
@@ -253,8 +253,8 @@ function buildListing(){
 			bottom:0,
 			width: 25,
 			height: 25,
-			active_date: ads[a].active_date,
-			expired_date: ads[a].expired_date,
+			active_date: ads[a].sales_from,
+			expired_date: ads[a].sales_to,
 			ads_name: ads[a].ads_name,
 			description: ads[a].description,
 			image: "/images/Icon_AddToCalendar.png"
@@ -287,8 +287,8 @@ function buildListing(){
 			bottom:0,
 			width: 25,
 			height: 25,
-			active_date: ads[a].active_date,
-			expired_date: ads[a].expired_date,
+			active_date: ads[a].sales_from,
+			expired_date: ads[a].sales_to,
 			adsName: ads[a].ads_name,
 			adsImage: ads[a].img_path,
 			description: ads[a].description,

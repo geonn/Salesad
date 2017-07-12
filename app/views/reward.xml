@@ -43,10 +43,10 @@
 							<View class="hr" backgroundColor="#e8e8e8"></View>
 							<View class="horz wsize hsize" borderWidth="1" borderColor="#ED1C24" borderRadius="5" top="10" bottom="10">
 								<View class="wsize hsize" onClick="ins_voucher" id="ins_view" backgroundColor="#ED1C24">
-									<Label height="40" id="ins_label" width="130" text="Instant" textAlign="center" color="#fff"></Label>
+									<Label height="40" id="ins_label" width="130" text="Instant Vouchers" textAlign="center" color="#fff"></Label>
 								</View>
 								<View class="wsize hsize" onClick="gift_voucher" id="gift_view" backgroundColor="#fff">
-									<Label height="40" id="gift_label" width="130" text="CP" textAlign="center" color="gray"></Label>
+									<Label height="40" id="gift_label" width="130" text="CP Vouchers" textAlign="center" color="gray"></Label>
 								</View>
 							</View>
 						</View>

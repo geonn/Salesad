@@ -107,8 +107,7 @@ function refresh(){
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
 			point_list = res.data || null;
-			point_list.pop();
-			console.log(point_list);
+			console.log("asdf:"+point_list);
 			render_point_list();
 		},
 		onerror: function(err){
@@ -258,7 +257,13 @@ function navTo(e){
 			});
 			loading.finish();
 		}
-		loading.finish();
+		loading.finish();	
+	}else if(row.record.id == 7){
+		if(!row.record.checked){
+			setTimeout(function(){
+				loading.finish();			
+			},2000);
+		}
 	}
 }
 
