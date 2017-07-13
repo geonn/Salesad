@@ -235,7 +235,8 @@ function set_data(){
 		var saved_title = $.UI.create("Label",{
 			text: "Saved",
 			classes:["wsize","hsize","h5"],
-			top: 5
+			top: 5,
+			color: "#a6a6a6"
 		});
 		var saved_data = $.UI.create("Label",{
 			text: (data.quantity==null)?"0":data.quantity,
@@ -248,7 +249,8 @@ function set_data(){
 		var left_title = $.UI.create("Label",{
 			text: "Left",
 			classes:["wsize","hsize","h5"],
-			top: 5
+			top: 5,
+			color: "#a6a6a6"
 		});
 		var left_data = $.UI.create("Label",{
 			text: (left==-1)?"While Stock\nLast":left,
@@ -264,7 +266,8 @@ function set_data(){
 		var ends_title = $.UI.create("Label",{
 			text: "Ends in",
 			classes:["wsize","hsize","h5"],
-			top: 5
+			top: 5,
+			color: "#a6a6a6"
 		});
 		var ends_data = $.UI.create("Label",{
 			text: endsDay,
@@ -280,11 +283,13 @@ function set_data(){
 		};
 		var space1 = $.UI.create("Label",{
 			text: vv,
-			classes:["wsize","hsize","h5"]
+			classes:["wsize","hsize","h5"],
+			color: "#a6a6a6"
 		});
 		var space2 = $.UI.create("Label",{
 			text: (endsDay==1?"Day":"Days"),
-			classes:["wsize","hsize","h5"]
+			classes:["wsize","hsize","h5"],
+			color: "#a6a6a6"
 		});
 		if (left==0 || left==1) {
 			var vvv = "Voucher";
@@ -293,7 +298,8 @@ function set_data(){
 		};
 		var space4 = $.UI.create("Label",{
 			text: vvv,
-			classes:["wsize","hsize","h5"]
+			classes:["wsize","hsize","h5"],
+			color: "#a6a6a6"
 		});
 		ssaved.add(saved_title);	
 		ssaved.add(saved_data);

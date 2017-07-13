@@ -318,70 +318,85 @@ function addVoucher(){
 			text:voucher_item.title,
 			left:'25'
 		});
-		var view1 = $.UI.create('View',{
-			classes:['wfill','hsize','horz'],
-			backgroundColor:'#fff',
+		var ssaved = $.UI.create("View",{
+			width: "33%",
+			classes:["hsize","vert"],
+			left: 0,
+			zIndex: 1,
 		});
-		var saved_quan = (voucher_item.quantity==null)?"0":voucher_item.quantity;
-		var saved = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding1','bold'],
-			top:'5',
-			id:'saved',
-			bottom:'2',
-			text:saved_quan
+		var saved_title = $.UI.create("Label",{
+			text: "Saved",
+			classes:["wsize","hsize","h5"],
+			top: 5
 		});
-		var saved1 = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding'],
-			top:'5',
-			bottom:'2',
-			left:'5',
-			text:'saved'
+		var saved_data = $.UI.create("Label",{
+			text: (voucher_item.quantity==null)?"0":voucher_item.quantity,
+			classes:["wsize","hsize","h3","bold"]
 		});
-		var view3 = $.UI.create('View',{
-			classes:['wfill','hsize','horz'],
-			backgroundColor:'#fff',
-			top:'0'
+		var leftt = $.UI.create("View",{
+			classes:["wfill","hsize","vert"],
+			top: 0
 		});
-		var left = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding1','bold'],
-			bottom:'2',
-			id:'leftV',
-			text:(voucher_item.left==-1)?"While Stocks Last":voucher_item.left,
+		var left_title = $.UI.create("Label",{
+			text: "Left",
+			classes:["wsize","hsize","h5"],
+			top: 5
 		});
-		var left1 = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding2'],
-			left:'5',
-			text:(voucher_item.left==-1)?" ":"left",
+		var left_data = $.UI.create("Label",{
+			text: (voucher_item.left==-1)?"While Stock\nLast":voucher_item.left,
+			textAlign: "center",
+			classes: (voucher_item.left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
 		});
-		var view4 = $.UI.create('View',{
-			classes:['wfill','hsize','horz'],
-			backgroundColor:'#fff',
+		var ends = $.UI.create("View",{
+			width: "33%",
+			classes:["hsize","vert"],
+			right: 0,
+			zIndex: 1,
 		});
-		var end = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding2'],
-			right:'5',
-			text:'Ends in',
+		var ends_title = $.UI.create("Label",{
+			text: "Ends in",
+			classes:["wsize","hsize","h5"],
+			top: 5
 		});
-		var end1 = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','bold'],
-			top:'0',
-			bottom:'2',
-			text:getNowDate(),
+		var ends_data = $.UI.create("Label",{
+			text: getNowDate(),
+			classes:["wsize","hsize","h3","bold"]
 		});
-		var end2 = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding2'],
-			left:'5',
-			text:'days',
+		var info = $.UI.create("View",{
+			classes:["wfill","hsize"]
+		});
+		if (voucher_item.quantity==null || voucher_item.quantity==0 || voucher_item.quantity==1) {
+			var vv = "Voucher";
+		}else{
+			var vv = "Vouchers";
+		};
+		var space1 = $.UI.create("Label",{
+			text: vv,
+			classes:["wsize","hsize","h5"]
+		});
+		var space2 = $.UI.create("Label",{
+			text: (getNowDate()==1?"Day":"Days"),
+			classes:["wsize","hsize","h5"]
+		});
+		if (voucher_item.left==0 || voucher_item.left==1) {
+			var vvv = "Voucher";
+		}else{
+			var vvv = "Vouchers";
+		};
+		var space4 = $.UI.create("Label",{
+			text: vvv,
+			classes:["wsize","hsize","h5"]
 		});
 		var desc = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
-			top:'0',
+			top:'10',
 			left:'25',
 			text:voucher_item.description
 		});
 		var view5 = $.UI.create('View',{
 			classes:['wfill','hsize','horz'],
 			backgroundColor:'#fff',
+			top: '10'
 		});
 		var valid = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
@@ -410,9 +425,19 @@ function addVoucher(){
 			text:dateUseTo
 		});
 		var hr1 = $.UI.create('View',{
-			classes:['hr1']
+			classes:['hr1'],
+			top:'5'
 		});
 		var hr2 = $.UI.create('View',{
+			classes:['hr1']
+		});
+		var hr3 = $.UI.create('View',{
+			classes:['hr1']
+		});
+		var hr4 = $.UI.create('View',{
+			classes:['hr1']
+		});
+		var hr5 = $.UI.create('View',{
 			classes:['hr1']
 		});
 		var view6 = $.UI.create('View',{     //htr_extend add event!!!
@@ -482,23 +507,31 @@ function addVoucher(){
 		view5.add(valid1);
 		view5.add(valid2);
 		view5.add(valid3);
-		view4.add(end);
-		view4.add(end1);
-		view4.add(end2);
-		view3.add(left);
-		view3.add(left1);
-		view1.add(saved);
-		view1.add(saved1);
+		ssaved.add(saved_title);	
+		ssaved.add(saved_data);
+		ssaved.add(space1);
+		leftt.add(left_title);
+		leftt.add(left_data);
+		if (voucher_item.left!=-1) {
+			leftt.add(space4);
+		}
+		ends.add(ends_title);
+		ends.add(ends_data);
+		ends.add(space2);
+		info.add(ssaved);
+		info.add(leftt);
+		info.add(ends);
 		voucher.add(v_image);
 		voucher.add(v_title);
-		voucher.add(view1);
-		voucher.add(view3);
-		voucher.add(view4);
-		voucher.add(view5);
-		voucher.add(desc);
+		voucher.add(hr5);
+		voucher.add(info);
 		voucher.add(hr1);
-		voucher.add(view6);
+		voucher.add(view5);
 		voucher.add(hr2);
+		voucher.add(desc);
+		voucher.add(hr3);
+		voucher.add(view6);
+		voucher.add(hr4);
 		voucher.add(view7);
 		row.add(voucher);
 		var click1 = true;
