@@ -202,8 +202,8 @@ function checkVoucherLimit(){
 }
 
 function set_data(){
-	var dateUseFrom = convertToHumanFormat(data.save_from);
-	var dateUseTo = convertToHumanFormat(data.save_to);
+	var dateUseFrom = convertToHumanFormat(data.use_from);
+	var dateUseTo = convertToHumanFormat(data.use_to);
 	$.title.setText(data.title);
 	//if(left==-1){
 		//$.leftV2.setText(" ");
