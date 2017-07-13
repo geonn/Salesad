@@ -327,7 +327,8 @@ function addVoucher(){
 		var saved_title = $.UI.create("Label",{
 			text: "Saved",
 			classes:["wsize","hsize","h5"],
-			top: 5
+			top: 5,
+			color: "#a6a6a6"
 		});
 		var saved_data = $.UI.create("Label",{
 			text: (voucher_item.quantity==null)?"0":voucher_item.quantity,
@@ -340,7 +341,8 @@ function addVoucher(){
 		var left_title = $.UI.create("Label",{
 			text: "Left",
 			classes:["wsize","hsize","h5"],
-			top: 5
+			top: 5,
+			color: "#a6a6a6"
 		});
 		var left_data = $.UI.create("Label",{
 			text: (voucher_item.left==-1)?"While Stock\nLast":voucher_item.left,
@@ -356,7 +358,8 @@ function addVoucher(){
 		var ends_title = $.UI.create("Label",{
 			text: "Ends in",
 			classes:["wsize","hsize","h5"],
-			top: 5
+			top: 5,
+			color: "#a6a6a6"
 		});
 		var ends_data = $.UI.create("Label",{
 			text: getNowDate(),
@@ -372,11 +375,13 @@ function addVoucher(){
 		};
 		var space1 = $.UI.create("Label",{
 			text: vv,
-			classes:["wsize","hsize","h5"]
+			classes:["wsize","hsize","h5"],
+			color: "#a6a6a6"
 		});
 		var space2 = $.UI.create("Label",{
 			text: (getNowDate()==1?"Day":"Days"),
-			classes:["wsize","hsize","h5"]
+			classes:["wsize","hsize","h5"],
+			color: "#a6a6a6"
 		});
 		if (voucher_item.left==0 || voucher_item.left==1) {
 			var vvv = "Voucher";
@@ -385,7 +390,8 @@ function addVoucher(){
 		};
 		var space4 = $.UI.create("Label",{
 			text: vvv,
-			classes:["wsize","hsize","h5"]
+			classes:["wsize","hsize","h5"],
+			color: "#a6a6a6"
 		});
 		var desc = $.UI.create('Label',{
 			classes:['wsize','hsize','h5','padding'],
