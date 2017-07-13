@@ -273,12 +273,26 @@ function set_data(){
 		var info = $.UI.create("View",{
 			classes:["wfill","hsize"]
 		});
+		if (data.quantity==null || data.quantity==0 || data.quantity==1) {
+			var vv = "Voucher";
+		}else{
+			var vv = "Vouchers";
+		};
 		var space1 = $.UI.create("Label",{
-			text: " ",
-			classes:["wsize","hsize","h5","bold"]
+			text: vv,
+			classes:["wsize","hsize","h5"]
 		});
 		var space2 = $.UI.create("Label",{
 			text: (endsDay==1?"Day":"Days"),
+			classes:["wsize","hsize","h5"]
+		});
+		if (left==0 || left==1) {
+			var vvv = "Voucher";
+		}else{
+			var vvv = "Vouchers";
+		};
+		var space4 = $.UI.create("Label",{
+			text: vvv,
 			classes:["wsize","hsize","h5"]
 		});
 		ssaved.add(saved_title);	
@@ -286,7 +300,9 @@ function set_data(){
 		ssaved.add(space1);
 		leftt.add(left_title);
 		leftt.add(left_data);
-		//leftt.add(space1);
+		if (left!=-1) {
+			leftt.add(space4);
+		}
 		ends.add(ends_title);
 		ends.add(ends_data);
 		ends.add(space2);
@@ -360,9 +376,14 @@ function set_data(){
 		var info = $.UI.create("View",{
 			classes:["wfill","hsize"]
 		});
+		if (data.quantity==null || data.quantity==0 || data.quantity==1) {
+			var vv = "Voucher";
+		}else{
+			var vv = "Vouchers";
+		};
 		var space1 = $.UI.create("Label",{
-			text: " ",
-			classes:["wsize","hsize","h5","bold"]
+			text: vv,
+			classes:["wsize","hsize","h5"]
 		});
 		var space2 = $.UI.create("Label",{
 			text: (endsDay==1?"Day":"Days"),
@@ -370,6 +391,15 @@ function set_data(){
 		});
 		var space3 = $.UI.create("Label",{
 			text: "Points",
+			classes:["wsize","hsize","h5"]
+		});
+		if (left==0 || left==1) {
+			var vvv = "Voucher";
+		}else{
+			var vvv = "Vouchers";
+		};
+		var space4 = $.UI.create("Label",{
+			text: vvv,
 			classes:["wsize","hsize","h5"]
 		});
 		point.add(point_title);
@@ -380,7 +410,9 @@ function set_data(){
 		ssaved.add(space1);
 		leftt.add(left_title);
 		leftt.add(left_data);
-		leftt.add(space1);
+		if (left!=-1) {
+			leftt.add(space4);
+		}
 		ends.add(ends_title);
 		ends.add(ends_data);
 		ends.add(space2);
