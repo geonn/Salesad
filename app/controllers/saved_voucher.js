@@ -34,12 +34,19 @@ function zoom(e){
 }
 function setData(){
 	$.title.setText(res.title);
-	$.date.setText(res.use_from);
-	$.date1.setText(res.use_to);
+	$.date.setText(convertToHumanFormat(res.use_from));
+	$.date1.setText(convertToHumanFormat(res.use_to));
 	$.description.setText(res.description);	
 	var title = $.UI.create("Label",{classes:['wsize','hsize'],text:res.tnc,left:20,top:10});
 	$.tnc.add(title);	
 }
+function createWhoops(t,e){
+	var box = Titanium.UI.createAlertDialog({
+		title: t,
+		message: e
+	});
+	box.show();
+};
 function render_banner(){
 	console.log("here"+res.image);
 	if(OS_ANDROID && res.image != null){
@@ -125,7 +132,7 @@ var checking = true;
 function useVoucher(e){
 	if(checking && use){
 		checking = false;
-		COMMON.createAlert("Use Voucher","Confirm to use the voucher now?\nYou can undo this action.",function(ex){
+		COMMON.createAlert("Use Voucher","Confirm to use the voucher now?\nYou can't undo this action.",function(ex){
 			API.callByPost({url:"updateUserVoucher",params:{id:my_vid,status:0}},{
 				onload:function(responseText){
 					COMMON.closeWindow($.win);

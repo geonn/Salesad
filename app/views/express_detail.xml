@@ -49,7 +49,7 @@
 	 	<View class="wfill vert" height="60" backgroundColor="#ffffff" bottom="0" zIndex="10">
 	 		<View class="hr" backgroundColor="#E8E8E8"></View>
 	 		<View class="wfill hfill horz padding">
-	 			<ImageView id="owner_img_path" width="40" height="40" right="10" borderRadius="20" defaultImage="/images/logo_small.png" class="" />
+	 			<ImageView id="owner_img_path" width="40" height="40" right="10" borderRadius="20" defaultImage="/images/SalesAd_Profile Pic.png" class="" />
 	 			<View class="hfill vert" width="70%">
 	 				<Label id="owner_name" class="bold h5 hsize wfill" ellipsize="true" wordWrap="false" platform="android"></Label>
 	 				<Label id="category" class="h5 hsize wfill" ellipsize="true" wordWrap="false" platform="android"></Label>

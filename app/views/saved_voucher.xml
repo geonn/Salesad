@@ -26,15 +26,17 @@
 							</Widget>			 			
 				 		</View>							
 						<View class="wfill hsize vert" id="ads_details" backgroundColor="#fff">
-							<View class="padding vert wfill hsize" backgroundColor="#fff">
+							<View class="padding vert wfill hsize" left="5" right="5" backgroundColor="#fff">
 								<Label class="wsize hsize vTitle bold" bottom="5" color="#000" left="20" id="title" text="Title"></Label>
-								<View class="wfill hsize horz">
+								<View class="hr" backgroundColor="#DFE0E1"></View>
+								<View class="wfill hsize horz" top="10">
 									<Label class="wsize hsize h5" bottom="5" color="#000" left="20" text="Valid from "></Label>								
 									<Label class="wsize hsize h5 bold" bottom="5" left="0" id="date" text="Date"></Label>	
 									<Label class="wsize hsize h5" bottom="5" color="#000" text=" to "></Label>	
 									<Label class="wsize hsize h5 bold" bottom="5" left="0" id="date1" text="Date1"></Label>								
 								</View>
-								<Label class="wsize hsize h5" color="#000" left="20" id="description" text="desc"></Label>								
+								<View class="hr" backgroundColor="#DFE0E1"></View>
+								<Label class="wsize hsize h5" color="#000" top="10" left="20" id="description" text="desc"></Label>								
 							</View>								
 							<View class="hr" backgroundColor="#DFE0E1" left="5" right="5"></View>	
 							<View class="wfill hsize vert padding" left="10" right="10" onClick="showredeem" turn="0" backgroundColor="#fff">

@@ -427,7 +427,7 @@ function renderSmall(param){
     var hr = $.UI.create("View", {classes:['hr'], backgroundColor: "#E3E5E8"});
     var view_bottom = $.UI.create("View", {classes:['wfill','hsize','small-padding'], backgroundColor: param.bg_color});
     var view_bottom_right = $.UI.create("View", {classes:['wfill','hsize','vert'], left: 36, backgroundColor: param.bg_color});
-    var owner_img = $.UI.create("ImageView", {image:param.m_img_path, borderRadius: 15, height:30, width: 30, left:0});
+    var owner_img = $.UI.create("ImageView", {image:param.m_img_path, defaultImage:'/images/SalesAd_Profile Pic.png', borderRadius: 15, height:30, width: 30, left:0});
     var owner_name = (OS_IOS) ? $.UI.create("Label", {classes: ['h6', 'bold','wfill'],color:param.fg_color, height:14, top:0, textAlign:"left", text: param.merchant_name}) : $.UI.create("Label", {classes: ['h6', 'bold','wfill'],color:param.fg_color,  height:14, top:0, ellipsize: true, wordWrap: false, textAlign:"left", text: param.merchant_name});
     var label_category = (OS_IOS) ? $.UI.create("Label", {classes: ['h6','wfill'],color:param.fg_color, height:14, textAlign:"left", text: param.category}) : $.UI.create("Label", {classes: ['h6','wfill'],color:param.fg_color, height:14,  ellipsize: true, wordWrap: false, textAlign:"left", text:param.category});			
     container.add(img);
