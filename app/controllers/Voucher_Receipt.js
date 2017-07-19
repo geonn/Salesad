@@ -66,6 +66,13 @@ function getAdDetails(){
 	} 
 };
 
+function createWhoops(t,e){
+	var box = Titanium.UI.createAlertDialog({
+		title: t,
+		message: e
+	});
+	box.show();
+};
 
 function init(){
 	$.win.add(loading.getView());	
@@ -76,9 +83,9 @@ function init(){
 
 init();
 function closeWindow(){
-	COMMON.createAlert("Exit","Confirm to exit now?\nThis action is not undoable.",function(ex){
+	COMMON.createAlert("Exit","Confirm to exit now?\nYou can't undo this action.",function(ex){
 		COMMON.closeWindow($.win); 
-		alert("Thanks for using our voucher.");
+		createWhoops("Deal Redeemed!","Thank for using our voucher.");
 	});	
 }
 $.btnBack.addEventListener('click', closeWindow); 

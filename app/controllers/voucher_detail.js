@@ -169,9 +169,9 @@ function userCurrentPoint(){
 	console.log("User current point = "+current_point);
 }
 
-function createWhoops(e){
+function createWhoops(t,e){
 	var box = Titanium.UI.createAlertDialog({
-		title: "Whoops!",
+		title: t,
 		message: e
 	});
 	box.show();
@@ -531,7 +531,7 @@ function doSave(){
 					console.log("Success to save "+JSON.stringify(arr));
 					checkingForSave = true;
 					setTimeout(function(e){
-						alert("Voucher Saved!\nYou can view it under\nMy rewards > Saved Vouchers");
+						createWhoops("Voucher saved","You can view it under\nMy Rewards > Saved Vouchers");
 					},1000);
 					Ti.App.fireEvent("voucher:refresh");
 					Ti.App.fireEvent("myvoucher:refresh");
@@ -545,10 +545,10 @@ function doSave(){
 				checkingForSave = true;
 			});	
 		}else{
-			createWhoops("Sorry, you don't have enough CP points to save this voucher.");
+			createWhoops("Whoops","Sorry, you don't have enough CP points to save this voucher.");
 		}	
 		}else{
-			createWhoops("You have exceeded the claim limit per user of this voucher");
+			createWhoops("Whoops","You have exceeded the claim limit per user of this voucher");
 		}
 	}
 }
