@@ -364,15 +364,8 @@ $.indexView.favorite.addEventListener('click', function(e){
 });
 
 $.indexView.home.addEventListener('click', function(e){
-	var u_id = Ti.App.Properties.getString('u_id') || "";
-	if(u_id == ""){
-		var win = Alloy.createController("login").getView(); 
-		COMMON.openWindow(win);
-		return;
-	}
 	var win = Alloy.createController("home_all", {action_type: e.index}).getView();  
 	COMMON.openWindow(win);
-	
 });
 
 /** Android Click to refresh **/

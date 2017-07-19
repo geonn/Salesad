@@ -84,7 +84,6 @@ function refresh(){
 			model.saveArray(arr);
 			data = model.getData({u_id: u_id});
 			daily_data = model.getData({u_id: u_id, daily: true});
-			console.log(data);
 			render_current_point();
 			render_point_list();
 			loading.finish();
@@ -107,7 +106,6 @@ function refresh(){
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
 			point_list = res.data || null;
-			console.log("asdf:"+point_list);
 			render_point_list();
 		},
 		onerror: function(err){
@@ -130,7 +128,6 @@ function render_current_point(){
 function render_point_list(){
 	var arr = [];
 	for (var i=0; i < point_list.length; i++) {
-		console.log(point_list[i].title);
 		var found;
 		if(point_list[i].daily){
 			found = _.where(daily_data, {purpose: point_list[i].id});
@@ -269,7 +266,6 @@ function navTo(e){
 
 function init(){
 	$.win.add(loading.getView());
-	refresh();
 	refreshVlist();
 	refreshSVlist();
 }
@@ -711,7 +707,12 @@ function savedvoucher(e) {
 }
 
 function toVoucher(e) {
-	COMMON.openWindow(Alloy.createController("voucher_detail",{v_id: e.source.v_id}).getView());
+	if(u_id == ""){
+		var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
+		COMMON.openWindow(win);
+	}else {
+		COMMON.openWindow(Alloy.createController("voucher_detail",{v_id: e.source.v_id}).getView());
+	}
 }
 
 function toSaveVoucher(e) {
@@ -770,6 +771,7 @@ function refreshVlist(e) {
 }
 
 function refreshSVlist(e) {
+	u_id = Ti.App.Properties.getString('u_id') || "";
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("13");
 	
@@ -784,7 +786,9 @@ function refreshSVlist(e) {
 			var arr = res.data || null;
 			model.resetRecord();
 			model.saveArray(arr);
-			savedvoucher();
+			if(u_id != "") {
+				savedvoucher();
+			}
 			loading.finish();
 		},onerror:function(err){
 			_.isString(err.message) && alert(err.message);
@@ -814,27 +818,32 @@ function pixelToDp(px) {
 
 $.scrollview.addEventListener("scrollend", function(e) {
 	if(e.currentPage != undefined) {
-		try{
-			tabColor.setColor("gray");
-			tabviewColor.setBackgroundColor("#fff");
-			var tabid = eval("$.tab" + e.currentPage);
-			var tabviewid = eval("$.tabview" + e.currentPage);
-			tabColor = tabid;
-			tabviewColor = tabviewid;
-			tabColor.setColor("#fff");
-			tabviewColor.setBackgroundColor("#ED1C24");
-		}catch(e){
-			console.log("Error catched");
+		if(e.currentPage != 0) {
+			var u_id = Ti.App.Properties.getString('u_id') || "";
+			if(u_id == ""){
+				var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
+				COMMON.openWindow(win);
+			}else if(e.currentPage == 1) {
+				savedvoucher();
+			}else if(e.currentPage == 2) {
+				refresh();
+			}
 		}
+		tabColor.setColor("gray");
+		tabviewColor.setBackgroundColor("#fff");
+		var tabid = eval("$.tab" + e.currentPage);
+		var tabviewid = eval("$.tabview" + e.currentPage);
+		tabColor = tabid;
+		tabviewColor = tabviewid;
+		tabColor.setColor("#fff");
+		tabviewColor.setBackgroundColor("#ED1C24");
 	}
 });
 
-$.voucher_scrollview.addEventListener("scroll", function(e) {
-	var scrollEnd = $.voucher_view.rect.height;console.log("scrollend " + scrollEnd);
-	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;console.log("total " + total);
-	var distance = scrollEnd - total;console.log("dstance " + distance);
-	
-});
+function login_cancel(e) {
+	$.scrollview.scrollToView(0);
+}
+Ti.App.addEventListener('login_cancel:reward', login_cancel);
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);

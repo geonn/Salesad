@@ -145,7 +145,7 @@ function set_title_button(){
 								console.log("Save voucher fail!");
 							}		
 							});
-						},undifined,function(e) {
+						},undefined,function(e) {
 							checkingForSave = true;
 						});
 					}else{

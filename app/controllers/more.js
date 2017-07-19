@@ -10,9 +10,8 @@ function navTo(e){
 	var target = parent({name: "target"}, e.source);
 	if(target == "profile"){
 		var user = Ti.App.Properties.getString('session');
-		console.log(user+" user");
 		if(user === null){
-			var win = Alloy.createController("login").getView();
+			var win = Alloy.createController("signin_signout").getView();
 			if(Ti.Platform.osname == "android"){
 				win.fbProxy = FACEBOOK.createActivityWorker({lifecycleContainer: win});
 			}
@@ -25,15 +24,7 @@ function navTo(e){
 		var url = parent({name: "url"}, e.source);
 		var win = Alloy.createController("webview", {url:url}).getView(); 
 		COMMON.openWindow(win);
-	}else if(target != ""){
-		if(target=="reward"){
-			var u_id = Ti.App.Properties.getString('u_id') || "";
-			if(u_id == ""){
-				var win = Alloy.createController("login").getView(); 
-				COMMON.openWindow(win);
-				return;
-			}
-		}
+	}else if(target != "") {
 		var win = Alloy.createController(target).getView();  
 		COMMON.openWindow(win);
 	}
@@ -159,7 +150,7 @@ Ti.App.addEventListener("more:refresh", refresh);
 
 $.textlogin_out.addEventListener('click', function(e){
 	if(e.source.text == "Login" || e.source.title == "Login") {
-		var win = Alloy.createController("login").getView();
+		var win = Alloy.createController("signin_signout").getView();
 		COMMON.openWindow(win);
 	}else if(e.source.text == "Logout" || e.source.title == "Logout") {
 		doLogout();

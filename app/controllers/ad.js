@@ -338,13 +338,18 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
 	        return;
 	    };
 	    clickTime = currentTime;
-	    var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
-	  	page.open();
-	  	page.animate({
-			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
-			opacity: 1,
-			duration: 300
-		});
+	    if(u_id == "") {
+			var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
+			COMMON.openWindow(win);
+		}else {
+			var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
+		  	page.open();
+		  	page.animate({
+				curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
+				opacity: 1,
+				duration: 300
+			});
+		}
     });
 }
 

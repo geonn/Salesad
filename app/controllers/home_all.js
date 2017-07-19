@@ -83,13 +83,20 @@ function popMore(){
 	});
 		
 	dialog.show(); 
-	dialog.addEventListener("click", function(e){   
-		if(e.index == 0){
-			var win = Alloy.createController("express_add").getView(); 
-			COMMON.openWindow(win); 
-		}else if(e.index == 1){
-			var win = Alloy.createController("express_personal").getView(); 
-			COMMON.openWindow(win); 
+	dialog.addEventListener("click", function(e){
+		var u_id = Ti.App.Properties.getString('u_id') || "";
+		if(u_id == ""){
+			var win = Alloy.createController("signin_signout").getView(); 
+			COMMON.openWindow(win);
+			return;
+		}else {
+			if(e.index == 0){
+				var win = Alloy.createController("express_add").getView(); 
+				COMMON.openWindow(win);
+			}else if(e.index == 1){
+				var win = Alloy.createController("express_personal").getView(); 
+				COMMON.openWindow(win); 
+			}
 		}
 	});
 	dialog=null;

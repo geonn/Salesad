@@ -1,4 +1,5 @@
 var args = arguments[0] || {};
+var page = args.page;
 COMMON.construct($); 
 
 /**Set Custom title**/
@@ -49,7 +50,6 @@ function doLogin() {
 	$.loadingBar.height = "120";
 	$.loadingBar.top = "100";
 	
-	$.createAccountButton.hide();
 	var username = $.username.value;
 	var password = $.password.value;
 	
@@ -58,7 +58,6 @@ function doLogin() {
 		$.activityIndicator.hide();
 		$.loadingBar.opacity = "0";
 		
-		$.createAccountButton.show();
 		return;
 	}
 	
@@ -69,7 +68,6 @@ function doLogin() {
 	     onload : function(e) {
 	     	$.activityIndicator.hide();
 	     	$.loadingBar.opacity = "0";
-	     	$.createAccountButton.show();
 	         var res = JSON.parse(this.responseText);
 	         if(res.status == "success"){
 	         	//var member = Alloy.createCollection('member'); 
@@ -97,7 +95,11 @@ function doLogin() {
 				COMMON.openWindow(win);
 				
 				Ti.App.fireEvent("more:refresh");
-				
+				Ti.App.fireEvent("sign:close");
+				if(page != "") {
+					Ti.App.fireEvent("myvoucher:refresh");
+					Ti.App.fireEvent("reward:refresh");
+				}
 	         }else{
 	         	common.createAlert('Authentication warning',res.data.error_msg);
 	         }
@@ -105,7 +107,6 @@ function doLogin() {
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
 	     	$.activityIndicator.hide();
-	     	$.createAccountButton.show();
 			$.loadingBar.opacity = "0";
 	        common.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
 	     },
@@ -160,7 +161,7 @@ $.btnBack.addEventListener('click', function(){
 }); 
 
 function closeWindow(){
-	COMMON.closeWindow($.login); 
+	COMMON.closeWindow($.login);
 }
 
 Ti.App.addEventListener("login:close", closeWindow);
@@ -220,5 +221,5 @@ function loginFacebook(e){
 FACEBOOK.addEventListener('login', loginFacebook);*/
 
 $.login.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.login); 
+	COMMON.closeWindow($.login);
 });

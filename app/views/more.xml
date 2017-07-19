@@ -91,7 +91,7 @@
 		 				<Label right="10" class="wsize hsize">1.1.0</Label>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
-		 				<Label class="wfill hsize" textAlign="center">© Salesad 2017. All rights reserved.</Label>
+		 				<Label class="wfill hsize" textAlign="center">© SalesAd 2017. All rights reserved.</Label>
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 	</TableView>
