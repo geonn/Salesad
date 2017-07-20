@@ -191,7 +191,7 @@ function navTo(e){
 		loading.finish();
 	}else if(row.record.id == 3){
 		loading.start();
-		createWhoops("Invite a friend","Send an invitation to a friend to download SalesAd app.\nOnce your friend signed up as a user, you will get 30 points.\n\nNote: Your friend will need to key in the same email address in the invitation link and in the sign up process for you to get points.","Invite Now",function(){
+		createWhoops1("Invite a friend","Send an invitation to a friend to download SalesAd app.\nOnce your friend signed up as a user, you will get 30 points.\n\nNote: Your friend will need to key in the same email address in the invitation link and in the sign up process for you to get points.","Invite Now",function(){
 				COMMON.openWindow(Alloy.createController("friend_invite").getView());
 				loading.finish();
 		});
@@ -201,19 +201,19 @@ function navTo(e){
 		}
 		loading.finish();
 	}else if(row.record.id == 1){
-		createWhoops("Sign Up","Get 50 points when you sign up a SalesAd account for yourself.","ok");
+		createWhoops1("Sign Up","Get 50 points when you sign up a SalesAd account for yourself.","ok");
 		loading.finish();
 	}else if(row.record.id == 6){
 		//if(!row.record.checked){
-			createWhoops("Favorite a store","To “favorite” a store, visit any ad and tap on the Favorite icon at the bottom of the screen.\nYou can get up to 30 points per day for this goal.","ok");
+			createWhoops1("Favorite a store","To “favorite” a store, visit any ad and tap on the Favorite icon at the bottom of the screen.\nYou can get up to 30 points per day for this goal.","ok");
 			loading.finish();
 		//}
 		loading.finish();	
 	}else if(row.record.id == 7){
-		createWhoops("Daily ad view","Tap into an ad to get 5 points.\nYou can only get points once per day for this goal.","ok");
+		createWhoops1("Daily ad view","Tap into an ad to get 5 points.\nYou can only get points once per day for this goal.","ok");
 		loading.finish();
 	}else if(row.record.id == 8){
-		createWhoops("Save a voucher","Save a voucher to get 5 points.\nYou can get up to 15 points per day for this goal.","ok");
+		createWhoops1("Save a voucher","Save a voucher to get 5 points.\nYou can get up to 15 points per day for this goal.","ok");
 		loading.finish();
 	}
 }
@@ -794,7 +794,7 @@ $.scrollview.addEventListener("scrollend", function(e) {
 	}
 });
 
-function createWhoops(t,e,b,callback){
+function createWhoops1(t,e,b,callback){
 	var box = Titanium.UI.createAlertDialog({
 		title: t,
 		message: e,
