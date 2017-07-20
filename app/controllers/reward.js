@@ -122,6 +122,7 @@ function render_current_point(){
 	}
 }
 
+var bol = true;
 function render_point_list(){
 	var arr = [];
 	for (var i=0; i < point_list.length; i++) {
@@ -154,7 +155,10 @@ function render_point_list(){
 		arr.push(row);
 	};
 	$.point_list.setData(arr);
-	$.point_list.addEventListener("click", navTo);
+	if(bol) {
+		bol = false;
+		$.point_list.addEventListener("click", navTo);
+	}
 }
 
 var api_loading = false;
@@ -216,6 +220,7 @@ function navTo(e){
 		createWhoops1("Save a voucher","Save a voucher to get 5 points.\nYou can get up to 15 points per day for this goal.","ok");
 		loading.finish();
 	}
+	bol = true;
 }
 
 function init(){
