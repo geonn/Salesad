@@ -801,7 +801,7 @@ function createWhoops(t,e,b,callback){
 		ok: b
 	});
 	box.show();
-	box.addEventListener('click', function(e){
+	_.isFunction(callback) && box.addEventListener('click', function(e){
 		if(typeof callback != "undefined"){
 			callback();	
 		};
