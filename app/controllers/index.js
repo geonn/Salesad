@@ -350,7 +350,7 @@ $.indexView.nearby.addEventListener("click", function(e){
 });
 
 function goToAds(e){
-	goAd(e.m_id, e.isFeed);
+	goAd(e.a_id, e.m_id);
 }
 
 /** EventListerner for notification **/
