@@ -25,9 +25,6 @@ if(Social.isRequestTwitterSupported()){ //min iOS6 required
     Social.twitterAccountList();
 }
 
-console.log(pwidth);
-console.log(pixelToDp(pwidth)+"beng");
-
 Social.addEventListener("complete", function(e){
 		Ti.API.info("complete: " + e.success);
 
@@ -194,73 +191,30 @@ function navTo(e){
 		loading.finish();
 	}else if(row.record.id == 3){
 		loading.start();
-		API.callByPost({
-				url: "encrypt_uid",
-				new: true,
-				params: {u_id: u_id}
-			}, 
-			{
-				onload: function(responseText){
-					var res = JSON.parse(responseText);
-					var encrypt_code = res.data || null;
-
-					var share_url = "http://salesad.my/users/member_referral?referral="+encrypt_code;
-					if(OS_IOS){
-						if(Social.isActivityViewSupported()){ //min iOS6 required
-					    	Social.activityView({
-					        	text: "SalesAd. Please signup via the link : "+share_url,
-					        	//url: "http://apple.co/1RtrCZ4"
-					     	});
-					     } else {
-					     	//implement fallback sharing..
-					     }
-					}else{
-					    var text = "SalesAd. Please signup via the link : "+share_url;
-					  
-					    var intent = Ti.Android.createIntent({
-					        action: Ti.Android.ACTION_SEND,
-					        type: "text/plain",
-					    });
-					    intent.putExtra(Ti.Android.EXTRA_TEXT,text);
-					    intent.putExtra(Ti.Android.EXTRA_SUBJECT, "Salesad Invite Friend");
-					    var share = Ti.Android.createIntentChooser(intent,'Share');
-						Ti.Android.currentActivity.startActivity(share);
-					}
-					
-					loading.finish();
-				},
-				onerror: function(err){
-					_.isString(err.message) && alert(err.message);
-					loading.finish();
-				},
-				onexception: function(){
-					COMMON.closeWindow($.win);
-					loading.finish();
-				}
-			});
+		createWhoops("Invite a friend","Send an invitation to a friend to download SalesAd app.\nOnce your friend signed up as a user, you will get 30 points.\n\nNote: Your friend will need to key in the same email address in the invitation link and in the sign up process for you to get points.","Invite Now",function(){
+				COMMON.openWindow(Alloy.createController("friend_invite").getView());
+				loading.finish();
+		});
 	}else if(row.record.id == 4){
 		if(!row.record.checked){
 			SCANNER.openScanner("4");
 		}
 		loading.finish();
 	}else if(row.record.id == 1){
+		createWhoops("Sign Up","Get 50 points when you sign up a SalesAd account for yourself.","ok");
 		loading.finish();
 	}else if(row.record.id == 6){
-		if(!row.record.checked){
-			var favor_pop_up = $.UI.create("ImageView", {classes:['hsize','wfill','padding'], image: "/images/Popup_Rewards_Favorite.png"});
-			$.win.add(favor_pop_up);
-			favor_pop_up.addEventListener("click", function(e){
-				$.win.remove(e.source);
-			});
+		//if(!row.record.checked){
+			createWhoops("Favorite a store","To “favorite” a store, visit any ad and tap on the Favorite icon at the bottom of the screen.\nYou can get up to 30 points per day for this goal.","ok");
 			loading.finish();
-		}
+		//}
 		loading.finish();	
 	}else if(row.record.id == 7){
-		if(!row.record.checked){
-			setTimeout(function(){
-				loading.finish();			
-			},2000);
-		}
+		createWhoops("Daily ad view","Tap into an ad to get 5 points.\nYou can only get points once per day for this goal.","ok");
+		loading.finish();
+	}else if(row.record.id == 8){
+		createWhoops("Save a voucher","Save a voucher to get 5 points.\nYou can get up to 15 points per day for this goal.","ok");
+		loading.finish();
 	}
 }
 
@@ -839,6 +793,20 @@ $.scrollview.addEventListener("scrollend", function(e) {
 		tabviewColor.setBackgroundColor("#ED1C24");
 	}
 });
+
+function createWhoops(t,e,b,callback){
+	var box = Titanium.UI.createAlertDialog({
+		title: t,
+		message: e,
+		ok: b
+	});
+	box.show();
+	box.addEventListener('click', function(e){
+		if(typeof callback != "undefined"){
+			callback();	
+		};
+	});
+};
 
 function login_cancel(e) {
 	$.scrollview.scrollToView(0);
