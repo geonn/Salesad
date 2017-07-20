@@ -34,6 +34,7 @@ function daydiff(first, second) {
 function getNowDate(){   //calculate the days between two dates
 	var fristDate = data.save_to;
 	var today = new Date();
+	console.log(today+"now time");
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
 	var yyyy = today.getFullYear();
@@ -519,6 +520,24 @@ function doSave(){
 			var title_voucher = (data.point!=0)?"CP Voucher":"Instant Voucher";
 			var cpPoint = (data.point!=0)?"\nfor "+data.point+" CP points?":"?";
 			common.createAlert(title_voucher,'Confirm to save this voucher'+cpPoint,function(ee){
+				
+				//save a voucher for earn point in daily
+				var paramss = {u_id:u_id, action:'add', purpose:'8'};
+				API.callByPost({
+					url: "doPointAction",
+					new: true,
+					params: paramss
+				},{
+				onload: function(res){
+					var res = JSON.parse(res);
+					var arr = res.data || null;
+					console.log("Daily add voucher point added "+JSON.stringify(arr));
+				},
+				onerror: function(err){
+					console.log("fail!");
+				}});
+				
+				//add voucher to saved voucher
 				var params = {v_id: v_id,u_id: u_id,quantity: 1};
 				API.callByPost({
 					url: "addUserVoucher",

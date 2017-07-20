@@ -254,7 +254,7 @@ var doLogout = function (e) {
 			     },
 			     // function called when an error occurs, including a timeout
 			     onerror : function(e) {
-			        createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
+			        alert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
 			     },
 			     timeout : 5000  // in milliseconds
 			 });

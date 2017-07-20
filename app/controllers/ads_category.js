@@ -5,6 +5,7 @@ var nav = Alloy.Globals.navMenu;
 var clickTime = null;
 var ads_counter = 0;
 var loading = false;
+var u_id = Ti.App.Properties.getString('u_id') || "";
 var isAd = (typeof contest_id != "undefined" && contest_id != "")?false:true;
 //console.log(typeof contest_id+" "+contest_id);
 Alloy.Globals.naviPath.push($.adsCategoryWin);
@@ -462,7 +463,25 @@ var goAd = function(a_id, a_name, a_date){
 	};
 	clickTime = currentTime;
 	console.log("a id     " + a_id + " " + a_name + " " + a_date);
-	var win = Alloy.createController("ad", {a_id: a_id, from: "ads_caregory", name: a_name, date: a_date}).getView(); 
+	
+	if(u_id!=""){
+		var params = {u_id:u_id, action:'add', purpose:'7'};
+		API.callByPost({
+			url: "doPointAction",
+			new: true,
+			params: params
+		},{
+		onload: function(res){
+			var res = JSON.parse(res);
+			var arr = res.data || null;
+			console.log("Daily ad view point added "+JSON.stringify(arr));
+		},
+		onerror: function(err){
+			console.log("fail!");
+		}});
+	}
+				
+	var win = Alloy.createController("ad", {a_id: a_id, from: "ads_caregory", name: a_name, date: a_date}).getView();
 	COMMON.openWindow(win); 
 };
 /*

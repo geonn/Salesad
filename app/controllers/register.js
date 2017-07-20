@@ -84,6 +84,11 @@ var goSignUp = function(){
 		loading.finish();	
 		return;			
 	}
+	else if(isNaN(mobile) == true){
+		alert("Mobile wrong format");
+		loading.finish();	
+		return;
+	}
 	else if(!tc){
 		alert("Please agree the terms and condition.");
 		loading.finish();
