@@ -4,8 +4,14 @@ var redirect = true;
 
 // Process incoming push notifications
 function receivePush(e) {   
-	var params = e.data.extra; 
+	
+	if(OS_IOS){
+		var params = e.data.extra; 
+	}else{
+		var params = e.extra; 
+	}
 	result = params.split("_"); 
+ 
 	if(result.length > 1){	
 		Ti.App.fireEvent('app:goToAds', {m_id: result[0],a_id: result[1], isFeed : 1 });
 	}else{ 

@@ -27,6 +27,7 @@ var params = {
 		from:"ad",
 		u_id:u_id
 	} ;
+	 
 	API.callByPost({url:"addAdsClick",new:true,params:params},{
 		onload:function(res){
 			console.log("View ad "+JSON.stringify(res));
