@@ -15,6 +15,24 @@ Alloy.Globals.navMenu = $.navMenu;
 **********************/
 
 /** create banner slideshow**/
+
+	function datedescription(from,to) {
+		if(isAd){
+			var dateDescription = convertToHumanFormat(from)+" - "+convertToHumanFormat(to);
+			if(from == "0000-00-00" && to =="0000-00-00"){
+				dateDescription = "Start from now!";
+			}else if(from == "0000-00-00" &&to !="0000-00-00"){
+				dateDescription = "Until "+convertToHumanFormat(to)+"!";
+			}else if(from != "0000-00-00" && to =="0000-00-00"){
+				dateDescription = "Start from "+convertToHumanFormat(from)+"!";
+			}
+			return dateDescription;
+		}else{
+			var dateDescription = ads[a].description;
+			return dateDescription;
+		}
+	}
+
 var bannerListing = function(){
 	
 	var ads_model = Alloy.createCollection('ads'); 
@@ -39,6 +57,8 @@ var bannerListing = function(){
 		adImage = Ti.UI.createImageView({
 			image: banners[i].img_path,
 			a_id: banners[i].a_id,
+			merchant_name: banners[i].a_id,
+			bet_date: datedescription(banners[i].sales_from,banners[i].sales_to),
 			width: cell_width,
 			height: cell_width,
 			defaultImage: "/images/image_loader_640x640.png",
@@ -64,7 +84,7 @@ var bannerListing = function(){
 		});
 		
 		scrollableView.addEventListener('click', function(e) { 
-			goAd(e.source.a_id);			// tomorrow kill you.
+			goAd(e.source.a_id,e.source.merchant_name.e.source.bet_date);			// tomorrow kill you.
 		});
 		//scrollableView.setPagingControlColor("transparent");
 		$.indexView.bannerListing.removeAllChildren();
