@@ -14,7 +14,7 @@
         <View bottom='0' class="hr"></View>
 		<View class="wfill hfill" top="0" backgroundColor="#fff">
 			<View class="wfill hsize vert">
-				<ImageView image="/images/SalesAd_HighfiveGirls.png"></ImageView>
+				<ImageView width="80%" image="/images/SalesAd_HighfiveGirls.png"></ImageView>
 				<View class="wfill hsize" top="20">
 					<Label class="bold" text="Invite friends to get FREE vouchers!"></Label>
 				</View>

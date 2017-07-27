@@ -378,70 +378,76 @@ $.location.addEventListener('click', function(e){
 **********************/
 
 //Add your favorite event
-$.favorites.addEventListener("click", function(){ 
-	var model_favorites = Alloy.createCollection('favorites');
-	var exist = model_favorites.checkFavoriteExist(m_id, u_id);
- console.log(exist+" exist");
-	if(exist){
-		var message = "Are you sure want to remove from favorite";
-		var dialog = Ti.UI.createAlertDialog({
-		    cancel: 1,
-		    buttonNames: ['Cancel','Confirm'],
-		    message: message,
-		    title: 'Remove from favorite'
-		  });
-		  dialog.addEventListener('click', function(ex){
-		  	if (ex.index == 1){
-		     	var model_favorites = Alloy.createCollection('favorites');
-				model_favorites.deleteFavorite(exist, u_id); 
-				$.favorites.image = "/images/SalesAd_Favorite.png";
-				//$.favorites.visible = false;
-				
-				API.updateUserFavourite({
-					m_id   : exist,
-					u_id	 : u_id,
-					status : 2
-				});
-				Ti.App.fireEvent("app:refreshAdsListing");
-				return;
-		  	}
-		 });
-		 dialog.show();
+$.favorites.addEventListener("click", function(){
+	var u_id = Ti.App.Properties.getString('u_id') || "";
+	if(u_id == ""){
+		var win = Alloy.createController("signin_signout").getView(); 
+		COMMON.openWindow(win);
 	}else{
-		var favorite = Alloy.createModel('favorites', {
-			    m_id   : m_id,
-			    u_id	 : u_id,
-			    position : 0
+		var model_favorites = Alloy.createCollection('favorites');
+		var exist = model_favorites.checkFavoriteExist(m_id, u_id);
+	 	console.log(exist+" exist");
+		if(exist){
+			var message = "Are you sure want to remove from favorite";
+			var dialog = Ti.UI.createAlertDialog({
+			    cancel: 1,
+			    buttonNames: ['Cancel','Confirm'],
+			    message: message,
+			    title: 'Remove from favorite'
+			  });
+			  dialog.addEventListener('click', function(ex){
+			  	if (ex.index == 1){
+			     	var model_favorites = Alloy.createCollection('favorites');
+					model_favorites.deleteFavorite(exist, u_id); 
+					$.favorites.image = "/images/SalesAd_Favorite.png";
+					//$.favorites.visible = false;
+					
+					API.updateUserFavourite({
+						m_id   : exist,
+						u_id	 : u_id,
+						status : 2
+					});
+					Ti.App.fireEvent("app:refreshAdsListing");
+					return;
+			  	}
+			 });
+			 dialog.show();
+		}else{
+			var favorite = Alloy.createModel('favorites', {
+				    m_id   : m_id,
+				    u_id	 : u_id,
+				    position : 0
+				});
+			favorite.save();
+			$.favorites.image = "/images/SalesAd_Favorited.png";
+			//$.favorites.visible = false;
+			
+			API.updateUserFavourite({
+				m_id   : m_id,
+				u_id	 : u_id,
+				status : 1
 			});
-		favorite.save();
-		$.favorites.image = "/images/SalesAd_Favorited.png";
-		//$.favorites.visible = false;
-		
-		API.updateUserFavourite({
-			m_id   : m_id,
-			u_id	 : u_id,
-			status : 1
-		});
-		Ti.App.fireEvent("app:refreshAdsListing");
-		return;
-		
-		var params = {
-			a_id: a_id,
-			type: 5,
-			from: "ad",
-			u_id: u_id
-		};
-		
-		API.callByPost({
-			url: "addAdsClick",
-			new: true,
-			params: params
-		},{onload: function(responseText) {
-			console.log("Save Favourite ad " + responseText);
-		}, onerror: function(responseerroe) {
-			console.log("Save Favourite ad error " + responseerror);
-		}});
-		
+			Ti.App.fireEvent("app:refreshAdsListing");
+			return;
+			
+			var params = {
+				a_id: a_id,
+				type: 5,
+				from: "ad",
+				u_id: u_id
+			};
+			
+			API.callByPost({
+				url: "addAdsClick",
+				new: true,
+				params: params
+			},{onload: function(responseText) {
+				console.log("Save Favourite ad " + responseText);
+			}, onerror: function(responseerroe) {
+				console.log("Save Favourite ad error " + responseerror);
+			}});
+			
+		}
 	}
 });
 

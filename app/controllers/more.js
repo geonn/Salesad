@@ -75,6 +75,15 @@ function navTo(e){
 		var url = parent({name: "url"}, e.source);
 		var win = Alloy.createController("webview", {url:url}).getView(); 
 		COMMON.openWindow(win);
+	}else if(target == "favourite"){
+		var u_id = Ti.App.Properties.getString('u_id') || "";
+		if(u_id == ""){
+			var win = Alloy.createController("signin_signout").getView(); 
+			COMMON.openWindow(win);
+		}else{
+			var win = Alloy.createController(target).getView();  
+			COMMON.openWindow(win);
+		}
 	}else if(target != "") {
 		var win = Alloy.createController(target).getView();  
 		COMMON.openWindow(win);

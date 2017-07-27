@@ -375,8 +375,14 @@ Ti.App.addEventListener('app:goToAds', goToAds);
 Ti.App.addEventListener('app:loadingViewFinish', loadingViewFinish);
 
 $.indexView.favorite.addEventListener('click', function(e){
-	var win = Alloy.createController("favourite", {cate_id: 7}).getView();  
-	COMMON.openWindow(win);
+	var u_id = Ti.App.Properties.getString('u_id') || "";
+		if(u_id == ""){
+			var win = Alloy.createController("signin_signout").getView(); 
+			COMMON.openWindow(win);
+		}else{
+			var win = Alloy.createController("favourite", {cate_id: 7}).getView();  
+			COMMON.openWindow(win);
+		}	
 });
 
 $.indexView.home.addEventListener('click', function(e){
