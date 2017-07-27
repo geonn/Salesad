@@ -17,7 +17,6 @@ Alloy.Globals.navMenu = $.navMenu;
 /** create banner slideshow**/
 
 	function datedescription(from,to) {
-		if(isAd){
 			var dateDescription = convertToHumanFormat(from)+" - "+convertToHumanFormat(to);
 			if(from == "0000-00-00" && to =="0000-00-00"){
 				dateDescription = "Start from now!";
@@ -27,10 +26,6 @@ Alloy.Globals.navMenu = $.navMenu;
 				dateDescription = "Start from "+convertToHumanFormat(from)+"!";
 			}
 			return dateDescription;
-		}else{
-			var dateDescription = ads[a].description;
-			return dateDescription;
-		}
 	}
 
 var bannerListing = function(){
@@ -57,7 +52,8 @@ var bannerListing = function(){
 		adImage = Ti.UI.createImageView({
 			image: banners[i].img_path,
 			a_id: banners[i].a_id,
-			merchant_name: banners[i].a_id,
+			m_id: banners[i].m_id,
+			merchant_name: banners[i].name,
 			bet_date: datedescription(banners[i].sales_from,banners[i].sales_to),
 			width: cell_width,
 			height: cell_width,
@@ -84,7 +80,7 @@ var bannerListing = function(){
 		});
 		
 		scrollableView.addEventListener('click', function(e) { 
-			goAd(e.source.a_id,e.source.merchant_name.e.source.bet_date);			// tomorrow kill you.
+			goAd(e.source.a_id,e.source.m_id,e.source.merchant_name,e.source.bet_date);			// tomorrow kill you.
 		});
 		//scrollableView.setPagingControlColor("transparent");
 		$.indexView.bannerListing.removeAllChildren();
@@ -263,7 +259,7 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 }
 
 /** navigate to Ad **/
-var goAd = function(a_id, isFeed){
+var goAd = function(a_id, isFeed, name, date){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
@@ -271,7 +267,7 @@ var goAd = function(a_id, isFeed){
 	};
 	clickTime = currentTime;
 	    
-	var win = Alloy.createController("ad", {a_id: a_id, from : "home", isFeed: isFeed}).getView(); 
+	var win = Alloy.createController("ad", {a_id: a_id, from: "home", isFeed: isFeed, name:name, date:date}).getView(); 
 	COMMON.openWindow(win);
 };
 

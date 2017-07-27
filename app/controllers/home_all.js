@@ -22,7 +22,8 @@ function navTo(e){
 	console.log(type);
 	console.log("here is navTo");
 	if(type == 3){
-		COMMON.openWindow(Alloy.createController("ad", {a_id: record.a_id,from:"home_all"}).getView()); 
+		//console.log(record.a_id+" here "+record.date+"beng"+record.name);
+		COMMON.openWindow(Alloy.createController("ad", {a_id:record.a_id,from:"home_all",name:record.name,date:record.date}).getView()); 
 	}else{
 		COMMON.openWindow(Alloy.createController("express_detail", record).getView()); 
 	}
@@ -34,6 +35,18 @@ var start = 0;
 var anchor = COMMON.todayDateTime();
 var last_updated = COMMON.todayDateTime();
 var keyword = "";
+
+function datedescription(from,to) {
+	var dateDescription = convertToHumanFormat(from)+" - "+convertToHumanFormat(to);
+	if(from == "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from now!";
+	}else if(from == "0000-00-00" &&to !="0000-00-00"){
+		dateDescription = "Until "+convertToHumanFormat(to)+"!";
+	}else if(from != "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from "+convertToHumanFormat(from)+"!";
+	}
+	return dateDescription;
+}
 
 function getPreviousData(param){
 	var model = Alloy.createCollection("xpress");
@@ -232,7 +245,7 @@ function render(e){
 							hr_color:"#fff",
 							category:adsdata[count1].categoryName,
 							type:3,
-							minus:minus			
+							minus:minus,			
 						};	
 						var params={
 							a_id:adsdata[count1].a_id,
