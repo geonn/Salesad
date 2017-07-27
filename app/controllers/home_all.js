@@ -22,8 +22,8 @@ function navTo(e){
 	console.log(type);
 	console.log("here is navTo");
 	if(type == 3){
-		//console.log(record.a_id+" here "+record.date+"beng"+record.name);
-		COMMON.openWindow(Alloy.createController("ad", {a_id:record.a_id,from:"home_all",name:record.name,date:record.date}).getView()); 
+		console.log(datedescription(record.sales_from,record.sales_to)+record.merchant_name);
+		COMMON.openWindow(Alloy.createController("ad", {a_id:record.a_id,from:"home_all",name:record.merchant_name,date:datedescription(record.sales_from,record.sales_to)}).getView()); 
 	}else{
 		COMMON.openWindow(Alloy.createController("express_detail", record).getView()); 
 	}
