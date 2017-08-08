@@ -14,7 +14,7 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var items;
 Alloy.Globals.naviPath.push($.win);
 var BARCODE = require('barcode');
-
+console.log("AT AD GEO : "+m_id+ "=="+a_id);
 //load model
 var m_library = Alloy.createCollection('merchants'); 
 var a_library = Alloy.createCollection('ads'); 

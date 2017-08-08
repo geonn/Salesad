@@ -10,9 +10,9 @@ function receivePush(e) {
 	}else{
 		var params = e.extra; 
 	}
-	result = params.split("_"); 
- 
+	result = params.split("_");  
 	if(result.length > 1){	
+		
 		Ti.App.fireEvent('app:goToAds', {m_id: result[0],a_id: result[1], isFeed : 1 });
 	}else{ 
 		Ti.App.fireEvent('app:goToAds', {m_id: result[0], a_id: "", isFeed : 1});

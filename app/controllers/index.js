@@ -243,15 +243,16 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 }
 
 /** navigate to Ad **/
-var goAd = function(a_id, isFeed){
+var goAd = function(a_id, m_id){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
 	clickTime = currentTime;
-	    
-	var win = Alloy.createController("ad", {a_id: a_id, from : "home", isFeed: isFeed}).getView(); 
+	 
+	//var win = Alloy.createController("ad", {a_id: a_id, from : "home", isFeed: isFeed}).getView(); 
+	var win = Alloy.createController("ad", {a_id: a_id, m_id:m_id, from : "home" }).getView(); 
 	COMMON.openWindow(win);
 };
 
