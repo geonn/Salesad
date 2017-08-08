@@ -173,7 +173,8 @@ function userCurrentPoint(){
 function createWhoops(t,e){
 	var box = Titanium.UI.createAlertDialog({
 		title: t,
-		message: e
+		message: e,
+		ok: "ok"
 	});
 	box.show();
 };

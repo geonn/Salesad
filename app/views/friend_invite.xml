@@ -12,17 +12,21 @@
 	     	<View id="pageTitle" width="70%"></View>
 	 	</View>
         <View bottom='0' class="hr"></View>
-		<View class="wfill hfill" top="0" backgroundColor="#fff">
+		<View class="wfill hfill" top="0" backgroundColor="#f6f6f6">
 			<View class="wfill hsize vert">
-				<ImageView image="/images/SalesAd_HighfiveGirls.png"></ImageView>
-				<View class="wfill hsize" top="20">
+				<ImageView width="80%" image="/images/SalesAd_HighfiveGirls.png"></ImageView>
+				<View class="wfill hsize" top="60">
 					<Label class="bold" text="Invite friends to get FREE vouchers!"></Label>
 				</View>
 				<View class="wfill hsize" top="10" left="15" right="15">
-					<Label text="Once your friend signs up to SalesAd by your referral link, you will get 30 CP points. Collect more points to redeem more CP vouchers for FREE!"></Label>
+					<Label textAlign="center" text="Once your friend signs up to SalesAd by your referral link, you will get 30 CP points. Collect more points to redeem more CP vouchers for FREE!"></Label>
 				</View>
-				<Button class="wfill h4 save_button" height="40" onClick="sendInvite" title="Send Invitation"></Button>
+				<!-- <Button class="wfill h4 save_button" height="40" onClick="sendInvite" title="Send Invitation"></Button> -->
 			</View>
+			<View class="vert wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff">
+		 		<View class="hr" backgroundColor="#e8e8e8"></View>
+		 		<Button class="wfill h4 save_button" height="40" title="Send Invitation" onClick="sendInvite"></Button>
+		 	</View>
 		</View>
 	</Window>	
 </Alloy>

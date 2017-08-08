@@ -122,6 +122,22 @@ function set_title_button(){
 						checkingForSave = false;
 						var common = require('common');
 						common.createAlert('Instant Voucher','Confirm to save this voucher?',function(ee){
+							
+							var paramss = {u_id:u_id, action:'add', purpose:'8'};
+							API.callByPost({
+								url: "doPointAction",
+								new: true,
+								params: paramss
+							},{
+							onload: function(res){
+								var res = JSON.parse(res);
+								var arr = res.data || null;
+								console.log("Daily add voucher point added "+JSON.stringify(arr));
+							},
+							onerror: function(err){
+								console.log("fail!");
+							}});
+							
 							var params = {v_id:voucher_item.v_id, u_id:u_id, quantity:1};
 							API.callByPost({
 								url:"addUserVoucher",
