@@ -226,7 +226,7 @@ var getAdDetails = function(){
 			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 30, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
 			
 			adImage = Ti.UI.createImageView({
-				defaultImage: "/images/image_loader_600x800.png",
+				defaultImage: "/images/image_loader_640x640.png",
 				image: imagepath,
 				left: 4,
 				width: Ti.UI.FILL,
@@ -452,17 +452,35 @@ $.favorites.addEventListener("click", function(){
 });
 
 function refresh(e){
-	loading.start();
+	loading.start();	
 	API.callByPost({url: "getItemList", params:{a_id: a_id}}, {onload: function(responseText){
 		var model = Alloy.createCollection("items");
 		var res = JSON.parse(responseText);
 		var arr = res.data || null;
 		model.saveArray(arr);
-		getItemData();
-		render_banner();
-		getAdDetails();
-		loading.finish();
 	}});
+	
+	var checker = Alloy.createCollection('updateChecker');
+	var isUpdate = checker.getCheckerById("12");
+	API.callByPost({
+		url: "getVoucherList",
+		new: true,
+		params: {last_updated: isUpdate.update}
+	},{
+		onload: function(responseText) {
+			var model = Alloy.createCollection("voucher");
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			model.saveArray(arr);
+			checker.updateModule("12","getVoucherList",currentDateTime());
+			getItemData();
+			render_banner();
+			getAdDetails();
+			loading.finish();
+		},onerror: function(err) {
+			_.isString(err.message) && alert(err.message);
+		}
+	});
 }
 
 function afterScan(e){

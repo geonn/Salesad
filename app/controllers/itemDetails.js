@@ -37,7 +37,7 @@ var items  = i_library.getItemByAds(a_id);
 			console.log("Item View ad "+JSON.stringify(res));
 		},onerror:function(err){
 			console.log("Item View ad error");
-	}});	
+	}});
 
 function set_title_button(){
 	var b_title = "";
@@ -214,7 +214,7 @@ function set_title_button(){
 var getAdsImages = function(){
 	
 	var counter = 0;
-	var imagepath, adImage, row = '';
+	var imagepath, row = '';
 	var my_page = 0;
 	var selectedView;   		
 	/***Set ads items***/
@@ -223,15 +223,22 @@ var getAdsImages = function(){
 		console.log("item id = "+items[i].i_id);
 		var voucher_item = voucher.getDataByI_id(items[i].i_id);
 		var itemImageView = $.UI.create("View", {classes:['wfill','hsize']});
-		adImage = Ti.UI.createImageView({
-			top: 0,
-			defaultImage: "/images/image_loader_600x800.png",
+		// adImage = Ti.UI.createImageView({
+			// top: 0,
+			// defaultImage: "/images/image_loader_640x640.png",
+			// image: items[i].img_path,
+			// width: Ti.UI.FILL,
+			// enableZoomControls: true,
+			// backgroundColor: 'red',
+			// height: Ti.UI.SIZE
+		// });
+		var adImage = $.UI.create('imageView',{
+			classes:['wfill','hsize'],
 			image: items[i].img_path,
-			width:"100%",
 			enableZoomControls: true,
-			height: Ti.UI.SIZE
+			backgroundColor: 'red',
+			defaultImage: "/images/image_loader_640x640.png",
 		});
-		
 		/*var label_description = $.UI.create("Label",{
 			classes:['wfill','hsize','h5','padding'],
 			text: items[i].description
@@ -322,15 +329,13 @@ function addVoucher(){
 			bottom:"100"
 			});	
 		var v_image = $.UI.create('imageView',{
-			classes:['wfill','hsize','padding4'],
-			id:"image_voucher",
+			classes:['wfill','hsize'],
 			image: items[i].img_path,
-			defaultImage: "/images/image_loader_600x800.png",
-		});	
+			defaultImage: "/images/image_loader_640x640.png",
+		});
 		var v_title = $.UI.create('Label',{
 			classes:['wfill','hsize','padding','bold','vTitle'],
 			bottom:'5',
-			id:'title',
 			text:voucher_item.title,
 			left:'25'
 		});
@@ -589,7 +594,7 @@ function addVoucher(){
 }			
 		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert'],backgroundColor:"#e8e8e8"});
 		itemImageView.add(adImage); 	
-		console.log("items " + items[i]);
+		console.log("items " + JSON.stringify(items[i]));
 		if(items[i].isExclusive == 1){
 			addVoucher();
 		}else{
@@ -607,7 +612,7 @@ function addVoucher(){
 	$.scrollableView.setViews(the_view); 
 	setTimeout(function(){
 		$.scrollableView.scrollToView(position);  
-	},250);
+	},50);
 };
 
 /*function afterScan(e){
