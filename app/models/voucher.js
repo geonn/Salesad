@@ -19,7 +19,7 @@ exports.definition = {
 		    "point":"INTEGER",
 		    "quantity" : "INTEGER",
 		    "created" : "TEXT",
-		    "updated": "TEXT",	//1 - recommended, 2 - normal
+		    "updated": "TEXT",
 		    "status" : "INTEGER",
 		    "total": "INTEGER",
 		    "display_type": "TEXT",

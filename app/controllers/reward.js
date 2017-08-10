@@ -7,6 +7,7 @@ var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
 var myvmodel = Alloy.createCollection("MyVoucher");
+
 if (OS_IOS){
 //iOS only module
 
@@ -782,6 +783,7 @@ $.scrollview.addEventListener("scrollend", function(e) {
 		if(e.currentPage != 0) {
 			var u_id = Ti.App.Properties.getString('u_id') || "";
 			if(u_id == ""){
+				
 				var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 				COMMON.openWindow(win);
 			}else if(e.currentPage == 1) {
