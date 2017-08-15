@@ -110,23 +110,51 @@ function deviceTokenSuccess(ev) {
 	    password: '123456'
 	}, function (e) { 
 		if (e.success) {
-			Cloud.PushNotifications.subscribe({
+		 
+			
+			Cloud.PushNotifications.unsubscribe({
 			    channel: 'sales',
-			    device_token: deviceToken,
-			    type: Ti.Platform.name == 'android' ? 'android' : 'ios'
-			}, function (e) {
-			    if (e.success) {
-			    	//alert('Success : ' + deviceToken);
-			    	/** User device token**/
-		     		Ti.App.Properties.setString('deviceToken', deviceToken);
+			    device_token: deviceToken
+			}, function (ey) {
+			    if (ey.success) {
+			       Cloud.PushNotifications.subscribe({
+					    channel: 'sales',
+					    type:Ti.Platform.name == 'android' ? 'android' : 'ios', 
+					    device_token: deviceToken
+					}, function (e) { 
+					    if (e.success  ) { 
+					     
+					    	/** User device token**/
+			         		Ti.App.Properties.setString('deviceToken', deviceToken);
 			     	
-					API.updateNotificationToken();
+							API.updateNotificationToken();
+							 
+					    } else {
+					    	registerPush();
+					    }
+					});
 			    } else {
-			    //	alert('Success Error: ' + deviceToken);
-			        registerPush();
+			    	Cloud.PushNotifications.subscribe({
+					    channel: 'sales',
+					    type:Ti.Platform.name == 'android' ? 'android' : 'ios', 
+					    device_token: deviceToken
+					}, function (e) { 
+					    if (e.success  ) { 
+					     
+					    	/** User device token**/
+			         		Ti.App.Properties.setString('deviceToken', deviceToken); 
+							API.updateNotificationToken();
+							
+							 
+					    } else {
+					    	registerPush();
+					    }
+					});
+
+			        console.log('Error:\n' + ((ey.error && ey.message) || JSON.stringify(ey)));
 			    }
 			});
-			
+		/**	
 			Cloud.PushNotifications.subscribeToken({
 		        device_token: ev.deviceToken,
 		        channel: 'featured',
@@ -138,7 +166,7 @@ function deviceTokenSuccess(ev) {
 		            console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
 		        }
 		    });
-			
+		**/	
 	    } else {
 	    	  console.log('GEO NOT Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
 	    }
