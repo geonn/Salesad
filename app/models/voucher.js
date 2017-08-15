@@ -24,6 +24,7 @@ exports.definition = {
 		    "total": "INTEGER",
 		    "display_type": "TEXT",
 		    "left": "INTEGER",
+		    "position": "INTEGER",
 		    "thumb_image": "TEXT"
 		},
 		adapter: {
@@ -193,7 +194,7 @@ exports.definition = {
 			getInstant: function(unlimit){
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
-				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1 AND point = 0 AND date('now') <= save_to;";
+				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1 AND point = 0 AND date('now') <= save_to AND date('now') >= save_from order by position;";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -240,7 +241,7 @@ exports.definition = {
 			getGift: function(unlimit){
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
-				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1 AND point != 0 AND date('now') <= save_to;";
+				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1 AND point != 0 AND date('now') <= save_to AND date('now') >= save_from order by position;";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
