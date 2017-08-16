@@ -154,7 +154,7 @@ function buildListing(){
 		 	  defaultImage: "/images/image_loader_640x640.png",
 			  image :ads[a].img_path,
 			  width : Ti.UI.FILL,
-			  name: ads[a].name,
+			  name: ads[a].ads_name,
 			  a_id: ads[a].a_id,
 			  id: ads[a].id,
 			  passname: ads[a].merchant_name,
@@ -347,7 +347,8 @@ function buildListing(){
 		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
 				if(isAd){
-				 	goAd(e.source.a_id, e.source.passname, e.source.passdate);
+					console.log(e.source.name+" here "+e.source.passname);
+				 	goAd(e.source.a_id, e.source.name, e.source.passdate);
 				 }else{
 				  	var win = Alloy.createController("webview", {id: e.source.id, title: e.source.name}).getView();
 					COMMON.openWindow(win); 

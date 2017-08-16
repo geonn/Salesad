@@ -59,14 +59,12 @@ var bannerListing = function(){
 			height: cell_width,
 			defaultImage: "/images/image_loader_640x640.png",
 		});
-
 		row = $.indexView.UI.create('View', {
 			classes: ["row"],layout:"", 
 			height: cell_width, 
 			backgroundImage: "/images/image_loader_640x640.png",
 			width: cell_width,
 		});
-		
 		row.add(adImage);
 		the_view.push(row); 
 		counter++;			
@@ -79,10 +77,9 @@ var bannerListing = function(){
 			showPagingControl:false,
 		});
 		
-		scrollableView.addEventListener('click', function(e) { 
-			goAd(e.source.a_id,e.source.m_id,e.source.merchant_name,e.source.bet_date);			// tomorrow kill you.
+		scrollableView.addEventListener('click', function(e) {
+			goAd(e.source.a_id,e.source.m_id,e.source.merchant_name,e.source.bet_date);	
 		});
-		//scrollableView.setPagingControlColor("transparent");
 		$.indexView.bannerListing.removeAllChildren();
 		$.indexView.bannerListing.add(scrollableView);
 		scrollableView.addEventListener( 'scrollend', function(e) {
@@ -259,7 +256,7 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 }
 
 /** navigate to Ad **/ 
-var goAd = function(a_id, m_id, isFeed, name, date){ 
+var goAd = function(a_id, m_id, name, date, isFeed){ 
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {

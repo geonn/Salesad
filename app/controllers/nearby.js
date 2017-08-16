@@ -11,29 +11,34 @@ var last_updated = COMMON.todayDateTime();
 var keyword = "";
 var model = Alloy.createCollection("xpress");
 var xpress_data = model.getData({anchor: anchor, offset:100, last_updated: last_updated, start: start, latest: false, keyword: keyword});
-console.log(xpress_data.length);
 if(args.id){
 	var clinic = library.getPanelListById(args.id);
 }
+
+function datedescription(from,to) {
+	var dateDescription = convertToHumanFormat(from)+" - "+convertToHumanFormat(to);
+	if(from == "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from now!";
+	}else if(from == "0000-00-00" &&to !="0000-00-00"){
+		dateDescription = "Until "+convertToHumanFormat(to)+"!";
+	}else if(from != "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from "+convertToHumanFormat(from)+"!";
+	}
+	return dateDescription;
+}
  
 var saveCurLoc = function(e) {
-	console.log("saveCurLoc");
     if (e.error) {
         alert('Location service is disabled. ');
-        //COMMON.closeWindow($.location);
     } else {
-    	//console.log(e);
     	showCurLoc = true;
     	Ti.App.Properties.setString('latitude', e.coords.latitude);
     	Ti.App.Properties.setString('longitude', e.coords.longitude);
     	render_map();
     	Ti.Geolocation.addEventListener('location', centerMap);
-       //console.log(Ti.App.Properties.getString('latitude') + "=="+ Ti.App.Properties.getString('longitude'));
     }
     Ti.Geolocation.removeEventListener('location',saveCurLoc);
-}; 
-
-console.log(Ti.Geolocation.locationServicesEnabled+" Ti.Geolocation.locationServicesEnabled");
+};
 
 if (Ti.Geolocation.locationServicesEnabled) {
     Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_HIGH;
@@ -69,25 +74,23 @@ function render_map(){
 		     entry.longitude="";
 		     entry.latitude="";
 		    }
-		    ML.push({id:entry.a_id,longitude:entry.longitude,latitude:entry.latitude,name:entry.merchant_name,subtitle:entry.ads_name,myid:entry.store_INFO,type:2});
+		    ML.push({id:entry.a_id,longitude:entry.longitude,latitude:entry.latitude,name:entry.ads_name,subtitle:entry.ads_name,myid:entry.store_INFO,type:2,a_from:entry.sales_from,a_to:entry.sales_to});
 		});	
 	 	ML.forEach(function(entry) {
-	 		console.log(entry);
 			var detBtn =Ti.UI.createButton({
 			    backgroundImage: '/images/btn-forward.png',
 			    color: "red",
 			    height: 20,
 				width: 20,
 				a_id: entry.id,
+				bet_date: datedescription(entry.a_from,entry.a_to),
+				name: entry.name,
 				type: entry.type,
 				record:entry.record
 			});
 			detBtn.addEventListener('click', function(ex){ 
-				console.log("xpress");
-				console.log(JSON.stringify(ex.source.record));
-				console.log(ex.source.a_id);
 				if(ex.source.type==2){
-					var win = Alloy.createController("ad", {a_id: ex.source.a_id}).getView(); 
+					var win = Alloy.createController("ad", {a_id: ex.source.a_id,name: ex.source.name,date: ex.source.bet_date}).getView(); 
 					COMMON.openWindow(win,{animated:true});					
 				} 
 				if(ex.source.type==1){
@@ -107,10 +110,7 @@ function render_map(){
 			    myid: entry.id,// Custom property to uniquely identify this annotation.
 			    type: entry.type,
 			    record: entry.record
-			});
-			 
-			//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]); 
-			console.log("entry latitude"+entry.latitude);  
+			}); 
 			if(entry.latitude != "" &&entry.longitude !=""){
 				$.mapview.addAnnotation(merchantLoc); 
 			}			
@@ -123,11 +123,8 @@ function render_map(){
 }
 
 $.mapview.addEventListener('click', function(evt) {
-	
-    console.log("Clicked " + evt.clicksource + " on " + evt.latitude + "," + evt.longitude);
     if(OS_ANDROID){
 	    if(evt.clicksource=="infoWindow"||evt.clicksource=="subtitle"||evt.clicksource=="rightPane"){
-	    	console.log("myid:"+evt.annotation.myid);
 			if(evt.annotation.type==2){
 				var win = Alloy.createController("ad", {a_id: evt.annotation.myid}).getView(); 
 				COMMON.openWindow(win,{animated:true});					
@@ -145,7 +142,6 @@ $.location.addEventListener("close", function(){
     $.destroy();
 });
 
- //console.log(name);
 function closeWindow(){
 	COMMON.closeWindow($.location); 
 
