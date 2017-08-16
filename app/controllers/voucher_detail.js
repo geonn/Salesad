@@ -16,7 +16,6 @@ var secondDate = "";
 var endsDay = "";
 var loading = Alloy.createController("loading");
 console.log("User id = "+u_id+" voucher id "+v_id);
-console.log(data.v_limit+"here");
 if(data.item_id != null){
 	var item = Alloy.createCollection("items");
 	var image = item.getImageByI_id(data.item_id);
@@ -512,6 +511,7 @@ init();
 	
 
 function doSave(){
+	if ($.save.getEnabled() != false) {
 	if(checkingForSave){   //avoid double click 
 		if(checkingClaimLimit){
 			if(data.point<=current_point){   //check user point
@@ -570,6 +570,9 @@ function doSave(){
 		}else{
 			createWhoops("Whoops","You have exceeded the claim limit per user of this voucher");
 		}
+	}
+	}else{
+		console.log("Not available to save");
 	}
 }
 $.win.addEventListener('android:back', function (e) {
