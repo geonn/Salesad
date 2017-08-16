@@ -37,7 +37,7 @@
 					<!--Vouchers(view 1)-->
 					<View class="wfill hfill" id="view1">
 						<ScrollView id="voucher_scrollview" class="wfill hfill contwfill conthsize vert">
-							<View class="wfill hsize horz" id="voucher_view"></View>
+							<View class="wfill hsize vert" id="voucher_view"></View>
 						</ScrollView>
 						<View class="vert wfill hsize" bottom="0" backgroundColor="#fff">
 							<View class="hr" backgroundColor="#e8e8e8"></View>
