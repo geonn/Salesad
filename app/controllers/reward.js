@@ -6,8 +6,8 @@ var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
-var vmodel = Alloy.createCollection("voucher");
 var myvmodel = Alloy.createCollection("MyVoucher");
+
 if (OS_IOS){
 //iOS only module
 
@@ -403,6 +403,7 @@ function ins_voucher(e) {
 	$.ins_label.setColor("#fff");
 	$.gift_view.setBackgroundColor("#fff");
 	$.gift_label.setColor("gray");
+	var vmodel = Alloy.createCollection("voucher");
 	var vdata = vmodel.getInstant(false);
 	var arr = [];
 	
@@ -556,6 +557,7 @@ function gift_voucher(e) {
 	$.gift_label.setColor("#fff");
 	$.ins_view.setBackgroundColor("#fff");
 	$.ins_label.setColor("gray");
+	var vmodel = Alloy.createCollection("voucher");
 	var vdata = vmodel.getGift(false);
 	gift_vouchers(vdata);
 }
@@ -739,7 +741,7 @@ function savedvoucher(e) {
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
 			image: entry.image,
-			defaultImage: "/images/image_loader_600x800.png",
+			defaultImage: "/images/image_loader_640x640.png",
 			My_vid: entry.My_vid,
 			v_id: entry.v_id,
 			m_id: entry.m_id,
@@ -895,6 +897,7 @@ function refreshVlist(e) {
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
 			model.saveArray(arr);
+			checker.updateModule("12","getVoucherList",currentDateTime());
 			ins_voucher();
 			loading.finish();
 		},onerror: function(err) {
@@ -958,6 +961,7 @@ $.scrollview.addEventListener("scrollend", function(e) {
 		if(e.currentPage != 0) {
 			var u_id = Ti.App.Properties.getString('u_id') || "";
 			if(u_id == ""){
+				
 				var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 				COMMON.openWindow(win);
 			}else if(e.currentPage == 1) {

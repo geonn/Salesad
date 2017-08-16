@@ -1,11 +1,11 @@
 <Alloy>
-	<Window title="SIGN_IN_OUT" class="container" backButtonTitle="" id="signin_out" navTintColor="#ED1C24">
+	<Window title="SIGN UP" class="container" backButtonTitle="" id="signin_out" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View left="0">
 	         	<Button left='0' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
-        <View class="wfill hfill" top="30">
+        <View class="wfill hfill" top="10">
 			<View class="vert wfill hsize" top="0">
 				<View class="wfill hsize" top="10" bottom="15" >
 					<ImageView class="wfill" width='230' image="/SalesAd_Logo_v2_RoundCornerswShadow.png" id="loginLogo" />
@@ -14,7 +14,7 @@
 					<Label class="wsize hsize bold" bottom="20" color="#fff" textAlign="center" text="Sign up now for more great features!"></Label>
 					<Label class="wsize hsize" bottom="5" color="#fff" textAlign="center" text="Save vouchers, earn reward points, post your own SalesXpress ads for free, and much more!"></Label>
 				</View>
-					<Button width="90%" onClick="register" top="10" bottom="10" height="40" borderRadius="3" backgroundColor="#fff" color="#807C7C" title="Sign Up"></Button>
+					<Button width="90%" onClick="register" top="5" bottom="5" height="40" borderRadius="3" backgroundColor="#fff" color="#807C7C" title="Sign Up"></Button>
 				<View class="vert wfill hsize padding">
 					<Label class="wsize hsize" top="5" bottom="5" color="#fff" text="Already have an account?"></Label>
 					<View class="wsize hsize" onClick="login" top="0" backgroundColor="#fff">

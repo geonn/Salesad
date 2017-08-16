@@ -24,6 +24,7 @@ exports.definition = {
 		    "total": "INTEGER",
 		    "display_type": "TEXT",
 		    "left": "INTEGER",
+		    "position": "INTEGER",
 		    "thumb_image": "TEXT",
 		    "a_id": "INTEGER"
 		},
@@ -195,7 +196,7 @@ exports.definition = {
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
 				//"SELECT * FROM voucher WHERE status = 1 AND point = 0 AND date('now') <= save_to"
-				var sql = "SELECT voucher.*, ads.name FROM voucher LEFT OUTER JOIN ads on voucher.a_id = ads.a_id WHERE voucher.status = 1 AND voucher.point = 0 AND date('now') <= voucher.save_to;";
+				var sql = "SELECT voucher.*, ads.name FROM voucher LEFT OUTER JOIN ads on voucher.a_id = ads.a_id WHERE voucher.status = 1 AND voucher.point = 0 AND date('now') <= voucher.save_to AND date('now') >= save_from order by position;";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -243,7 +244,7 @@ exports.definition = {
 			getGift: function(unlimit){
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
-				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1 AND point != 0 AND date('now') <= save_to;";
+				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1 AND point != 0 AND date('now') <= save_to AND date('now') >= save_from order by position;";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -296,8 +297,8 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (v_id,m_id,item_id,total,discount,barcode,description,title,image,save_from,save_to,use_from,use_to,tnc,redeem,v_limit,point,quantity,created,updated,status,display_type,left,thumb_image,a_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.v_id, entry.m_id,entry.item_id,entry.total, entry.discount,entry.barcode,entry.description,entry.title,entry.image,entry.save_from,entry.save_to,entry.use_from,entry.use_to,entry.tnc,entry.redeem, entry.limit, entry.point, entry.quantity, entry.created, entry.updated, entry.status,entry.display_type,entry.left,entry.thumb_image,entry.a_id);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (v_id,m_id,item_id,total,discount,barcode,description,title,image,save_from,save_to,use_from,use_to,tnc,redeem,v_limit,point,quantity,created,updated,status,display_type,left,thumb_image,a_id,position) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.v_id, entry.m_id,entry.item_id,entry.total, entry.discount,entry.barcode,entry.description,entry.title,entry.image,entry.save_from,entry.save_to,entry.use_from,entry.use_to,entry.tnc,entry.redeem, entry.limit, entry.point, entry.quantity, entry.created, entry.updated, entry.status,entry.display_type,entry.left,entry.thumb_image,entry.a_id,entry.position);
 				});
 				db.execute("COMMIT");
 	            db.close();

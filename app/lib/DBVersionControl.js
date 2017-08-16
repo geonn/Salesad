@@ -42,6 +42,7 @@ exports.checkAndUpdate = function(e){
 	if(dbVersion == "1.5") {
 		var model = Alloy.createCollection('voucher');
 		model.addColumn("a_id", "INTEGER");
+		model.addColumn("position", "INTEGER");
 		dbVersion = '1.6';
 		last_update_on = false;
 	}

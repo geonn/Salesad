@@ -8,7 +8,7 @@
         <View height="95%">
 			<View id="main" layout="vertical" height="auto">
 				<View layout="vertical" id="loginScrollView" class="wfill hsize">
-					<View class="wfill hsize" top="35" bottom="5" >
+					<View class="wfill hsize" top="15" bottom="5" >
 						<ImageView class="wfill" width='230' image="/SalesAd_Logo_v2_RoundCornerswShadow.png" id="loginLogo" />
 					</View>
 					<TextField backgroundColor="white" borderRadius="3" id="username" hintText="Enter Email" />
@@ -17,7 +17,7 @@
 				<Label class="ftText wsize hsize" onTouchend="doForgotPassword" left="15">Forgot your password?</Label>
 				<Button id="loginAccountButton" borderRadius="3" backgroundColor="#ffffff" onTouchend="doLogin" title="Sign In"  width="90%" top="20" height="40" color="#807C7C" />
 				
-				<Label class="wsize hsize" top="25" bottom="5" color="#fff" text="Don't have an account yet?"></Label>
+				<Label class="wsize hsize" top="20" bottom="5" color="#fff" text="Don't have an account yet?"></Label>
 				<View class="wsize hsize" onClick="closeWindow" top="0" backgroundColor="#fff">
 					<Label class="wsize hsize" bottom="1" backgroundColor="#CC2228" color="#fff" text="Sign up now"></Label>
 				</View>

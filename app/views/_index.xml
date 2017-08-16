@@ -2,7 +2,7 @@
 	<Window id="root" title="" navBarHidden="true" class="container" layout="composite" fullscreen="true">
 		<View id="header" zIndex="12" height="50">
 			<ImageView left='0' width='157' height='45' image="/images/salesad_logo.png" id="salesad_logo" />
-			<ImageView id="scanner" right='10' height='30' image="/images/scan.png" />
+			<ImageView id="scanner" right='10' height='30' image="/images/Icon_QR.png" />
 			 
 			<!--<ImageView id="category_link" right='10' bottom="0" height='40' image="/images/salesad_beg.png" />
 			<ImageView id="filter_link" right='10' bottom="0" height='40' image="/images/popular-red.png" />
