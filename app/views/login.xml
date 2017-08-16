@@ -18,8 +18,8 @@
 				<Button id="loginAccountButton" borderRadius="3" backgroundColor="#ffffff" onTouchend="doLogin" title="Sign In"  width="90%" top="20" height="40" color="#807C7C" />
 				
 				<Label class="wsize hsize" top="20" bottom="5" color="#fff" text="Don't have an account yet?"></Label>
-				<View class="wsize hsize" onClick="closeWindow" top="0" backgroundColor="#fff">
-					<Label class="wsize hsize" bottom="1" backgroundColor="#CC2228" color="#fff" text="Sign up now"></Label>
+				<View class="wsize hsize" top="0" backgroundColor="#fff">
+					<Button class="wsize hsize" bottom="1" onClick="closeWindow" backgroundColor="#CC2228" color="#fff" title="Sign up now"></Button>
 				</View>
 	           	<!--<View height="60" id="fbloginView" width="90%"></View>-->
 	            <!-- <Button id="createAccountButton" borderRadius="3" backgroundColor="#C0C0C0" onTouchend="goCreateAccount" title="Create an account" width="90%" top="10"  height="40" color="#000" /> -->

@@ -16,9 +16,9 @@
 				</View>
 					<Button width="90%" onClick="register" top="5" bottom="5" height="40" borderRadius="3" backgroundColor="#fff" color="#807C7C" title="Sign Up"></Button>
 				<View class="vert wfill hsize padding">
-					<Label class="wsize hsize" top="5" bottom="5" color="#fff" text="Already have an account?"></Label>
-					<View class="wsize hsize" onClick="login" top="0" backgroundColor="#fff">
-						<Label class="wsize hsize" bottom="1" backgroundColor="#CC2228" color="#fff" text="Sign in here"></Label>
+					<Label class="wsize hsize" top="5" bottom="5" color="#fff" text="Already have an account?"></Label>	
+					<View class="wsize hsize" top="0" backgroundColor="#fff">
+						<Button class="wsize hsize" bottom="1" onClick="login" backgroundColor="#CC2228" color="#fff" title="Sign in here"></Button>
 					</View>
 				</View>
 			</View>
