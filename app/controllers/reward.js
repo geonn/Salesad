@@ -7,6 +7,13 @@ var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
 var myvmodel = Alloy.createCollection("MyVoucher");
+var bol = true;
+
+if(OS_ANDROID){
+	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
+}else{
+	cell_width = Math.floor(pwidth / 2) - 15;
+}
 
 if (OS_IOS){
 //iOS only module
@@ -235,15 +242,7 @@ function Tab(e) {
 	$.scrollview.scrollToView(e.source.num);
 }
 
-function ins_vouchers(e) {
-	if(OS_ANDROID){
-		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
-	}else{
-		cell_width = Math.floor(pwidth / 2) - 15;
-	}
-	
-	$.voucher_view.removeAllChildren();
-	
+function vouchers(e) {
 	for(key in e) {
 		console.log(e[key]);
 		var parent = $.UI.create("View", {
@@ -394,181 +393,49 @@ function ins_vouchers(e) {
 		height: 70
 	});
 	$.voucher_view.add(view_height);
-	
-	view_height = null;
+	view_height = null;	
+	bol = true;
 }
 
 function ins_voucher(e) {
-	$.ins_view.setBackgroundColor("#ED1C24");
-	$.ins_label.setColor("#fff");
-	$.gift_view.setBackgroundColor("#fff");
-	$.gift_label.setColor("gray");
-	var vmodel = Alloy.createCollection("voucher");
-	var vdata = vmodel.getInstant(false);
-	var arr = [];
-	
-	vdata.forEach(function(e) {
-		var key = (e.name != "" || e.name !=  null) ? e.name : "Others";
-		arr[key] = arr[key] || {};
-		arr[key].title = key;
-		arr[key].child = arr[key].child || [];
-		arr[key].child.push(e);
-	});
-
-	ins_vouchers(arr);
-}
-
-function gift_vouchers(e) {
-	if(OS_ANDROID){
-		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
-	}else{
-		cell_width = Math.floor(pwidth / 2) - 15;
+	if(bol) {
+		bol = false;
+		$.ins_view.setBackgroundColor("#ED1C24");
+		$.ins_label.setColor("#fff");
+		$.gift_view.setBackgroundColor("#fff");
+		$.gift_label.setColor("gray");
+		var vmodel = Alloy.createCollection("voucher");
+		var vdata = vmodel.getInstant(false);
+		var arr = [];
+		
+		vdata.forEach(function(e) {
+			var key = (e.name != "" || e.name !=  null) ? e.name : "Others";
+			arr[key] = arr[key] || {};
+			arr[key].title = key;
+			arr[key].child = arr[key].child || [];
+			arr[key].child.push(e);
+		});
+		$.voucher_view.removeAllChildren();
+		vouchers(arr);
 	}
-	
-	$.voucher_view.removeAllChildren();
-	
-	var parent = $.UI.create("View", {
-		classes: ['wfill', 'hsize', 'horz']
-	});
-		
-	e.forEach(function(entry) {
-		if(entry.item_id != null){
-			var item = Alloy.createCollection("items");
-			var image = item.getImageByI_id(entry.item_id);
-			entry.thumb_image = image;
-		}
-		var View1 = $.UI.create("View", {
-			classes: ['hsize', 'vert'],
-			width: cell_width,
-			left: 9,
-			top: 9
-		});
-		var viewimg = $.UI.create("View", {
-			classes: ['wfill', 'vert'],
-			height: cell_width,
-			backgroundColor: "#fff"
-		});
-		var img = $.UI.create("ImageView", {
-			classes: ['wfill', 'hsize'],
-			image: entry.thumb_image,
-			defaultImage: "/images/image_loader_640x640.png",
-			v_id: entry.v_id,
-			m_id: entry.m_id
-		});
-		var View2 = $.UI.create("View", {
-			classes: ['wfill', 'hsize', 'vert'],
-			backgroundColor: "#fff"
-		});
-		var View3 = $.UI.create("View", {
-			classes: ['wfill', 'hsize'],
-			left: 5,
-			right: 5,
-			top: 5
-		});
-		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: (entry.quantity != null) ? entry.quantity + " saved" : "0 saved",
-			color: "#ED1C24",
-			left: 0
-		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			ellipsize: true,
-			wordWrap: false,
-			text: (entry.quantity != null) ? entry.quantity + " saved" : "0 saved",
-			color: "#ED1C24",
-			left: 0
-		});
-		var ViewPoint = $.UI.create("View", {
-			classes: ['wsize', 'hsize', 'horz'],
-			right: 0
-		});
-		var VPoint = $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: (entry.point != 0) ? entry.point : "",
-			color: "#ED1C24",
-			right: 0
-		});
-		var pointimg = (entry.point != 0 && entry.point != null) ? $.UI.create("ImageView", {
-			width: 15,
-			height: 15,
-			image: "/images/Icon_CashPoint_Flat_Medium.png"
-		}) : $.UI.create("ImageView", {
-			width: 15,
-			height: 15,
-			image: ""
-		});
-		var title = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5', 'bold'],
-			height: 19,
-			text: entry.title,
-			left: 5,
-			right: 5,
-			bottom: 5
-		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5', 'bold'],
-			height: 19,
-			ellipsize: true,
-			wordWrap: false,
-			text: entry.title,
-			left: 5,
-			right: 5,
-			bottom: 5
-		});
-		
-		img.addEventListener("click", toVoucher);
-		viewimg.add(img);
-		View1.add(viewimg);
-		View1.add(View2);
-		View2.add(View3);
-		View3.add(VQuantity);
-		ViewPoint.add(pointimg);
-		ViewPoint.add(VPoint);
-		View3.add(ViewPoint);
-		View2.add(title);
-		parent.add(View1);
-		$.voucher_view.add(parent);
-		
-		View1 = null;
-		viewimg = null;
-		img = null;
-		View2 = null;
-		View3 = null;
-		VQuantity = null;
-		VPoint = null;
-		pointimg = null;
-		ViewPoint = null;
-		title = null;
-	});
-	
-	var view_height = $.UI.create("View", {
-		width:"100%",
-		height: 70
-	});
-	$.voucher_view.add(view_height);
-	
-	view_height = null;
 }
 
 function gift_voucher(e) {
-	$.gift_view.setBackgroundColor("#ED1C24");
-	$.gift_label.setColor("#fff");
-	$.ins_view.setBackgroundColor("#fff");
-	$.ins_label.setColor("gray");
-	var vmodel = Alloy.createCollection("voucher");
-	var vdata = vmodel.getGift(false);
-	gift_vouchers(vdata);
+	if(bol) {
+		bol = false;
+		$.gift_view.setBackgroundColor("#ED1C24");
+		$.gift_label.setColor("#fff");
+		$.ins_view.setBackgroundColor("#fff");
+		$.ins_label.setColor("gray");
+		
+		var vmodel = Alloy.createCollection("voucher");
+		var vdata = vmodel.getGift(false);
+		$.voucher_view.removeAllChildren();
+		list_voucher(vdata, "gift");
+	}
 }
 
 function savedvoucher(e) {
-	if(OS_ANDROID){
-		cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
-	}else{
-		cell_width = Math.floor(pwidth / 2) - 15;
-	}
-	
 	$.ongoingV.removeAllChildren();
 	$.expiredV.removeAllChildren();
 	
@@ -580,25 +447,58 @@ function savedvoucher(e) {
 	$.expiredV.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
 	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T2", top: 90, bottom: 90, textAlign: "center", text: "You have no expired vouchers at this moment."}));
 	
-	var ongiongVC = myvmodel.ongoingvoucher(true);
+	var ongoingVC = myvmodel.ongoingvoucher(true);
 	var expireVC = myvmodel.expirevoucher(true);
 	
-	ongiongVC.forEach(function (entry) {
+	list_voucher(ongoingVC, "ongoing");
+	list_voucher(expireVC, "expire");
+	
+	if($.ongoingV.children.length > 3) {
+		$.ongoingV.remove($.ongoingV.children[2]);
+	}
+	if($.expiredV.children.length > 3) {
+		$.expiredV.remove($.expiredV.children[2]);
+	}
+}
+
+function list_voucher(e, name) {
+	var parent = $.UI.create("View", {
+		classes: ['wfill', 'hsize', 'horz']
+	});
+	
+	e.forEach(function (entry) {
 		if(entry.item_id != null){
 			var item = Alloy.createCollection("items");
 			var image = item.getImageByI_id(entry.item_id);
-			entry.image = image;
+			if(name == "ongoing" || name == "expire") {
+				entry.image = image;
+			}else {
+				entry.thumb_image = image;
+			}
 		}
-		var container = $.UI.create("View", {
+		var container = (name == "ongoing" || name == "expire") ? $.UI.create("View", {
 			classes: ['hsize'],
 			width: cell_width,
 			left: 9,
 			top: 9
+		}) : $.UI.create("View", {
+			classes: ['hsize', 'vert'],
+			width: cell_width,
+			left: 9,
+			top: 9
 		});
-		var delBT = $.UI.create("ImageView", {
+		var delBT = (name == "ongoing" || name == "expire") ? $.UI.create("ImageView", {
 			width: 30,
 			height: 30,
 			image: "/images/Icon_Delete_Round.png",
+			My_vid: entry.My_vid,
+			top: 2,
+			right: 2,
+			zIndex: 10
+		}) : $.UI.create("ImageView", {
+			width: 0,
+			height: 0,
+			image: "",
 			My_vid: entry.My_vid,
 			top: 2,
 			right: 2,
@@ -614,12 +514,12 @@ function savedvoucher(e) {
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
-			image: entry.image,
+			image: (name == "ongoing" || name == "expire") ? entry.image : entry.thumb_image ,
 			defaultImage: "/images/image_loader_640x640.png",
 			My_vid: entry.My_vid,
 			v_id: entry.v_id,
 			m_id: entry.m_id,
-			use: true
+			use: (name == "ongoing") ? true : (name == "expire") ? false : ""
 		});
 		var View2 = $.UI.create("View", {
 			classes: ['wfill', 'hsize', 'vert'],
@@ -634,13 +534,13 @@ function savedvoucher(e) {
 		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.quantity + " saved",
+			text: (name == "ongoing" || name == "expire") ? entry.quantity + " saved" : (entry.quantity != null) ? entry.quantity + " saved" : "0 saved",
 			color: "#ED1C24",
 			left: 0
 		}) : $.UI.create("Label", {
 			classes: ['wsize', 'h5'],
 			height: 19,
-			text: entry.quantity + " saved",
+			text: (name == "ongoing" || name == "expire") ? entry.quantity + " saved" : (entry.quantity != null) ? entry.quantity + " saved" : "0 saved",
 			color: "#ED1C24",
 			left: 0
 		});
@@ -656,6 +556,7 @@ function savedvoucher(e) {
 			right: 0
 		});
 		var pointimg = (entry.point != 0 && entry.point != null) ? $.UI.create("ImageView", {
+			right: 5,
 			width: 15,
 			height: 15,
 			image: "/images/Icon_CashPoint_Flat_Medium.png"
@@ -683,20 +584,31 @@ function savedvoucher(e) {
 		});
 		
 		delBT.addEventListener("click", delvoucher);
-		img.addEventListener("click", toSaveVoucher);
 		container.add(View1);
 		container.add(delBT);
 		View1.add(viewimg);
 		viewimg.add(img);
 		View1.add(View2);
-		//View2.add(View3);
+		if(name == "gift") {
+			View2.add(View3);
+		}
 		View3.add(VQuantity);
 		ViewPoint.add(pointimg);
 		ViewPoint.add(VPoint);
 		View3.add(ViewPoint);
 		View2.add(title);
-		$.ongoingV.add(container);
+		parent.add(container);
+		if(name == "ongoing") {
+			$.ongoingV.add(container);
+			img.addEventListener("click", toSaveVoucher);
+		}else if(name == "expire") {
+			$.expiredV.add(container);
+			img.addEventListener("click", toSaveVoucher);
+		}else {
+			img.addEventListener("click", toVoucher);
+		}
 		
+		container = null;
 		View1 = null;
 		viewimg = null;
 		img = null;
@@ -709,140 +621,20 @@ function savedvoucher(e) {
 		title = null;
 	});
 	
-	expireVC.forEach(function (entry) {
-		if(entry.item_id != null){
-			var item = Alloy.createCollection("items");
-			var image = item.getImageByI_id(entry.item_id);
-			entry.image = image;
-		}		
-		var container = $.UI.create("View", {
-			classes: ['hsize'],
-			width: cell_width,
-			left: 9,
-			top: 9
-		});
-		var delBT = $.UI.create("ImageView", {
-			width: 30,
-			height: 30,
-			image: "/images/Icon_Delete_Round.png",
-			My_vid: entry.My_vid,
-			top: 2,
-			right: 2,
-			zIndex: 10
-		});
-		var View1 = $.UI.create("View", {
-			classes: ['wfill', 'hsize', 'vert']
-		});
-		var viewimg = $.UI.create("View", {
-			classes: ['wfill', 'vert'],
-			height: cell_width,
-			backgroundColor: "#fff"
-		});
-		var img = $.UI.create("ImageView", {
-			classes: ['wfill', 'hsize'],
-			image: entry.image,
-			defaultImage: "/images/image_loader_640x640.png",
-			My_vid: entry.My_vid,
-			v_id: entry.v_id,
-			m_id: entry.m_id,
-			use: false
-		});
-		var View2 = $.UI.create("View", {
-			classes: ['wfill', 'hsize', 'vert'],
-			backgroundColor: "#fff"
-		});
-		var View3 = $.UI.create("View", {
-			classes: ['wfill', 'hsize'],
-			left: 5,
-			right: 5,
-			top: 5
-		});
-		var VQuantity = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: entry.quantity + " saved",
-			color: "#ED1C24",
-			left: 0
-		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			ellipsize: true,
-			wordWrap: false,
-			text: entry.quantity + " saved",
-			color: "#ED1C24",
-			left: 0
-		});
-		var ViewPoint = $.UI.create("View", {
-			classes: ['wsize', 'hsize', 'horz'],
-			right: 0
-		});
-		var VPoint = $.UI.create("Label", {
-			classes: ['wsize', 'h5'],
-			height: 19,
-			text: (entry.point != 0) ? entry.point : "",
-			color: "#ED1C24",
-			right: 0
-		});
-		var pointimg = (entry.point == 0 || entry.point == null) ? $.UI.create("ImageView", {
-			width: 15,
-			height: 15,
-			image: ""
-		}) : $.UI.create("ImageView", {
-			width: 15,
-			height: 15,
-			image: "/images/Icon_CashPoint_Flat_Medium.png"
-		});
-		var title = (OS_IOS) ? $.UI.create("Label", {
-			classes: ['wsize', 'h5', 'bold'],
-			height: 19,
-			text: entry.title,
-			left: 5,
-			right: 5,
-			bottom: 5
-		}) : $.UI.create("Label", {
-			classes: ['wsize', 'h5', 'bold'],
-			height: 19,
-			ellipsize: true,
-			wordWrap: false,
-			text: entry.title,
-			left: 5,
-			right: 5,
-			bottom: 5
+	if(name == "gift") {
+		$.voucher_view.add(parent);
+		
+		var view_height = $.UI.create("View", {
+			width:"100%",
+			height: 70
 		});
 		
-		delBT.addEventListener("click", delvoucher);
-		img.addEventListener("click", toSaveVoucher);
-		container.add(View1);
-		container.add(delBT);
-		View1.add(viewimg);
-		viewimg.add(img);
-		View1.add(View2);
-		//View2.add(View3);
-		View3.add(VQuantity);
-		ViewPoint.add(pointimg);
-		ViewPoint.add(VPoint);
-		View3.add(ViewPoint);
-		View2.add(title);
-		$.expiredV.add(container);
-		
-		View1 = null;
-		viewimg = null;
-		img = null;
-		View2 = null;
-		View3 = null;
-		VQuantity = null;
-		VPoint = null;
-		pointimg = null;
-		ViewPoint = null;
-		title = null;
-	});
+		$.voucher_view.add(view_height);
+		view_height = null;
+	}
 	
-	if($.ongoingV.children.length > 3) {
-		$.ongoingV.remove($.ongoingV.children[2]);
-	}
-	if($.expiredV.children.length > 3) {
-		$.expiredV.remove($.expiredV.children[2]);
-	}
+	parent = null;
+	bol = true;
 }
 
 function toVoucher(e) {
@@ -1009,5 +801,5 @@ $.win.addEventListener("close", function(){
 });
 
 $.win.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.win); 
+	COMMON.closeWindow($.win); 
 });
