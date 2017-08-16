@@ -7,7 +7,7 @@ var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
 var myvmodel = Alloy.createCollection("MyVoucher");
-var bol = true;
+var boll = true;
 
 if(OS_ANDROID){
 	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
@@ -394,12 +394,12 @@ function vouchers(e) {
 	});
 	$.voucher_view.add(view_height);
 	view_height = null;	
-	bol = true;
+	boll = true;
 }
 
 function ins_voucher(e) {
-	if(bol) {
-		bol = false;
+	if(boll) {
+		boll = false;
 		$.ins_view.setBackgroundColor("#ED1C24");
 		$.ins_label.setColor("#fff");
 		$.gift_view.setBackgroundColor("#fff");
@@ -421,8 +421,8 @@ function ins_voucher(e) {
 }
 
 function gift_voucher(e) {
-	if(bol) {
-		bol = false;
+	if(boll) {
+		boll = false;
 		$.gift_view.setBackgroundColor("#ED1C24");
 		$.gift_label.setColor("#fff");
 		$.ins_view.setBackgroundColor("#fff");
@@ -634,7 +634,7 @@ function list_voucher(e, name) {
 	}
 	
 	parent = null;
-	bol = true;
+	boll = true;
 }
 
 function toVoucher(e) {
