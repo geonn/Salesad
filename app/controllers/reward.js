@@ -234,6 +234,10 @@ function init(){
 	$.win.add(loading.getView());
 	refreshVlist();
 	refreshSVlist();
+	
+	if(args.savedvoucher != undefined) {
+		$.scrollview.scrollToView(1);
+	}
 }
 
 init();

@@ -150,7 +150,7 @@ function set_title_button(){
 								console.log("Success to save "+JSON.stringify(arr));
 								checkingForSave = true;
 								setTimeout(function(e){
-									createWhoops("Voucher saved", "You can view it under\nMy rewards > Saved Vouchers");
+									createWhoops("Voucher saved", "You can view it under\nMore > My Rewards > Saved Vouchers");
 								},1000);
 								Ti.App.fireEvent("voucher:refresh");
 								Ti.App.fireEvent("myvoucher:refresh");

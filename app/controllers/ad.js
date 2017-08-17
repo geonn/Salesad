@@ -497,18 +497,22 @@ function afterScan(e){
 }
 
 function popMoreMenu(){
-	var picker_list = [{text: 'Report This Ad'}];
+	var picker_list = [{text: 'Report This Ad'}, {text: 'My Rewards'}];
 	var options = _.pluck(picker_list, "text");
 	options.push("Cancel");
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: options.length - 1,
 	  options: options,
-	  title: 'Report'
+	  title: 'More'
 	});
 	dialog.show();
 	dialog.addEventListener("click", function(ex){   
 		if(ex.index == 0){
 			popReport();
+		}else {
+			closeWindow();
+			var win = Alloy.createController('reward', {savedvoucher: 'savedvoucher'}).getView();  
+			COMMON.openWindow(win);
 		}
 	});
 }
@@ -597,6 +601,7 @@ $.win.addEventListener("close", function(){
 	Ti.App.removeEventListener('app:loadAdsDetails', refresh);
 	Ti.App.removeEventListener('afterScan', afterScan);
     $.destroy();
+    Ti.App.fireEvent('ads:close');
 });
 
 
@@ -723,7 +728,5 @@ function createShareOptions(){
 }
 
 $.win.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.win); 
+	closeWindow();
 });
-
-
