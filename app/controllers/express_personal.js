@@ -99,12 +99,12 @@ function render(e){
 	var view1 = $.UI.create("View", {classes:['wfill','hsize','horz'], bottom: "10"});
 	var view2 = $.UI.create("View", {classes:['wfill','hsize','horz'], bottom: "10"});
 	view1.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Posts", textAlign: "center"}));
-	view1.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
-	view1.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T1", top: 90, bottom: 90, textAlign: "center", text: "You have no ongiong posts at this moment."}));
+	view1.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
+	view1.add($.UI.create("Label", {classes: ['wfill'], id: "T1", height: 180, textAlign: "center", text: "You have no ongiong posts at this moment."}));
 	$.content.add(view1);
 	view2.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Posts", textAlign: "center"}));
 	view2.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
-	view2.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T2", top: 90, bottom: 90, textAlign: "center", text: "You have no expired posts at this moment."}));
+	view2.add($.UI.create("Label", {classes: ['wfill'], id: "T2", height: 180, textAlign: "center", text: "You have no expired posts at this moment."}));
 	$.history.add(view2);
 	
 	if(OS_ANDROID){
