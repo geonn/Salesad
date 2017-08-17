@@ -6,7 +6,7 @@
 	        </View>
         </LeftNavButton>
         <View class="wfill hfill vert">
-	        <View class="wfill horz" id="adHeader" height="60" platform="android" backgroundColor="#fff">
+	        <View class="wfill horz" id="adHeader" height="50" platform="android" backgroundColor="#fff">
 				<View left="0" width="15%" zIndex="10" class="hsize">
 			         <ImageView id="btnBack" left='10' width="30" height="30" image="/images/btn-back.png" />
 			    </View>

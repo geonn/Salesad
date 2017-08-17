@@ -222,7 +222,7 @@ var getAdsImages = function(){
 	for (var i=0; i< items.length; i++) {
 		console.log("item id = "+items[i].i_id);
 		var voucher_item = voucher.getDataByI_id(items[i].i_id);
-		var itemImageView = $.UI.create("View", {classes:['wfill','hsize']});
+		var itemImageView = $.UI.create("View", {classes:['wfill','hsize','vert']});
 		// adImage = Ti.UI.createImageView({
 			// top: 0,
 			// defaultImage: "/images/image_loader_640x640.png",
@@ -236,14 +236,13 @@ var getAdsImages = function(){
 			classes:['wfill','hsize'],
 			image: items[i].img_path,
 			enableZoomControls: true,
-			backgroundColor: 'red',
 			defaultImage: "/images/image_loader_640x640.png",
 		});
-		/*var label_description = $.UI.create("Label",{
+		var label_description = $.UI.create("Label",{
 			classes:['wfill','hsize','h5','padding'],
 			text: items[i].description
 		});
-		console.log("items description   " + items[i].description);
+		/*console.log("items description   " + items[i].description);
 		var duration = args.date;
 		if (items[i].description == null || items[i].description == "") {
 			duration = "";
@@ -593,7 +592,8 @@ function addVoucher(){
 		});			
 }			
 		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert'],backgroundColor:"#e8e8e8"});
-		itemImageView.add(adImage); 	
+		itemImageView.add(adImage); 
+		itemImageView.add(label_description); 	
 		console.log("items " + JSON.stringify(items[i]));
 		if(items[i].isExclusive == 1){
 			addVoucher();

@@ -235,7 +235,7 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 	if(latestc.length > 0){
 		var adImage = Ti.UI.createImageView({
    			defaultImage: "/images/image_loader_640x640.png",
-			image: latestc[0].img_path,
+			image: latestc[0].img_thumb,
 			cate_id: cate_id,
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE
