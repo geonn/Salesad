@@ -8,7 +8,7 @@ var type = args.type;
 var data;
 var u_id = Ti.App.Properties.getString('u_id') || "";
 if(typeof args.m_id == "undefined" || args.m_id ==""){
-	alert("There is no sales from this store right now");
+	//alert("There is no sales from this store right now");
 }
 else{
 	console.log("here is _ad_listing");
@@ -164,10 +164,11 @@ function buildListing(){
 		 	  defaultImage: "/images/image_loader_640x640.png",
 			  image :ads[a].img_thumb,
 			  width : Ti.UI.FILL,
-			  name: ads[a].name,
+			  name: ads[a].ads_name,
 			  a_id: ads[a].a_id,
 			  m_id: ads[a].m_id,
 			  id: ads[a].id,
+			  date: datedescription(ads[a].sales_from,ads[a].sales_to),
 			  height: Ti.UI.SIZE,//ads_height,
 			});
 			var image_view = $.UI.create("View", {classes:['wfill','hsize']});
@@ -349,8 +350,8 @@ function buildListing(){
 		
 		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
-				console.log(e.source.m_id+" e.source.m_id");
-			 	goAd(e.source.a_id, e.source.m_id);
+				console.log(e.source.m_id+" e.source.m_id"+e.source.name+" e.source.name");
+			 	goAd(e.source.a_id, e.source.m_id, e.source.name, e.source.date);
 			});
 		}
 	var params = {
@@ -452,8 +453,20 @@ function setCalendarEvent(e){
 
 //$.adsCategory.ads_listing.add(videoView);
 
+function datedescription(from,to) {
+	var dateDescription = convertToHumanFormat(from)+" - "+convertToHumanFormat(to);
+	if(from == "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from now!";
+	}else if(from == "0000-00-00" &&to !="0000-00-00"){
+		dateDescription = "Until "+convertToHumanFormat(to)+"!";
+	}else if(from != "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from "+convertToHumanFormat(from)+"!";
+	}
+	return dateDescription;
+}
+
 /** navigate to Ad **/
-var goAd = function(a_id, m_id){
+var goAd = function(a_id, m_id, name, date){
 	// double click prevention
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
@@ -462,7 +475,7 @@ var goAd = function(a_id, m_id){
 	console.log("id"+a_id+m_id);
 	clickTime = currentTime;
 	console.log(args.m_id+" args.m_id");
-	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "_ad_listing"}).getView(); 
+	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "_ad_listing", name:name, date:date}).getView(); 
 	COMMON.openWindow(win); 
 };
 /*

@@ -236,6 +236,7 @@ var getAdsImages = function(){
 			classes:['wfill','hsize'],
 			image: items[i].img_path,
 			enableZoomControls: true,
+			top: 0,
 			defaultImage: "/images/image_loader_640x640.png",
 		});
 		var label_description = $.UI.create("Label",{

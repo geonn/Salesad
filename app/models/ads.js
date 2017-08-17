@@ -270,6 +270,7 @@ exports.definition = {
 					    img_path: res.fieldByName('img_path'),
 					    description: res.fieldByName('description'),
 					    status: res.fieldByName('status'),
+					    name: res.fieldByName('name')
 					};
                 	res.next();
 					count++;
