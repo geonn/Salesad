@@ -440,12 +440,12 @@ function savedvoucher(e) {
 	$.expiredV.removeAllChildren();
 	
 	$.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Vouchers", textAlign: "center"}));
-	$.ongoingV.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
-	$.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T1", top: 90, bottom: 90, textAlign: "center", text: "You have no ongoing vouchers at this moment."}));
+	$.ongoingV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
+	$.ongoingV.add($.UI.create("Label", {classes: ['wfill'], id: "T1", height: 180, textAlign: "center", text: "You have no ongoing vouchers at this moment."}));
 	
 	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Vouchers", textAlign: "center"}));
-	$.expiredV.add($.UI.create("View", {classes:['hr'], backgroundColor: "#000"}));
-	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], id: "T2", top: 90, bottom: 90, textAlign: "center", text: "You have no expired vouchers at this moment."}));
+	$.expiredV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
+	$.expiredV.add($.UI.create("Label", {classes: ['wfill'], id: "T2", height: 180, textAlign: "center", text: "You have no expired vouchers at this moment."}));
 	
 	var ongoingVC = myvmodel.ongoingvoucher(true);
 	var expireVC = myvmodel.expirevoucher(true);

@@ -126,7 +126,7 @@ function render_banner(){
 	if(OS_IOS){
 	 	var bannerImage = Ti.UI.createImageView({
 	 		defaultImage: "/images/image_loader_640x640.png",
-			image :ads.img_path,
+			image :ads.img_thumb,
 			width : "100%",
 			height: Ti.UI.SIZE,//ads_height,
 		});	
@@ -181,11 +181,11 @@ function render_banner(){
 			});
 		});		
 	}
-	if(OS_ANDROID && ads.img_path != null){
+	if(OS_ANDROID && ads.img_thumb != null){
 		$.RemoteImage.applyProperties({
 		 	autoload: true,
 		    backgroundColor: 'black',
-		    image:ads.img_path,
+		    image:ads.img_thumb,
 		    default_img : "/images/image_loader_640x640.png"
 		});	
 		$.RemoteImage.addEventListener("click",zoom);				

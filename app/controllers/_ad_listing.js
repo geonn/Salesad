@@ -162,7 +162,7 @@ function buildListing(){
 		}else{
 			var bannerImage = Ti.UI.createImageView({
 		 	  defaultImage: "/images/image_loader_640x640.png",
-			  image :ads[a].img_path,
+			  image :ads[a].img_thumb,
 			  width : Ti.UI.FILL,
 			  name: ads[a].name,
 			  a_id: ads[a].a_id,

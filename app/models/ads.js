@@ -224,6 +224,7 @@ exports.definition = {
 					    expired_date: res.fieldByName('expired_date'),
 					    updated: res.fieldByName('updated'),
 					    img_path: res.fieldByName('img_path'),
+					    img_thumb: res.fieldByName('img_thumb'),
 					    description: res.fieldByName('description'),
 					    status: res.fieldByName('status'),
 					};
@@ -364,7 +365,8 @@ exports.definition = {
 					    sales_to: res.fieldByName("sales_to"),
 					    description: res.fieldByName('description'),
 					    template_id: res.fieldByName('template_id'),
-					    img_path: res.fieldByName('img_path')
+					    img_path: res.fieldByName('img_path'),
+					    img_thumb: res.fieldByName('img_thumb')
 					};
 					
 				} 
