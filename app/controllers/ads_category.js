@@ -316,9 +316,12 @@ function buildListing(){
 		var view_left = $.UI.create("View", {classes:['hsize', 'vert'], left:0, width: "65%"});
 		var view_right = $.UI.create("View", {classes:['hsize','wsize','horz'], right:10, bottom:10});
 		var label_and_flag = $.UI.create("View", {classes:['wfill','hsize']});
+		var merchant_data = $.UI.create("View", {classes:['vert', 'wfill', 'hsize']});
+		var bottom_data = $.UI.create("View", {classes:['wfill', 'hsize']});
 		view_ad.add(image_view);
 		view_ad.add(line);
-		label_and_flag.add(label_merchant);
+		merchant_data.add(label_merchant);
+		label_and_flag.add(merchant_data);
 		if(isExclusive > 0){
 			label_and_flag.add(exclusive_icon);
 		}
@@ -328,9 +331,9 @@ function buildListing(){
 			
 		view_right.add(btn_reminder);
 		view_right.add(btn_share);
-		view_buttonBar.add(view_left);
-		view_buttonBar.add(view_right);
-		view_ad.add(view_buttonBar);
+		bottom_data.add(view_left);
+		bottom_data.add(view_right);
+		merchant_data.add(bottom_data);
 		
 		tbr.add(view_ad);
 		$.ads_listing.appendRow(tbr);

@@ -150,7 +150,7 @@ function set_title_button(){
 								console.log("Success to save "+JSON.stringify(arr));
 								checkingForSave = true;
 								setTimeout(function(e){
-									alert("Voucher Saved\nYou can view it under\nMy rewards > Saved Vouchers");
+									createWhoops("Voucher saved", "You can view it under\nMy rewards > Saved Vouchers");
 								},1000);
 								Ti.App.fireEvent("voucher:refresh");
 								Ti.App.fireEvent("myvoucher:refresh");
@@ -613,6 +613,15 @@ function addVoucher(){
 	setTimeout(function(){
 		$.scrollableView.scrollToView(position);  
 	},50);
+};
+
+function createWhoops(t,e){
+	var alert = Titanium.UI.createAlertDialog({
+		title: t,
+		message: e,
+		ok: "ok"
+	});
+	alert.show();
 };
 
 /*function afterScan(e){

@@ -181,14 +181,15 @@ function popDatePicker(e){
 	  zIndex: 50,
 	});
 	var view_container = $.UI.create("View", {classes:['wfill', 'hfill'], zIndex: 30,});
-	var img_mask = $.UI.create("ImageView", {classes:['wfill','hfill'], image: "/images/warm-grey-bg.png"});
-	var ok_button = $.UI.create("Button", {classes:['button'], left: 10, right:10, title: "Done"});
-	var cancel_button = $.UI.create("Button", {classes:['button'], left: 10, right:10, title: "Cancel"});
+	var mask = $.UI.create("View", {classes:['wfill','hfill'], backgroundColor: "#F6F6F6"});
+	var ok_button = $.UI.create("Button", {classes:['button', 'wsize'], right: 5, title: "Done"});
+	var cancel_button = $.UI.create("Button", {classes:['button', 'wsize'], left:5, title: "Cancel"});
 	var view_vert = $.UI.create("View", {classes:['wsize','hsize','vert']});
+	var button_horz = $.UI.create("View", {classes: ['wfill', 'hsize'], left: 50, right: 50, top: 10});
 	cancel_button.addEventListener("click", function(){ 
 		$.win.remove(view_container);
 	});
-	img_mask.addEventListener("click", function(){ 
+	mask.addEventListener("click", function(){ 
 		$.win.remove(view_container);
 	});
 	ok_button.addEventListener("click", function(){
@@ -204,10 +205,11 @@ function popDatePicker(e){
 		$.win.remove(view_container);
 	});
 	
-	view_container.add(img_mask);
+	view_container.add(mask);
 	view_vert.add(picker);
-	view_vert.add(ok_button);
-	view_vert.add(cancel_button);
+	button_horz.add(cancel_button);
+	button_horz.add(ok_button);
+	view_vert.add(button_horz);
 	view_container.add(view_vert);
 	
 	$.win.add(view_container);
