@@ -21,7 +21,8 @@ exports.definition = {
 		    "express_date": "TEXT",
 		    "tnc": "TEXT",
 		    "updated" : "TEXT",
-		    "category" : "INTEGER"
+		    "category" : "INTEGER",
+		    "img_thumb": "TEXT"
 		},
 		adapter: {
 			type: "sql",
@@ -212,7 +213,7 @@ exports.definition = {
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
-					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName("latitude"),
 					    sales_from: res.fieldByName("sales_from"),
@@ -418,8 +419,8 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc, sales_to, sales_from,featured_date,category) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.sales_to, entry.sales_from, entry.featured_date, entry.category);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (a_id, m_id, app_background,name,youtube,template_id,description,img_path,status,active_date,expired_date,created,updated, recommended, branch, express_date, tnc, sales_to, sales_from,featured_date,category,img_thumb) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.a_id, entry.m_id, entry.app_background,entry.name,entry.youtube,entry.template_id,entry.description,entry.img_path,entry.status,entry.activate,entry.expired,entry.created,entry.updated, entry.recommended, entry.branch, entry.express_date, entry.tnc, entry.sales_to, entry.sales_from, entry.featured_date, entry.category, entry.img_thumb);
 				});
 				db.execute("COMMIT");
 	            db.close();
