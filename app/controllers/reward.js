@@ -171,7 +171,6 @@ function render_point_list(){
 var api_loading = false;
 function navTo(e){
 	var row = e.row;
-	console.log(row.record);
 	loading.start();
 	if(row.record.id == 2){
 		if(!row.record.checked && !api_loading){
@@ -232,8 +231,8 @@ function navTo(e){
 
 function init(){
 	$.win.add(loading.getView());
-	refreshVlist();
-	refreshSVlist();
+	loading.start();
+	refreshVlist("refreshSVlist");
 	
 	if(args.savedvoucher != undefined) {
 		$.scrollview.scrollToView(1);
@@ -246,9 +245,8 @@ function Tab(e) {
 	$.scrollview.scrollToView(e.source.num);
 }
 
-function vouchers(e) {
+function vouchers(e, str) {
 	for(key in e) {
-		console.log(e[key]);
 		var parent = $.UI.create("View", {
 			classes: ['wfill', 'hsize', 'vert'],
 			top: 10
@@ -399,10 +397,16 @@ function vouchers(e) {
 	$.voucher_view.add(view_height);
 	view_height = null;	
 	boll = true;
+	
+	if(str == "efreshSVlist") {
+		refreshSVlist();
+	}
+	loading.finish();
 }
 
-function ins_voucher(e) {
+function ins_voucher(str) {
 	if(boll) {
+		loading.start();
 		boll = false;
 		$.ins_view.setBackgroundColor("#ED1C24");
 		$.ins_label.setColor("#fff");
@@ -420,12 +424,13 @@ function ins_voucher(e) {
 			arr[key].child.push(e);
 		});
 		$.voucher_view.removeAllChildren();
-		vouchers(arr);
+		vouchers(arr, str);
 	}
 }
 
 function gift_voucher(e) {
 	if(boll) {
+		loading.start();
 		boll = false;
 		$.gift_view.setBackgroundColor("#ED1C24");
 		$.gift_label.setColor("#fff");
@@ -452,9 +457,8 @@ function savedvoucher(e) {
 	$.expiredV.add($.UI.create("Label", {classes: ['wfill'], id: "T2", height: 180, textAlign: "center", text: "You have no expired vouchers at this moment."}));
 	
 	var ongoingVC = myvmodel.ongoingvoucher(true);
-	var expireVC = myvmodel.expirevoucher(true);
-	
 	list_voucher(ongoingVC, "ongoing");
+	var expireVC = myvmodel.expirevoucher(true);
 	list_voucher(expireVC, "expire");
 	
 	if($.ongoingV.children.length > 3) {
@@ -636,9 +640,10 @@ function list_voucher(e, name) {
 		$.voucher_view.add(view_height);
 		view_height = null;
 	}
-	
 	parent = null;
 	boll = true;
+	
+	loading.finish();
 }
 
 function toVoucher(e) {
@@ -679,7 +684,7 @@ function delvoucher(e) {
 	});
 }
 
-function refreshVlist(e) {
+function refreshVlist(str) {
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("12");
 	
@@ -694,7 +699,7 @@ function refreshVlist(e) {
 			var arr = res.data || null;
 			model.saveArray(arr);
 			checker.updateModule("12","getVoucherList",currentDateTime());
-			ins_voucher();
+			ins_voucher(str);
 			loading.finish();
 		},onerror: function(err) {
 			_.isString(err.message) && alert(err.message);
@@ -744,7 +749,6 @@ Ti.App.addEventListener('myvoucher:refresh', refreshSVlist);
 function c_percent(percent, relative) {
     var percentInt = percent.replace("%", "");
     var percentInt = parseInt(percentInt);
-    console.log(Math.round(percentInt * (relative / 100)));
     return (OS_ANDROID)?pixelToDp(Math.round(percentInt * (relative / 100))):Math.round(percentInt * (relative / 100));
 };
 

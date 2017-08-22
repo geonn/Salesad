@@ -14,34 +14,11 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var items;
 Alloy.Globals.naviPath.push($.win);
 var BARCODE = require('barcode');
-console.log("AT AD GEO : "+m_id+ "=="+a_id);
 //load model
 var m_library = Alloy.createCollection('merchants'); 
 var a_library = Alloy.createCollection('ads'); 
 var i_library = Alloy.createCollection('items');
 var loading = Alloy.createController("loading");
-
-var params = {
-		a_id:a_id,
-		type:2,
-		from:"ad",
-		u_id:u_id
-	} ;
-	 
-	API.callByPost({url:"addAdsClick",new:true,params:params},{
-		onload:function(res){
-			console.log("View ad "+JSON.stringify(res));
-		},onerror:function(err){
-			console.log("View ad error");
-	}});	
-
-function getAdData(){
-	ads = a_library.getAdsById(a_id);
-}
-
-function getItemData(){
-	items = i_library.getItemByAds(ads.a_id);
-}
 
 /** google analytics**/
 var lib_feeds = Alloy.createCollection('feeds');
@@ -49,64 +26,84 @@ if(isFeed == 1){
 	lib_feeds.updateUserFeeds(m_id,a_id);		
 }
 
+function init(){
+	$.win.add(loading.getView());
+	var params = {
+		a_id:a_id,
+		type:2,
+		from:"ad",
+		u_id:u_id
+	};
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
+	ads = a_library.getAdsById(a_id);
+	var merchant = m_library.getMerchantsById(ads.m_id);
+	m_id = (merchant.parent != 0 && merchant.parent != null)?merchant.parent:ads.m_id;
+	API.callByPost({url: "addAdsClick", new:true, params:{a_id: a_id}}, {onload: function(responseText){}});
+	getScanMerchant();
+	checkFavorite();
+	refresh();
+	pageTitle = ads.name;
+}
+init();
+
 function getScanMerchant(){
 	var expire = Ti.App.Properties.getString('sales'+args.target_m_id) || "";
-	console.log('sales'+args.target_m_id);
-	console.log(expire+" got or not");
 	if(expire != ""){
 		var currentDate = new Date();
-		if(OS_ANDROID){
-			
-		}
 		var dat = expire.split(" ");
 		var d = dat[0].split("-");
 		var t = dat[1].split(":");
-		console.log(d);
-		console.log(t);
 		var new_expire = (OS_ANDROID)? new Date(expire): new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
 		//var new_expire = new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
-		console.log(new_expire+" >= "+currentDate);
-		console.log(typeof new_expire);
 		if(expire != null && currentDate <= new_expire){
-			console.log("should be here!!!");
 			isScan = 1;
 		}else{
-			console.log("not here!!!");
 			isScan = 0;
 		}
 	}else{
 		isScan = 0;
 	}
-	console.log('sales'+args.target_m_id);
-	console.log(isScan+" why got value one");
 }
 
 function checkFavorite(){
 	var model_favorites = Alloy.createCollection('favorites');
-	console.log(m_id+" m_id");
 	var exist = model_favorites.checkFavoriteExist(m_id, u_id);
-	console.log("m_id : "+m_id);
 	var fav_img = (exist)?"/images/SalesAd_Favorited.png":"/images/SalesAd_Favorite.png";
 	$.favorites.image = fav_img;
 }
-function zoom(e){	
-	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
-	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
-	var close = Ti.UI.createLabel({width:Ti.UI.SIZE,height:Ti.UI.SIZE,right:"10",top:"10",color:"#fff",text:"Close"});
-	console.log("here"+JSON.stringify(e.source.image));
-	var image = (typeof e.source.image != "undefined" && typeof e.source.image.nativePath != "undefined")?e.source.image.nativePath: "/images/image_loader_640x640.png";
-	var imageView = TiTouchImageView.createView({
-		image:image,
-		maxZoom:5,
-		minZoom:1,
- 	}); 	
- 	container.add(imageView);
- 	container.add(close);
- 	close.addEventListener("click",function(){
-  		$.win.remove(container);
- 	}); 
- 	$.win.add(container);
+
+function refresh(e){
+	loading.start();	
+	API.callByPost({url: "getItemList", params:{a_id: a_id}}, {onload: function(responseText){
+		var model = Alloy.createCollection("items");
+		var res = JSON.parse(responseText);
+		var arr = res.data || null;
+		model.saveArray(arr);
+	}});
+	
+	var checker = Alloy.createCollection('updateChecker');
+	var isUpdate = checker.getCheckerById("12");
+	API.callByPost({
+		url: "getVoucherList",
+		new: true,
+		params: {last_updated: isUpdate.update}
+	},{
+		onload: function(responseText) {
+			var model = Alloy.createCollection("voucher");
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			model.saveArray(arr);
+			checker.updateModule("12","getVoucherList",currentDateTime());
+			items = i_library.getItemByAds(ads.a_id);
+			render_banner();
+			getAdDetails();
+			loading.finish();
+		},onerror: function(err) {
+			_.isString(err.message) && alert(err.message);
+		}
+	});
 }
+
 function render_banner(){
 	/***Set ads template***/
  	var ads_height = "100%";
@@ -116,10 +113,7 @@ function render_banner(){
  	if(ads.template_id == "2"){
  		ads_height = "66%";
  	}
- 	
  	/***Add ads banner***/
-
-	
 	var app_background = (ads.app_background !== undefined)?"#"+ads.app_background:"#fff";
 	$.win.backgroundColor = app_background;
 
@@ -180,28 +174,24 @@ function render_banner(){
 				Zv.height = 0;
 			});
 		});		
-	}
-	if(OS_ANDROID && ads.img_thumb != null){
-		$.RemoteImage.applyProperties({
-		 	autoload: true,
-		    backgroundColor: 'black',
-		    image:ads.img_thumb,
-		    default_img : "/images/image_loader_640x640.png"
-		});	
-		$.RemoteImage.addEventListener("click",zoom);				
-	}
-	else{
-		if (OS_ANDROID) {
-			console.log("default image");
+	}else {
+		if(ads.img_thumb != null) {
+			$.RemoteImage.applyProperties({
+			 	autoload: true,
+			    backgroundColor: 'black',
+			    image:ads.img_thumb,
+			    default_img : "/images/image_loader_640x640.png"
+			});
+			$.RemoteImage.addEventListener("click",zoom);
+		}else {
 			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
-		};
-	}	
+		}
+	}
 }
 
 var getAdDetails = function(){
 	var counter = 0;
 	var imagepath, adImage, row, cell = '';
-	  
 	var last = items.length-1;
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
 	if(OS_ANDROID){
@@ -209,14 +199,12 @@ var getAdDetails = function(){
 	}else{
 		var cell_width = Math.floor(pwidth / 2) - 2;
 	}
-	console.log(items.length+" how many items");
 	if(items.length > 0 ){
 		for (var i=0; i< items.length; i++) {
 			if(counter%2 == 0){
 				row = $.UI.create('View', {classes: ["rowAd"],});
 			}
 			cell = $.UI.create('View', {classes: ["cellAd"], width: cell_width});
-			
 			imagepath = items[i].img_path;
 			
 			var itemImageView = Ti.UI.createView({
@@ -233,11 +221,8 @@ var getAdDetails = function(){
 				height: "auto",
 			});
 			itemImageView.add(adImage);
-			
-			//itemImageView.add(BARCODE.generateBarcode("686068606860")); 
-			
+			//itemImageView.add(BARCODE.generateBarcode("686068606860"));
 			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].i_id,items[i].description, items[i].isExclusive);
-			
 			cell.add(itemImageView);
 			if(items[i].isExclusive == 1){
 				cell.add(exclusive_icon);
@@ -305,30 +290,42 @@ var getAdDetails = function(){
 	loading.finish();
 };
 
-function addAdsClick(){
-	API.callByPost({url: "addAdsClick", new:true, params:{a_id: a_id}}, {onload: function(responseText){
-		console.log(responseText);
-	}});
+function getScanMerchant(){
+	var expire = Ti.App.Properties.getString('sales'+args.target_m_id) || "";
+	if(expire != ""){
+		var currentDate = new Date();
+		var dat = expire.split(" ");
+		var d = dat[0].split("-");
+		var t = dat[1].split(":");
+		var new_expire = (OS_ANDROID)? new Date(expire): new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
+		//var new_expire = new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
+		if(expire != null && currentDate <= new_expire){
+			isScan = 1;
+		}else{
+			isScan = 0;
+		}
+	}else{
+		isScan = 0;
+	}
 }
 
-function init(){
-	$.win.add(loading.getView());
-	getAdData();
-	var merchant = m_library.getMerchantsById(ads.m_id);
-	addAdsClick();
-	console.log("check here ad");
-	console.log(merchant.parent);
-	console.log(ads.m_id);
-	m_id = (merchant.parent != 0 && merchant.parent != null)?merchant.parent:ads.m_id;
-	console.log(m_id+" here mid");
-	getScanMerchant();
-	checkFavorite();
-	refresh();
-	pageTitle = ads.name;	// set Page Title
-	
+function zoom(e){	
+	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
+	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
+	var close = Ti.UI.createLabel({width:Ti.UI.SIZE,height:Ti.UI.SIZE,right:"10",top:"10",color:"#fff",text:"Close"});
+	var image = (typeof e.source.image != "undefined" && typeof e.source.image.nativePath != "undefined")?e.source.image.nativePath: "/images/image_loader_640x640.png";
+	var imageView = TiTouchImageView.createView({
+		image:image,
+		maxZoom:5,
+		minZoom:1,
+ 	}); 	
+ 	container.add(imageView);
+ 	container.add(close);
+ 	close.addEventListener("click",function(){
+  		$.win.remove(container);
+ 	}); 
+ 	$.win.add(container);
 }
-
-init();
 
 //dynamic addEventListener for adImage
 function createAdImageEvent(adImage,a_id,position, title, i_id,description, isExclusive) {
@@ -354,11 +351,8 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
     });
 }
 
- 
 $.location.addEventListener('click', function(e){ 
 	if(Ti.Geolocation.locationServicesEnabled){
-		console.log("Here is locaiton eventlistener");
-		console.log(args.target_m_id+" "+m_id+" "+a_id);		
 		COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());
 	}
 	else{
@@ -386,7 +380,6 @@ $.favorites.addEventListener("click", function(){
 	}else{
 		var model_favorites = Alloy.createCollection('favorites');
 		var exist = model_favorites.checkFavoriteExist(m_id, u_id);
-	 	console.log(exist+" exist");
 		if(exist){
 			var message = "Are you sure want to remove from favorite";
 			var dialog = Ti.UI.createAlertDialog({
@@ -451,47 +444,12 @@ $.favorites.addEventListener("click", function(){
 	}
 });
 
-function refresh(e){
-	loading.start();	
-	API.callByPost({url: "getItemList", params:{a_id: a_id}}, {onload: function(responseText){
-		var model = Alloy.createCollection("items");
-		var res = JSON.parse(responseText);
-		var arr = res.data || null;
-		model.saveArray(arr);
-	}});
-	
-	var checker = Alloy.createCollection('updateChecker');
-	var isUpdate = checker.getCheckerById("12");
-	API.callByPost({
-		url: "getVoucherList",
-		new: true,
-		params: {last_updated: isUpdate.update}
-	},{
-		onload: function(responseText) {
-			var model = Alloy.createCollection("voucher");
-			var res = JSON.parse(responseText);
-			var arr = res.data || null;
-			model.saveArray(arr);
-			checker.updateModule("12","getVoucherList",currentDateTime());
-			getItemData();
-			render_banner();
-			getAdDetails();
-			loading.finish();
-		},onerror: function(err) {
-			_.isString(err.message) && alert(err.message);
-		}
-	});
-}
-
 function afterScan(e){
-	console.log(e.m_id+"!="+ m_id);
 	if(e.m_id != m_id){
-		console.log(e.m_id+"!="+ m_id);
 		var win = Alloy.createController("branch_ad", {m_id: e.m_id}).getView(); 
 		COMMON.openWindow(win);
 		Ti.App.removeEventListener('afterScan', afterScan);
 	}else{
-		console.log('should be here');
 		getScanMerchant();
 	}
 }
@@ -604,14 +562,12 @@ $.win.addEventListener("close", function(){
     Ti.App.fireEvent('ads:close');
 });
 
-
 Ti.App.addEventListener('app:loadAdsDetails', refresh);
 Ti.App.addEventListener('afterScan', afterScan);	
 
 /*** GEO experiment***/  
 if (Titanium.Platform.name == 'iPhone OS'){
 	//iOS only module
-	
 	var Social = require('dk.napp.social'); 
     
     // find all Twitter accounts on this phone
@@ -627,7 +583,6 @@ if (Titanium.Platform.name == 'iPhone OS'){
     } 
      
     $.share.addEventListener("click", function(e){
-    	 
 		if(Social.isActivityViewSupported()){ //min iOS6 required
 	    	Social.activityView({
 	        	//title: ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4",
@@ -689,9 +644,6 @@ if (Titanium.Platform.name == 'iPhone OS'){
 
 $.home.addEventListener("click", function(e){
 	var naviPath = Alloy.Globals.naviPath;
-	console.log("naviPath here");
-	console.log(naviPath.length);
-	console.log(typeof naviPath+"naviPath here");
 	if(naviPath == ""){		
 		closeWindow();
 	}else{		
@@ -710,7 +662,6 @@ function pixelToDp(px) {
 }    
 
 function createShareOptions(){
- 
     var subject = pageTitle;
     var text = ads.name + ". For more detail : http://salesad.my/main/adsDetails/"+args.a_id;
    	// var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";

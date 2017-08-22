@@ -162,8 +162,8 @@ exports.definition = {
 	            }
 	            var d = COMMON.todayDateTime();
 	            d = d.split(" ")[0];
-				var sql = "select * from ads where (','||featured_date||',') LIKE '%,"+d+",%' AND ( expired_date >= date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND status = 1 ORDER BY updated DESC";
-				console.log(sql);
+				var sql = "select * from ads where (','||featured_date||',') LIKE '%,"+d+",%' AND ( expired_date >= date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND sales_from <= date('now') AND sales_to > date('now') AND status = 1 ORDER BY updated DESC";
+				
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
