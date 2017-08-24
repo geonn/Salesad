@@ -192,11 +192,11 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;				
 			},
-			getInstant: function(unlimit){
-				var sql_limit = (unlimit)?"":"limit 0,6";
+			getInstant: function(unlimit, offset){
+				var sql_limit = (unlimit) ? "" : "limit " + offset + ", 8";
 				var collection = this;
 				//"SELECT * FROM voucher WHERE status = 1 AND point = 0 AND date('now') <= save_to"
-				var sql = "SELECT voucher.*, ads.name FROM voucher LEFT OUTER JOIN ads on voucher.a_id = ads.a_id WHERE voucher.status = 1 AND voucher.point = 0 AND date('now') <= voucher.save_to AND date('now') >= voucher.save_from AND ads.status = 1 order by updated, voucher.position;";
+				var sql = "SELECT voucher.*, ads.name, ads.a_id FROM voucher LEFT OUTER JOIN ads on voucher.a_id = ads.a_id WHERE voucher.status = 1 AND voucher.point = 0 AND date('now') <= voucher.save_to AND date('now') >= voucher.save_from AND ads.status = 1 order by updated, voucher.position " + sql_limit;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -209,6 +209,7 @@ exports.definition = {
                 	arr[count] = {
                 		v_id: res.fieldByName('v_id'),
 					    m_id: res.fieldByName('m_id'),
+					    a_id: res.fieldByName('a_id'),
 					    item_id: res.fieldByName('item_id'),
 					    total: res.fieldByName('total'),
 					    discount: res.fieldByName('discount'),
@@ -241,10 +242,10 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
-			getGift: function(unlimit){
-				var sql_limit = (unlimit)?"":"limit 0,6";
+			getGift: function(unlimit, offset) {
+				var sql_limit = (unlimit) ? "" : "limit " + offset + ", 8";
 				var collection = this;
-				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1 AND point != 0 AND date('now') <= save_to AND date('now') >= save_from order by position;";
+				var sql = "select * from "+collection.config.adapter.collection_name+" where status = 1 AND point != 0 AND date('now') <= save_to AND date('now') >= save_from order by position " + sql_limit;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);

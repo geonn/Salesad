@@ -51,7 +51,6 @@ exports.definition = {
 			getExclusiveByAid: function(a_id){
 				var collection = this;
 				var sql = "SELECT count(*) as total FROM " + collection.config.adapter.collection_name + " WHERE isExclusive = 1 AND a_id='"+ a_id+ "' group by a_id";
-              // console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -88,7 +87,6 @@ exports.definition = {
 			getItemByAds : function(a_id){
 				var collection = this;
 				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "' AND status = 1 order by position " ;
-              // console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -98,7 +96,6 @@ exports.definition = {
                 var count = 0;
                 while (res.isValidRow()){
                  	var caption = res.fieldByName('caption');
-                 	//console.log(caption);
                  	if(caption != "" && caption != null){
                  		caption = caption.replace(/&quot;/g,"'");
                  	} 

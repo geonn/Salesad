@@ -23,7 +23,6 @@ function unfavourite(e){
 }
 
 function nav_to_merchant(e){
-	console.log('a');
 	var m_id = parent({name: "m_id"}, e.source);
 	var win = Alloy.createController("branch_or_ad", {m_id: m_id, from : "favourite"}).getView(); 
 	COMMON.openWindow(win); 
@@ -48,8 +47,6 @@ function render_favourite_merchant(){
 	}
 	
 	for (var i=0; i < data.length; i++) {
-		console.log(data[i].img_path+"here images!");
-		console.log("m_id: "+data[i].m_id);
 		var container = $.UI.create("View", {
 			classes:['hsize'],
 			 master:1, 
@@ -88,7 +85,6 @@ function render_favourite_merchant(){
 			classes: ['wfill', 'hsize'],
 			touchEnabled: false,
 		});
-		console.log(data[i].img_path);
 		var image_thumb = $.UI.create("ImageView",{
 			width: cell_width,
 			classes: ['hsize'],

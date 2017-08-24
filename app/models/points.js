@@ -57,12 +57,10 @@ exports.definition = {
 	            var sql_u_id = (typeof e.u_id != "undefined")?" AND u_id = "+e.u_id:"";
 	            var sql_daily = (typeof e.daily != "undefined")?" AND created >= datetime('now', '-24 hours')":"";
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE 1=1 "+sql_u_id+sql_daily;
-                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-                console.log(sql);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -90,7 +88,6 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-               // console.log(sql);
                 var res = db.execute(sql, id);
                 var arr; 
                 var count = 0;
@@ -140,7 +137,6 @@ exports.definition = {
 	                	if (entry.hasOwnProperty(k)){
 	                		_.find(names, function(name){
 	                			if(name == k){
-	                				console.log(name+" "+k);
 	                				keys.push(k);
 			                		questionmark.push("?");
 			                		eval_values.push("entry."+k);
@@ -155,7 +151,6 @@ exports.definition = {
 	                eval("db.execute(sql_query, "+eval_values.join()+")");
 				});
 				db.execute("COMMIT");
-				//console.log(db.getRowsAffected()+" affected row");
 	            db.close();
 	            collection.trigger('sync');
 			},

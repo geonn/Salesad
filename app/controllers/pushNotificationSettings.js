@@ -18,14 +18,11 @@ if(Ti.Platform.osname == "android"){
 //load user settings
 var isNotification = Ti.App.Properties.getString('notification');
 var isNotificationFeatured = Ti.App.Properties.getString('notification_featured');
-console.log(isNotificationFeatured+" notification_featured");
 if(isNotification != "1"){
-	console.log($.notiSwitch);
 	$.notiSwitch.value = false;
 }
 
 if(isNotificationFeatured != "1"){
-	console.log("isNotificationFeatured off");
 	$.notiSwitch_featured.value = false;
 }
 
@@ -43,10 +40,8 @@ var changeStatus = function(e){
 		    title: 'Push Notification'
 		  });
 		  dialog.addEventListener('click', function(ex){
-		  	console.log(ex.index+" index here!");
 		    if (ex.index == 1){
 		    	e.source.value = false;
-		    	console.log(e.source.notification_title+" 0");
 		    	Ti.App.Properties.setString(e.source.notification_title,"0");
 		    	if(e.source.notification_title == "notification_featued"){
 					unsubcribe_feature();
@@ -63,7 +58,6 @@ var changeStatus = function(e){
 	if(e.source.notification_title == "notification_featued"){
 		subcribe_feature();
 	}
-	console.log(e.source.notification_title+" what value");
 	//update push notification to server
 	Ti.App.Properties.setString(e.source.notification_title, "1");
 	API.callByPost({
@@ -73,7 +67,6 @@ var changeStatus = function(e){
 	}, 
 	{
 		onload: function(responseText){
-			console.log(responseText);
 		},
 		onerror: function(err){
 			_.isString(err.message) && alert(err.message);
@@ -92,9 +85,7 @@ function unsubcribe_feature(){
         type: Ti.Platform.name == 'android' ? 'android' : 'ios'
     }, function (e) {
         if (e.success) {
-            console.log('Subscribed');
         } else {
-            console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
         }
     });*/
 }
@@ -106,9 +97,7 @@ function subcribe_feature(){
         type: Ti.Platform.name == 'android' ? 'android' : 'ios'
     }, function (e) {
         if (e.success) {
-            console.log('Subscribed');
         } else {
-            console.log('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
         }
     });*/
 }

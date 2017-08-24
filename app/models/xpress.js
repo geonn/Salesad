@@ -74,24 +74,20 @@ exports.definition = {
 					var sql_lastupdate = " AND created <= '"+e.anchor+"'";
 				}
 				var sql_uid = "";
-				console.log(e);
 				if(typeof e.u_id != "undefined"){
 					sql_uid = " AND u_id = "+e.u_id;
 				}
 				var now=new Date();
 				var temp = now.getTime() - 1000*60*60*24*30; // Offset by one day;
-				console.log(temp);
 				now.setTime(temp);
 				var lastMonth = COMMON.todayDateTime(now);
 	            var sql_keyword = (typeof e.keyword != "undefined" && e.keyword != "")?" AND description like '%"+e.keyword+"%'":"";
 	            var sql_category = (typeof e.category_id != "undefined")?" AND category = '"+e.category_id+"'":"";
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND sales_from >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC ";
-                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-                console.log(sql);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -107,13 +103,8 @@ exports.definition = {
                 }
 				res.close();
                 db.close();
-                console.log("here");
-               	console.log(arr.length);
-				console.log("here");
                 collection.trigger('sync');
                 var valuenum=arr.length;
-                console.log(valuenum);
-                console.log("end here");
                 return valuenum;
            
 			},
@@ -134,24 +125,20 @@ exports.definition = {
 					var sql_lastupdate = " AND created <= '"+e.anchor+"'";
 				}
 				var sql_uid = "";
-				console.log(e);
 				if(typeof e.u_id != "undefined"){
 					sql_uid = " AND u_id = "+e.u_id;
 				}
 				var now=new Date();
 				var temp = now.getTime() - 1000*60*60*24*30; // Offset by one day;
-				console.log(temp);
 				now.setTime(temp);
 				var lastMonth = COMMON.todayDateTime(now);
 	            var sql_keyword = (typeof e.keyword != "undefined" && e.keyword != "")?" AND description like '%"+e.keyword+"%'":"";
 	            var sql_category = (typeof e.category_id != "undefined")?" AND category = '"+e.category_id+"'":"";
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND sales_from >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC "+start_limit;
-                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-                console.log(sql);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -179,17 +166,14 @@ exports.definition = {
 	                names.push(k);
 	            }
 	            var sql_uid = "";
-				console.log(e);
 				if(typeof e.u_id != "undefined"){
 					sql_uid = " AND u_id = "+e.u_id;
 				}
 				var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" order by `updated` DESC ";
-                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-                console.log(sql);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -217,7 +201,6 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-               // console.log(sql);
                 var res = db.execute(sql, id);
                 var arr; 
                 var count = 0;
@@ -267,7 +250,6 @@ exports.definition = {
 	                	if (entry.hasOwnProperty(k)){
 	                		_.find(names, function(name){
 	                			if(name == k){
-	                				console.log(name+" "+k);
 	                				keys.push(k);
 			                		questionmark.push("?");
 			                		eval_values.push("entry."+k);
@@ -282,7 +264,6 @@ exports.definition = {
 	                eval("db.execute(sql_query, "+eval_values.join()+")");
 				});
 				db.execute("COMMIT");
-				//console.log(db.getRowsAffected()+" affected row");
 	            db.close();
 	            collection.trigger('sync');
 			},

@@ -72,7 +72,6 @@ function doLogin() {
 	         if(res.status == "success"){
 	         	//var member = Alloy.createCollection('member'); 
 				//member.updateUserSession(res.data.u_id, res.data.username, res.data.fullname, res.data.email, res.data.session);
-	         	console.log(res.data);
 	         	/** User session**/
 	         	Ti.App.Properties.setString('u_id', res.data.u_id);
 	         	Ti.App.Properties.setString('firstname', res.data.firstname);

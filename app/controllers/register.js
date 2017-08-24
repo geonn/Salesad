@@ -31,8 +31,6 @@ var goSignUp = function(){
 	var salesman_code 		     = $.salesman_code.value;
 	var password 		 = $.password.value;
 	var password2 		 = $.confirm_password.value;
-	console.log(gender+" $.gender.record.id");
-	console.log(state+"why empty");
 	var callapi = false;
 	if(email == ""){
 		alert("Email cannot be empty");
@@ -100,19 +98,7 @@ var goSignUp = function(){
 	else if(isSubmit == 1){
 		return;
 	}
-    isSubmit = 1;		
-	console.log({
-			firstname: firstname,
-			lastname: lastname,
-			dob: dob,
-			state: state,
-			mobile: mobile,
-			salesman_code: salesman_code,
-			gender: gender,
-			email: email,
-			password: password,
-			password2: password2
-		});
+    isSubmit = 1;
 	if(callapi){
 		API.callByPost({
 			url: "registerUser",
@@ -135,7 +121,6 @@ var goSignUp = function(){
 				var res = JSON.parse(responseText);
 				var arr = res.data || null;
 				if(res.status == "success"){
-		         	console.log(res.data);
 		         	//save session
 		         	Ti.App.Properties.setString('u_id', res.data.u_id);
 		         	Ti.App.Properties.setString('firstname', res.data.firstname);
@@ -177,7 +162,6 @@ var goSignUp = function(){
 	     	$.activityIndicator.hide();
 	     	$.loadingBar.opacity = "0";
 	         var res = JSON.parse(this.responseText);
-	         console.log(res);
 	         if(res.status == "success"){
 	         	 
 	         	//save session
@@ -245,7 +229,6 @@ function popDatePicker(e){
 		var dd = picker.value.getDate();
 		var mm = picker.value.getMonth()+1; 
 		var yyyy = picker.value.getFullYear();
-		console.log(yyyy+'-'+mm+'-'+dd);
 		source.value = yyyy+'-'+mm+'-'+dd;
 		source.date = picker.value;
 		source.children[0].text = yyyy+'-'+mm+'-'+dd;
@@ -277,8 +260,6 @@ function popStateDialogOption(e){
 	dialog.addEventListener("click", function(ex){   
 		if(ex.index != options.length - 1){
 			source.value = picker_list[ex.index].name;
-			console.log(source	);
-			console.log(source.value);
 			source.children[0].text = picker_list[ex.index].name;
 			source.children[0].color = "#404041";
 		}

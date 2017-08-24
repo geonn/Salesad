@@ -90,7 +90,6 @@ exports.definition = {
 			},
 			getBranchesByMerchant : function(u_id,showAll){
 				var collection = this;
-				//console.log("model showAll :"+showAll);
 				if(showAll != "false"){
 					var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE parent='"+ u_id+ "'" ; 
 				}else{
@@ -132,8 +131,7 @@ exports.definition = {
 			getBranchesById : function(id){
 				var collection = this;
 				
-				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id in ("+id+")" ; 
-				console.log(sql);
+				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id in ("+id+")" ;
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -178,7 +176,6 @@ exports.definition = {
                 var res = db.execute(sql);
                 
                 name = name.replace(/'/g, "&quot;");
-               // console.log(m_id+"-"+mysql_real_escape_string(name));
                 if (res.isValidRow()){
              		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET u_id='"+u_id+"', parent='"+parent+"', merchant_name='"+name+"', mobile='"+mobile+"', area='"+area+"', state_key='"+state_key+"', state_name='"+state_name+"', status='"+ status+"', img_path='"+ img_path+"', longitude='"+longitude+"', latitude='"+latitude+"' WHERE m_id='" +m_id+"'";
                 }else{

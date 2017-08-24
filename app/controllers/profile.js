@@ -298,18 +298,14 @@ function popCamera(e){
 	    if(e.index === 0) { //if first option was selected
 	        //then we are getting image from camera
 	        if(Ti.Media.hasCameraPermissions()){
-		        console.log("Permission");
 		        Titanium.Media.showCamera({ 
-		            success:function(event) { 
-		            	console.log("success");
+		            success:function(event) {
 		               image_preview(event);
 		            },
 		            cancel:function(){
 		                //do somehting if user cancels operation
-		                console.log("cancel");
 		            },
 		            error:function(error) {
-		            	console.log("error");
 		                //error happend, create alert
 		                var a = Titanium.UI.createAlertDialog({title:'Camera'});
 		                //set message
@@ -335,10 +331,8 @@ function popCamera(e){
 				            },
 				            cancel:function(){
 				                //do somehting if user cancels operation
-				                console.log("cancel");
 				            },
 				            error:function(error) {
-				            	console.log("error");
 				                //error happend, create alert
 				                var a = Titanium.UI.createAlertDialog({title:'Camera'});
 				                //set message
@@ -416,7 +410,6 @@ function image_preview(event){
 			writeFile.deleteFile();
 		}
 		writeFile.write(image);
-		console.log(writeFile.nativePath);
 		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
 		COMMON.openWindow(win);	    	
 	}

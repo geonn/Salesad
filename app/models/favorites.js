@@ -85,7 +85,6 @@ exports.definition = {
 			checkFavoriteExist : function(m_id, u_id){
 				var collection = this;
                 var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE u_id=? AND m_id='"+m_id+"'" ;
-                console.log(sql+" "+u_id);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);

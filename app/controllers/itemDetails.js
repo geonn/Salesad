@@ -5,6 +5,7 @@ var i_id = args.i_id || "";
 var position = args.position || 0;
 var isScan = args.isScan;
 var m_id = args.m_id;
+var pagecount = -1;
 //$.win.title= args.title;
 var BARCODE = require('barcode');
 var showBarcode = 1;
@@ -25,36 +26,490 @@ var i_library = Alloy.createCollection('items');
 var voucher = Alloy.createCollection('voucher');
 var items  = i_library.getItemByAds(a_id);
 
+var getI_id = [];
+var allparams = [];
 
-		var params = {
+function init() {
+	var params = {
 		item_id:i_id,
 		type:3,
 		from:"itemDetails",
 		u_id:u_id
-	} ;
-	API.callByPost({url:"addAdsClick",new:true,params:params},{
-		onload:function(res){
-			console.log("Item View ad "+JSON.stringify(res));
-		},onerror:function(err){
-			console.log("Item View ad error");
-	}});
+	};
+	addAdsClick("init", params);
+	params = null;
+	$.win.open();
+}
 
-function set_title_button(){
+function addAdsClick(name, params) {
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
+	if(name == 'init') {
+		getAdsImages();
+	}
+}
+
+var getAdsImages = function() {
+	var counter = 0;
+	var imagepath;
+	var row;
+	var my_page = 0;
+	var selectedView;
+	var the_view = [];
+	var v_view;
+	
+	for (var i=0; i< items.length; i++) {
+		getI_id.push(items[i].i_id);
+		var itemImageView = $.UI.create("View", {classes:['wfill','hsize','vert']});
+		var adImage = $.UI.create('imageView',{
+			classes:['wfill','hsize'],
+			image: items[i].img_path,
+			enableZoomControls: true,
+			top: 0,
+			defaultImage: "/images/image_loader_640x640.png",
+		});
+		var label_description = $.UI.create("Label",{
+			classes:['wfill','hsize','h5','padding'],
+			text: items[i].description
+		});
+		
+		var scrollView = Ti.UI.createScrollView({
+			contentWidth: Ti.UI.FILL,
+		  	contentHeight: Ti.UI.SIZE,
+		   	maxZoomScale: 30,
+		    minZoomScale: 1,
+		    zoomScale: 1,
+		    scrollType: "vertical",
+			height: Ti.UI.FILL,
+			width: Ti.UI.FILL
+		});
+		
+		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert'],backgroundColor:"#e8e8e8"});
+		itemImageView.add(adImage); 
+		itemImageView.add(label_description);
+		if(items[i].isExclusive == 1){
+			v_view = addVoucher(items[i]);
+			row.add(v_view);
+		}else{
+			row.add(itemImageView);
+		}
+		if(position == counter){
+			selectedView = row;
+		}
+		scrollView.add(row);
+		the_view.push(scrollView); 
+		
+		counter++;
+		
+		itemImageView = null;
+		adImage = null;
+		label_description = null;
+		scrollView = null;
+	}  
+	
+	$.scrollableView.setViews(the_view); 
+	setTimeout(function(){
+		$.scrollableView.scrollToView(position);  
+	},50);
+	
+	counter = null;
+	imagepath = null;
+	row = null;
+	my_page = null;
+	selectedView = null;
+	the_view = null;
+	
+	set_title_button();
+};
+
+function addVoucher(e) {
+	var voucher_item = voucher.getDataByI_id(e.i_id);
+	var vvv;
+	var vv;
+	
+	var v_view = $.UI.create('View',{
+		classes:['wfill','hsize','vert','padding5'],
+		borderWidth:'5',
+		borderColor:'#66787878',
+		backgroundColor:'#fff',
+		bottom:"100"
+	});
+	var v_image = $.UI.create('imageView',{
+		classes:['wfill','hsize'],
+		image: e.img_path,
+		defaultImage: "/images/image_loader_640x640.png",
+	});
+	var v_title = $.UI.create('Label',{
+		classes:['wfill','hsize','padding','bold','vTitle'],
+		bottom:'5',
+		text:voucher_item.title,
+		left:'25'
+	});
+	var ssaved = $.UI.create("View",{
+		width: "33%",
+		classes:["hsize","vert"],
+		left: 0,
+		zIndex: 1,
+	});
+	var saved_title = $.UI.create("Label",{
+		text: "Saved",
+		classes:["wsize","hsize","h5"],
+		top: 5,
+		color: "#a6a6a6"
+	});
+	var saved_data = $.UI.create("Label",{
+		text: (voucher_item.quantity==null)?"0":voucher_item.quantity,
+		classes:["wsize","hsize","h3","bold"]
+	});
+	var leftt = $.UI.create("View",{
+		classes:["wfill","hsize","vert"],
+		top: 0
+	});
+	var left_title = $.UI.create("Label",{
+		text: "Left",
+		classes:["wsize","hsize","h5"],
+		top: 5,
+		color: "#a6a6a6"
+	});
+	var left_data = $.UI.create("Label",{
+		text: (voucher_item.left==-1)?"While Stock\nLast":voucher_item.left,
+		textAlign: "center",
+		classes: (voucher_item.left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
+	});
+	var ends = $.UI.create("View",{
+		width: "33%",
+		classes:["hsize","vert"],
+		right: 0,
+		zIndex: 1,
+	});
+	var ends_title = $.UI.create("Label",{
+		text: "Ends in",
+		classes:["wsize","hsize","h5"],
+		top: 5,
+		color: "#a6a6a6"
+	});
+	var ends_data = $.UI.create("Label",{
+		text: getNowDate(voucher_item.save_to),
+		classes:["wsize","hsize","h3","bold"]
+	});
+	var info = $.UI.create("View",{
+		classes:["wfill","hsize"]
+	});
+	if (voucher_item.quantity==null || voucher_item.quantity==0 || voucher_item.quantity==1) {
+		vv = "Voucher";
+	}else{
+		vv = "Vouchers";
+	};
+	var space1 = $.UI.create("Label",{
+		text: vv,
+		classes:["wsize","hsize","h5"],
+		color: "#a6a6a6"
+	});
+	var space2 = $.UI.create("Label",{
+		text: (getNowDate(voucher_item.save_to)==1?"Day":"Days"),
+		classes:["wsize","hsize","h5"],
+		color: "#a6a6a6"
+	});
+	if (voucher_item.left==0 || voucher_item.left==1) {
+		vvv = "Voucher";
+	}else{
+		vvv = "Vouchers";
+	};
+	var space4 = $.UI.create("Label",{
+		text: vvv,
+		classes:["wsize","hsize","h5"],
+		color: "#a6a6a6"
+	});
+	var desc = $.UI.create('Label',{
+		classes:['wsize','hsize','h5','padding'],
+		top:'10',
+		left:'25',
+		text:voucher_item.description
+	});
+	var view5 = $.UI.create('View',{
+		classes:['wfill','hsize','horz'],
+		backgroundColor:'#fff',
+		top: '10'
+	});
+	var valid = $.UI.create('Label',{
+		classes:['wsize','hsize','h5','padding'],
+		right:'5',
+		top:'0',
+		text:'Valid from',
+		left:'25'
+	});
+	var dateUseFrom = convertToHumanFormat(voucher_item.use_from);  // parse date format
+	var dateUseTo = convertToHumanFormat(voucher_item.use_to);
+	var valid1 = $.UI.create('Label',{
+		classes:['wsize','hsize','h5','bold'],
+		top:'0',
+		text:dateUseFrom
+	});
+	var valid2 = $.UI.create('Label',{
+		classes:['wsize','hsize','h5','padding'],
+		top:'0',
+		left:'5',
+		right:'5',
+		text:'to',
+	});
+	var valid3 = $.UI.create('Label',{
+		classes:['wsize','hsize','h5','bold'],
+		top:'0',
+		text:dateUseTo
+	});
+	var hr1 = $.UI.create('View',{
+		classes:['hr1'],
+		top:'5'
+	});
+	var hr2 = $.UI.create('View',{
+		classes:['hr1']
+	});
+	var hr3 = $.UI.create('View',{
+		classes:['hr1']
+	});
+	var hr4 = $.UI.create('View',{
+		classes:['hr1']
+	});
+	var hr5 = $.UI.create('View',{
+		classes:['hr1']
+	});
+	var view6 = $.UI.create('View',{
+		backgroundColor:'#fff',
+		classes:['wfill','hsize','vert']
+	});
+	var htr = $.UI.create('View',{
+		classes:['wfill','hsize','horz'],
+		click: true,
+		name: "htr",
+		redeem: voucher_item.redeem
+	});
+	var label_htr = $.UI.create('Label',{
+		classes:['wsize','hsize','h5','padding'],
+		text:'How to Redeem',
+		left:'25'
+	});
+	var image_htr = $.UI.create('imageView',{
+		width:'15',
+		height:'15',
+		id:'htr_image',
+		image:"/images/Icon_Down.png",
+		name:"image_htr"
+	});
+	var htr_data = $.UI.create('view',{
+		classes:['wfill','hsize','vert'],
+		id:'htr'
+	});
+	var view7 = $.UI.create('View',{     //tc_extend add event!!!
+		backgroundColor:'#fff',
+		classes:['wfill','vert','hsize']
+	});
+	
+	var tc = $.UI.create('View',{
+		classes:['wfill','hsize','horz'],
+		name: "tc",
+		click: true
+	});
+	var label_tc = $.UI.create('Label',{
+		classes:['wsize','hsize','h5','padding'],
+		text:'Terms & Conditions',
+		left:'25'
+	});
+	var image_tc = $.UI.create('imageView',{
+		width:'15',
+		height:'15',
+		id:'tc_image',
+		image:"/images/Icon_Down.png"
+	});
+	var tc_data = $.UI.create('view',{
+		classes:['wfill'],
+		height:"65",
+	});
+	var hoverg = $.UI.create("View",{classes:['myView','wfill'],height:"40",zIndex:"10",bottom:"0",name:"hoverg"});	
+	var title1 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:voucher_item.redeem,top:"0",left:"25"});		
+	var title2 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:voucher_item.tnc,top:"0",left:"25",name:"title2"});
+	var readmoreview = $.UI.create("View",{classes:['vert','wfill','hsize']});
+	var readmore = $.UI.create("Label",{classes:['wfill','hsize','padding'],top:"0",text:"Read More",left:25,name:"readmore"});
+	readmoreview.add(readmore);
+	htr.add(label_htr);
+	htr.add(image_htr);
+	view6.add(htr);
+	view6.add(htr_data);
+	tc.add(label_tc);
+	tc.add(image_tc);
+	view7.add(tc);
+	tc_data.add(hoverg);
+	tc_data.add(title2);
+	view7.add(tc_data);
+	view7.add(readmoreview);
+	view5.add(valid);
+	view5.add(valid1);
+	view5.add(valid2);
+	view5.add(valid3);
+	ssaved.add(saved_title);	
+	ssaved.add(saved_data);
+	ssaved.add(space1);
+	leftt.add(left_title);
+	leftt.add(left_data);
+	if (voucher_item.left!=-1) {
+		leftt.add(space4);
+	}
+	ends.add(ends_title);
+	ends.add(ends_data);
+	ends.add(space2);
+	info.add(ssaved);
+	info.add(leftt);
+	info.add(ends);
+	v_view.add(v_image);
+	v_view.add(v_title);
+	v_view.add(hr5);
+	v_view.add(info);
+	v_view.add(hr1);
+	v_view.add(view5);
+	v_view.add(hr2);
+	v_view.add(desc);
+	v_view.add(hr3);
+	v_view.add(view6);
+	v_view.add(hr4);
+	v_view.add(view7);
+	
+	view6.addEventListener("click",function(e) {
+		var htr_cr = "";
+		if(e.source.name == "image_htr") {
+			htr_cr = e.source.parent.parent.getChildren();
+		}else if(e.source.name == "htr") {
+			htr_cr = e.source.parent.getChildren();
+		}
+		
+		if(htr_cr != "") {
+			if(htr_cr[0].click){
+				var title1 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:htr_cr[0].redeem,top:"0",left:"25"});
+				htr_cr[1].add(title1);
+				htr_cr[0].getChildren()[1].image = "/images/Icon_Up.png";
+				htr_cr[0].click = false;
+				title1 = null;
+			}else {
+				htr_cr[1].removeAllChildren();
+				htr_cr[0].getChildren()[1].image = "/images/Icon_Down.png";
+				htr_cr[0].click = true;
+			}
+		}
+		htr_cr = null;
+	});
+	
+	view7.addEventListener("click",function(e){
+		var view7_cr = "";
+		if(e.source.name == "image_tc" || e.source.name == "hoverg" || e.source.name == "title2" || e.source.name == "readmore") {
+			view7_cr = e.source.parent.parent.getChildren();
+		}else if(e.source.name == "tc") {
+			var view7_cr = e.source.parent.getChildren();
+		}
+		
+		if(view7_cr != "") {
+			if(view7_cr[0].click) {
+				view7_cr[2].getChildren()[0].text = "Read Less";
+				view7_cr[0].getChildren()[1].image = "/images/Icon_Up.png";
+				view7_cr[1].height = Ti.UI.SIZE;
+				view7_cr[1].getChildren()[0].setOpacity(0);
+				view7_cr[0].click = false;
+			}else {
+				view7_cr[2].getChildren()[0].text = "Read More";
+				view7_cr[0].getChildren()[1].image = "/images/Icon_Down.png";
+				view7_cr[1].height = 100;
+				view7_cr[1].getChildren()[0].setOpacity(1);
+				view7_cr[0].click = true;
+			}
+		}
+		view7_cr = null;
+	});
+	
+	voucher_item = null;
+	vvv = null;
+	vv = null;
+	v_image = null;
+	v_title = null;
+	ssaved = null;
+	saved_title = null;
+	saved_data = null;
+	leftt = null;
+	left_title = null;
+	left_data = null;
+	ends = null;
+	ends_title = null;
+	ends_data = null;
+	info = null;
+	space1 = null;
+	space2 = null;
+	space4 = null;
+	desc = null;
+	view5 = null;
+	valid = null;
+	dateUseFrom = null;
+	dateUseTo = null;
+	valid1 = null;
+	valid2 = null;
+	valid3 = null;
+	hr1 = null;
+	hr2 = null;
+	hr3 = null;
+	hr4 = null;
+	hr5 = null;
+	view6 = null;
+	htr = null;
+	label_htr = null;
+	image_htr = null;
+	htr_data = null;
+	view7 = null;
+	tc = null;
+	label_tc = null;
+	image_tc = null;
+	tc_data = null;
+	hoverg = null;
+	title1 = null;
+	title2 = null;
+	readmoreview = null;
+	readmore = null;
+	
+	return v_view;
+	v_view = null;
+}
+
+function getNowDate(e){   //calculate the days between two dates
+	var fristDate = e;
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd<10) {
+	    dd='0'+dd;
+	} 
+	if(mm<10) {
+	    mm='0'+mm;
+	} 
+	today = yyyy+'-'+mm+'-'+dd;
+	secondDate = today;
+	endsDay = daydiff(parseDate(secondDate), parseDate(fristDate));	
+	return endsDay;
+}
+
+function parseDate(str) {
+    var mdy = str.split('-');
+    return new Date(mdy[0], mdy[1]-1, mdy[2]);
+}
+
+function daydiff(first, second) {
+    return Math.round((second-first)/(1000*60*60*24)+1);
+}
+
+function set_title_button(e) {
 	var b_title = "";
 	var b_color = "";
 	var b_enable = true;
-	
 	var currentPage = $.scrollableView.getCurrentPage();
-	console.log(items[currentPage].isExclusive+" Exclusive type");
 	
 	if(items[currentPage].isExclusive==1){
-		
 		var model = Alloy.createCollection("MyVoucher");
 		var voucher_item = voucher.getDataByI_id(items[currentPage].i_id);
 		var voucherLimit = model.getCountByVid(voucher_item.v_id);
 		var limit = voucherLimit.count;
-		console.log("Voucher limit is "+limit+" by v_id "+voucher_item.v_id);
-		console.log(voucher_item.limit);
 		if(limit>=1){
 			checkingLimit = false;
 		}else{
@@ -72,14 +527,12 @@ function set_title_button(){
 			b_enable = true;
 			
 			if(voucher_item.left<=0){   // check voucher stock
-				console.log("v_quan "+voucher_item.left);
 				b_title = "Voucher Fully Saved";
 				b_color = "#a6a6a6";
 				b_enable = false;
 			}
 			
 			if(voucher_item.left==-1){
-				console.log("unlimit save this voucher");
 				b_title = "Save Voucher";
 				b_color = "#ED1C24";
 				b_enable = true;
@@ -87,12 +540,9 @@ function set_title_button(){
 		}
 		
 		var v_id = voucher_item.v_id;
-		console.log("voucher id = "+v_id);
 		var model = Alloy.createCollection("MyVoucher");
 		var voucherLimit = model.getCountLimitByVid(v_id);
 		var limit = voucherLimit.count;
-		console.log("Voucher limit is "+limit+" by v_id "+v_id);
-		console.log(voucher_item.limit);
 		if(voucher_item.limit==-1){
 			checkingClaimLimit = true;
 		}else if(limit>=voucher_item.limit){
@@ -118,7 +568,6 @@ function set_title_button(){
 			if(b_enable){
 				if(checkingForSave){
 					if(checkingClaimLimit){
-						console.log("checkingClaimLimit = "+checkingClaimLimit);
 						checkingForSave = false;
 						var common = require('common');
 						common.createAlert('Instant Voucher','Confirm to save this voucher?',function(ee){
@@ -132,11 +581,8 @@ function set_title_button(){
 							onload: function(res){
 								var res = JSON.parse(res);
 								var arr = res.data || null;
-								console.log("Daily add voucher point added "+JSON.stringify(arr));
 							},
-							onerror: function(err){
-								console.log("fail!");
-							}});
+							onerror: function(err){}});
 							
 							var params = {v_id:voucher_item.v_id, u_id:u_id, quantity:1};
 							API.callByPost({
@@ -147,30 +593,22 @@ function set_title_button(){
 							onload:function(res){
 								var res = JSON.parse(res);
 								var arr = res.data || null;
-								console.log("Success to save "+JSON.stringify(arr));
 								checkingForSave = true;
 								setTimeout(function(e){
-									createWhoops("Voucher saved", "You can view it under\nMore > My Rewards > Saved Vouchers");
+									alert("Voucher saved", "You can view it under\nMore > My Rewards > Saved Vouchers");
 								},1000);
 								Ti.App.fireEvent("voucher:refresh");
 								Ti.App.fireEvent("myvoucher:refresh");
 								Ti.App.fireEvent("reward:refresh");
 								COMMON.closeWindow($.win);
 							},
-							onerror:function(e){
-								console.log("Save voucher fail!");
-							}		
-							});
+							onerror:function(e){}});
 						},undefined,function(e) {
 							checkingForSave = true;
 						});
 					}else{
-						var box = Titanium.UI.createAlertDialog({
-							title: "Whoops!",
-							message: "You have exceeded the claim limit per user of this voucher"
-						});
-						box.show();
-					};	
+						alert("Whoops!", "You have exceeded the claim limit per user of this voucher");
+					};
 				};
 			}
 		});
@@ -179,12 +617,20 @@ function set_title_button(){
 		$.pageTitle.setText(title);
 		$.submit.removeAllChildren();
 	}
+	$.scrollableView.setScrollingEnabled(true);
 }
 
+function alert(t,e){
+	var alert = Titanium.UI.createAlertDialog({
+		title: t,
+		message: e,
+		ok: "ok"
+	});
+	alert.show();
+};
+
 /*function getScanMerchant(){
-	console.log(m_id+" scanMerchant");
 	var expire = Ti.App.Properties.getString('sales'+m_id) || "";
-	console.log(expire+" got or not");
 	if(expire != ""){
 		var currentDate = new Date();
 		if(OS_ANDROID){
@@ -193,437 +639,17 @@ function set_title_button(){
 		var dat = expire.split(" ");
 		var d = dat[0].split("-");
 		var t = dat[1].split(":");
-		console.log(d);
-		console.log(t);
 		var new_expire = (OS_ANDROID)? new Date(expire): new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
 		//var new_expire = new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
-		console.log(new_expire+" >= "+currentDate);
-		console.log(typeof new_expire);
 		if(expire != null && currentDate <= new_expire){
-			console.log("should be here!!!");
 			isScan = 1;
 		}else{
-			console.log("not here!!!");
 			isScan = 0;
 		}
 	}else{
 		isScan = 0;
 	}
 }*/
- 
-var getAdsImages = function(){
-	
-	var counter = 0;
-	var imagepath, row = '';
-	var my_page = 0;
-	var selectedView;   		
-	/***Set ads items***/
-	var the_view = []; 
-	for (var i=0; i< items.length; i++) {
-		console.log("item id = "+items[i].i_id);
-		var voucher_item = voucher.getDataByI_id(items[i].i_id);
-		var itemImageView = $.UI.create("View", {classes:['wfill','hsize','vert']});
-		// adImage = Ti.UI.createImageView({
-			// top: 0,
-			// defaultImage: "/images/image_loader_640x640.png",
-			// image: items[i].img_path,
-			// width: Ti.UI.FILL,
-			// enableZoomControls: true,
-			// backgroundColor: 'red',
-			// height: Ti.UI.SIZE
-		// });
-		var adImage = $.UI.create('imageView',{
-			classes:['wfill','hsize'],
-			image: items[i].img_path,
-			enableZoomControls: true,
-			top: 0,
-			defaultImage: "/images/image_loader_640x640.png",
-		});
-		var label_description = $.UI.create("Label",{
-			classes:['wfill','hsize','h5','padding'],
-			text: items[i].description
-		});
-		/*console.log("items description   " + items[i].description);
-		var duration = args.date;
-		if (items[i].description == null || items[i].description == "") {
-			duration = "";
-		}
-		
-		var label_duration = $.UI.create("Label", {
-			classes:['wfill', 'hsize', 'h5'],
-			left: 10,
-			text: duration
-		});*/
-		
-		var scrollView = Ti.UI.createScrollView({
-			contentWidth: Ti.UI.FILL,
-		  	contentHeight: Ti.UI.SIZE,
-		   	maxZoomScale: 30,
-		    minZoomScale: 1,
-		    zoomScale: 1,
-		    scrollType: "vertical",
-		  	height: Ti.UI.FILL,
-		  	width: Ti.UI.FILL
-		});
-		
-		/*var view_voucher = $.UI.create("View", {classes:['wfill','hsize','vert', 'padding'], borderWidth: 2, borderColor: "#ED1C24"});
-		var label_voucher_title = $.UI.create("Label", {classes: ['wfill','hsize','padding'], textAlign: "center", text: "SalesAd Exclusive Voucher"});
-		var view_hr = $.UI.create("View", {classes:['hr']});
-		
-		view_voucher.add(label_voucher_title);
-		view_voucher.add(view_hr);
-		console.log(isScan+" is scan");
-			if(isScan == "1"){
-				var voucher_description = $.UI.create("Label", {classes:['wfill','hsize','padding'], textAlign: "center", text: items[i].voucher_description});
-				view_voucher.add(voucher_description);
-				if(items[i].barcode != ""){
-					var bcwv = BARCODE.generateBarcode(items[i].barcode);
-					view_voucher.add(bcwv);
-				}
-				var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','padding','grey'], textAlign: "center", text: "Please present this voucher at payment counter to redeem"});
-				view_voucher.add(label_subtitle);
-			}else{
-				var image_button = $.UI.create("ImageView", {classes:['wfill', 'hsize'], top:10, right:10, left:10, image: "/images/Button_ScanQRCode.png"});
-				var label_subtitle = $.UI.create("Label", {classes:['wfill','hsize','padding','grey'], textAlign: "center", text: "in participating stores to get Exclusive deals"});
-				view_voucher.add(image_button);
-				view_voucher.add(label_subtitle);
-				image_button.addEventListener("click", QrScan);
-			}*/
-			
-function parseDate(str) {
-    var mdy = str.split('-');
-    return new Date(mdy[0], mdy[1]-1, mdy[2]);
-}
-
-function daydiff(first, second) {
-    return Math.round((second-first)/(1000*60*60*24)+1);
-}
-
-function getNowDate(){   //calculate the days between two dates
-	var fristDate = voucher_item.save_to;
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
-	if(dd<10) {
-	    dd='0'+dd;
-	} 
-	if(mm<10) {
-	    mm='0'+mm;
-	} 
-	today = yyyy+'-'+mm+'-'+dd;
-	secondDate = today;
-	console.log(fristDate+" today");
-	console.log(secondDate+" voucher date");
-	endsDay = daydiff(parseDate(secondDate), parseDate(fristDate));	
-	return endsDay;
-}
-	
-////////Voucher Detail////////
-function addVoucher(){
-	var voucher = $.UI.create('View',{
-			classes:['wfill','hsize','vert','padding5'],
-			borderWidth:'5',
-			borderColor:'#66787878',
-			backgroundColor:'#fff',
-			bottom:"100"
-			});	
-		var v_image = $.UI.create('imageView',{
-			classes:['wfill','hsize'],
-			image: items[i].img_path,
-			defaultImage: "/images/image_loader_640x640.png",
-		});
-		var v_title = $.UI.create('Label',{
-			classes:['wfill','hsize','padding','bold','vTitle'],
-			bottom:'5',
-			text:voucher_item.title,
-			left:'25'
-		});
-		var ssaved = $.UI.create("View",{
-			width: "33%",
-			classes:["hsize","vert"],
-			left: 0,
-			zIndex: 1,
-		});
-		var saved_title = $.UI.create("Label",{
-			text: "Saved",
-			classes:["wsize","hsize","h5"],
-			top: 5,
-			color: "#a6a6a6"
-		});
-		var saved_data = $.UI.create("Label",{
-			text: (voucher_item.quantity==null)?"0":voucher_item.quantity,
-			classes:["wsize","hsize","h3","bold"]
-		});
-		var leftt = $.UI.create("View",{
-			classes:["wfill","hsize","vert"],
-			top: 0
-		});
-		var left_title = $.UI.create("Label",{
-			text: "Left",
-			classes:["wsize","hsize","h5"],
-			top: 5,
-			color: "#a6a6a6"
-		});
-		var left_data = $.UI.create("Label",{
-			text: (voucher_item.left==-1)?"While Stock\nLast":voucher_item.left,
-			textAlign: "center",
-			classes: (voucher_item.left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
-		});
-		var ends = $.UI.create("View",{
-			width: "33%",
-			classes:["hsize","vert"],
-			right: 0,
-			zIndex: 1,
-		});
-		var ends_title = $.UI.create("Label",{
-			text: "Ends in",
-			classes:["wsize","hsize","h5"],
-			top: 5,
-			color: "#a6a6a6"
-		});
-		var ends_data = $.UI.create("Label",{
-			text: getNowDate(),
-			classes:["wsize","hsize","h3","bold"]
-		});
-		var info = $.UI.create("View",{
-			classes:["wfill","hsize"]
-		});
-		if (voucher_item.quantity==null || voucher_item.quantity==0 || voucher_item.quantity==1) {
-			var vv = "Voucher";
-		}else{
-			var vv = "Vouchers";
-		};
-		var space1 = $.UI.create("Label",{
-			text: vv,
-			classes:["wsize","hsize","h5"],
-			color: "#a6a6a6"
-		});
-		var space2 = $.UI.create("Label",{
-			text: (getNowDate()==1?"Day":"Days"),
-			classes:["wsize","hsize","h5"],
-			color: "#a6a6a6"
-		});
-		if (voucher_item.left==0 || voucher_item.left==1) {
-			var vvv = "Voucher";
-		}else{
-			var vvv = "Vouchers";
-		};
-		var space4 = $.UI.create("Label",{
-			text: vvv,
-			classes:["wsize","hsize","h5"],
-			color: "#a6a6a6"
-		});
-		var desc = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding'],
-			top:'10',
-			left:'25',
-			text:voucher_item.description
-		});
-		var view5 = $.UI.create('View',{
-			classes:['wfill','hsize','horz'],
-			backgroundColor:'#fff',
-			top: '10'
-		});
-		var valid = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding'],
-			right:'5',
-			top:'0',
-			text:'Valid from',
-			left:'25'
-		});
-		var dateUseFrom = convertToHumanFormat(voucher_item.use_from);  // parse date format
-		var dateUseTo = convertToHumanFormat(voucher_item.use_to);
-		var valid1 = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','bold'],
-			top:'0',
-			text:dateUseFrom
-		});
-		var valid2 = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding'],
-			top:'0',
-			left:'5',
-			right:'5',
-			text:'to',
-		});
-		var valid3 = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','bold'],
-			top:'0',
-			text:dateUseTo
-		});
-		var hr1 = $.UI.create('View',{
-			classes:['hr1'],
-			top:'5'
-		});
-		var hr2 = $.UI.create('View',{
-			classes:['hr1']
-		});
-		var hr3 = $.UI.create('View',{
-			classes:['hr1']
-		});
-		var hr4 = $.UI.create('View',{
-			classes:['hr1']
-		});
-		var hr5 = $.UI.create('View',{
-			classes:['hr1']
-		});
-		var view6 = $.UI.create('View',{     //htr_extend add event!!!
-			backgroundColor:'#fff',
-			classes:['wfill','hsize','vert']
-		});
-		
-		var htr = $.UI.create('View',{
-			classes:['wfill','hsize','horz']
-		});
-		var label_htr = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding'],
-			text:'How to Redeem',
-			left:'25'
-		});
-		var image_htr = $.UI.create('imageView',{
-			width:'15',
-			height:'15',
-			id:'htr_image',
-			image:"/images/Icon_Down.png"
-		});
-		var htr_data = $.UI.create('view',{
-			classes:['wfill','hsize','vert'],
-			id:'htr'
-		});
-		var view7 = $.UI.create('View',{     //tc_extend add event!!!
-			backgroundColor:'#fff',
-			classes:['wfill','vert','hsize']
-		});
-		
-		var tc = $.UI.create('View',{
-			classes:['wfill','hsize','horz']
-		});
-		var label_tc = $.UI.create('Label',{
-			classes:['wsize','hsize','h5','padding'],
-			text:'Terms & Conditions',
-			left:'25'
-		});
-		var image_tc = $.UI.create('imageView',{
-			width:'15',
-			height:'15',
-			id:'tc_image',
-			image:"/images/Icon_Down.png"
-		});
-		var tc_data = $.UI.create('view',{
-			classes:['wfill'],
-			height:"65",
-		});
-		var hoverg = $.UI.create("View",{classes:['myView','wfill'],height:"40",zIndex:"10",bottom:"0"});	
-		var title1 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:voucher_item.redeem,top:"0",left:"25"});		
-		var title2 = $.UI.create("Label",{classes:['wsize','hsize','padding'],text:voucher_item.tnc,top:"0",left:"25"});
-		var readmoreview = $.UI.create("View",{classes:['vert','wfill','hsize']});
-		var readmore = $.UI.create("Label",{classes:['wfill','hsize','padding'],top:"0",text:"Read More",left:25});
-		readmoreview.add(readmore);		
-		htr.add(label_htr);
-		htr.add(image_htr);
-		view6.add(htr);
-		view6.add(htr_data);
-		tc.add(label_tc);
-		tc.add(image_tc);
-		view7.add(tc);
-		tc_data.add(hoverg);
-		tc_data.add(title2);			
-		view7.add(tc_data);	
-		view7.add(readmoreview);
-		view5.add(valid);
-		view5.add(valid1);
-		view5.add(valid2);
-		view5.add(valid3);
-		ssaved.add(saved_title);	
-		ssaved.add(saved_data);
-		ssaved.add(space1);
-		leftt.add(left_title);
-		leftt.add(left_data);
-		if (voucher_item.left!=-1) {
-			leftt.add(space4);
-		}
-		ends.add(ends_title);
-		ends.add(ends_data);
-		ends.add(space2);
-		info.add(ssaved);
-		info.add(leftt);
-		info.add(ends);
-		voucher.add(v_image);
-		voucher.add(v_title);
-		voucher.add(hr5);
-		voucher.add(info);
-		voucher.add(hr1);
-		voucher.add(view5);
-		voucher.add(hr2);
-		voucher.add(desc);
-		voucher.add(hr3);
-		voucher.add(view6);
-		voucher.add(hr4);
-		voucher.add(view7);
-		row.add(voucher);
-		var click1 = true;
-		view6.addEventListener("click",function(e){
-			if(click1){
-				htr_data.add(title1);
-				image_htr.image = "/images/Icon_Up.png";			
-				click1 = false;
-			}
-			else{
-				htr_data.removeAllChildren();
-				image_htr.image = "/images/Icon_Down.png";
-				click1 = true;
-			}
-		});
-		var click2 = true;
-		view7.addEventListener("click",function(e){
-			if(click2){		
-				readmore.text = "Read Less";
-				image_tc.image = "/images/Icon_Up.png";
-				tc_data.height= Ti.UI.SIZE;
-				click2 = false;
-				hoverg.setOpacity(0);
-			}
-			else{
-				readmore.text = "Read More";
-				image_tc.image = "/images/Icon_Down.png";
-				tc_data.height = 100;
-				click2 = true;
-				hoverg.setOpacity(1);	
-			}
-		});			
-}			
-		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert'],backgroundColor:"#e8e8e8"});
-		itemImageView.add(adImage); 
-		itemImageView.add(label_description); 	
-		console.log("items " + JSON.stringify(items[i]));
-		if(items[i].isExclusive == 1){
-			addVoucher();
-		}else{
-			row.add(itemImageView);
-		}
-		if(position == counter){
-			selectedView = row;
-		}
-		scrollView.add(row);
-		the_view.push(scrollView); 
-		
-		counter++;
-	}  
-	
-	$.scrollableView.setViews(the_view); 
-	setTimeout(function(){
-		$.scrollableView.scrollToView(position);  
-	},50);
-};
-
-function createWhoops(t,e){
-	var alert = Titanium.UI.createAlertDialog({
-		title: t,
-		message: e,
-		ok: "ok"
-	});
-	alert.show();
-};
 
 /*function afterScan(e){
 	if(e.m_id != m_id){
@@ -641,41 +667,38 @@ function QrScan(){
 	SCANNER.openScanner("1");
 }*/
 
-$.btnBack.addEventListener('click', function(e) {
-    $.win.close();
-});
-
 //Ti.App.addEventListener('afterScan', afterScan);
 
 /*$.win.addEventListener("close", function(e){
 	Ti.App.removeEventListener('afterScan', afterScan);
 });*/
 
-/************************
-*******APP RUNNING*******
-*************************/
-getAdsImages();
-set_title_button();
-$.win.open();
-
-$.win.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.win); 
+//event listener
+$.scrollableView.addEventListener('scrollend',function(e) {
+	if(e.source.currentPage != pagecount) {
+		$.scrollableView.setScrollingEnabled(false);
+		allparams.push(getI_id[e.source.currentPage]);
+		pagecount = e.source.currentPage;
+		set_title_button();
+	}
 });
 
-$.scrollableView.addEventListener('scrollend',function(e){
-	var params = {
-		item_id:i_id,
+$.btnBack.addEventListener('click', closeWindow);
+$.win.addEventListener('android:back', closeWindow);
+
+$.win.addEventListener('close', function(e) {
+	var param = {
+		item_id:allparams,
 		type:3,
 		from:"itemDetails",
 		u_id:u_id
-	} ;
-	API.callByPost({url:"addAdsClick",new:true,params:params},{
-		onload:function(res){
-			console.log("Item View ad "+JSON.stringify(res));
-		},onerror:function(err){
-			console.log("Item View ad error");
-		}});
-	set_title_button();
+	};
+	addAdsClick("", allparams);
+	closeWindow();
 });
 
+function closeWindow(e) {
+	COMMON.closeWindow($.win);
+}
 
+init();

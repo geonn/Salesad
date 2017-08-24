@@ -7,7 +7,6 @@ var ads_counter = 0;
 var loading = false;
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var isAd = (typeof contest_id != "undefined" && contest_id != "")?false:true;
-//console.log(typeof contest_id+" "+contest_id);
 Alloy.Globals.naviPath.push($.adsCategoryWin);
 
 var style = Ti.UI.ActivityIndicatorStyle.DARK;
@@ -350,7 +349,6 @@ function buildListing(){
 		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
 				if(isAd){
-					console.log(e.source.name+" here "+e.source.passname);
 				 	goAd(e.source.a_id, e.source.name, e.source.passdate);
 				 }else{
 				  	var win = Alloy.createController("webview", {id: e.source.id, title: e.source.name}).getView();
@@ -369,11 +367,7 @@ function buildListing(){
 		API.callByPost({url:"addAdsClick",
 						new:true,
 						params:params},
-						{onload: function(responseText){
-							console.log("Impression ads category: " + responseText);
-						},onerror: function(responseerror) {
-							console.logg("Impression ads category: error " + responseerror);
-						}});
+						{onload: function(responseText){},onerror: function(responseerror) {}});
 	}
 	setTimeout(function(e){
 		activityIndicator.hide();
@@ -392,7 +386,6 @@ function setAndroidCalendarEvent(e){
 		var expired_date =  e.source.expired_date.split("-");
 		var eventBegins = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
 		var eventEnds = new Date(expired_date[0], expired_date[1]-1, expired_date[2], 23, 59, 59);
-		console.log(eventBegins+" "+eventEnds);
 		// Create the event
 		var details = {
 		    title: e.source.ads_name,
@@ -424,7 +417,6 @@ function setCalendarEvent(e){
 		var start_date = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
 		var end_date = new Date(expired_date[0], expired_date[1]-1, expired_date[2], 23, 59, 59);
 		
-		console.log(start_date+" event to "+end_date);
 		/*
 		if(e.source.expired_date != "0000-00-00"){
 			var expired_date = e.source.expired_date.split("/");
@@ -466,7 +458,6 @@ var goAd = function(a_id, a_name, a_date){
 	    return;
 	};
 	clickTime = currentTime;
-	console.log("a id     " + a_id + " " + a_name + " " + a_date);
 	
 	if(u_id!=""){
 		var params = {u_id:u_id, action:'add', purpose:'7'};
@@ -478,11 +469,8 @@ var goAd = function(a_id, a_name, a_date){
 		onload: function(res){
 			var res = JSON.parse(res);
 			var arr = res.data || null;
-			console.log("Daily ad view point added "+JSON.stringify(arr));
 		},
-		onerror: function(err){
-			console.log("fail!");
-		}});
+		onerror: function(err){}});
 	}
 				
 	var win = Alloy.createController("ad", {a_id: a_id, from: "ads_caregory", name: a_name, date: a_date}).getView();
@@ -560,11 +548,8 @@ $.ads_listing.addEventListener("scroll", function(e){
 });
 
 $.adsCategoryWin.addEventListener("close", function(e){
-	console.log('window close');
-	console.log(a_id_submit);
-	API.callByPost({url: "addAdsImpression", new:true, params:{a_id: JSON.stringify(a_id_submit)}}, {onload: function(responseText){
-		console.log(responseText);
-	}});
+	API.callByPost({url: "addAdsImpression", new:true, params:{a_id: JSON.stringify(a_id_submit)}}, {onload: function(responseText){}});
+	Ti.App.removeEventListener("ads:close",closeWindow);
 });
 
 function closeWindow() {
@@ -574,5 +559,5 @@ function closeWindow() {
 Ti.App.addEventListener("ads:close",closeWindow);
 
 $.adsCategoryWin.addEventListener('android:back', function (e) {
- COMMON.closeWindow($.adsCategoryWin); 
+	closeWindow();
 });

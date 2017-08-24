@@ -10,9 +10,7 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 if(typeof args.m_id == "undefined" || args.m_id ==""){
 	//alert("There is no sales from this store right now");
 }
-else{
-	console.log("here is _ad_listing");
-}
+else{}
 Alloy.Globals.naviPath.push($.win);
 
 var style = Ti.UI.ActivityIndicatorStyle.DARK;
@@ -96,7 +94,6 @@ function createShareOptions(adsName, adsImage){
 }
 
 function getData(){
-	//console.log(type+" "+args.m_id);
 	if(type == "branch"){
 		var ads_model = Alloy.createCollection('ads'); 
 		data = ads_model.getDataByBranch(args.m_id, ads_counter, 3);
@@ -350,7 +347,6 @@ function buildListing(){
 		
 		if(ads[a].youtube == ""){ 
 			bannerImage.addEventListener('click', function(e) {
-				console.log(e.source.m_id+" e.source.m_id"+e.source.name+" e.source.name");
 			 	goAd(e.source.a_id, e.source.m_id, e.source.name, e.source.date);
 			});
 		}
@@ -361,11 +357,7 @@ function buildListing(){
 		u_id:u_id
 	} ;
 	API.callByPost({url:"addAdsClick",new:true,params:params},{
-		onload:function(res){
-			console.log("Impression search "+JSON.stringify(res));
-		},onerror:function(err){
-			console.log("Impression search error");
-		}});	
+		onload:function(res){},onerror:function(err){}});	
 	}
 	setTimeout(function(e){
 		activityIndicator.hide();
@@ -378,7 +370,6 @@ function buildListing(){
 		$.ads_listing.remove(activityIndicator);
 		setTimeout(function(){
 			alert("There is no sales from this store right now");
-			console.log("ads length:"+ads.length);	
 			return;				
 		},2000);	
 	}
@@ -472,9 +463,7 @@ var goAd = function(a_id, m_id, name, date){
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
-	console.log("id"+a_id+m_id);
 	clickTime = currentTime;
-	console.log(args.m_id+" args.m_id");
 	var win = Alloy.createController("ad", {a_id: a_id, target_m_id: args.m_id, from : "_ad_listing", name:name, date:date}).getView(); 
 	COMMON.openWindow(win); 
 };

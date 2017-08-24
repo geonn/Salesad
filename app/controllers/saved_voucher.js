@@ -4,7 +4,6 @@ var pageTitle;
 var use  = args.use || false;
 var model = Alloy.createCollection("MyVoucher"); 
 var res = model.getVoucherByMy_vid(my_vid);
-console.log("res :"+JSON.stringify(res));
 Alloy.Globals.naviPath.push($.win);
 var loading = Alloy.createController("loading");
 var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
@@ -18,7 +17,6 @@ function zoom(e){
 	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
 	var close = Ti.UI.createLabel({width:Ti.UI.SIZE,height:Ti.UI.SIZE,right:"10",top:"10",color:"#fff",text:"Close"});
-	console.log("here"+JSON.stringify(e.source.image));
 	var image = (typeof e.source.image.nativePath != undefined)?e.source.image.nativePath: "/images/image_loader_640x640.png";
 	var imageView = TiTouchImageView.createView({
 		image:image,
@@ -48,9 +46,7 @@ function createWhoops(t,e){
 	box.show();
 };
 function render_banner(){
-	console.log("here"+res.image);
 	if(OS_ANDROID && res.image != null){
-		console.log("image defined");
 		$.RemoteImage.applyProperties({
 		 	autoload: true,
 		    backgroundColor: 'black',
@@ -60,7 +56,6 @@ function render_banner(){
 		$.RemoteImage.addEventListener("click",zoom);		
 	}else{
 		if (OS_ANDROID) {
-			console.log("default image");
 			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
 		};
 	}		
@@ -153,7 +148,6 @@ function useVoucher(e){
 	}
 }
 function getAdDetails(){
-	console.log("asdf");
 	var custom = $.UI.create("Label", { 
 		    text: "Saved Voucher", 
 		    color: '#ED1C24' 

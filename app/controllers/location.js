@@ -19,26 +19,22 @@ var branch	= [];
 //load model
 var a_library = Alloy.createCollection('ads'); 
 var m_library = Alloy.createCollection('merchants');
-console.log(m_id+" mid here");
 var ads = a_library.getAdsById(a_id);
 var id_sql = (typeof ads == "undefined" || ads.branch == "")?m_id:ads.branch;
 var all_branches = m_library.getBranchesById(id_sql);
 var merchants;
 merchants = m_library.getMerchantsById(m_id);
 COMMON.closeWindow($.location);
-console.log(merchants);
 //load merchant & branches list 
 function init(){
 	m_id = (typeof args.target_m_id != "undefined")?args.target_m_id:0;
 	render_marker();
 	var lat = Ti.App.Properties.getString('latitude');
     var lot = Ti.App.Properties.getString('longitude');
-    console.log("init"+lat+" "+lot);
 	if(all_branches.length > 0){
 		for(var k=0; k < all_branches.length; k++){
 			var dist = countDistanceByKM(all_branches[k].latitude, all_branches[k].longitude, lat, lot);
 			var dist = 10;
-			console.log(all_branches[k]);
 			var obj = {
 				dist: dist,
 				dist_text: (dist>1)? Math.round(dist)+"km":Math.round(dist*1000)+"m",
@@ -54,7 +50,6 @@ function init(){
 				branch.push(obj);			
 			}
 		}
-		console.log("before render also available");
 		render_also_available(branch);
 	}
 	setCurrentLocation();
@@ -78,13 +73,11 @@ function render_also_available(data){
 	$.listing.appendSection(fishSection);
 }
 
- //console.log(name);
 function closeWindow(){
 	COMMON.closeWindow($.location); 
 }
  
 function setCustomTitle(title){
-	console.log(title+" set custom title");
 	var custom = $.UI.create("Label", { 
 		text: title, 
 		color: '#ED1C24', 
@@ -99,18 +92,13 @@ function setCustomTitle(title){
 }
 
 var saveCurLoc = function(e) {
-	//console.log(e);
     if (e.error) {
-        console.log('Location service is disabled. '+e.error);
     } else {
     	if(merchants.longitude == "" || merchants.latitude == ""){
     	alert("No location found");
 		}else{
-    	console.log("work or not why");
-    	console.log(e.coords);
     	showCurLoc = true;	
     	init();
-      	//console.log(Ti.App.Properties.getString('latitude') + "=="+ Ti.App.Properties.getString('longitude'));
       	render_map();
       }
       	Ti.App.Properties.setString('latitude', e.coords.latitude);
@@ -128,9 +116,7 @@ if (Ti.Geolocation.locationServicesEnabled) {
 		
 // API calls to the map module need to use the Alloy.Globals.Map reference
 function render_map(){
-	console.log("render_map");
 	for(var i=0; i < branch.length; i++){
-		console.log(branch[i]);
 		//if((l_id[i] == a_id)){
 			var ad_arrow = $.UI.create("Button", {
 			    backgroundImage: '/images/btn-forward.png',
@@ -138,9 +124,7 @@ function render_map(){
 				width: 20,
 				m_id: branch[i].m_id
 			});
-			ad_arrow.addEventListener('click', function(ex){ 
-				console.log(ex.source);
-				console.log(ex.source.m_id);
+			ad_arrow.addEventListener('click', function(ex){
 				m_id = ex.source.m_id;
 				setCurrentLocation();
 			});
@@ -167,28 +151,20 @@ function switchLocation(e){
 		// get the clicked item from that section
 		var item = section.getItemAt(e.itemIndex);
 		m_id = item.properties.m_id;
-		console.log("item properties");
-		console.log(item.properties);
 	}else{
 		m_id = e.source.m_id;
-		console.log(e.source.m_id+" m_id swtich");
 	}
 	setCurrentLocation();
 }
 
 function setCurrentLocation(){
-	console.log(branch);
-	console.log(args.target_m_id+" m_id location");
 	if(m_id != ""){
 		var cur = _.where(branch, {m_id: m_id});
 		cur = cur[0];
-		console.log(cur);
 	}else{
 		var after_sort = _.sortBy(branch, 'dist');
 		var cur = after_sort[0];
 	}
-	console.log(m_id+" here m_id");
-	console.log(cur);
 	$.mapview.region = {latitude: cur.latitude, longitude: cur.longitude, latitudeDelta:0.01, longitudeDelta:0.01};
 	setCustomTitle(cur.name);
 	$.name.text = cur.name;
@@ -216,7 +192,6 @@ function render_marker(){
 		       var win = Alloy.createController("ad", {target_m_id: m_id, a_id: a_id}).getView(); 
 				COMMON.openWindow(win);
 		});
-		//console.log(name[i] + " :"+latitude[i]+", "+ longitude[i]);               
 		$.mapview.addAnnotation(merchantLoc); 
 	}
 }
@@ -240,8 +215,7 @@ function direction2here(){
 	        return;
 	    } 
 	    var longitudee = e.coords.longitude;
-	    var latitudee = e.coords.latitude; 
-	 	 console.log('http://maps.google.com/maps?saddr='+latitudee+','+longitudee+'&daddr='+details.latitude+','+details.longitude);
+	    var latitudee = e.coords.latitude;
 	    var add2 =details.add2;
 		if(add2!= ""){
 			add2 = add2  +"\r\n";
@@ -278,8 +252,6 @@ function direction2here(){
 	    
 	   	Titanium.Geolocation.removeEventListener('location', locationCallback); 
 	};
-	
-	console.log("geo location");
 	Titanium.Geolocation.addEventListener('location', locationCallback); 
 }
 

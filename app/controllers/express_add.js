@@ -52,7 +52,6 @@ if(checking){
 	var alert_msg = "";
 	var tc_child = $.tc_area.getChildren();
 	var tc = tc_child[0].children[0].children[0].checked;
-	console.log(tc_child);
 	if(!tc){
 		alert("Please agree the terms and condition.");
 		loading.finish();
@@ -72,7 +71,6 @@ if(checking){
 		}
 	};
 	var contact = Math.floor($.contact.value);
-	console.log(typeof contact+" "+contact);
 	if(isNaN(contact)){
 		alert_msg = alert_msg+"Invalid contact number\n";
 	}
@@ -82,17 +80,14 @@ if(checking){
 		return;
 	}
 	for (var i=0; i < forms_array.length; i++) {
-		console.log("beng");
 		var form_value = (typeof forms_array[i].model != "undefined")?eval("forms_array[i].record."+forms_array[i].submitColumn):forms_array[i].value;
 		eval("_.extend(params, {"+forms_array[i].id+": form_value})");
-		console.log(form_value+" "+forms_array[i].id);
 		if(typeof forms_array[i].require != "undefined"){
 			if(forms_array[i].value == ""){
 				error = error + forms_array[i].hintText+" cannot be empty\n"; 
 			}
 		}
 		if(forms_array[i].form_type == "image"){
-			console.log(forms_array[i].blob_submit+"heree");
 			if(typeof forms_array[i].blob_submit == "undefined"){
 				alert("Please upload photo");
 				loading.finish();
@@ -106,7 +101,6 @@ if(checking){
 		loading.finish();
 		return;
 	}
-	console.log(params);
 	API.callByPost({
 		url: "addSXItem",
 		new: true,
@@ -116,7 +110,6 @@ if(checking){
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
-			console.log(res);
 			loading.finish();
 			Ti.App.fireEvent("home:refresh");
 			COMMON.closeWindow($.win);
@@ -133,8 +126,6 @@ if(checking){
 
 function popMap(e){
 	var v = e.source.children[0].text;
-	console.log(e.source);
-	console.log(e.source.children[0].text);
 	var location = v.split(",");		
 	if(v != "Map Location"){
 		hidesoftkeyboard();
@@ -197,7 +188,6 @@ function popDatePicker(e){
 		var dd = picker.value.getDate();
 		var mm = picker.value.getMonth()+1; 
 		var yyyy = picker.value.getFullYear();
-		console.log(yyyy+'-'+mm+'-'+dd);
 		source.value = yyyy+'-'+mm+'-'+dd;
 		source.date = picker.value;
 		source.children[0].text = yyyy+'-'+mm+'-'+dd;
@@ -252,7 +242,6 @@ function popCamera(e){
 	    if(e.index == 0) { //if first option was selected
 	        //then we are getting image from camera]
 	        if(Ti.Media.hasCameraPermissions()){
-        		console.log("Success to open camera");
 		        Titanium.Media.showCamera({ 
 		            success:function(event) { 
 		               image_preview(event);
@@ -281,7 +270,6 @@ function popCamera(e){
 		        Ti.Media.requestCameraPermissions(function(e){
 		        	
 		        	if(e.success){
-		        		console.log("Success to open camera");
 				        Titanium.Media.showCamera({ 
 				            success:function(event) { 
 				               image_preview(event);
@@ -367,7 +355,6 @@ function image_preview(event){
 			writeFile.deleteFile();
 		}
 		writeFile.write(image);
-		console.log(writeFile.nativePath);
 		var win = Alloy.createController("image_preview", {image: writeFile.nativePath}).getView(); 
 		COMMON.openWindow(win);	    	
 	}
@@ -380,7 +367,6 @@ function cropped_image(e){
 	$.photoLoad.left = 40;
 	$.photoLoad.right = 40;
 	$.photoLoad.blob_submit = Titanium.Utils.base64decode(e.image_callback);
-	console.log("cropped_image");
 	$.photoLoad.value = 1;
 }
 

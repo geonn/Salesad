@@ -11,19 +11,16 @@ if(OS_ANDROID){
 }
 function init(){
 	$.win.add(loading.getView());
-	console.log("args image   " + args.image);
 	Ti.App.fireEvent("html:loadImage", {image: args.image});
 }
 
 function doSave(){
-	console.log("doSave");
 	var encode = Titanium.Utils.base64encode($.cropped.toImage());
 	Ti.App.fireEvent("cropped_image", {image_callback: String(encode), abc: "asd"});
 	closeWindow();
 }
 
 function closeWindow(){
-	console.log("why didnt close one");
 	Ti.App.removeEventListener("image_preview:loadImage", init);
 	COMMON.closeWindow($.win);
 }

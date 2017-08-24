@@ -23,7 +23,6 @@ function genCode(){
 	}); 
 	var title = $.UI.create("Label",{classes:['wsize','hsize','h1'],text:barcode});
 	var title1 = $.UI.create("Label",{classes:['wsize','hsize','h5'],text:barcode});
-	console.log("barcode"+display);
  	if(display == "1"){
  		$.b_code.add(title);	
  	}
@@ -54,7 +53,6 @@ function genCode(){
 }
 
 function getAdDetails(){
-	console.log("asdf");
 	var custom = $.UI.create("Label", { 
 		    text: "Voucher Code", 
 		    color: '#ED1C24' 

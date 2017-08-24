@@ -8,7 +8,6 @@ function zoom(e){
 	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
 	var close = Ti.UI.createLabel({width:Ti.UI.SIZE,height:Ti.UI.SIZE,right:"10",top:"10",color:"#fff",text:"Close"});
-	console.log("here"+JSON.stringify(e.source.image));
 	var image = (typeof e.source.image != "undefined" && typeof e.source.image.nativePath != "undefined")?e.source.image.nativePath: "/images/image_loader_640x640.png";
 	var imageView = TiTouchImageView.createView({
 		image:image,
@@ -86,7 +85,6 @@ function render_page(){
 	}
 	else{
 		if (OS_ANDROID) {
-			console.log("default image");
 			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
 		};
 	}

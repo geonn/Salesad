@@ -232,9 +232,16 @@ function navTo(e){
 function init(){
 	$.win.add(loading.getView());
 	loading.start();
+	$.voucher_scrollview.vouchertype = "ins_voucher";
+	$.voucher_scrollview.ins_vouchercount = 0;
+	$.voucher_scrollview.gift_vouchercount = 0;
+	$.voucher_scrollview.voucherrefreshing = true;
+	$.voucher_scrollview.scrollcheck = true;
+	$.voucher_view.alltitle = [];
 	refreshVlist("refreshSVlist");
 	
 	if(args.savedvoucher != undefined) {
+		refreshSVlist();
 		$.scrollview.scrollToView(1);
 	}
 }
@@ -246,6 +253,7 @@ function Tab(e) {
 }
 
 function vouchers(e, str) {
+	var params = [];
 	for(key in e) {
 		var parent = $.UI.create("View", {
 			classes: ['wfill', 'hsize', 'vert'],
@@ -267,8 +275,22 @@ function vouchers(e, str) {
 			bottom: 5,
 			text: e[key].title
 		});
+		$.voucher_view.alltitle.push(e[key].title);
+		$.voucher_view.bol = true;
 		
 		e[key].child.forEach(function(entry) {
+			var count = 0;
+			if(params.length >= 1) {
+				if(params.every(function(currentValue, index, arr) {
+					count = index;
+					return currentValue != entry.a_id;
+				}) && count == params.length) {
+					params.push(entry.a_id);
+				}
+			}else {
+				params.push(entry.a_id);
+			}
+			count = null;
 			if(entry.item_id != null){
 				var item = Alloy.createCollection("items");
 				var image = item.getImageByI_id(entry.item_id);
@@ -378,9 +400,20 @@ function vouchers(e, str) {
 			ViewPoint = null;
 			title = null;
 		});
-		
-		parent.add(title);
-		parent.add(hr);
+		if($.voucher_scrollview.ins_vouchercount > 0) {
+			var count = 0;
+			if($.voucher_view.alltitle.every(function(currentValue, index, arr) {
+				count = index;
+				return currentValue != e[key].title;
+			}) && count == $.voucher_view.alltitle.length) {
+				parent.add(title);
+				parent.add(hr);
+			}
+			count = null;
+		}else {
+			parent.add(title);
+			parent.add(hr);
+		}
 		parent.add(child);
 		$.voucher_view.add(parent);
 		
@@ -389,33 +422,36 @@ function vouchers(e, str) {
 		hr = null;
 		child = null;
 	}
-		
-	var view_height = $.UI.create("View", {
-		width:"100%",
-		height: 70
-	});
-	$.voucher_view.add(view_height);
-	view_height = null;	
-	boll = true;
-	
-	if(str == "efreshSVlist") {
-		refreshSVlist();
+	if(str == "refreshSVlist") {
+		refreshSVlist(params);
+	}else if(params != []) {
+		impression(params);
 	}
 	loading.finish();
+	boll = true;
+	$.voucher_scrollview.voucherrefreshing = true;
+	$.voucher_scrollview.scrollcheck = true;
+	$.voucher_scrollview.ins_vouchercount += 8;
+	params = null;
+}
+
+function to_ins_voucher(e) {
+	$.voucher_scrollview.ins_vouchercount = 0;
+	ins_voucher();
 }
 
 function ins_voucher(str) {
 	if(boll) {
 		loading.start();
 		boll = false;
+		$.voucher_scrollview.vouchertype = "ins_voucher";
 		$.ins_view.setBackgroundColor("#ED1C24");
 		$.ins_label.setColor("#fff");
 		$.gift_view.setBackgroundColor("#fff");
 		$.gift_label.setColor("gray");
 		var vmodel = Alloy.createCollection("voucher");
-		var vdata = vmodel.getInstant(false);
+		var vdata = vmodel.getInstant(false, $.voucher_scrollview.ins_vouchercount);
 		var arr = [];
-		
 		vdata.forEach(function(e) {
 			var key = (e.name != "" || e.name !=  null) ? e.name : "Others";
 			arr[key] = arr[key] || {};
@@ -423,28 +459,46 @@ function ins_voucher(str) {
 			arr[key].child = arr[key].child || [];
 			arr[key].child.push(e);
 		});
-		$.voucher_view.removeAllChildren();
+		if($.voucher_scrollview.ins_vouchercount == 0) {
+			$.voucher_view.removeAllChildren();
+		}
 		vouchers(arr, str);
+		
+		vmodel = null;
+		vdata = null;
+		arr = null;
 	}
+}
+
+function to_gift_voucher(e) {
+	$.voucher_scrollview.gift_vouchercount = 0;
+	gift_voucher();
 }
 
 function gift_voucher(e) {
 	if(boll) {
 		loading.start();
 		boll = false;
+		$.voucher_scrollview.vouchertype = "gift_voucher";
 		$.gift_view.setBackgroundColor("#ED1C24");
 		$.gift_label.setColor("#fff");
 		$.ins_view.setBackgroundColor("#fff");
 		$.ins_label.setColor("gray");
 		
 		var vmodel = Alloy.createCollection("voucher");
-		var vdata = vmodel.getGift(false);
-		$.voucher_view.removeAllChildren();
-		list_voucher(vdata, "gift");
+		var vdata = vmodel.getGift(false, $.voucher_scrollview.gift_vouchercount);
+		if($.voucher_scrollview.gift_vouchercount == 0) {
+			$.voucher_view.removeAllChildren();
+		}
+		if(vdata.length > 0) {
+			list_voucher(vdata, "gift");
+		}else {
+			loading.finish();
+		}
 	}
 }
 
-function savedvoucher(e) {
+function savedvoucher(params) {
 	$.ongoingV.removeAllChildren();
 	$.expiredV.removeAllChildren();
 	
@@ -459,7 +513,7 @@ function savedvoucher(e) {
 	var ongoingVC = myvmodel.ongoingvoucher(true);
 	list_voucher(ongoingVC, "ongoing");
 	var expireVC = myvmodel.expirevoucher(true);
-	list_voucher(expireVC, "expire");
+	list_voucher(expireVC, "expire", params);
 	
 	if($.ongoingV.children.length > 3) {
 		$.ongoingV.remove($.ongoingV.children[2]);
@@ -469,7 +523,7 @@ function savedvoucher(e) {
 	}
 }
 
-function list_voucher(e, name) {
+function list_voucher(e, name, params) {
 	var parent = $.UI.create("View", {
 		classes: ['wfill', 'hsize', 'horz']
 	});
@@ -628,22 +682,18 @@ function list_voucher(e, name) {
 		ViewPoint = null;
 		title = null;
 	});
-	
 	if(name == "gift") {
 		$.voucher_view.add(parent);
-		
-		var view_height = $.UI.create("View", {
-			width:"100%",
-			height: 70
-		});
-		
-		$.voucher_view.add(view_height);
-		view_height = null;
 	}
 	parent = null;
 	boll = true;
-	
 	loading.finish();
+	$.voucher_scrollview.voucherrefreshing = true;
+	$.voucher_scrollview.scrollcheck = true;
+	$.voucher_scrollview.gift_vouchercount += 8;
+	if(params != undefined && params != []) {
+		impression(params);
+	}
 }
 
 function toVoucher(e) {
@@ -711,7 +761,7 @@ function refreshVlist(str) {
 	});
 }
 
-function refreshSVlist(e) {
+function refreshSVlist(params) {
 	u_id = Ti.App.Properties.getString('u_id') || "";
 	var checker = Alloy.createCollection('updateChecker');
 	var isUpdate = checker.getCheckerById("13");
@@ -728,7 +778,7 @@ function refreshSVlist(e) {
 			model.resetRecord();
 			model.saveArray(arr);
 			if(u_id != "") {
-				savedvoucher();
+				savedvoucher(params);
 			}
 			loading.finish();
 		},onerror:function(err){
@@ -795,10 +845,56 @@ function createWhoops1(t,e,b,callback){
 	});
 };
 
+function impression(a_id) {
+	var params = {
+		a_id:a_id,
+		type:2,
+		from:"ad",
+		u_id:u_id
+	};
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
+}
+
+function scrollChecker(e) {
+	var theEnd = $.voucher_view.rect.height;
+	var nearEnd = theEnd - 200;
+	var total = (OS_ANDROID) ? pixelToDp(e.y) + e.source.rect.height : e.y + e.source.rect.height;
+	if(total >= nearEnd && $.voucher_scrollview.scrollcheck){
+		$.voucher_scrollview.scrollcheck = false;
+		eval($.voucher_scrollview.vouchertype+"()");
+	}
+	theEnd = null;
+	nearEnd = null;
+	total = null;
+}
+
 function login_cancel(e) {
 	$.scrollview.scrollToView(0);
 }
 Ti.App.addEventListener('login_cancel:reward', login_cancel);
+
+if(OS_ANDROID) {
+	$.swipeRefresh.addEventListener('refreshing', function(e) {
+		if($.voucher_scrollview.voucherrefreshing) {
+			e.source.setRefreshing(false);
+			$.voucher_scrollview.voucherrefreshing = false;
+			$.voucher_scrollview.ins_vouchercount = 0;
+			$.voucher_scrollview.gift_vouchercount = 0;
+			eval($.voucher_scrollview.vouchertype+"()");
+		}
+	});
+}else {
+	$.voucher_scrollview.addEventListener('scroll', function(e) {
+		var svtop = -50;
+		if (e.y <= svtop && $.voucher_scrollview.voucherrefreshing) {
+			$.voucher_scrollview.voucherrefreshing = false;
+			$.voucher_scrollview.ins_vouchercount = 0;
+			$.voucher_scrollview.gift_vouchercount = 0;
+			eval($.voucher_scrollview.vouchertype+"()");
+		}
+		svtop = null;
+	});
+}
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);

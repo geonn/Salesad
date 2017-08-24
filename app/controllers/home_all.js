@@ -17,12 +17,8 @@ var xpresscount1=0;
 var adsdata2=[];
 function navTo(e){
 	var record = parent({name: "record"}, e.source);
-	console.log(e.source.type);
 	var type = (typeof e.source.type !="undefined")?e.source.type : 1;
-	console.log(type);
-	console.log("here is navTo");
 	if(type == 3){
-		console.log(datedescription(record.sales_from,record.sales_to)+record.merchant_name);
 		COMMON.openWindow(Alloy.createController("ad", {a_id:record.a_id,from:"home_all",name:record.merchant_name,date:datedescription(record.sales_from,record.sales_to)}).getView()); 
 	}else{
 		COMMON.openWindow(Alloy.createController("express_detail", record).getView()); 
@@ -51,10 +47,8 @@ function datedescription(from,to) {
 function getPreviousData(param){
 	var model = Alloy.createCollection("xpress");
 	xpresscount =model.getCount({anchor: anchor, last_updated: last_updated, start: start, offset:"" , latest: false, keyword: keyword, category_id: category_id});
-	console.log(xpresscount);
 	data = model.getData({anchor: anchor, last_updated: last_updated, start: start, offset:6 , latest: false, keyword: keyword, category_id: category_id});
 	start = start + data.length;
-	console.log(data.length+" "+start);
 	model=null;
 }
 
@@ -79,9 +73,7 @@ function filteradsname(key){
 	for(var i = 0; i<adsdata1.length;i++){
 		var k=adsdata1[i].ads_name.toLowerCase();
 		var k1=key.toLowerCase();
-		console.log(k.indexOf(k1));
 		if(k.indexOf(k1) > -1){
-			console.log("success");
 			adsdata[ii]=adsdata1[i];
 			ii++;
 		}
@@ -140,7 +132,6 @@ function showAll(e){
     }, 1000); 			
 }	
 function popCategory(e){
-	console.log("popCategory");
 	var options = _.pluck(category, "categoryName");
 	options.push("Cancel");
 	var dialog = Ti.UI.createOptionDialog({
@@ -155,7 +146,6 @@ function popCategory(e){
 			adsdata=[];
 			ads_data=[];
 			category_id = category[e.index].id;
-			console.log("category name:"+category[e.index].categoryName+" id:"+category[e.index].id);
 			start = 0;
 			xpresscount1=0;
 			count1=0;
@@ -173,7 +163,6 @@ function refresh(){
 	last_updated = COMMON.todayDateTime();
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById("11");
-	console.log(isUpdate.updated+" isUpdate");
 	API.callByPost({
 		url: "getSXItem",
 		new: true,
@@ -183,7 +172,6 @@ function refresh(){
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
-			console.log(arr);
 			ads_counter = 0, counter = 0, start=0;
 			var model = Alloy.createCollection("xpress");
 			model.saveArray(arr);
@@ -217,7 +205,6 @@ function render(e){
 		}else{
 			cell_width = Math.floor(pwidth / 2) - 15;
 		}
-		console.log("Count1:"+count1);
 		if(data != null){
 			
 			for (var i=0; i < data.length; i++) {
@@ -226,7 +213,6 @@ function render(e){
 				if(counter % 3 == 0 && counter > 0){
 					
 					if(typeof adsdata[count1] != "undefined" && adsdata[count1].sales_from != null){
-						console.log(adsdata[count1].sales_from);
 						var merchantdata=merchant.getMerchantsById(adsdata[count1].m_id);					
 						merchantdata.img_path = (merchantdata.img_path == "")?"/images/SalesAd_Profile Pic.png":merchantdata.img_path;	
 						sales_from= (adsdata[count1].sales_from != "0000-00-00")?convertToHumanFormat(adsdata[count1].sales_from).toString():"Start from now !";
@@ -256,11 +242,8 @@ function render(e){
 						API.callByPost({url:"addAdsClick",new:true,params:params},{
 						onload:function(res){
 							var re=JSON.parse(res);
-							console.log("Impression home:"+JSON.stringify(re));
 						},onerror:function(err){
-							console.log("Impression home:error");
-						}});
-						console.log("arr:"+arr.sales_from+" "+arr.sales_to);							
+						}});				
 						renderSmall(arr);
 						count1++;
 						counter++;
@@ -275,7 +258,6 @@ function render(e){
 				if(counter % 4 == 0 && counter > 0){
 					if(typeof ads_data[ads_counter] != "undefined"){
 						var cw = (OS_ANDROID)?Math.floor(pixelToDp(pwidth)-10):pwidth-10;
-						console.log("here:"+ads_data[ads_counter].img_path);
 						var img = (ads_data[ads_counter].img_path != "")? ads_data[ads_counter].img_path:'/images/image_loader_640x640.png';
 						var Aarr={
 							cw:cw,
@@ -292,9 +274,7 @@ function render(e){
 						API.callByPost({url:"addAdsClick",new:true,params:params},{
 						onload:function(res){
 							var re=JSON.parse(res);
-							console.log("Impression home:"+JSON.stringify(re));
 						},onerror:function(err){
-							console.log("Impression home:error");
 						}});
 						
 						renderBig(Aarr);
@@ -303,9 +283,7 @@ function render(e){
 						img=null;
 						v=null;
 					}
-				}		
-				console.log(category);
-				console.log(data[i]);
+				}
 				var obj_category = _.where(category, {id: data[i].category});
 				data[i].sales_from=convertToHumanFormat(data[i].sales_from).toString();	
 				data[i].sales_to=convertToHumanFormat(data[i].sales_to).toString();		
@@ -332,8 +310,7 @@ function render(e){
 				counter++;
 				Xarr=null;
 				obj_category=null;
-			};	
-			console.log("xpresscount:"+xpresscount+" "+xpresscount1+" count1:"+count1);
+			};
 			if(xpresscount==xpresscount1){
 				if(ads_counter< ads_data.length){
 					for(var i=ads_counter; i < ads_data.length; i++){
@@ -355,9 +332,7 @@ function render(e){
 							API.callByPost({url:"addAdsClick",new:true,params:params},{
 							onload:function(res){
 								var re=JSON.parse(res);
-								console.log("Impression home:"+JSON.stringify(re));
 							},onerror:function(err){
-								console.log("Impression home:error");
 							}});
 							
 							renderBig(Aarr);
@@ -400,11 +375,8 @@ function render(e){
 							API.callByPost({url:"addAdsClick",new:true,params:params},{
 							onload:function(res){
 								var re=JSON.parse(res);
-								console.log("Impression home:"+JSON.stringify(re));
 							},onerror:function(err){
-								console.log("Impression home:error");
 							}});					
-							console.log("arr:"+arr);							
 							renderSmall(arr);
 							count1++;
 							counter++;
@@ -421,7 +393,6 @@ function render(e){
 
 
 function renderBig(param){
-	console.log("param photo"+param.img_path);
 	var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0, image: param.img_path,type: param.type, record:param.record});
 	img.addEventListener("click", navTo);
 	var v = $.UI.create("View", {width: param.cw, height: param.cw});
@@ -491,8 +462,6 @@ function getAdsByCategory(c_id){
 	var c_ads_library = Alloy.createCollection("categoryAds");
 	var c=c_model.getCategoryById(c_id);	
 	adsdata1 = c_ads_library.getLatestAdsByCategory(c_id,0,100);
-	console.log("c_id:"+c_id);
-	console.log("Latest ads:"+JSON.stringify(adsdata1));
 	adsdata1.forEach(function(param){
 		adsdata[adscount]={
 			m_id:param.m_id,
@@ -524,12 +493,10 @@ function getAdsData(){
 	}
 	ramdom=	shuffle(b_ramdom);
 	ads_data = shuffle(ads_data);
-	console.log("zzz:"+JSON.stringify(ramdom)+" "+ramdom[1]);
 	if(category != null){ 	
 		for(var i=0;i<category.length;i++){
 			loop2:do{
 				ramdom_n = ramdom[i];
-				console.log("cc:"+ramdom_n+" "+category[ramdom_n].id);
 				adsdata1=c_ads_library.getLatestAdsByCategory(category[ramdom_n].id,0,100);
 				if(adsdata1.length == 0){
 					++i;
@@ -539,10 +506,7 @@ function getAdsData(){
 				}		
 			}while(adsdata1.length == 0);
 			adsdata1.forEach(function(param){
-				console.log("ineach:"+i);
-				var catename=category[ramdom_n].categoryName;
-				console.log("ramdom_n"+ramdom_n);
-				console.log("category id"+category[ramdom_n].id+" "+category_id);		
+				var catename=category[ramdom_n].categoryName;	
 				adsdata[adscount]={
 					m_id:param.m_id,
 					merchant_name:param.merchant_name,
@@ -616,11 +580,9 @@ $.content_scrollview.addEventListener("scroll", function(e){
 				$.loadingBar.top = "0";			
 				refreshing = true;
 				if(category_id != empty){
-					console.log("category_id"+category_id);
 			 		getAdsByCategory(category_id);		
 				}
 				else{
-					console.log("ALL");
 					getAdsData();
 				}				
 				refresh();					        	
@@ -638,14 +600,11 @@ if (OS_ANDROID) {
 	ads_counter = 0;
 	xpresscount1=0;
 	counter = 0;
-	count1=0;	
-	console.log(category_id);
+	count1=0;
 	if(typeof category_id != "undefined"){
-		console.log("category_id"+category_id);
  		getAdsByCategory(category_id);		
 	}
 	else{
-		console.log("ALL");
 		getAdsData();
 	}
 	refresh();

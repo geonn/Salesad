@@ -10,7 +10,6 @@ function navToWeb(){
 
 function render_webview(e){
 	var res = JSON.parse(e);
-	//console.log(res.data[0]);
 	$.webview.url = res.data[0].preview_url;
 }
 

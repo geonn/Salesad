@@ -28,8 +28,6 @@ function getPreviousData(param){
 	var model = Alloy.createCollection("xpress");
 	data = model.ongoingpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start, latest: false, keyword: keyword, category_id: category_id});
 	data2 = model.expiredpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start2, latest: false, keyword: keyword, category_id: category_id});
-	console.log("data  "+data);
-	console.log("data2  "+data2);
 	start = start + data.length;
 	start2 += data2.length;
 }	
@@ -186,7 +184,6 @@ function render(e){
 }
 
 function popDelete(e){
-	console.log('yes');
 	COMMON.createAlert("Alert", "Are you sure want to delete it?", function(ex){
 		var source = parent({name:"master", value: 1}, e.source);
 	API.callByPost({
@@ -237,8 +234,6 @@ $.content_scrollview.addEventListener("scroll", function(e){
 	if (distance < lastDistance){
 		var nearEnd = theEnd * .75;
 		if (!load && (total >= nearEnd)){
-			console.log(nearEnd+" "+total);
-			//console.log(e.y+e.source.rect.height+" "+$.content.rect.height);
 			load = true;
 			getPreviousData({});
 			render({});

@@ -8,7 +8,6 @@ function init(){
 	    subtitle: args.address,
 	    image: "/images/sales-ad-loc_small.png"
 	});
-	console.log(args.contact);
 	$.mapview.addAnnotation(merchantLoc);
 	$.mapview.region = {latitude: args.latitude, longitude: args.longitude, latitudeDelta:0.01, longitudeDelta:0.01};
 	$.name.text = args.owner_name;
@@ -21,8 +20,7 @@ $.button_direction.addEventListener("click", direction2here);
 
 function direction2here(){
 	var longitude = args.longitude;
-    var latitude = args.latitude; 
- 	 console.log('http://maps.google.com/maps?daddr='+latitude+','+longitude);
+    var latitude = args.latitude;
 	var url = 'geo:'+latitude+','+longitude+"?q="+args.owner_name+" (" + args.address+")";
 	  if (Ti.Android){
 			try {

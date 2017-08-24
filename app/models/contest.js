@@ -58,7 +58,6 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-               // console.log(sql);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -97,7 +96,6 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-               // console.log(sql);
                 var res = db.execute(sql, id);
                 var arr; 
                 var count = 0;
@@ -157,7 +155,6 @@ exports.definition = {
 	                eval("db.execute(sql_query, "+without_pk_value.join()+","+_.first(eval_values)+")");
 				});
 				db.execute("COMMIT");
-				//console.log(db.getRowsAffected()+" affected row");
 	            db.close();
 	            collection.trigger('sync');
 			},

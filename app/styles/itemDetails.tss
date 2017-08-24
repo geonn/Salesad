@@ -10,7 +10,7 @@
 ".myView":{
   backgroundGradient: {
     type: 'linear',
-    colors: ['00ffffff', '#fff'],
+    colors: ['#00ffffff', '#fff'],
   },
 },
 ".hr1":{

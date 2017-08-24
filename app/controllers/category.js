@@ -119,7 +119,6 @@ function generateCategoryTable(details){
 	var fontSizeClasses = (Ti.App.Properties.getString("fontSizeClasses"))?Ti.App.Properties.getString("fontSizeClasses"):"normal_font";
 	
 	for (var i=0; i< details.length; i++) {
-		console.log(details);
 	   var row = Titanium.UI.createTableViewRow({
 		    touchEnabled: true,
 		    height: 50,
@@ -261,7 +260,6 @@ var searchResult = function(){
 };
 
 var goAd = function(a_id){
-	console.log(a_id);
 	var win = Alloy.createController("ad", {a_id: a_id}).getView(); 
 	COMMON.openWindow(win);  
 };
@@ -356,7 +354,6 @@ var searchRes = function(res1){
 				});		
 				
 				row.addEventListener('touchend', function(e) {
-					console.log(e.source);
 				 	goAd(e.source.source);
 				});
 			 

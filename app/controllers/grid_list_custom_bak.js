@@ -114,7 +114,6 @@ function buildSmallBlock(data, category_name){
 	for (var i=0; i < data.length; i++) {
 		//create row to contain box
 		if(i%2 == 0 && lastrow >= i){
-			console.log("create row");
 			var row = $.UI.create("View", {
 				width: Ti.UI.FILL,
 				height: Ti.UI.SIZE,
@@ -124,7 +123,6 @@ function buildSmallBlock(data, category_name){
 		}
 		// create box to contain the icon / label
 		if(lastbox >= i){
-			console.log("create box");
 			var box = $.UI.create("View", {
 				height : Ti.UI.SIZE,
 				width : "50%",
@@ -179,7 +177,6 @@ function buildSmallBlock(data, category_name){
 				height: Ti.UI.FILL,
 				width: "auto",
 			});
-			console.log("box < label2");
 			var view = $.UI.create("View",{
 				height: ((pWidth / 2) - 20) / 2,
 				width: Ti.UI.FILL,
@@ -244,12 +241,9 @@ function buildSmallBlock(data, category_name){
 		box.add(view);
 		
 		if(i == lastbox && odd){
-			console.log('dont add to row'); 
 		}else{
-			console.log("row < box");
 			row.add(box);
 			if((i%2 && i > 0) || (i == data.length - 1 && odd)){
-				console.log("main < row");
 				smallBlockView.add(row);
 			}
 		}
@@ -316,7 +310,6 @@ function parent(key, e){
 	if(eval("e."+key.name+"") != key.value){
 		if(eval("e.parent."+key.name+"") != key.value){
 			if(eval("e.parent.parent."+key.name+"") != key.value){
-    			console.log("box not found");
     		}else{
     			return e.parent.parent;
     		}

@@ -3,7 +3,6 @@ var v_id = args.v_id || 0;
 var BARCODE = require('barcode');
 
 function render_voucher(e){
-	//console.log(e.barcode); 
 	var bcwv = BARCODE.generateBarcode(e.barcode);
 	$.discount.text = e.discount;
 	$.title.text = e.title;

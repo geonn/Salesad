@@ -1,7 +1,6 @@
 var args = {};
 var clickTime = null;
 var u_id = Ti.App.Properties.getString('u_id') || "";
-console.log(last_update_on+" last_update_on index");
 var loadingView = Alloy.createController("loader");
 loadingView.getView().open();
 loadingView.start();
@@ -319,7 +318,6 @@ $.indexView.more.addEventListener("click", function(e){
 $.indexView.nearby.addEventListener("click", function(e){
 	var win = Alloy.createController("nearby").getView();  
 	if (Ti.Geolocation.locationServicesEnabled) {
-		console.log("HERE");
 		COMMON.openWindow(win);	
 	}else{
 	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
@@ -403,7 +401,6 @@ if(OS_ANDROID){
 	});
 }else{
 	$.indexView.homescrollview.addEventListener("scroll", function(e){
-	//console.log("You are scroll at index page:"+e.y);
 	var svtop = (OS_ANDROID)?-10:-50;
 	if (e.y <= svtop && !refreshing) {
 		$.indexView.adListing.removeAllChildren();

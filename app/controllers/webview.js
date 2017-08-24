@@ -2,7 +2,6 @@ var args = arguments[0] || {};
 var id = 0;
 var loading = Alloy.createController("loading");
 var title = "";
-console.log(id);
 var params = [];
 var pharmacy_code = 0;
 //load model

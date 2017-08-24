@@ -43,7 +43,6 @@ function createAdImageEvent(adImage, m_id) {
     	if(e.source.action != "locationIcon"){
     		goAd(m_id);
     	}else{
-    		console.log(m_id+" "+e.source.m_id);
     		var win = Alloy.createController("location", {m_id: e.source.m_id, a_id: "", showAll: true}).getView(); 
 			COMMON.openWindow(win,{animated:true}); 
     	}
@@ -94,12 +93,7 @@ var createGridListing = function(res){
    	}else{
    		 
    		for(var i=0; i< details.length; i++) {
-   			console.log(i+" category merchant");
-	   		var m_id = details[i].m_id; 
-	   		
-	   		//console.log(info);
-	   		
-	   			 
+	   		var m_id = details[i].m_id;
 		   		var row = $.UI.create("TableViewRow",{
 		   			height: Ti.UI.SIZE,
 		   			width: Ti.UI.FILL,

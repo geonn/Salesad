@@ -15,7 +15,6 @@ var fristDate = "";
 var secondDate = "";
 var endsDay = "";
 var loading = Alloy.createController("loading");
-console.log("User id = "+u_id+" voucher id "+v_id);
 if(data.item_id != null){
 	var item = Alloy.createCollection("items");
 	var image = item.getImageByI_id(data.item_id);
@@ -33,7 +32,6 @@ function daydiff(first, second) {
 function getNowDate(){   //calculate the days between two dates
 	var fristDate = data.save_to;
 	var today = new Date();
-	console.log(today+"now time");
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
 	var yyyy = today.getFullYear();
@@ -45,8 +43,6 @@ function getNowDate(){   //calculate the days between two dates
 	} 
 	today = yyyy+'-'+mm+'-'+dd;
 	secondDate = today;
-	console.log(fristDate+" today");
-	console.log(secondDate+" voucher date");
 	endsDay = daydiff(parseDate(secondDate), parseDate(fristDate));	
 	//$.days.setText(endsDay);
 }
@@ -55,7 +51,6 @@ function zoom(e){
 	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
 	var close = Ti.UI.createLabel({width:Ti.UI.SIZE,height:Ti.UI.SIZE,right:"10",top:"10",color:"#fff",text:"Close"});
-	console.log("here"+JSON.stringify(e.source.image));
 	var image = (typeof e.source.image != "undefined" && typeof e.source.image.nativePath != "undefined")?e.source.image.nativePath: "/images/image_loader_640x640.png";
 	var imageView = TiTouchImageView.createView({
 		image:image,
@@ -80,7 +75,6 @@ function render_banner(){
 		$.RemoteImage.addEventListener("click",zoom);				
 	}else{
 		if (OS_ANDROID) {
-			console.log("default image");
 			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
 		};
 	}	
@@ -166,7 +160,6 @@ function userCurrentPoint(){
 	var model = Alloy.createCollection("points");
 	user_point = model.getData({u_id: u_id});
 	current_point = user_point[user_point.length - 1].balance;
-	console.log("User current point = "+current_point);
 }
 
 function createWhoops(t,e){
@@ -182,7 +175,6 @@ function checkVoucherStatus(){
 	var model = Alloy.createCollection("MyVoucher");
 	var voucherStatus = model.getCountByVid(v_id);
 	var limit = voucherStatus.count;
-	console.log("Voucher status is "+limit+" by v_id "+v_id);
 	if(limit>=1){
 		checkingLimit = false;
 	}
@@ -193,8 +185,6 @@ function checkVoucherLimit(){
 	var model = Alloy.createCollection("MyVoucher");
 	var voucherLimit = model.getCountLimitByVid(v_id);
 	var limit = voucherLimit.count;
-	console.log("Voucher limit is "+limit+" by v_id "+v_id);
-	console.log(data.limit);
 	if(data.limit==-1){
 		checkingClaimLimit = true;
 	}else if(limit>=data.limit){
@@ -515,7 +505,6 @@ function doSave(){
 	if(checkingForSave){   //avoid double click 
 		if(checkingClaimLimit){
 			if(data.point<=current_point){   //check user point
-			console.log("voucher point "+data.point+" <= "+" user point "+current_point);
 			checkingForSave = false;
 			var common = require('common');
 			var title_voucher = (data.point!=0)?"CP Voucher":"Instant Voucher";
@@ -532,10 +521,8 @@ function doSave(){
 				onload: function(res){
 					var res = JSON.parse(res);
 					var arr = res.data || null;
-					console.log("Daily add voucher point added "+JSON.stringify(arr));
 				},
 				onerror: function(err){
-					console.log("fail!");
 				}});
 				
 				//add voucher to saved voucher
@@ -548,7 +535,6 @@ function doSave(){
 				onload: function(res){
 					var res = JSON.parse(res);
 					var arr = res.data || null;
-					console.log("Success to save "+JSON.stringify(arr));
 					checkingForSave = true;
 					setTimeout(function(e){
 						createWhoops("Voucher saved","You can view it under\nMy Rewards > Saved Vouchers");
@@ -559,7 +545,6 @@ function doSave(){
 					COMMON.closeWindow($.win);
 				},
 				onerror: function(err){
-					console.log("Save voucher fail!");
 				}});				
 			},undefined,function(){
 				checkingForSave = true;
@@ -572,7 +557,6 @@ function doSave(){
 		}
 	}
 	}else{
-		console.log("Not available to save");
 	}
 }
 $.win.addEventListener('android:back', function (e) {

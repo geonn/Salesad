@@ -35,13 +35,14 @@ function init(){
 		u_id:u_id
 	};
 	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
+	
 	ads = a_library.getAdsById(a_id);
 	var merchant = m_library.getMerchantsById(ads.m_id);
 	m_id = (merchant.parent != 0 && merchant.parent != null)?merchant.parent:ads.m_id;
+	
 	API.callByPost({url: "addAdsClick", new:true, params:{a_id: a_id}}, {onload: function(responseText){}});
+	
 	getScanMerchant();
-	checkFavorite();
-	refresh();
 	pageTitle = ads.name;
 }
 init();
@@ -63,6 +64,8 @@ function getScanMerchant(){
 	}else{
 		isScan = 0;
 	}
+	
+	checkFavorite();
 }
 
 function checkFavorite(){
@@ -70,6 +73,8 @@ function checkFavorite(){
 	var exist = model_favorites.checkFavoriteExist(m_id, u_id);
 	var fav_img = (exist)?"/images/SalesAd_Favorited.png":"/images/SalesAd_Favorite.png";
 	$.favorites.image = fav_img;
+	
+	refresh();
 }
 
 function refresh(e){
@@ -87,8 +92,7 @@ function refresh(e){
 		url: "getVoucherList",
 		new: true,
 		params: {last_updated: isUpdate.update}
-	},{
-		onload: function(responseText) {
+	},{onload: function(responseText) {
 			var model = Alloy.createCollection("voucher");
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
@@ -96,7 +100,6 @@ function refresh(e){
 			checker.updateModule("12","getVoucherList",currentDateTime());
 			items = i_library.getItemByAds(ads.a_id);
 			render_banner();
-			getAdDetails();
 			loading.finish();
 		},onerror: function(err) {
 			_.isString(err.message) && alert(err.message);
@@ -187,6 +190,8 @@ function render_banner(){
 			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
 		}
 	}
+	
+	getAdDetails();
 }
 
 var getAdDetails = function(){
@@ -211,6 +216,7 @@ var getAdDetails = function(){
 				height: Ti.UI.SIZE,
 				width: Ti.UI.SIZE
 			});
+			
 			var exclusive_icon = $.UI.create("ImageView", {classes:['hsize'], width: 30, right: 10, top:0, image:"/images/Icon_Exclusive_Gold_Long@0,25x.png"});
 			
 			adImage = Ti.UI.createImageView({
@@ -290,25 +296,6 @@ var getAdDetails = function(){
 	loading.finish();
 };
 
-function getScanMerchant(){
-	var expire = Ti.App.Properties.getString('sales'+args.target_m_id) || "";
-	if(expire != ""){
-		var currentDate = new Date();
-		var dat = expire.split(" ");
-		var d = dat[0].split("-");
-		var t = dat[1].split(":");
-		var new_expire = (OS_ANDROID)? new Date(expire): new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
-		//var new_expire = new Date(d[0], d[1], d[2], t[0], t[1], t[2]);
-		if(expire != null && currentDate <= new_expire){
-			isScan = 1;
-		}else{
-			isScan = 0;
-		}
-	}else{
-		isScan = 0;
-	}
-}
-
 function zoom(e){	
 	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
@@ -351,6 +338,10 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
     });
 }
 
+/*********************
+*** Event Listener ***
+**********************/
+//open location
 $.location.addEventListener('click', function(e){ 
 	if(Ti.Geolocation.locationServicesEnabled){
 		COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());
@@ -367,11 +358,7 @@ $.location.addEventListener('click', function(e){
 	} 
 });
 
-/*********************
-*** Event Listener ***
-**********************/
-
-//Add your favorite event
+//Add favorite event
 $.favorites.addEventListener("click", function(){
 	var u_id = Ti.App.Properties.getString('u_id') || "";
 	if(u_id == ""){
@@ -434,11 +421,7 @@ $.favorites.addEventListener("click", function(){
 				url: "addAdsClick",
 				new: true,
 				params: params
-			},{onload: function(responseText) {
-				console.log("Save Favourite ad " + responseText);
-			}, onerror: function(responseerroe) {
-				console.log("Save Favourite ad error " + responseerror);
-			}});
+			},{onload: function(responseText) {}, onerror: function(responseerroe) {}});
 			
 		}
 	}
@@ -467,15 +450,18 @@ function popMoreMenu(){
 	dialog.addEventListener("click", function(ex){   
 		if(ex.index == 0){
 			popReport();
-		}else {
+		}else if(ex.index == 1) {
 			closeWindow();
-			var win = Alloy.createController('reward', {savedvoucher: 'savedvoucher'}).getView();  
-			COMMON.openWindow(win);
+			Ti.App.fireEvent('ads:close');
+			var more_win = Alloy.createController("more").getView();  
+			COMMON.openWindow(more_win);
+			var voucher_win = Alloy.createController('reward', {savedvoucher: 'savedvoucher'}).getView();  
+			COMMON.openWindow(voucher_win);
 		}
 	});
 }
 
-function popReport(){
+function popReport() {
 	var view = $.UI.create("View", {classes:['wfill','hsize','vert', 'padding', "rounded","box"], backgroundColor:"#ffffff"});
 	var label = $.UI.create("Label", {classes: ['wsize','hsize', 'padding', 'h4'], color: "#000000", text: "Report"});
 	var hr = $.UI.create("View", {classes:['hr'], backgroundColor:"#cccccc"});
@@ -559,7 +545,6 @@ $.win.addEventListener("close", function(){
 	Ti.App.removeEventListener('app:loadAdsDetails', refresh);
 	Ti.App.removeEventListener('afterScan', afterScan);
     $.destroy();
-    Ti.App.fireEvent('ads:close');
 });
 
 Ti.App.addEventListener('app:loadAdsDetails', refresh);
@@ -647,9 +632,7 @@ $.home.addEventListener("click", function(e){
 	if(naviPath == ""){		
 		closeWindow();
 	}else{		
-		/*for (var i=0; i< naviPath.length; i++) { 
-			console.log(typeof naviPath[i]);
-			console.log(naviPath[i]);
+		/*for (var i=0; i< naviPath.length; i++) {
 			COMMON.closeWindow(naviPath[i]);  
 		}*/
 		Ti.App.fireEvent("ads:close"); 

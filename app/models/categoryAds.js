@@ -58,7 +58,7 @@ exports.definition = {
 				if(typeof(m_id) != "undefined"){
 					var sql = "select a.m_id, a.merchant_name, a.updated, b.* from (SELECT merchants.m_id, merchants.merchant_name, merchants.updated FROM " + collection.config.adapter.collection_name + ", merchants WHERE merchants.m_id = categoryAds.m_id and categoryAds.m_id in ( "+m_id+") order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND  b.expired_date > date('now') AND b.active_date <= date('now') order by b.updated desc limit "+start+", "+end+"";
 				}else{
-					var sql = "select categoryAds.*, ads.m_id, ads.name, ads.active_date, ads.youtube, ads.category, ads.sales_from, ads.sales_to, ads.expired_date, ads.updated, ads.img_path, ads.img_thumb, ads.a_id, merchants.merchant_name from (ads inner join merchants on ads.m_id = merchants.m_id) inner join categoryAds on categoryAds.m_id = merchants.m_id where (ads.category like '%," + cate_id + ",%' or ads.category like '%," + cate_id + "' or ads.category like '" + cate_id + ",%' or ads.category = " + cate_id + ") and ads.status = 1 and ads.expired_date > date('now') and ads.active_date <= date('now') and ads.sales_from <= date('now') and ads.sales_to > date('now') order by ads.updated desc limit " + start + ", " + end;
+                    var sql = "select categoryAds.*, ads.m_id, ads.name, ads.active_date, ads.youtube, ads.category, ads.sales_from, ads.sales_to, ads.expired_date, ads.updated, ads.img_path, ads.img_thumb, ads.a_id, merchants.merchant_name from categoryAds left outer join merchants on categoryAds.m_id = merchants.m_id left outer join ads on categoryAds.m_id = ads.m_id where (ads.category like '%," + cate_id + ",%' or ads.category like '%," + cate_id + "' or ads.category like '" + cate_id + ",%' or ads.category = " + cate_id + ") and ads.status = 1 and ads.expired_date > date('now') and ads.active_date <= date('now') and ads.sales_from <= date('now') and ads.sales_to > date('now') order by ads.updated desc limit " + start + ", " + end;
                 }
                 //sql = "select a.m_id, a.merchant_name, b.updated, b.* from (SELECT categoryAds.m_id, merchants.merchant_name FROM categoryAds LEFT OUTER JOIN merchants ON merchants.m_id = categoryAds.m_id WHERE categoryAds.cate_id = "+cate_id+" order by merchants.updated desc) as a, ads as b WHERE a.m_id = b.m_id and b.status = 1 AND b.expired_date > date('now') AND b.active_date <= date('now') order by b.updated desc limit "+start+", "+end;
                 //sql = "SELECT * FROM " + collection.config.adapter.collection_name;
@@ -75,11 +75,6 @@ exports.definition = {
                 
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	 /*
-                	 for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }
-                	*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
 					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
@@ -122,9 +117,6 @@ exports.definition = {
                 
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	/* for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
 					    merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
@@ -169,9 +161,6 @@ exports.definition = {
                 
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	/* for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
 					    merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
@@ -233,9 +222,6 @@ exports.definition = {
                 var count = 0;
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	/* for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }*/
 					arr[count] = {
 					    m_id: res.fieldByName('m_id'),
 					    cate_id: res.fieldByName('cate_id'),
@@ -276,7 +262,6 @@ exports.definition = {
             	db = Ti.Database.open(collection.config.adapter.db_name);
             	sql_query = "DELETE FROM " + collection.config.adapter.collection_name + " WHERE id in ("+ entry+")";
             	db.execute(sql_query);
-            	//console.log(sql_query);
 	            db.close();
 	            collection.trigger('sync');
 			},

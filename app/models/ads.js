@@ -61,7 +61,6 @@ exports.definition = {
 				db.close();
 			},
 			getData: function(unlimit,keyword){
-				console.log("ads model keyword:"+keyword);	
 				var sql_keyword = (typeof keyword != "undefined" && keyword != "")?" AND name like '%"+keyword+"%'":"";
 				var sql_limit = (unlimit)?"":"limit 0,6";
 				var collection = this;
@@ -76,10 +75,6 @@ exports.definition = {
                 
                 while (res.isValidRow()){
                 	 var row_count = res.fieldCount;
-                	 /*for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }
-                	*/
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
@@ -114,16 +109,12 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
-				console.log(sql);
                 var res = db.execute(sql);
                 var arr = [];
 				var count = 0;
                 
                 while (res.isValidRow()){
-                	 var row_count = res.fieldCount;
-                	 for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }
+                	var row_count = res.fieldCount;
                 	
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
@@ -177,12 +168,6 @@ exports.definition = {
             	for (var i=0; i < names.length; i++) {
 					eval_column = eval_column+names[i]+": res.fieldByName('"+names[i]+"'),";
 				};
-                /*
-                var row_count = res.fieldCount;
-            	for(var a = 0; a < row_count; a++){
-            		console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-            	}*/
-                
                 while (res.isValidRow()){
                 	eval("arr[count] = {"+eval_column+"}");
                 	res.next();
@@ -206,10 +191,6 @@ exports.definition = {
                 
                 while (res.isValidRow()){
                 	 var row_count = res.fieldCount;
-                	 /*for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }*/
-                	
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
@@ -249,10 +230,6 @@ exports.definition = {
                 
                 while (res.isValidRow()){
                 	 var row_count = res.fieldCount;
-                	 /*for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }*/
-                	
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
@@ -288,7 +265,6 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-               // console.log(sql);
                 var res = db.execute(sql);
                 var arr = []; 
                 var count = 0;
@@ -335,8 +311,6 @@ exports.definition = {
 					    img_path: res.fieldByName('img_path')
 					};
 				}
-				
-				// console.log(arr );
 				res.close();
                 db.close();
                 collection.trigger('sync');
@@ -345,7 +319,6 @@ exports.definition = {
 			getAdsById : function(a_id){
 				var collection = this;
 				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE a_id='"+ a_id+ "' AND status=1 order by updated desc" ;
-                //console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -370,18 +343,15 @@ exports.definition = {
 					    img_thumb: res.fieldByName('img_thumb')
 					};
 					
-				} 
-				// console.log(arr );
+				}
 				res.close();
                 db.close();
                 collection.trigger('sync');
                 return arr;
 			},
 			getAdsByMid : function(m_id){
-				console.log(m_id);
 				var collection = this;
 				var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE m_id='"+ m_id+ "' AND status=1 AND ( expired_date > date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') order by updated desc" ;
-                //console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -391,10 +361,6 @@ exports.definition = {
                
                 if (res.isValidRow()){
                 	var row_count = res.fieldCount;
-                	
-                	 /*for(var a = 0; a < row_count; a++){
-                		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
-                	 }*/
 					arr = {
 					    a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
@@ -406,8 +372,7 @@ exports.definition = {
 					    img_path: res.fieldByName('img_path')
 					};
 					
-				} 
-				// console.log(arr );
+				}
 				res.close();
                 db.close();
                 collection.trigger('sync');
