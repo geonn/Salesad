@@ -36,9 +36,8 @@ function init() {
 		from:"itemDetails",
 		u_id:u_id
 	};
-	addAdsClick("init", params);
 	params = null;
-	$.win.open();
+	addAdsClick("init", params);
 }
 
 function addAdsClick(name, params) {

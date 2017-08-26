@@ -40,10 +40,8 @@ function init(){
 	var merchant = m_library.getMerchantsById(ads.m_id);
 	m_id = (merchant.parent != 0 && merchant.parent != null)?merchant.parent:ads.m_id;
 	
-	API.callByPost({url: "addAdsClick", new:true, params:{a_id: a_id}}, {onload: function(responseText){}});
-	
-	getScanMerchant();
 	pageTitle = ads.name;
+	getScanMerchant();
 }
 init();
 
@@ -73,12 +71,11 @@ function checkFavorite(){
 	var exist = model_favorites.checkFavoriteExist(m_id, u_id);
 	var fav_img = (exist)?"/images/SalesAd_Favorited.png":"/images/SalesAd_Favorite.png";
 	$.favorites.image = fav_img;
-	
 	refresh();
 }
 
 function refresh(e){
-	loading.start();	
+	loading.start();
 	API.callByPost({url: "getItemList", params:{a_id: a_id}}, {onload: function(responseText){
 		var model = Alloy.createCollection("items");
 		var res = JSON.parse(responseText);
@@ -100,12 +97,12 @@ function refresh(e){
 			checker.updateModule("12","getVoucherList",currentDateTime());
 			items = i_library.getItemByAds(ads.a_id);
 			render_banner();
-			loading.finish();
 		},onerror: function(err) {
 			_.isString(err.message) && alert(err.message);
 		}
 	});
 }
+Ti.App.addEventListener('app:loadAdsDetails', refresh);
 
 function render_banner(){
 	/***Set ads template***/
@@ -117,7 +114,7 @@ function render_banner(){
  		ads_height = "66%";
  	}
  	/***Add ads banner***/
-	var app_background = (ads.app_background !== undefined)?"#"+ads.app_background:"#fff";
+	var app_background = (ads.app_background != "")?"#"+ads.app_background:"#fff";
 	$.win.backgroundColor = app_background;
 
 	if(OS_IOS){
@@ -190,7 +187,6 @@ function render_banner(){
 			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
 		}
 	}
-	
 	getAdDetails();
 }
 
@@ -264,21 +260,6 @@ var getAdDetails = function(){
 		$.ads_details.add(details_text);
 		
 		isAdsAvailable = true;
-	}else{
-		/*
-		var noAvailableLabel = $.UI.create("Label", { 
-			text : "No ads available",
-			height: Ti.UI.SIZE,
-			width: Ti.UI.FILL,
-			top:10,
-			textAlign: 'center'
-		});
-		var default_image = $.UI.create("ImageView",{
-			image: "images/default-panel-1.png",
-			height: Ti.UI.FILL,
-			width: Ti.UI.FILL
-		});
-		$.ads_details.add(default_image);*/
 	}
 
 	var custom = $.UI.create("Label", { 
@@ -286,13 +267,11 @@ var getAdDetails = function(){
 		    color: '#ED1C24' 
 	});
 	
-	//var ads_title = textCounter(pageTitle , 14);
 	if(Ti.Platform.osname == "android"){ 
 		$.pageTitle.add(custom);   
 	}else{
 		$.win.titleControl = custom;
-	} 
-	
+	}
 	loading.finish();
 };
 
@@ -427,16 +406,6 @@ $.favorites.addEventListener("click", function(){
 	}
 });
 
-function afterScan(e){
-	if(e.m_id != m_id){
-		var win = Alloy.createController("branch_ad", {m_id: e.m_id}).getView(); 
-		COMMON.openWindow(win);
-		Ti.App.removeEventListener('afterScan', afterScan);
-	}else{
-		getScanMerchant();
-	}
-}
-
 function popMoreMenu(){
 	var picker_list = [{text: 'Report This Ad'}, {text: 'My Rewards'}];
 	var options = _.pluck(picker_list, "text");
@@ -533,22 +502,6 @@ function submit_report(e){
 		loading.finish();
 	}});
 }
-
-function closeWindow(){
-	COMMON.closeWindow($.win); 
-}
-
-$.btnBack.addEventListener('click', closeWindow); 
-
-$.win.addEventListener("close", function(){
-	Ti.App.fireEvent('removeNav');
-	Ti.App.removeEventListener('app:loadAdsDetails', refresh);
-	Ti.App.removeEventListener('afterScan', afterScan);
-    $.destroy();
-});
-
-Ti.App.addEventListener('app:loadAdsDetails', refresh);
-Ti.App.addEventListener('afterScan', afterScan);	
 
 /*** GEO experiment***/  
 if (Titanium.Platform.name == 'iPhone OS'){
@@ -661,6 +614,18 @@ function createShareOptions(){
     return share;
 }
 
+function closeWindow(){
+	COMMON.closeWindow($.win); 
+}
+
 $.win.addEventListener('android:back', function (e) {
 	closeWindow();
+});
+
+$.btnBack.addEventListener('click', closeWindow); 
+
+$.win.addEventListener("close", function(){
+	Ti.App.fireEvent('removeNav');
+	Ti.App.removeEventListener('app:loadAdsDetails', refresh);
+    $.destroy();
 });
