@@ -150,24 +150,46 @@ exports.definition = {
 	            // db.close();
 	            // collection.trigger('sync');
 			// },
-            saveArray : function(arr){
-				var collection = this;
-				
-                db = Ti.Database.open(collection.config.adapter.db_name);
-                if(Ti.Platform.osname != "android"){
-                	db.file.setRemoteBackup(false);
-                }
-                db.execute("BEGIN");
-                arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (i_id, a_id, price,barcode,caption,img_path,position,status, description, voucher_description, isExclusive, img_thumb) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.i_id, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.isExclusive, entry.img_thumb);
-					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET a_id=?, price=?,barcode=?,caption=?,img_path=?,position=?,status=?, description=?, voucher_description=?, isExclusive=?, img_thumb=? WHERE i_id=?";
-					db.execute(sql_query, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.isExclusive, entry.i_id, entry.img_thumb);
-				});
-				db.execute("COMMIT");
-	            db.close();
-	            collection.trigger('sync');
-			},
+           saveArray:function(arr){
+		    var collection = this;
+		    var columns = collection.config.columns;
+		    var names = [];
+		    for (var k in columns) {
+		                 names.push(k);
+		             }
+		                db = Ti.Database.open(collection.config.adapter.db_name);
+		                if(Ti.Platform.osname != "android"){
+		                 db.file.setRemoteBackup(false);
+		                }
+		                db.execute("BEGIN");
+		                arr.forEach(function(entry) {
+		                 var keys = [];
+		                 var questionmark = [];
+		                 var eval_values = [];
+		                 var update_questionmark = [];
+		                 var update_value = [];
+		                 for(var k in entry){
+		                  if (entry.hasOwnProperty(k)){
+		                   _.find(names, function(name){
+		                    if(name == k){
+		                     keys.push(k);
+		                     questionmark.push("?");
+		                     eval_values.push("entry."+k);
+		                     update_questionmark.push(k+"=?");
+		                    }
+		                   });
+		                  }
+		                 }
+		                 var without_pk_list = _.rest(update_questionmark);
+		                 var without_pk_value = _.rest(eval_values);
+		                 var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" ("+keys.join()+") VALUES ("+questionmark.join()+")";
+		                 eval("db.execute(sql_query, "+eval_values.join()+")");
+		    });
+		    db.execute("COMMIT");
+		    //console.log(db.getRowsAffected()+" affected row");
+		             db.close();
+		             collection.trigger('sync');   
+		   },
 			resetItem : function(a_id){
 				var collection = this;
                 var sql = "DELETE FROM " + collection.config.adapter.collection_name +" WHERE a_id="+ a_id;
