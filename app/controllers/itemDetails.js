@@ -692,7 +692,7 @@ $.win.addEventListener('close', function(e) {
 		from:"itemDetails",
 		u_id:u_id
 	};
-	addAdsClick("", allparams);
+	addAdsClick("", param);
 	closeWindow();
 });
 
