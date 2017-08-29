@@ -196,7 +196,7 @@ exports.definition = {
 				var sql_limit = (unlimit) ? "" : "limit " + offset + ", 8";
 				var collection = this;
 				//"SELECT * FROM voucher WHERE status = 1 AND point = 0 AND date('now') <= save_to"
-				var sql = "SELECT voucher.*, ads.name, ads.a_id FROM voucher LEFT OUTER JOIN ads on voucher.a_id = ads.a_id WHERE voucher.status = 1 AND voucher.point = 0 AND date('now') <= voucher.save_to AND date('now') >= voucher.save_from AND ads.status = 1 order by updated, voucher.position " + sql_limit;
+				var sql = "SELECT voucher.*, ads.name, ads.a_id FROM voucher LEFT OUTER JOIN ads on voucher.a_id = ads.a_id WHERE voucher.status = 1 AND voucher.point = 0 AND date('now') <= voucher.save_to AND date('now') >= voucher.save_from AND ads.status = 1 order by voucher.position " + sql_limit;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
