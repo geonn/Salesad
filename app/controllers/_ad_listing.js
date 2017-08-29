@@ -368,10 +368,13 @@ function buildListing(){
 	if(ads.length <= 0){
 		activityIndicator.hide();
 		$.ads_listing.remove(activityIndicator);
-		setTimeout(function(){
-			alert("There is no sales from this store right now");
-			return;				
-		},2000);	
+		var view = $.UI.create("View", {classes:['wfill', 'hfill']});
+		var label = $.UI.create("Label", {classes: ['wfill', 'hsize'], text: "There is no sales from this merchant right now.", textAlign: "center", top: "55%", left: 50, right: 50});
+		view.add(label);
+		$.ads_listing.add(view);
+		view = null;
+		label = null;
+		return;
 	}
 }
 
