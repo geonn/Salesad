@@ -512,6 +512,7 @@ function gift_voucher(e) {
 			list_voucher(vdata, "gift");
 		}else {
 			loading.finish();
+			boll = true;
 		}
 	}
 }
