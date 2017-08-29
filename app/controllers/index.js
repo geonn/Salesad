@@ -389,9 +389,9 @@ $.indexView.root.addEventListener("close", function(){
 
 var SCANNER = require("scanner");
 $.indexView.scanner.addEventListener('click', QrScan);
-var load = false;
-var lastDistance = 0;
-var refreshing = false;
+// var load = false;
+// var lastDistance = 0;
+// var refreshing = false;
 
 if(OS_ANDROID){
 	$.indexView.homescrollview.setOverScrollMode(Titanium.UI.Android.OVER_SCROLL_ALWAYS);
@@ -400,31 +400,21 @@ if(OS_ANDROID){
 		e.source.setRefreshing(false);
 	});
 }else{
-	$.indexView.homescrollview.addEventListener("scroll", function(e){
-	var svtop = (OS_ANDROID)?-10:-50;
-	if (e.y <= svtop && !refreshing) {
-		$.indexView.adListing.removeAllChildren();
-		$.indexView.bannerListing.removeAllChildren();
-		$.indexView.homescrollview.scrollingEnabled=false;	
-		$.indexView.activityIndicator.show();
-		$.indexView.loadingBar.opacity = "1";
-		$.indexView.loadingBar.height = "120";
-		$.indexView.loadingBar.top = "100";			
-        setTimeout(function(){
-        	$.indexView.homescrollview.scrollingEnabled=true;
-			$.indexView.activityIndicator.hide();
-			$.indexView.loadingBar.opacity = "0";
-			$.indexView.loadingBar.height = "0";
-			$.indexView.loadingBar.top = "0";				
-			refreshing = true;
-			refreshAds();			        	
-        	refreshing = false;
-        }, 1000);   
-    }
-	theEnd=null;
-	total=null;
-	distance=null;
-});
+	var control = Ti.UI.createRefreshControl({
+    	tintColor:"#00CB85"
+	});
+	$.indexView.homescrollview.refreshControl = control;
+	control.addEventListener('refreshstart',function(e){
+	    Ti.API.info('refreshstart');
+	    setTimeout(function(e){
+	        Ti.API.debug('Timeout');
+	        $.indexView.homescrollview.scrollTo(0,0,true);	
+			setTimeout(function(){
+				refreshAds();
+			},500);	        
+	        control.endRefreshing();
+	    }, 1000);
+	});
 }
 
 function QrScan(){
