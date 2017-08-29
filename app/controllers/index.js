@@ -46,7 +46,7 @@ var bannerListing = function(){
 	}
 	for (var i=0; i< banners.length; i++) {
 		adImage = Ti.UI.createImageView({
-			image: banners[i].img_path,
+			image: banners[i].img_thumb,
 			a_id: banners[i].a_id,
 			m_id: banners[i].m_id,
 			merchant_name: banners[i].name,

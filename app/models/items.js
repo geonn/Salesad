@@ -11,7 +11,8 @@ exports.definition = {
 		    "img_path": "TEXT",
 		    "position": "INTEGER",
 		    "status": "INTEGER",
-		    "isExclusive": "INTEGER"		//1-exclusive, 2- normal
+		    "isExclusive": "INTEGER",		//1-exclusive, 2- normal
+		    "img_thumb": "TEXT"
 		},
 		adapter: {
 			type: "sql",
@@ -69,7 +70,7 @@ exports.definition = {
 			},
 			getImageByI_id : function(i_id){
 				var collection = this;
-				var sql = "SELECT img_path FROM " + collection.config.adapter.collection_name + " WHERE i_id="+ i_id;
+				var sql = "SELECT img_thumb FROM " + collection.config.adapter.collection_name + " WHERE i_id="+ i_id;
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -77,7 +78,7 @@ exports.definition = {
                 var res = db.execute(sql);
                 var arr; 
                 if(res.isValidRow()){
-                	arr= res.fieldByName("img_path");
+                	arr= res.fieldByName("img_thumb");
 				} 
 				res.close();
                 db.close();
@@ -108,7 +109,8 @@ exports.definition = {
 					    voucher_description: res.fieldByName("voucher_description"),
 					    caption: caption,
 					    isExclusive: res.fieldByName("isExclusive"),
-					    img_path: res.fieldByName('img_path')
+					    img_path: res.fieldByName('img_path'),
+					    img_thumb: res.fieldByName('img_thumb')
 					};
 					res.next();
 					count++;
@@ -119,35 +121,35 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},			
-			saveItem : function(i_id,a_id,price,barcode, caption, img_path){
-				
-				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE i_id="+ i_id ;
-                var sql_query =  "";
-                db = Ti.Database.open(collection.config.adapter.db_name);
-                if(Ti.Platform.osname != "android"){
-                	db.file.setRemoteBackup(false);
-				}
-                var res = db.execute(sql);  
-                if(caption === null){
-                	caption = "";
-                }
-                
-                if(caption != ""){
-                	caption = caption.replace(/["']/g, "&quot;");
-                }
-				
-                if (res.isValidRow()){
-             		sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id=?, price=?,barcode=?, caption=?, img_path=? WHERE i_id=?";
-             		db.execute(sql_query, a_id, price,barcode, caption, img_path, i_id);
-                }else{
-                	sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (i_id,a_id,price,barcode,caption, img_path) VALUES (?,?,?,?,?,?)" ;
-                	db.execute(sql_query, i_id, a_id, price,barcode, caption, img_path);
-				}
-				
-	            db.close();
-	            collection.trigger('sync');
-			},
+			// saveItem : function(i_id,a_id,price,barcode, caption, img_path){
+// 				
+				// var collection = this;
+                // var sql = "SELECT * FROM " + collection.config.adapter.collection_name + " WHERE i_id="+ i_id ;
+                // var sql_query =  "";
+                // db = Ti.Database.open(collection.config.adapter.db_name);
+                // if(Ti.Platform.osname != "android"){
+                	// db.file.setRemoteBackup(false);
+				// }
+                // var res = db.execute(sql);  
+                // if(caption === null){
+                	// caption = "";
+                // }
+//                 
+                // if(caption != ""){
+                	// caption = caption.replace(/["']/g, "&quot;");
+                // }
+// 				
+                // if (res.isValidRow()){
+             		// sql_query = "UPDATE " + collection.config.adapter.collection_name + " SET a_id=?, price=?,barcode=?, caption=?, img_path=? WHERE i_id=?";
+             		// db.execute(sql_query, a_id, price,barcode, caption, img_path, i_id);
+                // }else{
+                	// sql_query = "INSERT INTO " + collection.config.adapter.collection_name + " (i_id,a_id,price,barcode,caption, img_path) VALUES (?,?,?,?,?,?)" ;
+                	// db.execute(sql_query, i_id, a_id, price,barcode, caption, img_path);
+				// }
+// 				
+	            // db.close();
+	            // collection.trigger('sync');
+			// },
             saveArray : function(arr){
 				var collection = this;
 				
@@ -157,10 +159,10 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (i_id, a_id, price,barcode,caption,img_path,position,status, description, voucher_description, isExclusive) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.i_id, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.isExclusive);
-					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET a_id=?, price=?,barcode=?,caption=?,img_path=?,position=?,status=?, description=?, voucher_description=?, isExclusive=? WHERE i_id=?";
-					db.execute(sql_query, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.isExclusive, entry.i_id);
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (i_id, a_id, price,barcode,caption,img_path,position,status, description, voucher_description, isExclusive, img_thumb) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.i_id, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.isExclusive, entry.img_thumb);
+					var sql_query = "UPDATE "+collection.config.adapter.collection_name+" SET a_id=?, price=?,barcode=?,caption=?,img_path=?,position=?,status=?, description=?, voucher_description=?, isExclusive=?, img_thumb=? WHERE i_id=?";
+					db.execute(sql_query, entry.a_id, entry.price, entry.barcode, entry.caption, entry.img_path, entry.position, entry.status, entry.description, entry.voucher_description, entry.isExclusive, entry.i_id, entry.img_thumb);
 				});
 				db.execute("COMMIT");
 	            db.close();
