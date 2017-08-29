@@ -15,6 +15,42 @@ var clickTime;
 var xpresscount;
 var xpresscount1=0;
 var adsdata2=[];
+
+if(OS_IOS){
+	var control = Ti.UI.createRefreshControl({
+    	tintColor:"#00CB85"
+	});
+	$.content_scrollview.refreshControl = control;
+	control.addEventListener('refreshstart',function(e){
+	    Ti.API.info('refreshstart');
+	    setTimeout(function(e){
+	        Ti.API.debug('Timeout');
+	        $.content_scrollview.scrollTo(0,0,true);	
+			setTimeout(function(){
+				ads_counter = 0;
+				xpresscount1=0;
+				counter = 0;
+				count1=0;
+				if(typeof category_id != "undefined"){
+			 		getAdsByCategory(category_id);		
+				}
+				else{
+					getAdsData();
+				}
+				refresh();
+			},500);	        
+	        control.endRefreshing();
+	    }, 1000);
+	});
+}
+
+function convertToHumanFormat(datetime){
+	console.log(datetime);
+	if(datetime == null){return "";}
+	var timeStamp = datetime.split("-");
+	return timeStamp[2]+"-"+timeStamp[1]+"-"+timeStamp[0];
+}
+
 function navTo(e){
 	var record = parent({name: "record"}, e.source);
 	var type = (typeof e.source.type !="undefined")?e.source.type : 1;
@@ -544,56 +580,6 @@ init();
 var load = false;
 var lastDistance = 0;
 var refreshing = false;
-$.content_scrollview.addEventListener("scroll", function(e){
-	var theEnd = $.content.rect.height;
-	var total = (OS_ANDROID)?pixelToDp(e.y)+e.source.rect.height: e.y+e.source.rect.height;
-	var distance = theEnd - total;
-	var svtop = -50;
-	if (distance < lastDistance){
-		var nearEnd = theEnd * 1;
-		if (!load && (total >= nearEnd)){
-			load = true;
-			getPreviousData({});
-			render({});
-			load = false;
-		}
-		nearEnd=null;
-	}
-	lastDistance = distance;
-	if(OS_IOS){
-		if (e.y <= svtop && !refreshing) {
-			$.content.removeAllChildren();	
-			$.content_scrollview.scrollingEnabled=false;	
-			$.activityIndicator.show();
-			$.loadingBar.opacity = "1";
-			$.loadingBar.height = "120";
-			$.loadingBar.top = "100";	
-			ads_counter = 0;
-			xpresscount1=0;
-			counter = 0;
-			count1=0;				
-	        setTimeout(function(){
-	        	$.content_scrollview.scrollingEnabled=true;
-				$.activityIndicator.hide();
-				$.loadingBar.opacity = "0";
-				$.loadingBar.height = "0";
-				$.loadingBar.top = "0";			
-				refreshing = true;
-				if(category_id != empty){
-			 		getAdsByCategory(category_id);		
-				}
-				else{
-					getAdsData();
-				}				
-				refresh();					        	
-	        	refreshing = false;
-	        }, 1000);   
-	    }
-		theEnd=null;
-		total=null;
-		distance=null;
-	}	
-});
 
 if (OS_ANDROID) {
 	$.swipeRefresh.addEventListener('refreshing', function(e) {

@@ -10,7 +10,7 @@
 	         	<Button id="textlogin_out" left='0' class="wsize hsize" title="Login" />
 	        </View>
         </RightNavButton>
-       
+       	
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#fff">
 				<View left="0" width="15%">
@@ -91,7 +91,7 @@
 		 				<Label right="10" class="wsize hsize">1.1.0</Label>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
-		 				<Label class="wfill hsize" textAlign="center">© SalesAd 2017. All rights reserved.</Label>
+		 				<Label class="wfill hsize padding h6" textAlign="center">© Copyright 2017 SalesAd by Freejini Sdn Bhd (10141416-M). All Rights Reserved.</Label>
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 	</TableView>

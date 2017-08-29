@@ -25,7 +25,7 @@
 				<Switch id="notiSwitch_featured" notification_title="notification_featured" right="5" value="true"  />
 			</View>
 			<View class="line"></View>
-	       <Label class="contentInfo padding">Switch off push notification will miss the notification/alert of great deal like Mega Sales and Limited time Sales!</Label>
+	       <!-- <Label class="contentInfo padding">Switch off push notification will miss the notification/alert of great deal like Mega Sales and Limited time Sales!</Label> -->
 	       <Label class="label" top="5">Recommendation : ON</Label>
 	    	
 		</View>

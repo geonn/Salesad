@@ -13,6 +13,24 @@ if(OS_ANDROID){
 	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
 }else{
 	cell_width = Math.floor(pwidth / 2) - 15;
+	var control = Ti.UI.createRefreshControl({
+    	tintColor:"#00CB85"
+	});
+	$.voucher_scrollview.refreshControl = control;
+	control.addEventListener('refreshstart',function(e){
+	    Ti.API.info('refreshstart');
+	    setTimeout(function(e){
+	        Ti.API.debug('Timeout');
+	        $.voucher_scrollview.scrollTo(0,0,true);	
+			setTimeout(function(){
+				$.voucher_scrollview.voucherrefreshing = false;
+				$.voucher_scrollview.ins_vouchercount = 0;
+				$.voucher_scrollview.gift_vouchercount = 0;
+				eval($.voucher_scrollview.vouchertype+"()");
+			},500);	        
+	        control.endRefreshing();
+	    }, 1000);
+	});
 }
 
 if (OS_IOS){
@@ -873,7 +891,7 @@ function login_cancel(e) {
 }
 Ti.App.addEventListener('login_cancel:reward', login_cancel);
 
-if(OS_ANDROID) {
+if(OS_ANDROID){
 	$.swipeRefresh.addEventListener('refreshing', function(e) {
 		if($.voucher_scrollview.voucherrefreshing) {
 			e.source.setRefreshing(false);
@@ -883,18 +901,7 @@ if(OS_ANDROID) {
 			eval($.voucher_scrollview.vouchertype+"()");
 		}
 	});
-}else {
-	$.voucher_scrollview.addEventListener('scroll', function(e) {
-		var svtop = -50;
-		if (e.y <= svtop && $.voucher_scrollview.voucherrefreshing) {
-			$.voucher_scrollview.voucherrefreshing = false;
-			$.voucher_scrollview.ins_vouchercount = 0;
-			$.voucher_scrollview.gift_vouchercount = 0;
-			eval($.voucher_scrollview.vouchertype+"()");
-		}
-		svtop = null;
-	});
-}
+};
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);

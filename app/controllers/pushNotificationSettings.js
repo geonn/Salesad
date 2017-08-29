@@ -4,7 +4,7 @@ var u_id = Ti.App.Properties.getString('u_id');
 
 /**Set Custom title**/
 var custom = $.UI.create("Label", { 
-    text: 'Notification', 
+    text: 'Notifications', 
     color: '#ED1C24', 
     width: Ti.UI.SIZE 
  });
@@ -36,7 +36,7 @@ var changeStatus = function(e){
 		var dialog = Ti.UI.createAlertDialog({
 		    cancel: 1,
 		    buttonNames: ['Cancel','Confirm'],
-		    message: 'Are you sure want to turn off push notification?',
+		    message: 'Switch off push notification will miss the notification/alert of great deal like Mega Sales and Limited time Sales!',
 		    title: 'Push Notification'
 		  });
 		  dialog.addEventListener('click', function(ex){
