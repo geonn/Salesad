@@ -206,7 +206,7 @@ var getAdDetails = function(){
 				row = $.UI.create('View', {classes: ["rowAd"],});
 			}
 			cell = $.UI.create('View', {classes: ["cellAd"], width: cell_width});
-			imagepath = items[i].img_path;
+			imagepath = items[i].img_thumb;
 			
 			var itemImageView = Ti.UI.createView({
 				height: Ti.UI.SIZE,
