@@ -233,7 +233,7 @@ exports.definition = {
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
-					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName("latitude"),
 					    sales_from: res.fieldByName("sales_from"),
@@ -247,7 +247,8 @@ exports.definition = {
 					    img_path: res.fieldByName('img_path'),
 					    description: res.fieldByName('description'),
 					    status: res.fieldByName('status'),
-					    name: res.fieldByName('name')
+					    name: res.fieldByName('name'),
+					    img_thumb: res.fieldByName('img_thumb')
 					};
                 	res.next();
 					count++;
