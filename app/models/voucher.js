@@ -100,7 +100,8 @@ exports.definition = {
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
 					    display_type: res.fieldByName('display_type'),
-					    left: res.fieldByName('left')
+					    left: res.fieldByName('left'),
+					    thumb_image: res.fieldByName('thumb_image')
 					};
                 	res.next();
 					count++;
@@ -143,7 +144,8 @@ exports.definition = {
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
 					    display_type: res.fieldByName('display_type'),
-					    left: res.fieldByName('left')
+					    left: res.fieldByName('left'),
+					    thumb_image: res.fieldByName('thumb_image')
 					};                	
                 }
                 res.close();
@@ -184,7 +186,8 @@ exports.definition = {
 					    updated: res.fieldByName('updated'),
 					    status: res.fieldByName('status'),
 					    use_type: res.fieldByName('display_type'),
-					    left: res.fieldByName('left')
+					    left: res.fieldByName('left'),
+					    thumb_image: res.fieldByName('thumb_image')
 					};                	
                 }
                 res.close();

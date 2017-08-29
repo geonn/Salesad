@@ -26,8 +26,8 @@ var keyword = "";
 
 function getPreviousData(param){
 	var model = Alloy.createCollection("xpress");
-	data = model.ongoingpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start, latest: false, keyword: keyword, category_id: category_id});
-	data2 = model.expiredpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start2, latest: false, keyword: keyword, category_id: category_id});
+	data = model.ongoingpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start, latest: false, keyword: keyword, category_id: category_id, categoryname:param.categoryname});
+	data2 = model.expiredpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start2, latest: false, keyword: keyword, category_id: category_id, categoryname:param.categoryname});
 	start = start + data.length;
 	start2 += data2.length;
 }	
@@ -54,7 +54,7 @@ function popMore(){
 			popCategory();
 		}else if(e.index == 1){
 			var win = Alloy.createController("express_add").getView(); 
-			COMMON.openWindow(win); 
+			COMMON.openWindow(win);
 		}
 	});
 }
@@ -74,7 +74,7 @@ function popCategory(){
 			start = 0;
 			start2 = 0;
 			anchor = COMMON.todayDateTime();
-			getPreviousData({keyword:$.searchbar.value});
+			getPreviousData({categoryname:e.index});
 			render({clear: true});
 		}
 	});
@@ -89,6 +89,7 @@ function refresh(){
 	$.content.removeAllChildren();
 	render({});
 }
+Ti.App.addEventListener("express_personal:refresh", refresh);
 
 function render(e){
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
@@ -245,6 +246,7 @@ $.content_scrollview.addEventListener("scroll", function(e){
 
 $.win.addEventListener("close", function(e){
 	Ti.App.fireEvent("home:refresh");
+	Ti.App.removeEventListener("express_personal:refresh", refresh);
 });
 
 $.btnBack.addEventListener('click', function(){ 

@@ -23,7 +23,7 @@
 	 	</View>
 	 	<View class="hr"></View>
 	 	<ScrollView id="content_scrollview" class="hfill wfill contwfill conthsize vert">
-	 		<SearchBar id="searchbar" class="hsize wfill" height="43" onReturn="doSearch"></SearchBar>
+	 		<SearchBar id="searchbar" class="hsize wfill" height="43" onChange="doSearch"></SearchBar>
 	 		<View id="content" class="wfill hsize horz" top="0"></View>
 	 		<View id="history" class="wfill hsize horz" top="50"></View>
 	 	</ScrollView>

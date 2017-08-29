@@ -11,6 +11,15 @@ var boll = true;
 
 if(OS_ANDROID){
 	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
+	$.swipeRefresh.addEventListener('refreshing', function(e) {
+		if($.voucher_scrollview.voucherrefreshing) {
+			e.source.setRefreshing(false);
+			$.voucher_scrollview.voucherrefreshing = false;
+			$.voucher_scrollview.ins_vouchercount = 0;
+			$.voucher_scrollview.gift_vouchercount = 0;
+			refreshVlist();
+		}
+	});
 }else{
 	cell_width = Math.floor(pwidth / 2) - 15;
 	var control = Ti.UI.createRefreshControl({
@@ -424,16 +433,31 @@ function vouchers(e, str) {
 				count = index;
 				return currentValue != e[key].title;
 			}) && count == $.voucher_view.alltitle.length) {
+				$.voucher_view.childadd = false;
 				parent.add(title);
 				parent.add(hr);
+			}else {
+				$.voucher_view.childadd = true;
 			}
 			count = null;
 		}else {
+			$.voucher_view.childadd = false;
 			parent.add(title);
 			parent.add(hr);
 		}
 		parent.add(child);
-		$.voucher_view.add(parent);
+		if($.voucher_view.getChildren().length > 0) {
+			if($.voucher_view.lastchild.getChildren().length / 2 == 1 && $.voucher_view.childadd) {
+				for(var i = 0; i < child.getChildren().length; i++) {
+					$.voucher_view.lastchild.add(child.getChildren()[i]);
+				}
+			}else {
+				$.voucher_view.add(parent);
+			}
+		}else {
+			$.voucher_view.add(parent);
+		}
+		$.voucher_view.lastchild = child;
 		
 		parent = null;
 		title = null;
@@ -768,7 +792,11 @@ function refreshVlist(str) {
 			var arr = res.data || null;
 			model.saveArray(arr);
 			checker.updateModule("12","getVoucherList",currentDateTime());
-			ins_voucher(str);
+			if($.voucher_scrollview.vouchertype == "ins_voucher") {
+				ins_voucher(str);
+			}else {
+				gift_voucher();
+			}
 			loading.finish();
 		},onerror: function(err) {
 			_.isString(err.message) && alert(err.message);
@@ -830,9 +858,10 @@ $.scrollview.addEventListener("scrollend", function(e) {
 		if(e.currentPage != 0) {
 			var u_id = Ti.App.Properties.getString('u_id') || "";
 			if(u_id == ""){
-				
 				var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 				COMMON.openWindow(win);
+			}else if(e.currentPage == 1) {
+				refreshVlist();
 			}else if(e.currentPage == 1) {
 				savedvoucher();
 			}else if(e.currentPage == 2) {
@@ -891,18 +920,6 @@ function login_cancel(e) {
 	$.scrollview.scrollToView(0);
 }
 Ti.App.addEventListener('login_cancel:reward', login_cancel);
-
-if(OS_ANDROID){
-	$.swipeRefresh.addEventListener('refreshing', function(e) {
-		if($.voucher_scrollview.voucherrefreshing) {
-			e.source.setRefreshing(false);
-			$.voucher_scrollview.voucherrefreshing = false;
-			$.voucher_scrollview.ins_vouchercount = 0;
-			$.voucher_scrollview.gift_vouchercount = 0;
-			eval($.voucher_scrollview.vouchertype+"()");
-		}
-	});
-};
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
