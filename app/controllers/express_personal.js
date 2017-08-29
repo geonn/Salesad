@@ -44,7 +44,7 @@ function doSearch(){
 function popMore(){
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: 3,
-	  options: ['Categories','Add SalesXpress','My Posted SalesXpress','Cancel'],
+	  options: ['Categories','Add SalesXpress','Cancel'],
 	  title: 'More'
 	});
 		

@@ -316,17 +316,40 @@ $.indexView.more.addEventListener("click", function(e){
 });
 //map page
 $.indexView.nearby.addEventListener("click", function(e){
-	var win = Alloy.createController("nearby").getView();  
-	if (Ti.Geolocation.locationServicesEnabled) {
-		COMMON.openWindow(win);	
-	}else{
-	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
-			if(e.success){
-				COMMON.openWindow(win);						
-			}else{
-	        	alert("You denied permission.");
+	var win = Alloy.createController("nearby").getView();
+	if(OS_ANDROID) {
+		var hasLocationPermissions = Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS);
+	    if (hasLocationPermissions) {
+			if (Ti.Geolocation.locationServicesEnabled) {
+				COMMON.openWindow(win);
+			}else {
+				alert("Please open your GPS.");
 			}
-	  	});		
+	    }else {
+	    	Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+				if(e.success) {
+					if (Ti.Geolocation.locationServicesEnabled) {
+						COMMON.openWindow(win);
+					}else {
+						alert("Please open your GPS.");
+					}
+				}else {
+					alert("You denied permission for now, forever or the dialog did not show at all because it you denied forever before.");
+				}
+			});
+	    }
+	}else {
+		Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+			if(e.success) {
+				if (Ti.Geolocation.locationServicesEnabled) {
+					COMMON.openWindow(win);
+				}else {
+					alert("Please open your GPS.");
+				}
+			}else {
+				alert("You denied permission for now, forever or the dialog did not show at all because it you denied forever before.");
+			}
+		});
 	}
 });
 //favourite page
