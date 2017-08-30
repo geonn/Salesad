@@ -26,14 +26,14 @@ var i_library = Alloy.createCollection('items');
 var voucher = Alloy.createCollection('voucher');
 var items  = i_library.getItemByAds(a_id);
 
-var getI_id = [];
-var allparams = [];
-
 function init() {
-	$.scrollableView.count = 0;
+	$.scrollableView.VI_id = [];
+	$.scrollableView.II_id = [];
+	$.scrollableView.allVoucherId = [];
+	$.scrollableView.allItemId = [];
 	var params = {
 		item_id:i_id,
-		type:3,
+		type: (args.isExclusive == 1) ? 4 : 3,
 		from:"itemDetails",
 		u_id:u_id
 	};
@@ -42,9 +42,11 @@ function init() {
 }
 
 function addAdsClick(name, params) {
-	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
-	if(name == 'init') {
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){console.log("Sucess send API!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");},onerror:function(err){}});
+	if(name == "init") {
 		getAdsImages();
+	}else if(name == "sendAPI") {
+		sendAPI("Item");
 	}
 }
 
@@ -58,7 +60,11 @@ var getAdsImages = function() {
 	var v_view;
 	
 	for (var i=0; i< items.length; i++) {
-		getI_id.push(items[i].i_id);
+		if(items[i].isExclusive == 1) {
+			$.scrollableView.VI_id[i] = items[i].i_id;
+		}else {
+			$.scrollableView.II_id[i] = items[i].i_id;
+		}
 		var itemImageView = $.UI.create("View", {classes:['wfill','hsize','vert']});
 		var adImage = $.UI.create('imageView',{
 			classes:['wfill','hsize'],
@@ -677,7 +683,11 @@ function QrScan(){
 $.scrollableView.addEventListener('scrollend',function(e) {
 	if(e.source.currentPage != pagecount) {
 		$.scrollableView.setScrollingEnabled(false);
-		allparams[$.scrollableView.count++] = getI_id[e.source.currentPage];
+		if($.scrollableView.VI_id[e.source.currentPage] != (undefined || null || "")) {
+			$.scrollableView.allVoucherId.push($.scrollableView.VI_id[e.source.currentPage]);
+		}else if($.scrollableView.II_id[e.source.currentPage] != (undefined || null || "")) {
+			$.scrollableView.allItemId.push($.scrollableView.VI_id[e.source.currentPage]);
+		}
 		pagecount = e.source.currentPage;
 		set_title_button();
 	}
@@ -687,19 +697,31 @@ $.btnBack.addEventListener('click', closeWindow);
 $.win.addEventListener('android:back', closeWindow);
 
 $.win.addEventListener('close', function(e) {
-	
+	sendAPI("Voucher");
 });
 
-function closeWindow(e) {
-	if(allparams != []) {
-		var param = {
-			item_id:allparams.join(),
+function sendAPI(e) {
+	var param = "";
+	if($.scrollableView.allVoucherId != [] && e == "Voucher") {
+		param = {
+			v_id:$.scrollableView.allVoucherId.join(),
+			type:4,
+			from:"itemDetails",
+			u_id:u_id
+		};console.log("voucher "+JSON.stringify(param));
+		addAdsClick("sendAPI", param);
+	}else if($.scrollableView.allItemId != [] && e == "Item") {
+		param = {
+			item_id:$.scrollableView.allItemId.join(),
 			type:3,
 			from:"itemDetails",
 			u_id:u_id
-		};
+		};console.log("item "+JSON.stringify(param));
 		addAdsClick("", param);
 	}
+}
+
+function closeWindow(e) {
 	COMMON.closeWindow($.win);
 }
 
