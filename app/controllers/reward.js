@@ -310,11 +310,11 @@ function vouchers(e, str) {
 		
 		e[key].child.forEach(function(entry) {
 			var count = 0;
-			if(params.length >= 1) {
+			if(params.length > 0) {
 				if(params.every(function(currentValue, index, arr) {
 					count = index;
 					return currentValue != entry.a_id;
-				}) && count == params.length) {
+				}) || count == params.length) {
 					params.push(entry.a_id);
 				}
 			}else {
@@ -435,17 +435,17 @@ function vouchers(e, str) {
 			var count = 0;
 			for(var i = 0; i < $.voucher_view.alltitle.length - 1; i++) {
 				count = i;
-				console.log("title "+$.voucher_view.alltitle[i]+" ..... "+e[key].title);
-				if($.voucher_view.alltitle[i] == e[key].title) {console.log("set true");
+				//console.log("title "+$.voucher_view.alltitle[i]+" ..... "+e[key].title);
+				if($.voucher_view.alltitle[i] == e[key].title) {//console.log("set true");
 					bol = true;
 					break;
-				}else if(count == $.voucher_view.alltitle.length - 1) {console.log("set false");
+				}else if(count == $.voucher_view.alltitle.length - 1) {//console.log("set false");
 					bol = false;
 				}
 			}
-			if(bol) {console.log("in true child add");
+			if(bol) {//console.log("in true child add");
 				$.voucher_view.childadd = true;
-			}else {console.log("in false child add");
+			}else {//console.log("in false child add");
 				$.voucher_view.childadd = false;
 				parent.add(title);
 				parent.add(hr);
@@ -457,14 +457,14 @@ function vouchers(e, str) {
 			parent.add(hr);
 		}
 		parent.add(child);
-		if($.voucher_view.getChildren().length > 0) {console.log("voucher length biger then 0");
-		console.log("persentage two and bol "+$.voucher_view.lastchild.getChildren().length % 2+" "+$.voucher_view.childadd);
+		if($.voucher_view.getChildren().length > 0) {//console.log("voucher length biger then 0");
+		//console.log("persentage two and bol "+$.voucher_view.lastchild.getChildren().length % 2+" "+$.voucher_view.childadd);
 			if($.voucher_view.childadd) {
 				for(var i = 0; i < child.getChildren().length; i++) {
 					$.voucher_view.lastchild.add(child.getChildren()[i]);
 					$.voucher_view.changechild = false;
 				}
-			}else {console.log("else in");
+			}else {//console.log("else in");
 				$.voucher_view.add(parent);
 				$.voucher_view.changechild = true;
 			}
@@ -472,7 +472,7 @@ function vouchers(e, str) {
 			$.voucher_view.add(parent);
 			$.voucher_view.changechild = true;
 		}
-		if($.voucher_view.changechild) {console.log("change child");
+		if($.voucher_view.changechild) {//console.log("change child");
 			$.voucher_view.lastchild = child;
 		}
 		
@@ -483,7 +483,8 @@ function vouchers(e, str) {
 	}
 	if(str == "refreshSVlist") {
 		refreshSVlist(params);
-	}else if(params != []) {
+	}
+	if(params != []) {
 		impression(params);
 	}
 	loading.finish();
@@ -550,7 +551,7 @@ function gift_voucher(e) {
 		if($.voucher_scrollview.gift_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		}
-		if(vdata.length > 0) {console.log("length "+vdata.length);
+		if(vdata.length > 0) {//console.log("length "+vdata.length);
 			$.voucher_scrollview.scrolldata = vdata.length;
 			list_voucher(vdata, "gift");
 		}else {
@@ -753,9 +754,6 @@ function list_voucher(e, name, params) {
 	$.voucher_scrollview.voucherrefreshing = true;
 	$.voucher_scrollview.scrollcheck = true;
 	$.voucher_scrollview.gift_vouchercount += 8;
-	if(params != undefined && params != []) {
-		impression(params);
-	}
 }
 
 function toVoucher(e) {
@@ -914,8 +912,8 @@ function createWhoops1(t,e,b,callback){
 
 function impression(a_id) {
 	var params = {
-		a_id:a_id,
-		type:2,
+		a_id:a_id.join(),
+		type:1,
 		from:"reward",
 		u_id:u_id
 	};

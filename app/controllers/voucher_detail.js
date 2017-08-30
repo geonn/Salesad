@@ -496,9 +496,19 @@ function init(){
 	checkVoucherStatus();
 	checkVoucherLimit();
 	render_banner();
+	addAdsClick();
 }
 init();
 	
+function addAdsClick() {
+	var params = {
+		v_id:v_id,
+		type:4,
+		from:"reward",
+		u_id:u_id
+	};
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
+}
 
 function doSave(){
 	if ($.save.getEnabled() != false) {
