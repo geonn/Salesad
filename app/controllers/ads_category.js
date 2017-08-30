@@ -548,7 +548,7 @@ $.ads_listing.addEventListener("scroll", function(e){
 });
 
 $.adsCategoryWin.addEventListener("close", function(e){
-	API.callByPost({url: "addAdsImpression", new:true, params:{a_id: JSON.stringify(a_id_submit)}}, {onload: function(responseText){}});
+	//API.callByPost({url: "addAdsImpression", new:true, params:{a_id: JSON.stringify(a_id_submit)}}, {onload: function(responseText){}});
 	Ti.App.removeEventListener("ads:close",closeWindow);
 });
 

@@ -251,7 +251,7 @@ var searchResult = function(){
 	$.loadingBar.height = "120";
 	$.loadingBar.top = "100";
 	$.searchItem.blur();
-	var str = $.searchItem.getValue(); 
+	var str = $.searchItem.getValue();
 	$.searchContainer.opacity = 1;
 	$.searchContainer.height = "auto";
 	var arrAds = Ads.searchAds(str);
@@ -259,10 +259,22 @@ var searchResult = function(){
 	Ti.App.fireEvent('app:searchRes', {result1: arrAds, result2: arrItems});
 };
 
-var goAd = function(a_id){
-	var win = Alloy.createController("ad", {a_id: a_id}).getView(); 
+var goAd = function(a_id,name,date){
+	var win = Alloy.createController("ad", {a_id: a_id,name: name,date: date}).getView(); 
 	COMMON.openWindow(win);  
 };
+
+function datedescription(from,to) {
+	var dateDescription = convertToHumanFormat(from)+" - "+convertToHumanFormat(to);
+	if(from == "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from now!";
+	}else if(from == "0000-00-00" &&to !="0000-00-00"){
+		dateDescription = "Until "+convertToHumanFormat(to)+"!";
+	}else if(from != "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from "+convertToHumanFormat(from)+"!";
+	}
+	return dateDescription;
+}
 
 var fontReset = function(){
 	
@@ -304,6 +316,8 @@ var searchRes = function(res1){
 			    touchEnabled: true,
 			    height: 80,
 			    source: entry.a_id,
+			    name: entry.name,
+			    date: datedescription(entry.sales_from,entry.sales_to),
 			    backgroundSelectedColor: "#FFE1E1",
 				backgroundColor: "#ffffff",
 			   });
@@ -311,6 +325,8 @@ var searchRes = function(res1){
 				var leftImage =  Titanium.UI.createImageView({
 					image:entry.img_path,
 					source: entry.a_id,
+					name: entry.name,
+					date: datedescription(entry.sales_from,entry.sales_to),
 					width:60,
 					height:60,
 					left:10,
@@ -319,6 +335,8 @@ var searchRes = function(res1){
 				
 				var viewlabel = $.UI.create("View", {
 					source: entry.a_id,
+					name: entry.name,
+					date: datedescription(entry.sales_from,entry.sales_to),
 					width: '65%',
 					height: '100%',
 					classes: ['vert']
@@ -328,6 +346,8 @@ var searchRes = function(res1){
 					text:entry.name,
 					font:{fontSize:16},
 					source: entry.a_id,
+					name: entry.name,
+					date: datedescription(entry.sales_from,entry.sales_to),
 					color: "#88919D",
 					textAlign:'left',
 					top:8,
@@ -337,6 +357,8 @@ var searchRes = function(res1){
 				var merchant_name =  $.UI.create("Label", {
 					text:entry.merchant_name,
 					source: entry.a_id,
+					name: entry.name,
+					date: datedescription(entry.sales_from,entry.sales_to),
 					font:{fontSize:12},
 					color: "#88919D",
 					textAlign:'left',
@@ -347,6 +369,8 @@ var searchRes = function(res1){
 				var rightForwardBtn =  Titanium.UI.createImageView({
 					image:"/images/btn-forward.png",
 					source: entry.a_id,
+					name: entry.name,
+					date: datedescription(entry.sales_from,entry.sales_to),
 					width:40,
 					height:40,
 					right:10,
@@ -354,7 +378,7 @@ var searchRes = function(res1){
 				});		
 				
 				row.addEventListener('touchend', function(e) {
-				 	goAd(e.source.source);
+				 	goAd(e.source.source,e.source.name,e.source.date);
 				});
 			 
 				row.add(leftImage);
@@ -370,6 +394,8 @@ var searchRes = function(res1){
 				touchEnabled: true,
 				height: 80,
 				source: entry.a_id,
+				name: entry.name,
+				date: datedescription(entry.sales_from,entry.sales_to),
 				backgroundSelectedColor: "#FFE1E1",
 				backgroundColor: "#FFF"
 			});
@@ -377,6 +403,8 @@ var searchRes = function(res1){
 			var leftImage = Titanium.UI.createImageView({
 				image: entry.img_path,
 				source: entry.a_id,
+				name: entry.name,
+				date: datedescription(entry.sales_from,entry.sales_to),
 				width: 60, 
 				height: 60,
 				left: 10,
@@ -385,6 +413,8 @@ var searchRes = function(res1){
 			
 			var viewlabel = $.UI.create("View", {
 				source: entry.a_id,
+				name: entry.name,
+				date: datedescription(entry.sales_from,entry.sales_to),
 				width: '65%',
 				height: '100%',
 				classes: ['vert']
@@ -396,6 +426,8 @@ var searchRes = function(res1){
 					fontSize: 16
 				},
 				source: entry.a_id,
+				name: entry.name,
+				date: datedescription(entry.sales_from,entry.sales_to),
 				color: "#88919D",
 				textAlign: 'left',
 				top: 8,
@@ -405,6 +437,8 @@ var searchRes = function(res1){
 			var merchant_name = $.UI.create('Label', {
 				text: entry.merchant_name,
 				source: entry.a_id,
+				name: entry.name,
+				date: datedescription(entry.sales_from,entry.sales_to),
 				font: {
 					fontSize: 12
 				},
@@ -416,6 +450,8 @@ var searchRes = function(res1){
 			var rightForwardBtn = Titanium.UI.createImageView({
 				image: "/images/btn-forward.png",
 				source: entry.a_id,
+				name: entry.name,
+				date: datedescription(entry.sales_from,entry.sales_to),
 				width: 40,
 				height: 40,
 				right: 10,
@@ -423,7 +459,7 @@ var searchRes = function(res1){
 			});
 			
 			row.addEventListener('touchend', function(e) {
-				goAd(e.source.source);
+				goAd(e.source.source,e.source.name,e.source.date);
 			});
 			
 			row.add(leftImage);

@@ -26,8 +26,8 @@ var keyword = "";
 
 function getPreviousData(param){
 	var model = Alloy.createCollection("xpress");
-	data = model.ongoingpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start, latest: false, keyword: keyword, category_id: category_id});
-	data2 = model.expiredpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start2, latest: false, keyword: keyword, category_id: category_id});
+	data = model.ongoingpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start, latest: false, keyword: keyword, category:param.category});
+	data2 = model.expiredpost({anchor: anchor, u_id: u_id, last_updated: last_updated, start: start2, latest: false, keyword: keyword, category:param.category});
 	start = start + data.length;
 	start2 += data2.length;
 }	
@@ -44,7 +44,7 @@ function doSearch(){
 function popMore(){
 	var dialog = Ti.UI.createOptionDialog({
 	  cancel: 3,
-	  options: ['Categories','Add SalesXpress','My Posted SalesXpress','Cancel'],
+	  options: ['Categories','Add SalesXpress','Cancel'],
 	  title: 'More'
 	});
 		
@@ -54,7 +54,7 @@ function popMore(){
 			popCategory();
 		}else if(e.index == 1){
 			var win = Alloy.createController("express_add").getView(); 
-			COMMON.openWindow(win); 
+			COMMON.openWindow(win);
 		}
 	});
 }
@@ -70,11 +70,10 @@ function popCategory(){
 	dialog.show();
 	dialog.addEventListener("click", function(e){   
 		if(e.index != options.length - 1){
-			category_id = category[e.index].id;
 			start = 0;
 			start2 = 0;
 			anchor = COMMON.todayDateTime();
-			getPreviousData({keyword:$.searchbar.value});
+			getPreviousData({category:category[e.index].id});
 			render({clear: true});
 		}
 	});
@@ -89,6 +88,7 @@ function refresh(){
 	$.content.removeAllChildren();
 	render({});
 }
+Ti.App.addEventListener("express_personal:refresh", refresh);
 
 function render(e){
 	var pwidth = Titanium.Platform.displayCaps.platformWidth;
@@ -111,7 +111,7 @@ function render(e){
 		cell_width = Math.floor(pwidth / 2) - 15;
 	}
 	
-	for (var i=0; i < data.length; i++) {
+	for (var i=0; i < data.length; i++) {console.log("data category "+data[i].category);
 		var obj_category = _.where(category, {id: data[i].category});
 		data[i].owner_img_path = (data[i].owner_img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].owner_img_path;
 		_.extend(data[i], {categoryName: obj_category[0].categoryName});
@@ -245,6 +245,7 @@ $.content_scrollview.addEventListener("scroll", function(e){
 
 $.win.addEventListener("close", function(e){
 	Ti.App.fireEvent("home:refresh");
+	Ti.App.removeEventListener("express_personal:refresh", refresh);
 });
 
 $.btnBack.addEventListener('click', function(){ 

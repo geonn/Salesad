@@ -11,8 +11,37 @@ var boll = true;
 
 if(OS_ANDROID){
 	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
+	$.swipeRefresh.addEventListener('refreshing', function(e) {
+		if($.voucher_scrollview.voucherrefreshing) {
+			e.source.setRefreshing(false);
+			$.voucher_scrollview.voucherrefreshing = false;
+			$.voucher_scrollview.ins_vouchercount = 0;
+			$.voucher_scrollview.gift_vouchercount = 0;
+			$.voucher_view.alltitle = [];
+			refreshVlist();
+		}
+	});
 }else{
 	cell_width = Math.floor(pwidth / 2) - 15;
+	var control = Ti.UI.createRefreshControl({
+    	tintColor:"#00CB85"
+	});
+	$.voucher_scrollview.refreshControl = control;
+	control.addEventListener('refreshstart',function(e){
+	    Ti.API.info('refreshstart');
+	    setTimeout(function(e){
+	        Ti.API.debug('Timeout');
+	        $.voucher_scrollview.scrollTo(0,0,true);	
+			setTimeout(function(){
+				$.voucher_scrollview.voucherrefreshing = false;
+				$.voucher_scrollview.ins_vouchercount = 0;
+				$.voucher_scrollview.gift_vouchercount = 0;
+				$.voucher_view.alltitle = [];
+				refreshVlist();
+			},500);	        
+	        control.endRefreshing();
+	    }, 1000);
+	});
 }
 
 if (OS_IOS){
@@ -237,6 +266,7 @@ function init(){
 	$.voucher_scrollview.gift_vouchercount = 0;
 	$.voucher_scrollview.voucherrefreshing = true;
 	$.voucher_scrollview.scrollcheck = true;
+	$.voucher_scrollview.scrolldata = 1;
 	$.voucher_view.alltitle = [];
 	refreshVlist("refreshSVlist");
 	
@@ -280,11 +310,11 @@ function vouchers(e, str) {
 		
 		e[key].child.forEach(function(entry) {
 			var count = 0;
-			if(params.length >= 1) {
+			if(params.length > 0) {
 				if(params.every(function(currentValue, index, arr) {
 					count = index;
 					return currentValue != entry.a_id;
-				}) && count == params.length) {
+				}) || count == params.length) {
 					params.push(entry.a_id);
 				}
 			}else {
@@ -401,21 +431,50 @@ function vouchers(e, str) {
 			title = null;
 		});
 		if($.voucher_scrollview.ins_vouchercount > 0) {
+			var bol = false;
 			var count = 0;
-			if($.voucher_view.alltitle.every(function(currentValue, index, arr) {
-				count = index;
-				return currentValue != e[key].title;
-			}) && count == $.voucher_view.alltitle.length) {
+			for(var i = 0; i < $.voucher_view.alltitle.length - 1; i++) {
+				count = i;
+				//console.log("title "+$.voucher_view.alltitle[i]+" ..... "+e[key].title);
+				if($.voucher_view.alltitle[i] == e[key].title) {//console.log("set true");
+					bol = true;
+					break;
+				}else if(count == $.voucher_view.alltitle.length - 1) {//console.log("set false");
+					bol = false;
+				}
+			}
+			if(bol) {//console.log("in true child add");
+				$.voucher_view.childadd = true;
+			}else {//console.log("in false child add");
+				$.voucher_view.childadd = false;
 				parent.add(title);
 				parent.add(hr);
 			}
 			count = null;
 		}else {
+			$.voucher_view.childadd = false;
 			parent.add(title);
 			parent.add(hr);
 		}
 		parent.add(child);
-		$.voucher_view.add(parent);
+		if($.voucher_view.getChildren().length > 0) {//console.log("voucher length biger then 0");
+		//console.log("persentage two and bol "+$.voucher_view.lastchild.getChildren().length % 2+" "+$.voucher_view.childadd);
+			if($.voucher_view.childadd) {
+				for(var i = 0; i < child.getChildren().length; i++) {
+					$.voucher_view.lastchild.add(child.getChildren()[i]);
+					$.voucher_view.changechild = false;
+				}
+			}else {//console.log("else in");
+				$.voucher_view.add(parent);
+				$.voucher_view.changechild = true;
+			}
+		}else {
+			$.voucher_view.add(parent);
+			$.voucher_view.changechild = true;
+		}
+		if($.voucher_view.changechild) {//console.log("change child");
+			$.voucher_view.lastchild = child;
+		}
 		
 		parent = null;
 		title = null;
@@ -424,7 +483,8 @@ function vouchers(e, str) {
 	}
 	if(str == "refreshSVlist") {
 		refreshSVlist(params);
-	}else if(params != []) {
+	}
+	if(params != []) {
 		impression(params);
 	}
 	loading.finish();
@@ -462,6 +522,7 @@ function ins_voucher(str) {
 		if($.voucher_scrollview.ins_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		}
+		$.voucher_scrollview.scrolldata = vdata.length;
 		vouchers(arr, str);
 		
 		vmodel = null;
@@ -490,10 +551,12 @@ function gift_voucher(e) {
 		if($.voucher_scrollview.gift_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		}
-		if(vdata.length > 0) {
+		if(vdata.length > 0) {//console.log("length "+vdata.length);
+			$.voucher_scrollview.scrolldata = vdata.length;
 			list_voucher(vdata, "gift");
 		}else {
 			loading.finish();
+			boll = true;
 		}
 	}
 }
@@ -691,9 +754,6 @@ function list_voucher(e, name, params) {
 	$.voucher_scrollview.voucherrefreshing = true;
 	$.voucher_scrollview.scrollcheck = true;
 	$.voucher_scrollview.gift_vouchercount += 8;
-	if(params != undefined && params != []) {
-		impression(params);
-	}
 }
 
 function toVoucher(e) {
@@ -749,7 +809,11 @@ function refreshVlist(str) {
 			var arr = res.data || null;
 			model.saveArray(arr);
 			checker.updateModule("12","getVoucherList",currentDateTime());
-			ins_voucher(str);
+			if($.voucher_scrollview.vouchertype == "ins_voucher") {
+				ins_voucher(str);
+			}else {
+				gift_voucher();
+			}
 			loading.finish();
 		},onerror: function(err) {
 			_.isString(err.message) && alert(err.message);
@@ -811,9 +875,10 @@ $.scrollview.addEventListener("scrollend", function(e) {
 		if(e.currentPage != 0) {
 			var u_id = Ti.App.Properties.getString('u_id') || "";
 			if(u_id == ""){
-				
 				var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 				COMMON.openWindow(win);
+			}else if(e.currentPage == 1) {
+				refreshVlist();
 			}else if(e.currentPage == 1) {
 				savedvoucher();
 			}else if(e.currentPage == 2) {
@@ -847,9 +912,9 @@ function createWhoops1(t,e,b,callback){
 
 function impression(a_id) {
 	var params = {
-		a_id:a_id,
-		type:2,
-		from:"ad",
+		a_id:a_id.join(),
+		type:1,
+		from:"reward",
 		u_id:u_id
 	};
 	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
@@ -859,7 +924,7 @@ function scrollChecker(e) {
 	var theEnd = $.voucher_view.rect.height;
 	var nearEnd = theEnd - 200;
 	var total = (OS_ANDROID) ? pixelToDp(e.y) + e.source.rect.height : e.y + e.source.rect.height;
-	if(total >= nearEnd && $.voucher_scrollview.scrollcheck){
+	if(total >= nearEnd && $.voucher_scrollview.scrollcheck && $.voucher_scrollview.scrolldata > 0){
 		$.voucher_scrollview.scrollcheck = false;
 		eval($.voucher_scrollview.vouchertype+"()");
 	}
@@ -872,29 +937,6 @@ function login_cancel(e) {
 	$.scrollview.scrollToView(0);
 }
 Ti.App.addEventListener('login_cancel:reward', login_cancel);
-
-if(OS_ANDROID) {
-	$.swipeRefresh.addEventListener('refreshing', function(e) {
-		if($.voucher_scrollview.voucherrefreshing) {
-			e.source.setRefreshing(false);
-			$.voucher_scrollview.voucherrefreshing = false;
-			$.voucher_scrollview.ins_vouchercount = 0;
-			$.voucher_scrollview.gift_vouchercount = 0;
-			eval($.voucher_scrollview.vouchertype+"()");
-		}
-	});
-}else {
-	$.voucher_scrollview.addEventListener('scroll', function(e) {
-		var svtop = -50;
-		if (e.y <= svtop && $.voucher_scrollview.voucherrefreshing) {
-			$.voucher_scrollview.voucherrefreshing = false;
-			$.voucher_scrollview.ins_vouchercount = 0;
-			$.voucher_scrollview.gift_vouchercount = 0;
-			eval($.voucher_scrollview.vouchertype+"()");
-		}
-		svtop = null;
-	});
-}
 
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);

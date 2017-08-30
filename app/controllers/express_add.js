@@ -2,7 +2,7 @@ var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var data;
 var loading = Alloy.createController("loading");
-var checking = true; 
+var checking = true;
 
 function render_page(){
 }
@@ -112,6 +112,7 @@ if(checking){
 			var arr = res.data || null;
 			loading.finish();
 			Ti.App.fireEvent("home:refresh");
+			Ti.App.fireEvent("express_personal:refresh");
 			COMMON.closeWindow($.win);
 		},
 		onerror: function(err){

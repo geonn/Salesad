@@ -7,7 +7,7 @@
 
 // update user device token
 exports.checkAndUpdate = function(e){
-	var dbVersion = Ti.App.Properties.getString("dbVersion") || 1.7; 
+	var dbVersion = Ti.App.Properties.getString("dbVersion") || 1.8; 
 	if (dbVersion == '1.0') {
 	  	var panelList = Alloy.createCollection('contest'); 
 		panelList.addColumn("preview_url", "TEXT");
@@ -49,6 +49,11 @@ exports.checkAndUpdate = function(e){
 		var model = Alloy.createCollection('ads');
 		model.addColumn("img_thumb", "TEXT");
 		dbVersion = "1.7";
+	}
+	if(dbVersion == "1.7") {
+		var model = Alloy.createCollection('items');
+		model.addColumn("img_thumb", "TEXT");
+		dbVersion = "1.8";
 		last_update_on = false;
 	}
 	Ti.App.Properties.setString("dbVersion", dbVersion);

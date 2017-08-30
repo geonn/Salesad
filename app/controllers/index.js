@@ -46,7 +46,7 @@ var bannerListing = function(){
 	}
 	for (var i=0; i< banners.length; i++) {
 		adImage = Ti.UI.createImageView({
-			image: banners[i].img_path,
+			image: banners[i].img_thumb,
 			a_id: banners[i].a_id,
 			m_id: banners[i].m_id,
 			merchant_name: banners[i].name,
@@ -316,17 +316,40 @@ $.indexView.more.addEventListener("click", function(e){
 });
 //map page
 $.indexView.nearby.addEventListener("click", function(e){
-	var win = Alloy.createController("nearby").getView();  
-	if (Ti.Geolocation.locationServicesEnabled) {
-		COMMON.openWindow(win);	
-	}else{
-	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
-			if(e.success){
-				COMMON.openWindow(win);						
-			}else{
-	        	alert("You denied permission.");
+	var win = Alloy.createController("nearby").getView();
+	if(OS_ANDROID) {
+		var hasLocationPermissions = Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS);
+	    if (hasLocationPermissions) {
+			if (Ti.Geolocation.locationServicesEnabled) {
+				COMMON.openWindow(win);
+			}else {
+				alert("Please open your GPS.");
 			}
-	  	});		
+	    }else {
+	    	Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+				if(e.success) {
+					if (Ti.Geolocation.locationServicesEnabled) {
+						COMMON.openWindow(win);
+					}else {
+						alert("Please open your GPS.");
+					}
+				}else {
+					alert("You denied permission for now, forever or the dialog did not show at all because it you denied forever before.");
+				}
+			});
+	    }
+	}else {
+		Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+			if(e.success) {
+				if (Ti.Geolocation.locationServicesEnabled) {
+					COMMON.openWindow(win);
+				}else {
+					alert("Please open your GPS.");
+				}
+			}else {
+				alert("You denied permission for now, forever or the dialog did not show at all because it you denied forever before.");
+			}
+		});
 	}
 });
 //favourite page
@@ -389,9 +412,9 @@ $.indexView.root.addEventListener("close", function(){
 
 var SCANNER = require("scanner");
 $.indexView.scanner.addEventListener('click', QrScan);
-var load = false;
-var lastDistance = 0;
-var refreshing = false;
+// var load = false;
+// var lastDistance = 0;
+// var refreshing = false;
 
 if(OS_ANDROID){
 	$.indexView.homescrollview.setOverScrollMode(Titanium.UI.Android.OVER_SCROLL_ALWAYS);
@@ -400,31 +423,21 @@ if(OS_ANDROID){
 		e.source.setRefreshing(false);
 	});
 }else{
-	$.indexView.homescrollview.addEventListener("scroll", function(e){
-	var svtop = (OS_ANDROID)?-10:-50;
-	if (e.y <= svtop && !refreshing) {
-		$.indexView.adListing.removeAllChildren();
-		$.indexView.bannerListing.removeAllChildren();
-		$.indexView.homescrollview.scrollingEnabled=false;	
-		$.indexView.activityIndicator.show();
-		$.indexView.loadingBar.opacity = "1";
-		$.indexView.loadingBar.height = "120";
-		$.indexView.loadingBar.top = "100";			
-        setTimeout(function(){
-        	$.indexView.homescrollview.scrollingEnabled=true;
-			$.indexView.activityIndicator.hide();
-			$.indexView.loadingBar.opacity = "0";
-			$.indexView.loadingBar.height = "0";
-			$.indexView.loadingBar.top = "0";				
-			refreshing = true;
-			refreshAds();			        	
-        	refreshing = false;
-        }, 1000);   
-    }
-	theEnd=null;
-	total=null;
-	distance=null;
-});
+	var control = Ti.UI.createRefreshControl({
+    	tintColor:"#00CB85"
+	});
+	$.indexView.homescrollview.refreshControl = control;
+	control.addEventListener('refreshstart',function(e){
+	    Ti.API.info('refreshstart');
+	    setTimeout(function(e){
+	        Ti.API.debug('Timeout');
+	        $.indexView.homescrollview.scrollTo(0,0,true);	
+			setTimeout(function(){
+				refreshAds();
+			},500);	        
+	        control.endRefreshing();
+	    }, 1000);
+	});
 }
 
 function QrScan(){

@@ -89,8 +89,8 @@ function render_page(){
 		};
 	}
 	$.xpress_date.text = args.sales_from+" - "+args.sales_to;
-	$.xpress_location.text = args.address;
-	$.xpress_contact.text = args.contact;
+	$.xpress_location.text = (args.address != "") ? args.address : "-";
+	$.xpress_contact.text = (args.contact != "") ? args.contact : "-";
 	$.desc.text = args.description;
 	$.owner_name.text = args.owner_name;
 	$.category.text = args.categoryName;

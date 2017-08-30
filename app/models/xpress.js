@@ -286,7 +286,7 @@ exports.definition = {
 				var temp = now.getTime() - 1000*60*60*24*30;
 				now.setTime(temp);
 				var lastMonth = COMMON.todayDateTime(now);
-				var sql = (e.keyword != "") ? "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and sales_from >= '"+lastMonth+"' and sales_to >= date('now') and name like '%" + e.keyword + "%' order by `updated` DESC " : "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and sales_from >= '"+lastMonth+"' and sales_to >= date('now') order by `updated` DESC ";
+				var sql = (e.keyword != "") ? "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and sales_from >= '"+lastMonth+"' and sales_to >= date('now') and name like '%" + e.keyword + "%' order by `updated` DESC " : (e.category != undefined) ? "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and sales_from >= '"+lastMonth+"' and sales_to >= date('now') and category=" + e.category + " order by `updated` DESC " : "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and sales_from >= '"+lastMonth+"' and sales_to >= date('now') order by `updated` DESC ";
 				db = Ti.Database.open(this.config.adapter.db_name);
 				
 				if(Ti.Platform.osname != "android"){
@@ -332,7 +332,7 @@ exports.definition = {
 				var temp = now.getTime() - 1000*60*60*24*30;
 				now.setTime(temp);
 				var lastMonth = COMMON.todayDateTime(now);
-				var sql = (e.keyword != "") ? "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and (sales_from + 30) < date('now') and sales_to < date('now') and name like '%" + e.keyword + "%' order by `updated` DESC " : "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and (sales_from + 30) < date('now') and sales_to < date('now') and name like '%" + e.keyword + "%' order by `updated` DESC ";
+				var sql = (e.keyword != "") ? "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and (sales_from + 30) < date('now') and sales_to < date('now') and name like '%" + e.keyword + "%' order by `updated` DESC " : (e.category != undefined) ? "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and (sales_from + 30) < date('now') and sales_to < date('now') and category=" + e.category + " order by `updated` DESC " : "SELECT * FROM " + this.config.adapter.collection_name+" WHERE status = 1 "+sql_uid+" and (sales_from + 30) < date('now') and sales_to < date('now') and name like '%" + e.keyword + "%' order by `updated` DESC ";
                 db = Ti.Database.open(this.config.adapter.db_name);
                 
                 if(Ti.Platform.osname != "android"){

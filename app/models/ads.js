@@ -153,7 +153,7 @@ exports.definition = {
 	            }
 	            var d = COMMON.todayDateTime();
 	            d = d.split(" ")[0];
-				var sql = "select * from ads where (','||featured_date||',') LIKE '%,"+d+",%' AND ( expired_date >= date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND sales_from <= date('now') AND sales_to > date('now') AND status = 1 ORDER BY updated DESC";
+				var sql = "select * from ads where (','||featured_date||',') LIKE '%,"+d+",%' AND ( expired_date >= date('now') OR expired_date = '0000-00-00') AND (active_date <= date('now') OR active_date = '0000-00-00') AND sales_from <= date('now') AND sales_to >= date('now') AND status = 1 ORDER BY updated DESC";
 				
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -233,7 +233,7 @@ exports.definition = {
                 	arr[count] = {
                 		a_id: res.fieldByName('a_id'),
 					    m_id: res.fieldByName('m_id'),
-					    //merchant: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
+					    merchant_name: res.fieldByName('merchant_name').replace(/&quot;/g, "'"),
 					    longitude: res.fieldByName('longitude'),
 					    latitude: res.fieldByName("latitude"),
 					    sales_from: res.fieldByName("sales_from"),
@@ -247,7 +247,8 @@ exports.definition = {
 					    img_path: res.fieldByName('img_path'),
 					    description: res.fieldByName('description'),
 					    status: res.fieldByName('status'),
-					    name: res.fieldByName('name')
+					    name: res.fieldByName('name'),
+					    img_thumb: res.fieldByName('img_thumb')
 					};
                 	res.next();
 					count++;
@@ -395,7 +396,7 @@ exports.definition = {
 	            collection.trigger('sync');
 			},
 			searchAds: function(data) {
-				var sql = "SELECT merchants.merchant_name, ads.a_id, ads.name, ads.img_path, ads.sales_to FROM merchants INNER JOIN ads ON merchants.m_id = ads.m_id AND ads.sales_to >= date('now') AND ads.status = 1 AND ads.name LIKE '%" + data + "%'";
+				var sql = "SELECT merchants.merchant_name, ads.a_id, ads.name, ads.img_path, ads.sales_to, ads.sales_from FROM merchants INNER JOIN ads ON merchants.m_id = ads.m_id AND ads.sales_to >= date('now') AND ads.status = 1 AND ads.name LIKE '%" + data + "%'";
 				db = Ti.Database.open(this.config.adapter.db_name);
 				
 				if(Ti.Platform.osname != "android"){
@@ -411,7 +412,9 @@ exports.definition = {
 						a_id: res.fieldByName('a_id'),
 						img_path: res.fieldByName('img_path'),
 						name: res.fieldByName('name'),
-						merchants_name: res.fieldByName('merchant_name')
+						merchants_name: res.fieldByName('merchant_name'),
+						sales_to: res.fieldByName('sales_to'),
+						sales_from: res.fieldByName('sales_from')
 					};
 					res.next();
 					count++;

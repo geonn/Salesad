@@ -96,10 +96,10 @@ function createShareOptions(adsName, adsImage){
 function getData(){
 	if(type == "branch"){
 		var ads_model = Alloy.createCollection('ads'); 
-		data = ads_model.getDataByBranch(args.m_id, ads_counter, 3);
+		data = ads_model.getDataByBranch(args.m_id, ads_counter, 5);
 	}else if(type == "store"){
 		var ads_model = Alloy.createCollection('ads'); 
-		data = ads_model.getDataByStore(args.m_id, ads_counter, 3);
+		data = ads_model.getDataByStore(args.m_id, ads_counter, 5);
 	}
 	ads_counter += 3;
 }
@@ -111,6 +111,7 @@ var a_id_submit = [];
 function buildListing(){
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
 	var ads = data;
+	console.log(ads.length+"heeree");
 	a_id_submit = _.union(_.pluck(ads, "a_id"), a_id_submit);
 	
 	ads_counter += 3;
@@ -368,10 +369,13 @@ function buildListing(){
 	if(ads.length <= 0){
 		activityIndicator.hide();
 		$.ads_listing.remove(activityIndicator);
-		setTimeout(function(){
-			alert("There is no sales from this store right now");
-			return;				
-		},2000);	
+		var view = $.UI.create("View", {classes:['wfill', 'hfill']});
+		var label = $.UI.create("Label", {classes: ['wfill', 'hsize'], text: "There is no sales from this merchant right now.", textAlign: "center", top: "55%", left: 50, right: 50});
+		view.add(label);
+		$.ads_listing.add(view);
+		view = null;
+		label = null;
+		return;
 	}
 }
 
@@ -492,29 +496,29 @@ function refresh(){
  * Event Listener 
  * */
 
-var lastDistance = 0;
-$.ads_listing.addEventListener("scroll", function(e){
-	if(Ti.Platform.osname == 'iphone'){
-		var offset = e.contentOffset.y;
-		var height = e.size.height;
-		var total = offset + height;
-		var theEnd = e.contentSize.height;
-		var distance = theEnd - total;
-
-		if (distance < lastDistance){
-			var nearEnd = theEnd * .75;
- 			if (!loading && (total >= nearEnd)){
- 				loading = true;
- 				refresh();
- 			}
-		}
-		lastDistance = distance;
-	}
-	
-	if(Ti.Platform.osname == 'android' && !loading){
-		if((e.firstVisibleItem+e.visibleItemCount) == e.totalItemCount){
-			loading = true;
-			refresh();
-		}
-	}
-});
+//var lastDistance = 0;
+// $.ads_listing.addEventListener("scroll", function(e){
+	// if(Ti.Platform.osname == 'iphone'){
+		// var offset = e.contentOffset.y;
+		// var height = e.size.height;
+		// var total = offset + height;
+		// var theEnd = e.contentSize.height;
+		// var distance = theEnd - total;
+// 
+		// if (distance < lastDistance){
+			// var nearEnd = theEnd * .75;
+ 			// if (!loading && (total >= nearEnd)){
+ 				// loading = true;
+ 				// refresh();
+ 			// }
+		// }
+		// lastDistance = distance;
+	// }
+// 	
+	// if(Ti.Platform.osname == 'android' && !loading){
+		// if((e.firstVisibleItem+e.visibleItemCount) == e.totalItemCount){
+			// loading = true;
+			// refresh();
+		// }
+	// }
+// });
