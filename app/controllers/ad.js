@@ -175,12 +175,20 @@ function render_banner(){
 			});
 		});		
 	}else {
+		var pwidth = Titanium.Platform.displayCaps.platformWidth;
+		if(OS_ANDROID){
+			var cell_width = Math.floor(pixelToDp(pwidth));
+		}else{
+			var cell_width = Math.floor(pwidth);
+		}
 		if(ads.img_thumb != null) {
+			$.BigImage.setImage(ads.img_thumb);
 			$.RemoteImage.applyProperties({
 			 	autoload: true,
 			    backgroundColor: 'black',
-			    image:ads.img_thumb,
-			    default_img : "/images/image_loader_640x640.png"
+			    image:ads.img_path,
+			    default_img : "/images/image_loader_640x640.png",
+			    height: cell_width
 			});
 			$.RemoteImage.addEventListener("click",zoom);
 		}else {

@@ -30,6 +30,7 @@ var getI_id = [];
 var allparams = [];
 
 function init() {
+	$.scrollableView.count = 0;
 	var params = {
 		item_id:i_id,
 		type:3,
@@ -676,7 +677,7 @@ function QrScan(){
 $.scrollableView.addEventListener('scrollend',function(e) {
 	if(e.source.currentPage != pagecount) {
 		$.scrollableView.setScrollingEnabled(false);
-		allparams.push(getI_id[e.source.currentPage]);
+		allparams[$.scrollableView.count++] = getI_id[e.source.currentPage];
 		pagecount = e.source.currentPage;
 		set_title_button();
 	}
@@ -686,17 +687,19 @@ $.btnBack.addEventListener('click', closeWindow);
 $.win.addEventListener('android:back', closeWindow);
 
 $.win.addEventListener('close', function(e) {
-	var param = {
-		item_id:allparams,
-		type:3,
-		from:"itemDetails",
-		u_id:u_id
-	};
-	addAdsClick("", param);
-	closeWindow();
+	
 });
 
 function closeWindow(e) {
+	if(allparams != []) {
+		var param = {
+			item_id:allparams.join(),
+			type:3,
+			from:"itemDetails",
+			u_id:u_id
+		};
+		addAdsClick("", param);
+	}
 	COMMON.closeWindow($.win);
 }
 

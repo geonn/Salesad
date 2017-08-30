@@ -17,12 +17,13 @@
 				<ScrollView contentWidth="Ti.UI.FILL" top="1" bottom="60" layout="vertical" top="0">
 					<View class="wfill hsize" id="banner" platform="ios"></View>
 			 		<View class="wfill hsize" backgroundColor="#fff" platform="android">
-						<Widget src="com.baboonmedia.remoteimage" id="RemoteImage">
+			 			<ImageView class="wfill hsize" id="BigImage" defaultImage="/images/image_loader_640x640.png" top="0" zIndex="1" touchEnabled="false"></ImageView>
+						<Widget src="com.baboonmedia.remoteimage" id="RemoteImage" top="0">
 							<ActivityIndicator id="activityIndicator" role="activityindicator" />
 						    <View role="loadingerror">
 						       <Label>Unable to load image. Tap to retry</Label>
 						    </View>
-						</Widget>			 			
+						</Widget>
 			 		</View>						
 					<View class="wfill hsize vert" id="ads_details"></View>
 				</ScrollView>
