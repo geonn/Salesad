@@ -8,6 +8,7 @@
 	"os:ios": {},
 	"os:mobileweb": {},
 	"dependencies": {
-		"com.baboonmedia.remoteimage":"1.4"
+		"com.baboonmedia.remoteimage":"1.4",
+		"nl.fokkezb.loading":"1.8.4"
 	}
 }

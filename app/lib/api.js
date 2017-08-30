@@ -204,7 +204,6 @@ exports.getMerchantListByCategory = function (ex, callback){
 	     },
 	     // function called when an error occurs, including a timeout
 	     onerror : function(e) {
-	     	console.log("API loadMerchantListByCategory fail, skip sync with server");
 	     	callback();
 	     	//Ti.App.fireEvent('app:category_detailCreateGridListing', {cate_id: ex});
 	     },
@@ -249,7 +248,6 @@ exports.getVoucherById = function(v_id, callback){
  
 	 client.open("POST", url);
 	 // Send the request.
-	console.log("vid"+v_id);
 	client.send({v_id: v_id}); 
 };
 
@@ -364,7 +362,6 @@ exports.loadAPIBySequence = function (e){ //counter,
 	
 	var url = api['url'];
 	console.log(url);
-	console.log(params.last_updated);
 	API.callByPost({
 		url: url,
 		params: params
@@ -421,7 +418,7 @@ exports.callByPost = function(e, handler){
 			}
 			catch(e){
 				console.log(this.responseText);
-				console.log('callbypost JSON exception');
+				// console.log('callbypost JSON exception');
 				console.log(e);
 				COMMON.createAlert("Error", e.message, handler.onexception);
 				return;
@@ -436,17 +433,17 @@ exports.callByPost = function(e, handler){
 				return;
 			}
 			if(_.isNumber(e.retry_times)){
-				console.log(e.retry_times);
+				//console.log(e.retry_times);
 				e.retry_times --;
 				if(e.retry_times > 0){
 					API.callByPost(e, handler);
 				}else{
-					console.log('onerror msg');
+				//	console.log('onerror msg');
 					console.log(ex);
 					//COMMON.createAlert("Error", ex.error, handler.onerror);
 				}
 			}else{
-				console.log('onerror msg without no');
+				//console.log('onerror msg without no');
 				console.log(ex);
 				e.retry_times = 2;
 				API.callByPost(e, handler);
@@ -464,13 +461,13 @@ exports.callByPostWithJson = function(e, onload, onerror){
 		console.log(url);
 		var _result = contactServerByPostWithJson(url, e.params || {});   
 		_result.onload = function(ex) { 
-			console.log('success callByPost');
+			//console.log('success callByPost');
 			console.log(this.responseText);
 			onload && onload(this.responseText); 
 		};
 		
 		_result.onerror = function(ex) {
-			console.log('failure callByPost');
+			//console.log('failure callByPost');
 			console.log(ex);
 			//API.callByPost(e, onload, onerror); 
 		};
@@ -485,12 +482,12 @@ exports.callByPostImage = function(e, onload, onerror) {
 	var url = eval(e.url);
 	var _result = contactServerByPostImage(url+"&u_id="+e.params.u_id,e.img);
 	_result.onload = function(e) { 
-		console.log('success');
+		//console.log('success');
 		onload && onload(this.responseText); 
 	};
 	
 	_result.onerror = function(ex) { 
-		console.log("onerror");
+		//console.log("onerror");
 		API.callByPostImage(e, onload);
 		//onerror && onerror();
 	};
@@ -512,7 +509,7 @@ function contactServerByPost(url,records) {
 	var client = Ti.Network.createHTTPClient({
 		timeout : 10000
 	});
-	console.log(client);
+	//console.log(client);
 	if(OS_ANDROID){
 	 	client.setRequestHeader('ContentType', 'application/x-www-form-urlencoded'); 
 	 }

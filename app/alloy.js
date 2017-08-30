@@ -38,7 +38,31 @@ FACEBOOK.forceDialogAuth = true;
 if(Ti.Platform.osname != "android"){
 	Titanium.UI.iPhone.setAppBadge("0");
 }
+function shuffle(array) {
+  var tmp, current, top = array.length;
+  if(top) while(--top) {
+    current = Math.floor(Math.random() * (top + 1));
+    tmp = array[current];
+    array[current] = array[top];
+    array[top] = tmp;
+  }
+  return array;
+}
 
+function datedescription(from,to) {
+	var dateDescription = convertToHumanFormat(from)+" - "+convertToHumanFormat(to);
+	if(from == "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from now!";
+	}else if(from == "0000-00-00" &&to !="0000-00-00"){
+		dateDescription = "Until "+convertToHumanFormat(to)+"!";
+	}else if(from != "0000-00-00" && to =="0000-00-00"){
+		dateDescription = "Start from "+convertToHumanFormat(from)+"!";
+	}
+	return dateDescription;
+}
+function pixelToDp(px) {
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));				
+}
 var Utils = {
   /* modified version of https://gist.github.com/1243697 */
   _getExtension: function(fn) {
@@ -273,7 +297,6 @@ function children(key, e){
 }
 
 function convertToHumanFormat(datetime){
-	console.log(datetime);
 	if(datetime == null){return "";}
 	var timeStamp = datetime.split("-");
 	return timeStamp[2]+"-"+timeStamp[1]+"-"+timeStamp[0];

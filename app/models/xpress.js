@@ -116,12 +116,11 @@ exports.definition = {
 				for (var k in columns) {
 	                names.push(k);
 	            }
-	            var os=(e.offse="")?8:e.offset;
 	            if(e.latest){
 					var start_limit = "";
 					var sql_lastupdate = " AND created > '"+e.anchor+"'";
 				}else{
-					var start_limit = " limit "+e.start+","+os;
+					var start_limit = " limit "+e.start+",8";
 					var sql_lastupdate = " AND created <= '"+e.anchor+"'";
 				}
 				var sql_uid = "";
@@ -133,8 +132,9 @@ exports.definition = {
 				now.setTime(temp);
 				var lastMonth = COMMON.todayDateTime(now);
 	            var sql_keyword = (typeof e.keyword != "undefined" && e.keyword != "")?" AND description like '%"+e.keyword+"%'":"";
-	            var sql_category = (typeof e.category_id != "undefined")?" AND category = '"+e.category_id+"'":"";
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name+" WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND sales_from >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC "+start_limit;
+	            var sql_category = (typeof e.category_id != "undefined")?" AND xpress.category = "+parseFloat(e.category_id):"";
+                var sql = "SELECT xpress.*,category.categoryName FROM " + collection.config.adapter.collection_name+" left join category on xpress.category = category.id WHERE status = 1 "+sql_lastupdate+sql_category+sql_keyword+sql_uid+" AND sales_from >= '"+lastMonth+"' AND sales_to > date('now')  order by `updated` DESC "+start_limit;
+                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -149,6 +149,7 @@ exports.definition = {
 				};
                 while (res.isValidRow()){
                 	eval("arr[count] = {"+eval_column+"}");
+                	_.extend(arr[count],{img_thumb:res.fieldByName('img_path'),categoryName:res.fieldByName('categoryName')});
                 	res.next();
 					count++;
                 }

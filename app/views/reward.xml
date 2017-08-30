@@ -33,14 +33,14 @@
 						</View>
 					</View>
 				</View>
-				<ScrollableView class="wfill hfill" id="scrollview" scrollingEnabled="false">
+				<ScrollableView class="wfill hfill" id="scrollview" cacheSize="3" scrollingEnabled="false">
 					<!--Vouchers(view 1)-->
 					<View class="wfill hfill" id="view1">
-						<SwipeRefresh module="com.rkam.swiperefreshlayout" id="swipeRefresh" platform="android">
+						<SwipeRefresh module="com.rkam.swiperefreshlayout" bubbleParent="false" id="swipeRefresh" platform="android">
 							<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize vert">
 								<View class="wfill hsize vert" id="voucher_view" bottom="70"></View>
 							</ScrollView>
-						</SwipeRefresh>
+						</SwipeRefresh>													
 						<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize vert" platform="ios">
 							<View class="wfill hsize vert" id="voucher_view" bottom="70"></View>
 						</ScrollView>
