@@ -74,7 +74,6 @@ var bannerListing = function(){
 	scrollableView.addEventListener('click', function(e) {
 		goAd(e.source.a_id,e.source.m_id,e.source.merchant_name,e.source.bet_date);	
 	});
-	$.indexView.bannerListing.removeAllChildren();
 	$.indexView.bannerListing.add(scrollableView);
 	scrollableView.addEventListener('scrollend', function(e) {
 		if((scrollableView.currentPage+1) === banners.length){
@@ -99,7 +98,6 @@ var bannerListing = function(){
 
 /** create category grid **/
 function buildCateogryList(e){
-	$.indexView.adListing.removeAllChildren();
 	if(OS_ANDROID){
 		var cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 2;
 	}else{
@@ -163,6 +161,10 @@ function buildCateogryList(e){
 			loadLatestImageByCategoryId(pad_cell, category_list[i].id);
 		}
 	}
+	if(OS_ANDROID){
+		$.indexView.swipeRefresh.opacity =1;		
+	}
+	$.indexView.myInstance.hide();		
 	cell_width=null;
 	cell=null;
 	pad_cell=null;
@@ -419,7 +421,13 @@ $.indexView.scanner.addEventListener('click', QrScan);
 if(OS_ANDROID){
 	$.indexView.homescrollview.setOverScrollMode(Titanium.UI.Android.OVER_SCROLL_ALWAYS);
 	$.indexView.swipeRefresh.addEventListener('refreshing', function(e) {
-		refreshAds();
+		$.indexView.swipeRefresh.opacity =0;				
+		$.indexView.myInstance.show('',false);
+		$.indexView.adListing.removeAllChildren();	
+		$.indexView.bannerListing.removeAllChildren();
+		setTimeout(function(){
+			refreshAds();			
+		},1000);		
 		e.source.setRefreshing(false);
 	});
 }else{
@@ -433,7 +441,13 @@ if(OS_ANDROID){
 	        Ti.API.debug('Timeout');
 	        $.indexView.homescrollview.scrollTo(0,0,true);	
 			setTimeout(function(){
-				refreshAds();
+				$.indexView.swipeRefresh.opacity =0;				
+				$.indexView.myInstance.show('',false);
+				$.indexView.adListing.removeAllChildren();	
+				$.indexView.bannerListing.removeAllChildren();
+				setTimeout(function(){
+					refreshAds();			
+				},1000);	
 			},500);	        
 	        control.endRefreshing();
 	    }, 1000);

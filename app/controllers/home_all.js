@@ -259,10 +259,17 @@ function render(xpressArr){
 		counter++;	
 		renderSmall(Xarr,entry);		
 	});
+	firstRun();
 	offcount +=8;
 	keyword = "";
 	$.content.opacity = 1;		
 	$.myInstance.hide();	
+}
+function firstRun(){
+	if(category_id == undefined&& $.content.children.length<3){
+		finalChecking = false;
+		renderBigAds();		
+	}
 }
 function getExpressDataByServer(){
 	var checker = Alloy.createCollection('updateChecker'); 
@@ -327,7 +334,24 @@ if (OS_ANDROID) {
 		init();
 		e.source.setRefreshing(false);		
 	});
-}	
+}
+if(OS_IOS){
+	var control = Ti.UI.createRefreshControl({
+    	tintColor:"#00CB85"
+	});
+	$.content_scrollview.refreshControl = control;
+	control.addEventListener('refreshstart',function(e){
+	    Ti.API.info('refreshstart');
+	    setTimeout(function(e){
+	        Ti.API.debug('Timeout');
+	        $.content_scrollview.scrollTo(0,0,true);	
+			setTimeout(function(){
+				init();
+			},500);	        
+	        control.endRefreshing();
+	    }, 1000);
+	});	
+}
 $.btnBack.addEventListener('click', function(){ 
  	Ti.App.removeEventListener('home:refresh', showAll);	
 	$.destroy();	
