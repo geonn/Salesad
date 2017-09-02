@@ -15,6 +15,7 @@ var ads_data = ads_model.getExpressData();
 var counter = 0;
 var finalChecking = true;
 var adsArrC = true;
+var adsClick = [];
 var pwidth = Titanium.Platform.displayCaps.platformWidth;	
 if(OS_ANDROID){	
 	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
@@ -43,7 +44,7 @@ function init(){
 	$.content.removeAllChildren();
 	$.content.opacity = 0;	
 	$.noAvailable.opacity = 0;	
-	$.myInstance.show('',false)	
+	$.myInstance.show('',false);	
 	setTimeout(function(){
 		getAdsData();
 	},1000);
@@ -93,19 +94,10 @@ function renderBigAds(){
 	for(var i=ads_count;i<ads_data.length;i++){
 		var img = (ads_data[i].img_path != "")? ads_data[i].img_path:'/images/image_loader_640x640.png';
 		var Aarr={cw:cw,record:ads_data[i],img_path:img,type:3};
-		// var params={
-		// 	a_id:ads_data[ads_count].a_id,
-		// 	type:1,
-		// 	from:"home_all",
-		// 	u_id:u_id
-		// };
-		// API.callByPost({url:"addAdsClick",new:true,params:params},{
-		// onload:function(res){
-		// 	var re=JSON.parse(res);
-		// },onerror:function(err){
-		// }});		
+		adsClick.push(ads_data[i].a_id);
 		renderBig(Aarr,ads_data[i]);	
-	}
+		
+	}	
 	renderSmallAds();
 }
 function showAll(){
@@ -122,9 +114,17 @@ function renderSmallAds(){
 		_.extend(adsArr[i],{type:3,sales_from:sales_from,sales_to:sales_to,bg_color:"#4d4d4d",fg_color:"#fff",hr_color:"#fff",minus:minus});
 		// var params={a_id:adsdata[count1].a_id,type:1,from:"home_all",u_id:u_id};
 		// API.callByPost({url:"addAdsClick",new:true,params:params},{
-		// onload:function(res){},onerror:function(err){}});					
+		// onload:function(res){},onerror:function(err){}});
+		adsClick.push(adsArr[i].a_id);					
 		renderSmall(adsArr[i],adsArr[i]);			
 	}
+	var params = {
+		a_id:adsClick.join(),
+		type:1,
+		from:"home_all",
+		u_id:u_id
+	} ;
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){console.log(JSON.stringify(res));},onerror:function(err){}});	
 }
 var keyword = "";
 function getExpressData(){
@@ -168,7 +168,7 @@ function renderSmall(param,record){
     view_bottom_right=null;
     owner_img=null;
     owner_name=null;
-    label_category=null;	
+    label_category=null;
 }
 function renderBig(param){
 	var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0, image: param.img_path,type: param.type, record:param.record});
@@ -212,7 +212,8 @@ function render(xpressArr){
 				// API.callByPost({url:"addAdsClick",new:true,params:params},{
 				// onload:function(res){},onerror:function(err){}});
 				counter++;					
-				renderSmall(adsArr[indexAds],adsArr[indexAds]);	
+				renderSmall(adsArr[indexAds],adsArr[indexAds]);
+				adsClick.push(adsArr[indexAds].a_id);
 				indexAds++;			
 			}
 		}
@@ -233,6 +234,7 @@ function render(xpressArr){
 				// },onerror:function(err){
 				// }});		
 				renderBig(Aarr);
+				adsClick.push(ads_data[ads_count].a_id);
 				ads_count++;
 			}
 		}

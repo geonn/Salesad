@@ -42,7 +42,7 @@ function init() {
 }
 
 function addAdsClick(name, params) {
-	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){console.log("Sucess send API!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");},onerror:function(err){}});
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
 	if(name == "init") {
 		getAdsImages();
 	}else if(name == "sendAPI") {
@@ -708,7 +708,7 @@ function sendAPI(e) {
 			type:4,
 			from:"itemDetails",
 			u_id:u_id
-		};console.log("voucher "+JSON.stringify(param));
+		};//console.log("voucher "+JSON.stringify(param));
 		addAdsClick("sendAPI", param);
 	}else if($.scrollableView.allItemId != [] && e == "Item") {
 		param = {
@@ -716,7 +716,7 @@ function sendAPI(e) {
 			type:3,
 			from:"itemDetails",
 			u_id:u_id
-		};console.log("item "+JSON.stringify(param));
+		};//console.log("item "+JSON.stringify(param));
 		addAdsClick("", param);
 	}
 }

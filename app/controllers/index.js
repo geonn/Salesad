@@ -7,6 +7,7 @@ loadingView.start();
 PUSH.registerPush();
 var model_category = Alloy.createCollection('category');
 var pwidth = Titanium.Platform.displayCaps.platformWidth;
+var adsClick = [];
 Alloy.Globals.navMenu = $.navMenu;
  
 /*********************
@@ -63,6 +64,7 @@ var bannerListing = function(){
 		});
 		row.add(adImage);
 		the_view.push(row); 
+		adsClick.push(banners[i].a_id);
 		counter++;			
 	}
 	var scrollableView = Ti.UI.createScrollableView({
@@ -92,7 +94,13 @@ var bannerListing = function(){
 	    }
 	    scrollableView.scrollToView(page);
 	}, 5000);
-	
+	var params = {
+		a_id:adsClick.join(),
+		type:1,
+		from:"index",
+		u_id:u_id
+	} ;
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){console.log(JSON.stringify(res));},onerror:function(err){}});
 	buildCateogryList();
 };
 

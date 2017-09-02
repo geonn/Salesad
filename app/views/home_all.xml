@@ -28,8 +28,8 @@
 		 		<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
 		 		<View class="wfill hsize" top="0">
 			 		<View id="categoryMother" class="wfill hsize horz" >
-			 			<Button width="60" height="40" color="#000" id="allButton" onClick="showAll">All</Button>
-						<Button class="wfill" height="40" color="#000" id="categoryButton" onClick="popCategory">Category</Button>
+			 			<Button width="60" height="40" color="#000" id="allButton" backgroundColor="#ccc" onClick="showAll">All</Button>
+						<Button class="wfill" height="40" color="#000" id="categoryButton" backgroundColor="#ccc" onClick="popCategory">Category</Button>
 			 		</View>	 			
 		 		</View>
 		 		<View class="wfill hsize">
@@ -43,10 +43,10 @@
 	 	<ScrollView platform="ios" id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
 	 		<View class="wfill hsize vert">
 		 		<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
-		 		<View class="wfill hsize" top="0">
-			 		<View id="categoryMother" class="wfill hsize horz" >
-			 			<Button width="60" height="40" color="#000" id="allButton" onClick="showAll">All</Button>
-						<Button class="wfill" height="40" color="#000" id="categoryButton" onClick="popCategory">Category</Button>
+		 		<View class="wfill hsize" top="5">
+			 		<View id="categoryMother" class="wfill hsize" >
+			 			<Button left="5" width="60" height="40" color="#000" id="allButton" backgroundColor="#ccc" onClick="showAll">All</Button>
+						<Button left="70" class="wfill" height="40" color="#000" id="categoryButton" backgroundColor="#ccc" onClick="popCategory">Category</Button>
 			 		</View>	 			
 		 		</View>
 		 		<View class="wfill hsize">
