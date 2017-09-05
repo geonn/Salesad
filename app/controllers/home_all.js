@@ -53,7 +53,6 @@ init();
 function getAdsData(){
 	var model = Alloy.createCollection('categoryAds');
 	adsArr = model.getLatestAds(0,100,category_id,keyword);
-	$.noAvailable.opacity = (adsArr.length != 0&&category_id != undefined)?1:0;
 	getExpressDataByServer();	
 }
 function popMore(){
@@ -68,8 +67,7 @@ function popMore(){
 			COMMON.openWindow(Alloy.createController("signin_signout").getView());
 			return;
 		}else {
-			if(e.index == 0){
-				; 
+			if(e.index == 0){ 
 				COMMON.openWindow(Alloy.createController("express_add").getView());
 			}else if(e.index == 1){
 				COMMON.openWindow(Alloy.createController("express_personal").getView()); 
@@ -112,9 +110,6 @@ function renderSmallAds(){
 		var sales_to = (adsArr[i].sales_to != "0000-00-00")?convertToHumanFormat(adsArr[i].sales_to).toString():""; 
 		var minus=(adsArr[i].sales_from !="Start from now !")?"-":"";								
 		_.extend(adsArr[i],{type:3,sales_from:sales_from,sales_to:sales_to,bg_color:"#4d4d4d",fg_color:"#fff",hr_color:"#fff",minus:minus});
-		// var params={a_id:adsdata[count1].a_id,type:1,from:"home_all",u_id:u_id};
-		// API.callByPost({url:"addAdsClick",new:true,params:params},{
-		// onload:function(res){},onerror:function(err){}});
 		adsClick.push(adsArr[i].a_id);					
 		renderSmall(adsArr[i],adsArr[i]);			
 	}
@@ -124,7 +119,8 @@ function renderSmallAds(){
 		from:"home_all",
 		u_id:u_id
 	} ;
-	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){console.log(JSON.stringify(res));},onerror:function(err){}});	
+	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){console.log(JSON.stringify(res));},onerror:function(err){}});
+	adsClick = [];
 }
 var keyword = "";
 function getExpressData(){
@@ -133,7 +129,6 @@ function getExpressData(){
 	var data = model.getData({anchor: COMMON.todayDateTime(), start: offcount , latest: false, keyword: keyword, category_id: category_id});
 	console.log("data"+JSON.stringify(data));
 	checking = (data.length != 0)?true:false;
-	$.noAvailable.opacity = (data.length == 0&&category_id != undefined)?1:0;
 	render(data);
 }
 function renderSmall(param,record){
@@ -193,8 +188,7 @@ function render(xpressArr){
 					// onload:function(res){},onerror:function(err){}});
 					counter++;					
 					renderSmall(entry1,entry1);	
-					indexAds++;			
-					console.log("asdf");
+					indexAds++;
 				}
 			});
 		}
@@ -208,9 +202,6 @@ function render(xpressArr){
 				var sales_to = (adsArr[indexAds].sales_to != "0000-00-00")?convertToHumanFormat(adsArr[indexAds].sales_to).toString():""; 
 				var minus=(adsArr[indexAds].sales_from !="Start from now !")?"-":"";								
 				_.extend(adsArr[indexAds],{type:3,sales_from:sales_from,sales_to:sales_to,bg_color:"#4d4d4d",fg_color:"#fff",hr_color:"#fff",minus:minus});
-				// var params={a_id:adsdata[count1].a_id,type:1,from:"home_all",u_id:u_id};
-				// API.callByPost({url:"addAdsClick",new:true,params:params},{
-				// onload:function(res){},onerror:function(err){}});
 				counter++;					
 				renderSmall(adsArr[indexAds],adsArr[indexAds]);
 				adsClick.push(adsArr[indexAds].a_id);
@@ -222,17 +213,6 @@ function render(xpressArr){
 			if(ads_data[ads_count] != undefined){
 				var img = (ads_data[ads_count].img_path != "")? ads_data[ads_count].img_path:'/images/image_loader_640x640.png';
 				var Aarr={cw:cw,record:ads_data[ads_count],img_path:img,type:3};
-				// var params={
-				// 	a_id:ads_data[ads_count].a_id,
-				// 	type:1,
-				// 	from:"home_all",
-				// 	u_id:u_id
-				// };
-				// API.callByPost({url:"addAdsClick",new:true,params:params},{
-				// onload:function(res){
-				// 	var re=JSON.parse(res);
-				// },onerror:function(err){
-				// }});		
 				renderBig(Aarr);
 				adsClick.push(ads_data[ads_count].a_id);
 				ads_count++;
@@ -265,10 +245,11 @@ function render(xpressArr){
 	offcount +=8;
 	keyword = "";
 	$.content.opacity = 1;		
-	$.myInstance.hide();	
+	$.myInstance.hide();
+	$.noAvailable.opacity = ($.content.getChildren().length > 0)?0:1;
 }
 function firstRun(){
-	if(category_id == undefined&& $.content.children.length<3){
+	if(category_id == undefined && $.content.children.length<3){
 		finalChecking = false;
 		renderBigAds();		
 	}

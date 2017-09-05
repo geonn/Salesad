@@ -111,7 +111,6 @@ var a_id_submit = [];
 function buildListing(){
 	var c_ads_library = Alloy.createCollection('categoryAds'); 
 	var ads = data;
-	console.log(ads.length+"heeree");
 	a_id_submit = _.union(_.pluck(ads, "a_id"), a_id_submit);
 	
 	ads_counter += 3;

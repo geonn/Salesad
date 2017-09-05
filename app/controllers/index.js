@@ -448,8 +448,7 @@ if(OS_ANDROID){
 	    setTimeout(function(e){
 	        Ti.API.debug('Timeout');
 	        $.indexView.homescrollview.scrollTo(0,0,true);	
-			setTimeout(function(){
-				$.indexView.swipeRefresh.opacity =0;				
+			setTimeout(function(){				
 				$.indexView.myInstance.show('',false);
 				$.indexView.adListing.removeAllChildren();	
 				$.indexView.bannerListing.removeAllChildren();
