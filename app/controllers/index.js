@@ -65,7 +65,7 @@ var bannerListing = function(){
 		row.add(adImage);
 		the_view.push(row); 
 		adsClick.push(banners[i].a_id);
-		counter++;			
+		counter++;
 	}
 	var scrollableView = Ti.UI.createScrollableView({
 		id: "scrollableView",
