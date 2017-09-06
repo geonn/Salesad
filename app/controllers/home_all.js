@@ -314,6 +314,8 @@ function popCategory(e){
 }	
 if (OS_ANDROID) {
 	$.swipeRefresh.addEventListener('refreshing', function(e) {
+		keyword = "";
+   		adsArrC = true;
 		init();
 		e.source.setRefreshing(false);		
 	});
@@ -329,6 +331,8 @@ if(OS_IOS){
 	        Ti.API.debug('Timeout');
 	        $.content_scrollview.scrollTo(0,0,true);	
 			setTimeout(function(){
+				keyword = "";
+  		 		adsArrC = true;				
 				init();
 			},500);	        
 	        control.endRefreshing();
