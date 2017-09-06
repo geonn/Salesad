@@ -174,8 +174,8 @@ function popDatePicker(e){
 	});
 	var view_container = $.UI.create("View", {classes:['wfill', 'hfill'], zIndex: 30,});
 	var mask = $.UI.create("View", {classes:['wfill','hfill'], backgroundColor: "#F6F6F6"});
-	var ok_button = $.UI.create("Button", {classes:['button', 'wsize'], right: 5, title: "Done"});
-	var cancel_button = $.UI.create("Button", {classes:['button', 'wsize'], left:5, title: "Cancel"});
+	var ok_button = $.UI.create("Button", {classes:['button', 'wsize'], right: 5, title: " Done "});
+	var cancel_button = $.UI.create("Button", {classes:['button', 'wsize'], left:5, title: " Cancel "});
 	var view_vert = $.UI.create("View", {classes:['wsize','hsize','vert']});
 	var button_horz = $.UI.create("View", {classes: ['wfill', 'hsize'], left: 50, right: 50, top: 10});
 	cancel_button.addEventListener("click", function(){ 

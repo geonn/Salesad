@@ -261,7 +261,7 @@ function buildListing(){
 		});
 		
 		btn_reminder.addEventListener('click', function(e){
-			COMMON.createAlert("Alert", "Do you want to add this sales to your calendar?", function(ex){
+			COMMON.createAlert("Alert", "Do you want to add this sales too your calendar?", function(ex){
 				if(Ti.Platform.osname == "android"){
 					setAndroidCalendarEvent(e);
 				}else{
@@ -387,23 +387,40 @@ function setAndroidCalendarEvent(e){
 		var eventBegins = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
 		var eventEnds = new Date(expired_date[0], expired_date[1]-1, expired_date[2], 23, 59, 59);
 		// Create the event
-		var details = {
-		    title: e.source.ads_name,
-		    description: e.source.description,
-		    begin: eventBegins,
-		    end: eventEnds
-		};
 		
-		var event = calendar.createEvent(details);
-		
-		// Now add a reminder via e-mail for 10 minutes before the event.
-		var reminderDetails = {
-		    minutes: 10,
-		    method: Ti.Calendar.METHOD_ALERT
-		};
-		
-		event.createReminder(reminderDetails);
-		COMMON.createAlert("Message", "Sales reminder added into your calendar.");
+		if (hasCalendarPermissions) {
+			// We have to actually use a Ti.Calendar method for the permissions to be generated
+			// FIXME: https://jira.appcelerator.org/browse/TIMOB-19933
+			log.args('Ti.Calendar.getAllCalendars', Ti.Calendar.getAllCalendars());
+			return alert('You already have permission.');
+		}else{
+			Ti.Calendar.requestCalendarPermissions(function(e) {
+				log.args('Ti.Calendar.requestCalendarPermissions', e);
+				if (e.success) {
+					var details = {
+					    title: e.source.ads_name,
+					    description: e.source.description,
+					    begin: eventBegins,
+					    end: eventEnds
+					};
+					
+					var event = calendar.createEvent(details);
+					
+					// Now add a reminder via e-mail for 10 minutes before the event.
+					var reminderDetails = {
+					    minutes: 10,
+					    method: Ti.Calendar.METHOD_ALERT
+					};
+					
+					event.createReminder(reminderDetails);
+					COMMON.createAlert("Message", "Sales reminder added into your calendar.");
+				}else {
+					// We already check AUTHORIZATION_DENIED earlier so we can be sure it was denied now and not before
+					alert('You denied permission.');
+				}
+			});
+		}
+	
 	}else{
 		COMMON.createAlert("Message", "Sales started.");
 	}
@@ -424,7 +441,7 @@ function setCalendarEvent(e){
 		}else{
 			var end_date = new Date(active_date[2], active_date[1]-1, active_date[0], 23, 0, 0);
 		}*/
-	
+		
 		 var event = cal.createEvent({
 		    title: e.source.ads_name,
 		    begin: start_date,
