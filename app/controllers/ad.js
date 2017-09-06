@@ -4,6 +4,7 @@ var name = args.name || "";
 var date = args.date || "";
 var m_id = args.m_id || "";
 var ads;
+Ti.App.Properties.setString('current_post_id', args.a_id);
 var from = args.from || "";
 var isFeed = args.isFeed || "";
 var isScan = "";

@@ -32,7 +32,6 @@ var bannerListing = function(){
  	var banners = ads_model.getBannerList();
  	if(banners.length <=0 ){
  		$.indexView.bannerListing.height = 0;
- 		return;
  	}else {
  		banners = shuffle(banners);
  	}
@@ -242,8 +241,34 @@ function loadLatestImageByCategoryId(cell, cate_id, types){
 }
 
 /** navigate to Ad **/
+var current_post_id = 0;
 function goToAds(e){
-	goAd(e.a_id, e.m_id);
+	current_post_id = Ti.App.Properties.getString('current_post_id') || 0;
+	console.log(e.target+" target");
+	if(e.target == "voucher"){
+		var win = Alloy.createController("reward").getView();
+		COMMON.openWindow(win);
+		return;
+	}
+	if(current_post_id != e.a_id && e.a_id != ""){
+		Ti.App.Properties.setString('current_post_id', e.a_id);
+		console.log(e.a_id+" "+current_post_id+" e.a_id");
+		var dialog = Ti.UI.createAlertDialog({
+			cancel: 1,
+			buttonNames: ['Cancel','OK'],
+			message: 'Got a new Ad. Do you want to read now?',
+			title: 'New Notification'
+		});
+		dialog.addEventListener('click', function(ex){
+			if (ex.index === 1){
+				goAd(e.a_id, e.m_id);
+			}
+		});
+		dialog.show();
+		
+	}else{
+		
+	}
 }
 //scrollableView click event
 var goAd = function(a_id, m_id, name, date, isFeed){

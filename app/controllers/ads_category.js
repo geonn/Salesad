@@ -75,7 +75,7 @@ if(Social.isRequestTwitterSupported()){ //min iOS6 required
 
 function createShareOptions(adsName, adsImage){
 	var subject = adsName;
-    var text = adsName + ". Download SalesAd : http://apple.co/1RtrCZ4";
+    var text = adsName + ". Download SalesAd : http://salesad.my/main/downloadLink";
   
     var intent = Ti.Android.createIntent({
         action: Ti.Android.ACTION_SEND,
@@ -328,8 +328,8 @@ function buildListing(){
 		view_left.add(label_ads_name);
 		view_left.add(label_date_period);
 			
-		view_right.add(btn_reminder);
-		view_right.add(btn_share);
+		//view_right.add(btn_reminder);
+		//view_right.add(btn_share);
 		bottom_data.add(view_left);
 		bottom_data.add(view_right);
 		merchant_data.add(bottom_data);

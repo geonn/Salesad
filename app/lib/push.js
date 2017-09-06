@@ -10,30 +10,11 @@ function receivePush(e) {
 	
 	result = params.split("_"); 
 	
-	var current_post_id = Ti.App.Properties.getString('current_post_id') || 0;
-	Ti.App.fireEvent("discussion:refresh", {callback: function(e){
-		if(current_post_id != post_id){
-			var dialog = Ti.UI.createAlertDialog({
-				cancel: 1,
-				buttonNames: ['Cancel','OK'],
-				message: 'Got a new post. Do you want to read now?',
-				title: 'Confirmation'
-			});
-			dialog.addEventListener('click', function(ex){
-				if (ex.index === 1){
-					addPage("post_detail","Post Detail",{p_id: post_id});
-				}
-			});
-			dialog.show();
-		}else{ 
-		 	Ti.App.fireEvent("post_detail:init");
-		}
-	}});
-	
+	console.log(e);
 	if(result.length > 1){
-		Ti.App.fireEvent('app:goToAds', {m_id: result[0],a_id: result[1], isFeed : 1 });
+		Ti.App.fireEvent('app:goToAds', {m_id: result[0],a_id: result[1], isFeed : 1, target: target });
 	}else{ 
-		Ti.App.fireEvent('app:goToAds', {m_id: result[0], a_id: "", isFeed : 1});
+		Ti.App.fireEvent('app:goToAds', {m_id: result[0], a_id: "", isFeed : 1, target: target});
 	}
 	return false;
 }
