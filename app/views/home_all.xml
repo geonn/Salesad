@@ -40,7 +40,7 @@
 	 		</View>
 	 	</ScrollView>
 	 	</SwipeRefresh>
-	 	<ScrollView platform="ios" id="content_scrollview" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
+	 	<ScrollView platform="ios" id="content_scrollview" onScroll="scrollChecker" class="hfill wfill contwfill conthsize padding vert" top="0" bottom="0" left="0">
 	 		<View class="wfill hsize vert">
 		 		<SearchBar id="searchbar" class="wfill" height="43" onReturn="doSearch"></SearchBar>
 		 		<View class="wfill hsize" top="5">
