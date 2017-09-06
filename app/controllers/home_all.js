@@ -90,7 +90,7 @@ function scrollChecker(e){
 //final function
 function renderBigAds(){
 	for(var i=ads_count;i<ads_data.length;i++){
-		var img = (ads_data[i].img_path != "")? ads_data[i].img_path:'/images/image_loader_640x640.png';
+		var img = (ads_data[i].img_path != "")? ads_data[i].img_thumb:'/images/image_loader_640x640.png';
 		var Aarr={cw:cw,record:ads_data[i],img_path:img,type:3};
 		adsClick.push(ads_data[i].a_id);
 		renderBig(Aarr,ads_data[i]);	
@@ -166,7 +166,7 @@ function renderSmall(param,record){
     label_category=null;
 }
 function renderBig(param){
-	var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0, image: param.img_path,type: param.type, record:param.record});
+	var img = $.UI.create("ImageView",{classes: ["padding"], right:0, bottom:0,defaultImage:'/images/image_loader_640x640.png', image: param.img_path,type: param.type, record:param.record});
 	img.addEventListener("click", navTo);
 	var v = $.UI.create("View", {width: param.cw, height: param.cw});
 	v.add(img);
@@ -211,7 +211,7 @@ function render(xpressArr){
 		// big ads
 		if(counter % 4 == 0 && counter > 0 && category_id == undefined && keyword == ""){
 			if(ads_data[ads_count] != undefined){
-				var img = (ads_data[ads_count].img_path != "")? ads_data[ads_count].img_path:'/images/image_loader_640x640.png';
+				var img = (ads_data[ads_count].img_path != "")? ads_data[ads_count].img_thumb:'/images/image_loader_640x640.png';
 				var Aarr={cw:cw,record:ads_data[ads_count],img_path:img,type:3};
 				renderBig(Aarr);
 				adsClick.push(ads_data[ads_count].a_id);

@@ -133,6 +133,7 @@ exports.definition = {
 					    img_path: res.fieldByName('img_path'),
 					    description: res.fieldByName('description'),
 					    status: res.fieldByName('status'),
+					    img_thumb: res.fieldByName('img_thumb'),					    
 					};
                 	res.next();
 					count++;
