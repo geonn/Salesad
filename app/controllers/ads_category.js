@@ -267,12 +267,12 @@ function buildListing(){
 				
 					if (hasCalendarPermissions) {
 						
-						setAndroidCalendarEvent(e);
+						//setAndroidCalendarEvent(e);
 					}
 					else{
 						Ti.Calendar.requestCalendarPermissions(function(e1) {
 							if (e1.success) {
-								setAndroidCalendarEvent(e);
+								//setAndroidCalendarEvent(e);
 							}else{
 								alert('You denied permission.');			
 							}
@@ -341,8 +341,9 @@ function buildListing(){
 		view_ad.add(label_and_flag);
 		view_left.add(label_ads_name);
 		view_left.add(label_date_period);
-			
-		view_right.add(btn_reminder);
+		if (OS_IOS) {
+			view_right.add(btn_reminder);
+		};
 		view_right.add(btn_share);
 		bottom_data.add(view_left);
 		bottom_data.add(view_right);
