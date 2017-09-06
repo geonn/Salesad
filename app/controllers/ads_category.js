@@ -190,7 +190,7 @@ function buildListing(){
 		});
 		
 		
-		function datedescription(e) {
+		function datedescription() {
 			if(isAd){
 				var dateDescription = convertToHumanFormat(ads[a].sales_from)+" - "+convertToHumanFormat(ads[a].sales_to);
 				if(ads[a].sales_from == "0000-00-00" && ads[a].sales_to =="0000-00-00"){
@@ -263,7 +263,21 @@ function buildListing(){
 		btn_reminder.addEventListener('click', function(e){
 			COMMON.createAlert("Alert", "Do you want to add this sales too your calendar?", function(ex){
 				if(Ti.Platform.osname == "android"){
-					setAndroidCalendarEvent(e);
+					var hasCalendarPermissions = Ti.Calendar.hasCalendarPermissions();
+				
+					if (hasCalendarPermissions) {
+						
+						setAndroidCalendarEvent(e);
+					}
+					else{
+						Ti.Calendar.requestCalendarPermissions(function(e1) {
+							if (e1.success) {
+								setAndroidCalendarEvent(e);
+							}else{
+								alert('You denied permission.');			
+							}
+						});
+					}
 				}else{
 					if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
 					    setCalendarEvent(e);
@@ -380,46 +394,54 @@ function buildListing(){
 
 function setAndroidCalendarEvent(e){
 	if(e.source.active_date != "0000-00-00"){
-		var CALENDAR_TO_USE = 3;
-		var calendar = Ti.Calendar.getCalendarById(CALENDAR_TO_USE);
-		var active_date = e.source.active_date.split("-");
-		var expired_date =  e.source.expired_date.split("-");
-		var eventBegins = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
-		var eventEnds = new Date(expired_date[0], expired_date[1]-1, expired_date[2], 23, 59, 59);
-		// Create the event
-		
-		if (hasCalendarPermissions) {
-			// We have to actually use a Ti.Calendar method for the permissions to be generated
-			// FIXME: https://jira.appcelerator.org/browse/TIMOB-19933
-			log.args('Ti.Calendar.getAllCalendars', Ti.Calendar.getAllCalendars());
-			return alert('You already have permission.');
-		}else{
-			Ti.Calendar.requestCalendarPermissions(function(e) {
-				log.args('Ti.Calendar.requestCalendarPermissions', e);
-				if (e.success) {
-					var details = {
-					    title: e.source.ads_name,
-					    description: e.source.description,
-					    begin: eventBegins,
-					    end: eventEnds
-					};
-					
-					var event = calendar.createEvent(details);
-					
-					// Now add a reminder via e-mail for 10 minutes before the event.
-					var reminderDetails = {
-					    minutes: 10,
-					    method: Ti.Calendar.METHOD_ALERT
-					};
-					
-					event.createReminder(reminderDetails);
-					COMMON.createAlert("Message", "Sales reminder added into your calendar.");
-				}else {
-					// We already check AUTHORIZATION_DENIED earlier so we can be sure it was denied now and not before
-					alert('You denied permission.');
-				}
-			});
-		}
+		// var CALENDAR_TO_USE = 3;
+		// console.log("JOSN:"+JSON.stringify(e.source));
+		// var calendar = Ti.Calendar.getCalendarById(CALENDAR_TO_USE);
+		// var active_date = e.source.active_date.split("-");
+		// var expired_date =  e.source.expired_date.split("-");
+		// var eventBegins = new Date(active_date[0], active_date[1]-1, active_date[2], 10, 0, 0);
+		// var eventEnds = new Date(expired_date[0], expired_date[1]-1, expired_date[2], 23, 59, 59);
+		// // var eventBegins = new Date(2017, 12, 1, 10, 0, 0);
+		// // var eventEnds = new Date(2017, 12, 3, 23, 59, 59);		
+		// var details = {
+		    // title: e.source.ads_name,
+		    // description: e.source.description,
+		    // begin: eventBegins,
+		    // end: eventEnds
+		// };
+		// console.log("json:"+JSON.stringify(details));
+		// var event = calendar.createEvent(details);
+// 		
+		// // Now add a reminder via e-mail for 10 minutes before the event.
+		// var reminderDetails = {
+		    // minutes: 10,
+		    // method: Ti.Calendar.METHOD_ALERT
+		// };
+// 		
+		// event.createReminder(reminderDetails);
+		// COMMON.createAlert("Message", "Sales reminder added into your calendar.");
+var CALENDAR_TO_USE = 1;
+var calendar = Ti.Calendar.getCalendarById(CALENDAR_TO_USE);
+
+// Create the event
+var eventBegins = new Date(2010, 11, 26, 12, 0, 0);
+var eventEnds = new Date(2010, 11, 26, 14, 0, 0);
+var details = {
+    title: 'Do some stuff',
+    description: "I'm going to do some stuff at this time.",
+    begin: eventBegins,
+    end: eventEnds
+};
+
+var event = calendar.createEvent(details);
+
+// Now add a reminder via e-mail for 10 minutes before the event.
+var reminderDetails = {
+    minutes: 10,
+    method: Ti.Calendar.METHOD_EMAIL
+};
+
+event.createReminder(reminderDetails);		
 	
 	}else{
 		COMMON.createAlert("Message", "Sales started.");

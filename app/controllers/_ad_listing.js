@@ -262,7 +262,19 @@ function buildListing(){
 		btn_reminder.addEventListener('click', function(e){
 			COMMON.createAlert("Alert", "Do you want to add this sales to your calendar?", function(ex){
 				if(Ti.Platform.osname == "android"){
-					setAndroidCalendarEvent(e);
+					if (Ti.Calendar.hasCalendarPermissions()) {
+						
+						setAndroidCalendarEvent(e);
+					}
+					else{
+						Ti.Calendar.requestCalendarPermissions(function(e) {
+							if (e.success) {
+								setAndroidCalendarEvent(e);
+							}else{
+								alert('You denied permission.');			
+							}
+						});
+					}
 				}else{
 					if(Ti.Calendar.eventsAuthorization == Ti.Calendar.AUTHORIZATION_AUTHORIZED) {
 					    setCalendarEvent(e);

@@ -249,7 +249,7 @@ function render(xpressArr){
 	$.noAvailable.opacity = ($.content.getChildren().length > 0)?0:1;
 }
 function firstRun(){
-	if(category_id == undefined && $.content.children.length<3){
+	if(category_id == undefined && $.content.children.length<4){
 		finalChecking = false;
 		renderBigAds();		
 	}
