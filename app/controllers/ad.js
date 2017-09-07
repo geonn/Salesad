@@ -9,8 +9,7 @@ var from = args.from || "";
 var isFeed = args.isFeed || "";
 var isScan = "";
 var nav = Alloy.Globals.navMenu;
-var clickTime = null;
-var isAdsAvailable  = false; 
+var clickTime = null; 
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var items;
 Alloy.Globals.naviPath.push($.win);
@@ -246,30 +245,29 @@ var getAdDetails = function(){
 			counter++;
 		}
 		
-		var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
-		var details_text = $.UI.create("View", {classes:['vert', 'wfill', 'hsize', 'padding']});
-		var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text : name});
-		var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], top: 0, text : date});
-		var hr = $.UI.create("View", {classes:['hr'], backgroundColor: "#000"});
-		var desc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding'], text :ads.description});
-		var tnc = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text: "Terms and Conditions"});
-		var tnc_text = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding'], top: 0, text: ads_tnc});
-		
-		details_text.add(ad_name);
-		details_text.add(ad_date);
-		
-		if(ads.description != "") {
-			details_text.add(hr);
-			details_text.add(desc);
-		}
-		if(ads_tnc != "") {
-			details_text.add(tnc);
-			details_text.add(tnc_text);
-		}
-		$.ads_details.add(details_text);
-		
-		isAdsAvailable = true;
 	}
+	
+	var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
+	var details_text = $.UI.create("View", {classes:['vert', 'wfill', 'hsize', 'padding']});
+	var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text : name});
+	var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], top: 0, text : date});
+	var hr = $.UI.create("View", {classes:['hr'], backgroundColor: "#000"});
+	var desc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding'], text :ads.description});
+	var tnc = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text: "Terms and Conditions"});
+	var tnc_text = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding'], top: 0, text: ads_tnc});
+	console.log(ads_tnc+"heeree");
+	details_text.add(ad_name);
+	details_text.add(ad_date);
+	
+	if(ads.description != "") {
+		details_text.add(hr);
+		details_text.add(desc);
+	}
+	if(ads_tnc != "") {
+		details_text.add(tnc);
+		details_text.add(tnc_text);
+	}
+	$.ads_details.add(details_text);
 
 	var custom = $.UI.create("Label", { 
 		    text: pageTitle, 

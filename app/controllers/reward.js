@@ -8,6 +8,7 @@ var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
 var myvmodel = Alloy.createCollection("MyVoucher");
 var boll = true;
+var add_impression = [];
 
 if(OS_ANDROID){
 	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
@@ -281,7 +282,11 @@ init();
 function Tab(e) {
 	$.scrollview.scrollToView(e.source.num);
 }
-
+function chk_array(arr,value){
+	return arr.every(function(e){
+		return e != value; 
+	});
+}
 function vouchers(e, str) {
 	var params = [];
 	for(key in e) {
@@ -320,6 +325,10 @@ function vouchers(e, str) {
 			}else {
 				params.push(entry.a_id);
 			}
+			if (chk_array(add_impression,entry.a_id)) {
+				add_impression.push(entry.a_id);
+				console.log(add_impression.join()+" added");
+			};
 			count = null;
 			if(entry.item_id != null){
 				var item = Alloy.createCollection("items");
@@ -435,7 +444,6 @@ function vouchers(e, str) {
 			var count = 0;
 			for(var i = 0; i < $.voucher_view.alltitle.length - 1; i++) {
 				count = i;
-				//console.log("title "+$.voucher_view.alltitle[i]+" ..... "+e[key].title);
 				if($.voucher_view.alltitle[i] == e[key].title) {//console.log("set true");
 					bol = true;
 					break;
@@ -458,7 +466,6 @@ function vouchers(e, str) {
 		}
 		parent.add(child);
 		if($.voucher_view.getChildren().length > 0) {//console.log("voucher length biger then 0");
-		//console.log("persentage two and bol "+$.voucher_view.lastchild.getChildren().length % 2+" "+$.voucher_view.childadd);
 			if($.voucher_view.childadd) {
 				for(var i = 0; i < child.getChildren().length; i++) {
 					$.voucher_view.lastchild.add(child.getChildren()[i]);
@@ -483,9 +490,6 @@ function vouchers(e, str) {
 	}
 	if(str == "refreshSVlist") {
 		refreshSVlist(params);
-	}
-	if(params != []) {
-		impression(params);
 	}
 	loading.finish();
 	boll = true;
@@ -531,7 +535,7 @@ function ins_voucher(str) {
 	}
 }
 
-function to_gift_voucher(e) {
+function toGiftvoucher(e){
 	$.voucher_scrollview.gift_vouchercount = 0;
 	gift_voucher();
 }
@@ -551,7 +555,7 @@ function gift_voucher(e) {
 		if($.voucher_scrollview.gift_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		}
-		if(vdata.length > 0) {//console.log("length "+vdata.length);
+		if(vdata.length > 0) {
 			$.voucher_scrollview.scrolldata = vdata.length;
 			list_voucher(vdata, "gift");
 		}else {
@@ -911,6 +915,7 @@ function createWhoops1(t,e,b,callback){
 };
 
 function impression(a_id) {
+	console.log("impression send "+a_id.join());
 	var params = {
 		a_id:a_id.join(),
 		type:1,
@@ -943,6 +948,8 @@ $.btnBack.addEventListener('click', function(){
 }); 
 
 $.win.addEventListener("close", function(){
+	impression(add_impression);
+	add_impression = undefined;
 	Ti.App.removeEventListener('reward:refresh', refresh);
 });
 
