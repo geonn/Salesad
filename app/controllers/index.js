@@ -399,10 +399,10 @@ $.indexView.favorite.addEventListener('click', function(e){
 		}	
 });
 //xpress page
-$.indexView.home.addEventListener('click', function(e){
-	var win = Alloy.createController("home_all", {action_type: e.index}).getView();  
-	COMMON.openWindow(win);
-});
+// $.indexView.home.addEventListener('click', function(e){
+	// var win = Alloy.createController("home_all", {action_type: e.index}).getView();  
+	// COMMON.openWindow(win);
+// });
 
 /** EventListerner for notification **/
 Ti.App.addEventListener('app:goToAds', goToAds);

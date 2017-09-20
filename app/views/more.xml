@@ -30,10 +30,10 @@
 		 				<Label left="10" class="wsize hsize">My Rewards</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
-		 			<TableViewRow height="50" target='category'>
+		 			<!-- <TableViewRow height="50" target='category'>
 		 				<Label left="10" class="wsize hsize">Search</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
-		 			</TableViewRow>
+		 			</TableViewRow> -->
 		 			<TableViewRow height="50" target="favourite">
 		 				<Label left="10" class="wsize hsize">Manage Favorites</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>

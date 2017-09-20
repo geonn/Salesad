@@ -34,16 +34,16 @@
 		</View>
 		<View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
 	    	<View class="grey_line"></View>
-	    	<View width="25%" height="60" backgroundColor="#fff">
+	    	<!-- <View width="25%" height="60" backgroundColor="#fff">
 	    		<ImageView id="home" height="Ti.UI.FILL" image="/images/SalesAd_SalesXpress.png" />
-	    	</View>
-			<View width="25%" height="60" backgroundColor="#fff">
+	    	</View> -->
+			<View width="33%" height="60" backgroundColor="#fff">
 				<ImageView id="favorite" height="Ti.UI.FILL" image="/images/SalesAd_Favorites.png" />
 			</View>
-	        <View width="25%" height="60" backgroundColor="#fff">
+	        <View width="33%" height="60" backgroundColor="#fff">
 	        	<ImageView id="nearby" height="Ti.UI.FILL" image="/images/SalesAd_NearMe.png" />
 	        </View>
-	        <View width="24%" height="60" backgroundColor="#fff">
+	        <View width="33%" height="60" backgroundColor="#fff">
 				<ImageView id="more" height="Ti.UI.FILL" image="/images/SalesAd_More.png" />
 			</View>
 		</View>
