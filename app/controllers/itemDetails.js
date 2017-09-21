@@ -65,10 +65,12 @@ var getAdsImages = function() {
 		}else {
 			$.scrollableView.II_id[i] = items[i].i_id;
 		}
-		var itemImageView = $.UI.create("View", {classes:['wfill','hsize','vert']});
-		var adImage = $.UI.create('imageView',{
-			classes:['wfill','hsize'],
-			image: items[i].img_path,
+		var itemImageView = $.UI.create("View", {classes:['wfill','hfill','vert']});
+		
+		var adImage = $.UI.create('WebView',{
+			classes:['wfill'],
+			height:"40%",
+			url: items[i].img_path,
 			enableZoomControls: true,
 			top: 0,
 			defaultImage: "/images/image_loader_640x640.png",
