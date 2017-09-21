@@ -12,7 +12,7 @@ var showBarcode = 1;
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
 var SCANNER = require("scanner");
-
+var zoomChecker = false;
 var htr_turn = true;
 var tc_turn = true;
 var checkingLimit = true;
@@ -21,7 +21,7 @@ var checkingClaimLimit = true;
 var fristDate = "";
 var secondDate = "";
 var endsDay = "";
-
+var transparentView;
 var i_library = Alloy.createCollection('items'); 
 var voucher = Alloy.createCollection('voucher');
 var items  = i_library.getItemByAds(a_id);
@@ -67,13 +67,14 @@ var getAdsImages = function() {
 		}
 		var itemImageView = $.UI.create("View", {classes:['wfill','hfill','vert']});
 		
-		var adImage = $.UI.create('WebView',{
-			classes:['wfill'],
-			height:"40%",
-			url: items[i].img_path,
-			enableZoomControls: true,
+		var adImage = $.UI.create('ImageView',{
+			classes:['wfill','hsize'],
+			image: items[i].img_path,
 			top: 0,
 			defaultImage: "/images/image_loader_640x640.png",
+		});
+		adImage.addEventListener("click",function(event1){
+			zoomImageView(event1.source.image);					
 		});
 		var label_description = $.UI.create("Label",{
 			classes:['wfill','hsize','h5','padding'],
@@ -128,7 +129,19 @@ var getAdsImages = function() {
 	
 	set_title_button();
 };
-
+function zoomImageView(url){
+	transparentView = $.UI.create("View",{classes:['wfill','hfill'],backgroundColor:"#99000000",zIndex:10});
+	var closeButton = $.UI.create("Label",{classes:['wsize','hsize'],color:"#fff",text:"Close",top:10,right:10,zIndex:10});
+	var zoomImage = $.UI.create("WebView",{url:url,classes:['wfill','hsize'],backgroundColor:"transparent"});
+	transparentView.add(zoomImage);
+	transparentView.add(closeButton);
+	closeButton.addEventListener("click",function(){
+		$.win.remove(transparentView);
+		zoomChecker = false;
+	});
+	zoomChecker = true;
+	$.win.add(transparentView);	
+}
 function addVoucher(e) {
 	var voucher_item = voucher.getDataByI_id(e.i_id);
 	var vvv;
@@ -145,6 +158,9 @@ function addVoucher(e) {
 		classes:['wfill','hsize'],
 		image: e.img_path,
 		defaultImage: "/images/image_loader_640x640.png",
+	});
+	v_image.addEventListener("click",function(e){
+		zoomImageView(e.source.image);		
 	});
 	var v_title = $.UI.create('Label',{
 		classes:['wfill','hsize','padding','bold','vTitle'],
@@ -724,7 +740,12 @@ function sendAPI(e) {
 }
 
 function closeWindow(e) {
-	COMMON.closeWindow($.win);
+	if(zoomChecker){
+		zoomChecker = false;
+		$.win.remove(transparentView);
+	}else{
+		COMMON.closeWindow($.win);		
+	}
 }
 
 init();
