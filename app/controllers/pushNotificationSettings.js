@@ -36,8 +36,8 @@ var changeStatus = function(e){
 		var dialog = Ti.UI.createAlertDialog({
 		    cancel: 1,
 		    buttonNames: ['Cancel','Confirm'],
-		    message: 'Switch off push notification will miss the notification/alert of great deal like Mega Sales and Limited time Sales!',
-		    title: 'Push Notification'
+		    message: 'You might miss out great sales & deals.',
+		    title: 'Confirm to switch off push notification?'
 		  });
 		  dialog.addEventListener('click', function(ex){
 		    if (ex.index == 1){

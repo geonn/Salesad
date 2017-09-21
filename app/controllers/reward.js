@@ -528,7 +528,6 @@ function ins_voucher(str) {
 		}
 		$.voucher_scrollview.scrolldata = vdata.length;
 		vouchers(arr, str);
-		
 		vmodel = null;
 		vdata = null;
 		arr = null;
@@ -566,27 +565,26 @@ function gift_voucher(e) {
 }
 
 function savedvoucher(params) {
-	$.ongoingV.removeAllChildren();
-	$.expiredV.removeAllChildren();
-	
-	$.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Vouchers", textAlign: "center"}));
-	$.ongoingV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
-	$.ongoingV.add($.UI.create("Label", {classes: ['wfill'], id: "T1", height: 180, textAlign: "center", text: "You have no ongoing vouchers at this moment."}));
-	
-	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Vouchers", textAlign: "center"}));
-	$.expiredV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
-	$.expiredV.add($.UI.create("Label", {classes: ['wfill'], id: "T2", height: 180, textAlign: "center", text: "You have no expired vouchers at this moment."}));
+	// $.ongoingVoucher.removeAllChildren();
+	// $.expiredVoucher.removeAllChildren();
+// 	
+	// $.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Vouchers", textAlign: "center"}));
+	// $.ongoingV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
+	// $.ongoingV.add($.UI.create("Label", {classes: ['wfill'], id: "T1", height: 180, textAlign: "center", text: "You have no ongoing vouchers at this moment."}));
+// 	
+	// $.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Vouchers", textAlign: "center"}));
+	// $.expiredV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
+	// $.expiredV.add($.UI.create("Label", {classes: ['wfill'], id: "T2", height: 180, textAlign: "center", text: "You have no expired vouchers at this moment."}));
 	
 	var ongoingVC = myvmodel.ongoingvoucher(true);
 	list_voucher(ongoingVC, "ongoing");
 	var expireVC = myvmodel.expirevoucher(true);
 	list_voucher(expireVC, "expire", params);
-	
-	if($.ongoingV.children.length > 3) {
-		$.ongoingV.remove($.ongoingV.children[2]);
+	if($.ongoingVoucher.children.length > 0) {
+		$.t1.setHeight(0);
 	}
-	if($.expiredV.children.length > 3) {
-		$.expiredV.remove($.expiredV.children[2]);
+	if($.expiredVoucher.children.length > 0) {
+		$.t2.setHeight(0);
 	}
 }
 
@@ -728,10 +726,10 @@ function list_voucher(e, name, params) {
 		View2.add(title);
 		parent.add(container);
 		if(name == "ongoing") {
-			$.ongoingV.add(container);
+			$.ongoingVoucher.add(container);
 			img.addEventListener("click", toSaveVoucher);
 		}else if(name == "expire") {
-			$.expiredV.add(container);
+			$.expiredVoucher.add(container);
 			img.addEventListener("click", toSaveVoucher);
 		}else {
 			img.addEventListener("click", toVoucher);
