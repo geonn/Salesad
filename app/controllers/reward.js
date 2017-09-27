@@ -589,13 +589,17 @@ function savedvoucher(params) {
 	list_voucher(expireVC, "expire", params);
 	if($.ongoingVoucher.children.length > 0) {
 		$.t1.setHeight(0);
+		$.t1.hide();
 	}else{
 		$.t1.setHeight(180);
+		$.t1.show();
 	}
 	if($.expiredVoucher.children.length > 0) {
 		$.t2.setHeight(0);
+		$.t1.hide();
 	}else{
 		$.t2.setHeight(180);
+		$.t1.show();
 	}
 }
 
