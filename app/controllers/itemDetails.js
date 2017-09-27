@@ -49,8 +49,8 @@ function init() {
 				from:"itemDetails",
 				u_id:u_id
 			};
-			model = res = arr = params = undefined;
 			addAdsClick("init", params);
+			model = res = arr = params = undefined;
 		},onerror:function(err){
 			_.isString(err.message) && alert(err.message);
 		},onexception:function(){
