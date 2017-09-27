@@ -596,10 +596,10 @@ function savedvoucher(params) {
 	}
 	if($.expiredVoucher.children.length > 0) {
 		$.t2.setHeight(0);
-		$.t1.hide();
+		$.t2.hide();
 	}else{
 		$.t2.setHeight(180);
-		$.t1.show();
+		$.t2.show();
 	}
 }
 
