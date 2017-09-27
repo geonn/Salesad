@@ -42,8 +42,8 @@
 								<View class="wfill hsize vert" id="voucher_view" bottom="70" top="0"></View>
 							</ScrollView>
 						</SwipeRefresh>													
-						<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize">
-							<Label class="wfill hsize h4 textcenter" left="10" right="10" color="#000" id="nothingText"></Label>								
+						<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize" platform="ios">
+							<Label class="wfill hsize textcenter" left="10" right="10" color="#000" id="nothingText"></Label>								
 							<View class="wfill hsize vert" id="voucher_view" bottom="70" top="0"></View>
 						</ScrollView>
 						<View class="vert wfill hsize" bottom="0" backgroundColor="#fff">
