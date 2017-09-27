@@ -527,8 +527,10 @@ function ins_voucher(str) {
 			$.voucher_view.removeAllChildren();
 		}
 		$.voucher_scrollview.scrolldata = vdata.length;
+		console.log("length:"+vdata.length+" asdf:"+JSON.stringify(vdata));
+		scrollChecker = (vdata.length == 0) ? false :true;
+		$.nothingText.text = (vdata.length == 0 && $.voucher_view.children.length == 0)?"Sorry, we don't have any instant vouchers to show right now":"";			
 		vouchers(arr, str);
-		$.nothingText.text = (arr.length == 0)?"Sorry, we don't have any instant vouchers to show right now":"";	
 		vmodel = null;
 		vdata = null;
 		arr = null;
@@ -559,6 +561,7 @@ function gift_voucher(e) {
 			$.voucher_scrollview.scrolldata = vdata.length;
 			list_voucher(vdata, "gift");
 		}else {
+			scrollChecker = (vdata.length == 0) ? false :true;
 			$.nothingText.text = (vdata.length == 0)?"Sorry, we don't have any CP vouchers to show right now":"";							
 			loading.finish();
 			boll = true;
@@ -927,12 +930,12 @@ function impression(a_id) {
 	};
 	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
 }
-
+var scrollCheck = true;
 function scrollChecker(e) {
 	var theEnd = $.voucher_view.rect.height;
 	var nearEnd = theEnd - 200;
 	var total = (OS_ANDROID) ? pixelToDp(e.y) + e.source.rect.height : e.y + e.source.rect.height;
-	if(total >= nearEnd && $.voucher_scrollview.scrollcheck && $.voucher_scrollview.scrolldata > 0){
+	if(total >= nearEnd&& scrollCheck && $.voucher_scrollview.scrollcheck && $.voucher_scrollview.scrolldata > 0){
 		$.voucher_scrollview.scrollcheck = false;
 		eval($.voucher_scrollview.vouchertype+"()");
 	}
