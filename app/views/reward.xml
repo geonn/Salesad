@@ -37,12 +37,14 @@
 					<!--Vouchers(view 1)-->
 					<View class="wfill hfill" id="view1">
 						<SwipeRefresh module="com.rkam.swiperefreshlayout" bubbleParent="false" id="swipeRefresh" platform="android">
-							<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize vert">
-								<View class="wfill hsize vert" id="voucher_view" bottom="70"></View>
+							<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize">
+								<Label class="wfill hsize h4 textcenter" left="10" right="10" color="#000" id="nothingText"></Label>								
+								<View class="wfill hsize vert" id="voucher_view" bottom="70" top="0"></View>
 							</ScrollView>
 						</SwipeRefresh>													
-						<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize vert" platform="ios">
-							<View class="wfill hsize vert" id="voucher_view" bottom="70"></View>
+						<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize">
+							<Label class="wfill hsize h4 textcenter" left="10" right="10" color="#000" id="nothingText"></Label>								
+							<View class="wfill hsize vert" id="voucher_view" bottom="70" top="0"></View>
 						</ScrollView>
 						<View class="vert wfill hsize" bottom="0" backgroundColor="#fff">
 							<View class="hr" backgroundColor="#e8e8e8"></View>

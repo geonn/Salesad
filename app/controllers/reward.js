@@ -528,6 +528,7 @@ function ins_voucher(str) {
 		}
 		$.voucher_scrollview.scrolldata = vdata.length;
 		vouchers(arr, str);
+		$.nothingText.text = (arr.length == 0)?"Sorry, we don't have any instant vouchers to show right now":"";	
 		vmodel = null;
 		vdata = null;
 		arr = null;
@@ -558,6 +559,7 @@ function gift_voucher(e) {
 			$.voucher_scrollview.scrolldata = vdata.length;
 			list_voucher(vdata, "gift");
 		}else {
+			$.nothingText.text = (vdata.length == 0)?"Sorry, we don't have any CP vouchers to show right now":"";							
 			loading.finish();
 			boll = true;
 		}
@@ -592,7 +594,6 @@ function list_voucher(e, name, params) {
 	var parent = $.UI.create("View", {
 		classes: ['wfill', 'hsize', 'horz']
 	});
-	
 	e.forEach(function (entry) {
 		if(entry.item_id != null){
 			var item = Alloy.createCollection("items");
