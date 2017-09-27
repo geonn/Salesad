@@ -22,6 +22,14 @@ $.tou.addEventListener('touchend', function(e) {
 
 $.btnBack.addEventListener('click', function() {
 	COMMON.closeWindow($.signin_out);
+    try{
+	    if(page != "") {
+	        Ti.App.fireEvent("login_cancel:reward");
+	    }    	
+    }
+    catch(e){
+    	
+    }
 });
 
 function closeWindow() {
@@ -31,5 +39,13 @@ function closeWindow() {
 Ti.App.addEventListener("sign:close", closeWindow);
 
 $.signin_out.addEventListener('android:back', function (e) {
-	COMMON.closeWindow($.signin_out);
+    COMMON.closeWindow($.signin_out);
+    try{
+	    if(page != "") {
+	        Ti.App.fireEvent("login_cancel:reward");
+	    }    	
+    }
+    catch(e){
+    	
+    }
 });

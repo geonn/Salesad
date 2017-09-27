@@ -936,8 +936,10 @@ function scrollChecker(e) {
 	nearEnd = null;
 	total = null;
 }
-
-
+function login_cancel(e) {
+    $.scrollview.scrollToView(0);
+}
+Ti.App.addEventListener('login_cancel:reward', login_cancel);
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
 }); 
