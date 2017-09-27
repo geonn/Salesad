@@ -567,8 +567,8 @@ function gift_voucher(e) {
 }
 
 function savedvoucher(params) {
-	// $.ongoingVoucher.removeAllChildren();
-	// $.expiredVoucher.removeAllChildren();
+	$.ongoingVoucher.removeAllChildren();
+	$.expiredVoucher.removeAllChildren();
 // 	
 	// $.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Vouchers", textAlign: "center"}));
 	// $.ongoingV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
@@ -584,9 +584,13 @@ function savedvoucher(params) {
 	list_voucher(expireVC, "expire", params);
 	if($.ongoingVoucher.children.length > 0) {
 		$.t1.setHeight(0);
+	}else{
+		$.t1.setHeight(180);
 	}
 	if($.expiredVoucher.children.length > 0) {
 		$.t2.setHeight(0);
+	}else{
+		$.t2.setHeight(180);
 	}
 }
 
@@ -829,14 +833,14 @@ function refreshVlist(str) {
 }
 
 function refreshSVlist(params) {
-	u_id = Ti.App.Properties.getString('u_id') || "";
-	var checker = Alloy.createCollection('updateChecker');
-	var isUpdate = checker.getCheckerById("13");
+	// u_id = Ti.App.Properties.getString('u_id') || "";
+	// var checker = Alloy.createCollection('updateChecker');
+	// var isUpdate = checker.getCheckerById("13");
 	
 	API.callByPost({
 		url:"getUserVoucherList",
 		new: true,
-		params: {u_id: u_id,last_updated:isUpdate.update}
+		params: {u_id: u_id}
 	},{
 		onload:function(responseText){
 			var model = Alloy.createCollection("MyVoucher");

@@ -31,14 +31,32 @@ function init() {
 	$.scrollableView.II_id = [];
 	$.scrollableView.allVoucherId = [];
 	$.scrollableView.allItemId = [];
-	var params = {
-		item_id:i_id,
-		type: (args.isExclusive == 1) ? 4 : 3,
-		from:"itemDetails",
-		u_id:u_id
-	};
-	params = null;
-	addAdsClick("init", params);
+	
+	API.callByPost({
+		url:"getUserVoucherList",
+		new: true,
+		params: {u_id: u_id}
+	},{
+		onload:function(responseText){
+			var model = Alloy.createCollection("MyVoucher");
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			model.resetRecord();
+			model.saveArray(arr);
+			var params = {
+				item_id:i_id,
+				type: (args.isExclusive == 1) ? 4 : 3,
+				from:"itemDetails",
+				u_id:u_id
+			};
+			model = res = arr = params = undefined;
+			addAdsClick("init", params);
+		},onerror:function(err){
+			_.isString(err.message) && alert(err.message);
+		},onexception:function(){
+			COMMON.closeWindow($.win);
+		}
+	});
 }
 
 function addAdsClick(name, params) {
