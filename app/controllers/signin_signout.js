@@ -33,6 +33,7 @@ $.btnBack.addEventListener('click', function() {
 });
 
 function closeWindow() {
+	Ti.App.removeEventListener('sign:close',closeWindow);
 	COMMON.closeWindow($.signin_out);
 }
 
@@ -43,9 +44,9 @@ $.signin_out.addEventListener('android:back', function (e) {
     try{
 	    if(page != "") {
 	        Ti.App.fireEvent("login_cancel:reward");
-	    }    	
+	    }    	 
     }
     catch(e){
-    	
+    	 
     }
 });

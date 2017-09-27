@@ -104,6 +104,7 @@ Social.addEventListener("complete", function(e){
 //}
 
 function refresh(){
+	u_id = Ti.App.Properties.getString('u_id') || "";	
 	loading.start();
 	API.callByPost({
 		url: "getMemberPointsRecords",
@@ -112,6 +113,7 @@ function refresh(){
 	}, 
 	{
 		onload: function(responseText){
+			console.log("asdf");
 			var model = Alloy.createCollection("points");
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
@@ -944,6 +946,7 @@ function scrollChecker(e) {
 	total = null;
 }
 function login_cancel(e) {
+	console.log("asdf");
     $.scrollview.scrollToView(0);
 }
 Ti.App.addEventListener('login_cancel:reward', login_cancel);
@@ -955,6 +958,7 @@ $.win.addEventListener("close", function(){
 	impression(add_impression);
 	add_impression = undefined;
 	Ti.App.removeEventListener('reward:refresh', refresh);
+	Ti.App.removeEventListener('login_cancel:reward',login_cancel);
 });
 
 $.win.addEventListener('android:back', function (e) {
