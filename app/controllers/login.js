@@ -3,13 +3,13 @@ var page = args.page;
 COMMON.construct($); 
 
 /**Set Custom title**/
-var custom = $.UI.create("Label", { 
-    text: 'LOGIN', 
-    color: '#ED1C24', 
-    width: Ti.UI.SIZE 
- });
-  
-$.login.titleControl = custom;
+// var custom = $.UI.create("Label", { 
+    // text: 'LOGIN', 
+    // color: '#ED1C24', 
+    // width: Ti.UI.SIZE 
+ // });
+//   
+// $.login.titleControl = custom;
 
 /** To check if keyboard onfocus or onblur**/
 var isKeyboardFocus = 0;

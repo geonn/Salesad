@@ -51,17 +51,16 @@ Social.addEventListener("complete", function(e){
 		
 	});
 }
-
-var custom = $.UI.create("Label", { 
-    text: 'Invite Friend', 
-    color: '#ED1C24', 
-    width: Ti.UI.SIZE 
- });
   
 if(Ti.Platform.osname == "android"){ 
+	var custom = $.UI.create("Label", { 
+	    text: 'Invite Friend', 
+	    color: '#ED1C24', 
+	    width: Ti.UI.SIZE 
+	 });
 	$.pageTitle.add(custom);   
 }else{
-	$.win.titleControl = custom; 
+	$.win.title = 'Invite Friend'; 
 }
 
 function sendInvite(){
