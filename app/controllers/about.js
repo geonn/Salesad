@@ -1,16 +1,15 @@
 var args = arguments[0] || {};
 
 /**Set Custom title**/
-var custom = $.UI.create("Label", { 
-    text: 'About', 
-    color: '#ED1C24', 
-    width: Ti.UI.SIZE 
- });
-  
 if(Ti.Platform.osname == "android"){ 
+	var custom = $.UI.create("Label", { 
+	    text: 'About', 
+	    color: '#ED1C24', 
+	    width: Ti.UI.SIZE 
+	 });
 	$.pageTitle.add(custom);   
 }else{
-	$.win.titleControl = custom; 
+	$.win.title = 'About'; 
 }
 
 function closeWindow(){

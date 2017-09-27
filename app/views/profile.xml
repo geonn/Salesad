@@ -7,7 +7,7 @@
         </LeftNavButton>
         <RightNavButton>
 	        <View id="button" left="0" class="wsize" onClick="doLogout" height="45">
-	         	<Label color="#ED1C24" right="10" class="wsize">Logout</Label>
+	         	<Label color="#ED1C24" right="0" class="wsize">Logout</Label>
 	        </View>
         </RightNavButton>
         <View class="wfill hfill vert">
