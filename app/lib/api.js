@@ -40,7 +40,9 @@ var pointDescList = "http://"+API_DOMAIN+"/api/pointDescList?user="+USER+"&key="
 //API that call in sequence 
 var APILoadingList = [
 	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
-	{url: "getCategoryList", type: "api_model", model: "category", checkId: "5"},
+	{url: "getCategoryList", type: "cache_json", name: "category_list", checkId: "1"},
+];
+/*
 	{url: "getFeaturedBanner", type: "api_model", model: "banners", checkId: "2"},
 	{url: "getMerchantList", type: "api_model", model: "merchants", checkId: "6"},
 	{url: "getCategoryAds", type: "api_model", model: "categoryAds", checkId: "7"},
@@ -49,7 +51,7 @@ var APILoadingList = [
 	{url: "getContestListUrl", type: "api_model", model: "contest", checkId: "10"},
 	{url: "getSXItem", type: "api_model", model: "xpress", checkId: "11"},
 	{url: "getVoucherList", type:"api_model", model: "voucher" ,checkId: "12"},
-];
+ */
 
 exports.getUserList       = "http://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;
 exports.getCategoryList   = getCategoryList;
@@ -369,6 +371,13 @@ exports.loadAPIBySequence = function (e){ //counter,
 		onload: function(responseText){
 			if(api['type'] == "api_function"){
 				eval("_.isFunction("+api['method']+") && "+api['method']+"(responseText)");
+			}else if(api['type'] == "cache_json"){
+				var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, api['name']+'.txt');
+				if (f.exists() === false) {
+					// you don't need to do this, but you could...
+					f.createFile();
+				}
+				f.write(responseText);
 			}else if(api['type'] == "api_model"){
 				var res = JSON.parse(responseText);
 				var arr = res.data; 
@@ -411,8 +420,7 @@ exports.callByPost = function(e, handler){
 		var url = (typeof e.new != "undefined")?"http://"+API_DOMAIN+"/api/"+e.url+"?user="+USER+"&key="+KEY:eval(e.url);
 		console.log(url);
 		var _result = contactServerByPost(url, e.params || {});   
-		_result.onload = function(ex) {  
-			console.log(this.responseText);
+		_result.onload = function(ex) { 
 			try{
 				JSON.parse(this.responseText);
 			}
