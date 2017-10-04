@@ -84,7 +84,9 @@
 	backgroundColor: '#404041',
 	bottom: '0',
 },
-
+'.textcenter':{
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,	
+}
 '.button': {
 	height: 50,
 	borderColor: "#C6C8CA",

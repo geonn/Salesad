@@ -104,6 +104,7 @@ Social.addEventListener("complete", function(e){
 //}
 
 function refresh(){
+	u_id = Ti.App.Properties.getString('u_id') || "";	
 	loading.start();
 	API.callByPost({
 		url: "getMemberPointsRecords",
@@ -112,6 +113,7 @@ function refresh(){
 	}, 
 	{
 		onload: function(responseText){
+			console.log("asdf");
 			var model = Alloy.createCollection("points");
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
@@ -527,8 +529,10 @@ function ins_voucher(str) {
 			$.voucher_view.removeAllChildren();
 		}
 		$.voucher_scrollview.scrolldata = vdata.length;
+		console.log("length:"+vdata.length+" asdf:"+JSON.stringify(vdata));
+		scrollChecker = (vdata.length == 0) ? false :true;
+		$.nothingText.text = (vdata.length == 0 && $.voucher_view.children.length == 0)?"Sorry, we don't have any instant vouchers to show right now":"";			
 		vouchers(arr, str);
-		
 		vmodel = null;
 		vdata = null;
 		arr = null;
@@ -559,6 +563,8 @@ function gift_voucher(e) {
 			$.voucher_scrollview.scrolldata = vdata.length;
 			list_voucher(vdata, "gift");
 		}else {
+			scrollChecker = (vdata.length == 0) ? false :true;
+			$.nothingText.text = (vdata.length == 0)?"Sorry, we don't have any CP vouchers to show right now":"";							
 			loading.finish();
 			boll = true;
 		}
@@ -566,27 +572,34 @@ function gift_voucher(e) {
 }
 
 function savedvoucher(params) {
-	$.ongoingV.removeAllChildren();
-	$.expiredV.removeAllChildren();
-	
-	$.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Vouchers", textAlign: "center"}));
-	$.ongoingV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
-	$.ongoingV.add($.UI.create("Label", {classes: ['wfill'], id: "T1", height: 180, textAlign: "center", text: "You have no ongoing vouchers at this moment."}));
-	
-	$.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Vouchers", textAlign: "center"}));
-	$.expiredV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
-	$.expiredV.add($.UI.create("Label", {classes: ['wfill'], id: "T2", height: 180, textAlign: "center", text: "You have no expired vouchers at this moment."}));
+	$.ongoingVoucher.removeAllChildren();
+	$.expiredVoucher.removeAllChildren();
+// 	
+	// $.ongoingV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Ongoing Vouchers", textAlign: "center"}));
+	// $.ongoingV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
+	// $.ongoingV.add($.UI.create("Label", {classes: ['wfill'], id: "T1", height: 180, textAlign: "center", text: "You have no ongoing vouchers at this moment."}));
+// 	
+	// $.expiredV.add($.UI.create("Label", {classes: ['wfill', 'hsize'], bottom: 5, color: "black", text: "Expired Vouchers", textAlign: "center"}));
+	// $.expiredV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
+	// $.expiredV.add($.UI.create("Label", {classes: ['wfill'], id: "T2", height: 180, textAlign: "center", text: "You have no expired vouchers at this moment."}));
 	
 	var ongoingVC = myvmodel.ongoingvoucher(true);
 	list_voucher(ongoingVC, "ongoing");
 	var expireVC = myvmodel.expirevoucher(true);
 	list_voucher(expireVC, "expire", params);
-	
-	if($.ongoingV.children.length > 3) {
-		$.ongoingV.remove($.ongoingV.children[2]);
+	if($.ongoingVoucher.children.length > 0) {
+		$.t1.setHeight(0);
+		$.t1.hide();
+	}else{
+		$.t1.setHeight(180);
+		$.t1.show();
 	}
-	if($.expiredV.children.length > 3) {
-		$.expiredV.remove($.expiredV.children[2]);
+	if($.expiredVoucher.children.length > 0) {
+		$.t2.setHeight(0);
+		$.t2.hide();
+	}else{
+		$.t2.setHeight(180);
+		$.t2.show();
 	}
 }
 
@@ -594,7 +607,6 @@ function list_voucher(e, name, params) {
 	var parent = $.UI.create("View", {
 		classes: ['wfill', 'hsize', 'horz']
 	});
-	
 	e.forEach(function (entry) {
 		if(entry.item_id != null){
 			var item = Alloy.createCollection("items");
@@ -728,10 +740,10 @@ function list_voucher(e, name, params) {
 		View2.add(title);
 		parent.add(container);
 		if(name == "ongoing") {
-			$.ongoingV.add(container);
+			$.ongoingVoucher.add(container);
 			img.addEventListener("click", toSaveVoucher);
 		}else if(name == "expire") {
-			$.expiredV.add(container);
+			$.expiredVoucher.add(container);
 			img.addEventListener("click", toSaveVoucher);
 		}else {
 			img.addEventListener("click", toVoucher);
@@ -830,14 +842,14 @@ function refreshVlist(str) {
 }
 
 function refreshSVlist(params) {
-	u_id = Ti.App.Properties.getString('u_id') || "";
-	var checker = Alloy.createCollection('updateChecker');
-	var isUpdate = checker.getCheckerById("13");
+	// u_id = Ti.App.Properties.getString('u_id') || "";
+	// var checker = Alloy.createCollection('updateChecker');
+	// var isUpdate = checker.getCheckerById("13");
 	
 	API.callByPost({
 		url:"getUserVoucherList",
 		new: true,
-		params: {u_id: u_id,last_updated:isUpdate.update}
+		params: {u_id: u_id}
 	},{
 		onload:function(responseText){
 			var model = Alloy.createCollection("MyVoucher");
@@ -924,12 +936,12 @@ function impression(a_id) {
 	};
 	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
 }
-
+var scrollCheck = true;
 function scrollChecker(e) {
 	var theEnd = $.voucher_view.rect.height;
 	var nearEnd = theEnd - 200;
 	var total = (OS_ANDROID) ? pixelToDp(e.y) + e.source.rect.height : e.y + e.source.rect.height;
-	if(total >= nearEnd && $.voucher_scrollview.scrollcheck && $.voucher_scrollview.scrolldata > 0){
+	if(total >= nearEnd&& scrollCheck && $.voucher_scrollview.scrollcheck && $.voucher_scrollview.scrolldata > 0){
 		$.voucher_scrollview.scrollcheck = false;
 		eval($.voucher_scrollview.vouchertype+"()");
 	}
@@ -937,12 +949,11 @@ function scrollChecker(e) {
 	nearEnd = null;
 	total = null;
 }
-
 function login_cancel(e) {
-	$.scrollview.scrollToView(0);
+	console.log("asdf");
+    $.scrollview.scrollToView(0);
 }
 Ti.App.addEventListener('login_cancel:reward', login_cancel);
-
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
 }); 
@@ -951,6 +962,7 @@ $.win.addEventListener("close", function(){
 	impression(add_impression);
 	add_impression = undefined;
 	Ti.App.removeEventListener('reward:refresh', refresh);
+	Ti.App.removeEventListener('login_cancel:reward',login_cancel);
 });
 
 $.win.addEventListener('android:back', function (e) {

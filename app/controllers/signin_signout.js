@@ -22,20 +22,31 @@ $.tou.addEventListener('touchend', function(e) {
 
 $.btnBack.addEventListener('click', function() {
 	COMMON.closeWindow($.signin_out);
-	if(page != "") {
-		Ti.App.fireEvent("login_cancel:reward");
-	}
+    try{
+	    if(page != "") {
+	        Ti.App.fireEvent("login_cancel:reward");
+	    }    	
+    }
+    catch(e){
+    	
+    }
 });
 
 function closeWindow() {
+	Ti.App.removeEventListener('sign:close',closeWindow);
 	COMMON.closeWindow($.signin_out);
 }
 
 Ti.App.addEventListener("sign:close", closeWindow);
 
 $.signin_out.addEventListener('android:back', function (e) {
-	COMMON.closeWindow($.signin_out);
-	if(page != "") {
-		Ti.App.fireEvent("login_cancel:reward");
-	}
+    COMMON.closeWindow($.signin_out);
+    try{
+	    if(page != "") {
+	        Ti.App.fireEvent("login_cancel:reward");
+	    }    	 
+    }
+    catch(e){
+    	 
+    }
 });

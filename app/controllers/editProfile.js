@@ -1,16 +1,15 @@
 var args = arguments[0] || {};
 
 /**Set Custom title**/
-var custom = $.UI.create("Label", { 
-    text: "EDIT " +args.title, 
-    color: '#ED1C24', 
-    width: Ti.UI.SIZE 
- });
-   
 if(Ti.Platform.osname == "android"){ 
+	var custom = $.UI.create("Label", { 
+	    text: "EDIT " +args.title, 
+	    color: '#ED1C24', 
+	    width: Ti.UI.SIZE 
+	 });
 	$.pageTitle.add(custom);   
 }else{
-	$.editProfile.titleControl = custom; 
+	$.editProfile.title = "EDIT " +args.title; 
 } 
 //$.editProfile.hintText = args.title;
 $.description.text  = "Edit your "+ args.module + " below:";

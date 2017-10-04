@@ -25,12 +25,15 @@ exports.openScanner = function(scanType) {
 			title:'Scandit SDK',
 			navBarHidden:true
 	});
-	
+	var viewText = Titanium.UI.createView({width:Ti.UI.FILL,bottom:0,height:Ti.UI.SIZE,backgroundColor:"#A3000000",zIndex:100});
+	var textMessage = Titanium.UI.createLabel({width:Ti.UI.FILL,height:Ti.UI.SIZE,textAlign:Titanium.UI.TEXT_ALIGNMENT_CENTER,top:20,left:20,right:20,bottom:20,color:"#fff",text:"Align the store QR code to your device camera to get to know about the latest deals by the store."});
+	viewText.add(textMessage);
 	// Set callback functions for when scanning succeeds and for when the 
 	// scanning is canceled. This callback is called on the scan engine's
 	// thread to allow you to synchronously call stopScanning or
 	// pauseScanning. Any UI specific calls from within this function 
 	// have to be issued through setTimeout to switch to the UI thread
+	window.add(viewText);
 	// first.
 	picker.setSuccessCallback(function(e) {
 		var currentDate = new Date();

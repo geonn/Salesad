@@ -1,12 +1,12 @@
 <Alloy>
 	<Window id="win" title="" navBarHidden="true" fullscreen="true">
-		<View class='wfill hsize' top="0" zIndex="10" backgroundColor="#4d4d4d">
+		<View class='wfill hsize' top="0" zIndex="10" backgroundColor="#000000">
 			<ImageView width="auto" left="10" top="10" bottom="10" height="30" image="images/salesad_logo.png"></ImageView>
 			<ImageView width="30" right="90" top="10" bottom="10" height="auto" image="images/icons/Icon_Search.png"></ImageView>
 			<ImageView width="30" right="50" top="10" bottom="10" height="auto" image="images/icons/Icon_Notification.png"></ImageView>
 			<ImageView width="30" right="10" top="10" bottom="10" height="auto" image="images/icons/Icon_More_Red.png"></ImageView>
 		</View>
-		<View class="wfill hsize" backgroundColor="#4d4d4d" id="menu" top="0" zIndex="10">
+		<View class="wfill hsize" backgroundColor="#000000" id="menu" top="0" zIndex="10">
 			<View class='wsize hsize horz' top="10" bottom="10">
 				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_Categories.png"></ImageView>
 				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_Favorites.png"></ImageView>
@@ -15,8 +15,8 @@
 				<ImageView width="40" height="auto" image="images/icons/Icon_Menu_Rewards.png"></ImageView>
 			</View>
 		</View>
-		<ScrollView class="wfill hfill contwfill conthsize vert" top="50" backgroundColor="#4d4d4d" id="container">
-			<ScrollView class="contwsize conthsize wfill horz hsize" backgroundColor="#4d4d4d" id="feature_banner">
+		<ScrollView class="wfill hfill contwfill conthsize vert" top="50" backgroundColor="#000000" id="container">
+			<ScrollView class="contwsize conthsize wfill horz hsize" backgroundColor="#000000" id="feature_banner">
 			</ScrollView>
 			<View class="wfill hsize vert" backgroundColor="#f6f6f6">
 				<Label class="wfill hsize h5 bold" left="14" top="45">New Sales</Label>

@@ -3,16 +3,15 @@ var deviceToken = Ti.App.Properties.getString('deviceToken');
 var u_id = Ti.App.Properties.getString('u_id');
 
 /**Set Custom title**/
-var custom = $.UI.create("Label", { 
-    text: 'Notifications', 
-    color: '#ED1C24', 
-    width: Ti.UI.SIZE 
- });
- 
 if(Ti.Platform.osname == "android"){ 
+	var custom = $.UI.create("Label", { 
+	    text: 'Notifications', 
+	    color: '#ED1C24', 
+	    width: Ti.UI.SIZE 
+	 });
 	$.pageTitle.add(custom);   
 }else{
-	$.notification.titleControl = custom; 
+	$.notification.title = 'Notifications'; 
 }  
 
 //load user settings
@@ -36,8 +35,8 @@ var changeStatus = function(e){
 		var dialog = Ti.UI.createAlertDialog({
 		    cancel: 1,
 		    buttonNames: ['Cancel','Confirm'],
-		    message: 'Switch off push notification will miss the notification/alert of great deal like Mega Sales and Limited time Sales!',
-		    title: 'Push Notification'
+		    message: 'You might miss out great sales & deals.',
+		    title: 'Confirm to switch off push notification?'
 		  });
 		  dialog.addEventListener('click', function(ex){
 		    if (ex.index == 1){

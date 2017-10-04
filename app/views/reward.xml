@@ -37,12 +37,14 @@
 					<!--Vouchers(view 1)-->
 					<View class="wfill hfill" id="view1">
 						<SwipeRefresh module="com.rkam.swiperefreshlayout" bubbleParent="false" id="swipeRefresh" platform="android">
-							<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize vert">
-								<View class="wfill hsize vert" id="voucher_view" bottom="70"></View>
+							<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize">
+								<Label class="wfill hsize h4 textcenter" left="10" right="10" color="#000" id="nothingText"></Label>								
+								<View class="wfill hsize vert" id="voucher_view" bottom="70" top="0"></View>
 							</ScrollView>
 						</SwipeRefresh>													
-						<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize vert" platform="ios">
-							<View class="wfill hsize vert" id="voucher_view" bottom="70"></View>
+						<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize" platform="ios">
+							<Label class="wfill hsize textcenter" left="10" right="10" color="#000" id="nothingText"></Label>								
+							<View class="wfill hsize vert" id="voucher_view" bottom="70" top="0"></View>
 						</ScrollView>
 						<View class="vert wfill hsize" bottom="0" backgroundColor="#fff">
 							<View class="hr" backgroundColor="#e8e8e8"></View>
@@ -59,8 +61,18 @@
 					<!--Saved Vouchers(view 2)-->
 					<View class="wfill hfill" id="view2">
 						<ScrollView id="savevoucher_scrollview" class="wfill hfill contwfill conthsize vert">
-							<View class="wfill hsize horz" top="10" id="ongoingV"></View>
-							<View class="wfill hsize horz" top="50" id="expiredV"></View>
+							<View class="wfill hsize vert" top="10" id="ongoingV">
+								<Label class="wfill hsize" color="black" text="Ongoing Vouchers" textAlign="center"></Label>	
+								<View class="hr wfill" backgroundColor="#000"></View>
+								<Label class="wfill" height="180" id="t1" textAlign="center" text="You have no ongoing vouchers at this moment."></Label>
+								<View class="wfill hsize horz" top="10" id="ongoingVoucher"></View>							
+							</View>
+							<View class="wfill hsize vert" top="50" id="expiredV">
+								<Label class="wfill hsize" color="black" text="Expired Vouchers" textAlign="center"></Label>	
+								<View class="hr wfill" backgroundColor="#000"></View>
+								<Label class="wfill" height="180" id="t2" textAlign="center" text="You have no expired vouchers at this moment."></Label>
+								<View class="wfill hsize horz" top="10" id="expiredVoucher"></View>
+							</View>
 						</ScrollView>
 					</View>
 					<!--CP Point(view 3)-->

@@ -549,7 +549,7 @@ function render_header(){
 		COMMON.removeAllChildren($.pageTitle);
 		$.pageTitle.add(custom);   
 	}else{
-		$.adsCategoryWin.titleControl = custom; 
+		$.adsCategoryWin.title = customeTitle; 
 	}
 }
 

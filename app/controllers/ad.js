@@ -255,7 +255,7 @@ var getAdDetails = function(){
 	var desc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding'], text :ads.description});
 	var tnc = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text: "Terms and Conditions"});
 	var tnc_text = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding'], top: 0, text: ads_tnc});
-	console.log(ads_tnc+"heeree");
+	//console.log(ads_tnc+"heeree");
 	details_text.add(ad_name);
 	details_text.add(ad_date);
 	
