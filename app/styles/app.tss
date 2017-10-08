@@ -163,7 +163,7 @@
 	contentHeight: Ti.UI.SIZE
 }
 ".rounded":{
-	borderRadius: 4
+	borderRadius: 8
 },
 '.box':{
 	borderColor: "#a5a5a5",

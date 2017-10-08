@@ -1,51 +1,27 @@
 <Alloy>
-	<Window id="root" title="" navBarHidden="true" class="container" layout="composite" fullscreen="true">
-		<View id="header" zIndex="12" height="50">
-			<ImageView left='0' width='157' height='45' image="/images/salesad_logo.png" id="salesad_logo" />
-			<ImageView id="scanner" right='10' height='30' image="/images/Icon_QR.png" />
-			 
-			<!--<ImageView id="category_link" right='10' bottom="0" height='40' image="/images/salesad_beg.png" />
-			<ImageView id="filter_link" right='10' bottom="0" height='40' image="/images/popular-red.png" />
-			
-			<ImageView id="arrow_link" left='65%' height='Ti.UI.FILL' image="/images/refresh-icon.png" platform="android" />
-			<ImageView id="arrow_link" left='65%' height='30' image="/images/icon-recent.png" />-->
-			<View bottom='0' class="hr"></View>
+	<Window id="win" title="" navBarHidden="true" fullscreen="true">
+		<View class='wfill hsize' top="0" zIndex="10" backgroundColor="#000000">
+			<ImageView width="auto" left="10" top="10" bottom="10" height="30" image="images/salesad_logo.png"></ImageView>
+			<ImageView width="30" right="90" top="10" bottom="10" height="auto" image="images/icons/Icon_Search.png"></ImageView>
+			<ImageView width="30" right="50" top="10" bottom="10" height="auto" image="images/icons/Icon_Notification.png"></ImageView>
+			<ImageView width="30" right="10" top="10" bottom="10" height="auto" image="images/icons/Icon_More_Red.png"></ImageView>
 		</View>
-		<View class="wfill hfill" id="motherView" top="50" bottom="61">
-			<Widget src="nl.fokkezb.loading" name="view" id="myInstance" />
-			<SwipeRefresh module="com.rkam.swiperefreshlayout" id="swipeRefresh" platform="android">
-			<ScrollView layout="vertical" bubbleParent="false" id="homescrollview" height="Ti.UI.FILL" width="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE">
-				<View id="bannerListing" class="hsize wfill" backgroundColor="black"></View>
-				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>
-				<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
-			        <ActivityIndicator  id="activityIndicator" />
-			    	<Label top="5" text="Loading" color="#ffffff" />
-			    </View>				
-			</ScrollView>		
-			</SwipeRefresh>	
-			<ScrollView platform="ios" layout="vertical" id="homescrollview" height="Ti.UI.FILL" width="Ti.UI.FILL" contentWidth="Ti.UI.FILL" contentHeight="Ti.UI.SIZE">
-				<View id="bannerListing" class="hsize wfill" backgroundColor="black"></View>
-				<View id="adListing" layout="horizontal" left="4" height="Ti.UI.SIZE" width="auto"></View>
-				<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
-			        <ActivityIndicator  id="activityIndicator" />
-			    	<Label top="5" text="Loading" color="#ffffff" />
-			    </View>				
+		<View class="wfill hsize" backgroundColor="#000000" id="menu" top="0" zIndex="10">
+			<View class='wsize hsize horz' top="10" bottom="10">
+				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_Categories.png"></ImageView>
+				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_Favorites.png"></ImageView>
+				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_ScanQr.png"></ImageView>
+				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_NearMe.png"></ImageView>
+				<ImageView width="40" height="auto" image="images/icons/Icon_Menu_Rewards.png"></ImageView>
+			</View>
+		</View>
+		<ScrollView class="wfill hfill contwfill conthsize vert" top="50" backgroundColor="#000000" id="container">
+			<ScrollView class="contwsize conthsize wfill horz hsize" backgroundColor="#000000" id="feature_banner">
 			</ScrollView>
-		</View>
-		<View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
-	    	<View class="grey_line"></View>
-	    	<!-- <View width="25%" height="60" backgroundColor="#fff">
-	    		<ImageView id="home" height="Ti.UI.FILL" image="/images/SalesAd_SalesXpress.png" />
-	    	</View> -->
-			<View width="33%" height="60" backgroundColor="#fff">
-				<ImageView id="favorite" height="Ti.UI.FILL" image="/images/SalesAd_Favorites.png" />
+			<View class="wfill hsize vert" backgroundColor="#f6f6f6">
+				<Label class="wfill hsize h5 bold" left="14" top="45">New Sales</Label>
+				<View class="horz wfill hsize" left="14" id="ad_list"></View>
 			</View>
-	        <View width="33%" height="60" backgroundColor="#fff">
-	        	<ImageView id="nearby" height="Ti.UI.FILL" image="/images/SalesAd_NearMe.png" />
-	        </View>
-	        <View width="33%" height="60" backgroundColor="#fff">
-				<ImageView id="more" height="Ti.UI.FILL" image="/images/SalesAd_More.png" />
-			</View>
-		</View>
+		</ScrollView>
 	</Window>
 </Alloy>

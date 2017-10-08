@@ -1,0 +1,6 @@
+<Alloy>
+	<NavigationWindow id="navMenu" platform="ios"> 
+		<Require type="view" src="_index" id="indexView"/> 
+	</NavigationWindow>
+	<Require type="view" src="_index" id="indexView"/> 
+</Alloy>
