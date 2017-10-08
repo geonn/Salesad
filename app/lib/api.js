@@ -39,10 +39,15 @@ var updateUserVoucher = "http://"+API_DOMAIN+"/api/updateUserVoucher";
 var pointDescList = "http://"+API_DOMAIN+"/api/pointDescList?user="+USER+"&key="+KEY;
 //API that call in sequence 
 var APILoadingList = [
+<<<<<<< HEAD
+//	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
+	{url: "getCategoryList", type: "api_model", model: "category", checkId: "5"},
+=======
 	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
 	{url: "getCategoryList", type: "cache_json", name: "category_list", checkId: "1"},
 ];
 /*
+>>>>>>> origin/master
 	{url: "getFeaturedBanner", type: "api_model", model: "banners", checkId: "2"},
 	{url: "getMerchantList", type: "api_model", model: "merchants", checkId: "6"},
 	{url: "getCategoryAds", type: "api_model", model: "categoryAds", checkId: "7"},
@@ -398,6 +403,8 @@ exports.loadAPIBySequence = function (e){ //counter,
 };
 
 function sync_server_time(responseText){
+	console.log("geo sync server time");
+	console.log(responseText);
 	var res = JSON.parse(responseText);
 	if(res.status != "error"){
 		COMMON.sync_time(res.data);
