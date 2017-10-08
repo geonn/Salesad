@@ -8,18 +8,18 @@
 		</View>
 		<View class="wfill hsize" backgroundColor="#000000" id="menu" top="0" zIndex="10">
 			<View class='wsize hsize horz' top="10" bottom="10">
-				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_Categories.png"></ImageView>
+				<ImageView width="40" right="20" onClick="popCategory" height="auto" image="images/icons/Icon_Menu_Categories.png"></ImageView>
 				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_Favorites.png"></ImageView>
 				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_ScanQr.png"></ImageView>
 				<ImageView width="40" right="20" height="auto" image="images/icons/Icon_Menu_NearMe.png"></ImageView>
-				<ImageView width="40" height="auto" image="images/icons/Icon_Menu_Rewards.png"></ImageView>
+				<ImageView width="40" height="auto" onClick="navTo" target="reward" image="images/icons/Icon_Menu_Rewards.png"></ImageView>
 			</View>
 		</View>
 		<ScrollView class="wfill hfill contwfill conthsize vert" top="50" backgroundColor="#000000" id="container">
 			<ScrollView class="contwsize conthsize wfill horz hsize" backgroundColor="#000000" id="feature_banner">
 			</ScrollView>
 			<View class="wfill hsize vert" backgroundColor="#f6f6f6">
-				<Label class="wfill hsize h5 bold" left="14" top="45">New Sales</Label>
+				<Label class="wfill hsize h5 bold" left="14" top="45" id="main_title">New Sales</Label>
 				<View class="horz wfill hsize" left="14" id="ad_list"></View>
 			</View>
 		</ScrollView>

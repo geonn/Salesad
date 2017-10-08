@@ -6,11 +6,6 @@ var loadingView = Alloy.createController("loader");
 loadingView.getView().open();
 loadingView.start();
 
-var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'category_list.txt');
-var contents = f.read();
-console.log('here wor');
-var res = JSON.parse(contents);
-console.log(res);
 var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var adsClick = [];
 Alloy.Globals.navMenu = $.navMenu;

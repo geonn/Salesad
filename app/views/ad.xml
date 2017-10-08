@@ -29,9 +29,6 @@
 				</ScrollView>
 			    <View bottom="0" height="61" width="Ti.UI.FILL" backgroundColor="#ffffff" layout="horizontal" zIndex="12">
 			    	<View class="grey_line"></View>
-			    	<View width="20%" height="60">
-			    		<ImageView id="home" height="Ti.UI.FILL" backgroundColor="#fff" image="/images/SalesAd_Home.png" />
-			    	</View>
 					<View width="20%" height="60">
 						<ImageView id="location" height="Ti.UI.FILL" backgroundColor="#fff" image="/images/SalesAd_Location.png" />
 					</View>

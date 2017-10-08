@@ -1,28 +1,52 @@
 var args = arguments[0] || {};
-var m_id = args.m_id;
-var a_id = args.a_id;
-var name = args.name;
+var a_id = args.a_id || "";
+var name = args.name || "";
+var date = args.date || "";
+var m_id = args.m_id || "";
+var ads;
 Ti.App.Properties.setString('current_post_id', args.a_id);
+var from = args.from || "";
+var isFeed = args.isFeed || "";
+var isScan = "";
+var nav = Alloy.Globals.navMenu;
+var clickTime = null; 
 var u_id = Ti.App.Properties.getString('u_id') || "";
+var items;
+Alloy.Globals.naviPath.push($.win);
+var BARCODE = require('barcode');
+//load model
+var m_library = Alloy.createCollection('merchants'); 
+var a_library = Alloy.createCollection('ads'); 
+var i_library = Alloy.createCollection('items');
 var loading = Alloy.createController("loading");
-var ads, items;
+
+/** google analytics**/
+var lib_feeds = Alloy.createCollection('feeds');
+if(isFeed == 1){ 
+	lib_feeds.updateUserFeeds(m_id,a_id);		
+}
 
 function init(){
 	$.win.add(loading.getView());
 	var params = {
-		a_id:args.a_id,
+		a_id:a_id,
 		type:2,
 		from:"ad",
 		u_id:u_id
 	};
 	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
-	refresh();
+	
+	ads = a_library.getAdsById(a_id);
+	var merchant = m_library.getMerchantsById(ads.m_id);
+	m_id = (merchant.parent != 0 && merchant.parent != null)?merchant.parent:ads.m_id;
+	
+	pageTitle = ads.name;
 	getScanMerchant();
 }
 init();
 
 function getScanMerchant(){
-	var expire = Ti.App.Properties.getString('sales'+args.m_id) || "";
+	var expire = Ti.App.Properties.getString('sales'+args.target_m_id) || "";
 	if(expire != ""){
 		var currentDate = new Date();
 		var dat = expire.split(" ");
@@ -38,6 +62,7 @@ function getScanMerchant(){
 	}else{
 		isScan = 0;
 	}
+	
 	checkFavorite();
 }
 
@@ -46,16 +71,34 @@ function checkFavorite(){
 	var exist = model_favorites.checkFavoriteExist(m_id, u_id);
 	var fav_img = (exist)?"/images/SalesAd_Favorited.png":"/images/SalesAd_Favorite.png";
 	$.favorites.image = fav_img;
+	refresh();
 }
 
 function refresh(e){
 	loading.start();
-	API.callByPost({url: "getAdsDetailsById",new: true, params:{a_id: args.a_id}}, {
-		onload: function(responseText){
+	API.callByPost({url: "getItemList", params:{a_id: a_id}}, {onload: function(responseText){
+		var model = Alloy.createCollection("items");
+		var res = JSON.parse(responseText);
+		var arr = res.data || null;
+		model.saveArray(arr);
+	}});
+	
+	var checker = Alloy.createCollection('updateChecker');
+	var isUpdate = checker.getCheckerById("12");
+	API.callByPost({
+		url: "getVoucherList",
+		new: true,
+		params: {last_updated: isUpdate.update}
+	},{onload: function(responseText) {
+			var model = Alloy.createCollection("voucher");
 			var res = JSON.parse(responseText);
-			ads = res.data;
-			items = res.data.item;
+			var arr = res.data || null;
+			model.saveArray(arr);
+			checker.updateModule("12","getVoucherList",currentDateTime());
+			items = i_library.getItemByAds(ads.a_id);
 			render_banner();
+		},onerror: function(err) {
+			_.isString(err.message) && alert(err.message);
 		}
 	});
 }
@@ -207,7 +250,7 @@ var getAdDetails = function(){
 	var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
 	var details_text = $.UI.create("View", {classes:['vert', 'wfill', 'hsize', 'padding']});
 	var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text : name});
-	var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], top: 0, text : ads.sales_from+" - "+ads.sales_to});
+	var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], top: 0, text : date});
 	var hr = $.UI.create("View", {classes:['hr'], backgroundColor: "#000"});
 	var desc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding'], text :ads.description});
 	var tnc = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text: "Terms and Conditions"});
@@ -227,9 +270,8 @@ var getAdDetails = function(){
 	$.ads_details.add(details_text);
 
 	var custom = $.UI.create("Label", { 
-		    text: ads.name, 
-		    color: '#ED1C24',
-		    classes: ['wfill']
+		    text: pageTitle, 
+		    color: '#ED1C24' 
 	});
 	
 	if(Ti.Platform.osname == "android"){ 
@@ -545,6 +587,19 @@ if (Titanium.Platform.name == 'iPhone OS'){
     });
 } 
 
+$.home.addEventListener("click", function(e){
+	var naviPath = Alloy.Globals.naviPath;
+	if(naviPath == ""){		
+		closeWindow();
+	}else{		
+		/*for (var i=0; i< naviPath.length; i++) {
+			COMMON.closeWindow(naviPath[i]);  
+		}*/
+		Ti.App.fireEvent("ads:close"); 
+ 		COMMON.closeWindow($.win); 		
+	}
+});
+    
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
 }    
