@@ -158,6 +158,7 @@ function QrScan(){
         	}			        
         });	        	
     }	
+
 }
 
 setTimeout(function(){
@@ -179,4 +180,3 @@ setTimeout(function(){
 	loadingView.getView().open();
 	loadingView.start();
 }, 1000);
-

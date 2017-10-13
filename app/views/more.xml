@@ -80,7 +80,7 @@
             		</HeaderView>
 		 			<TableViewRow height="50" target="">
 		 				<Label left="10" class="wsize hsize">Version</Label>
-		 				<Label right="10" class="wsize hsize">1.1.7</Label>
+		 				<Label right="10" class="wsize hsize">1.1.0</Label>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
 		 				<Label class="wfill hsize padding h6" textAlign="center">© Copyright 2017 SalesAd by Freejini Sdn Bhd (10141416-M). All Rights Reserved.</Label>
