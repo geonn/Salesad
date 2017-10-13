@@ -32,6 +32,7 @@ var goSignUp = function(){
 	var password 		 = $.password.value;
 	var password2 		 = $.confirm_password.value;
 	var callapi = false;
+	console.log(validateEmail(email));
 	if(email == ""){
 		alert("Email cannot be empty");
 		loading.finish();
@@ -91,8 +92,11 @@ var goSignUp = function(){
 		alert("Please agree the terms and condition.");
 		loading.finish();
 		return;		
-	}	
-	else if(tc){
+	}else if(!validateEmail(email)){
+		alert("Please enter correct email format.");
+		loading.finish();
+		return;		
+	}else if(tc){
 		callapi = true;	
 	}
 	else if(isSubmit == 1){
@@ -153,6 +157,11 @@ var goSignUp = function(){
 		loading.finish();
 	}
 };
+
+function validateEmail(email) {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
 	/*
 	var url = api.registerUser +"&firstname="+firstname+"&lastname="+lastname+"&gender="+gender+"&email="+email+"&password="+password+"&password2="+password2;
 	

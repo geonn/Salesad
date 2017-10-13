@@ -5,9 +5,9 @@ var tc_turn = true;
 var checkingLimit = true;
 var checkingForSave = true; 
 var checkingClaimLimit = true;
-var v_id = args.v_id;
-var voucher = Alloy.createCollection("voucher");
-var data = voucher.getDataById(v_id);
+var v_id = args.record.v_id;
+//var voucher = Alloy.createCollection("voucher");
+var data = args.record; //voucher.getDataById(v_id);
 var left = data.left;
 var user_point = [];
 var current_point = "";
@@ -15,11 +15,7 @@ var fristDate = "";
 var secondDate = "";
 var endsDay = "";
 var loading = Alloy.createController("loading");
-if(data.item_id != null){
-	var item = Alloy.createCollection("items");
-	var image = item.getImageByI_id(data.item_id);
-	data.image = image;
-}
+
 function parseDate(str) {
     var mdy = str.split('-');
     return new Date(mdy[0], mdy[1]-1, mdy[2]);
@@ -174,7 +170,7 @@ function createWhoops(t,e){
 function checkVoucherStatus(){
 	var model = Alloy.createCollection("MyVoucher");
 	var voucherStatus = model.getCountByVid(v_id);
-	var limit = voucherStatus.count;
+	var limit = args.record.count;
 	if(limit>=1){
 		checkingLimit = false;
 	}

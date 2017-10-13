@@ -89,16 +89,8 @@ function doLogin() {
 	         	}
 	         	API.updateNotificationToken();
 	         	$.login.close();
-	         	
-	         	var win = Alloy.createController("profile").getView(); 
-				COMMON.openWindow(win);
 				
-				Ti.App.fireEvent("more:refresh");
 				Ti.App.fireEvent("sign:close");
-				if(page != "") {
-					Ti.App.fireEvent("myvoucher:refresh");
-					Ti.App.fireEvent("reward:refresh");
-				}
 	         }else{
 	         	common.createAlert('Authentication warning',res.data.error_msg);
 	         }

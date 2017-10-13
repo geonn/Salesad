@@ -25,20 +25,7 @@
 		 	</View>
 		 	<View bottom='0' class="hr"></View>
 		 	<TableView  onClick="navTo">
-		 		<TableViewSection>
-		 			<TableViewRow target="reward" height="50">
-		 				<Label left="10" class="wsize hsize">My Rewards</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
-		 			</TableViewRow>
-		 			<!-- <TableViewRow height="50" target='category'>
-		 				<Label left="10" class="wsize hsize">Search</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
-		 			</TableViewRow> -->
-		 			<TableViewRow height="50" target="favourite">
-		 				<Label left="10" class="wsize hsize">Manage Favorites</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
-		 			</TableViewRow>
-		 		</TableViewSection>
+		 		
 		 		<TableViewSection>
 		 			<HeaderView platform="ios">
                 		<View backgroundColor="#f6f6f6" height="20"/>
@@ -46,16 +33,21 @@
 		 			<HeaderView platform="android">
                 		<View backgroundColor="#fff" height="20"/>
             		</HeaderView>
-		 			<TableViewRow height="50" target="feedback">
-		 				<Label left="10" class="wsize hsize">Feedback & Support</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
-		 			</TableViewRow>
+		 			
 		 			<TableViewRow height="50" target="profile">
 		 				<Label left="10" class="wsize hsize">My Profile</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
+		 			<TableViewRow height="50" target="feedback">
+		 				<Label left="10" class="wsize hsize">Feedback & Support</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 			</TableViewRow>
+		 			<TableViewRow height="50" target="webview" web_title="FAQ" url="http://salesad.my/FAQ">
+		 				<Label left="10" class="wsize hsize">FAQ</Label>
+		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 			</TableViewRow>
 		 			<TableViewRow height="50" target="pushNotificationSettings">
-		 				<Label left="10" class="wsize hsize">Notifications</Label>
+		 				<Label left="10" class="wsize hsize">Push Notifications</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
@@ -74,7 +66,7 @@
 		 				<Label left="10" class="wsize hsize">Invite Friend</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
-		 			<TableViewRow height="50" target="webview" url="http://salesad.my/advertise">
+		 			<TableViewRow height="50" target="webview" web_title="Advertise in SalesAd" url="http://salesad.my/advertise">
 		 				<Label left="10" class="wsize hsize">Advertise in SalesAd</Label>
 		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>

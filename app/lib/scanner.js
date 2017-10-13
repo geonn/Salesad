@@ -25,7 +25,7 @@ exports.openScanner = function(scanType) {
 			title:'Scandit SDK',
 			navBarHidden:true
 	});
-	var viewText = Titanium.UI.createView({width:Ti.UI.FILL,bottom:0,height:Ti.UI.SIZE,backgroundColor:"#A3000000",zIndex:100});
+	var viewText = Titanium.UI.createView({width:Ti.UI.FILL,top:0,height:Ti.UI.SIZE,backgroundColor:"#A3000000",zIndex:100});
 	var textMessage = Titanium.UI.createLabel({width:Ti.UI.FILL,height:Ti.UI.SIZE,textAlign:Titanium.UI.TEXT_ALIGNMENT_CENTER,top:20,left:20,right:20,bottom:20,color:"#fff",text:"Align the store QR code to your device camera to get to know about the latest deals by the store."});
 	viewText.add(textMessage);
 	// Set callback functions for when scanning succeeds and for when the 
@@ -36,6 +36,19 @@ exports.openScanner = function(scanType) {
 	window.add(viewText);
 	// first.
 	picker.setSuccessCallback(function(e) {
+		var barcode = e.barcode; 
+		console.log(barcode);
+		var barRes = barcode.split("||");
+		if(typeof barRes[0] != "undefined"){
+			var barStr = 'sales'+barRes[0];
+			console.log(barRes[0]);
+			//checkReward(barRes[0]);
+			Ti.App.Properties.setString(barStr, currentDate);
+			Ti.App.fireEvent('homeQR', {m_id: barRes[0], merchant_name: barRes[1]}); 
+		}
+		picker.stopScanning();
+		window.close();
+		return;
 		var currentDate = new Date();
 		currentDate.setDate(currentDate.getDate() + 1);
 		if(scanType == "1"){ 
@@ -55,13 +68,6 @@ exports.openScanner = function(scanType) {
 			checkReward(barRes[0]);
 			Ti.App.Properties.setString(barStr, currentDate);
 			Ti.App.fireEvent('afterScan', {m_id: barRes[0]});
-		}else if(scanType == "2"){
-			var barcode = e.barcode; 
-			var barRes = barcode.split('?');
-			var params = barRes[1].split("&");
-			if(typeof barRes[1] != "undefined"){
-				Ti.App.fireEvent('updatePharmacy_code', {id: params[0], params: params[1]});
-			}
 		}else if(scanType == "4"){
 			var barcode = e.barcode; 
 			var barRes = barcode.split("||");
@@ -69,14 +75,10 @@ exports.openScanner = function(scanType) {
 				var barStr = 'sales'+barRes[0];
 				console.log(barRes[0]);
 				checkReward(barRes[0]);
-				Ti.App.Properties.setString(barStr, currentDate); 
+				Ti.App.Properties.setString(barStr, currentDate);
+				Ti.App.fireEvent('homeQR', {m_id: barRes[0]}); 
 			}
-			console.log("here is type 4! dont get in");
-			setTimeout(function(ex){
-				console.log(barRes[0]+" barRes[0]");
-				var win = Alloy.createController("branch_ad", {m_id: barRes[0], from : "home"}).getView(); 
-				COMMON.openWindow(win);
-			}, 500);
+			
 		}
 		picker.stopScanning();
 		

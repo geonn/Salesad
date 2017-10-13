@@ -3,6 +3,8 @@ exports.definition = {
 		columns: {
 			"id": "INTEGER PRIMARY KEY AUTOINCREMENT",
 		    "m_id": "INTEGER",
+		    "merchant_name": "TEXT",
+		    "marchant_thumb": "TEXT",
 		    "u_id": "INTEGER",
 		    "position": "INTEGER"
 		},
@@ -23,7 +25,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getFavoritesByUid : function(uid){
 				var collection = this;
-                var sql = "SELECT favorites.*, merchants.merchant_name, merchants.img_path, merchants.img_path FROM " + collection.config.adapter.collection_name + " LEFT OUTER JOIN merchants ON merchants.m_id = favorites.m_id WHERE favorites.u_id='"+ uid+ "' AND favorites.m_id != '' order by favorites.position" ;
+                var sql = "SELECT favorites.* FROM " + collection.config.adapter.collection_name + " WHERE favorites.u_id='"+ uid+ "' AND favorites.m_id != '' order by favorites.position" ;
               
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -39,9 +41,8 @@ exports.definition = {
 						m_id: res.fieldByName('m_id'),
 						position: res.fieldByName('position'),
 					  	u_id: res.fieldByName('u_id'),
-					  	img_path: res.fieldByName("img_path"),
-					  	name: res.fieldByName('merchant_name'),
-					  	img_path: res.fieldByName('img_path')
+					  	merchant_name: res.fieldByName('merchant_name'),
+					  	marchant_thumb: res.fieldByName('marchant_thumb')
 					};
 					res.next();
 					count++;
@@ -51,6 +52,25 @@ exports.definition = {
                 db.close();
                 collection.trigger('sync');
                 return arr;
+			},
+			addColumn : function( newFieldName, colSpec) {
+				var collection = this;
+				var db = Ti.Database.open(collection.config.adapter.db_name);
+				if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				var fieldExists = false;
+				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
+				while (resultSet.isValidRow()) {
+					if(resultSet.field(1)==newFieldName) {
+						fieldExists = true;
+					}
+					resultSet.next();
+				}  
+			 	if(!fieldExists) { 
+					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' ADD COLUMN '+newFieldName + ' ' + colSpec);
+				}
+				db.close();
 			},
 			getFavoritesWithAdsByUid : function(uid){
 				var collection = this;

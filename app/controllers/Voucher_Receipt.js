@@ -60,7 +60,7 @@ function getAdDetails(){
 	if(Ti.Platform.osname == "android"){ 
 		$.pageTitle.add(custom);   
 	}else{
-		$.win.titleControl = custom;
+		$.win.title = "";
 	} 
 };
 

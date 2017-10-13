@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="Help & Feedback" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
+	<Window id="win" title="Feedback & Support" navTintColor="#ED1C24" backgroundColor="#fff" class="container" >
 		<LeftNavButton>
 	        <View id="btnBack" left="0"  width="30" height="45">
 	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
@@ -14,7 +14,10 @@
 	     	</View>
 	 	</View>
 	 	<View bottom='0' class="hr"></View>
-	 	<View class="wfill hfill vert" id="inner_box" top=20>
+	 	<Label class="wfill hsize padding" textAlign="center">
+	 		Do you have any questions or comments about our app? Let us know below!
+	 	</Label>
+	 	<View class="wfill hfill vert" id="inner_box" top=10>
 	 		<TextField backgroundColor="white" required="true" class="textfield" id="name" hintText="Name" />
 	    	<TextField backgroundColor="white" required="true" class="textfield" id="email" hintText="Email Address" />
 	    	<TextField backgroundColor="white" class="textfield" id="mobile" hintText="Mobile No." />

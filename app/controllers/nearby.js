@@ -1,7 +1,4 @@
 var args = arguments[0] || {};
-var categoryAds = Alloy.createCollection('categoryAds');
-var ad_model = Alloy.createCollection("ads"); 
-var adsList = ad_model.getData(true); 
 var showCurLoc = false;
 var cell_width, category_id;
 var u_id = Ti.App.Properties.getString('u_id') || "";
@@ -9,11 +6,6 @@ var start = 0;
 var anchor = COMMON.todayDateTime();
 var last_updated = COMMON.todayDateTime();
 var keyword = "";
-var model = Alloy.createCollection("xpress");
-var xpress_data = model.getData({anchor: anchor, offset:100, last_updated: last_updated, start: start, latest: false, keyword: keyword});
-if(args.id){
-	var clinic = library.getPanelListById(args.id);
-}
 
 function datedescription(from,to) {
 	var dateDescription = convertToHumanFormat(from)+" - "+convertToHumanFormat(to);
@@ -34,9 +26,8 @@ var saveCurLoc = function(e) {
     	showCurLoc = true;
     	Ti.App.Properties.setString('latitude', e.coords.latitude);
     	Ti.App.Properties.setString('longitude', e.coords.longitude);
-    	render_map();
-    	Ti.Geolocation.addEventListener('location', centerMap);
     }
+    $.mapview.region =  {latitude: e.coords.latitude, longitude:e.coords.longitude, zoom: 12, latitudeDelta: 0.01, longitudeDelta: 0.01};
     Ti.Geolocation.removeEventListener('location',saveCurLoc);
 };
 
@@ -45,27 +36,70 @@ if (Ti.Geolocation.locationServicesEnabled) {
     Ti.Geolocation.addEventListener('location', saveCurLoc);
 } 
 
-function centerMap(e){
+var skip = 0;
+function centerMap(){
+	if(skip <= 0){
+		skip++;
+		return;
+	}
 	var lat = Ti.App.Properties.getString('latitude');
 	var lot = Ti.App.Properties.getString('longitude');
-	$.mapview.region =  {latitude: lat, longitude:lot, latitudeDelta:0.005, longitudeDelta:0.005};
-	Ti.Geolocation.removeEventListener('location', centerMap);
+	
+	var bounds = getMapBounds($.mapview.region);
+	
+	API.callByPost({url: "searchNearbyAds", params: {nw_latitude: bounds.northWest.lat, nw_longitude: bounds.northWest.lng, se_latitude: bounds.southEast.lat, se_longitude: bounds.southEast.lng}, new:true}, {
+		onload: function(responseText){
+			var res = JSON.parse(responseText);
+			var data = res.data;
+			var annotations = [];
+			console.log(data);
+			for (var i=0; i < data.length; i++) {
+				var found = _.where(annotations, {id: data[i].id});
+				console.log(typeof found+" typeof found");
+				console.log(found.length);
+				if(found.length <= 0){
+					annotations.push({id: data[i].id, latitude: data[i].latitude, longitude: data[i].longitude, icon: "images/icons/pin_"+data[i].store_type+".png", title: data[i].name, subtitle: data[i].address, img_path: data[i].img_path, rating: data[i].rating, voucher: data[i].voucher});
+				}
+			};
+		render_map(annotations);
+		}
+	});
 }
 
-function render_map(){
+function getMapBounds(region) {
+    var b = {};
+    console.log("getMapBounds");
+    b.northWest = {}; b.northEast = {};
+    b.southWest = {}; b.southEast = {};
+
+    b.northWest.lat = parseFloat(region.latitude) + 
+        parseFloat(region.latitudeDelta) / 2.0;
+    b.northWest.lng = parseFloat(region.longitude) - 
+        parseFloat(region.longitudeDelta) / 2.0;
+
+    b.southWest.lat = parseFloat(region.latitude) - 
+        parseFloat(region.latitudeDelta) / 2.0;
+    b.southWest.lng = parseFloat(region.longitude) - 
+        parseFloat(region.longitudeDelta) / 2.0;
+
+    b.northEast.lat = parseFloat(region.latitude) + 
+        parseFloat(region.latitudeDelta) / 2.0;
+    b.northEast.lng = parseFloat(region.longitude) + 
+        parseFloat(region.longitudeDelta) / 2.0;
+
+    b.southEast.lat = parseFloat(region.latitude) - 
+        parseFloat(region.latitudeDelta) / 2.0;
+    b.southEast.lng = parseFloat(region.longitude) + 
+        parseFloat(region.longitudeDelta) / 2.0;
+
+    return b;
+}
+
+function render_map(adsList){
+	$.mapview.removeAllAnnotations();
 	if(showCurLoc == true){	
-	 	xpress_data.push({longitude:"testing for longitude",latitude:"testing for latitude"});
-	 	adsList.push({longitude:"testing for longitude",latitude:"testing for latitude"});
 	 	var ML=[];
-		xpress_data.forEach(function(entry) {
-		    var longitude1=parseFloat(entry.longitude);
-		    var latitude1=parseFloat(entry.latitude);   
-		    if(isNaN(longitude1)||isNaN(latitude1)){
-		     entry.longitude="";
-		     entry.latitude="";
-		    }
-		    ML.push({id:entry.id,longitude:entry.longitude,latitude:entry.latitude,name:entry.description,subtitle:entry.owner_name,myid:entry.store_name,type:1,record:entry});
-		   });
+		
 		   //test
 		adsList.forEach(function(entry) {
 		    var longitude1=parseFloat(entry.longitude);
@@ -114,11 +148,7 @@ function render_map(){
 			if(entry.latitude != "" &&entry.longitude !=""){
 				$.mapview.addAnnotation(merchantLoc); 
 			}			
-		});	
-		var lat = Ti.App.Properties.getString('latitude');
-		var lot = Ti.App.Properties.getString('longitude');
-		$.mapview.region =  {latitude: lat, longitude:lot,
-	                    latitudeDelta:0.05, longitudeDelta:0.05};
+		});
 	} 
 }
 
@@ -137,16 +167,18 @@ $.mapview.addEventListener('click', function(evt) {
     } 	  
 });
 
-$.location.addEventListener("close", function(){
-	//Ti.Geolocation.removeEventListener('location',saveCurLoc);
-    $.destroy();
-});
-
 function closeWindow(){
 	COMMON.closeWindow($.location); 
 
 }
 Ti.App.addEventListener("ads:close",closeWindow);
+$.mapview.addEventListener("regionchanged", centerMap);
+
+$.location.addEventListener("close", function(){
+	//Ti.Geolocation.removeEventListener('location',saveCurLoc);
+	Ti.App.removeEventListener("ads:close",closeWindow);
+    $.destroy();
+});
 
 $.location.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.location); 

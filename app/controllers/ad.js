@@ -235,7 +235,7 @@ var getAdDetails = function(){
 	if(Ti.Platform.osname == "android"){ 
 		$.pageTitle.add(custom);   
 	}else{
-		$.win.titleControl = custom;
+		$.win.title = ads.name;
 	}
 	loading.finish();
 };
@@ -302,11 +302,11 @@ $.location.addEventListener('click', function(e){
 	} 
 });
 
-//Add favorite event
-$.favorites.addEventListener("click", function(){
+function saveFavorite(){
+	console.log("saveFavorite");
 	var u_id = Ti.App.Properties.getString('u_id') || "";
 	if(u_id == ""){
-		var win = Alloy.createController("signin_signout").getView(); 
+		var win = Alloy.createController("signin_signout", {callback: saveFavorite}).getView(); 
 		COMMON.openWindow(win);
 	}else{
 		var model_favorites = Alloy.createCollection('favorites');
@@ -337,9 +337,13 @@ $.favorites.addEventListener("click", function(){
 			 });
 			 dialog.show();
 		}else{
+			console.log("save favorite");
+			console.log(args);
 			var favorite = Alloy.createModel('favorites', {
 				    m_id   : m_id,
 				    u_id	 : u_id,
+				    merchant_name: args.marchant_name,
+				    marchant_thumb: args.marchant_thumb,
 				    position : 0
 				});
 			favorite.save();
@@ -354,25 +358,12 @@ $.favorites.addEventListener("click", function(){
 			Ti.App.fireEvent("app:refreshAdsListing");
 			return;
 			
-			var params = {
-				a_id: a_id,
-				type: 5,
-				from: "ad",
-				u_id: u_id
-			};
-			
-			API.callByPost({
-				url: "addAdsClick",
-				new: true,
-				params: params
-			},{onload: function(responseText) {}, onerror: function(responseerroe) {}});
-			
 		}
 	}
-});
+}
 
 function popMoreMenu(){
-	var picker_list = [{text: 'Report This Ad'}, {text: 'My Rewards'}];
+	var picker_list = [{text: 'Report This Ad'}];
 	var options = _.pluck(picker_list, "text");
 	options.push("Cancel");
 	var dialog = Ti.UI.createOptionDialog({

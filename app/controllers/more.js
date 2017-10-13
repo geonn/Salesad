@@ -73,7 +73,8 @@ function navTo(e){
 		} 
 	}else if(target == "webview"){
 		var url = parent({name: "url"}, e.source);
-		var win = Alloy.createController("webview", {url:url}).getView(); 
+		var web_title = parent({name: "web_title"}, e.source);
+		var win = Alloy.createController("webview", {url:url, web_title: web_title}).getView(); 
 		COMMON.openWindow(win);
 	}else if(target == "favourite"){
 		var u_id = Ti.App.Properties.getString('u_id') || "";
@@ -212,7 +213,7 @@ Ti.App.addEventListener("more:refresh", refresh);
 
 $.textlogin_out.addEventListener('click', function(e){
 	if(e.source.text == "Login" || e.source.title == "Login") {
-		var win = Alloy.createController("signin_signout").getView();
+		var win = Alloy.createController("signin_signout", {callback: refresh}).getView();
 		COMMON.openWindow(win);
 	}else if(e.source.text == "Logout" || e.source.title == "Logout") {
 		doLogout();

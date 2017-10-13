@@ -35,16 +35,13 @@ var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCat
 var getSXItem = "http://"+API_DOMAIN+"/api/getSXItem?user="+USER+"&key="+KEY;
 var sendFeedback = "http://"+API_DOMAIN+"/api/sendFeedback?user="+USER+"&key="+KEY;
 var getVoucherList = "http://"+API_DOMAIN+"/api/getVoucherList?user="+USER+"&key="+KEY;
+var getUserVoucherList = "http://"+API_DOMAIN+"/api/getUserVoucherList?user="+USER+"&key="+KEY;
 var updateUserVoucher = "http://"+API_DOMAIN+"/api/updateUserVoucher";
 var pointDescList = "http://"+API_DOMAIN+"/api/pointDescList?user="+USER+"&key="+KEY;
 //API that call in sequence 
 var APILoadingList = [
-<<<<<<< HEAD
 //	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
-	{url: "getCategoryList", type: "api_model", model: "category", checkId: "5"},
-=======
-	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
-	{url: "getCategoryList", type: "cache_json", name: "category_list", checkId: "1"},
+	{url: "getCategoryList", type: "api_model", model: "category", checkId: "5"}
 ];
 /*
 >>>>>>> origin/master

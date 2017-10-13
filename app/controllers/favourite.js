@@ -35,7 +35,7 @@ function render_favourite_merchant(){
 	}else{
 		var cell_width = Math.floor(pwidth / 2) - 15;
 	}
-	
+	console.log(data);
 	if(data.length <=0){
 		var img = $.UI.create("ImageView", {image:"/images/Popup_Rewards_Favorite.png", classes:['wfill']});
 		var view = $.UI.create("View", {classes:['wfill', 'hsize', 'padding']});
@@ -89,7 +89,7 @@ function render_favourite_merchant(){
 			width: cell_width,
 			classes: ['hsize'],
 			left: 0,
-			image: (data[i].img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].img_path,
+			image: (data[i].img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].marchant_thumb,
 			touchEnabled: false,
 		});
 		var text_padd = $.UI.create("View", {
@@ -97,7 +97,7 @@ function render_favourite_merchant(){
 			touchEnabled: false,
 		});
 		var text_ads = $.UI.create("Label", {
-			text: data[i].name,
+			text: data[i].merchant_name,
 			classes:['wfill', 'hsize', 'h6'],
 			color: "#525152",
 			touchEnabled: false,
@@ -112,7 +112,7 @@ function render_favourite_merchant(){
 		container.add(cell);
 		container.add(img_close);
 		$.inner_box.add(container);
-		cell.addEventListener("click", nav_to_merchant);
+		//cell.addEventListener("click", nav_to_merchant);
 		img_close.addEventListener("click", unfavourite);
 	};
 }

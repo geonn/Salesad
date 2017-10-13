@@ -34,15 +34,16 @@ function windowClose(){
 }
 
 function init(){
+	console.log(args);
+	if(typeof args.web_title != "undefined"){
+		if(OS_IOS){
+			$.win.title = args.web_title;
+		}else{
+			$.pageTitle.text = args.web_title;
+		}
+	}
 	if(typeof args.url != "undefined"){
 		$.webview.url = args.url;
-	}else{
-		$.win.add(loading.getView());
-		var SCANNER = require("scanner");
-		var window = SCANNER.createScannerWindow();
-		var button = SCANNER.createScannerButton(); 
-		SCANNER.init(window);	
-		setTimeout(function(e){SCANNER.openScanner("2");}, 1000);
 	}
 }
 

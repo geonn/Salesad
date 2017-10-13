@@ -9,8 +9,8 @@
 			<View left="0" width="15%" zIndex="10">
 		         <ImageView onClick="windowClose" left='10' width="30" height="30" image="/images/btn-back.png" />
 		    </View>
-	     	<View id="pageTitle" width="70%">
-	     		<Label class="wsize hsize">Advertise in SalesAd</Label>
+	     	<View width="70%">
+	     		<Label id="pageTitle" class="wsize hsize">Advertise in SalesAd</Label>
 	     	</View>
 	 	</View>
 		<WebView id="webview"  class="wfill hfill"></WebView>

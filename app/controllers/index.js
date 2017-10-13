@@ -2,14 +2,9 @@ PUSH.registerPush();
 
 var args = {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
-var loadingView = Alloy.createController("loader");
-loadingView.getView().open();
-loadingView.start();
-
 var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var adsClick = [];
 Alloy.Globals.navMenu = $.navMenu;
-
 /** navigate to Ad **/
 var current_post_id = 0;
 function goToAds(e){
@@ -50,18 +45,6 @@ var goAd = function(a_id, m_id, name, date, isFeed){
 	var win = Alloy.createController("ad", {a_id: a_id, m_id:m_id,  from: "home", isFeed: isFeed, name:name, date:date}).getView();
 	COMMON.openWindow(win);
 };
-
-function loadingViewFinish(){
-	loadingView.finish(function(){
-		if(OS_IOS){
-			$.navMenu.open({fullscreen:true});
-			loadingView.getView().close();
-		}else{
-			$.indexView.win.open();
-		} 
-		init();
-	});
-}
 
 function init(){
 	var url = "";
@@ -133,7 +116,6 @@ $.nearby.addEventListener("click", function(e){
 
 /** EventListerner for notification **/
 Ti.App.addEventListener('app:goToAds', goToAds);
-Ti.App.addEventListener('app:loadingViewFinish', loadingViewFinish);
 
 /** Android Click to refresh **/
 if(Ti.Platform.osname == "android"){
@@ -177,3 +159,24 @@ function QrScan(){
         });	        	
     }	
 }
+
+setTimeout(function(){
+	console.log('start loadingview');
+	Ti.App.addEventListener('app:loadingViewFinish', loadingViewFinish);
+	function loadingViewFinish(){
+		console.log("loadingViewFinish");
+		if(OS_IOS){
+			$.navMenu.open({fullscreen:true});
+			loadingView.getView().close();
+		}else{
+			$.indexView.win.open();
+		}
+		Ti.App.fireEvent('loader:closeView');
+		init();
+	}
+	
+	var loadingView = Alloy.createController("loader");
+	loadingView.getView().open();
+	loadingView.start();
+}, 1000);
+

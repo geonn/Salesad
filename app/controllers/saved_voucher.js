@@ -1,18 +1,12 @@
 var args = arguments[0] || {};
-var my_vid = args.My_vid || "";
 var pageTitle;
 var use  = args.use || false;
-var model = Alloy.createCollection("MyVoucher"); 
-var res = model.getVoucherByMy_vid(my_vid);
+console.log(args); 
+var res = args.record;
 Alloy.Globals.naviPath.push($.win);
 var loading = Alloy.createController("loading");
 var tncrule = "Terms and Conditions are a set of rules and guidelines that a user must agree to in order to use your website or mobile app. It acts as a legal contract between you (the company) who has the website or mobile app and the user who access your website and mobile app.\n\nIt’s up to you to set the rules and guidelines that the user must agree to. You can think of your Terms and Conditions agreement as the legal agreement where you maintain your rights to exclude users from your app in the event that they abuse your app, and where you maintain your legal rights against potential app abusers, and so on.\n\nTerms and Conditions are also known as Terms of Service or Terms of Use.\n\nThis type of legal agreement can be used for both your website and your mobile app. It’s not required (it’s not recommended actually) to have separate Terms and Conditions agreements: one for your website and one for your mobile app.";
 
-if(res.item_id != null){
-	var item = Alloy.createCollection("items");
-	var image = item.getImageByI_id(res.item_id);
-	res.image = image;
-}
 function zoom(e){
 	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
 	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
@@ -128,7 +122,7 @@ function useVoucher(e){
 	if(checking && use){
 		checking = false;
 		COMMON.createAlert("Use Voucher","Confirm to use the voucher now?\nYou can't undo this action.",function(ex){
-			API.callByPost({url:"updateUserVoucher",params:{id:my_vid,status:0}},{
+			API.callByPost({url:"updateUserVoucher",params:{id:res.id, status:0}},{
 				onload:function(responseText){
 					COMMON.closeWindow($.win);
 					Ti.App.fireEvent('myvoucher:refresh');							
@@ -155,7 +149,7 @@ function getAdDetails(){
 	if(Ti.Platform.osname == "android"){ 
 		$.pageTitle.add(custom);   
 	}else{
-		$.win.titleControl = custom;
+		$.win.title = "Saved Voucher";
 	} 
 };
 

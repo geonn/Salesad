@@ -13,9 +13,9 @@ function render_banner(e){
 		return;
 	}
 	for (var i=0; i < e.data.length; i++) {
-		var view = $.UI.create("View", {classes:['hsize','rounded','padding'], bottom: 30, backgroundColor: "#f6f6f6", width: 200, right:0, left:10});
+		var view = $.UI.create("View", {classes:['hsize','rounded','padding'], bottom: 30, width: 200, right:0, left:10});
 		
-		var img_banner = $.UI.create("ImageView", {classes:['wfill','hsize'], image: e.data[i].img_path, target: "ad", record: e.data[i]});
+		var img_banner = $.UI.create("ImageView", {classes:['wfill','hsize'], width: 200, height: 200, image: e.data[i].img_path, target: "ad", record: e.data[i]});
 		var label_name = $.UI.create("Label", {classes:['wfill','hsize','h6','small-padding'], maxLines:2, bottom:"0", color: "#fff", text: e.data[i].name});
 		var view_label = $.UI.create("View", {classes:['wfill','hsize'], bottom:0, backgroundColor: "#80000000"});
 		view_label.add(label_name);
@@ -24,11 +24,11 @@ function render_banner(e){
 		//view.add(view_label);
 		$.feature_banner.add(view);
 	};
+	$.feature_banner.add($.UI.create("View", {width: 210, height: 210}));
 }
 
 function navTo(e){
-	console.log(e.source.record);
-	COMMON.openWindow(Alloy.createController(e.source.target, e.source.record).getView()); 
+	COMMON.openWindow(Alloy.createController(e.source.target, e.source.record || {}).getView()); 
 }
 
 function render_latest_ad(e){
@@ -48,7 +48,48 @@ function render_latest_ad(e){
 	};
 }
 
+function filterByKeyword(e){
+	var value = $.keyword.value;
+	if(value == "Search SalesAd"){
+		return;
+	}
+	$.manage_btn.hide();
+	var keyword = value;
+	$.main_title.text = "Search result for '"+keyword+"'";
+	refresh({url: "getAdByKeyword", params: {keyword: keyword}, onEmpty: function(){
+		console.log('onempty add imageview');
+		$.ad_list.add($.UI.create("Label", {text: "We couldn't find any results for '"+keyword+"'", classes:['wfill','hsize','padding']}));
+	}});
+}
+
+function homeQR(e){
+	$.manage_btn.hide();
+	var m_id = e.m_id || 0;
+	console.log(m_id+" see what m_id");
+	$.main_title.text = e.merchant_name;
+	refresh({url: "getAdByMid", params: {m_id: m_id}, onEmpty: function(){
+		console.log('onempty add imageview');
+		$.ad_list.add($.UI.create("Label", {text: "We couldn't find any ad for "+e.merchant_name, classes:['wfill','hfill','padding']}));
+	}});
+}
+
+function filterByFavorite(e){
+	var u_id = Ti.App.Properties.getString('u_id') || "";
+	if(u_id == ""){
+		var win = Alloy.createController("signin_signout", {callback: filterByFavorite}).getView(); 
+		COMMON.openWindow(win);
+		return;
+	}
+	$.manage_btn.show();
+	$.main_title.text = "Favorites";
+	refresh({url: "getAdByFavorite", params: {u_id: u_id}, onEmpty: function(){
+		console.log('onempty add imageview');
+		$.ad_list.add($.UI.create("ImageView", {image: "/images/Popup_Rewards_Favorite.png", classes:['wfill','hsize','padding']}));
+	}});
+}
+
 function popCategory(e){
+	$.manage_btn.hide();
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'category_list.txt');
 	var contents = f.read();
 	var res = JSON.parse(contents);
@@ -88,19 +129,32 @@ function refresh(e){
 			render_banner({data: banner_list});
 		}
 		render_latest_ad({data: ad_list});
+		console.log(ad_list);
+		console.log(ad_list.length);
+		if(ad_list.length <= 0){
+			console.log(typeof e.onEmpty);
+			e.onEmpty();
+		}
+		console.log('ending');
 	}});
 }
 
 function init(){
+	$.manage_btn.hide();
 	refresh({url: "getLatestAdList"});
 }
 
 init();
 var menu_top = 0;
-$.win.addEventListener("postlayout", function(e){
+
+function postLayoutForWindow(){
 	menu_top = $.feature_banner.rect.height + 30;
 	$.menu.top = menu_top;
-});
+	$.win.removeEventListener("postlayout", postLayoutForWindow);
+}
+$.win.addEventListener("postlayout", postLayoutForWindow);
+
+Ti.App.addEventListener("homeQR", homeQR);
 
 $.feature_banner.addEventListener("dragend", function(e){
 	var x = this.contentOffset.x;
@@ -110,6 +164,7 @@ $.feature_banner.addEventListener("dragend", function(e){
 });
 
 $.container.addEventListener("scroll", function(e){
+	console.log(e.x+" "+e.y+" "+menu_top);
 	if(e.x > 0){
 		return;
 	}
@@ -120,3 +175,62 @@ $.container.addEventListener("scroll", function(e){
 		$.menu.animate({top: 0, duration: 0});
 	}
 });
+
+function pixelToDp(px) {
+    return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
+}
+
+var SCANNER = require("scanner");
+
+function QrScan(){
+    if(Ti.Media.hasCameraPermissions()){
+		SCANNER.openScanner("4");
+    }else{
+        Ti.Media.requestCameraPermissions(function(e) {
+        	if(e.success){
+				SCANNER.openScanner("4");				       
+	        }
+        	else{
+        		alert("You denied permission.");
+        	}			        
+        });	        	
+    }	
+}
+
+function nearMe(){
+	var win = Alloy.createController("nearby").getView();
+	if(OS_ANDROID) {
+		var hasLocationPermissions = Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS);
+	    if (hasLocationPermissions) {
+			if (Ti.Geolocation.locationServicesEnabled) {
+				COMMON.openWindow(win);
+			}else {
+				alert("Please open your GPS.");
+			}
+	    }else {
+	    	Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+				if(e.success) {
+					if (Ti.Geolocation.locationServicesEnabled) {
+						COMMON.openWindow(win);
+					}else {
+						alert("Please open your GPS.");
+					}
+				}else {
+					alert("You denied permission for now, forever or the dialog did not show at all because it you denied forever before.");
+				}
+			});
+	    }
+	}else {
+		Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
+			if(e.success) {
+				if (Ti.Geolocation.locationServicesEnabled) {
+					COMMON.openWindow(win);
+				}else {
+					alert("Please open your GPS.");
+				}
+			}else {
+				alert("You denied permission for now, forever or the dialog did not show at all because it you denied forever before.");
+			}
+		});
+	}
+}

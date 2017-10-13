@@ -1,7 +1,7 @@
 exports.definition = {
 	config: {
 		columns: {
-		    "My_vid": "INTEGER PRIMARY KEY",
+		    "id": "INTEGER PRIMARY KEY",
 		    "u_id": "TEXT",
 		    "v_id": "INTEGER",
 		    "quantity": "INTEGER",
@@ -24,8 +24,8 @@ exports.definition = {
 		},
 		adapter: {
 			type: "sql",
-			collection_name: "MyVoucher",
-			idAttribute: "My_vid"
+			collection_name: "MyVoucherV2",
+			idAttribute: "id"
 		}
 	},
 	extendModel: function(Model) {
@@ -61,7 +61,7 @@ exports.definition = {
 			getData: function(unlimit){
 				var sql_limit = (unlimit)?"":" limit 0,6";
 				var collection = this;
-				var sql = "select voucher.*,MyVoucher.My_vid from "+collection.config.adapter.collection_name+" left outer join voucher on voucher.v_id = MyVoucher.v_id where voucher.v_id = MyVoucher.v_id";
+				var sql = "select voucher.*,MyVoucher.id from "+collection.config.adapter.collection_name+" left outer join voucher on voucher.v_id = MyVoucher.v_id where voucher.v_id = MyVoucher.v_id";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -72,7 +72,7 @@ exports.definition = {
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
                 	arr[count] = {
-                		My_vid: res.fieldByName('My_vid'),
+                		id: res.fieldByName('id'),
                 		v_id: res.fieldByName('v_id'),
 					    m_id: res.fieldByName('m_id'),
 					    item_id: res.fieldByName('item_id'),
@@ -107,7 +107,7 @@ exports.definition = {
 			},
 			getDataById:function(id){
 				var collection = this;
-				var sql = "select * from "+collection.config.adapter.collection_name+" where My_vid="+id+" ";
+				var sql = "select * from "+collection.config.adapter.collection_name+" where id="+id+" ";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -116,7 +116,7 @@ exports.definition = {
                 var arr;
                 if(res.isValidRow()){
 	            	arr = {
-	            		My_vid: res.fieldByName('My_vid'),
+	            		id: res.fieldByName('id'),
 	            		v_id: res.fieldByName('v_id'),
 					    u_id: res.fieldByName('u_id'),
 					    quantity: res.fieldByName('quantity'),
@@ -169,22 +169,42 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;		
 			},
-			saveArray : function(arr){
+			saveArray : function(arr){ // 4th version of save array
 				var collection = this;
-				
+				var columns = collection.config.columns;
+				var names = [];
+				for (var k in columns) {
+	                names.push(k);
+	            }
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-               // db.execute("BEGIN");
+                db.execute("BEGIN");
                 arr.forEach(function(entry) {
-                	
-                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" (My_vid,u_id,v_id,quantity,created,updated,status, title, description, save_from, save_to, use_from, use_to, tnc, redeem, limit, point, total, image, thumb_image) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.id,entry.u_id,entry.v_id, entry.quantity, entry.created, entry.updated, entry.status, entry.title, entry.description, entry.save_from, entry.save_to, entry.use_from, entry.use_to, entry.tnc, entry.redeem, entry.limit, entry.point, entry.total, entry.image, entry.thumb_image);
-					console.log(db.rowsAffected+" how many insert");
+                	var keys = [];
+                	var questionmark = [];
+                	var eval_values = [];
+                	var update_questionmark = [];
+                	var update_value = [];
+                	for(var k in entry){
+	                	if (entry.hasOwnProperty(k)){
+	                		_.find(names, function(name){
+	                			if(name == k){
+	                				keys.push(k);
+			                		questionmark.push("?");
+			                		eval_values.push("entry."+k);
+			                		update_questionmark.push(k+"=?");
+	                			}
+	                		});
+	                	}
+                	}
+                	var without_pk_list = _.rest(update_questionmark);
+	                var without_pk_value = _.rest(eval_values);
+	                var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" ("+keys.join()+") VALUES ("+questionmark.join()+")";
+	                eval("db.execute(sql_query, "+eval_values.join()+")");
 				});
-			//	db.execute("COMMIT");
-				//console.log(db.rowsAffected+" how many insert");
+				db.execute("COMMIT");
 	            db.close();
 	            collection.trigger('sync');
 			},
@@ -197,20 +217,21 @@ exports.definition = {
 				collection.trigger('sync');
 			},
 			ongoingvoucher: function(unlimit){
+				var u_id = Ti.App.Properties.getString('u_id') || 0;
 				var sql_limit = (unlimit)?"":" limit 0,6";
 				var collection = this;
-				var sql = "select voucher.*, MyVoucher.My_vid from "+collection.config.adapter.collection_name+" left outer join voucher on voucher.v_id = MyVoucher.v_id where voucher.v_id = MyVoucher.v_id and date('now') <= voucher.use_to and MyVoucher.status = 1";
+				var sql = "select * from "+collection.config.adapter.collection_name+" where date('now') <= use_to and status = 1 AND u_id = ?";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
-                var res = db.execute(sql);
+                var res = db.execute(sql, u_id);
                 var arr = [];
 				var count = 0;   
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
                 	arr[count] = {
-                		My_vid: res.fieldByName('My_vid'),
+                		id: res.fieldByName('id'),
                 		v_id: res.fieldByName('v_id'),
 					    m_id: res.fieldByName('m_id'),
 					    item_id: res.fieldByName('item_id'),
@@ -244,7 +265,7 @@ exports.definition = {
                 return arr;
 			},getVoucherByMy_vid:function(id){
 				var collection = this;
-				var sql = "select voucher.*,MyVoucher.My_vid from "+collection.config.adapter.collection_name+" left outer join voucher on voucher.v_id = MyVoucher.v_id where voucher.v_id = MyVoucher.v_id and MyVoucher.My_vid = "+id;
+				var sql = "select voucher.*,MyVoucher.id from "+collection.config.adapter.collection_name+" left outer join voucher on voucher.v_id = MyVoucher.v_id where voucher.v_id = MyVoucher.v_id and MyVoucher.id = "+id;
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -253,7 +274,7 @@ exports.definition = {
                 var arr;
                 if(res.isValidRow()){
                 	arr= {
-                		My_vid: res.fieldByName('My_vid'),
+                		id: res.fieldByName('id'),
                 		v_id: res.fieldByName('v_id'),
 					    m_id: res.fieldByName('m_id'),
 					    item_id: res.fieldByName('item_id'),
@@ -287,20 +308,21 @@ exports.definition = {
                 return arr;				
 			},
 			expirevoucher: function(unlimit){
+				var u_id = Ti.App.Properties.getString('u_id') || 0;
 				var sql_limit = (unlimit)?"":" limit 0,6";
 				var collection = this;
-				var sql = "select voucher.*, MyVoucher.My_vid from "+collection.config.adapter.collection_name+" left outer join voucher on voucher.v_id = MyVoucher.v_id where voucher.v_id = MyVoucher.v_id and date('now') > voucher.use_to and MyVoucher.status = 1";
+				var sql = "select * from "+collection.config.adapter.collection_name+" where date('now') > use_to and status = 1 and u_id = ?";
 				db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
 				}
-                var res = db.execute(sql);
+                var res = db.execute(sql, u_id);
                 var arr = [];
 				var count = 0;   
                 while (res.isValidRow()){
                 	var row_count = res.fieldCount;
                 	arr[count] = {
-                		My_vid: res.fieldByName('My_vid'),
+                		id: res.fieldByName('id'),
                 		v_id: res.fieldByName('v_id'),
 					    m_id: res.fieldByName('m_id'),
 					    item_id: res.fieldByName('item_id'),

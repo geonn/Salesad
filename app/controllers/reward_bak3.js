@@ -6,10 +6,9 @@ var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var SCANNER = require("scanner");
 var tabColor = $.tab0;
 var tabviewColor = $.tabview0;
+var myvmodel = Alloy.createCollection("MyVoucher");
 var boll = true;
 var add_impression = [];
-var currentVoucherType = 1;
-var last_id = [];
 
 if(OS_ANDROID){
 	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
@@ -20,7 +19,6 @@ if(OS_ANDROID){
 			$.voucher_scrollview.ins_vouchercount = 0;
 			$.voucher_scrollview.gift_vouchercount = 0;
 			$.voucher_view.alltitle = [];
-			$.voucher_view.currentTitle = "";
 			refreshVlist();
 		}
 	});
@@ -40,7 +38,6 @@ if(OS_ANDROID){
 				$.voucher_scrollview.ins_vouchercount = 0;
 				$.voucher_scrollview.gift_vouchercount = 0;
 				$.voucher_view.alltitle = [];
-				$.voucher_view.currentTitle = "";
 				refreshVlist();
 			},500);	        
 	        control.endRefreshing();
@@ -98,6 +95,13 @@ Social.addEventListener("complete", function(e){
 		
 	});
 }
+
+//if(OS_ANDROID) {
+//	$.swiperefresh.addEventListener("refreshing", function (e) {
+//		refreshVlist();
+//		e.source.setRefreshing(false);
+//	});
+//}
 
 function refresh(){
 	u_id = Ti.App.Properties.getString('u_id') || "";	
@@ -270,7 +274,6 @@ function init(){
 	refreshVlist("refreshSVlist");
 	
 	if(args.savedvoucher != undefined) {
-		console.log(args.savedvoucher+" is what here");
 		refreshSVlist();
 		$.scrollview.scrollToView(1);
 	}
@@ -279,9 +282,6 @@ function init(){
 init();
 
 function Tab(e) {
-	if(e.source.num == 1){
-		refreshSVlist();
-	}
 	$.scrollview.scrollToView(e.source.num);
 }
 function chk_array(arr,value){
@@ -327,14 +327,16 @@ function vouchers(e, str) {
 			}else {
 				params.push(entry.a_id);
 			}
-			console.log("add_impression see");
-			console.log(typeof add_impression);
-			
 			if (chk_array(add_impression,entry.a_id)) {
 				add_impression.push(entry.a_id);
 				console.log(add_impression.join()+" added");
 			};
 			count = null;
+			if(entry.item_id != null){
+				var item = Alloy.createCollection("items");
+				var image = item.getImageByI_id(entry.item_id);
+				entry.thumb_image = image;
+			}
 			var View1 = $.UI.create("View", {
 				classes: ['hsize', 'vert'],
 				width: cell_width,
@@ -350,7 +352,8 @@ function vouchers(e, str) {
 				classes: ['wfill', 'hsize'],
 				image: entry.thumb_image,
 				defaultImage: "/images/image_loader_640x640.png",
-				record: entry
+				v_id: entry.v_id,
+				m_id: entry.m_id
 			});
 			var View2 = $.UI.create("View", {
 				classes: ['wfill', 'hsize', 'vert'],
@@ -438,16 +441,33 @@ function vouchers(e, str) {
 			ViewPoint = null;
 			title = null;
 		});
-		
-		if($.voucher_view.currentTitle == e[key].title) {
-			$.voucher_view.childadd = true;
+		if($.voucher_scrollview.ins_vouchercount > 0) {
+			var bol = false;
+			var count = 0;
+			for(var i = 0; i < $.voucher_view.alltitle.length - 1; i++) {
+				count = i;
+				console.log($.voucher_view.alltitle[i]+" "+e[key].title);
+				if($.voucher_view.alltitle[i] == e[key].title) {//console.log("set true");
+					bol = true;
+					break;
+				}else if(count == $.voucher_view.alltitle.length - 1) {//console.log("set false");
+					bol = false;
+				}
+			}
+			if(bol) {//console.log("in true child add");
+				$.voucher_view.childadd = true;
+			}else {//console.log("in false child add");
+				$.voucher_view.childadd = false;
+				parent.add(title);
+				parent.add(hr);
+			}
+			count = null;
 		}else {
 			$.voucher_view.childadd = false;
 			parent.add(title);
 			parent.add(hr);
 		}
 		parent.add(child);
-		$.voucher_view.currentTitle = e[key].title;
 		if($.voucher_view.getChildren().length > 0) {//console.log("voucher length biger then 0");
 			if($.voucher_view.childadd) {
 				for(var i = 0; i < child.getChildren().length; i++) {
@@ -465,27 +485,29 @@ function vouchers(e, str) {
 		if($.voucher_view.changechild) {//console.log("change child");
 			$.voucher_view.lastchild = child;
 		}
+		
 		parent = null;
 		title = null;
 		hr = null;
 		child = null;
 	}
+	if(str == "refreshSVlist") {
+		refreshSVlist(params);
+	}
 	loading.finish();
 	boll = true;
 	$.voucher_scrollview.voucherrefreshing = true;
 	$.voucher_scrollview.scrollcheck = true;
-	$.voucher_scrollview.ins_vouchercount =  8;
+	$.voucher_scrollview.ins_vouchercount += 8;
 	params = null;
 }
 
 function to_ins_voucher(e) {
-	currentVoucherType = 1;
-	$.voucher_scrollview.vouchertype = "ins_voucher";
 	$.voucher_scrollview.ins_vouchercount = 0;
-	refreshVlist();
+	ins_voucher();
 }
 
-function ins_voucher(vdata, str) {
+function ins_voucher(str) {
 	if(boll) {
 		loading.start();
 		boll = false;
@@ -494,15 +516,11 @@ function ins_voucher(vdata, str) {
 		$.ins_label.setColor("#fff");
 		$.gift_view.setBackgroundColor("#fff");
 		$.gift_label.setColor("gray");
+		var vmodel = Alloy.createCollection("voucher");
+		var vdata = vmodel.getInstant(false, $.voucher_scrollview.ins_vouchercount);
 		var arr = [];
-		console.log("check here");
-		if(vdata.length > 0){
-			last_id[currentVoucherType] =  vdata[vdata.length-1].v_id;
-			console.log(last_id[currentVoucherType]+" "+vdata[vdata.length-1].v_id);
-		}
-		console.log(last_id[currentVoucherType]);
 		vdata.forEach(function(e) {
-			var key = (e.ad_title != "" || e.ad_title !=  null) ? e.ad_title : "Others";
+			var key = (e.name != "" || e.name !=  null) ? e.name : "Others";
 			arr[key] = arr[key] || {};
 			arr[key].title = key;
 			arr[key].child = arr[key].child || [];
@@ -512,6 +530,7 @@ function ins_voucher(vdata, str) {
 			$.voucher_view.removeAllChildren();
 		}
 		$.voucher_scrollview.scrolldata = vdata.length;
+		console.log("length:"+vdata.length+" asdf:"+JSON.stringify(vdata));
 		scrollChecker = (vdata.length == 0) ? false :true;
 		$.nothingText.text = (vdata.length == 0 && $.voucher_view.children.length == 0)?"Sorry, we don't have any instant vouchers to show right now":"";			
 		vouchers(arr, str);
@@ -522,12 +541,11 @@ function ins_voucher(vdata, str) {
 }
 
 function toGiftvoucher(e){
-	currentVoucherType = 2;
 	$.voucher_scrollview.gift_vouchercount = 0;
-	refreshVlist();
+	gift_voucher();
 }
 
-function gift_voucher(vdata) {
+function gift_voucher(e) {
 	if(boll) {
 		loading.start();
 		boll = false;
@@ -537,14 +555,8 @@ function gift_voucher(vdata) {
 		$.ins_view.setBackgroundColor("#fff");
 		$.ins_label.setColor("gray");
 		
-		console.log("gift voucher check here");
-		if(vdata.length > 0){
-			last_id[currentVoucherType] =  vdata[vdata.length-1].v_id;
-			console.log(last_id[currentVoucherType]+" "+vdata[vdata.length-1].v_id);
-		}
-		
-		//var vmodel = Alloy.createCollection("voucher");
-		//var vdata = vmodel.getGift(false, $.voucher_scrollview.gift_vouchercount);
+		var vmodel = Alloy.createCollection("voucher");
+		var vdata = vmodel.getGift(false, $.voucher_scrollview.gift_vouchercount);
 		if($.voucher_scrollview.gift_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		}
@@ -560,33 +572,7 @@ function gift_voucher(vdata) {
 	}
 }
 
-function filterByOngoing(arr){
-	var now = new Date();
-	var arr_return = [];
-	for (var i=0; i < arr.length; i++) {
-		var use_to = new Date(arr[i].use_to);
-		console.log(use_to.getTime()+" "+now.getTime());
-		if(use_to.getTime() >= now.getTime()){
-			arr_return.push(arr[i]);
-		}
-	};
-	return arr_return;
-}
-
-function filterByExpired(arr){
-	var now = new Date();
-	var arr_return = [];
-	for (var i=0; i < arr.length; i++) {
-		var use_to = new Date(arr[i].use_to);
-		console.log(use_to.getTime()+" "+now.getTime());
-		if(use_to.getTime() < now.getTime()){
-			arr_return.push(arr[i]);
-		}
-	};
-	return arr_return;
-}
-
-function savedvoucher(arr) {
+function savedvoucher(params) {
 	$.ongoingVoucher.removeAllChildren();
 	$.expiredVoucher.removeAllChildren();
 // 	
@@ -598,10 +584,10 @@ function savedvoucher(arr) {
 	// $.expiredV.add($.UI.create("View", {classes:['hr', 'wfill'], backgroundColor: "#000"}));
 	// $.expiredV.add($.UI.create("Label", {classes: ['wfill'], id: "T2", height: 180, textAlign: "center", text: "You have no expired vouchers at this moment."}));
 	
-	var ongoingVC = filterByOngoing(arr);
+	var ongoingVC = myvmodel.ongoingvoucher(true);
 	list_voucher(ongoingVC, "ongoing");
-	var expireVC = filterByExpired(arr);
-	list_voucher(expireVC, "expire");
+	var expireVC = myvmodel.expirevoucher(true);
+	list_voucher(expireVC, "expire", params);
 	if($.ongoingVoucher.children.length > 0) {
 		$.t1.setHeight(0);
 		$.t1.hide();
@@ -618,7 +604,7 @@ function savedvoucher(arr) {
 	}
 }
 
-function list_voucher(e, name) {
+function list_voucher(e, name, params) {
 	var parent = $.UI.create("View", {
 		classes: ['wfill', 'hsize', 'horz']
 	});
@@ -647,7 +633,7 @@ function list_voucher(e, name) {
 			width: 30,
 			height: 30,
 			image: "/images/Icon_Delete_Round.png",
-			id: entry.id,
+			My_vid: entry.My_vid,
 			top: 2,
 			right: 2,
 			zIndex: 10
@@ -655,7 +641,7 @@ function list_voucher(e, name) {
 			width: 0,
 			height: 0,
 			image: "",
-			id: entry.id,
+			My_vid: entry.My_vid,
 			top: 2,
 			right: 2,
 			zIndex: 10
@@ -672,7 +658,9 @@ function list_voucher(e, name) {
 			classes: ['wfill', 'hsize'],
 			image: (name == "ongoing" || name == "expire") ? entry.image : entry.thumb_image ,
 			defaultImage: "/images/image_loader_640x640.png",
-			record: entry,
+			My_vid: entry.My_vid,
+			v_id: entry.v_id,
+			m_id: entry.m_id,
 			use: (name == "ongoing") ? true : (name == "expire") ? false : ""
 		});
 		var View2 = $.UI.create("View", {
@@ -790,27 +778,29 @@ function toVoucher(e) {
 		var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 		COMMON.openWindow(win);
 	}else {
-		COMMON.openWindow(Alloy.createController("voucher_detail",{use: e.source.use, record: e.source.record}).getView());
+		COMMON.openWindow(Alloy.createController("voucher_detail",{v_id: e.source.v_id}).getView());
 	}
 }
 
 function toSaveVoucher(e) {
-	var record = e.source.record;
-	COMMON.openWindow(Alloy.createController("saved_voucher",{use: e.source.use, record: record}).getView());	
+	COMMON.openWindow(Alloy.createController("saved_voucher",{My_vid: e.source.My_vid,use:e.source.use}).getView());	
 }
 
 function delvoucher(e) {
 	COMMON.createAlert("Alert", "Are you sure want to delete this voucher?", function(ex){
-		console.log(e.source.id+" e.source.id");
 		API.callByPost({
 			url: "updateUserVoucher",
 			new: true,
 			params: {
-				id: e.source.id,
+				id: e.source.My_vid,
 				status: 0
 			}
 		}, {
 			onload: function(responseText) {
+				var model = Alloy.createCollection("MyVoucher");
+				var res = JSON.parse(responseText);
+				var arr = res.data || null;
+				model.resetRecord();
 				refreshSVlist();
 			},onerror: function(err) {
 				_.isString(err.message) && alert(err.message);
@@ -822,20 +812,24 @@ function delvoucher(e) {
 }
 
 function refreshVlist(str) {
-	console.log(currentVoucherType+" currentVoucherType");
+	var checker = Alloy.createCollection('updateChecker');
+	var isUpdate = checker.getCheckerById("12");
+	
 	API.callByPost({
 		url: "getVoucherList",
 		new: true,
-		params: {type: currentVoucherType}
+		params: {last_updated: isUpdate.update}
 	},{
 		onload: function(responseText) {
+			var model = Alloy.createCollection("voucher");
 			var res = JSON.parse(responseText);
-			var arr = res.data || [];
-			if(currentVoucherType == 1) {
-				ins_voucher(arr, str);
-			}else if(currentVoucherType == 2){
-				console.log("gift voucher");
-				gift_voucher(arr);
+			var arr = res.data || null;
+			model.saveArray(arr);
+			checker.updateModule("12","getVoucherList",currentDateTime());
+			if($.voucher_scrollview.vouchertype == "ins_voucher") {
+				ins_voucher(str);
+			}else {
+				gift_voucher();
 			}
 			loading.finish();
 		},onerror: function(err) {
@@ -848,7 +842,7 @@ function refreshVlist(str) {
 	});
 }
 
-function refreshSVlist() {
+function refreshSVlist(params) {
 	// u_id = Ti.App.Properties.getString('u_id') || "";
 	// var checker = Alloy.createCollection('updateChecker');
 	// var isUpdate = checker.getCheckerById("13");
@@ -859,12 +853,13 @@ function refreshSVlist() {
 		params: {u_id: u_id}
 	},{
 		onload:function(responseText){
+			var model = Alloy.createCollection("MyVoucher");
 			var res = JSON.parse(responseText);
-			var arr = res.data || [];
-			console.log("save voucher arr");
-			console.log(arr);
+			var arr = res.data || null;
+			model.resetRecord();
+			model.saveArray(arr);
 			if(u_id != "") {
-				savedvoucher(arr);
+				savedvoucher(params);
 			}
 			loading.finish();
 		},onerror:function(err){
@@ -949,47 +944,16 @@ function scrollChecker(e) {
 	var total = (OS_ANDROID) ? pixelToDp(e.y) + e.source.rect.height : e.y + e.source.rect.height;
 	if(total >= nearEnd&& scrollCheck && $.voucher_scrollview.scrollcheck && $.voucher_scrollview.scrolldata > 0){
 		$.voucher_scrollview.scrollcheck = false;
-		loadMore($.voucher_scrollview.vouchertype);
-		//eval($.voucher_scrollview.vouchertype+"()");
+		eval($.voucher_scrollview.vouchertype+"()");
 	}
 	theEnd = null;
 	nearEnd = null;
 	total = null;
 }
-
-function loadMore(){
-	console.log("loadmore"+ last_id[currentVoucherType]);
-	console.log({type: currentVoucherType, last_vid: last_id[currentVoucherType]});
-	API.callByPost({
-		url: "getVoucherList",
-		new: true,
-		params: {type: currentVoucherType, last_vid: last_id[currentVoucherType]}
-	},
-	{
-		onload: function(responseText) {
-			var res = JSON.parse(responseText);
-			var arr = res.data || [];
-			if($.voucher_scrollview.vouchertype == "ins_voucher") {
-				ins_voucher(arr);
-			}else {
-				gift_voucher(arr);
-			}
-			loading.finish();
-		},onerror: function(err) {
-			_.isString(err.message) && alert(err.message);
-			loading.finish();
-		},onexception: function() {
-			COMMON.closeWindow($.win);
-			loading.finish();
-		}
-	});
-}
-
 function login_cancel(e) {
 	console.log("asdf");
     $.scrollview.scrollToView(0);
 }
-
 Ti.App.addEventListener('login_cancel:reward', login_cancel);
 $.btnBack.addEventListener('click', function(){ 
 	COMMON.closeWindow($.win);
@@ -997,6 +961,7 @@ $.btnBack.addEventListener('click', function(){
 
 $.win.addEventListener("close", function(){
 	impression(add_impression);
+	add_impression = undefined;
 	Ti.App.removeEventListener('reward:refresh', refresh);
 	Ti.App.removeEventListener('login_cancel:reward',login_cancel);
 });
