@@ -41,7 +41,7 @@ var pointDescList = "http://"+API_DOMAIN+"/api/pointDescList?user="+USER+"&key="
 //API that call in sequence 
 var APILoadingList = [
 //	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
-	{url: "getCategoryList", type: "api_model", model: "category", checkId: "5"}
+	{url: "getCategoryList", type: "cache_json", name:"category_list", model: "category", checkId: "5"}
 ];
 /*
 >>>>>>> origin/master
@@ -374,11 +374,8 @@ exports.loadAPIBySequence = function (e){ //counter,
 			if(api['type'] == "api_function"){
 				eval("_.isFunction("+api['method']+") && "+api['method']+"(responseText)");
 			}else if(api['type'] == "cache_json"){
-				var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, api['name']+'.txt');
-				if (f.exists() === false) {
-					// you don't need to do this, but you could...
-					f.createFile();
-				}
+				var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory, api['name']+'.txt');
+				
 				f.write(responseText);
 			}else if(api['type'] == "api_model"){
 				var res = JSON.parse(responseText);
