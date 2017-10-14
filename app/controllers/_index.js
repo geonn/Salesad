@@ -90,7 +90,7 @@ function filterByFavorite(e){
 
 function popCategory(e){
 	$.manage_btn.hide();
-	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'category_list.txt');
+	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory, 'category_list.txt');
 	var contents = f.read();
 	var res = JSON.parse(contents);
 	var category = res.data;
@@ -167,13 +167,15 @@ $.feature_banner.addEventListener("dragend", function(e){
 });
 
 $.container.addEventListener("scroll", function(e){
-	console.log(e.x+" "+e.y+" "+menu_top);
+	//console.log(e.x+" "+Math.ceil(pixelToDp(e.y))+" "+menu_top);
 	if(e.x > 0){
 		return;
 	}
-	if(e.y <= menu_top){
+	var y = (OS_IOS)?e.y:Math.ceil(pixelToDp(e.y));
+	if(y <= menu_top){
 		//$.menu.top = menu_top - e.y;
-		$.menu.animate({top: menu_top - e.y, duration: 0});
+		console.log(menu_top - y);
+		$.menu.animate({top: menu_top - y, duration: 0});
 	}else{
 		$.menu.animate({top: 0, duration: 0});
 	}
