@@ -6,7 +6,7 @@ Ti.App.Properties.setString('current_post_id', args.a_id);
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
 var ads, items;
-
+var clickTime, date,from;
 function init(){
 	$.win.add(loading.getView());
 	var params = {

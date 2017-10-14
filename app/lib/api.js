@@ -40,8 +40,8 @@ var updateUserVoucher = "http://"+API_DOMAIN+"/api/updateUserVoucher";
 var pointDescList = "http://"+API_DOMAIN+"/api/pointDescList?user="+USER+"&key="+KEY;
 //API that call in sequence 
 var APILoadingList = [
-//	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"},
-	{url: "getCategoryList", type: "api_model", model: "category", checkId: "5"}
+//	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"}, 
+	{url: "getCategoryList", type: "cache_json", name: "category_list",  model: "category", checkId: "5"}
 ];
 /*
 >>>>>>> origin/master
