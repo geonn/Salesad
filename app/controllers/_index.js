@@ -164,7 +164,10 @@ function refresh(e){
 		console.log(ad_list.length);
 		if(ad_list.length <= 0){
 			console.log(typeof e.onEmpty);
-			e.onEmpty();
+			if(typeof e.onEmpty != 'undefined'){
+				e.onEmpty();
+			}
+			
 		}
 		console.log('ending');
 	}});
