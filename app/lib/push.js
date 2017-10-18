@@ -22,7 +22,7 @@ function receivePush(e) {
 	}else if(res_param.v_id == "" ){
 		Ti.App.fireEvent('app:goToAds', {v_id: res_param.v_id, isFeed : 1, target: target });
 	}
- 
+	Ti.App.fireEvent('refresh_notification');
 	return false;
 }
 

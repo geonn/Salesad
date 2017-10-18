@@ -190,9 +190,12 @@ function postLayoutForWindow(){
 }
 $.win.addEventListener("postlayout", postLayoutForWindow);
 $.win.addEventListener("close", function(){
+	Ti.App.removeEventListener("refresh_notification", refresh_notification);
 	Ti.App.removeEventListener("updateNotificationNumber", updateNotificationNumber);
 	Ti.App.removeEventListener("homeQR", homeQR);
 });
+
+Ti.App.addEventListener("refresh_notification", refresh_notification);
 Ti.App.addEventListener("updateNotificationNumber", updateNotificationNumber);
 Ti.App.addEventListener("homeQR", homeQR);
 
