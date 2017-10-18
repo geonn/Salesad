@@ -1,5 +1,5 @@
 <Alloy>
-	<Window title="SIGN UP" class="container" backButtonTitle="" id="signin_out" navTintColor="#ED1C24">
+	<Window title="Sign Up" class="container" backButtonTitle="" id="signin_out" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View left="0">
 	         	<Button left='0' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
@@ -12,7 +12,7 @@
 				</View>
 				<View class="vert wfill hsize padding" top="0">
 					<Label class="wsize hsize bold" bottom="20" color="#fff" textAlign="center" text="Sign up now for more great features!"></Label>
-					<Label class="wsize hsize" bottom="5" color="#fff" textAlign="center" text="Save vouchers, earn reward points, post your own SalesXpress ads for free, and much more!"></Label>
+					<Label class="wsize hsize" bottom="5" color="#fff" textAlign="center" text="Save vouchers, earn reward points and much more!"></Label>
 				</View>
 					<Button width="90%" onClick="register" top="5" bottom="5" height="40" borderRadius="3" backgroundColor="#fff" color="#807C7C" title="Sign Up"></Button>
 				<View class="vert wfill hsize padding">

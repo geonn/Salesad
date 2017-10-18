@@ -2,12 +2,12 @@ var args = arguments[0] || {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var htr_turn = true;
 var tc_turn = true;
-var checkingLimit = true;
+var checkingLimit = false;
 var checkingForSave = true; 
 var checkingClaimLimit = true;
-var v_id = args.record.v_id;
+var v_id = args.v_id;
 //var voucher = Alloy.createCollection("voucher");
-var data = args.record; //voucher.getDataById(v_id);
+var data = args; //voucher.getDataById(v_id);
 var left = data.left;
 var user_point = [];
 var current_point = "";
@@ -155,6 +155,7 @@ if(data.point==0 || data.point==null){
 function userCurrentPoint(){
 	var model = Alloy.createCollection("points");
 	user_point = model.getData({u_id: u_id});
+	console.log(user_point);
 	current_point = user_point[user_point.length - 1].balance;
 }
 
@@ -168,13 +169,12 @@ function createWhoops(t,e){
 };
 
 function checkVoucherStatus(){
-	var model = Alloy.createCollection("MyVoucher");
-	var voucherStatus = model.getCountByVid(v_id);
-	var limit = args.record.count;
-	if(limit>=1){
-		checkingLimit = false;
-	}
-	checkingVoucher();
+	API.callByPost({url:"checkHasValidVoucher",new:true,params:{u_id: u_id,v_id: v_id}},{onload:function(res){
+		var r = JSON.parse(res);
+		checkingLimit = r.data;
+		console.log(checkingLimit+" checkingLimit");
+		checkingVoucher();
+	},onerror:function(err){}});
 }
 
 function checkVoucherLimit(){
@@ -199,8 +199,7 @@ function set_data(){
 		//$.leftV.setText(left);
 	//}
 	//$.point.setText(data.point);
-	$.valid_from.setText(dateUseFrom);
-	$.valid_to.setText(dateUseTo);
+	$.valid_date.text = "Valid from "+dateUseFrom+" to "+dateUseTo;
 	$.desc.setText(data.description);
 	//$.saved.setText((data.quantity==null)?"0":data.quantity);
 	var tc = $.UI.create("Label",{
@@ -460,7 +459,7 @@ function tc_extend(){
 }
 
 function checkingVoucher(){
-	if(!checkingLimit){
+	if(checkingLimit){
 		$.save.setTitle("Voucher Saved");   //check voucher limit
 		$.save.setBackgroundColor("#a6a6a6");
 		$.save.setEnabled(false);
@@ -490,7 +489,6 @@ function init(){
 	set_data();
 	userCurrentPoint();
 	checkVoucherStatus();
-	checkVoucherLimit();
 	render_banner();
 	addAdsClick();
 }

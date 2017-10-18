@@ -36,8 +36,9 @@ if (Ti.Geolocation.locationServicesEnabled) {
     Ti.Geolocation.addEventListener('location', saveCurLoc);
 } 
 
-var skip = 0;
+var skip = 1;
 function centerMap(){
+	console.log("centerMap");
 	if(skip <= 0){
 		skip++;
 		return;
@@ -53,15 +54,7 @@ function centerMap(){
 			var data = res.data;
 			var annotations = [];
 			console.log(data);
-			for (var i=0; i < data.length; i++) {
-				var found = _.where(annotations, {id: data[i].id});
-				console.log(typeof found+" typeof found");
-				console.log(found.length);
-				if(found.length <= 0){
-					annotations.push({id: data[i].id, latitude: data[i].latitude, longitude: data[i].longitude, icon: "images/icons/pin_"+data[i].store_type+".png", title: data[i].name, subtitle: data[i].address, img_path: data[i].img_path, rating: data[i].rating, voucher: data[i].voucher});
-				}
-			};
-		render_map(annotations);
+			render_map(data);
 		}
 	});
 }
@@ -97,59 +90,31 @@ function getMapBounds(region) {
 
 function render_map(adsList){
 	$.mapview.removeAllAnnotations();
-	if(showCurLoc == true){	
-	 	var ML=[];
-		
-		   //test
-		adsList.forEach(function(entry) {
-		    var longitude1=parseFloat(entry.longitude);
-		    var latitude1=parseFloat(entry.latitude);   
-		    if(isNaN(longitude1)||isNaN(latitude1)){
-		     entry.longitude="";
-		     entry.latitude="";
-		    }
-		    ML.push({id:entry.a_id,longitude:entry.longitude,latitude:entry.latitude,name:entry.ads_name,subtitle:entry.ads_name,myid:entry.store_INFO,type:2,a_from:entry.sales_from,a_to:entry.sales_to});
-		});	
-	 	ML.forEach(function(entry) {
-			var detBtn =Ti.UI.createButton({
-			    backgroundImage: '/images/btn-forward.png',
-			    color: "red",
-			    height: 20,
-				width: 20,
-				a_id: entry.id,
-				bet_date: datedescription(entry.a_from,entry.a_to),
-				name: entry.name,
-				type: entry.type,
-				record:entry.record
-			});
-			detBtn.addEventListener('click', function(ex){ 
-				if(ex.source.type==2){
-					var win = Alloy.createController("ad", {a_id: ex.source.a_id,name: ex.source.name,date: ex.source.bet_date}).getView(); 
-					COMMON.openWindow(win,{animated:true});					
-				} 
-				if(ex.source.type==1){
-					COMMON.openWindow(Alloy.createController("express_detail", ex.source.record).getView()); 					
-				}
-				return true;
-			});       
-			var merchantLoc = Alloy.Globals.Map.createAnnotation({
-			    latitude:entry.latitude,
-			    longitude:entry.longitude,
-			    title: entry.name,
-			    image: '/images/sales-ad-loc_small.png',
-			    animate : true, 
-			    subtitle: entry.subtitle,
-			    pincolor: Alloy.Globals.Map.ANNOTATION_RED,
-			    rightView: detBtn,
-			    myid: entry.id,// Custom property to uniquely identify this annotation.
-			    type: entry.type,
-			    record: entry.record
-			}); 
-			if(entry.latitude != "" &&entry.longitude !=""){
-				$.mapview.addAnnotation(merchantLoc); 
-			}			
+	for (var i=0; i < adsList.length; i++) {
+		var ad_arrow = $.UI.create("Button", {
+		    backgroundImage: '/images/btn-forward.png',
+		    height: 20,
+			width: 20,
+			record: adsList[i]
 		});
-	} 
+		ad_arrow.addEventListener('click', function(ex){
+			var record = ex.source.record;
+			console.log(record);
+			var win = Alloy.createController("ad", {a_id: record.a_id, name: record.name, m_id: record.m_id}).getView(); 
+			COMMON.openWindow(win,{animated:true});		
+		});
+		var merchantLoc = Alloy.Globals.Map.createAnnotation({
+		    latitude: adsList[i].latitude,
+		    longitude: adsList[i].longitude,
+		    title: adsList[i].name,
+		    subtitle: adsList[i].merchant_name,
+		    rightView: ad_arrow,
+		    image: '/images/sales-ad-loc_small.png'
+		});
+		if(adsList[i].latitude!="" || adsList[i].longitude!=""){            
+			$.mapview.addAnnotation(merchantLoc); 
+		}	
+	};
 }
 
 $.mapview.addEventListener('click', function(evt) {

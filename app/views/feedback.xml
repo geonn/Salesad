@@ -23,7 +23,7 @@
 	    	<TextField backgroundColor="white" class="textfield" id="mobile" hintText="Mobile No." />
 	    	<TextField backgroundColor="white" required="true" class="textfield" id="subject" hintText="Subject" />	
 	    	<TextArea backgroundColor="white" id="comment" onFocus="clearHintText" onBlur="setHintText" required="true" _hintText="Feedback" height="60" value="Feedback"></TextArea>
-	    	<Button class="button" onClick="submit" left="10" right="10" title="Enquiry"></Button>
+	    	<Button class="button" onClick="submit" left="10" right="10" title="Send"></Button>
 	 	</View>
 	</Window>
 </Alloy>

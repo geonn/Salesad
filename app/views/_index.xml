@@ -1,10 +1,13 @@
 <Alloy>
 	<Window id="win" title="" navBarHidden="true" fullscreen="true">
 		<View class='wfill hsize' top="0" zIndex="10" backgroundColor="#000000">
-			<TextField height="40" class="wfill" top="5" bottom="5" left="5" right="130" id="keyword" backgroundColor="#ffffff" color="#000000" hintText="Search SalesAd" onReturn="filterByKeyword">Search SalesAd</TextField>
-			<ImageView width="30" class="hsize" right="90" top="10" onClick="filterByKeyword" image="/images/icons/SalesAd_All Icon_5-45.png"></ImageView>
-			<ImageView width="30" class="hsize" right="50" top="10"  image="/images/icons/SalesAd_All Icon_5-46.png"></ImageView>
-			<ImageView width="30" class="hsize" right="10" top="10" onClick="navTo" target="more" image="/images/icons/SalesAd_All Icon_5-60.png"></ImageView>
+			<TextField height="40" class="wfill" top="10" bottom="10" left="15" right="100" id="keyword" backgroundColor="#ffffff" color="#000000" hintText="Search SalesAd" onReturn="filterByKeyword">Search SalesAd</TextField>
+			<ImageView width="25" class="hsize" right="110" top="17" onClick="filterByKeyword" image="/images/icons/SalesAd_All Icon_5-45.png"></ImageView>
+			<ImageView width="25" onClick="navTo" target="notification" class="hsize" right="50" top="17"  image="/images/icons/SalesAd_All Icon_5-46.png"></ImageView>
+			<View class="wsize hsize" onClick="navTo" target="notification" right="45" top="10" backgroundColor="#ED1C24" borderRadius="10" zIndex="10">
+				<Label touchEnabled="false" class="wsize hsize h7 small-padding" color="#ffffff" id="notification_unread">0</Label>
+			</View>
+			<ImageView width="25" class="hsize" right="10" top="17" onClick="navTo" target="more" image="/images/icons/SalesAd_All Icon_5-60.png"></ImageView>
 		</View>
 		<View class="wfill hsize" backgroundColor="#000000" id="menu" top="0" zIndex="10">
 			<View class='wsize hsize horz' top="10" bottom="10">
@@ -16,7 +19,8 @@
 			</View>
 		</View>
 		<ScrollView class="wfill hfill contwfill conthsize vert" scrollType="vertical" top="50" backgroundColor="#000000" id="container">
-			<ScrollView class="contwsize conthsize wfill horz" disableBounce="true" height="240" scrollType="horizontal" backgroundColor="#000000" id="feature_banner">
+			<ScrollView class="wfill horz hsize" contentHeight="Ti.UI.FILL" contentWidth="Ti.UI.SIZE" layout="horizontal" disableBounce="true" horizontalWrap="false" showHorizontalScrollIndicator="true" scrollType="horizontal" backgroundColor="#000000" id="feature_banner">
+				
 			</ScrollView>
 			<View class="wfill hsize vert" backgroundColor="#f6f6f6">
 				<View class="wfill hsize" id="title">

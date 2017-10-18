@@ -35,20 +35,20 @@
             		</HeaderView>
 		 			
 		 			<TableViewRow height="50" target="profile">
-		 				<Label left="10" class="wsize hsize">My Profile</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 				<Label left="10" touchEnabled="false" class="wsize hsize">My Profile</Label>
+		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="feedback">
-		 				<Label left="10" class="wsize hsize">Feedback & Support</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 				<Label touchEnabled="false" left="10" class="wsize hsize">Feedback & Support</Label>
+		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="webview" web_title="FAQ" url="http://salesad.my/FAQ">
-		 				<Label left="10" class="wsize hsize">FAQ</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 				<Label touchEnabled="false" left="10" class="wsize hsize">FAQ</Label>
+		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="pushNotificationSettings">
-		 				<Label left="10" class="wsize hsize">Push Notifications</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 				<Label touchEnabled="false" left="10" class="wsize hsize">Push Notifications</Label>
+		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 		<TableViewSection>
@@ -59,16 +59,16 @@
                 		<View backgroundColor="#fff" height="20"/>
             		</HeaderView>
 		 			<TableViewRow height="50" target="about">
-		 				<Label left="10" class="wsize hsize">About</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 				<Label touchEnabled="false" left="10" class="wsize hsize">About</Label>
+		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="" id="invitefriend">
-		 				<Label left="10" class="wsize hsize">Invite Friend</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 				<Label touchEnabled="false" left="10" class="wsize hsize">Invite Friend</Label>
+		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="webview" web_title="Advertise in SalesAd" url="http://salesad.my/advertise">
-		 				<Label left="10" class="wsize hsize">Advertise in SalesAd</Label>
-		 				<ImageView image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
+		 				<Label touchEnabled="false" left="10" class="wsize hsize">Advertise in SalesAd</Label>
+		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 		<TableViewSection>
@@ -79,11 +79,11 @@
                 		<View backgroundColor="#fff" height="20"/>
             		</HeaderView>
 		 			<TableViewRow height="50" target="">
-		 				<Label left="10" class="wsize hsize">Version</Label>
-		 				<Label right="10" class="wsize hsize">1.1.0</Label>
+		 				<Label touchEnabled="false" left="10" class="wsize hsize">Version</Label>
+		 				<Label touchEnabled="false" right="10" class="wsize hsize">1.1.0</Label>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
-		 				<Label class="wfill hsize padding h6" textAlign="center">© Copyright 2017 SalesAd by Freejini Sdn Bhd (10141416-M). All Rights Reserved.</Label>
+		 				<Label touchEnabled="false" class="wfill hsize padding h6" textAlign="center">© Copyright 2017 SalesAd by Freejini Sdn Bhd (10141416-M). All Rights Reserved.</Label>
 		 			</TableViewRow>
 		 		</TableViewSection>
 		 	</TableView>

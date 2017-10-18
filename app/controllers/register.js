@@ -136,7 +136,7 @@ var goSignUp = function(){
 		         	/**load new set of category from API**/
 			       	
 			       	
-					common.createAlert('Successfully register', "Thank you sign up with Salesad. Please login to continue.");
+					common.createAlert('Account Registered', "Thank you for signing up with SalesAd. Please sign in to continue.");
 					Ti.App.fireEvent("login:close");
 					closeWindow();
 					isSubmit = 0;

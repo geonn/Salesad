@@ -2,6 +2,7 @@ var args = arguments[0] || {};
 var pwidth = (OS_ANDROID)?pixelToDp(Titanium.Platform.displayCaps.platformWidth):Titanium.Platform.displayCaps.platformWidth;
 // 0 220
 var category_id;
+var banner_width = Math.ceil(pwidth * 70 / 100);
 
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
@@ -12,10 +13,13 @@ function render_banner(e){
 		$.feature_banner.height = 0;
 		return;
 	}
+	console.log(e.data);
+	$.feature_banner.removeAllChildren();
 	for (var i=0; i < e.data.length; i++) {
-		var view = $.UI.create("View", {classes:['hsize','rounded','padding'], bottom: 30, width: 200, right:0, left:10});
+		console.log(banner_width+" banner_width");
+		var view = $.UI.create("View", {classes:['rounded','padding'], bottom: 30, width: banner_width, height: banner_width, right:0, left:10});
 		
-		var img_banner = $.UI.create("ImageView", {classes:['wfill','hsize'], width: 200, height: 200, image: e.data[i].img_path, target: "ad", record: e.data[i]});
+		var img_banner = $.UI.create("ImageView", {classes:['wfill','hsize'], width: banner_width, height: banner_width, image: e.data[i].img_path, target: "ad", record: e.data[i]});
 		var label_name = $.UI.create("Label", {classes:['wfill','hsize','h6','small-padding'], maxLines:2, bottom:"0", color: "#fff", text: e.data[i].name});
 		var view_label = $.UI.create("View", {classes:['wfill','hsize'], bottom:0, backgroundColor: "#80000000"});
 		view_label.add(label_name);
@@ -24,7 +28,7 @@ function render_banner(e){
 		//view.add(view_label);
 		$.feature_banner.add(view);
 	};
-	$.feature_banner.add($.UI.create("View", {width: 210, height: 210}));
+	$.feature_banner.add($.UI.create("View", {width: banner_width, height: banner_width}));
 }
 
 function navTo(e){
@@ -50,6 +54,7 @@ function render_latest_ad(e){
 
 function filterByKeyword(e){
 	var value = $.keyword.value;
+	$.keyword.blur();
 	if(value == "Search SalesAd"){
 		return;
 	}
@@ -115,6 +120,32 @@ function popCategory(e){
 	});
 }
 
+function refresh_notification(){
+	var u_id = Ti.App.Properties.getString('u_id') || "";
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("13");
+	API.callByPost({
+		url: "getNotificationByUser",
+		new: true,
+		params: {u_id: u_id, last_updated: isUpdate.updated},
+	},{onload: function(responseText){
+		var model = Alloy.createCollection('notification');
+		var res = JSON.parse(responseText);
+		model.saveArray(res.data);
+		checker.updateModule(13, "getNotificationByUser", res.last_updated);
+		console.log("success call api");
+		updateNotificationNumber();
+	}});
+}
+
+function updateNotificationNumber(){
+	console.log("updateNotificationNumber");
+	var model = Alloy.createCollection('notification');
+	var total = model.getCountUnread();
+	console.log(total+"total here");
+	$.notification_unread.text = total;
+}
+
 function refresh(e){
 	API.callByPost({
 		url: e.url,
@@ -141,6 +172,8 @@ function refresh(e){
 
 function init(){
 	$.manage_btn.hide();
+	$.feature_banner.height = banner_width + 40;
+	refresh_notification();
 	refresh({url: "getLatestAdList"});
 }
 
@@ -148,19 +181,24 @@ init();
 var menu_top = 0;
 
 function postLayoutForWindow(){
-	menu_top = $.feature_banner.rect.height + 30;
+	menu_top = banner_width + 60;
 	$.menu.top = menu_top;
 	$.win.removeEventListener("postlayout", postLayoutForWindow);
 }
 $.win.addEventListener("postlayout", postLayoutForWindow);
-
+$.win.addEventListener("close", function(){
+	Ti.App.removeEventListener("updateNotificationNumber", updateNotificationNumber);
+	Ti.App.removeEventListener("homeQR", homeQR);
+});
+Ti.App.addEventListener("updateNotificationNumber", updateNotificationNumber);
 Ti.App.addEventListener("homeQR", homeQR);
 
 $.feature_banner.addEventListener("dragend", function(e){
-	var x = this.contentOffset.x;
-	var index = Math.floor((105+x)/210);
+	var x = (OS_IOS)?this.contentOffset.x:pixelToDp(this.contentOffset.x);
+	var index = Math.floor((((banner_width+10)/2)+x)/(banner_width+10));
+	console.log((((banner_width+10)/2)+x)+" "+banner_width+10);
 	console.log(index+" index");
-	$.feature_banner.scrollTo((index*210),0);
+	$.feature_banner.scrollTo((index*(banner_width+10)),0);
 });
 
 $.container.addEventListener("scroll", function(e){
@@ -202,7 +240,7 @@ function QrScan(){
 function nearMe(){
 	var win = Alloy.createController("nearby").getView();
 	if(OS_ANDROID) {
-		var hasLocationPermissions = Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_ALWAYS);
+		var hasLocationPermissions = Ti.Geolocation.hasLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE);
 	    if (hasLocationPermissions) {
 			if (Ti.Geolocation.locationServicesEnabled) {
 				COMMON.openWindow(win);

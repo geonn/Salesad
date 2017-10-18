@@ -562,9 +562,12 @@ function gift_voucher(vdata) {
 
 function filterByOngoing(arr){
 	var now = new Date();
+	now.setHours(8,0,0,0);
 	var arr_return = [];
 	for (var i=0; i < arr.length; i++) {
 		var use_to = new Date(arr[i].use_to);
+		console.log(use_to.toString());
+		console.log(now.toString());
 		console.log(use_to.getTime()+" "+now.getTime());
 		if(use_to.getTime() >= now.getTime()){
 			arr_return.push(arr[i]);
@@ -575,6 +578,7 @@ function filterByOngoing(arr){
 
 function filterByExpired(arr){
 	var now = new Date();
+	now.setHours(8,0,0,0);
 	var arr_return = [];
 	for (var i=0; i < arr.length; i++) {
 		var use_to = new Date(arr[i].use_to);
@@ -790,7 +794,7 @@ function toVoucher(e) {
 		var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 		COMMON.openWindow(win);
 	}else {
-		COMMON.openWindow(Alloy.createController("voucher_detail",{use: e.source.use, record: e.source.record}).getView());
+		COMMON.openWindow(Alloy.createController("voucher_detail", e.source.record).getView());
 	}
 }
 

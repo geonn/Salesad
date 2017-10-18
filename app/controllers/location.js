@@ -1,52 +1,32 @@
 var args = arguments[0] || {};
-var m_id = args.m_id;
-if(typeof m_id== "undefined"){
-	setTimeout(function(){
-		COMMON.closeWindow($.location);			
-		alert("No merchants id found");		
-	},1000);
-}
-else{
-var a_id = args.a_id; 
-var showAll = args.showAll || true;
+var branches = args.branches || [];
 var showCurLoc = false;
 var longitude = [];
 var latitude  = [];
 var name      = [];
-var l_id      = [];
-var mer_loc   = [];
 var branch	= [];
-//load model
-var a_library = Alloy.createCollection('ads'); 
-var m_library = Alloy.createCollection('merchants');
-var ads = a_library.getAdsById(a_id);
-var id_sql = (typeof ads == "undefined" || ads.branch == "")?m_id:ads.branch;
-var all_branches = m_library.getBranchesById(id_sql);
-var merchants;
-merchants = m_library.getMerchantsById(m_id);
-COMMON.closeWindow($.location);
 //load merchant & branches list 
 function init(){
+	console.log("init");
 	m_id = (typeof args.target_m_id != "undefined")?args.target_m_id:0;
-	render_marker();
+	//render_marker();
 	var lat = Ti.App.Properties.getString('latitude');
     var lot = Ti.App.Properties.getString('longitude');
-	if(all_branches.length > 0){
-		for(var k=0; k < all_branches.length; k++){
-			var dist = countDistanceByKM(all_branches[k].latitude, all_branches[k].longitude, lat, lot);
+	if(branches.length > 0){
+		for(var k=0; k < branches.length; k++){
+			var dist = countDistanceByKM(branches[k].latitude, branches[k].longitude, lat, lot);
 			var dist = 10;
 			var obj = {
 				dist: dist,
 				dist_text: (dist>1)? Math.round(dist)+"km":Math.round(dist*1000)+"m",
-				m_id: all_branches[k].m_id,
-				name: all_branches[k].merchant_name,
-				longitude: all_branches[k].longitude,
-				latitude: all_branches[k].latitude,
-				address: all_branches[k].address,
-				mobile: all_branches[k].mobile,
-				mer_loc: all_branches[k].area + ", "+all_branches[k].state_name
+				m_id: branches[k].m_id,
+				name: branches[k].name,
+				longitude: branches[k].longitude,
+				latitude: branches[k].latitude,
+				address: branches[k].address,
+				mobile: branches[k].mobile
 			};
-			if(all_branches[k].longitude!="" || all_branches[k].latitude!=""){
+			if(branches[k].longitude!="" || branches[k].latitude!=""){
 				branch.push(obj);			
 			}
 		}
@@ -56,6 +36,7 @@ function init(){
 }
 
 function render_also_available(data){
+	console.log("render_also_available");
 	var dat = [];
 	for (var i=0; i < data.length; i++) {
 		dat.push({ 
@@ -87,20 +68,18 @@ function setCustomTitle(title){
 	if(Ti.Platform.osname == "android"){ 
 		$.pageTitle.text = title;   
 	}else{
-		$.location.titleControl = custom; 
+		$.location.title = title; 
 	} 
 }
 
 var saveCurLoc = function(e) {
+	console.log("saveCurLoc");
     if (e.error) {
+    	
     } else {
-    	if(merchants.longitude == "" || merchants.latitude == ""){
-    	alert("No location found");
-		}else{
     	showCurLoc = true;	
     	init();
       	render_map();
-      }
       	Ti.App.Properties.setString('latitude', e.coords.latitude);
     	Ti.App.Properties.setString('longitude', e.coords.longitude);
        	Ti.Geolocation.removeEventListener('location',saveCurLoc );
@@ -132,7 +111,7 @@ function render_map(){
 			    latitude:branch[i].latitude,
 			    longitude:branch[i].longitude,
 			    title: branch[i].name,
-			    subtitle: branch[i].mer_loc+" "+branch[i].dist_text,
+			    subtitle: branch[i].address+" "+branch[i].dist_text,
 			    rightView: ad_arrow,
 			    image: '/images/sales-ad-loc_small.png',
 			    myid:i // Custom property to uniquely identify this annotation.
@@ -277,4 +256,3 @@ $.location.addEventListener("close", function(){
 $.location.addEventListener('android:back', function (e) {
  COMMON.closeWindow($.location); 
 });
-}

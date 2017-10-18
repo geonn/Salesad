@@ -58,7 +58,7 @@ function render_page(){
 }
 
 function navTo(e){
-	var target = parent({name: "target"}, e.source);
+	var target = e.source.target;
 	if(target == "profile"){
 		var user = Ti.App.Properties.getString('session');
 		if(user === null){

@@ -61,10 +61,7 @@
 			 		<View class="wfill hsize" id="info"></View>
 			 		<View class="hr1" top="5"></View>
 			 			<View class="wfill hsize horz">
-				 			<Label class="wsize hsize h5 padding" left="25" text="Valid from"></Label>
-				 			<Label class="wsize hsize h5 bold padding" left="0" id="valid_from"></Label>
-				 			<Label class="wsize hsize h5 padding" left="0" text="to"></Label>
-				 			<Label class="wsize hsize h5 bold padding" left="0" id="valid_to"></Label>
+			 				<Label class="wsize hsize h5 padding" id="valid_date"></Label>
 			 			</View>
 			 		<View class="hr1"></View>
 			 		<Label class="wsize hsize h5 padding" left="25" id="desc" text="(Voucher Description)"></Label>

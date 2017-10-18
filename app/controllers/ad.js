@@ -1,11 +1,9 @@
 var args = arguments[0] || {};
-var m_id = args.m_id;
 var a_id = args.a_id;
-var name = args.name;
 Ti.App.Properties.setString('current_post_id', args.a_id);
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
-var ads, items;
+var ads, items, branches;
 
 function init(){
 	$.win.add(loading.getView());
@@ -17,12 +15,11 @@ function init(){
 	};
 	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
 	refresh();
-	getScanMerchant();
 }
 init();
 
 function getScanMerchant(){
-	var expire = Ti.App.Properties.getString('sales'+args.m_id) || "";
+	var expire = Ti.App.Properties.getString('sales'+ads.m_id) || "";
 	if(expire != ""){
 		var currentDate = new Date();
 		var dat = expire.split(" ");
@@ -55,7 +52,9 @@ function refresh(e){
 			var res = JSON.parse(responseText);
 			ads = res.data;
 			items = res.data.item;
+			branches = res.data.branch_details || [];
 			render_banner();
+			getScanMerchant();
 		}
 	});
 }
@@ -188,6 +187,7 @@ var getAdDetails = function(){
 				height: "auto",
 			});
 			itemImageView.add(adImage);
+			itemImageView.addEventListener("click", OpenItemImageView);
 			//itemImageView.add(BARCODE.generateBarcode("686068606860"));
 			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].i_id,items[i].description, items[i].isExclusive);
 			cell.add(itemImageView);
@@ -206,8 +206,8 @@ var getAdDetails = function(){
 	
 	var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
 	var details_text = $.UI.create("View", {classes:['vert', 'wfill', 'hsize', 'padding']});
-	var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text : name});
-	var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], top: 0, text : ads.sales_from+" - "+ads.sales_to});
+	var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text : ads.name});
+	var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], top: 0, text : ads.sales_from+" till "+ads.sales_to});
 	var hr = $.UI.create("View", {classes:['hr'], backgroundColor: "#000"});
 	var desc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding'], text :ads.description});
 	var tnc = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text: "Terms and Conditions"});
@@ -258,6 +258,26 @@ function zoom(e){
  	$.win.add(container);
 }
 
+function OpenItemImageView(ex){
+	var currentTime = new Date();
+    if (currentTime - clickTime < 1000) {
+        return;
+    };
+    clickTime = currentTime;
+    if(u_id == "") {
+		var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
+		COMMON.openWindow(win);
+	}else {
+		var page = Alloy.createController("itemDetails",{m_id: ads.m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
+	  	page.open();
+	  	page.animate({
+			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
+			opacity: 1,
+			duration: 300
+		});
+	}
+}
+
 //dynamic addEventListener for adImage
 function createAdImageEvent(adImage,a_id,position, title, i_id,description, isExclusive) {
     adImage.addEventListener('click', function(e) {
@@ -271,7 +291,7 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
 			var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 			COMMON.openWindow(win);
 		}else {
-			var page = Alloy.createController("itemDetails",{m_id: args.target_m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
+			var page = Alloy.createController("itemDetails",{m_id: ads.m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
 		  	page.open();
 		  	page.animate({
 				curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -288,12 +308,12 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
 //open location
 $.location.addEventListener('click', function(e){ 
 	if(Ti.Geolocation.locationServicesEnabled){
-		COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());
+		COMMON.openWindow(Alloy.createController("location",{branches: branches}).getView());
 	}
 	else{
 	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
 			if(e.success){
-				COMMON.openWindow(Alloy.createController("location",{target_m_id: args.target_m_id, m_id: m_id, a_id:a_id}).getView());				
+				COMMON.openWindow(Alloy.createController("location",{target_m_id: ads.m_id, branches: branches}).getView());				
 			}
 			else{
 	        	alert("You denied permission.");
@@ -342,8 +362,8 @@ function saveFavorite(){
 			var favorite = Alloy.createModel('favorites', {
 				    m_id   : m_id,
 				    u_id	 : u_id,
-				    merchant_name: args.marchant_name,
-				    marchant_thumb: args.marchant_thumb,
+				    merchant_name: ads.marchant_name,
+				    marchant_thumb: ads.marchant_thumb,
 				    position : 0
 				});
 			favorite.save();
@@ -415,7 +435,7 @@ function popReport() {
 		}else if(e.index == 3) {
 			var ViewAlert = $.UI.create("View", {classes:['vert', 'hsize', 'wfill', 'padding', 'rounded', 'box'], zIndex: 60, backgroundColor: 'white'});
 			var LabelTitle = $.UI.create("Label", {classes:['hsize', 'wfill', 'padding'], bottom: 0, text: 'Confirmation\n\nAre you sure you want to report this Ad for the reason below?\n'});
-			var TextField = $.UI.create("TextField", {classes:['hsize', 'wfill', 'padding', 'textfield'], color: "#000", hintText: e.rowData.error_msg});
+			var TextField = $.UI.create("TextField", {classes:['wfill', 'padding', 'textfield'], height: 40, color: "#000", hintText: e.rowData.error_msg});
 			var viewbutton = $.UI.create("View", {classes:['wfill', 'hsize', 'padding'], top: 0});
 			var ButtonCancel = $.UI.create("Button", {classes:['hsize', 'wsize'], left: 0, title: 'Cancel'});
 			var ButtonYes = $.UI.create("Button", {classes:['wsize', 'hsize'], right: 0, title: 'Ok'});

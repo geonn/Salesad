@@ -1,12 +1,12 @@
 <Alloy>
-	<Window title="LOGIN" class="container" backButtonTitle="" id="login" navTintColor="#ED1C24">
+	<Window title="Sign In" class="container" backButtonTitle="" id="login" navTintColor="#ED1C24">
 		<LeftNavButton>
 	        <View left="0">
 	         	<Button left='0' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
         <View height="95%">
-			<View id="main" layout="vertical" height="auto">
+			<ScrollView id="main" class="wfill hfill conthsize contwfill" layout="vertical">
 				<View layout="vertical" id="loginScrollView" class="wfill hsize">
 					<View class="wfill hsize" top="15" bottom="5" >
 						<ImageView class="wfill" width='230' image="/SalesAd_Logo_v2_RoundCornerswShadow.png" id="loginLogo" />
@@ -21,21 +21,23 @@
 				<View class="wsize hsize" top="0" backgroundColor="#fff">
 					<Button class="wsize hsize" bottom="1" onClick="closeWindow" backgroundColor="#CC2228" color="#fff" title="Sign up now"></Button>
 				</View>
+				<View id="footer" class="hsize">
+					<View class="wsize hsize horz" left="5">
+						<Label class="ftText wsize" id="tou">Terms of Use</Label>
+						<Label class="ftText wsize" left="10" right="10">|</Label>
+						<Label class="ftText wsize" id="policy">Privacy Policy</Label>
+					</View>
+					<Label class="ftText" right="5" textAlign="right" >&#169; SalesAd 2017</Label>
+				</View>
 	           	<!--<View height="60" id="fbloginView" width="90%"></View>-->
 	            <!-- <Button id="createAccountButton" borderRadius="3" backgroundColor="#C0C0C0" onTouchend="goCreateAccount" title="Create an account" width="90%" top="10"  height="40" color="#000" /> -->
-			</View>
+			</ScrollView>
 			<View layout="vertical" id="loadingBar" height="0" width="120" borderRadius="15" top="0" opacity="0" backgroundColor="#2E2E2E" >
 		        <ActivityIndicator  id="activityIndicator" />
 		    	<Label top="5" text="Loading" color="#ffffff" />
 		    </View>
+		    
 		</View>
-		<View id="footer" class="hsize">
-			<View class="wsize hsize horz" left="5">
-				<Label class="ftText wsize" id="tou">Terms of Use</Label>
-				<Label class="ftText wsize" left="10" right="10">|</Label>
-				<Label class="ftText wsize" id="policy">Privacy Policy</Label>
-			</View>
-			<Label class="ftText" right="5" textAlign="right" >&#169; SalesAd 2017</Label>
-		</View>
+		
 	</Window>
 </Alloy>

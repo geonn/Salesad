@@ -21,14 +21,14 @@ $.win.addEventListener('android:back', function (e) {
 });
 
 $.policy.addEventListener('touchend', function(e){
-	var win = Alloy.createController("webview", {url: "http://salesad.my/privacyPolicy"}).getView();  
+	var win = Alloy.createController("webview", {url: "http://salesad.my/privacyPolicy", web_title: "Privacy & Policy"}).getView();  
 	COMMON.openWindow(win);
 });
 $.tou.addEventListener('touchend', function(e){
-	var win = Alloy.createController("webview", {url: "http://salesad.my/termsOfService"}).getView();  
+	var win = Alloy.createController("webview", {url: "http://salesad.my/termsOfService", web_title: "Terms of Service"}).getView();  
 	COMMON.openWindow(win);
 }); 
 $.pay.addEventListener('touchend', function(e){
-	var win = Alloy.createController("webview", {url: "http://salesad.my/paymentPolicy"}).getView();  
+	var win = Alloy.createController("webview", {url: "http://salesad.my/paymentPolicy", web_title: "Payment Policy"}).getView();  
 	COMMON.openWindow(win);
 });
