@@ -9,13 +9,20 @@ function receivePush(e) {
 	var target = (OS_IOS)?e.data.target:e.target;
 	
 	result = params.split("_"); 
-	
-	console.log(e);
-	if(result.length > 1){
-		Ti.App.fireEvent('app:goToAds', {m_id: result[0],a_id: result[1], isFeed : 1, target: target });
-	}else{ 
-		Ti.App.fireEvent('app:goToAds', {m_id: result[0], a_id: "", isFeed : 1, target: target});
+	params.replace('"', "");
+	params.replace("'", "");
+	params = '"'+params+'"'; 
+	var res_param = JSON.parse(params);
+	//console.log(res_param); 
+		
+	if(res_param.m_id != "" && res_param.a_id != "" ){ 
+		Ti.App.fireEvent('app:goToAds', {m_id:  res_param.m_id, a_id: res_param.a_id, isFeed : 1, target: target});
+	}else if(res_param.m_id != "" && res_param.a_id == "" ){
+		Ti.App.fireEvent('app:goToAds', {m_id: res_param.m_id,a_id: "" , isFeed : 1, target: target });
+	}else if(res_param.v_id == "" ){
+		Ti.App.fireEvent('app:goToAds', {v_id: res_param.v_id, isFeed : 1, target: target });
 	}
+ 
 	return false;
 }
 
