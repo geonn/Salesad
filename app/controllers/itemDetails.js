@@ -1,6 +1,5 @@
 var args = arguments[0] || {};
 var a_id = args.a_id;
-var from = args.from;
 var i_id = args.i_id || "";
 var position = args.position || 0;
 var isScan = args.isScan;
@@ -22,41 +21,14 @@ var fristDate = "";
 var secondDate = "";
 var endsDay = "";
 var transparentView;
-var i_library = Alloy.createCollection('items'); 
-var voucher = Alloy.createCollection('voucher');
-var items  = i_library.getItemByAds(a_id);
+var item  = args.item;//i_library.getItemByAds(a_id);
 
 function init() {
 	$.scrollableView.VI_id = [];
 	$.scrollableView.II_id = [];
 	$.scrollableView.allVoucherId = [];
 	$.scrollableView.allItemId = [];
-	
-	API.callByPost({
-		url:"getUserVoucherList",
-		new: true,
-		params: {u_id: u_id}
-	},{
-		onload:function(responseText){
-			var model = Alloy.createCollection("MyVoucher");
-			var res = JSON.parse(responseText);
-			var arr = res.data || null;
-			model.resetRecord();
-			model.saveArray(arr);
-			var params = {
-				item_id:i_id,
-				type: (args.isExclusive == 1) ? 4 : 3,
-				from:"itemDetails",
-				u_id:u_id
-			};
-			addAdsClick("init", params);
-			model = res = arr = params = undefined;
-		},onerror:function(err){
-			_.isString(err.message) && alert(err.message);
-		},onexception:function(){
-			COMMON.closeWindow($.win);
-		}
-	});
+	getAdsImages();
 }
 
 function addAdsClick(name, params) {
@@ -76,68 +48,50 @@ var getAdsImages = function() {
 	var selectedView;
 	var the_view = [];
 	var v_view;
+	console.log(item);
+	var itemImageView = $.UI.create("View", {classes:['wfill','hfill','vert']});
 	
-	for (var i=0; i< items.length; i++) {
-		if(items[i].isExclusive == 1) {
-			$.scrollableView.VI_id[i] = items[i].i_id;
-		}else {
-			$.scrollableView.II_id[i] = items[i].i_id;
-		}
-		var itemImageView = $.UI.create("View", {classes:['wfill','hfill','vert']});
-		
-		var adImage = $.UI.create('ImageView',{
-			classes:['wfill','hsize'],
-			image: items[i].img_path,
-			top: 0,
-			defaultImage: "/images/image_loader_640x640.png",
-		});
-		adImage.addEventListener("click",function(event1){
-			zoomImageView(event1.source.image);					
-		});
-		var label_description = $.UI.create("Label",{
-			classes:['wfill','hsize','h5','padding'],
-			text: items[i].description
-		});
-		
-		var scrollView = Ti.UI.createScrollView({
-			contentWidth: Ti.UI.FILL,
-		  	contentHeight: Ti.UI.SIZE,
-		   	maxZoomScale: 30,
-		    minZoomScale: 1,
-		    zoomScale: 1,
-		    scrollType: "vertical",
-			height: Ti.UI.FILL,
-			width: Ti.UI.FILL
-		});
-		
-		row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert'],backgroundColor:"#e8e8e8"});
-		itemImageView.add(adImage); 
-		itemImageView.add(label_description);
-		if(items[i].isExclusive == 1){
-			v_view = addVoucher(items[i]);
-			row.add(v_view);
-		}else{
-			row.add(itemImageView);
-		}
-		if(position == counter){
-			selectedView = row;
-		}
-		scrollView.add(row);
-		the_view.push(scrollView); 
-		
-		counter++;
-		
-		itemImageView = null;
-		adImage = null;
-		label_description = null;
-		scrollView = null;
-	}  
+	var adImage = $.UI.create('ImageView',{
+		classes:['wfill','hsize'],
+		image: item.img_path,
+		top: 0,
+		defaultImage: "/images/image_loader_640x640.png",
+	});
 	
-	$.scrollableView.setViews(the_view); 
-	setTimeout(function(){
-		$.scrollableView.scrollToView(position);  
-	},50);
+	adImage.addEventListener("click",function(event1){
+		zoomImageView(event1.source.image);					
+	});
 	
+	var label_description = $.UI.create("Label",{
+		classes:['wfill','hsize','h5','padding'],
+		text: item.description
+	});
+		
+	var scrollView = Ti.UI.createScrollView({
+		contentWidth: Ti.UI.FILL,
+	  	contentHeight: Ti.UI.SIZE,
+	   	maxZoomScale: 30,
+	    minZoomScale: 1,
+	    zoomScale: 1,
+	    scrollType: "vertical",
+		height: Ti.UI.FILL,
+		width: Ti.UI.FILL
+	});
+		
+	row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert'],backgroundColor:"#e8e8e8"});
+	itemImageView.add(adImage); 
+	itemImageView.add(label_description);
+	row.add(itemImageView);
+		
+	scrollView.add(row);
+	//the_view.push(scrollView); 
+	$.scrollableView.add(scrollView); 
+	counter++;
+		
+	itemImageView = null;
+	adImage = null;
+	label_description = null;
+	scrollView = null;
 	counter = null;
 	imagepath = null;
 	row = null;
@@ -145,7 +99,7 @@ var getAdsImages = function() {
 	selectedView = null;
 	the_view = null;
 	
-	set_title_button();
+	//set_title_button();
 };
 function zoomImageView(url){
 	transparentView = $.UI.create("View",{classes:['wfill','hfill'],backgroundColor:"#99000000",zIndex:10});
@@ -602,7 +556,6 @@ function set_title_button(e) {
 			classes:['hr'],
 			backgroundColor:'#e8e8e8'
 		});
-		$.pageTitle.setText("Instant Voucher");
 		$.submit.add(hr3);
 		$.submit.add(buttonS);
 		
@@ -656,7 +609,6 @@ function set_title_button(e) {
 		});
 	}else{
 		var title = items[currentPage].caption;
-		$.pageTitle.setText(title);
 		$.submit.removeAllChildren();
 	}
 	$.scrollableView.setScrollingEnabled(true);
@@ -725,11 +677,9 @@ $.scrollableView.addEventListener('scrollend',function(e) {
 			$.scrollableView.allItemId.push($.scrollableView.VI_id[e.source.currentPage]);
 		}
 		pagecount = e.source.currentPage;
-		set_title_button();
 	}
 });
 
-$.btnBack.addEventListener('click', closeWindow);
 $.win.addEventListener('android:back', closeWindow);
 
 $.win.addEventListener('close', function(e) {

@@ -794,7 +794,7 @@ function toVoucher(e) {
 		var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 		COMMON.openWindow(win);
 	}else {
-		COMMON.openWindow(Alloy.createController("voucher_detail", e.source.record).getView());
+		COMMON.openWindow(Alloy.createController("voucher_detail", {v_id: e.source.record.v_id}).getView());
 	}
 }
 

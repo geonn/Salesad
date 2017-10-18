@@ -40,7 +40,7 @@ function getScanMerchant(){
 
 function checkFavorite(){
 	var model_favorites = Alloy.createCollection('favorites');
-	var exist = model_favorites.checkFavoriteExist(m_id, u_id);
+	var exist = model_favorites.checkFavoriteExist(ads.m_id, u_id);
 	var fav_img = (exist)?"/images/SalesAd_Favorited.png":"/images/SalesAd_Favorite.png";
 	$.favorites.image = fav_img;
 }
@@ -187,9 +187,9 @@ var getAdDetails = function(){
 				height: "auto",
 			});
 			itemImageView.add(adImage);
-			itemImageView.addEventListener("click", OpenItemImageView);
+			//itemImageView.addEventListener("click", OpenItemImageView);
 			//itemImageView.add(BARCODE.generateBarcode("686068606860"));
-			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].i_id,items[i].description, items[i].isExclusive);
+			createAdImageEvent(itemImageView,ads.a_id,counter,ads.name, items[i].i_id,items[i].description, items[i].isExclusive, items[i].voucher, items[i]);
 			cell.add(itemImageView);
 			if(items[i].isExclusive == 1){
 				cell.add(exclusive_icon);
@@ -268,7 +268,7 @@ function OpenItemImageView(ex){
 		var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 		COMMON.openWindow(win);
 	}else {
-		var page = Alloy.createController("itemDetails",{m_id: ads.m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
+		var page = Alloy.createController("itemDetails",{m_id: ads.m_id, a_id:a_id, i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
 	  	page.open();
 	  	page.animate({
 			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
@@ -277,9 +277,9 @@ function OpenItemImageView(ex){
 		});
 	}
 }
-
+var clickTime = new Date();
 //dynamic addEventListener for adImage
-function createAdImageEvent(adImage,a_id,position, title, i_id,description, isExclusive) {
+function createAdImageEvent(adImage,a_id,position, title, i_id,description, isExclusive, voucher, item) {
     adImage.addEventListener('click', function(e) {
     	// double click prevention
 	    var currentTime = new Date();
@@ -291,13 +291,12 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
 			var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 			COMMON.openWindow(win);
 		}else {
-			var page = Alloy.createController("itemDetails",{m_id: ads.m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description, date: date, from: from}).getView(); 
-		  	page.open();
-		  	page.animate({
-				curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
-				opacity: 1,
-				duration: 300
-			});
+			console.log(isExclusive);
+			if(isExclusive == 1){
+				COMMON.openWindow(Alloy.createController("voucher_detail", {v_id: voucher.id}).getView());
+			}else{
+				COMMON.openWindow(Alloy.createController("itemDetails", {item: item, m_id: ads.m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView());
+			}
 		}
     });
 }
@@ -330,7 +329,7 @@ function saveFavorite(){
 		COMMON.openWindow(win);
 	}else{
 		var model_favorites = Alloy.createCollection('favorites');
-		var exist = model_favorites.checkFavoriteExist(m_id, u_id);
+		var exist = model_favorites.checkFavoriteExist(ads.m_id, u_id);
 		if(exist){
 			var message = "Are you sure want to remove from favorite";
 			var dialog = Ti.UI.createAlertDialog({
@@ -360,7 +359,7 @@ function saveFavorite(){
 			console.log("save favorite");
 			console.log(args);
 			var favorite = Alloy.createModel('favorites', {
-				    m_id   : m_id,
+				    m_id   : ads.m_id,
 				    u_id	 : u_id,
 				    merchant_name: ads.marchant_name,
 				    marchant_thumb: ads.marchant_thumb,
@@ -371,7 +370,7 @@ function saveFavorite(){
 			//$.favorites.visible = false;
 			
 			API.updateUserFavourite({
-				m_id   : m_id,
+				m_id   : ads.m_id,
 				u_id	 : u_id,
 				status : 1
 			});

@@ -7,8 +7,7 @@ var checkingForSave = true;
 var checkingClaimLimit = true;
 var v_id = args.v_id;
 //var voucher = Alloy.createCollection("voucher");
-var data = args; //voucher.getDataById(v_id);
-var left = data.left;
+var data;// = args; //voucher.getDataById(v_id);
 var user_point = [];
 var current_point = "";
 var fristDate = "";
@@ -61,11 +60,11 @@ function zoom(e){
  	$.win.add(container);
 }
 function render_banner(){
-	if(OS_ANDROID && data.image != null){
+	if(OS_ANDROID && data.thumb_image != null){
 		$.RemoteImage.applyProperties({
 		 	autoload: true,
 		    backgroundColor: 'black',
-		    image:data.image,
+		    image:data.thumb_image,
 		    default_img : "/images/image_loader_640x640.png"
 		});	
 		$.RemoteImage.addEventListener("click",zoom);				
@@ -77,7 +76,7 @@ function render_banner(){
 	if(OS_IOS){
 	 	var bannerImage = Ti.UI.createImageView({
 	 		defaultImage: "/images/image_loader_640x640.png",
-	 		image:data.image,
+	 		image:data.thumb_image,
 			width : "100%",
 			height: Ti.UI.SIZE,//ads_height,
 		});	
@@ -110,7 +109,7 @@ function render_banner(){
 			});
 			var Zimage = Ti.UI.createImageView({
 				defaultImage :"/images/image_loader_640x640.png",
-				image: data.image,
+				image: data.thumb_image,
 				width :"100%",
 				height :Ti.UI.SIZE,
 				zIndex :101,
@@ -134,21 +133,6 @@ function render_banner(){
 				Zv.height = 0;
 			});
 		});
-	}
-}
-
-if(data.point==0 || data.point==null){
-	//$.pointView.opacity = 0;
-	if(OS_IOS){
-		$.win.setTitle("Instant Voucher");
-	}else{
-		$.pageTitle.setText("Instant Voucher");
-	}
-}else{
-	if(OS_IOS){
-		$.win.setTitle("CP Voucher");
-	}else{
-		$.pageTitle.setText("CP Voucher");
 	}
 }
 
@@ -239,9 +223,9 @@ function set_data(){
 			color: "#a6a6a6"
 		});
 		var left_data = $.UI.create("Label",{
-			text: (left==-1)?"While Stock\nLast":left,
+			text: (data.left==-1)?"While Stock\nLast":data.left,
 			textAlign: "center",
-			classes: (left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
+			classes: (data.left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
 		});
 		var ends = $.UI.create("View",{
 			width: "33%",
@@ -277,7 +261,7 @@ function set_data(){
 			classes:["wsize","hsize","h5"],
 			color: "#a6a6a6"
 		});
-		if (left==0 || left==1) {
+		if (data.left==0 || data.left==1) {
 			var vvv = "Voucher";
 		}else{
 			var vvv = "Vouchers";
@@ -292,7 +276,7 @@ function set_data(){
 		ssaved.add(space1);
 		leftt.add(left_title);
 		leftt.add(left_data);
-		if (left!=-1) {
+		if (data.left!=-1) {
 			leftt.add(space4);
 		}
 		ends.add(ends_title);
@@ -333,9 +317,9 @@ function set_data(){
 			color: "#a6a6a6"
 		});
 		var left_data = $.UI.create("Label",{
-			text: (left==-1)?"While Stock\nLast":left,
+			text: (data.left==-1)?"While Stock\nLast":data.left,
 			textAlign: "center",
-			classes: (left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
+			classes: (data.left==-1)?["wsize","hsize","h5","bold"]:["wsize","hsize","h3","bold"]
 		});
 		var ends = $.UI.create("View",{
 			width: "25%",
@@ -392,7 +376,7 @@ function set_data(){
 			classes:["wsize","hsize","h5"],
 			color: "#a6a6a6"
 		});
-		if (left==0 || left==1) {
+		if (data.left==0 || data.left==1) {
 			var vvv = "Voucher";
 		}else{
 			var vvv = "Vouchers";
@@ -410,7 +394,7 @@ function set_data(){
 		ssaved.add(space1);
 		leftt.add(left_title);
 		leftt.add(left_data);
-		if (left!=-1) {
+		if (data.left!=-1) {
 			leftt.add(space4);
 		}
 		ends.add(ends_title);
@@ -472,7 +456,7 @@ function checkingVoucher(){
 		$.save.setEnabled(true);
 		$.save.setBackgroundColor("#ED1C24");
 	}*/
-	if(left==0){
+	if(data.left==0){
 		$.save.setTitle("Voucher Fully Saved");   //check voucher left
 		$.save.setEnabled(false);
 		$.save.setBackgroundColor("#a6a6a6");
@@ -483,16 +467,46 @@ function init(){
 	if(OS_ANDROID){
 		$.scView.bottom = "110";
 	}
-	$.win.add(loading.getView());	
-	loading.finish();
-	getNowDate();
-	set_data();
-	userCurrentPoint();
-	checkVoucherStatus();
-	render_banner();
-	addAdsClick();
+	$.win.add(loading.getView());
+	refresh();
 }
 init();
+	
+function refresh(){
+	loading.start();
+	console.log(args.v_id+" vid here");
+	API.callByPost({url: "getVoucherById",new: true, params:{v_id: args.v_id}}, {
+		onload: function(responseText){
+			var res = JSON.parse(responseText);
+			data = res.data;
+			getNowDate();
+			set_data();
+			userCurrentPoint();
+			checkVoucherStatus();
+			render_banner();
+			setWindowTitle();
+			addAdsClick();
+			loading.finish();
+		}
+	});	
+}	
+
+function setWindowTitle(){
+	if(data.point==0 || data.point==null){
+		//$.pointView.opacity = 0;
+		if(OS_IOS){
+			$.win.setTitle("Instant Voucher");
+		}else{
+			$.pageTitle.setText("Instant Voucher");
+		}
+	}else{
+		if(OS_IOS){
+			$.win.setTitle("CP Voucher");
+		}else{
+			$.pageTitle.setText("CP Voucher");
+		}
+	}
+}
 	
 function addAdsClick() {
 	var params = {
