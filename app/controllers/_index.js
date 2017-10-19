@@ -9,9 +9,12 @@ function pixelToDp(px) {
 }
 
 function render_banner(e){
+	console.log(e.data.length+" e.data.length");
 	if(e.data.length <=0){
 		$.feature_banner.height = 0;
 		return;
+	}else{
+		$.feature_banner.height = banner_width + 40;
 	}
 	console.log(e.data);
 	$.feature_banner.removeAllChildren();
@@ -175,6 +178,7 @@ function refresh(e){
 
 function init(){
 	$.manage_btn.hide();
+	console.log($.feature_banner.children.length+" $.feature_banner.children.length");
 	if($.feature_banner.children.length > 0){
 		$.feature_banner.height = banner_width + 40;
 	}else{
