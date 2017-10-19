@@ -56,7 +56,6 @@ exports.checkAndUpdate = function(e){
 		dbVersion = "1.8";
 		last_update_on = false;
 	}
-	dbVersion = "1.8";
 	if(dbVersion == "1.8") {
 		var u_model = Alloy.createCollection('updateChecker');
 		u_model.addColumn("u_id", "INTEGER");
@@ -66,8 +65,15 @@ exports.checkAndUpdate = function(e){
 		model.addColumn("marchant_thumb", "TEXT");
 		model.addColumn("status", "INTEGER");
 		model.resetFavorites();
+		
+		Ti.App.Properties.removeProperty('u_id');
+     	Ti.App.Properties.removeProperty('firstname');
+     	Ti.App.Properties.removeProperty('lastname');
+     	Ti.App.Properties.removeProperty('email');
+     	Ti.App.Properties.removeProperty('gender');
+		Ti.App.Properties.removeProperty('session');
+		
 		dbVersion = "1.9";
-		last_update_on = false;
 	}
 	Ti.App.Properties.setString("dbVersion", dbVersion);
 };
