@@ -21,6 +21,8 @@ function receivePush(e) {
 		Ti.App.fireEvent('app:goToAds', {m_id: res_param.m_id,a_id: "" , isFeed : 1, target: target });
 	}else if(res_param.v_id == "" ){
 		Ti.App.fireEvent('app:goToAds', {v_id: res_param.v_id, isFeed : 1, target: target });
+	}else if(res_param.announcement_id != "" ){
+		Ti.App.fireEvent('app:goToAds', {announcement_id: res_param.announcement_id, isFeed : 1, target: target });
 	}
 	Ti.App.fireEvent('refresh_notification');
 	return false;
