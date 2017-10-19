@@ -10,6 +10,13 @@ var current_post_id = 0;
 function goToAds(e){
 	current_post_id = Ti.App.Properties.getString('current_post_id') || 0;
 	console.log(e.target+" target");
+	
+	if(e.target == "webview"){
+		var win = Alloy.createController("webview", {web_title: "Annoucement", url: "http://salesad.my/main/notification_announcement?announcement_id="+e.extra}).getView();
+		COMMON.openWindow(win);
+		return;
+	}
+	
 	if(e.target == "voucher"){
 		var win = Alloy.createController("reward").getView();
 		COMMON.openWindow(win);

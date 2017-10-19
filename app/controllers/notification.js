@@ -50,7 +50,11 @@ function navTo(e){
 	var model = Alloy.createCollection('notification');
 	model.setIdAsRead({id: item.record.id});
 	console.log(item);
-	if(item.record.target != ""){
+	if(item.record.target == "webview"){
+		var win = Alloy.createController("webview", {web_title: "Annoucement", url: "http://salesad.my/main/notification_announcement?announcement_id="+item.record.extra}).getView();
+		COMMON.openWindow(win);
+		return;
+	}else if(item.record.target != ""){
 		COMMON.openWindow(Alloy.createController(item.record.target, item.record.extra || {}).getView()); 
 	}
 }
