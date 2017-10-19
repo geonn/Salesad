@@ -9,7 +9,7 @@ var v_id = args.v_id;
 //var voucher = Alloy.createCollection("voucher");
 var data;// = args; //voucher.getDataById(v_id);
 var user_point = [];
-var current_point = "";
+var current_point = 0;
 var fristDate = "";
 var secondDate = "";
 var endsDay = "";
@@ -139,8 +139,11 @@ function render_banner(){
 function userCurrentPoint(){
 	var model = Alloy.createCollection("points");
 	user_point = model.getData({u_id: u_id});
-	console.log(user_point);
-	current_point = user_point[user_point.length - 1].balance;
+	if(typeof user_point != "undefined"){
+		current_point = user_point[user_point.length - 1].balance;
+	}else{
+		refresh();
+	}
 }
 
 function createWhoops(t,e){
@@ -193,7 +196,7 @@ function set_data(){
 		text:data.tnc,
 	});
 	$.tc.add(tc);
-	
+	console.log(data.point+" check what cp");
 	if (data.point==0) {
 		//$.info.removeAllChildren();
 		var ssaved = $.UI.create("View",{

@@ -18,6 +18,9 @@
 		     	<View id="pageTitle" width="70%">
 		     		<Label color='#ED1C24' class="wfill">Notification</Label>
 		     	</View>
+		     	<View left="0" width="15%" zIndex="10" class="hsize">
+			         <Switch id="notification_switch" onChange="changeStatus" value="true" class="wsize hsize"  />
+			    </View>
 		 	</View>
 		    <View class="hr" top="0"></View>
 		    <View class="wfill hfill">

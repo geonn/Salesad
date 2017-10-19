@@ -14,7 +14,7 @@ function init(){
 init();
 
 function refresh(){
-	var u_id = Ti.App.Properties.getString('u_id') || "";
+	var u_id = Ti.App.Properties.getString('u_id') || 0;
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById("13", u_id);
 	API.callByPost({
@@ -38,7 +38,7 @@ function render_list(){
 	var data = model.getList({u_id: u_id});
 	var items = [];
 	for (var i=0; i < data.length; i++) {
-		items.push({properties :{title: data[i].subject, record: data[i]}});
+		items.push({properties :{title: data[i].subject, color: "#404041", record: data[i]}});
 	};
 	console.log(items);
 	$.listsection.setItems(items);

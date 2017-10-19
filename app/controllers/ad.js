@@ -207,13 +207,15 @@ var getAdDetails = function(){
 	var ads_tnc = (ads.tnc != null) ? ads.tnc : "";
 	var details_text = $.UI.create("View", {classes:['vert', 'wfill', 'hsize', 'padding']});
 	var ad_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text : ads.name});
-	var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], top: 0, text : ads.sales_from+" till "+ads.sales_to});
+	var marchant_name = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding'], bottom: 0, text : ads.marchant_name});
+	var ad_date = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding'], top: 0, text : convertToHumanFormat(ads.sales_from)+" till "+convertToHumanFormat(ads.sales_to)});
 	var hr = $.UI.create("View", {classes:['hr'], backgroundColor: "#000"});
 	var desc = $.UI.create("Label", {classes:['wfill', 'hsize','h5','small-padding'], text :ads.description});
 	var tnc = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding', 'bold'], bottom: 0, text: "Terms and Conditions"});
 	var tnc_text = $.UI.create("Label", {classes:['wfill', 'hsize', 'h5', 'small-padding'], top: 0, text: ads_tnc});
 	//console.log(ads_tnc+"heeree");
 	details_text.add(ad_name);
+	details_text.add(marchant_name);
 	details_text.add(ad_date);
 	
 	if(ads.description != "") {
@@ -287,16 +289,15 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
 	        return;
 	    };
 	    clickTime = currentTime;
-	    if(u_id == "") {
-			var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
-			COMMON.openWindow(win);
-		}else {
-			console.log(isExclusive);
-			if(isExclusive == 1){
-				COMMON.openWindow(Alloy.createController("voucher_detail", {v_id: voucher.id}).getView());
+	    if(isExclusive == 1){
+	    	if(u_id == "") {
+				var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
+				COMMON.openWindow(win);
 			}else{
-				COMMON.openWindow(Alloy.createController("itemDetails", {item: item, m_id: ads.m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView());
+				COMMON.openWindow(Alloy.createController("voucher_detail", {v_id: voucher.id}).getView());
 			}
+		}else{
+			COMMON.openWindow(Alloy.createController("itemDetails", {item: item, m_id: ads.m_id, a_id:a_id,i_id:i_id,position:position, title:title, isExclusive: isExclusive, isScan: isScan, description: description}).getView());
 		}
     });
 }
@@ -307,12 +308,22 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
 //open location
 $.location.addEventListener('click', function(e){ 
 	if(Ti.Geolocation.locationServicesEnabled){
-		COMMON.openWindow(Alloy.createController("location",{branches: branches}).getView());
+		console.log(typeof branches+" typeof branches");
+		if(typeof branches == "undefined"){
+			alert("No location available.");	
+		}else{
+			COMMON.openWindow(Alloy.createController("location",{branches: branches}).getView());
+		}
 	}
 	else{
 	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
 			if(e.success){
-				COMMON.openWindow(Alloy.createController("location",{target_m_id: ads.m_id, branches: branches}).getView());				
+				console.log(typeof branches+" typeof branches");
+				if(typeof branches == "undefined"){
+					alert("No location available.");	
+				}else{
+					COMMON.openWindow(Alloy.createController("location",{target_m_id: ads.m_id, branches: branches}).getView());				
+				}
 			}
 			else{
 	        	alert("You denied permission.");
