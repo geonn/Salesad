@@ -137,6 +137,7 @@ exports.definition = {
 	                		_.find(names, function(name){
 	                			if(name == k){
 	                				keys.push(k);
+	                				entry[k] = (entry[k] == null)?"":entry[k];
 	                				entry[k] = entry[k].replace(/'/g, "\\'");
 			                		eval_values.push("\""+entry[k]+"\"");
 	                			}
