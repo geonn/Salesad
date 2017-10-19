@@ -12,6 +12,7 @@ function goToAds(e){
 	console.log(e.target+" target");
 	
 	if(e.target == "webview"){
+		console.log(e );
 		var win = Alloy.createController("webview", {web_title: "Annoucement", url: "http://salesad.my/main/notification_announcement?announcement_id="+e.announcement_id}).getView();
 		COMMON.openWindow(win);
 		return;
