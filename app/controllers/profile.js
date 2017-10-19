@@ -48,8 +48,6 @@ function loadTable(){
 	{ title:'Email',  value:email, mod:"email",hasChild:true },
 	];
 	
-	$.uid.setText(userid);
-	
 	var RegTable = Titanium.UI.createTableView({
 		width:'100%',
 		separatorColor: '#ffffff' ,

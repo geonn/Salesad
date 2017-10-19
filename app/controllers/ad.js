@@ -394,13 +394,6 @@ function popMoreMenu(){
 	dialog.addEventListener("click", function(ex){   
 		if(ex.index == 0){
 			popReport();
-		}else if(ex.index == 1) {
-			closeWindow();
-			Ti.App.fireEvent('ads:close');
-			var more_win = Alloy.createController("more").getView();  
-			COMMON.openWindow(more_win);
-			var voucher_win = Alloy.createController('reward', {savedvoucher: 'savedvoucher'}).getView();  
-			COMMON.openWindow(voucher_win);
 		}
 	});
 }

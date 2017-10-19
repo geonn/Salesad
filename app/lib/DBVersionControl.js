@@ -61,7 +61,8 @@ exports.checkAndUpdate = function(e){
 		var model = Alloy.createCollection('favorites');
 		model.addColumn("merchant_name", "TEXT");
 		model.addColumn("marchant_thumb", "TEXT");
-		
+		model.addColumn("status", "INTEGER");
+		model.resetFavorites();
 		dbVersion = "1.9";
 		last_update_on = false;
 	}

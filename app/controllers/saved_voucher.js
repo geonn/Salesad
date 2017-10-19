@@ -164,6 +164,17 @@ function init(){
 		$.useV.setTitle("Voucher Expired");   //check voucher limit
 		$.useV.setBackgroundColor("#a6a6a6");		
 	}
+	var now = new Date();
+	var expired = false;
+	now.setHours(8,0,0,0);
+	var use_from = new Date(res.use_from);
+
+	
+	if(use_from.getTime() > now.getTime()){
+		$.useV.setTitle("Voucher Start From "+convertToHumanFormat(res.use_from));   //check voucher limit
+		$.useV.setBackgroundColor("#a6a6a6");
+		$.useV.setEnabled(false);
+	}
 }
 
 init();

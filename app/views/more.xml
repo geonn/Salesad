@@ -46,10 +46,6 @@
 		 				<Label touchEnabled="false" left="10" class="wsize hsize">FAQ</Label>
 		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
 		 			</TableViewRow>
-		 			<TableViewRow height="50" target="pushNotificationSettings">
-		 				<Label touchEnabled="false" left="10" class="wsize hsize">Push Notifications</Label>
-		 				<ImageView touchEnabled="false" image="/images/btn-forward.png" width="30" height="30" right="10"></ImageView>
-		 			</TableViewRow>
 		 		</TableViewSection>
 		 		<TableViewSection>
 		 			<HeaderView platform="ios">

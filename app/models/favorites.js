@@ -5,6 +5,7 @@ exports.definition = {
 		    "m_id": "INTEGER",
 		    "merchant_name": "TEXT",
 		    "marchant_thumb": "TEXT",
+		    "status": "INTEGER",
 		    "u_id": "INTEGER",
 		    "position": "INTEGER"
 		},
@@ -158,6 +159,38 @@ exports.definition = {
 		        db.execute(sql);
 		        db.close();
 		        collection.trigger('sync');
+			},
+			saveArray : function(arr){ // 5th version of save array by adrian
+				var collection = this;
+				var columns = collection.config.columns;
+				var names = [];
+				for (var k in columns) {
+	                names.push(k);
+	            }
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                arr.forEach(function(entry) {
+                	var keys = [];
+                	var eval_values = [];
+                	for(var k in entry){
+	                	if (entry.hasOwnProperty(k)){
+	                		_.find(names, function(name){
+	                			if(name == k){
+	                				keys.push(k);
+	                				entry[k] = entry[k].replace(/'/g, "\\'");
+			                		eval_values.push("\""+entry[k]+"\"");
+	                			}
+	                		});
+	                	}
+                	}
+		            var sql_query =  "INSERT OR REPLACE INTO "+collection.config.adapter.collection_name+" ("+keys.join()+") VALUES ("+eval_values.join()+")";
+		            console.log(sql_query);
+		            db.execute(sql_query);
+				});
+	            db.close();
+	            collection.trigger('sync');
 			},
 			updatePosition : function(id, position){
 				var collection = this;

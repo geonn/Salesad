@@ -82,11 +82,6 @@ function doLogin() {
 	         	Ti.App.Properties.setString('salesman_code', res.data.salesman_code);
 				Ti.App.Properties.setString('session', res.data.session);
 	         	
-	         	var isForgotPassword = Ti.App.Properties.getString('isForgotPassword');
-	         	if(isForgotPassword == 1){
-	         		var win = Alloy.createController("editPassword", {username:username }).getView(); 
-					COMMON.openWindow(win); 
-	         	}
 	         	API.updateNotificationToken();
 	         	$.login.close();
 				

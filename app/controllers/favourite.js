@@ -13,10 +13,15 @@ function unfavourite(e){
 		  });
 		  dialog.addEventListener('click', function(ex){
 		  	if (ex.index == 1){
-		  		var favoritesLibrary = Alloy.createCollection('favorites');
+		  		//var favoritesLibrary = Alloy.createCollection('favorites');
 		  		var m_id = e.source.m_id;
-		     	favoritesLibrary.deleteFavoriteByMid(m_id,u_id);
-		     	refresh();
+		     	//favoritesLibrary.deleteFavoriteByMid(m_id,u_id);
+		     	
+		     	API.updateUserFavourite({
+					m_id   : m_id,
+					u_id	 : u_id,
+					status : 2
+				}, refresh);		     	
 		  	}
 		 });
 		 dialog.show();
@@ -89,7 +94,7 @@ function render_favourite_merchant(){
 			width: cell_width,
 			classes: ['hsize'],
 			left: 0,
-			image: (data[i].img_path == "")?"/images/SalesAd_Profile Pic.png":data[i].marchant_thumb,
+			image: (data[i].merchant_thumb == "")?"/images/SalesAd_Profile Pic.png":data[i].merchant_thumb,
 			touchEnabled: false,
 		});
 		var text_padd = $.UI.create("View", {
@@ -118,11 +123,23 @@ function render_favourite_merchant(){
 }
 
 function refresh(){
-	$.inner_box.removeAllChildren();
-	var favoritesLibrary = Alloy.createCollection('favorites'); 
-	data = favoritesLibrary.getFavoritesByUid(u_id); 	
-	render_favourite_merchant();
-	loading.finish();
+	loading.start();
+	var u_id = Ti.App.Properties.getString('u_id') || "";
+	API.callByPost({
+		url: "getFavoriteMerchant",
+		new: true,
+		params: {u_id: u_id},
+	},{onload: function(responseText){
+		$.inner_box.removeAllChildren();
+		var favoritesLibrary = Alloy.createCollection('favorites'); 
+		favoritesLibrary.resetFavorites();
+		var res = JSON.parse(responseText);
+		favoritesLibrary.saveArray(res.data);
+		data = res.data;
+		render_favourite_merchant();
+		Ti.App.fireEvent("filterByFavorite");
+		loading.finish();
+	}});
 }
 
 function init(){

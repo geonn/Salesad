@@ -451,11 +451,18 @@ function checkingVoucher(){
 		$.save.setTitle("Save Voucher");   //check voucher limit
 		$.save.setEnabled(true);
 	}
-	/*if(data.limit == -1){
-		$.save.setTitle("Save Voucher");   //unlimit voucher
-		$.save.setEnabled(true);
-		$.save.setBackgroundColor("#ED1C24");
-	}*/
+	
+	var now = new Date();
+	var expired = false;
+	now.setHours(8,0,0,0);
+	var save_from = new Date(data.save_from);
+	var save_to = new Date(data.save_to);
+	if(save_from.getTime() < now.getTime() || save_to.getTime() >= now.getTime()){
+		$.save.setTitle("Voucher Not Available");   //check voucher limit
+		$.save.setBackgroundColor("#a6a6a6");
+		$.save.setEnabled(false);
+	}
+	
 	if(data.left==0){
 		$.save.setTitle("Voucher Fully Saved");   //check voucher left
 		$.save.setEnabled(false);
@@ -481,7 +488,9 @@ function refresh(){
 			data = res.data;
 			getNowDate();
 			set_data();
-			userCurrentPoint();
+			if(u_id != ""){
+				userCurrentPoint();
+			}
 			checkVoucherStatus();
 			render_banner();
 			setWindowTitle();
@@ -489,7 +498,7 @@ function refresh(){
 			loading.finish();
 		}
 	});	
-}	
+}
 
 function setWindowTitle(){
 	if(data.point==0 || data.point==null){

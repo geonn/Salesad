@@ -13,7 +13,7 @@ var KEY   = '06b53047cf294f7207789ff5293ad2dc';
 var getMerchantListByType      = "http://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY;
 
 var getAdsByCategoryList  = "http://"+API_DOMAIN+"/api/getAdsByCategoryList?user="+USER+"&key="+KEY;
-
+var checkAppVersionUrl = "http://"+API_DOMAIN+"/api/checkAppVersion?user="+USER+"&key="+KEY;
 var searchNearbyMerchant       = "http://"+API_DOMAIN+"/api/searchNearbyMerchant?user="+USER+"&key="+KEY;
 var getAdsDetailsById = "http://"+API_DOMAIN+"/api/getAdsDetailsById?user="+USER+"&key="+KEY;
 var searchResult               = "http://"+API_DOMAIN+"/api/searchResult?user="+USER+"&key="+KEY;
@@ -70,6 +70,29 @@ exports.getImagesByAds    = "http://"+API_DOMAIN+"/api/getImagesByAds?user="+USE
 /*********************
 **** API FUNCTION*****
 **********************/
+
+exports.checkAppVersion = function(callback_download){
+	var appVersion = Ti.App.Properties.getString("appVersion");
+	var url = checkAppVersionUrl + "&appVersion="+appVersion+"&appPlatform="+Titanium.Platform.osname;
+	console.log(url);
+	var client = Ti.Network.createHTTPClient({
+		// function called when the response data is available
+		onload : function(e) {
+			var result = JSON.parse(this.responseText);
+			if(result.status == "error"){ 
+				callback_download(result);
+			}
+		},
+		// function called when an error occurs, including a timeout
+		onerror : function(e) {
+			console.log("error check version");
+		},
+		timeout : 60000  // in milliseconds
+	}); 
+	client.open("GET", url); 
+	client.send(); 
+};
+
 exports.updateUserFromFB = function(e, mainView){ 
 	var url = updateUserFromFB+"&email="+e.email+"&fbid="+e.fbid+"&link="+e.link+"&name="+e.name+"&gender="+e.gender;
 	//console.log(url);
@@ -142,7 +165,7 @@ exports.updateNotificationToken = function(e){
 };
 
 // update user favourite list
-exports.updateUserFavourite = function(e){
+exports.updateUserFavourite = function(e, callback){
 	/** User session**/
 	var deviceToken = Ti.App.Properties.getString('deviceToken');
 	 
@@ -153,9 +176,12 @@ exports.updateUserFavourite = function(e){
 	    onload : function(e) {
 	   
 	      var res = JSON.parse(this.responseText);
-	
+		  console.log(res.status+" for update");
 	      if(res.status == "success"){
-	      	
+	      	console.log(_.isFunction(callback)+" check function");
+	      	if(_.isFunction(callback)){
+	      		callback();
+	      	}
 	      }
 	    },
 	    // function called when an error occurs, including a timeout

@@ -36,7 +36,6 @@ var sendForgotPassword = function(){
 	         var res = JSON.parse(this.responseText);
 	         if(res.status == "success"){
 	         	 /** tag if user done forgot password action**/
-	         	Ti.App.Properties.setString('isForgotPassword', 1);
 	         	
 				COMMON.createAlert('Submitted successfully ', "Please check your email for activation code.");
 				closeWindow(e);

@@ -175,26 +175,38 @@ function refresh(e){
 
 function init(){
 	$.manage_btn.hide();
-	$.feature_banner.height = banner_width + 40;
+	if($.feature_banner.children.length > 0){
+		$.feature_banner.height = banner_width + 40;
+	}else{
+		$.feature_banner.height = 0;
+	}
 	refresh_notification();
 	refresh({url: "getLatestAdList"});
+	var AppVersionControl = require('AppVersionControl');
+	AppVersionControl.checkAndUpdate();
 }
 
 init();
 var menu_top = 0;
 
 function postLayoutForWindow(){
-	menu_top = banner_width + 60;
+	if($.feature_banner.children.length > 0){
+		menu_top = banner_width + 60;
+	}else{
+		menu_top = 60;
+	}
 	$.menu.top = menu_top;
 	$.win.removeEventListener("postlayout", postLayoutForWindow);
 }
 $.win.addEventListener("postlayout", postLayoutForWindow);
 $.win.addEventListener("close", function(){
+	Ti.App.removeEventListener("filterByFavorite", filterByFavorite);
 	Ti.App.removeEventListener("refresh_notification", refresh_notification);
 	Ti.App.removeEventListener("updateNotificationNumber", updateNotificationNumber);
 	Ti.App.removeEventListener("homeQR", homeQR);
 });
 
+Ti.App.addEventListener("filterByFavorite", filterByFavorite);
 Ti.App.addEventListener("refresh_notification", refresh_notification);
 Ti.App.addEventListener("updateNotificationNumber", updateNotificationNumber);
 Ti.App.addEventListener("homeQR", homeQR);

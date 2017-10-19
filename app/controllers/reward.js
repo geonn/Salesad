@@ -267,6 +267,9 @@ function init(){
 	$.voucher_scrollview.scrollcheck = true;
 	$.voucher_scrollview.scrolldata = 1;
 	$.voucher_view.alltitle = [];
+	if(u_id != ""){
+		refresh();
+	}
 	refreshVlist("refreshSVlist");
 	
 	if(args.savedvoucher != undefined) {

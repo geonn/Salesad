@@ -32,14 +32,6 @@
 				<View top="10" bottom="10" width="160" height="160" borderRadius="80">
 					<ImageView id="photoLoad" image="/images/SalesAd_Profile Pic.png" onClick="popCamera" form_type="image" width="170" height="170" value="0"></ImageView>
 				</View>
-				<View height="50" class="wfill">
-					<TableView class="wfill hsize" separatorColor="#ffffff" scrollable="false">
-						<TableViewRow touchEnabled="true" height="50" selectedBackgroundColor="#FFE1E1" backgroundColor="#ffffff">
-							<Label text="User ID" class="wsize hsize uid"></Label>
-							<Label class="wsize hsize uiid" id="uid"></Label>
-						</TableViewRow>
-					</TableView>
-				</View>
 				
 				<View id="table1Container" height="150"></View>
 				

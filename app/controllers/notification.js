@@ -1,7 +1,13 @@
 // Arguments passed into this controller can be accessed via the `$.args` object directly or:
 var args = $.args;
+var deviceToken = Ti.App.Properties.getString('deviceToken');
+var u_id = Ti.App.Properties.getString('u_id') || "";
 
 function init(){
+	var notification_onoff = Ti.App.Properties.getString('notification_onoff') || 1;
+	if(notification_onoff != "1"){
+		$.notification_switch.value = false;
+	}
 	refresh();
 }
 
@@ -27,7 +33,7 @@ function refresh(){
 }
 
 function render_list(){
-	var u_id = Ti.App.Properties.getString('u_id') || "";
+	
 	var model = Alloy.createCollection('notification');
 	var data = model.getList({u_id: u_id});
 	var items = [];
@@ -47,6 +53,75 @@ function navTo(e){
 	if(item.record.target != ""){
 		COMMON.openWindow(Alloy.createController(item.record.target, item.record.extra || {}).getView()); 
 	}
+}
+
+var changeStatus = function(e){
+	
+	if(e.source.value == "0"){
+		var dialog = Ti.UI.createAlertDialog({
+		    cancel: 1,
+		    buttonNames: ['Cancel','Confirm'],
+		    message: 'You might miss out great sales & deals.',
+		    title: 'Confirm to switch off push notification?'
+		  });
+		  dialog.addEventListener('click', function(ex){
+		    if (ex.index == 1){
+		    	e.source.value = false;
+		    	Ti.App.Properties.setString("notification_onoff","0");
+		    	if(e.source.notification_title == "notification_featued"){
+					unsubcribe_feature();
+				}
+				return;
+		    }
+		    else{
+		    	e.source.value = true;
+		    }
+		 });
+	
+		dialog.show();
+	}else{
+		Ti.App.Properties.setString("notification_onoff", "1");
+	}
+	var notification_onoff = Ti.App.Properties.getString("notification_onoff");
+	API.callByPost({
+		url: "updateNotificationStatus",
+		new: true,
+		params: {deviceToken:deviceToken, u_id: u_id, notification_favourite: notification_onoff, notification_featured: notification_onoff}
+	}, 
+	{
+		onload: function(responseText){
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+		},
+		onexception: function(){
+			COMMON.closeWindow($.win);
+		}
+	});
+};
+
+function unsubcribe_feature(){
+	Cloud.PushNotifications.unsubscribeToken({
+        device_token: deviceToken,
+        channel: 'sales',
+        type: Ti.Platform.name == 'android' ? 'android' : 'ios'
+    }, function (e) {
+        if (e.success) {
+        } else {
+        }
+    });
+}
+
+function subcribe_feature(){
+	Cloud.PushNotifications.subscribeToken({
+        device_token: deviceToken,
+        channel: 'sales',
+        type: Ti.Platform.name == 'android' ? 'android' : 'ios'
+    }, function (e) {
+        if (e.success) {
+        } else {
+        }
+    });
 }
 
 function closeWindow(){

@@ -2,5 +2,5 @@
 	<NavigationWindow id="navMenu" platform="ios"> 
 		<Require type="view" src="_index" id="indexView"/> 
 	</NavigationWindow>
-	<Require type="view" src="_index" id="indexView"/> 
+	<Require type="view" src="_index" platform="android" id="indexView"/> 
 </Alloy>
