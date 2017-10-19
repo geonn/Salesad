@@ -83,6 +83,7 @@ function doLogin() {
 				Ti.App.Properties.setString('session', res.data.session);
 	         	
 	         	API.updateNotificationToken();
+	         	loadUserPoint();
 	         	$.login.close();
 				
 				Ti.App.fireEvent("sign:close");
@@ -102,6 +103,27 @@ function doLogin() {
 	 client.open("GET", url);
 	 // Send the request.
 	 client.send(); 
+}
+
+function loadUserPoint(){
+	var u_id = Ti.App.Properties.getString('u_id');
+	API.callByPost({
+		url: "getMemberPointsRecords",
+		new: true,
+		params: {u_id: u_id}
+	}, 
+	{
+		onload: function(responseText){
+			var model = Alloy.createCollection("points");
+			var res = JSON.parse(responseText);
+			var arr = res.data || null;
+			model.saveArray(arr);
+		},
+		onerror: function(err){
+		},
+		onexception: function(){
+		}
+	});
 }
 
 /** To fixed keyboard hide/show when textfield is activate**/

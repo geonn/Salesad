@@ -16,7 +16,7 @@ init();
 function refresh(){
 	var u_id = Ti.App.Properties.getString('u_id') || "";
 	var checker = Alloy.createCollection('updateChecker'); 
-	var isUpdate = checker.getCheckerById("13");
+	var isUpdate = checker.getCheckerById("13", u_id);
 	API.callByPost({
 		url: "getNotificationByUser",
 		new: true,
@@ -25,7 +25,7 @@ function refresh(){
 		var model = Alloy.createCollection('notification');
 		var res = JSON.parse(responseText);
 		model.saveArray(res.data);
-		checker.updateModule(13, "getNotificationByUser", res.last_updated);
+		checker.updateModule(13, "getNotificationByUser", res.last_updated, u_id);
 		console.log("success call api");
 		render_list();
 	}});

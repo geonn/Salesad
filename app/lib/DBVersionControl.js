@@ -58,6 +58,9 @@ exports.checkAndUpdate = function(e){
 	}
 	dbVersion = "1.8";
 	if(dbVersion == "1.8") {
+		var u_model = Alloy.createCollection('updateChecker');
+		u_model.addColumn("u_id", "INTEGER");
+		
 		var model = Alloy.createCollection('favorites');
 		model.addColumn("merchant_name", "TEXT");
 		model.addColumn("marchant_thumb", "TEXT");
