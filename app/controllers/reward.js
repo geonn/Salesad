@@ -916,10 +916,17 @@ $.scrollview.addEventListener("scrollend", function(e) {
 		}
 		tabColor.setColor("gray");
 		tabviewColor.setBackgroundColor("#fff");
-		var tabid = eval("$.tab" + e.currentPage);
-		var tabviewid = eval("$.tabview" + e.currentPage);
+		console.log(e.currentPage+' e.currentPage');
+		var eval_1 = "$.tab" + e.currentPage;
+		var eval_2 = "$.tabview" + e.currentPage;
+		console.log(eval_1);
+		var tabid = eval(eval_1);
+		var tabviewid = eval(eval_2);
 		tabColor = tabid;
 		tabviewColor = tabviewid;
+		console.log('should be here');
+		console.log(typeof tabid);
+		console.log(tabid);
 		tabColor.setColor("#fff");
 		tabviewColor.setBackgroundColor("#ED1C24");
 	}

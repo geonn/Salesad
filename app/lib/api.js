@@ -399,7 +399,8 @@ exports.loadAPIBySequence = function (e){ //counter,
 	},{
 		onload: function(responseText){
 			if(api['type'] == "api_function"){
-				eval("_.isFunction("+api['method']+") && "+api['method']+"(responseText)");
+				var eval_1 = "_.isFunction("+api['method']+") && "+api['method']+"(responseText)";
+				eval(eval_1);
 			}else if(api['type'] == "cache_json"){
 				var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory, api['name']+'.txt');
 				

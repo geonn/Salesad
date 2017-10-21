@@ -25,7 +25,8 @@ function submit(){
 				return ;
 			}
 		}
-		eval("_.extend(params, {"+form[i].id+": form[i].value})");
+		var run_eval = "_.extend(params, {"+form[i].id+": form[i].value})";
+		eval(run_eval);
 	};
 	API.callByPost({url: "sendFeedback", params:params}, {onload: function(responseText){
 		var res = JSON.parse(responseText);

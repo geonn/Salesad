@@ -85,6 +85,7 @@ function doLogin() {
 	         	API.updateNotificationToken();
 	         	loadUserPoint();
 				$.login.close();
+				Ti.App.fireEvent("sign:close");
 	         }else{
 	         	common.createAlert('Authentication warning',res.data.error_msg);
 	         }
@@ -181,7 +182,6 @@ $.login.addEventListener("close", function(){
     isKeyboardFocus = null;
    // goCreateAccount = null;
    doLogin         = null;
-   Ti.App.fireEvent("sign:close");
 });
 
 

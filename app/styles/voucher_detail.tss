@@ -7,12 +7,7 @@
 	color: "#fff",
 	borderRadius: 6
 }
-".myView":{
-  backgroundGradient: {
-    type: 'linear',
-    colors: ['00ffffff', '#fff'],
-  },
-},
+
 ".hr1":{
 	width: Ti.UI.FILL,
 	height: '1',
@@ -21,42 +16,15 @@
 	right: '5'
 }
 
-".padding1":{
-	top: '0',
-	left: '25'
-}
-
-".padding2":{
-	top: 0,
-	left: 25,
-	right: 10,
-	bottom: 2,
-}
-
-".padding3":{
-	top: 2,
-	left: 2,
-	right: 2,
-	bottom: 2
-}
-
 ".vTitle":{
 	font:{
 			fontSize: 17
 		}
 }
 
-".padding4":{
-	top: 5,
-	left: 5,
-	right: 5,
-	bottom: 5
-}
-
 ".padding5":{
 	top: 10,
 	left: 15,
 	right: 15,
-	bottom: 10
 }
 

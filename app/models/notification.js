@@ -118,7 +118,7 @@ exports.definition = {
 				db.close();
 	            collection.trigger('sync');
 			},
-			saveArray : function(arr){ // 5th version of save array by adrian
+			saveArray : function(arr){ // 5.1th version of save array by onn
 				var collection = this;
 				var columns = collection.config.columns;
 				var names = [];

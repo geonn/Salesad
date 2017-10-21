@@ -14,6 +14,8 @@ var fristDate = "";
 var secondDate = "";
 var endsDay = "";
 var loading = Alloy.createController("loading");
+var pwidth = (OS_ANDROID)?pixelToDp(Titanium.Platform.displayCaps.platformWidth):Titanium.Platform.displayCaps.platformWidth;
+
 
 function parseDate(str) {
     var mdy = str.split('-');
@@ -42,98 +44,79 @@ function getNowDate(){   //calculate the days between two dates
 	//$.days.setText(endsDay);
 }
 
-function zoom(e){	
-	var TiTouchImageView = require('org.iotashan.TiTouchImageView');
-	var container = Ti.UI.createView({width:Ti.UI.FILL,height:Ti.UI.FILL,backgroundColor:"#66000000",zIndex:"100"});
-	var close = Ti.UI.createLabel({width:Ti.UI.SIZE,height:Ti.UI.SIZE,right:"10",top:"10",color:"#fff",text:"Close"});
-	var image = (typeof e.source.image != "undefined" && typeof e.source.image.nativePath != "undefined")?e.source.image.nativePath: "/images/image_loader_640x640.png";
-	var imageView = TiTouchImageView.createView({
-		image:image,
-		maxZoom:5,
-		minZoom:1,
- 	}); 	
- 	container.add(imageView);
- 	container.add(close);
- 	close.addEventListener("click",function(){
-  		$.win.remove(container);
- 	}); 
- 	$.win.add(container);
+function zoom(url){
+	transparentView = $.UI.create("View",{classes:['wfill','hfill'],backgroundColor:"#99000000",zIndex:10});
+	var closeButton = $.UI.create("Label",{classes:['wsize','hsize'],color:"#fff",text:"Close",top:10,right:10,zIndex:10});
+	var zoomImage = $.UI.create("WebView",{url:url,classes:['wfill','hsize'],backgroundColor:"transparent"});
+	transparentView.add(zoomImage);
+	transparentView.add(closeButton);
+	closeButton.addEventListener("click",function(){
+		$.win.remove(transparentView);
+		zoomChecker = false;
+	});
+	zoomChecker = true;
+	$.win.add(transparentView);	
 }
+
 function render_banner(){
-	if(OS_ANDROID && data.thumb_image != null){
-		$.RemoteImage.applyProperties({
-		 	autoload: true,
-		    backgroundColor: 'black',
-		    image:data.thumb_image,
-		    default_img : "/images/image_loader_640x640.png"
-		});	
-		$.RemoteImage.addEventListener("click",zoom);				
-	}else{
-		if (OS_ANDROID) {
-			$.RemoteImage.setDefaultImg("/images/image_loader_640x640.png");
-		};
-	}	
-	if(OS_IOS){
-	 	var bannerImage = Ti.UI.createImageView({
-	 		defaultImage: "/images/image_loader_640x640.png",
-	 		image:data.thumb_image,
-			width : "100%",
-			height: Ti.UI.SIZE,//ads_height,
-		});	
-		var app_background = "#fff";
-		$.win.backgroundColor = app_background;
-		$.banner.add(bannerImage);
-		bannerImage.addEventListener('click',function(e){
-			var Zv = Ti.UI.createView({
-				width :Ti.UI.FILL,
-				height :Ti.UI.FILL, 
-				backgroundColor: "#66000000",
-				zIndex :100
+	console.log((pwidth-20)+" how much");
+		$.banner.image = data.thumb_image;
+		if(OS_ANDROID){
+			$.banner.addEventListener('click',function(e){
+				zoom(e.source.image);
 			});
-			var Z = Ti.UI.createView({
-				width :"95%",
-				height :Ti.UI.SIZE,
-				backgroundColor :"transparent",
-				zIndex :100
+		}else{
+			$.banner.addEventListener('click',function(e){
+				var Zv = Ti.UI.createView({
+					width :Ti.UI.FILL,
+					height :Ti.UI.FILL, 
+					backgroundColor: "#66000000",
+					zIndex :100
+				});
+				var Z = Ti.UI.createView({
+					width :"95%",
+					height :Ti.UI.SIZE,
+					backgroundColor :"transparent",
+					zIndex :100
+				});
+				var Ziv = Ti.UI.createScrollView({
+					width :Ti.UI.SIZE, 
+					height :Ti.UI.SIZE,        
+		            showHorizontalScrollIndicator:false,
+		            showVerticalScrollIndicator:false,
+		            maxZoomScale:10,
+		            minZoomScale:1.0,
+		            borderWidth :1, 
+		      		backgroundColor :"transparent",
+		      		zIndex :100
+				});
+				var Zimage = Ti.UI.createImageView({
+					defaultImage :"/images/image_loader_640x640.png",
+					image: data.thumb_image,
+					width :"100%",
+					height :Ti.UI.SIZE,
+					zIndex :101,
+					//enableZoomControls :"true"
+				});
+				var close = Ti.UI.createImageView({
+					image :"/images/Icon_Delete_Round.png",
+					width : 30, 
+					height : 30, 
+					top : 3,
+					right : 3,  
+					zIndex : 102
+				});
+				Ziv.add(Zimage);
+				Z.add(Ziv);
+				Z.add(close);
+				Zv.add(Z);
+				$.win.add(Zv);
+				close.addEventListener('click',function(e){
+					Zv.removeAllChildren();
+					Zv.height = 0;
+				});
 			});
-			var Ziv = Ti.UI.createScrollView({
-				width :Ti.UI.SIZE, 
-				height :Ti.UI.SIZE,        
-	            showHorizontalScrollIndicator:false,
-	            showVerticalScrollIndicator:false,
-	            maxZoomScale:10,
-	            minZoomScale:1.0,
-	            borderWidth :1, 
-	      		backgroundColor :"transparent",
-	      		zIndex :100
-			});
-			var Zimage = Ti.UI.createImageView({
-				defaultImage :"/images/image_loader_640x640.png",
-				image: data.thumb_image,
-				width :"100%",
-				height :Ti.UI.SIZE,
-				zIndex :101,
-				//enableZoomControls :"true"
-			});
-			var close = Ti.UI.createImageView({
-				image :"/images/Icon_Delete_Round.png",
-				width : 30, 
-				height : 30, 
-				top : 3,
-				right : 3,  
-				zIndex : 102
-			});
-			Ziv.add(Zimage);
-			Z.add(Ziv);
-			Z.add(close);
-			Zv.add(Z);
-			$.win.add(Zv);
-			close.addEventListener('click',function(e){
-				Zv.removeAllChildren();
-				Zv.height = 0;
-			});
-		});
-	}
+		}
 }
 
 function userCurrentPoint(){
@@ -178,6 +161,7 @@ function checkVoucherLimit(){
 function set_data(){
 	var dateUseFrom = convertToHumanFormat(data.use_from);
 	var dateUseTo = convertToHumanFormat(data.use_to);
+	console.log(data.title+" title here!");
 	$.title.setText(data.title);
 	//if(left==-1){
 		//$.leftV2.setText(" ");
@@ -289,6 +273,7 @@ function set_data(){
 		info.add(leftt);
 		info.add(ends);
 		$.info.add(info);
+		console.log("should be here, no point");
 	}else{
 		var ssaved = $.UI.create("View",{
 			width: "25%",
@@ -432,7 +417,7 @@ function htr_extend(){
 function tc_extend(){
 	if(tc_turn){
 		$.tc_image.image = "/images/Icon_Up.png";
-		$.tc.setHeight(Ti.UI.SIZE);
+		$.tc.height = Ti.UI.SIZE;
 		$.hoverg.setOpacity(0);
 		$.smallball.setText("Read Less");					
 		tc_turn = false;
@@ -460,7 +445,11 @@ function checkingVoucher(){
 	now.setHours(8,0,0,0);
 	var save_from = new Date(data.save_from);
 	var save_to = new Date(data.save_to);
-	if(save_from.getTime() < now.getTime() || save_to.getTime() >= now.getTime()){
+	console.log(data.save_from+" "+data.save_to+" "+now.toString());
+	console.log(save_from.getTime()+" "+save_to.getTime()+" "+now.getTime());
+	if(save_from.getTime() > now.getTime() && save_to.getTime() <= now.getTime()){
+		console.log(save_from+" > "+now.getTime());
+		console.log(save_to+" < ="+now);
 		$.save.setTitle("Voucher Not Available");   //check voucher limit
 		$.save.setBackgroundColor("#a6a6a6");
 		$.save.setEnabled(false);
@@ -474,9 +463,6 @@ function checkingVoucher(){
 }
 
 function init(){
-	if(OS_ANDROID){
-		$.scView.bottom = "110";
-	}
 	$.win.add(loading.getView());
 	refresh();
 }

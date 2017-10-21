@@ -57,12 +57,18 @@ Social.addEventListener("complete", function(e){
 function render_page(){
 }
 
+function successCallbackNavToProfile(){
+	refresh();
+	var win = Alloy.createController("profile").getView(); 
+	COMMON.openWindow(win); 
+}
+
 function navTo(e){
 	var target = e.source.target;
 	if(target == "profile"){
 		var user = Ti.App.Properties.getString('session');
 		if(user === null){
-			var win = Alloy.createController("signin_signout").getView();
+			var win = Alloy.createController("signin_signout", {callback: successCallbackNavToProfile}).getView();
 			if(Ti.Platform.osname == "android"){
 				win.fbProxy = FACEBOOK.createActivityWorker({lifecycleContainer: win});
 			}
@@ -76,15 +82,6 @@ function navTo(e){
 		var web_title = parent({name: "web_title"}, e.source);
 		var win = Alloy.createController("webview", {url:url, web_title: web_title}).getView(); 
 		COMMON.openWindow(win);
-	}else if(target == "favourite"){
-		var u_id = Ti.App.Properties.getString('u_id') || "";
-		if(u_id == ""){
-			var win = Alloy.createController("signin_signout").getView(); 
-			COMMON.openWindow(win);
-		}else{
-			var win = Alloy.createController(target).getView();  
-			COMMON.openWindow(win);
-		}
 	}else if(target != "") {
 		var win = Alloy.createController(target).getView();  
 		COMMON.openWindow(win);
@@ -204,11 +201,11 @@ $.invitefriend.addEventListener("click", function(e) {
 // }
 });
 
-function windowClose(){
+function closeWindow(){
 	COMMON.closeWindow($.win);
 }
 
-Ti.App.addEventListener("ads:close",windowClose);
+Ti.App.addEventListener("ads:close",closeWindow);
 Ti.App.addEventListener("more:refresh", refresh);
 
 $.textlogin_out.addEventListener('click', function(e){

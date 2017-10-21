@@ -36,12 +36,12 @@ $.btnBack.addEventListener('click', function() {
 function closeWindow() {
 	Ti.App.removeEventListener('sign:close',closeWindow);
 	console.log("close signin window");
-	COMMON.closeWindow($.signin_out);
-	console.log(callback);
-	console.log(typeof callback);
-	if(callback != ""){
-		setTimeout(function(){callback();}, 1000);
-	}
+	setTimeout(function(){
+		COMMON.closeWindow($.signin_out);
+		if(callback != ""){
+			callback();
+		}
+	}, 500);
 }
 
 $.signin_out.addEventListener("close", function(e){
