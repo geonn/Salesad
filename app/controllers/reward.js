@@ -109,7 +109,7 @@ function refresh(){
 	}, 
 	{
 		onload: function(responseText){
-			console.log("asdf");
+			
 			var model = Alloy.createCollection("points");
 			var res = JSON.parse(responseText);
 			var arr = res.data || null;
@@ -273,7 +273,7 @@ function init(){
 	refreshVlist("refreshSVlist");
 	
 	if(args.savedvoucher != undefined) {
-		console.log(args.savedvoucher+" is what here");
+		
 		refreshSVlist();
 		$.scrollview.scrollToView(1);
 	}
@@ -330,12 +330,8 @@ function vouchers(e, str) {
 			}else {
 				params.push(entry.a_id);
 			}
-			console.log("add_impression see");
-			console.log(typeof add_impression);
-			
 			if (chk_array(add_impression,entry.a_id)) {
 				add_impression.push(entry.a_id);
-				console.log(add_impression.join()+" added");
 			};
 			count = null;
 			var View1 = $.UI.create("View", {
@@ -498,12 +494,12 @@ function ins_voucher(vdata, str) {
 		$.gift_view.setBackgroundColor("#fff");
 		$.gift_label.setColor("gray");
 		var arr = [];
-		console.log("check here");
+		
 		if(vdata.length > 0){
 			last_id[currentVoucherType] =  vdata[vdata.length-1].v_id;
-			console.log(last_id[currentVoucherType]+" "+vdata[vdata.length-1].v_id);
+			
 		}
-		console.log(last_id[currentVoucherType]);
+		
 		vdata.forEach(function(e) {
 			var key = (e.ad_title != "" || e.ad_title !=  null) ? e.ad_title : "Others";
 			arr[key] = arr[key] || {};
@@ -540,10 +536,8 @@ function gift_voucher(vdata) {
 		$.ins_view.setBackgroundColor("#fff");
 		$.ins_label.setColor("gray");
 		
-		console.log("gift voucher check here");
 		if(vdata.length > 0){
 			last_id[currentVoucherType] =  vdata[vdata.length-1].v_id;
-			console.log(last_id[currentVoucherType]+" "+vdata[vdata.length-1].v_id);
 		}
 		
 		//var vmodel = Alloy.createCollection("voucher");
@@ -569,9 +563,6 @@ function filterByOngoing(arr){
 	var arr_return = [];
 	for (var i=0; i < arr.length; i++) {
 		var use_to = new Date(arr[i].use_to);
-		console.log(use_to.toString());
-		console.log(now.toString());
-		console.log(use_to.getTime()+" "+now.getTime());
 		if(use_to.getTime() >= now.getTime()){
 			arr_return.push(arr[i]);
 		}
@@ -585,7 +576,6 @@ function filterByExpired(arr){
 	var arr_return = [];
 	for (var i=0; i < arr.length; i++) {
 		var use_to = new Date(arr[i].use_to);
-		console.log(use_to.getTime()+" "+now.getTime());
 		if(use_to.getTime() < now.getTime()){
 			arr_return.push(arr[i]);
 		}
@@ -808,7 +798,7 @@ function toSaveVoucher(e) {
 
 function delvoucher(e) {
 	COMMON.createAlert("Alert", "Are you sure want to delete this voucher?", function(ex){
-		console.log(e.source.id+" e.source.id");
+		
 		API.callByPost({
 			url: "updateUserVoucher",
 			new: true,
@@ -829,7 +819,7 @@ function delvoucher(e) {
 }
 
 function refreshVlist(str) {
-	console.log(currentVoucherType+" currentVoucherType");
+	
 	API.callByPost({
 		url: "getVoucherList",
 		new: true,
@@ -841,7 +831,7 @@ function refreshVlist(str) {
 			if(currentVoucherType == 1) {
 				ins_voucher(arr, str);
 			}else if(currentVoucherType == 2){
-				console.log("gift voucher");
+				
 				gift_voucher(arr);
 			}
 			loading.finish();
@@ -868,8 +858,7 @@ function refreshSVlist() {
 		onload:function(responseText){
 			var res = JSON.parse(responseText);
 			var arr = res.data || [];
-			console.log("save voucher arr");
-			console.log(arr);
+			
 			if(u_id != "") {
 				savedvoucher(arr);
 			}
@@ -916,19 +905,28 @@ $.scrollview.addEventListener("scrollend", function(e) {
 		}
 		tabColor.setColor("gray");
 		tabviewColor.setBackgroundColor("#fff");
-		console.log(e.currentPage+' e.currentPage');
-		var eval_1 = "$.tab" + e.currentPage;
-		var eval_2 = "$.tabview" + e.currentPage;
-		console.log(eval_1);
-		var tabid = eval(eval_1);
-		var tabviewid = eval(eval_2);
-		tabColor = tabid;
-		tabviewColor = tabviewid;
-		console.log('should be here');
-		console.log(typeof tabid);
-		console.log(tabid);
-		tabColor.setColor("#fff");
-		tabviewColor.setBackgroundColor("#ED1C24");
+		if(e.currentPage == 0){
+			$.tab0.setColor("#fff");
+			$.tabview0.setBackgroundColor("#ED1C24");
+			$.tab1.setColor("gray");
+			$.tabview1.setBackgroundColor("#fff");
+			$.tab2.setColor("gray");
+			$.tabview2.setBackgroundColor("#fff");
+		}else if(e.currentPage == 1){
+			$.tab1.setColor("#fff");
+			$.tabview1.setBackgroundColor("#ED1C24");
+			$.tab0.setColor("gray");
+			$.tabview0.setBackgroundColor("#fff");
+			$.tab2.setColor("gray");
+			$.tabview2.setBackgroundColor("#fff");
+		}else if(e.currentPage == 2){
+			$.tab2.setColor("#fff");
+			$.tabview2.setBackgroundColor("#ED1C24");
+			$.tab1.setColor("gray");
+			$.tabview1.setBackgroundColor("#fff");
+			$.tab0.setColor("gray");
+			$.tabview0.setBackgroundColor("#fff");
+		}
 	}
 });
 
@@ -947,7 +945,7 @@ function createWhoops1(t,e,b,callback){
 };
 
 function impression(a_id) {
-	console.log("impression send "+a_id.join());
+	
 	var params = {
 		a_id:a_id.join(),
 		type:1,
@@ -972,8 +970,7 @@ function scrollChecker(e) {
 }
 
 function loadMore(){
-	console.log("loadmore"+ last_id[currentVoucherType]);
-	console.log({type: currentVoucherType, last_vid: last_id[currentVoucherType]});
+	
 	API.callByPost({
 		url: "getVoucherList",
 		new: true,
@@ -1000,7 +997,7 @@ function loadMore(){
 }
 
 function login_cancel(e) {
-	console.log("asdf");
+	
     $.scrollview.scrollToView(0);
 }
 
