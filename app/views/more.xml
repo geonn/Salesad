@@ -6,7 +6,7 @@
 	        </View>
         </LeftNavButton>
         <RightNavButton>
-	        <View right="0" class="wsize hsize">
+	        <View right="0" widht="30%" class=" hsize">
 	         	<Button id="textlogin_out" left='0' class="wsize hsize" title="Login" />
 	        </View>
         </RightNavButton>
@@ -16,10 +16,10 @@
 				<View left="0" width="15%">
 			    	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
-		     	<View id="pageTitle" width="65%">
+		     	<View id="pageTitle" width="54%">
 		     		<Label color="#ED1C24" id="title">More</Label>
 		     	</View>
-		     	<View right="0" width="20%" height="45" class="wsize hsize">
+		     	<View right="0" width="30%" height="45" class="wsize hsize">
 	         		<Label id="textlogin_out" class="wsize hsize" right="10" color="#ED1C24" text="Login"></Label>
 	        	</View>
 		 	</View>

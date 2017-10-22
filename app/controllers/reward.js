@@ -934,11 +934,19 @@ function createWhoops1(t,e,b,callback){
 	var box = Titanium.UI.createAlertDialog({
 		title: t,
 		message: e,
-		ok: b
+		buttonNames: ['Cancel', b],
+		ok: 1,
+		cancel: 0
 	});
 	box.show();
 	_.isFunction(callback) && box.addEventListener('click', function(e){
+		console.log(e.cancel+"cancel m?");
+		if(e.cancel){
+			loading.finish();
+			return;
+		}
 		if(typeof callback != "undefined"){
+			loading.finish();
 			callback();	
 		};
 	});

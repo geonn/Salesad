@@ -37,6 +37,7 @@ if (Ti.Geolocation.locationServicesEnabled) {
 } 
 
 var skip = 1;
+var compare_lat = 0, compare_long = 0;
 function centerMap(){
 	console.log("centerMap");
 	if(skip <= 0){
@@ -47,16 +48,21 @@ function centerMap(){
 	var lot = Ti.App.Properties.getString('longitude');
 	
 	var bounds = getMapBounds($.mapview.region);
-	
-	API.callByPost({url: "searchNearbyAds", params: {nw_latitude: bounds.northWest.lat, nw_longitude: bounds.northWest.lng, se_latitude: bounds.southEast.lat, se_longitude: bounds.southEast.lng}, new:true}, {
-		onload: function(responseText){
-			var res = JSON.parse(responseText);
-			var data = res.data;
-			var annotations = [];
-			console.log(data);
-			render_map(data);
-		}
-	});
+	console.log(distance($.mapview.region.latitude, $.mapview.region.longitude, compare_lat, compare_long));
+	var dist = distance($.mapview.region.latitude, $.mapview.region.longitude, compare_lat, compare_long);
+	if(dist > 0.4){
+		API.callByPost({url: "searchNearbyAds", params: {nw_latitude: bounds.northWest.lat, nw_longitude: bounds.northWest.lng, se_latitude: bounds.southEast.lat, se_longitude: bounds.southEast.lng}, new:true}, {
+			onload: function(responseText){
+				var res = JSON.parse(responseText);
+				var data = res.data;
+				var annotations = [];
+				console.log(data);
+				render_map(data);
+			}
+		});
+	}
+	compare_lat = $.mapview.region.latitude;
+	compare_long = $.mapview.region.longitude;
 }
 
 function getMapBounds(region) {
@@ -93,8 +99,9 @@ function render_map(adsList){
 	for (var i=0; i < adsList.length; i++) {
 		var ad_arrow = $.UI.create("Button", {
 		    backgroundImage: '/images/btn-forward.png',
+		    classes:['small-padding'],
 		    height: 20,
-			width: 20,
+			width: 15,
 			record: adsList[i]
 		});
 		ad_arrow.addEventListener('click', function(ex){
@@ -104,6 +111,7 @@ function render_map(adsList){
 			COMMON.openWindow(win,{animated:true});		
 		});
 		var merchantLoc = Alloy.Globals.Map.createAnnotation({
+			record: adsList[i],
 		    latitude: adsList[i].latitude,
 		    longitude: adsList[i].longitude,
 		    title: adsList[i].name,
@@ -119,18 +127,26 @@ function render_map(adsList){
 
 $.mapview.addEventListener('click', function(evt) {
     if(OS_ANDROID){
+    	console.log(evt.clicksource);
 	    if(evt.clicksource=="infoWindow"||evt.clicksource=="subtitle"||evt.clicksource=="rightPane"){
-			if(evt.annotation.type==2){
-				var win = Alloy.createController("ad", {a_id: evt.annotation.myid}).getView(); 
-				COMMON.openWindow(win,{animated:true});					
-			} 
-			if(evt.annotation.type==1){
-				COMMON.openWindow(Alloy.createController("express_detail", evt.annotation.record).getView()); 					
-			}			
+			console.log(evt.annotation.record.a_id);
+			var win = Alloy.createController("ad", {a_id: evt.annotation.record.a_id}).getView(); 
+			COMMON.openWindow(win,{animated:true});					
+						
 			win=null;   	
 	    }        	
     } 	  
 });
+
+function distance(lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;    // Math.PI / 180
+  var c = Math.cos;
+  var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+          c(lat1 * p) * c(lat2 * p) * 
+          (1 - c((lon2 - lon1) * p))/2;
+
+  return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}
 
 function closeWindow(){
 	COMMON.closeWindow($.location); 

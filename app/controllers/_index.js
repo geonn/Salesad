@@ -92,7 +92,7 @@ function filterByFavorite(e){
 	$.main_title.text = "Favorites";
 	refresh({url: "getAdByFavorite", params: {u_id: u_id}, onEmpty: function(){
 		console.log('onempty add imageview');
-		$.ad_list.add($.UI.create("ImageView", {image: "/images/Popup_Rewards_Favorite.png", classes:['wfill','hsize','padding']}));
+		$.ad_list.add($.UI.create("Label", {text: "To Favorite a store, visit any Ad and tap on the Favorite icon at the bottom of the screen", classes:['wfill','hsize','padding']}));
 	}});
 }
 

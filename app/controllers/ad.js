@@ -4,7 +4,7 @@ Ti.App.Properties.setString('current_post_id', args.a_id);
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
 var ads, items, branches;
-
+console.log(args.a_id+" at ad");
 function init(){
 	$.win.add(loading.getView());
 	var params = {
@@ -15,6 +15,14 @@ function init(){
 	};
 	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
 	refresh();
+	if(u_id!=""){
+		var params = {u_id:u_id, action:'add', purpose:'7'};
+		API.callByPost({
+			url: "doPointAction",
+			new: true,
+			params: params
+		},{onload: function(res){},onerror: function(err){}});
+	}
 }
 init();
 
@@ -55,6 +63,7 @@ function refresh(e){
 			branches = res.data.branch_details || [];
 			render_banner();
 			getScanMerchant();
+			loading.finish();
 		}
 	});
 }
