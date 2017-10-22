@@ -13,19 +13,23 @@ function goToAds(e){
 	
 	if(e.target == "webview"){
 		console.log(e );
-		var win = Alloy.createController("webview", {web_title: "Annoucement", url: "http://salesad.my/main/notification_announcement?announcement_id="+e.announcement_id}).getView();
+		var win = Alloy.createController("webview", {web_title: "Annoucement", url: "http://salesad.my/main/notification_announcement?announcement_id="+e.extra}).getView();
 		COMMON.openWindow(win);
 		return;
 	}
-	
 	if(e.target == "voucher"){
 		var win = Alloy.createController("reward").getView();
 		COMMON.openWindow(win);
 		return;
 	}
-	if(current_post_id != e.a_id && e.a_id != ""){
-		Ti.App.Properties.setString('current_post_id', e.a_id);
-		console.log(e.a_id+" "+current_post_id+" e.a_id");
+	if(e.target == "voucher_detail"){
+		var win = Alloy.createController("voucher_detail", {v_id: e.extra}).getView();
+		COMMON.openWindow(win);
+		return;
+	}
+	if(e.target == "ad" && current_post_id != e.extra){
+		Ti.App.Properties.setString('current_post_id', e.extra);
+		console.log(e.extra+" "+current_post_id+" e.extra");
 		var dialog = Ti.UI.createAlertDialog({
 			cancel: 1,
 			buttonNames: ['Cancel','OK'],
@@ -34,7 +38,7 @@ function goToAds(e){
 		});
 		dialog.addEventListener('click', function(ex){
 			if (ex.index === 1){
-				goAd(e.a_id, e.m_id);
+				goAd(e.extra);
 			}
 		});
 		dialog.show();
@@ -44,13 +48,13 @@ function goToAds(e){
 	}
 }
 //scrollableView click event
-var goAd = function(a_id, m_id, name, date, isFeed){
+var goAd = function(a_id){
 	var currentTime = new Date();
 	if (currentTime - clickTime < 1000) {
 	    return;
 	};
 	clickTime = currentTime;
-	var win = Alloy.createController("ad", {a_id: a_id, m_id:m_id,  from: "home", isFeed: isFeed, name:name, date:date}).getView();
+	var win = Alloy.createController("ad", {a_id: a_id}).getView();
 	COMMON.openWindow(win);
 };
 

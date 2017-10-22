@@ -5,25 +5,11 @@ var redirect = true;
 // Process incoming push notifications
 function receivePush(e) {   
 
-	var params = (OS_IOS)?e.data.extra:e.extra;
+	var extra = (OS_IOS)?e.data.extra:e.extra;
 	var target = (OS_IOS)?e.data.target:e.target;
 	
-	result = params.split("_"); 
-	params.replace('"', "");
-	params.replace("'", "");
-	params = '"'+params+'"'; 
-	var res_param = JSON.parse(params);
 	//console.log(res_param); 
-		
-	if(res_param.m_id != "" && res_param.a_id != "" ){ 
-		Ti.App.fireEvent('app:goToAds', {m_id:  res_param.m_id, a_id: res_param.a_id, isFeed : 1, target: target});
-	}else if(res_param.m_id != "" && res_param.a_id == "" ){
-		Ti.App.fireEvent('app:goToAds', {m_id: res_param.m_id,a_id: "" , isFeed : 1, target: target });
-	}else if(res_param.v_id == "" ){
-		Ti.App.fireEvent('app:goToAds', {v_id: res_param.v_id, isFeed : 1, target: target });
-	}else if(res_param.announcement_id != "" ){
-		Ti.App.fireEvent('app:goToAds', {announcement_id: res_param.announcement_id, isFeed : 1, target: target });
-	}
+	Ti.App.fireEvent('app:goToAds', {target: target, extra: extra});
 	Ti.App.fireEvent('refresh_notification');
 	return false;
 }

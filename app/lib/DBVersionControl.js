@@ -56,6 +56,7 @@ exports.checkAndUpdate = function(e){
 		dbVersion = "1.8";
 		last_update_on = false;
 	}
+	
 	if(dbVersion == "1.8") {
 		var u_model = Alloy.createCollection('updateChecker');
 		u_model.addColumn("u_id", "INTEGER");
@@ -76,6 +77,19 @@ exports.checkAndUpdate = function(e){
 		dbVersion = "1.9";
 	}
 	if(dbVersion == "1.9") {
+		var model = Alloy.createCollection('favorites');
+		model.addColumn("merchant_name", "TEXT");
+		model.addColumn("marchant_thumb", "TEXT");
+		model.addColumn("status", "INTEGER");
+		model.resetFavorites();
+		
+		Ti.App.Properties.removeProperty('u_id');
+     	Ti.App.Properties.removeProperty('firstname');
+     	Ti.App.Properties.removeProperty('lastname');
+     	Ti.App.Properties.removeProperty('email');
+     	Ti.App.Properties.removeProperty('gender');
+		Ti.App.Properties.removeProperty('session');
+		
 		var u_model = Alloy.createCollection('updateChecker');
 		u_model.addColumn("u_id", "INTEGER");
 		dbVersion = "2.0";

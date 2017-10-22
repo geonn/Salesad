@@ -54,8 +54,14 @@ function navTo(e){
 		var win = Alloy.createController("webview", {web_title: "Annoucement", url: "http://salesad.my/main/notification_announcement?announcement_id="+item.record.extra}).getView();
 		COMMON.openWindow(win);
 		return;
+	}else if(item.record.target == "ad"){
+		console.log(item.record.extra+" item.record.extra");
+		COMMON.openWindow(Alloy.createController(item.record.target, {a_id: item.record.extra}).getView()); 
+	}else if(item.record.target == "voucher_detail"){
+		console.log(item.record.extra+" item.record.extra");
+		COMMON.openWindow(Alloy.createController(item.record.target, {v_id: item.record.extra}).getView()); 
 	}else if(item.record.target != ""){
-		COMMON.openWindow(Alloy.createController(item.record.target, item.record.extra || {}).getView()); 
+		COMMON.openWindow(Alloy.createController(item.record.target, {}).getView()); 
 	}
 }
 

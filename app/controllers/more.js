@@ -98,6 +98,7 @@ function refresh() {
 }
 
 function init(){
+	$.version_text.text = Titanium.App.version;
 	$.win.add(loading.getView());
 	refresh();
 }

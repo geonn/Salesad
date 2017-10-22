@@ -76,7 +76,7 @@
             		</HeaderView>
 		 			<TableViewRow height="50" target="">
 		 				<Label touchEnabled="false" left="10" class="wsize hsize">Version</Label>
-		 				<Label touchEnabled="false" right="10" class="wsize hsize">1.1.0</Label>
+		 				<Label touchEnabled="false" right="10" class="wsize hsize" id="version_text">1.1.0</Label>
 		 			</TableViewRow>
 		 			<TableViewRow height="50" target="">
 		 				<Label touchEnabled="false" class="wfill hsize padding h6" textAlign="center">© Copyright 2017 SalesAd by Freejini Sdn Bhd (10141416-M). All Rights Reserved.</Label>
