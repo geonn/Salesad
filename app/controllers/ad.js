@@ -573,7 +573,7 @@ function pixelToDp(px) {
 }    
 
 function createShareOptions(){
-    var subject = pageTitle;
+    var subject = "Share - " + ads.name;
     var text = ads.name + ". For more detail : http://salesad.my/main/adsDetails/"+args.a_id;
    	// var text = ads.description + ". Download SalesAd : http://apple.co/1RtrCZ4";
   
