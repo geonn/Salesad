@@ -3,7 +3,7 @@ var a_id = args.a_id;
 Ti.App.Properties.setString('current_post_id', args.a_id);
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
-var ads, items, branches;
+var ads, items, branches = [];
 console.log(args.a_id+" at ad");
 function init(){
 	$.win.add(loading.getView());
@@ -318,7 +318,7 @@ function createAdImageEvent(adImage,a_id,position, title, i_id,description, isEx
 $.location.addEventListener('click', function(e){ 
 	if(Ti.Geolocation.locationServicesEnabled){
 		console.log(typeof branches+" typeof branches");
-		if(typeof branches == "undefined"){
+		if(branches.length <= 0){
 			alert("No location available.");	
 		}else{
 			COMMON.openWindow(Alloy.createController("location",{branches: branches}).getView());
@@ -328,7 +328,7 @@ $.location.addEventListener('click', function(e){
 	    Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
 			if(e.success){
 				console.log(typeof branches+" typeof branches");
-				if(typeof branches == "undefined"){
+				if(branches.length <= 0){
 					alert("No location available.");	
 				}else{
 					COMMON.openWindow(Alloy.createController("location",{target_m_id: ads.m_id, branches: branches}).getView());				

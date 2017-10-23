@@ -32,7 +32,12 @@ function init(){
 		}
 		render_also_available(branch);
 	}
-	setCurrentLocation();
+	if(branch <= 0){
+		alert("No location found");
+	}else{
+		setCurrentLocation();
+	}
+	
 }
 
 function render_also_available(data){
@@ -116,7 +121,7 @@ function render_map(){
 			    image: '/images/sales-ad-loc_small.png',
 			    myid:i // Custom property to uniquely identify this annotation.
 			});
-			if(branch[i].latitude!="" || branch[i].longitude!=""){            
+			if(branch[i].latitude!="" && branch[i].longitude!=""){            
 				$.mapview.addAnnotation(merchantLoc); 
 			}	
 		//}
