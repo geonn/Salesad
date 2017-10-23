@@ -11,7 +11,7 @@
 		         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
 		     	<View width="70%">
-		     		<Label color="#ED1C24" id="pageTitle" text="Voucher Detail"></Label>
+		     		<Label color="#ED1C24" id="pageTitle" text="Item Detail"></Label>
 		     	</View>
 		 	</View>
 		 	<View class="hr" top="0"></View>
