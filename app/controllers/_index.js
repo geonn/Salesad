@@ -146,6 +146,11 @@ function updateNotificationNumber(){
 	var model = Alloy.createCollection('notification');
 	var total = model.getCountUnread();
 	console.log(total+"total here");
+	if(total <= 0){
+		$.notification_unread.parent.hide();
+	}else{
+		$.notification_unread.parent.show();
+	}
 	$.notification_unread.text = total;
 }
 
@@ -269,7 +274,7 @@ function nearMe(){
 			}else {
 				alert("Please open your GPS.");
 			}
-	    }else {
+	    }else{
 	    	Ti.Geolocation.requestLocationPermissions(Ti.Geolocation.AUTHORIZATION_WHEN_IN_USE, function(e) {
 				if(e.success) {
 					if (Ti.Geolocation.locationServicesEnabled) {

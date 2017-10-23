@@ -6,7 +6,7 @@ var qrcode = require('qrcode');
 var BARCODE = require('barcode');
 Alloy.Globals.naviPath.push($.win);
 var loading = Alloy.createController("loading");
-
+console.log(barcode);
 var checking = true;
 function genCode(){
 	var dateTimeNow = currentDateTime();

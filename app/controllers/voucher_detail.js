@@ -474,16 +474,20 @@ function refresh(){
 	API.callByPost({url: "getVoucherById",new: true, params:{v_id: args.v_id}}, {
 		onload: function(responseText){
 			var res = JSON.parse(responseText);
-			data = res.data;
-			getNowDate();
-			set_data();
-			if(u_id != ""){
-				userCurrentPoint();
+			if(res.status == "error"){
+				alert(res.data);
+			}else{
+				data = res.data;
+				getNowDate();
+				set_data();
+				if(u_id != ""){
+					userCurrentPoint();
+				}
+				checkVoucherStatus();
+				render_banner();
+				setWindowTitle();
+				addAdsClick();
 			}
-			checkVoucherStatus();
-			render_banner();
-			setWindowTitle();
-			addAdsClick();
 			loading.finish();
 		}
 	});	

@@ -282,9 +282,6 @@ function init(){
 init();
 
 function Tab(e) {
-	if(e.source.num == 1){
-		refreshSVlist();
-	}
 	$.scrollview.scrollToView(e.source.num);
 }
 function chk_array(arr,value){
@@ -480,8 +477,6 @@ function vouchers(e, str) {
 function to_ins_voucher(e) {
 	currentVoucherType = 1;
 	$.voucher_scrollview.vouchertype = "ins_voucher";
-	$.voucher_scrollview.ins_vouchercount = 0;
-	refreshVlist();
 }
 
 function ins_voucher(vdata, str) {
@@ -620,15 +615,7 @@ function list_voucher(e, name) {
 		classes: ['wfill', 'hsize', 'horz']
 	});
 	e.forEach(function (entry) {
-		if(entry.item_id != null){
-			var item = Alloy.createCollection("items");
-			var image = item.getImageByI_id(entry.item_id);
-			if(name == "ongoing" || name == "expire") {
-				entry.image = image;
-			}else {
-				entry.thumb_image = image;
-			}
-		}
+		
 		var container = (name == "ongoing" || name == "expire") ? $.UI.create("View", {
 			classes: ['hsize'],
 			width: cell_width,
@@ -667,7 +654,7 @@ function list_voucher(e, name) {
 		});
 		var img = $.UI.create("ImageView", {
 			classes: ['wfill', 'hsize'],
-			image: (name == "ongoing" || name == "expire") ? entry.image : entry.thumb_image ,
+			image: entry.thumb_image,
 			defaultImage: "/images/image_loader_640x640.png",
 			record: entry,
 			use: (name == "ongoing") ? true : (name == "expire") ? false : ""
@@ -819,7 +806,12 @@ function delvoucher(e) {
 }
 
 function refreshVlist(str) {
-	
+	$.voucher_scrollview.ins_vouchercount = 0;
+	$.voucher_scrollview.gift_vouchercount = 0;
+	$.voucher_view.alltitle = [];
+	$.voucher_view.currentTitle = "";
+	last_id[1] = "";
+	last_id[2] = "";
 	API.callByPost({
 		url: "getVoucherList",
 		new: true,
@@ -895,10 +887,16 @@ $.scrollview.addEventListener("scrollend", function(e) {
 			if(u_id == ""){
 				var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
 				COMMON.openWindow(win);
-			}else if(e.currentPage == 1) {
+			}else if(e.currentPage == 0) {
+				$.voucher_scrollview.ins_vouchercount = 0;
+				$.voucher_scrollview.gift_vouchercount = 0;
+				$.voucher_view.alltitle = [];
+				$.voucher_view.currentTitle = "";
+				last_id[1] = "";
+				last_id[2] = "";
 				refreshVlist();
 			}else if(e.currentPage == 1) {
-				savedvoucher();
+				refreshSVlist();
 			}else if(e.currentPage == 2) {
 				refresh();
 			}
