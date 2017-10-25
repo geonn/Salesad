@@ -25,7 +25,7 @@
 		    <View class="hr" top="0"></View>
 		    <View class="wfill hfill">
 		    	<ListView id="listview" onItemclick="navTo">
-		    		<ListSection id="listsection" headerTitle="">
+		    		<ListSection id="listsection" headerTitle="" backgroundColor="#ffffff">
 		    			
 	    			</ListSection>
 		    	</ListView>

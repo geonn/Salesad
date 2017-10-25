@@ -78,8 +78,8 @@ function navTo(e){
 			COMMON.openWindow(win); 
 		} 
 	}else if(target == "webview"){
-		var url = parent({name: "url"}, e.source);
-		var web_title = parent({name: "web_title"}, e.source);
+		var url = e.source.url;
+		var web_title = e.source.web_title;
 		var win = Alloy.createController("webview", {url:url, web_title: web_title}).getView(); 
 		COMMON.openWindow(win);
 	}else if(target != "") {

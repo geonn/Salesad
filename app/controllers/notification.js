@@ -2,8 +2,10 @@
 var args = $.args;
 var deviceToken = Ti.App.Properties.getString('deviceToken');
 var u_id = Ti.App.Properties.getString('u_id') || "";
+var loading = Alloy.createController("loading");
 
 function init(){
+	$.win.add(loading.getView());
 	var notification_onoff = Ti.App.Properties.getString('notification_onoff') || 1;
 	if(notification_onoff != "1"){
 		$.notification_switch.value = false;
@@ -14,6 +16,7 @@ function init(){
 init();
 
 function refresh(){
+	loading.start();
 	var u_id = Ti.App.Properties.getString('u_id') || 0;
 	var checker = Alloy.createCollection('updateChecker'); 
 	var isUpdate = checker.getCheckerById("13", u_id);
@@ -28,6 +31,7 @@ function refresh(){
 		checker.updateModule(13, "getNotificationByUser", res.last_updated, u_id);
 		console.log("success call api");
 		render_list();
+		loading.finish();
 	}});
 	
 }
@@ -38,7 +42,9 @@ function render_list(){
 	var data = model.getList({u_id: u_id});
 	var items = [];
 	for (var i=0; i < data.length; i++) {
-		items.push({properties :{title: data[i].subject, color: "#404041", record: data[i]}});
+		console.log(data[i].is_read+" isread");
+		var bgcolor = (data[i].is_read)?"#f6f6f6":"#FFEA80";
+		items.push({properties :{title: data[i].subject, color: "#404041", backgroundColor:bgcolor,  record: data[i]}});
 	};
 	console.log(items);
 	$.listsection.setItems(items);

@@ -477,6 +477,7 @@ function vouchers(e, str) {
 function to_ins_voucher(e) {
 	currentVoucherType = 1;
 	$.voucher_scrollview.vouchertype = "ins_voucher";
+	refreshVlist();
 }
 
 function ins_voucher(vdata, str) {
