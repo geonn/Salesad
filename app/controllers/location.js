@@ -82,11 +82,11 @@ var saveCurLoc = function(e) {
     if (e.error) {
     	
     } else {
+    	Ti.App.Properties.setString('latitude', e.coords.latitude);
+    	Ti.App.Properties.setString('longitude', e.coords.longitude);
     	showCurLoc = true;	
     	init();
       	render_map();
-      	Ti.App.Properties.setString('latitude', e.coords.latitude);
-    	Ti.App.Properties.setString('longitude', e.coords.longitude);
        	Ti.Geolocation.removeEventListener('location',saveCurLoc );
     }
 };

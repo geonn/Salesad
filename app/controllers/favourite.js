@@ -42,7 +42,8 @@ function render_favourite_merchant(){
 	}
 	console.log(data);
 	if(data.length <=0){
-		var img = $.UI.create("ImageView", {image:"/images/Popup_Rewards_Favorite.png", classes:['wfill']});
+		
+		var img = $.UI.create("Label", {text: "You have not selected any favorite store yet", classes:['wfill','hsize','padding'], top:30, bottom:30});
 		var view = $.UI.create("View", {classes:['wfill', 'hsize', 'padding']});
 		view.add(img);
 		$.inner_box.add(view);
