@@ -240,6 +240,7 @@ var getAdDetails = function(){
 	var custom = $.UI.create("Label", { 
 		    text: ads.name, 
 		    color: '#ED1C24',
+		    textAlign: "center",
 		    classes: ['wfill']
 	});
 	
