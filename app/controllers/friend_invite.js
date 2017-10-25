@@ -85,7 +85,7 @@ function sendInvite(){
 				//implement fallback sharing..
 			}
 		}else{
-			var text = "SalesAd. Please signup via the link : "+share_url;		  
+			var text = "Download SalesAd now to receive sale alerts and exclusive deals : "+share_url;		  
 			var intent = Ti.Android.createIntent({
 				action: Ti.Android.ACTION_SEND,
 				type: "text/plain",
