@@ -54,10 +54,10 @@ function render_favourite_merchant(){
 	
 	for (var i=0; i < data.length; i++) {
 		var container = $.UI.create("View", {
-			classes:['hsize'],
 			 master:1, 
-			 backgroundColor: "black",
+			 backgroundColor: "#ffffff",
 			 width: cell_width, 
+			 height: cell_width,
 			 left: 10,
 			 top:10, 
 			 record: data[i]
@@ -87,7 +87,6 @@ function render_favourite_merchant(){
 		});
 		var view_backgroundColor = $.UI.create("View", {
 			left:0,
-			backgroundColor: random_color[Math.round(Math.random() * 5)],
 			classes: ['wfill', 'hsize'],
 			touchEnabled: false,
 		});

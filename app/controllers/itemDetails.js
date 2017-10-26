@@ -29,14 +29,19 @@ function init() {
 	$.scrollableView.allVoucherId = [];
 	$.scrollableView.allItemId = [];
 	getAdsImages();
+	param = {
+		item_id: i_id,
+		type:3,
+		from:"itemDetails",
+		u_id:u_id
+	};//console.log("item "+JSON.stringify(param));
+	addAdsClick("", param);
 }
 
 function addAdsClick(name, params) {
 	API.callByPost({url:"addAdsClick",new:true,params:params},{onload:function(res){},onerror:function(err){}});
 	if(name == "init") {
 		getAdsImages();
-	}else if(name == "sendAPI") {
-		sendAPI("Item");
 	}
 }
 
@@ -683,29 +688,8 @@ $.scrollableView.addEventListener('scrollend',function(e) {
 $.win.addEventListener('android:back', closeWindow);
 
 $.win.addEventListener('close', function(e) {
-	sendAPI("Voucher");
+	
 });
-
-function sendAPI(e) {
-	var param = "";
-	if($.scrollableView.allVoucherId != [] && e == "Voucher") {
-		param = {
-			v_id:$.scrollableView.allVoucherId.join(),
-			type:4,
-			from:"itemDetails",
-			u_id:u_id
-		};//console.log("voucher "+JSON.stringify(param));
-		addAdsClick("sendAPI", param);
-	}else if($.scrollableView.allItemId != [] && e == "Item") {
-		param = {
-			item_id:$.scrollableView.allItemId.join(),
-			type:3,
-			from:"itemDetails",
-			u_id:u_id
-		};//console.log("item "+JSON.stringify(param));
-		addAdsClick("", param);
-	}
-}
 
 function closeWindow(e) {
 	if(zoomChecker){

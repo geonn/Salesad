@@ -100,12 +100,14 @@ Social.addEventListener("complete", function(e){
 }
 
 function refresh(){
-	u_id = Ti.App.Properties.getString('u_id') || "";	
+	u_id = Ti.App.Properties.getString('u_id') || "";
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById("14", u_id);
 	loading.start();
 	API.callByPost({
 		url: "getMemberPointsRecords",
 		new: true,
-		params: {u_id: u_id}
+		params: {u_id: u_id, last_updated: isUpdate.updated}
 	}, 
 	{
 		onload: function(responseText){
@@ -119,6 +121,7 @@ function refresh(){
 			render_current_point();
 			render_point_list();
 			loading.finish();
+			checker.updateModule(14, "getMemberPointsRecords", res.last_updated, u_id);
 		},
 		onerror: function(err){
 			_.isString(err.message) && alert(err.message);

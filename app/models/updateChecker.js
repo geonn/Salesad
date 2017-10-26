@@ -15,6 +15,7 @@ ID       type Name
 11		getSXItem
 12		getVoucherList
 13		getNotificationByUser u_id
+14		getMemberPointsRecords u_id
 100++       getCategoryList
 200++		getAdsByCategoryList
 ************************************/

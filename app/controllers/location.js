@@ -142,18 +142,20 @@ function switchLocation(e){
 }
 
 function setCurrentLocation(){
-	if(m_id != ""){
-		var cur = _.where(branch, {m_id: m_id});
-		cur = cur[0];
-	}else{
-		var after_sort = _.sortBy(branch, 'dist');
-		var cur = after_sort[0];
+	if(branch.length > 0){
+		if(m_id != ""){
+			var cur = _.where(branch, {m_id: m_id});
+			cur = cur[0];
+		}else{
+			var after_sort = _.sortBy(branch, 'dist');
+			var cur = after_sort[0];
+		}
+		$.mapview.region = {latitude: cur.latitude, longitude: cur.longitude, latitudeDelta:0.01, longitudeDelta:0.01};
+		setCustomTitle(cur.name);
+		$.name.text = cur.name;
+		$.address.text = cur.address;
+		$.mobile.text = cur.mobile;
 	}
-	$.mapview.region = {latitude: cur.latitude, longitude: cur.longitude, latitudeDelta:0.01, longitudeDelta:0.01};
-	setCustomTitle(cur.name);
-	$.name.text = cur.name;
-	$.address.text = cur.address;
-	$.mobile.text = cur.mobile;
 }
 
 function render_marker(){

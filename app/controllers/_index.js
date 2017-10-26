@@ -18,12 +18,13 @@ function render_banner(e){
 	}
 	console.log(e.data);
 	$.feature_banner.removeAllChildren();
-	for (var i=0; i < e.data.length; i++) {
+	var banner_data = _.shuffle(e.data);
+	for (var i=0; i < banner_data.length; i++) {
 		console.log(banner_width+" banner_width");
-		var view = $.UI.create("View", {classes:['rounded','padding'], bottom: 30, width: banner_width, height: banner_width, right:0, left:10});
+		var view = $.UI.create("View", {classes:['rounded','padding'], bottom: 30, width: banner_width, height: banner_width, right:0, left:15});
 		
-		var img_banner = $.UI.create("ImageView", {classes:['wfill','hsize'], width: banner_width, height: banner_width, image: e.data[i].img_path, target: "ad", record: e.data[i]});
-		var label_name = $.UI.create("Label", {classes:['wfill','hsize','h6','small-padding'], maxLines:2, bottom:"0", color: "#fff", text: e.data[i].name});
+		var img_banner = $.UI.create("ImageView", {classes:['wfill','hsize'], width: banner_width, height: banner_width, image: banner_data[i].img_path, target: "ad", record: banner_data[i]});
+		var label_name = $.UI.create("Label", {classes:['wfill','hsize','h6','small-padding'], maxLines:2, bottom:"0", color: "#fff", text: banner_data[i].name});
 		var view_label = $.UI.create("View", {classes:['wfill','hsize'], bottom:0, backgroundColor: "#80000000"});
 		view_label.add(label_name);
 		view.add(img_banner);
@@ -64,7 +65,7 @@ function filterByKeyword(e){
 	$.manage_btn.hide();
 	var keyword = value;
 	$.main_title.text = "Search result for '"+keyword+"'";
-	refresh({url: "getAdByKeyword", params: {keyword: keyword}, onEmpty: function(){
+	refresh({url: "getAdByKeyword", params: {keyword: keyword, u_id: Ti.App.Properties.getString('u_id') || ""}, onEmpty: function(){
 		console.log('onempty add imageview');
 		$.ad_list.add($.UI.create("Label", {text: "We couldn't find any results for '"+keyword+"'", classes:['wfill','hsize','padding']}));
 	}});
@@ -75,7 +76,7 @@ function homeQR(e){
 	var m_id = e.m_id || 0;
 	console.log(m_id+" see what m_id");
 	$.main_title.text = e.merchant_name;
-	refresh({url: "getAdByMid", params: {m_id: m_id}, onEmpty: function(){
+	refresh({url: "getAdByMid", params: {m_id: m_id, u_id: Ti.App.Properties.getString('u_id') || ""}, onEmpty: function(){
 		console.log('onempty add imageview');
 		$.ad_list.add($.UI.create("Label", {text: "We couldn't find any ad for "+e.merchant_name, classes:['wfill','hfill','padding']}));
 	}});
@@ -118,7 +119,7 @@ function popCategory(e){
 			category_id = category[e.index].id;
 			console.log(category_id+" "+category[e.index].categoryName);
 			$.main_title.text = category[e.index].categoryName;
-			refresh({url: (category_id == 0)?"getLatestAdList":"getAdByCategory", params: {category: category[e.index].id}});
+			refresh({url: (category_id == 0)?"getLatestAdList":"getAdByCategory", params: {category: category[e.index].id, u_id: Ti.App.Properties.getString('u_id') || ""}});
 		}
 	});
 }
@@ -190,7 +191,7 @@ function init(){
 		$.feature_banner.height = 0;
 	}
 	refresh_notification();
-	refresh({url: "getLatestAdList"});
+	refresh({url: "getLatestAdList", u_id: Ti.App.Properties.getString('u_id') || ""});
 	var AppVersionControl = require('AppVersionControl');
 	AppVersionControl.checkAndUpdate();
 }
@@ -222,10 +223,10 @@ Ti.App.addEventListener("homeQR", homeQR);
 
 $.feature_banner.addEventListener("dragend", function(e){
 	var x = (OS_IOS)?this.contentOffset.x:pixelToDp(this.contentOffset.x);
-	var index = Math.floor((((banner_width+10)/2)+x)/(banner_width+10));
-	console.log((((banner_width+10)/2)+x)+" "+banner_width+10);
+	var index = Math.floor((((banner_width+15)/2)+x)/(banner_width+15));
+	console.log((((banner_width+15)/2)+x)+" "+banner_width+15);
 	console.log(index+" index");
-	$.feature_banner.scrollTo((index*(banner_width+10)),0);
+	$.feature_banner.scrollTo((index*(banner_width+15)),0);
 });
 
 $.container.addEventListener("scroll", function(e){
