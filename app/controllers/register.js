@@ -31,79 +31,64 @@ var goSignUp = function(){
 	var salesman_code 		     = $.salesman_code.value;
 	var password 		 = $.password.value;
 	var password2 		 = $.confirm_password.value;
-	var callapi = false;
-	console.log(validateEmail(email));
+	var error_msg = "";
 	if(email == ""){
-		alert("Email cannot be empty");
-		loading.finish();
-		return;				
-	}	
-	else if(password == ""){
-		alert("Password cannot be empty");
-		loading.finish();	
-		return;			
-	}	
-	else if(password2 == ""){
-		alert("Comfirm password cannot be empty");
-		loading.finish();
-		return;				
+		$.email.borderColor = "red";
+		error_msg+="Email cannot be empty\n";
+	}else{
+		$.email.borderColor = "#cccccc";
+		if(!validateEmail(email)){
+			$.email.borderColor = "red";
+			error_msg+="Please enter correct email format.\n";
+		}else{
+			$.email.borderColor = "#cccccc";
+		}
 	}
-	else if(password != password2){
-		alert("Password and comfirm password is not match");
-		loading.finish();	
-		return;			
-	}	
-	else if(firstname == ""){
-		alert("Firstname cannot be empty");
-		loading.finish();	
-		return;			
+	if(password == ""){
+		$.password.borderColor = "red";
+		error_msg+="Password cannot be empty\n";
+	}else{
+		$.password.borderColor = "#cccccc";
 	}
-	else if(lastname == ""){
-		alert("Lastname cannot be empty");
-		loading.finish();	
-		return;			
+	if(password2 == ""){
+		$.confirm_password.borderColor = "red";
+		error_msg+="Comfirm password cannot be empty\n";
+	}else{
+		$.confirm_password.borderColor = "#cccccc";
+		if(password != password2){
+			$.confirm_password.borderColor = "red";
+			error_msg+="Password and comfirm password is not match\n";
+		}else{
+			$.confirm_password.borderColor = "#cccccc";
+		}
 	}
-	else if(gender == ""){
-		alert("Gender cannot be empty");
-		loading.finish();	
-		return;			
+	
+	if(gender == ""){
+		$.gender.borderColor = "red";
+		error_msg+="Gender cannot be empty\n";
+	}else{
+		$.gender.borderColor = "#cccccc";
 	}
-	else if(dob == ""){
-		alert("Date of birth cannot be empty");
-		loading.finish();	
-		return;			
+	if(state == ""){
+		$.state.borderColor = "red";
+		error_msg+="State cannot be empty\n";
+	}else{
+		$.state.borderColor = "cccccc";
 	}
-	else if(state == ""){
-		alert("State cannot be empty");
-		loading.finish();	
-		return;			
+	if(mobile != "" && isNaN(mobile) == true){
+		error_msg+="Mobile wrong format\n";
 	}
-	else if(mobile == ""){
-		alert("Mobile cannot be empty");
-		loading.finish();	
-		return;			
+	if(!tc){
+		$.tc_area.borderColor = "red";
+		error_msg+="Please agree the terms and condition.\n";
+	}else{
+		$.tc_area.borderColor = "cccccc";
 	}
-	else if(isNaN(mobile) == true){
-		alert("Mobile wrong format");
-		loading.finish();	
-		return;
-	}
-	else if(!tc){
-		alert("Please agree the terms and condition.");
-		loading.finish();
-		return;		
-	}else if(!validateEmail(email)){
-		alert("Please enter correct email format.");
-		loading.finish();
-		return;		
-	}else if(tc){
-		callapi = true;	
-	}
-	else if(isSubmit == 1){
+	if(isSubmit == 1){
 		return;
 	}
     isSubmit = 1;
-	if(callapi){
+	if(error_msg==""){
 		API.callByPost({
 			url: "registerUser",
 			new: true,
@@ -126,6 +111,7 @@ var goSignUp = function(){
 				var arr = res.data || null;
 				if(res.status == "success"){
 		         	//save session
+		         	console.log(res.data);
 		         	Ti.App.Properties.setString('u_id', res.data.u_id);
 		         	Ti.App.Properties.setString('firstname', res.data.firstname);
 		         	Ti.App.Properties.setString('lastname', res.data.lastname);
@@ -134,10 +120,12 @@ var goSignUp = function(){
 		         	Ti.App.Properties.setString('gender', res.data.gender);
 					Ti.App.Properties.setString('session', res.data.session);
 		         	/**load new set of category from API**/
-			       	
-			       	
-					common.createAlert('Account Registered', "Thank you for signing up with SalesAd. Please sign in to continue.");
+			       	API.updateNotificationToken();
+			        Ti.App.fireEvent("more:refresh");	
+					common.createAlert('Account Registered', "Thank you for signing up with SalesAd.");
 					Ti.App.fireEvent("login:close");
+					Ti.App.fireEvent("sign:close");
+					
 					closeWindow();
 					isSubmit = 0;
 		         }else{
@@ -154,6 +142,12 @@ var goSignUp = function(){
 			},
 			timeout : 10000
 		});
+		loading.finish();
+	}else{
+		
+		isSubmit = 0;
+		alert(error_msg);
+		error_msg="";
 		loading.finish();
 	}
 };
@@ -215,7 +209,7 @@ var closeWindow = function(e){
 };
 
 function popDatePicker(e){
-	var source = parent({name: "master", value: "1"}, e.source);
+	var source = e.source;
 	var val_date = (typeof source.date != "undefined")?source.date:new Date();
 	var picker = $.UI.create("Picker", {
 	  type:Ti.UI.PICKER_TYPE_DATE,
@@ -256,7 +250,8 @@ function popDatePicker(e){
 }
 
 function popStateDialogOption(e){
-	var source = parent({name: "master", value: "1"}, e.source);
+	var source = e.source;
+	
 	var picker_list = [{name: "Kuala Lumpur"}, {name: "Johor"}, {name: "Kedah"}, {name: "Kelantan"}, {name: "Malacca"}, {name: "Negeri Sembilan"}, {name: "Pahang"}, {name: "Perak"}, {name: "Perlis"}, {name: "Penang"}, {name: "Sabah"}, {name: "Sarawak"}, {name: "Selangor"}, {name: "Terengganu"}];
 	var options = _.pluck(picker_list, "name");
 	options.push("Cancel");
@@ -276,7 +271,7 @@ function popStateDialogOption(e){
 }
 
 function popDialogOption(e){
-	var source = parent({name: "master", value: "1"}, e.source);
+	var source = e.source;
 	var picker_list = [{name: "Male", id: 1}, {name: "Female", id: 2}, {name: "Other", id: 3}];
 	var options = _.pluck(picker_list, "name");
 	options.push("Cancel");

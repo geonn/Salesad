@@ -90,6 +90,7 @@ function navTo(e){
 
 function refresh() {
 	var user = Ti.App.Properties.getString('session');
+	console.log(user+" session");
 	if(user === null) {
 		(OS_IOS)?$.textlogin_out.title = "Login":$.textlogin_out.text = "Login";
 	}else{

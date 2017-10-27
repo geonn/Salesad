@@ -32,7 +32,7 @@
 		fontSize: '14dp',
 		fontFamily: 'FrutigerLT-Light'
 	},
-	 color: '#cccccc', 
+	 color: '#000000', 
 	 width:'90%',
 	 height: '38dp',
 	 bottom:3,
