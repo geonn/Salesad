@@ -27,7 +27,7 @@ var goSignUp = function(){
 	var state = $.state.value || "";
 	var mobile = $.mobile.value;
 	var gender 		 = (typeof $.gender.record != "undefined")?$.gender.record.id:"";
-	var email 		     = $.email.value;
+	var email 		     = $.email.value.trim();
 	var salesman_code 		     = $.salesman_code.value;
 	var password 		 = $.password.value;
 	var password2 		 = $.confirm_password.value;

@@ -148,13 +148,16 @@ function checkVoucherStatus(){
 }
 
 function checkVoucherLimit(){
-	var model = Alloy.createCollection("MyVoucher");
+	var model = Alloy.createCollection("MyVoucherV2");
 	var voucherLimit = model.getCountLimitByVid(v_id);
 	var limit = voucherLimit.count;
+	console.log("number of voucher saved "+limit);
 	if(data.limit==-1){
 		checkingClaimLimit = true;
 	}else if(limit>=data.limit){
 		checkingClaimLimit = false;
+		$.save.setTitle("Voucher Not Available");
+		createWhoops("Whoops","You have reached the voucher save limit per user of this voucher, Please refer to the T&C.");
 	}
 }
 
@@ -573,7 +576,7 @@ function doSave(){
 			createWhoops("Whoops","Sorry, you don't have enough CP points to save this voucher.");
 		}	
 		}else{
-			createWhoops("Whoops","You have exceeded the claim limit per user of this voucher");
+			createWhoops("Whoops","You have reached the voucher save limit per user of this voucher, Please refer to the T&C.");
 		}
 	}
 	}else{
