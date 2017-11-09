@@ -21,12 +21,14 @@ function genCode(){
 		margin: 4, 
 		text: barcode
 	}); 
-	var title = $.UI.create("Label",{classes:['wsize','hsize','h1'],text:barcode});
-	var title1 = $.UI.create("Label",{classes:['wsize','hsize','h5'],text: "Barcode: "+barcode});
+	var title = $.UI.create("Label",{classes:['wsize','hsize','h1'],text: barcode});
+	var title1 = $.UI.create("Label",{classes:['wsize','hsize','h5'],text: barcode});
 	
 	if(args.v_code != ""){
-		var label_vcode = $.UI.create("Label",{classes:['wsize','hsize','h5'], text:"Voucher Code: "+args.v_code});
- 		$.v_code.add(label_vcode);	
+		var view_vcode = $.UI.create("View", {classes:['wsize','hsize','box']});
+		var label_vcode = $.UI.create("Label",{classes:['wsize','hsize','h1','padding'], text:""+args.v_code});
+ 		view_vcode.add(label_vcode);
+ 		$.v_code.add(view_vcode);	
  	}
 	
  	if(display == "1"){

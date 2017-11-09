@@ -281,3 +281,13 @@
 ".lighter_grey":{
 	color: "#E3E5E8"
 }
+
+".save_button":{
+	left: 20,
+	right: 20,
+	bottom: 10,
+	top: 10,
+	backgroundColor: "#ED1C24",
+	color: "#fff",
+	borderRadius: 6
+}

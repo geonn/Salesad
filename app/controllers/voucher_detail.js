@@ -143,6 +143,14 @@ function checkVoucherStatus(){
 		var r = JSON.parse(res);
 		checkingLimit = r.data;
 		console.log(checkingLimit+" checkingLimit");
+		if(checkingLimit){
+			$.save.setTitle(r.message);   //check voucher limit
+			$.save.setBackgroundColor("#a6a6a6");
+			$.save.setEnabled(false);
+		}else{
+			$.save.setTitle("Save Voucher");   //check voucher limit
+			$.save.setEnabled(true);
+		}
 		checkingVoucher();
 	},onerror:function(err){}});
 }
@@ -152,6 +160,7 @@ function checkVoucherLimit(){
 	var voucherLimit = model.getCountLimitByVid(v_id);
 	var limit = voucherLimit.count;
 	console.log("number of voucher saved "+limit);
+	console.log(data.limit+" data.limit");
 	if(data.limit==-1){
 		checkingClaimLimit = true;
 	}else if(limit>=data.limit){
@@ -434,14 +443,6 @@ function tc_extend(){
 }
 
 function checkingVoucher(){
-	if(checkingLimit){
-		$.save.setTitle("Voucher Saved");   //check voucher limit
-		$.save.setBackgroundColor("#a6a6a6");
-		$.save.setEnabled(false);
-	}else if(checkingLimit){
-		$.save.setTitle("Save Voucher");   //check voucher limit
-		$.save.setEnabled(true);
-	}
 	
 	var now = new Date();
 	var expired = false;
