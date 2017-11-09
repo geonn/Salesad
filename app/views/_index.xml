@@ -11,7 +11,7 @@
 		</View>
 		<View class="wfill hsize" backgroundColor="#000000" id="menu" top="0" zIndex="10">
 			<View class='wsize hsize horz' top="10" bottom="10">
-				<ImageView width="40" right="20" onClick="popCategory" height="auto" image="/images/icons/Icon_Menu_Categories.png"></ImageView>
+				<ImageView width="40" right="20" id="category_button" onClick="popCategory" height="auto" image="/images/icons/Icon_Menu_Categories.png"></ImageView>
 				<ImageView width="40" right="20" height="auto" onClick="filterByFavorite" image="/images/icons/Icon_Menu_Favorites.png"></ImageView>
 				<ImageView width="40" right="20" onClick="QrScan" height="auto" image="/images/icons/Icon_Menu_ScanQr.png"></ImageView>
 				<ImageView width="40" right="20" onClick="nearMe" height="auto" image="/images/icons/Icon_Menu_NearMe.png"></ImageView>

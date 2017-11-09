@@ -3,6 +3,7 @@ var pwidth = (OS_ANDROID)?pixelToDp(Titanium.Platform.displayCaps.platformWidth)
 // 0 220
 var category_id;
 var banner_width = Math.ceil(pwidth * 70 / 100);
+var back_enable = false;
 
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
@@ -99,6 +100,12 @@ function filterByFavorite(e){
 
 function popCategory(e){
 	$.manage_btn.hide();
+	if(back_enable){
+		$.main_title.text = "New Sales";
+		refresh({url: "getLatestAdList", params: {category: 0, u_id: Ti.App.Properties.getString('u_id') || ""}});
+		return;
+	}
+	
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory, 'category_list.txt');
 	var contents = f.read();
 	var res = JSON.parse(contents);
@@ -156,6 +163,13 @@ function updateNotificationNumber(){
 }
 
 function refresh(e){
+	if(e.url != "getLatestAdList"){
+		$.category_button.image = "/images/icons/Icon_Menu_Home.png";
+		back_enable = true;
+	}else{
+		$.category_button.image = "/images/icons/Icon_Menu_Categories.png";
+		back_enable = false;
+	}
 	API.callByPost({
 		url: e.url,
 		new: true,
