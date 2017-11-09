@@ -544,6 +544,8 @@ function gift_voucher(vdata) {
 		if($.voucher_scrollview.gift_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		}
+		$.nothingText.text = (vdata.length == 0 && $.voucher_view.children.length == 0)?"Sorry, we don't have any instant vouchers to show right now":"";
+		
 		if(vdata.length > 0) {
 			$.voucher_scrollview.scrolldata = vdata.length;
 			list_voucher(vdata, "gift");
