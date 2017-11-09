@@ -16,8 +16,7 @@
 		    <View class="wfill hsize vert" backgroundColor="#fff" left="20" right="20" top="30">
 		    	<View class="wfill hsize vert padding">
 		    		<Label class="wsize hsize normal_font padding" color="#000" bottom="20">Please show this page at the cashier counter.</Label>
-		    		<Label class="wsize hsize normal_font padding" color="#ed1c24">Do not leave this page until the code is scanned.</Label>	
-		    		<View height="Ti.UI.SIZE" width="Ti.UI.FILL" layout="vertical" id="v_code"></View>		    		
+		    		<Label class="wsize hsize normal_font padding" color="#ed1c24">Do not leave this page until the code is scanned.</Label>		    		
 					<View height="Ti.UI.SIZE" width="Ti.UI.FILL" layout="vertical" id="b_code"></View>	
 					<View height="Ti.UI.SIZE" width="Ti.UI.FILL" top="10" layout="vertical" id="qrCode"></View>							    					    		
 					<View class="wfill hsize padding">

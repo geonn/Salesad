@@ -22,7 +22,13 @@ function genCode(){
 		text: barcode
 	}); 
 	var title = $.UI.create("Label",{classes:['wsize','hsize','h1'],text:barcode});
-	var title1 = $.UI.create("Label",{classes:['wsize','hsize','h5'],text:barcode});
+	var title1 = $.UI.create("Label",{classes:['wsize','hsize','h5'],text: "Barcode: "+barcode});
+	
+	if(args.v_code != ""){
+		var label_vcode = $.UI.create("Label",{classes:['wsize','hsize','h5'], text:"Voucher Code: "+args.v_code});
+ 		$.v_code.add(label_vcode);	
+ 	}
+	
  	if(display == "1"){
  		$.b_code.add(title);	
  	}
