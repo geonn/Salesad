@@ -541,15 +541,17 @@ function gift_voucher(vdata) {
 		
 		//var vmodel = Alloy.createCollection("voucher");
 		//var vdata = vmodel.getGift(false, $.voucher_scrollview.gift_vouchercount);
+		
 		if($.voucher_scrollview.gift_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		}
+		
+		$.nothingText.text = (vdata.length == 0)?"Sorry, we don't have any CP vouchers to show right now":"";	
 		if(vdata.length > 0) {
 			$.voucher_scrollview.scrolldata = vdata.length;
 			list_voucher(vdata, "gift");
 		}else {
 			scrollChecker = (vdata.length == 0) ? false :true;
-			$.nothingText.text = (vdata.length == 0)?"Sorry, we don't have any CP vouchers to show right now":"";							
 			loading.finish();
 			boll = true;
 		}
@@ -827,7 +829,6 @@ function refreshVlist(str) {
 			if(currentVoucherType == 1) {
 				ins_voucher(arr, str);
 			}else if(currentVoucherType == 2){
-				
 				gift_voucher(arr);
 			}
 			loading.finish();
@@ -942,7 +943,6 @@ function createWhoops1(t,e,b,callback){
 	});
 	box.show();
 	_.isFunction(callback) && box.addEventListener('click', function(e){
-		console.log(e.cancel+"cancel m?");
 		if(e.cancel){
 			loading.finish();
 			return;

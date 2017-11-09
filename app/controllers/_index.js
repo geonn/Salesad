@@ -94,7 +94,7 @@ function filterByFavorite(e){
 	$.main_title.text = "Favorites";
 	refresh({url: "getAdByFavorite", params: {u_id: u_id}, onEmpty: function(){
 		console.log('onempty add imageview');
-		$.ad_list.add($.UI.create("Label", {text: "You have not selected any favorite store yet", classes:['wfill','hsize','padding'], top:30,bottom:30}));
+		$.ad_list.add($.UI.create("Label", {text: "Whoops, there's no ads to show from your favorite stores right now.", classes:['wfill','hsize','padding'], top:30,bottom:30}));
 	}});
 }
 
