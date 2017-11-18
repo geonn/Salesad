@@ -57,7 +57,7 @@ function render_favourite_merchant(){
 			 master:1, 
 			 backgroundColor: "#ffffff",
 			 width: cell_width, 
-			 height: cell_width,
+			 height: Ti.UI.SIZE,
 			 left: 10,
 			 top:10, 
 			 record: data[i]
@@ -87,7 +87,8 @@ function render_favourite_merchant(){
 		});
 		var view_backgroundColor = $.UI.create("View", {
 			left:0,
-			classes: ['wfill', 'hsize'],
+			classes: ['wfill'],
+			height: cell_width,
 			touchEnabled: false,
 		});
 		var image_thumb = $.UI.create("ImageView",{

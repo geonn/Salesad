@@ -10,43 +10,28 @@ var boll = true;
 var add_impression = [];
 var currentVoucherType = 1;
 var last_id = [];
-
-if(OS_ANDROID){
-	cell_width = Math.floor((pixelToDp(pwidth) / 2)) - 15;
-	$.swipeRefresh.addEventListener('refreshing', function(e) {
-		if($.voucher_scrollview.voucherrefreshing) {
-			e.source.setRefreshing(false);
+var cell_width = (OS_ANDROID)? Math.floor((pixelToDp(pwidth) / 2)) - 15:cell_width = Math.floor(pwidth / 2) - 15;;
+	
+var control = Ti.UI.createRefreshControl({
+	tintColor:"#00CB85"
+});
+$.voucher_scrollview.refreshControl = control;
+control.addEventListener('refreshstart',function(e){
+    Ti.API.info('refreshstart');
+    setTimeout(function(e){
+        Ti.API.debug('Timeout');
+        $.voucher_scrollview.scrollTo(0,0,true);	
+		setTimeout(function(){
 			$.voucher_scrollview.voucherrefreshing = false;
 			$.voucher_scrollview.ins_vouchercount = 0;
 			$.voucher_scrollview.gift_vouchercount = 0;
 			$.voucher_view.alltitle = [];
 			$.voucher_view.currentTitle = "";
 			refreshVlist();
-		}
-	});
-}else{
-	cell_width = Math.floor(pwidth / 2) - 15;
-	var control = Ti.UI.createRefreshControl({
-    	tintColor:"#00CB85"
-	});
-	$.voucher_scrollview.refreshControl = control;
-	control.addEventListener('refreshstart',function(e){
-	    Ti.API.info('refreshstart');
-	    setTimeout(function(e){
-	        Ti.API.debug('Timeout');
-	        $.voucher_scrollview.scrollTo(0,0,true);	
-			setTimeout(function(){
-				$.voucher_scrollview.voucherrefreshing = false;
-				$.voucher_scrollview.ins_vouchercount = 0;
-				$.voucher_scrollview.gift_vouchercount = 0;
-				$.voucher_view.alltitle = [];
-				$.voucher_view.currentTitle = "";
-				refreshVlist();
-			},500);	        
-	        control.endRefreshing();
-	    }, 1000);
-	});
-}
+		},500);	        
+        control.endRefreshing();
+    }, 1000);
+});
 
 if (OS_IOS){
 //iOS only module
@@ -541,7 +526,7 @@ function gift_voucher(vdata) {
 		
 		//var vmodel = Alloy.createCollection("voucher");
 		//var vdata = vmodel.getGift(false, $.voucher_scrollview.gift_vouchercount);
-		
+		console.log($.voucher_scrollview.gift_vouchercount+" $.voucher_scrollview.gift_vouchercount");
 		if($.voucher_scrollview.gift_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		} 
@@ -772,7 +757,7 @@ function list_voucher(e, name) {
 	loading.finish();
 	$.voucher_scrollview.voucherrefreshing = true;
 	$.voucher_scrollview.scrollcheck = true;
-	$.voucher_scrollview.gift_vouchercount += 8;
+	//$.voucher_scrollview.gift_vouchercount += 8;
 }
 
 function toVoucher(e) {

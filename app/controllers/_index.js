@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 var pwidth = (OS_ANDROID)?pixelToDp(Titanium.Platform.displayCaps.platformWidth):Titanium.Platform.displayCaps.platformWidth;
 // 0 220
-var category_id;
+var category_id = 0, category_name;
 var banner_width = Math.ceil(pwidth * 70 / 100);
 var back_enable = false;
 
@@ -90,6 +90,7 @@ function filterByFavorite(e){
 		COMMON.openWindow(win);
 		return;
 	}
+	$.manage_btn.text = "Manage";
 	$.manage_btn.show();
 	$.main_title.text = "Favorites";
 	refresh({url: "getAdByFavorite", params: {u_id: u_id}, onEmpty: function(){
@@ -98,8 +99,20 @@ function filterByFavorite(e){
 	}});
 }
 
+function doManage(e){
+	if(e.source.text == "Manage"){
+		navTo(e);
+	}else if(e.source.text == "Refresh"){
+		refresh({url: (category_id == 0)?"getLatestAdList":"getAdByCategory", params: {category: category_id, u_id: Ti.App.Properties.getString('u_id') || ""}, 
+		onEmpty: function(){
+			$.ad_list.add($.UI.create("Label", {text: "Whoops, there's no ads to show from "+category_name+" right now.", classes:['wfill','hsize','padding'], top:30,bottom:30}));
+		}});
+	}
+}
+
 function popCategory(e){
-	$.manage_btn.hide();
+	$.manage_btn.text = "Refresh";
+	$.manage_btn.show();
 	if(back_enable){
 		$.main_title.text = "New Sales";
 		refresh({url: "getLatestAdList", params: {category: 0, u_id: Ti.App.Properties.getString('u_id') || ""}});
@@ -126,7 +139,11 @@ function popCategory(e){
 			category_id = category[e.index].id;
 			console.log(category_id+" "+category[e.index].categoryName);
 			$.main_title.text = category[e.index].categoryName;
-			refresh({url: (category_id == 0)?"getLatestAdList":"getAdByCategory", params: {category: category[e.index].id, u_id: Ti.App.Properties.getString('u_id') || ""}});
+			category_name = category[e.index].categoryName;
+			refresh({url: (category_id == 0)?"getLatestAdList":"getAdByCategory", params: {category: category[e.index].id, u_id: Ti.App.Properties.getString('u_id') || ""}, 
+			onEmpty: function(){
+				$.ad_list.add($.UI.create("Label", {text: "Whoops, there's no ads to show from "+category[e.index].categoryName+" right now.", classes:['wfill','hsize','padding'], top:30,bottom:30}));
+			}});
 		}
 	});
 }
@@ -167,6 +184,8 @@ function refresh(e){
 		$.category_button.image = "/images/icons/Icon_Menu_Home.png";
 		back_enable = true;
 	}else{
+		category_id = 0;
+		category_name = "";
 		$.category_button.image = "/images/icons/Icon_Menu_Categories.png";
 		back_enable = false;
 	}
@@ -197,7 +216,7 @@ function refresh(e){
 }
 
 function init(){
-	$.manage_btn.hide();
+	$.manage_btn.show();
 	console.log($.feature_banner.children.length+" $.feature_banner.children.length");
 	if($.feature_banner.children.length > 0){
 		$.feature_banner.height = banner_width + 40;

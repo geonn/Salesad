@@ -39,12 +39,20 @@ exports.openScanner = function(scanType) {
 		var barcode = e.barcode; 
 		console.log(barcode);
 		var barRes = barcode.split("||");
-		if(typeof barRes[0] != "undefined"){
-			var barStr = 'sales'+barRes[0];
-			console.log(barRes[0]);
-			//checkReward(barRes[0]);
-			Ti.App.Properties.setString(barStr, currentDate);
-			Ti.App.fireEvent('homeQR', {m_id: barRes[0], merchant_name: barRes[1]}); 
+		if(scanType == "4"){
+			if(typeof barRes[0] != "undefined"){
+				var barStr = 'sales'+barRes[0];
+				console.log(barRes[0]);
+				//checkReward(barRes[0]);
+				Ti.App.Properties.setString(barStr, currentDate);
+				Ti.App.fireEvent('homeQR', {m_id: barRes[0], merchant_name: barRes[1]}); 
+			}
+		}else if(scanType == "2"){
+			if(typeof barRes[0] != "undefined"){
+				var barStr = barRes[0];
+				console.log(barRes[0]);
+				Ti.App.fireEvent('getMid', {m_id: barRes[0]}); 
+			}
 		}
 		picker.stopScanning();
 		window.close();
@@ -68,6 +76,15 @@ exports.openScanner = function(scanType) {
 			checkReward(barRes[0]);
 			Ti.App.Properties.setString(barStr, currentDate);
 			Ti.App.fireEvent('afterScan', {m_id: barRes[0]});
+		}else if(scanType == "2"){
+			var barcode = e.barcode; 
+			var barRes = barcode.split("||");
+			console.log(barRes);
+			if(typeof barRes[0] != "undefined"){
+				var barStr = barRes[0];
+				console.log(barRes[0]);
+				Ti.App.fireEvent('getMid', {m_id: barRes[0]}); 
+			}
 		}else if(scanType == "4"){
 			var barcode = e.barcode; 
 			var barRes = barcode.split("||");

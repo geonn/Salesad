@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="" navBarHidden="true" fullscreen="true">
+	<Window id="win" title="" navBarHidden="true" exitOnClose="true" fullscreen="true">
 		<View class='wfill hsize' top="0" zIndex="10" backgroundColor="#000000">
 			<TextField height="40" class="wfill" top="10" bottom="10" left="15" right="100" id="keyword" backgroundColor="#ffffff" color="#000000" hintText="Search SalesAd" onReturn="filterByKeyword">Search SalesAd</TextField>
 			<ImageView width="25" class="hsize" right="110" top="17" onClick="filterByKeyword" image="/images/icons/SalesAd_All Icon_5-45.png"></ImageView>
@@ -25,7 +25,7 @@
 			<View class="wfill hsize vert" backgroundColor="#f6f6f6">
 				<View class="wfill hsize" id="title">
 					<Label class="wsize hsize h5 bold" right="10" left="14" top="45" id="main_title">New Sales</Label>
-					<Label class="wsize hsize h5 bold" id="manage_btn" onClick="navTo" target="favourite" top="45" right="10">Manage</Label>
+					<Label class="wsize hsize h5 red" id="manage_btn" onClick="doManage" target="favourite" top="45" right="10">Refresh</Label>
 				</View>
 				<View class="horz wfill hsize" left="14" id="ad_list"></View>
 			</View>

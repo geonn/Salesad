@@ -22,7 +22,7 @@ function genCode(){
 		text: barcode
 	}); 
 	var title = $.UI.create("Label",{classes:['wsize','hsize','h1'],text: barcode});
-	var title1 = $.UI.create("Label",{classes:['wsize','hsize','h5'],text: barcode});
+	var title1 = $.UI.create("Label",{classes:['wsize','hsize','h3'],text: barcode});
 	
 	if(args.v_code != ""){
 		var view_vcode = $.UI.create("View", {classes:['wsize','hsize','box']});

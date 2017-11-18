@@ -18,7 +18,7 @@ exports.generateBarcode = function(code){
 	 	str += '<script> ';
 	 	str += 'var bCode="'+code+'"; ';
 		str += '$(document).ready(function(){'; 
-		str += '$("#barcode").barcode(bCode, "ean13",{barWidth:2, barHeight:60});';
+		str += '$("#barcode").barcode(bCode, "code128",{barWidth:1, barHeight:60});';
 		str += 'var contentHeight = $( "div" ).height();';
 		str += '$("html").css("height", contentHeight + 10);';
 		str += ' $("body").css("height", contentHeight);';	 
@@ -26,8 +26,8 @@ exports.generateBarcode = function(code){
 		
 		str += '</script>'; 
 		str += '</head>';
-		str += '<body style="overflow: hidden;font-size:14px;display: flex;font-family:arial;">';
-		str += '<div id="barcode"style="height:80px;" ></div>';   
+		str += '<body style="overflow: hidden;font-size:14px; font-family:arial;">';
+		str += '<div id="barcode"style="height:80px; margin:0 auto; display:block" ></div>';   
 		str += '</body>';
 		str += '</html>'; 
 		

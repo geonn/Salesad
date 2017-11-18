@@ -122,25 +122,50 @@ function useVoucher(e){
 	if(checking && use){
 		checking = false;
 		COMMON.createAlert("Use Voucher","Confirm to use the voucher now?\nYou can't undo this action.",function(ex){
-			API.callByPost({url:"updateUserVoucher",params:{id:res.id, status:0}},{
-				onload:function(responseText){
-					COMMON.closeWindow($.win);
-					Ti.App.fireEvent('myvoucher:refresh');							
-					COMMON.openWindow(Alloy.createController("Voucher_Receipt",{barcode:res.barcode,display_type:res.display_type, v_code: res.v_code}).getView());
-				},
-				onerror: function(err){
-					_.isString(err.message) && alert(err.message);
-				},
-				onexception: function(){
-					COMMON.closeWindow($.win);
-				}
-			});
+			if(res.need_scan){
+				var SCANNER = require("scanner");
+				if(Ti.Media.hasCameraPermissions()){
+					SCANNER.openScanner("2");
+			    }else{
+			        Ti.Media.requestCameraPermissions(function(e) {
+			        	if(e.success){
+							SCANNER.openScanner("2");				       
+				        }
+			        	else{
+			        		alert("You denied permission.");
+			        	}			        
+			        });	        	
+			    }
+			}else{
+				updateuserVoucher();
+			}
+			
 		},undefined,function(){
 			checking = true;
 		});
 		checking = true;		
 	}
 }
+
+function updateuserVoucher(e){
+	console.log("call function updateuserVoucher");
+	var params = (typeof e.m_id != "undefined")?{m_id: e.m_id, id:res.id, status:0}: {id:res.id, status:0};
+	console.log(params);
+	API.callByPost({url:"updateUserVoucher",params:params},{
+		onload:function(responseText){
+			COMMON.closeWindow($.win);
+			Ti.App.fireEvent('myvoucher:refresh');							
+			COMMON.openWindow(Alloy.createController("Voucher_Receipt",{barcode:res.barcode,display_type:res.display_type, v_code: res.v_code}).getView());
+		},
+		onerror: function(err){
+			_.isString(err.message) && alert(err.message);
+		},
+		onexception: function(){
+			COMMON.closeWindow($.win);
+		}
+	});
+}
+
 function getAdDetails(){
 	var custom = $.UI.create("Label", { 
 		    text: "Saved Voucher", 
@@ -224,6 +249,12 @@ function showtnc(e){
 		c2 = true;
 	}
 }
+
+Ti.App.addEventListener("getMid", updateuserVoucher);
+
+$.win.addEventListener("close", function(e){
+	Ti.App.removeEventListener("getMid", updateuserVoucher);
+});
 
 $.win.addEventListener('android:back', function (e) {
  	COMMON.closeWindow($.win); 
