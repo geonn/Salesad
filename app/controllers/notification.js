@@ -3,6 +3,7 @@ var args = $.args;
 var deviceToken = Ti.App.Properties.getString('deviceToken');
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var loading = Alloy.createController("loading");
+var delete_mode = false;
 
 function init(){
 	$.win.add(loading.getView());
@@ -36,6 +37,11 @@ function refresh(){
 	
 }
 
+function changeDeleteMode(){
+	delete_mode = (delete_mode)?false:true;
+	render_list();
+}
+
 function render_list(){
 	
 	var model = Alloy.createCollection('notification');
@@ -43,14 +49,35 @@ function render_list(){
 	var items = [];
 	for (var i=0; i < data.length; i++) {
 		console.log(data[i].is_read+" isread");
-		var bgcolor = (data[i].is_read)?"#f6f6f6":"#FFEA80";
-		items.push({properties :{title: data[i].subject, color: "#404041", backgroundColor:bgcolor,  record: data[i]}});
+		var bgcolor = (data[i].is_read > 0)?"#f6f6f6":"#FFEA80";
+		var delete_icon = (delete_mode)?"/images/icons/Icon_Delete.png":"";
+		items.push({properties :{title: data[i].subject, image:delete_icon, color: "#404041", backgroundColor:bgcolor,  record: data[i]}});
 	};
 	console.log(items);
 	$.listsection.setItems(items);
 }
 
 function navTo(e){
+	if(delete_mode){
+		loading.start();
+		var item = e.section.getItemAt(e.itemIndex);
+		item = item.properties;
+		console.log(item.record.id);
+		API.callByPost({
+			url: "deleteNotification",
+			new: true,
+			params: {id: item.record.id},
+		},{onload: function(responseText){
+			var res = JSON.parse(responseText);
+			if(res.status == "success"){
+				console.log(e.section);
+				console.log(e.itemIndex+" itemIndex");
+				e.section.deleteItemsAt(e.itemIndex, 1);
+			}
+			loading.finish();
+		}});
+		return;
+	}
 	var item = e.section.getItemAt(e.itemIndex);
 	item = item.properties;
 	var model = Alloy.createCollection('notification');
@@ -69,6 +96,7 @@ function navTo(e){
 	}else if(item.record.target != ""){
 		COMMON.openWindow(Alloy.createController(item.record.target, {}).getView()); 
 	}
+	render_list();
 }
 
 var changeStatus = function(e){

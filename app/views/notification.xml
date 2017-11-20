@@ -23,6 +23,7 @@
 			    </View>
 		 	</View>
 		    <View class="hr" top="0"></View>
+		    <ImageView image="/images/icons/Icon_Delete_big.png" onClick="changeDeleteMode" width="20" height="20" top="10" bottom="10" left="10"></ImageView>
 		    <View class="wfill hfill">
 		    	<ListView id="listview" onItemclick="navTo">
 		    		<ListSection id="listsection" headerTitle="" backgroundColor="#ffffff">

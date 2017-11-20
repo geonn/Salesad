@@ -122,14 +122,16 @@ function useVoucher(e){
 	if(checking && use){
 		checking = false;
 		COMMON.createAlert("Use Voucher","Confirm to use the voucher now?\nYou can't undo this action.",function(ex){
-			if(res.need_scan){
+			console.log(res.need_scan+" need_scan");
+			if(res.need_scan > 0){
+				console.log("why 0 can get in");
 				var SCANNER = require("scanner");
 				if(Ti.Media.hasCameraPermissions()){
-					SCANNER.openScanner("2");
+					SCANNER.openScanner("2", "Align the store QR code to your device camera.");
 			    }else{
 			        Ti.Media.requestCameraPermissions(function(e) {
 			        	if(e.success){
-							SCANNER.openScanner("2");				       
+							SCANNER.openScanner("2", "Align the store QR code to your device camera.");				       
 				        }
 			        	else{
 			        		alert("You denied permission.");
@@ -137,7 +139,7 @@ function useVoucher(e){
 			        });	        	
 			    }
 			}else{
-				updateuserVoucher();
+				updateuserVoucher({});
 			}
 			
 		},undefined,function(){

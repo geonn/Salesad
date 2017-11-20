@@ -6,7 +6,7 @@ if(Ti.Platform.osname == 'iphone' || Ti.Platform.osname == 'ipad'){
 scanditsdk.appKey = "qt/U+huGEeSG62SYxtngPa7xVDA0BLRMw7gQLH8qAB0"; 
 scanditsdk.cameraFacingPreference = 0; 
 
-exports.openScanner = function(scanType) {
+exports.openScanner = function(scanType, textMessage) {
 	// First set the app key and which direction the camera should face.
 
 	// Only after setting the app key instantiate the Scandit SDK Barcode Picker view
@@ -26,7 +26,8 @@ exports.openScanner = function(scanType) {
 			navBarHidden:true
 	});
 	var viewText = Titanium.UI.createView({width:Ti.UI.FILL,top:0,height:Ti.UI.SIZE,backgroundColor:"#A3000000",zIndex:100});
-	var textMessage = Titanium.UI.createLabel({width:Ti.UI.FILL,height:Ti.UI.SIZE,textAlign:Titanium.UI.TEXT_ALIGNMENT_CENTER,top:20,left:20,right:20,bottom:20,color:"#fff",text:"Align the store QR code to your device camera to get to know about the latest deals by the store."});
+	
+	var textMessage = Titanium.UI.createLabel({width:Ti.UI.FILL,height:Ti.UI.SIZE,textAlign:Titanium.UI.TEXT_ALIGNMENT_CENTER,top:20,left:20,right:20,bottom:20,color:"#fff",text:(typeof textMessage != "undefined")?textMessage:"Align the store QR code to your device camera to get to know about the latest deals by the store."});
 	viewText.add(textMessage);
 	// Set callback functions for when scanning succeeds and for when the 
 	// scanning is canceled. This callback is called on the scan engine's

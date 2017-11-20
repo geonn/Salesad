@@ -4,6 +4,9 @@ var pwidth = (OS_ANDROID)?pixelToDp(Titanium.Platform.displayCaps.platformWidth)
 var category_id = 0, category_name;
 var banner_width = Math.ceil(pwidth * 70 / 100);
 var back_enable = false;
+var number_feature = 0;
+var hold = false;
+var interval;
 
 function pixelToDp(px) {
     return ( parseInt(px) / (Titanium.Platform.displayCaps.dpi / 160));
@@ -34,6 +37,15 @@ function render_banner(e){
 		$.feature_banner.add(view);
 	};
 	$.feature_banner.add($.UI.create("View", {width: banner_width, height: banner_width}));
+	auto_rotate();
+}
+
+function auto_rotate(){
+	var no_banner = $.feature_banner.getChildren();
+	interval = setInterval(function(e){
+		number_feature = (number_feature + 1 >= no_banner.length - 1)?0:number_feature + 1;
+		feature_banner_scrollTo();
+	}, 3000);
 }
 
 function navTo(e){
@@ -95,7 +107,7 @@ function filterByFavorite(e){
 	$.main_title.text = "Favorites";
 	refresh({url: "getAdByFavorite", params: {u_id: u_id}, onEmpty: function(){
 		console.log('onempty add imageview');
-		$.ad_list.add($.UI.create("Label", {text: "Whoops, there's no ads to show from your favorite stores right now.", classes:['wfill','hsize','padding'], top:30,bottom:30}));
+		$.ad_list.add($.UI.create("Label", {text: "Whoops, there are no ads to show from your favorite stores right now.", classes:['wfill','hsize','padding'], top:30,bottom:30}));
 	}});
 }
 
@@ -105,7 +117,8 @@ function doManage(e){
 	}else if(e.source.text == "Refresh"){
 		refresh({url: (category_id == 0)?"getLatestAdList":"getAdByCategory", params: {category: category_id, u_id: Ti.App.Properties.getString('u_id') || ""}, 
 		onEmpty: function(){
-			$.ad_list.add($.UI.create("Label", {text: "Whoops, there's no ads to show from "+category_name+" right now.", classes:['wfill','hsize','padding'], top:30,bottom:30}));
+			var text_message = (category_id == 0)?"Whoops, there are no ads to show right now.":"Whoops, there's no ads to show from "+category_name+" right now.";
+			$.ad_list.add($.UI.create("Label", {text: text_message, classes:['wfill','hsize','padding'], top:30,bottom:30}));
 		}});
 	}
 }
@@ -215,14 +228,12 @@ function refresh(e){
 	}});
 }
 
+function feature_banner_scrollTo(){
+	$.feature_banner.scrollTo((number_feature*(banner_width+15)),0);
+}
+
 function init(){
 	$.manage_btn.show();
-	console.log($.feature_banner.children.length+" $.feature_banner.children.length");
-	if($.feature_banner.children.length > 0){
-		$.feature_banner.height = banner_width + 40;
-	}else{
-		$.feature_banner.height = 0;
-	}
 	refresh_notification();
 	refresh({url: "getLatestAdList", u_id: Ti.App.Properties.getString('u_id') || ""});
 	var AppVersionControl = require('AppVersionControl');
@@ -254,12 +265,17 @@ Ti.App.addEventListener("refresh_notification", refresh_notification);
 Ti.App.addEventListener("updateNotificationNumber", updateNotificationNumber);
 Ti.App.addEventListener("homeQR", homeQR);
 
+$.feature_banner.addEventListener("dragstart", function(e){
+	clearInterval(interval);
+	//hold = true;
+});
+
 $.feature_banner.addEventListener("dragend", function(e){
 	var x = (OS_IOS)?this.contentOffset.x:pixelToDp(this.contentOffset.x);
-	var index = Math.floor((((banner_width+15)/2)+x)/(banner_width+15));
-	console.log((((banner_width+15)/2)+x)+" "+banner_width+15);
-	console.log(index+" index");
-	$.feature_banner.scrollTo((index*(banner_width+15)),0);
+	number_feature = Math.floor((((banner_width+15)/2)+x)/(banner_width+15));
+	//hold = false;
+	auto_rotate();
+	feature_banner_scrollTo();
 });
 
 $.container.addEventListener("scroll", function(e){
