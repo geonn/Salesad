@@ -45,8 +45,8 @@ function goToAds(e){
 		
 	}
 }
-//scrollableView click event
-var goAd = function(a_id){
+//scrollableView click event 
+var goAd = function(a_id){ 
 	var win = Alloy.createController("ad", {a_id: a_id}).getView();
 	COMMON.openWindow(win);
 };
