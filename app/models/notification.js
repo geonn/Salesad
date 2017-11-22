@@ -87,7 +87,7 @@ exports.definition = {
 				var collection = this;
                 var u_id = Ti.App.Properties.getString('u_id') || 0;
                 db = Ti.Database.open(collection.config.adapter.db_name);
-                var sql = "SELECT COUNT(*) AS total FROM " + collection.config.adapter.collection_name + " WHERE u_id=? and is_read='0'" ;
+                var sql = "SELECT COUNT(*) AS total FROM " + collection.config.adapter.collection_name + " WHERE u_id=? and is_read='0' and status = 1" ;
                console.log(sql);
                 var res = db.execute(sql, u_id);
                 var listArr =0;
