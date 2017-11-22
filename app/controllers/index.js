@@ -1,5 +1,3 @@
-PUSH.registerPush();
-
 var args = {};
 var u_id = Ti.App.Properties.getString('u_id') || "";
 var pwidth = Titanium.Platform.displayCaps.platformWidth;

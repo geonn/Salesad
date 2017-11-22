@@ -45,7 +45,7 @@ function auto_rotate(){
 	interval = setInterval(function(e){
 		number_feature = (number_feature + 1 >= no_banner.length - 1)?0:number_feature + 1;
 		feature_banner_scrollTo();
-	}, 3000);
+	}, 4000);
 }
 
 function navTo(e){
@@ -229,10 +229,11 @@ function refresh(e){
 }
 
 function feature_banner_scrollTo(){
-	$.feature_banner.scrollTo((number_feature*(banner_width+15)),0);
+	$.feature_banner.scrollTo((number_feature*(banner_width+15)), 0, {animated: true});
 }
 
 function init(){
+	PUSH.registerPush();
 	$.manage_btn.show();
 	refresh_notification();
 	refresh({url: "getLatestAdList", u_id: Ti.App.Properties.getString('u_id') || ""});
