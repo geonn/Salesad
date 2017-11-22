@@ -47,11 +47,6 @@ function goToAds(e){
 }
 //scrollableView click event
 var goAd = function(a_id){
-	var currentTime = new Date();
-	if (currentTime - clickTime < 1000) {
-	    return;
-	};
-	clickTime = currentTime;
 	var win = Alloy.createController("ad", {a_id: a_id}).getView();
 	COMMON.openWindow(win);
 };

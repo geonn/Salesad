@@ -17,8 +17,7 @@ Alloy.Globals.Map =  (OS_IOS || OS_ANDROID) ? require('ti.map') : Ti.Map;
 Alloy.Globals.naviPath = [];
 /** include required file**/
 var API = require('api');
-var COMMON = require('common'); 
-var PUSH = require('push');
+var COMMON = require('common');
 var DBVersionControl = require('DBVersionControl');
 
 var last_update_on = true;
