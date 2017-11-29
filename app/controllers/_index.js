@@ -232,54 +232,6 @@ function feature_banner_scrollTo(){
 	$.feature_banner.scrollTo((number_feature*(banner_width+15)), 0, {animated: true});
 }
 
-/** navigate to Ad **/
-var current_post_id = 0;
-function goToAds(e){
-	current_post_id = Ti.App.Properties.getString('current_post_id') || 0;
-	console.log(e.target+" target");
-	console.log(e.extra+" extra");
-	if(e.target == "webview"){
-		console.log(e );
-		var win = Alloy.createController("webview", {web_title: "Annoucement", url: "http://salesad.my/main/notification_announcement?announcement_id="+e.extra}).getView();
-		COMMON.openWindow(win);
-		return;
-	}
-	if(e.target == "voucher"){
-		var win = Alloy.createController("reward").getView();
-		COMMON.openWindow(win);
-		return;
-	}
-	if(e.target == "voucher_detail"){
-		var win = Alloy.createController("voucher_detail", {v_id: e.extra}).getView();
-		COMMON.openWindow(win);
-		return;
-	}
-	if(e.target == "ad" && current_post_id != e.extra){
-		Ti.App.Properties.setString('current_post_id', e.extra);
-		console.log(e.extra+" "+current_post_id+" e.extra");
-		var dialog = Ti.UI.createAlertDialog({
-			cancel: 1,
-			buttonNames: ['Cancel','OK'],
-			message: 'Got a new Ad. Do you want to read now?',
-			title: 'New Notification'
-		});
-		dialog.addEventListener('click', function(ex){
-			if (ex.index === 1){
-				goAd(e.extra);
-			}
-		});
-		dialog.show();
-		
-	}else{
-		
-	}
-}
-//scrollableView click event 
-var goAd = function(a_id){ 
-	console.log("goAd"+a_id);
-	var win = Alloy.createController("ad", {a_id: a_id}).getView();
-	COMMON.openWindow(win);
-};
 
 function init(){
 	
@@ -288,8 +240,7 @@ function init(){
 	refresh({url: "getLatestAdList", u_id: Ti.App.Properties.getString('u_id') || ""});
 	var AppVersionControl = require('AppVersionControl');
 	AppVersionControl.checkAndUpdate();
-	var PUSH = require('push');
-	PUSH.registerPush();
+	
 }
 
 init();
@@ -304,7 +255,7 @@ function postLayoutForWindow(){
 	$.menu.top = menu_top;
 	$.win.removeEventListener("postlayout", postLayoutForWindow);
 }
-Ti.App.addEventListener('app:goToAds', goToAds);
+
 $.win.addEventListener("postlayout", postLayoutForWindow);
 $.win.addEventListener("close", function(){
 	Ti.App.removeEventListener("filterByFavorite", filterByFavorite);
