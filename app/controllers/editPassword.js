@@ -20,7 +20,9 @@ var doSave = function(){
 	//Check if password match
 	if($.editPasswordField.value !== $.editConfirmPasswordField.value){
 		COMMON.createAlert('Password Mismatch', 'Both password must be match.');
-		isSubmit = 0;
+		$.activityIndicator.hide();
+        $.loadingBar.opacity = "0";
+        isSubmit = 0;
 		return;	
 	}
 	
