@@ -969,7 +969,7 @@ function loadMore(){
 	API.callByPost({
 		url: "getVoucherList",
 		new: true,
-		params: {type: currentVoucherType, last_vid: last_id[currentVoucherType]}
+		params: {type: currentVoucherType, last_vid: last_id[currentVoucherType], u_id: u_id}
 	},
 	{
 		onload: function(responseText) {
