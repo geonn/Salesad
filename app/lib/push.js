@@ -8,7 +8,7 @@ function receivePush(e) {
 	var extra = (OS_IOS)?e.data.extra:e.extra;
 	var target = (OS_IOS)?e.data.target:e.target;
 	
-	//console.log(res_param); 
+	console.log("receivePush"); 
 	Ti.App.fireEvent('app:goToAds', {target: target, extra: extra});
 	Ti.App.fireEvent('refresh_notification');
 	return false;

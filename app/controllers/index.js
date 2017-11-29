@@ -3,53 +3,7 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var adsClick = [];
 Alloy.Globals.navMenu = $.navMenu;
-/** navigate to Ad **/
-var current_post_id = 0;
-function goToAds(e){
-	current_post_id = Ti.App.Properties.getString('current_post_id') || 0;
-	console.log(e.target+" target");
-	
-	if(e.target == "webview"){
-		console.log(e );
-		var win = Alloy.createController("webview", {web_title: "Annoucement", url: "http://salesad.my/main/notification_announcement?announcement_id="+e.extra}).getView();
-		COMMON.openWindow(win);
-		return;
-	}
-	if(e.target == "voucher"){
-		var win = Alloy.createController("reward").getView();
-		COMMON.openWindow(win);
-		return;
-	}
-	if(e.target == "voucher_detail"){
-		var win = Alloy.createController("voucher_detail", {v_id: e.extra}).getView();
-		COMMON.openWindow(win);
-		return;
-	}
-	if(e.target == "ad" && current_post_id != e.extra){
-		Ti.App.Properties.setString('current_post_id', e.extra);
-		console.log(e.extra+" "+current_post_id+" e.extra");
-		var dialog = Ti.UI.createAlertDialog({
-			cancel: 1,
-			buttonNames: ['Cancel','OK'],
-			message: 'Got a new Ad. Do you want to read now?',
-			title: 'New Notification'
-		});
-		dialog.addEventListener('click', function(ex){
-			if (ex.index === 1){
-				goAd(e.extra);
-			}
-		});
-		dialog.show();
-		
-	}else{
-		
-	}
-}
-//scrollableView click event 
-var goAd = function(a_id){ 
-	var win = Alloy.createController("ad", {a_id: a_id}).getView();
-	COMMON.openWindow(win);
-};
+
 
 function init(){
 	var url = "";
@@ -120,7 +74,6 @@ $.nearby.addEventListener("click", function(e){
 });
 
 /** EventListerner for notification **/
-Ti.App.addEventListener('app:goToAds', goToAds);
 
 /** Android Click to refresh **/
 if(Ti.Platform.osname == "android"){
