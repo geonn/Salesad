@@ -810,6 +810,8 @@ function refreshVlist(str) {
 	},{
 		onload: function(responseText) {
 			var res = JSON.parse(responseText);
+			console.log("2-)");
+			console.log(res);
 			var arr = res.data || [];
 			if(currentVoucherType == 1) {
 				ins_voucher(arr, str);
@@ -974,6 +976,8 @@ function loadMore(){
 	{
 		onload: function(responseText) {
 			var res = JSON.parse(responseText);
+			console.log("1-)");
+			console.log(res);
 			var arr = res.data || [];
 			if($.voucher_scrollview.vouchertype == "ins_voucher") {
 				ins_voucher(arr);

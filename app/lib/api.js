@@ -10,34 +10,34 @@ var USER  = 'salesad';
 var KEY   = '06b53047cf294f7207789ff5293ad2dc';
 
 
-var getMerchantListByType      = "http://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY;
+var getMerchantListByType      = "https://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY;
 
-var getAdsByCategoryList  = "http://"+API_DOMAIN+"/api/getAdsByCategoryList?user="+USER+"&key="+KEY;
-var checkAppVersionUrl = "http://"+API_DOMAIN+"/api/checkAppVersion?user="+USER+"&key="+KEY;
-var searchNearbyMerchant       = "http://"+API_DOMAIN+"/api/searchNearbyMerchant?user="+USER+"&key="+KEY;
-var getAdsDetailsById = "http://"+API_DOMAIN+"/api/getAdsDetailsById?user="+USER+"&key="+KEY;
-var searchResult               = "http://"+API_DOMAIN+"/api/searchResult?user="+USER+"&key="+KEY;
-var updateToken  	     	   = "http://"+API_DOMAIN+"/api/updateToken?user="+USER+"&key="+KEY;
-var updateUserFavourite  	   = "http://"+API_DOMAIN+"/api/updateUserFavourite?user="+USER+"&key="+KEY;
-var updateUserFromFB  		   = "http://"+API_DOMAIN+"/api/updateUserFromFB?user="+USER+"&key="+KEY;
-var dateNow = "http://"+API_DOMAIN+"/api/serverDate?user="+USER+"&key="+KEY;
+var getAdsByCategoryList  = "https://"+API_DOMAIN+"/api/getAdsByCategoryList?user="+USER+"&key="+KEY;
+var checkAppVersionUrl = "https://"+API_DOMAIN+"/api/checkAppVersion?user="+USER+"&key="+KEY;
+var searchNearbyMerchant       = "https://"+API_DOMAIN+"/api/searchNearbyMerchant?user="+USER+"&key="+KEY;
+var getAdsDetailsById = "https://"+API_DOMAIN+"/api/getAdsDetailsById?user="+USER+"&key="+KEY;
+var searchResult               = "https://"+API_DOMAIN+"/api/searchResult?user="+USER+"&key="+KEY;
+var updateToken  	     	   = "https://"+API_DOMAIN+"/api/updateToken?user="+USER+"&key="+KEY;
+var updateUserFavourite  	   = "https://"+API_DOMAIN+"/api/updateUserFavourite?user="+USER+"&key="+KEY;
+var updateUserFromFB  		   = "https://"+API_DOMAIN+"/api/updateUserFromFB?user="+USER+"&key="+KEY;
+var dateNow = "https://"+API_DOMAIN+"/api/serverDate?user="+USER+"&key="+KEY;
 
 //API when app loading phase
-var getCategoryList            = "http://"+API_DOMAIN+"/api/getCategoryList?user="+USER+"&key="+KEY;
-var getFeaturedBanner   	   = "http://"+API_DOMAIN+"/api/getFeaturedBannerList?user="+USER+"&key="+KEY;
-var getMerchantList			= "http://"+API_DOMAIN+"/api/getMerchantList?user="+USER+"&key="+KEY;
-var getCategoryAds			= "http://"+API_DOMAIN+"/api/getCategoryAds?user="+USER+"&key="+KEY;
-var getAdsList			= "http://"+API_DOMAIN+"/api/getAdsList?user="+USER+"&key="+KEY;
-var getItemList			= "http://"+API_DOMAIN+"/api/getItemList?user="+USER+"&key="+KEY;
-var getVoucherByIdUrl			= "http://"+API_DOMAIN+"/api/getVoucherById?user="+USER+"&key="+KEY;
-var getContestListUrl 	= "http://"+API_DOMAIN+"/api/getContestList?user="+USER+"&key="+KEY;
-var getMerchantListByCategory  = "http://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
-var getSXItem = "http://"+API_DOMAIN+"/api/getSXItem?user="+USER+"&key="+KEY;
-var sendFeedback = "http://"+API_DOMAIN+"/api/sendFeedback?user="+USER+"&key="+KEY;
-var getVoucherList = "http://"+API_DOMAIN+"/api/getVoucherList?user="+USER+"&key="+KEY;
-var getUserVoucherList = "http://"+API_DOMAIN+"/api/getUserVoucherList?user="+USER+"&key="+KEY;
-var updateUserVoucher = "http://"+API_DOMAIN+"/api/updateUserVoucher";
-var pointDescList = "http://"+API_DOMAIN+"/api/pointDescList?user="+USER+"&key="+KEY;
+var getCategoryList            = "https://"+API_DOMAIN+"/api/getCategoryList?user="+USER+"&key="+KEY;
+var getFeaturedBanner   	   = "https://"+API_DOMAIN+"/api/getFeaturedBannerList?user="+USER+"&key="+KEY;
+var getMerchantList			= "https://"+API_DOMAIN+"/api/getMerchantList?user="+USER+"&key="+KEY;
+var getCategoryAds			= "https://"+API_DOMAIN+"/api/getCategoryAds?user="+USER+"&key="+KEY;
+var getAdsList			= "https://"+API_DOMAIN+"/api/getAdsList?user="+USER+"&key="+KEY;
+var getItemList			= "https://"+API_DOMAIN+"/api/getItemList?user="+USER+"&key="+KEY;
+var getVoucherByIdUrl			= "https://"+API_DOMAIN+"/api/getVoucherById?user="+USER+"&key="+KEY;
+var getContestListUrl 	= "https://"+API_DOMAIN+"/api/getContestList?user="+USER+"&key="+KEY;
+var getMerchantListByCategory  = "https://"+API_DOMAIN+"/api/getMerchantListByCategory?user="+USER+"&key="+KEY;
+var getSXItem = "https://"+API_DOMAIN+"/api/getSXItem?user="+USER+"&key="+KEY;
+var sendFeedback = "https://"+API_DOMAIN+"/api/sendFeedback?user="+USER+"&key="+KEY;
+var getVoucherList = "https://"+API_DOMAIN+"/api/getVoucherList?user="+USER+"&key="+KEY;
+var getUserVoucherList = "https://"+API_DOMAIN+"/api/getUserVoucherList?user="+USER+"&key="+KEY;
+var updateUserVoucher = "https://"+API_DOMAIN+"/api/updateUserVoucher";
+var pointDescList = "https://"+API_DOMAIN+"/api/pointDescList?user="+USER+"&key="+KEY;
 //API that call in sequence 
 var APILoadingList = [ 
 //	{url: "dateNow", type: "api_function", method: "sync_server_time", checkId: "0"}, 
@@ -56,17 +56,17 @@ var APILoadingList = [
 	{url: "getVoucherList", type:"api_model", model: "voucher" ,checkId: "12"},
  */
 
-exports.getUserList       = "http://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;
+exports.getUserList       = "https://"+API_DOMAIN+"/api/getUserList?user="+USER+"&key="+KEY;
 exports.getCategoryList   = getCategoryList;
-//exports.getMerchantListByCategory      = "http://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY+"type=category";
+//exports.getMerchantListByCategory      = "https://"+API_DOMAIN+"/api/getMerchantListByType?user="+USER+"&key="+KEY+"type=category";
 
-exports.forgotPassword    = "http://"+API_DOMAIN+"/api/doForgotPassword?user="+USER+"&key="+KEY;
-exports.registerUser      = "http://"+API_DOMAIN+"/api/registerUser?user="+USER+"&key="+KEY;
-exports.loginUser         = "http://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
-exports.logoutUser        = "http://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY;
-exports.updateUserProfile = "http://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY;
-exports.updateUserPassword= "http://"+API_DOMAIN+"/api/updateUserPassword?user="+USER+"&key="+KEY;
-exports.getImagesByAds    = "http://"+API_DOMAIN+"/api/getImagesByAds?user="+USER+"&key="+KEY;
+exports.forgotPassword    = "https://"+API_DOMAIN+"/api/doForgotPassword?user="+USER+"&key="+KEY;
+exports.registerUser      = "https://"+API_DOMAIN+"/api/registerUser?user="+USER+"&key="+KEY;
+exports.loginUser         = "https://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
+exports.logoutUser        = "https://"+API_DOMAIN+"/api/logoutUser?user="+USER+"&key="+KEY;
+exports.updateUserProfile = "https://"+API_DOMAIN+"/api/updateUserProfile?user="+USER+"&key="+KEY;
+exports.updateUserPassword= "https://"+API_DOMAIN+"/api/updateUserPassword?user="+USER+"&key="+KEY;
+exports.getImagesByAds    = "https://"+API_DOMAIN+"/api/getImagesByAds?user="+USER+"&key="+KEY;
 /*********************
 **** API FUNCTION*****
 **********************/
@@ -446,7 +446,7 @@ exports.callByPost = function(e, handler){
 	
 	var deviceToken = Ti.App.Properties.getString('deviceToken');
 	if(deviceToken != ""){ 
-		var url = (typeof e.new != "undefined")?"http://"+API_DOMAIN+"/api/"+e.url+"?user="+USER+"&key="+KEY:eval(e.url);
+		var url = (typeof e.new != "undefined")?"https://"+API_DOMAIN+"/api/"+e.url+"?user="+USER+"&key="+KEY:eval(e.url);
 		console.log(url);
 		var _result = contactServerByPost(url, e.params || {});   
 		_result.onload = function(ex) { 
