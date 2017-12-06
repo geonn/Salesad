@@ -121,8 +121,8 @@ function render_banner(){
 
 function userCurrentPoint(){
 	var model = Alloy.createCollection("points");
-	user_point = model.getData({u_id: u_id});
-	if(typeof user_point != "undefined"){
+	user_point = model.getData({u_id: u_id}); 
+	if(typeof user_point[user_point.length - 1].balance != "undefined"){
 		current_point = user_point[user_point.length - 1].balance;
 	}else{
 		refresh();

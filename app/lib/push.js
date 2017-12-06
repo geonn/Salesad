@@ -4,11 +4,11 @@ var redirect = true;
 
 // Process incoming push notifications
 function receivePush(e) {   
-
+console.log("receivePush");
+console.log(e);
 	var extra = (OS_IOS)?e.data.extra:e.extra;
 	var target = (OS_IOS)?e.data.target:e.target;
-	
-	console.log("receivePush"); 
+	 
 	Ti.App.fireEvent('app:goToAds', {target: target, extra: extra});
 	Ti.App.fireEvent('refresh_notification');
 	return false;
@@ -18,9 +18,9 @@ if(OS_ANDROID){
 	var CloudPush = require('ti.cloudpush');
 	// notification callback function (important)
 	CloudPush.addEventListener('callback', function (evt) { 
-		var payload = JSON.parse(evt.payload);  
-		Ti.API.info('call back notification');  
+		var payload = JSON.parse(evt.payload);   
 		Ti.App.Payload = payload;
+		console.log("Push - call back notification ");
 		// if trayClickLaunchedApp or trayClickFocusedApp set redirect as true 
 		receivePush(payload);
  
@@ -89,12 +89,7 @@ function registerPush(){
 		});
 	}
 }
-
-function deviceTokenSuccess(ev) {
-    deviceToken = ev.deviceToken;
-    console.log(deviceToken+" deviceToken");
-    
-}
+ 
 
 function deviceTokenSuccess(ev) {
     deviceToken = ev.deviceToken;
