@@ -19,7 +19,7 @@
 			</View>
 		</View>
 		<ScrollView class="wfill hfill contwfill conthsize vert" scrollType="vertical" top="50" backgroundColor="#f6f6f6" id="container">
-			<ScrollView class="wfill horz hsize" contentHeight="Ti.UI.FILL" contentWidth="Ti.UI.SIZE" layout="horizontal" disableBounce="true" horizontalWrap="false" showHorizontalScrollIndicator="true" scrollType="horizontal" backgroundColor="#000000" id="feature_banner">
+			<ScrollView bubbleParent="false" class="wfill horz hsize" contentHeight="Ti.UI.FILL" contentWidth="Ti.UI.SIZE" layout="horizontal" disableBounce="true" horizontalWrap="false" showHorizontalScrollIndicator="true" scrollType="horizontal" backgroundColor="#000000" id="feature_banner">
 				
 			</ScrollView>
 			<View class="wfill hsize vert" backgroundColor="#f6f6f6">

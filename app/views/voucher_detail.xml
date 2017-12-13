@@ -53,7 +53,7 @@
 		 </View>	
 		 <View class="vert wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff">
 		 	<View class="hr" backgroundColor="#e8e8e8"></View>
-		 	<Button class="wfill h4 save_button" height="40" title="Save Voucher" id="save" onClick="doSave"></Button>
+		 	<Button class="wfill h4 save_button" height="40" title="Save Voucher" visible="false" id="save" onClick="doSave"></Button>
 		 </View>
 	</Window>	
 </Alloy>

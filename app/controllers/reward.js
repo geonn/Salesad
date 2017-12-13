@@ -491,6 +491,7 @@ function ins_voucher(vdata, str) {
 			arr[key].child = arr[key].child || [];
 			arr[key].child.push(e);
 		});
+		console.log($.voucher_scrollview.ins_vouchercount+" $.voucher_scrollview.ins_vouchercount ins_voucher");
 		if($.voucher_scrollview.ins_vouchercount == 0) {
 			$.voucher_view.removeAllChildren();
 		}
@@ -873,6 +874,7 @@ function pixelToDp(px) {
 }
 
 $.scrollview.addEventListener("scrollend", function(e) {
+	console.log("scrollview scrollend?");
 	if(e.currentPage != undefined) {
 		if(e.currentPage != 0) {
 			var u_id = Ti.App.Properties.getString('u_id') || "";
@@ -979,6 +981,9 @@ function loadMore(){
 			console.log("1-)");
 			console.log(res);
 			var arr = res.data || [];
+			$.voucher_scrollview.ins_vouchercount = 1;
+			$.voucher_scrollview.gift_vouchercount = 1;
+			
 			if($.voucher_scrollview.vouchertype == "ins_voucher") {
 				ins_voucher(arr);
 			}else {

@@ -37,13 +37,13 @@
 					<!--Vouchers(view 1)-->
 					<View class="wfill hfill" id="view1">
 																	
-						<ScrollView id="voucher_scrollview" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize">
+						<ScrollView id="voucher_scrollview" bubbleParent="false" onScroll="scrollChecker" scrollingEnabled="true" class="wfill hfill contwfill conthsize">
 							<Label class="wfill hsize textcenter" left="10" right="10" color="#000" id="nothingText"></Label>								
 							<View class="wfill hsize vert" id="voucher_view" bottom="70" top="0"></View>
 						</ScrollView>
-						<View class="vert wfill hsize" bottom="0" backgroundColor="#fff">
-							<View class="hr" backgroundColor="#e8e8e8"></View>
-							<View class="horz wsize hsize" borderWidth="1" borderColor="#ED1C24" borderRadius="5" top="10" bottom="10">
+						<View class="wfill hsize" bottom="0" backgroundColor="#fff">
+							
+							<View class="horz wsize hsize" right="50" borderWidth="1" borderColor="#ED1C24" borderRadius="5" top="10" bottom="10">
 								<View class="wsize hsize" onClick="to_ins_voucher" id="ins_view" backgroundColor="#ED1C24">
 									<Label height="40" touchEnabled="false" id="ins_label" width="130" text="Instant Vouchers" textAlign="center" color="#fff"></Label>
 								</View>
@@ -51,6 +51,7 @@
 									<Label height="40" touchEnabled="false" id="gift_label" width="130" text="CP Vouchers" textAlign="center" color="gray"></Label>
 								</View>
 							</View>
+							<ImageView image="/images/icons/Icon_Refresh.png" onClick="refreshVlist" width="30" height="30" right="10"></ImageView>
 						</View>
 					</View>
 					<!--Saved Vouchers(view 2)-->
@@ -81,27 +82,6 @@
 									</View>
 									<Label class="wsize hsize bold h4">You're off to a great start</Label>
 									<View class="wfill" height="1" top="50" backgroundColor="#F6F6F6"></View>
-									<!--<ScrollView backgroundColor="#F6F6F6" id="horz_reward_list" class="wfill hsize conthsize horz" top="20" disableBounce="true" scrollType="horizontal" showHorizontalScrollIndicator="true" contentWidth="auto">
-										<View class="wsize hsize padding">-->
-											<!--<View zIndex="2" class="vert" width="50" top="3" right="3" height="50" borderRadius="25" backgroundColor="#ED1C24"> <Label class="wfill hsize h6" top="10" color="#ffffff" textAlign="center">1000</Label> <Label class="wfill hsize h7" color="#ffffff" textAlign="center">POINS</Label> </View>-->
-											<!--<ImageView width="140" image="/images/GiftCard_RM10.png" class="rounded hsize" zIndex="1"/>
-											<View backgroundColor="#80000000" height="88" width="140" class="rounded" zIndex="2">
-												<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
-											</View>
-										</View>
-										<View class="wsize hsize padding">
-											<ImageView width="140" image="/images/GiftCard_RM50.png" class="rounded hsize" zIndex="1"/>
-											<View backgroundColor="#80000000" height="88" width="140" class="rounded" zIndex="2">
-												<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
-											</View>
-										</View>
-										<View class="wsize hsize padding">
-											<ImageView width="140" image="/images/GiftCard_RM100.png" class="rounded hsize" zIndex="1"/>
-											<View backgroundColor="#80000000" height="88" width="140" class="rounded" zIndex="2">
-												<Label class="wfill hfill h4" color="#fff" textAlign="center">Great rewards coming soon!</Label>
-											</View>
-										</View>
-									</ScrollView>-->
 									<TableView id="point_list" class="wfill hfill contwfill conthsize">
 									</TableView>
 								</ScrollView>

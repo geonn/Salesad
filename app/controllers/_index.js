@@ -193,6 +193,7 @@ function updateNotificationNumber(){
 }
 
 function refresh(e){
+	clearInterval(interval);
 	if(e.url != "getLatestAdList"){
 		$.category_button.image = "/images/icons/Icon_Menu_Home.png";
 		back_enable = true;
@@ -336,6 +337,7 @@ $.container.addEventListener("scroll", function(e){
 	if(e.x > 0){
 		return;
 	}
+	console.log(e.x+' '+e.y);
 	var y = (OS_IOS)?e.y:Math.ceil(pixelToDp(e.y));
 	if(y <= menu_top){
 		//$.menu.top = menu_top - e.y;
