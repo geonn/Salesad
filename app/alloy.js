@@ -20,6 +20,9 @@ var API = require('api');
 var COMMON = require('common');
 var DBVersionControl = require('DBVersionControl');
 
+var PUSH = require('push');
+PUSH.registerPush();
+	
 var last_update_on = true;
 DBVersionControl.checkAndUpdate();
 var isNotification = Ti.App.Properties.getString('notification'); 
