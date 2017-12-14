@@ -38,6 +38,7 @@ function render_banner(e){
 	};
 	$.feature_banner.add($.UI.create("View", {width: banner_width, height: banner_width}));
 	auto_rotate();
+	postLayoutForWindow();
 }
 
 function auto_rotate(){
@@ -254,10 +255,10 @@ function postLayoutForWindow(){
 		menu_top = 60;
 	}
 	$.menu.top = menu_top;
-	$.win.removeEventListener("postlayout", postLayoutForWindow);
+	//$.win.removeEventListener("postlayout", postLayoutForWindow);
 }
 
-$.win.addEventListener("postlayout", postLayoutForWindow);
+//$.win.addEventListener("postlayout", postLayoutForWindow);
 $.win.addEventListener("close", function(){
 	Ti.App.removeEventListener("filterByFavorite", filterByFavorite);
 	Ti.App.removeEventListener("refresh_notification", refresh_notification);
