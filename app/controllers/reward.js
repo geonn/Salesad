@@ -270,8 +270,14 @@ function init(){
 init();
 
 function Tab(e) {
+	if(e.source.num > 0){
+		$.refresh_icon.hide();
+	}else{
+		$.refresh_icon.show();
+	}
 	$.scrollview.scrollToView(e.source.num);
 }
+
 function chk_array(arr,value){
 	return arr.every(function(e){
 		return e != value; 
@@ -763,7 +769,7 @@ function list_voucher(e, name) {
 
 function toVoucher(e) {
 	if(u_id == ""){
-		var win = Alloy.createController("signin_signout", {page: "refresh"}).getView(); 
+		var win = Alloy.createController("signin_signout", {page: "refresh", callback: refresh}).getView(); 
 		COMMON.openWindow(win);
 	}else {
 		COMMON.openWindow(Alloy.createController("voucher_detail", {v_id: e.source.record.v_id}).getView());

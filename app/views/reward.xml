@@ -5,13 +5,21 @@
 	         	<Button left='0'  width="30" height="30" image="/images/btn-back.png" />
 	        </View>
         </LeftNavButton>
+        <RightNavButton>
+        	<View id="refresh_icon" right="0"  width="30" height="45">
+        		<ImageView image="/images/icons/Icon_Refresh.png" onClick="refreshVlist" width="30" height="30"></ImageView>
+        	</View>
+        </RightNavButton>
         <View class="wfill hfill vert">
 	        <View layout="horizontal" height="50" width="100%" platform="android" backgroundColor="#FFF">
 				<View left="0" width="15%">
-			         	<ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
+			         <ImageView left='10' id="btnBack" width="30" height="30" image="/images/btn-back.png" />
 			    </View>
 		     	<View id="pageTitle" width="70%">
 		     		<Label color="#ED1C24">My Rewards</Label>
+		     	</View>
+		     	<View right="0" width="15%" id="refresh_icon">
+		     		<ImageView image="/images/icons/Icon_Refresh.png" onClick="refreshVlist" width="30" height="30"></ImageView>
 		     	</View>
 		 	</View>
 			<View bottom='0' class="hr"></View>
@@ -43,7 +51,7 @@
 						</ScrollView>
 						<View class="wfill hsize" bottom="0" backgroundColor="#fff">
 							
-							<View class="horz wsize hsize" right="50" borderWidth="1" borderColor="#ED1C24" borderRadius="5" top="10" bottom="10">
+							<View class="horz wsize hsize" borderWidth="1" borderColor="#ED1C24" borderRadius="5" top="10" bottom="10">
 								<View class="wsize hsize" onClick="to_ins_voucher" id="ins_view" backgroundColor="#ED1C24">
 									<Label height="40" touchEnabled="false" id="ins_label" width="130" text="Instant Vouchers" textAlign="center" color="#fff"></Label>
 								</View>
@@ -51,7 +59,7 @@
 									<Label height="40" touchEnabled="false" id="gift_label" width="130" text="CP Vouchers" textAlign="center" color="gray"></Label>
 								</View>
 							</View>
-							<ImageView image="/images/icons/Icon_Refresh.png" onClick="refreshVlist" width="30" height="30" right="10"></ImageView>
+							
 						</View>
 					</View>
 					<!--Saved Vouchers(view 2)-->

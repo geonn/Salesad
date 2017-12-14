@@ -37,6 +37,7 @@ function render_banner(e){
 		$.feature_banner.add(view);
 	};
 	$.feature_banner.add($.UI.create("View", {width: banner_width, height: banner_width}));
+	postLayoutForWindow();
 	auto_rotate();
 }
 
@@ -78,7 +79,9 @@ function filterByKeyword(e){
 	$.manage_btn.hide();
 	var keyword = value;
 	$.main_title.text = "Search result for '"+keyword+"'";
+	console.log("keyword for search"+keyword);
 	refresh({url: "getAdByKeyword", params: {keyword: keyword, u_id: Ti.App.Properties.getString('u_id') || ""}, onEmpty: function(){
+		console.log(keyword);
 		console.log('onempty add imageview');
 		$.ad_list.add($.UI.create("Label", {text: "We couldn't find any results for '"+keyword+"'", classes:['wfill','hsize','padding']}));
 	}});
@@ -254,10 +257,10 @@ function postLayoutForWindow(){
 		menu_top = 60;
 	}
 	$.menu.top = menu_top;
-	$.win.removeEventListener("postlayout", postLayoutForWindow);
+	//$.win.removeEventListener("postlayout", postLayoutForWindow);
 }
 
-$.win.addEventListener("postlayout", postLayoutForWindow);
+//$.win.addEventListener("postlayout", postLayoutForWindow);
 $.win.addEventListener("close", function(){
 	Ti.App.removeEventListener("filterByFavorite", filterByFavorite);
 	Ti.App.removeEventListener("refresh_notification", refresh_notification);
