@@ -139,7 +139,7 @@ function createWhoops(t,e){
 };
 
 function checkVoucherStatus(){
-	$.save.show();
+	
 	API.callByPost({url:"checkHasValidVoucher",new:true,params:{u_id: u_id,v_id: v_id}},{onload:function(res){
 		var r = JSON.parse(res);
 		checkingLimit = r.data;
@@ -152,6 +152,7 @@ function checkVoucherStatus(){
 			$.save.setTitle("Save Voucher");   //check voucher limit
 			$.save.setEnabled(true);
 		}
+		$.save.show();
 		checkingVoucher();
 	},onerror:function(err){}});
 }

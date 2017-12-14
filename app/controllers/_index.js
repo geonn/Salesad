@@ -39,6 +39,7 @@ function render_banner(e){
 	$.feature_banner.add($.UI.create("View", {width: banner_width, height: banner_width}));
 	postLayoutForWindow();
 	auto_rotate();
+	postLayoutForWindow();
 }
 
 function auto_rotate(){
