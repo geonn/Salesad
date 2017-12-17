@@ -90,7 +90,7 @@
 									</View>
 									<Label class="wsize hsize bold h4">You're off to a great start</Label>
 									<View class="wfill" height="1" top="50" backgroundColor="#F6F6F6"></View>
-									<TableView id="point_list" class="wfill hfill contwfill conthsize">
+									<TableView id="point_list" class="wfill hsize contwfill conthsize">
 									</TableView>
 								</ScrollView>
 							</View>
