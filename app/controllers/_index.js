@@ -13,12 +13,13 @@ function pixelToDp(px) {
 }
 
 function render_banner(e){
+	
 	console.log(e.data.length+" e.data.length");
 	if(e.data.length <=0){
 		$.feature_banner.height = 0;
 		return;
 	}else{
-		$.feature_banner.height = banner_width + 40;
+		$.feature_banner.height = banner_width + 20;
 	}
 	console.log(e.data);
 	$.feature_banner.removeAllChildren();
@@ -195,8 +196,12 @@ function updateNotificationNumber(){
 	}
 	$.notification_unread.text = total;
 }
-
+var refreshing = false;
 function refresh(e){
+	if(refreshing){
+		return;
+	}
+	refreshing = true;
 	clearInterval(interval);
 	if(e.url != "getLatestAdList"){
 		$.category_button.image = "/images/icons/Icon_Menu_Home.png";
@@ -230,11 +235,13 @@ function refresh(e){
 			
 		}
 		console.log('ending');
+		refreshing = false;
 	}});
 }
 
 function feature_banner_scrollTo(){
-	$.feature_banner.scrollTo((number_feature*(banner_width+15)), 0, {animated: true});
+	var x = (OS_ANDROID)?dpToPixel(number_feature*(banner_width+15)):(number_feature*(banner_width+15));
+	$.feature_banner.scrollTo(x, 0, {animated: true});
 }
 
 
@@ -273,16 +280,20 @@ Ti.App.addEventListener("updateNotificationNumber", updateNotificationNumber);
 Ti.App.addEventListener("homeQR", homeQR);
 
 $.feature_banner.addEventListener("dragstart", function(e){
+	e.cancelBubble = true;
 	clearInterval(interval);
+	$.container.scrollingEnabled = false;
 	//hold = true;
 });
 
 $.feature_banner.addEventListener("dragend", function(e){
+	e.cancelBubble = true;
 	var x = (OS_IOS)?this.contentOffset.x:pixelToDp(this.contentOffset.x);
 	number_feature = Math.floor((((banner_width+15)/2)+x)/(banner_width+15));
 	//hold = false;
 	auto_rotate();
 	feature_banner_scrollTo();
+	$.container.scrollingEnabled = true;
 });
 
 $.container.addEventListener("scroll", function(e){
@@ -358,4 +369,8 @@ function nearMe(){
 			}
 		});
 	}
+}
+
+function dpToPixel(dp) {
+    return ( parseInt(dp) * (Titanium.Platform.displayCaps.dpi / 160));
 }

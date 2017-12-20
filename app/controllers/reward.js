@@ -789,7 +789,7 @@ function delvoucher(e) {
 			new: true,
 			params: {
 				id: e.source.id,
-				status: 0
+				status: 3
 			}
 		}, {
 			onload: function(responseText) {

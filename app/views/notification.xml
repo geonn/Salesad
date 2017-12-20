@@ -7,7 +7,7 @@
         </LeftNavButton>
         <RightNavButton>
 	        <View class="wsize hsize">
-	         	<Switch id="notification_switch" onChange="changeStatus" value="true" class="wsize hsize"  />
+	         	<ImageView image="/images/icons/Icon_Delete_big.png" onClick="changeDeleteMode" width="20" height="20" top="10" bottom="10" left="10"></ImageView>
 	        </View>
         </RightNavButton>
         <View class="wfill hfill vert">
@@ -19,11 +19,14 @@
 		     		<Label color='#ED1C24' class="wfill">Notification</Label>
 		     	</View>
 		     	<View left="0" width="15%" zIndex="10" class="hsize">
-			         <Switch id="notification_switch" onChange="changeStatus" value="true" class="wsize hsize"  />
+			         <ImageView image="/images/icons/Icon_Delete_big.png" onClick="changeDeleteMode" width="20" height="20" top="10" bottom="10" left="10"></ImageView>
 			    </View>
 		 	</View>
 		    <View class="hr" top="0"></View>
-		    <ImageView image="/images/icons/Icon_Delete_big.png" onClick="changeDeleteMode" width="20" height="20" top="10" bottom="10" left="10"></ImageView>
+		    <View class='wfill hsize horz' top="10" bottom="10">
+		    	<Switch id="notification_switch" onChange="changeStatus" value="true" class="wsize hsize"  />
+		    	<Label class="wsize hsize h4">Notification ON/OFF</Label>
+		    </View>
 		    <View class="wfill hfill">
 		    	<ListView id="listview" onItemclick="navTo">
 		    		<ListSection id="listsection" headerTitle="" backgroundColor="#ffffff">

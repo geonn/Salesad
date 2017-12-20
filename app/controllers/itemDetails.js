@@ -5,7 +5,7 @@ var position = args.position || 0;
 var isScan = args.isScan;
 var m_id = args.m_id;
 var pagecount = -1;
-//$.win.title= args.title;
+
 var BARCODE = require('barcode');
 var showBarcode = 1;
 var u_id = Ti.App.Properties.getString('u_id') || "";
@@ -22,6 +22,12 @@ var secondDate = "";
 var endsDay = "";
 var transparentView;
 var item  = args.item;//i_library.getItemByAds(a_id);
+
+if(OS_IOS){
+	$.win.title= args.title;
+}else{
+	$.pageTitle.text= args.title;
+}
 
 function init() {
 	$.scrollableView.VI_id = [];
@@ -69,7 +75,7 @@ var getAdsImages = function() {
 	
 	var label_description = $.UI.create("Label",{
 		classes:['wfill','hsize','h5','padding'],
-		text: item.description
+		text: item.title
 	});
 		
 	var scrollView = Ti.UI.createScrollView({
