@@ -73,6 +73,11 @@ var getAdsImages = function() {
 		zoomImageView(event1.source.image);					
 	});
 	
+	var label_title = $.UI.create("Label",{
+		classes:['wfill','hsize','h5','padding','bold'],
+		text: item.title
+	});
+	
 	var label_description = $.UI.create("Label",{
 		classes:['wfill','hsize','h5','padding'],
 		text: item.title
@@ -91,6 +96,7 @@ var getAdsImages = function() {
 		
 	row = $.UI.create('View', {id:"view"+counter, classes:['wfill','hfill','vert'],backgroundColor:"#e8e8e8"});
 	itemImageView.add(adImage); 
+	itemImageView.add(label_title);
 	itemImageView.add(label_description);
 	row.add(itemImageView);
 		

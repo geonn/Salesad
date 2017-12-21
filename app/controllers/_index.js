@@ -48,7 +48,7 @@ function auto_rotate(){
 	interval = setInterval(function(e){
 		number_feature = (number_feature + 1 >= no_banner.length - 1)?0:number_feature + 1;
 		feature_banner_scrollTo();
-	}, 4000);
+	}, 3000);
 }
 
 function navTo(e){
