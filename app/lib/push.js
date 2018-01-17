@@ -32,7 +32,7 @@ if(OS_ANDROID){
 		app_status = "not_running";
 		var payload = JSON.parse(evt.payload);   
 		Ti.App.Payload = payload;
-		Ti.API.info('Tray Click Launched App (app was not running)');  
+		console.log('Tray Click Launched App (app was not running)');  
 		receivePush(payload);
 	    //getNotificationNumber(Ti.App.Payload);
 	});
@@ -40,7 +40,7 @@ if(OS_ANDROID){
 		redirect = true;
 		app_status = "running";
 		var payload = JSON.parse(evt.payload);   
-		Ti.API.info('Tray Click Focused App (app was already running)'); 
+		console.log('Tray Click Focused App (app was already running)'); 
 		receivePush(payload);
 	}); 
 }

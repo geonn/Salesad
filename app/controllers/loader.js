@@ -42,7 +42,7 @@ $.finish = function(_callback) {
 };
 
 $.start = function() {
-	API.loadAPIBySequence({});
+	//API.loadAPIBySequence({});
 	console.log("start loading api");
 	//$.overlay.opacity = 0;
 	$.rocketSmoke.opacity = 0.1;

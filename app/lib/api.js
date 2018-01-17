@@ -140,7 +140,7 @@ exports.updateNotificationToken = function(e){
 	if(deviceToken != ""){
 		
 		var url = updateToken+"&token="+deviceToken+"&u_id="+u_id+"&status="+notification;
-		//console.log(url);
+		console.log(url);
 		var client = Ti.Network.createHTTPClient({
 		     // function called when the response data is available
 		     onload : function(e) {
@@ -378,7 +378,6 @@ function fireIndexgrid(e){
 exports.loadAPIBySequence = function (e){ //counter,
 	var counter = (typeof e.counter == "undefined")?0:e.counter;
 	if(counter >= APILoadingList.length){
-		Ti.App.fireEvent('app:loadingViewFinish');
 		return false;
 	}
 	

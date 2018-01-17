@@ -13,19 +13,18 @@
 		     	<View id="pageTitle" width="70%"></View>
 		 	</View>
 		    <View class="hr" top="0"></View>
-		    <ScrollView class="wfill hfill conthsize contwfill vert" backgroundColor="#fff" left="10" right="10" top="20" bottom="60">
+		    <ScrollView class="wfill hfill conthsize contwfill vert" backgroundColor="#fff" left="10" right="10" top="20" bottom="50">
 		    	<View class="wfill hsize vert padding">
 		    		<Label class="wsize hsize normal_font padding" textAlign="center" color="#000" bottom="20">Please show this page at the cashier counter.</Label>	    		
 					<View height="Ti.UI.SIZE" width="Ti.UI.FILL" layout="vertical" id="b_code"></View>	
 					<View height="Ti.UI.SIZE" width="Ti.UI.FILL" top="10" layout="vertical" id="qrCode"></View>	
 					<Label class="wfill hsize normal_font padding" textAlign="center" color="#000" bottom="10">Your Unique Code</Label>
-					<View height="Ti.UI.SIZE" width="Ti.UI.FILL" layout="vertical" id="v_code"></View>							    					    		
-					
+					<View height="Ti.UI.SIZE" width="Ti.UI.FILL" layout="vertical" id="v_code"></View>
 		    	</View>
-		    </ScrollView>	
-		    <View class="wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff">
-				<Button class="wfill h4 save_button" height="40" title="Done" id="save" onClick="closeWindow"></Button>
-			</View>  	    			
+		    </ScrollView>	    			
 		</View>
+		<View class="wfill hsize" zIndex="10" bottom="0" backgroundColor="#fff">
+			<Button class="wfill h4 save_button" height="40" title="Done" id="save" onClick="closeWindow"></Button>
+		</View>  
 	</Window>
 </Alloy>

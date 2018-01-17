@@ -3,11 +3,17 @@ var u_id = Ti.App.Properties.getString('u_id') || "";
 var pwidth = Titanium.Platform.displayCaps.platformWidth;
 var adsClick = [];
 Alloy.Globals.navMenu = $.navMenu;
-
+var PUSH = require("push");
+PUSH.registerPush();
 
 function init(){
-	
-	
+	if(OS_IOS){
+		$.navMenu.open({fullscreen:true});
+		loadingView.getView().close();
+	}else{
+		$.indexView.win.open();
+	}
+
 	var url = "";
 	if(OS_IOS){
 		cmd = Ti.App.getArguments();
@@ -121,27 +127,7 @@ function QrScan(){
 
 }
 
-setTimeout(function(){
-	console.log('start loadingview');
-	Ti.App.addEventListener('app:loadingViewFinish', loadingViewFinish);
-	function loadingViewFinish(){
-		console.log("loadingViewFinish");
-		if(OS_IOS){
-			$.navMenu.open({fullscreen:true});
-			loadingView.getView().close();
-		}else{
-			$.indexView.win.open();
-		}
-		Ti.App.fireEvent('loader:closeView');
-		init();
-	}
-	
-	var loadingView = Alloy.createController("loader");
-	loadingView.getView().open();
-	loadingView.start();
-}, 1000);
-
-
+API.loadAPIBySequence({});
 
 /** navigate to Ad **/
 var current_post_id = 0;
@@ -165,9 +151,8 @@ function goToAds(e){
 		COMMON.openWindow(win);
 		return;
 	}
-	if(e.target == "ad" && current_post_id != e.extra){
+	if(e.target == "ad"){
 		Ti.App.Properties.setString('current_post_id', e.extra);
-		console.log(e.extra+" "+current_post_id+" e.extra");
 		var dialog = Ti.UI.createAlertDialog({
 			cancel: 1,
 			buttonNames: ['Cancel','OK'],
@@ -193,3 +178,5 @@ var goAd = function(a_id){
 };
 
 Ti.App.addEventListener('app:goToAds', goToAds);
+
+init();

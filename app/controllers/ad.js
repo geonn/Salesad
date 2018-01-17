@@ -57,9 +57,18 @@ function refresh(e){
 	loading.start();
 	API.callByPost({url: "getAdsDetailsById",new: true, params:{a_id: args.a_id}}, {
 		onload: function(responseText){
+			
 			var res = JSON.parse(responseText);
 			ads = res.data;
+			console.log(ads);
 			items = res.data.item;
+			var now = new Date();
+			now.setHours(8,0,0,0);
+			var expired_date = new Date(res.data.expired_date);
+			if(expired_date < now){
+				console.log(expired_date+" "+now);
+				COMMON.createAlert("Alert", "This Ad has been expired", closeWindow,"", closeWindow);
+			}
 			branches = res.data.branch_details || [];
 			render_banner();
 			getScanMerchant();
