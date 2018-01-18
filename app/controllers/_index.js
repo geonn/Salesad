@@ -212,6 +212,7 @@ function refresh(e){
 		$.category_button.image = "/images/icons/Icon_Menu_Categories.png";
 		back_enable = false;
 	}
+	console.log(e.params);
 	API.callByPost({
 		url: e.url,
 		new: true,
@@ -248,7 +249,7 @@ function feature_banner_scrollTo(){
 function init(){
 	$.manage_btn.show();
 	refresh_notification();
-	refresh({url: "getLatestAdList", u_id: Ti.App.Properties.getString('u_id') || ""});
+	refresh({url: "getLatestAdList", params: {u_id: Ti.App.Properties.getString('u_id') || ""}});
 	var AppVersionControl = require('AppVersionControl');
 	AppVersionControl.checkAndUpdate();
 }

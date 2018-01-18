@@ -11,7 +11,8 @@ var add_impression = [];
 var currentVoucherType = 1;
 var last_id = [];
 var cell_width = (OS_ANDROID)? Math.floor((pixelToDp(pwidth) / 2)) - 15:cell_width = Math.floor(pwidth / 2) - 15;;
-	
+
+/*
 var control = Ti.UI.createRefreshControl({
 	tintColor:"#00CB85"
 });
@@ -32,6 +33,7 @@ control.addEventListener('refreshstart',function(e){
         control.endRefreshing();
     }, 1000);
 });
+*/
 
 if (OS_IOS){
 //iOS only module
@@ -803,7 +805,12 @@ function delvoucher(e) {
 	});
 }
 
+var refresh_now = false;
 function refreshVlist(str) {
+	if(refresh_now){
+		return;
+	}
+	refresh_now = true;
 	$.voucher_scrollview.ins_vouchercount = 0;
 	$.voucher_scrollview.gift_vouchercount = 0;
 	$.voucher_view.alltitle = [];
@@ -826,12 +833,15 @@ function refreshVlist(str) {
 				gift_voucher(arr);
 			}
 			loading.finish();
+			refresh_now = false;
 		},onerror: function(err) {
 			_.isString(err.message) && alert(err.message);
 			loading.finish();
+			refresh_now = false;
 		},onexception: function() {
 			COMMON.closeWindow($.win);
 			loading.finish();
+			refresh_now = false;
 		}
 	});
 }
@@ -985,7 +995,7 @@ function loadMore(){
 		onload: function(responseText) {
 			var res = JSON.parse(responseText);
 			console.log("1-)");
-			console.log(res);
+			console.log(res.data);
 			var arr = res.data || [];
 			$.voucher_scrollview.ins_vouchercount = 1;
 			$.voucher_scrollview.gift_vouchercount = 1;
