@@ -9,7 +9,6 @@ PUSH.registerPush();
 function init(){
 	if(OS_IOS){
 		$.navMenu.open({fullscreen:true});
-		loadingView.getView().close();
 	}else{
 		$.indexView.win.open();
 	}
