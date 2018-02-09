@@ -122,8 +122,7 @@ function QrScan(){
         		alert("You denied permission.");
         	}			        
         });	        	
-    }	
-
+    }
 }
 
 API.loadAPIBySequence({});

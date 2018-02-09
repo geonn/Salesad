@@ -23,6 +23,7 @@ var updateUserFromFB  		   = "https://"+API_DOMAIN+"/api/updateUserFromFB?user="
 var dateNow = "https://"+API_DOMAIN+"/api/serverDate?user="+USER+"&key="+KEY;
 
 //API when app loading phase
+var loginUser = "https://"+API_DOMAIN+"/api/loginUser?user="+USER+"&key="+KEY;
 var getCategoryList            = "https://"+API_DOMAIN+"/api/getCategoryList?user="+USER+"&key="+KEY;
 var getFeaturedBanner   	   = "https://"+API_DOMAIN+"/api/getFeaturedBannerList?user="+USER+"&key="+KEY;
 var getMerchantList			= "https://"+API_DOMAIN+"/api/getMerchantList?user="+USER+"&key="+KEY;

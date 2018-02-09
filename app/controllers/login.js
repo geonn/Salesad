@@ -60,16 +60,23 @@ function doLogin() {
 		
 		return;
 	}
+	var params = {
+		username: username,
+		password: password,
+		device_version: Ti.Platform.version,
+		device_os: Ti.Platform.osname+" "+Ti.Platform.ostype,
+		device_model: Ti.Platform.model,
+		token: Ti.App.Properties.getString('deviceToken') || "",
+		device_macaddress: Ti.Platform.macaddress,
+		app_version: Ti.App.version
+	};
 	
-	var url = api.loginUser +"&username="+username+"&password="+password;
-
-	var client = Ti.Network.createHTTPClient({
-	     // function called when the response data is available
-	     onload : function(e) {
-	     	$.activityIndicator.hide();
+	API.callByPost({url:"loginUser",new:true, params:params},{
+		onload:function(responseText){
+			$.activityIndicator.hide();
 	     	$.loadingBar.opacity = "0";
-	         var res = JSON.parse(this.responseText);
-	         if(res.status == "success"){
+			var res = JSON.parse(responseText);
+			if(res.status == "success"){
 	         	//var member = Alloy.createCollection('member'); 
 				//member.updateUserSession(res.data.u_id, res.data.username, res.data.fullname, res.data.email, res.data.session);
 	         	/** User session**/
@@ -82,26 +89,18 @@ function doLogin() {
 	         	Ti.App.Properties.setString('salesman_code', res.data.salesman_code);
 				Ti.App.Properties.setString('session', res.data.session);
 	         	
-	         	API.updateNotificationToken();
 	         	loadUserPoint();
 				$.login.close();
 				Ti.App.fireEvent("sign:close");
 	         }else{
 	         	common.createAlert('Authentication warning',res.data.error_msg);
 	         }
-	     },
-	     // function called when an error occurs, including a timeout
-	     onerror : function(e) {
-	     	$.activityIndicator.hide();
+		},onerror:function(err){
+			$.activityIndicator.hide();
 			$.loadingBar.opacity = "0";
 	        common.createAlert('Network declined','Failed to contact with server. Please make sure your device are connected to internet.');
-	     },
-	     timeout : 10000  // in milliseconds
-	 });
-	 // Prepare the connection.
-	 client.open("GET", url);
-	 // Send the request.
-	 client.send(); 
+		}
+	});
 }
 
 function loadUserPoint(){
