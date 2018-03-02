@@ -544,7 +544,7 @@ function contactServerByGet(url) {
 
 function contactServerByPost(url,records) { 
 	var client = Ti.Network.createHTTPClient({
-		timeout : 10000
+		timeout : 15000
 	});
 	//console.log(client);
 	if(OS_ANDROID){

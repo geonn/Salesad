@@ -80,7 +80,7 @@ var getAdsImages = function() {
 	
 	var label_description = $.UI.create("Label",{
 		classes:['wfill','hsize','h5','padding'],
-		text: item.title
+		text: item.description
 	});
 		
 	var scrollView = Ti.UI.createScrollView({
