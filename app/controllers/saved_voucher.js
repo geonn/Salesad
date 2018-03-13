@@ -157,7 +157,7 @@ function updateuserVoucher(e){
 		onload:function(responseText){
 			COMMON.closeWindow($.win);
 			Ti.App.fireEvent('myvoucher:refresh');							
-			COMMON.openWindow(Alloy.createController("Voucher_Receipt",{barcode:res.barcode,display_type:res.display_type, v_code: res.v_code}).getView());
+			COMMON.openWindow(Alloy.createController("Voucher_Receipt",{barcode:res.barcode,display_type:res.display_type, v_code: res.v_code, res: res}).getView());
 		},
 		onerror: function(err){
 			_.isString(err.message) && alert(err.message);

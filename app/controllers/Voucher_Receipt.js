@@ -84,6 +84,7 @@ function createWhoops(t,e){
 function init(){
 	$.win.add(loading.getView());	
 	loading.finish();
+	$.message.text = args.res.message;
 	getAdDetails();
 	genCode();
 }
